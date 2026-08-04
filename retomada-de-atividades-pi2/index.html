@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retomada & Transição ProgWeb 1 para ProgWeb 2 — IFSC Garopaba</title>
+  <title>Retomada & Transição — ProgWeb 1 para ProgWeb 2 (IFSC)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -118,7 +118,7 @@
     .slide {
       position: absolute;
       inset: 0;
-      padding: 2.2rem 4rem;
+      padding: 2rem 4rem;
       display: flex;
       flex-direction: column;
       opacity: 0;
@@ -135,9 +135,9 @@
 
     .slide-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.1rem;
+      font-size: 2rem;
       font-weight: 800;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -147,9 +147,9 @@
     }
 
     .slide-subtitle {
-      font-size: 1rem;
+      font-size: 0.98rem;
       color: var(--text-muted);
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.4rem;
       max-width: 980px;
       line-height: 1.5;
     }
@@ -158,7 +158,7 @@
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+      gap: 1.4rem;
       flex: 1;
     }
 
@@ -175,17 +175,11 @@
       gap: 1.1rem;
     }
 
-    .grid-5 {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
-    }
-
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.4rem;
+      padding: 1.3rem;
       display: flex;
       flex-direction: column;
       transition: all 0.3s ease;
@@ -198,22 +192,36 @@
     }
 
     .card-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.8rem;
+      font-size: 1.7rem;
+      margin-bottom: 0.6rem;
     }
 
     .card h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: #fff;
     }
 
     .card p {
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.5;
+    }
+
+    .example-tag {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      width: fit-content;
     }
 
     .card-highlight { border-left: 4px solid var(--ifsc-green); }
@@ -240,13 +248,13 @@
     }
 
     .tab-btn {
-      padding: 0.8rem 1.2rem;
+      padding: 0.75rem 1.1rem;
       background: transparent;
       border: none;
       color: var(--text-muted);
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.2s;
       border-bottom: 2px solid transparent;
@@ -262,7 +270,7 @@
     }
 
     .tab-content {
-      padding: 1.4rem;
+      padding: 1.3rem;
       flex: 1;
       overflow-y: auto;
       display: none;
@@ -272,9 +280,9 @@
 
     pre code {
       font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       color: #e2e8f0;
-      line-height: 1.6;
+      line-height: 1.55;
       white-space: pre-wrap;
     }
 
@@ -296,7 +304,7 @@
       gap: 1rem;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-color);
-      padding: 0.9rem 1.2rem;
+      padding: 0.85rem 1.2rem;
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: all 0.2s;
@@ -321,14 +329,14 @@
       color: #fff;
     }
 
-    .check-text { font-size: 0.92rem; font-weight: 500; }
+    .check-text { font-size: 0.9rem; font-weight: 500; }
 
     /* Footer & Controls */
     .app-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.9rem 2.5rem;
+      padding: 0.8rem 2.5rem;
       background: rgba(19, 27, 46, 0.9);
       border-top: 1px solid var(--border-color);
     }
@@ -352,7 +360,7 @@
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--ifsc-green) 0%, var(--accent-blue) 100%);
-      width: 11.1%;
+      width: 9.09%;
       transition: width 0.3s ease;
     }
 
@@ -411,7 +419,7 @@
         <img src="../figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
         <div class="brand-text">
           <h1>Programação para a Internet 2 (ProgWeb 2)</h1>
-          <p>CST em Sistemas para a Internet — Transição de ProgWeb 1 para ProgWeb 2</p>
+          <p>CST em Sistemas para a Internet — Aula 01: Retomada, Bootstrap 5 & jQuery</p>
         </div>
       </div>
       <div class="header-badges">
@@ -430,33 +438,33 @@
             👋 Boas-Vindas a ProgWeb 2!
           </span>
           <h2 class="slide-title" style="font-size: 3rem; line-height: 1.15; margin-bottom: 1rem;">
-            A Ponte Entre ProgWeb 1 e ProgWeb 2
+            Transição Prática de ProgWeb 1 para ProgWeb 2
           </h2>
           <p class="slide-subtitle" style="font-size: 1.2rem; line-height: 1.6;">
-            Sejam bem-vindos! Hoje faremos a transição gradual e prática entre a <strong>base construída em ProgWeb 1</strong> (HTML5 semântico, CSS3 e manipulação de elementos) e os <strong>primeiros passos de ProgWeb 2</strong> (estilização rápida com Bootstrap 5, seleção ágil com jQuery e introdução simples a chamadas de API).
+            Sejam bem-vindos! Hoje iniciamos ProgWeb 2 revisando a base de <strong>ProgWeb 1</strong> e introduzindo duas ferramentas fundamentais de produtividade: <strong>Bootstrap 5</strong> (estilização ágil) e <strong>jQuery</strong> (recursos funcionais, estéticos e manipulação simples do DOM).
           </p>
 
           <div class="grid-3" style="margin-top: 1rem; flex: initial;">
             <div class="card card-highlight">
               <div class="card-icon">🧱</div>
               <h3>1. Onde Estávamos em ProgWeb 1</h3>
-              <p>Rever HTML5 semântico, estilização com CSS3 e manipulação básica da página.</p>
+              <p>Rever HTML5 semântico, CSS3 e manipulação básica da página.</p>
             </div>
             <div class="card card-highlight-purple">
               <div class="card-icon">🎨</div>
-              <h3>2. Começando do Simples: Bootstrap 5</h3>
-              <p>Estilizar os elementos da página de forma rápida observando o efeito visual imediato.</p>
+              <h3>2. Bootstrap 5 em Prática</h3>
+              <p>Estilizar os elementos visuais da página observando o efeito imediato das classes.</p>
             </div>
             <div class="card card-highlight-blue">
               <div class="card-icon">⚡</div>
-              <h3>3. DOM Fácil com jQuery</h3>
-              <p>Familiarizar-se com os seletores <code>$('#id')</code> e eventos simples antes das chamadas HTTP.</p>
+              <h3>3. jQuery em 3 Dimensões</h3>
+              <p>Explorar recursos funcionais, estéticos e dinâmicos para acessar o DOM.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 2: O que vimos em ProgWeb 1 -->
+      <!-- SLIDE 2: A Base de ProgWeb 1 -->
       <section class="slide" id="slide-2">
         <h2 class="slide-title">🧱 A Base de ProgWeb 1: O que já construímos?</h2>
         <p class="slide-subtitle">Em Programação para a Internet 1 (ProgWeb 1), dominamos a estrutura base do frontend:</p>
@@ -470,44 +478,44 @@
 
           <div class="card card-highlight-blue">
             <div class="card-icon">🎨</div>
-            <h3>CSS3 & Responsividade</h3>
+            <h3>CSS3 & Layouts</h3>
             <p>Box model, cores, Flexbox e CSS Grid para organizar o layout estático em diferentes telas.</p>
           </div>
 
           <div class="card card-highlight-purple">
             <div class="card-icon">🌳</div>
-            <h3>Interatividade Básica</h3>
-            <p>Acessar a página via JavaScript, reagindo a cliques e formulários simples no navegador.</p>
+            <h3>Manipulação Básica</h3>
+            <p>Acessar a página via JavaScript nativo, reagindo a cliques e formulários simples.</p>
           </div>
 
           <div class="card card-highlight-amber">
             <div class="card-icon">🚀</div>
             <h3>Git & GitHub Pages</h3>
-            <p>Versionamento dos projetos e publicação dos sites na web.</p>
+            <p>Versionamento de código e publicação pública dos projetos web.</p>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 3: Alinhamento com o PPC de Sistemas para a Internet -->
+      <!-- SLIDE 3: Alinhamento com o PPC -->
       <section class="slide" id="slide-3">
         <h2 class="slide-title">📋 Alinhamento com o PPC do Curso (ProgWeb 2 — 120h)</h2>
-        <p class="slide-subtitle">O que o Projeto Pedagógico do Curso (PPC do IFSC Garopaba) estabelece para ProgWeb 2?</p>
+        <p class="slide-subtitle">O que o Projeto Pedagógico do Curso (PPC CONSUP 30/2020) estabelece para ProgWeb 2?</p>
 
         <div class="grid-2">
           <div class="card card-highlight">
-            <h3>🎯 Competências & Conhecimentos do PPC:</h3>
+            <h3>🎯 Competências do PPC (Fase 4):</h3>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem;">
               <li style="display: flex; gap: 0.8rem;">
                 <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Desenvolvimento com Frameworks CSS/JS:</strong> Agilidade de construção de interfaces com ferramentas como Bootstrap e jQuery.</span>
+                <span><strong>Frameworks & Bibliotecas CSS/JS:</strong> Agilidade de construção de interfaces com ferramentas como Bootstrap e jQuery.</span>
               </li>
               <li style="display: flex; gap: 0.8rem;">
                 <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Comunicação Assíncrona & APIs:</strong> Integração de dados via requisições HTTP e serviços web RESTful em JSON.</span>
+                <span><strong>Manipulação Avançada de Interfaces:</strong> Componentização, tratamento de formulários e experiência do usuário.</span>
               </li>
               <li style="display: flex; gap: 0.8rem;">
                 <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Arquitetura & Padrões no Cliente/Servidor:</strong> Organização modular de código e persistência no navegador.</span>
+                <span><strong>Comunicação e Estado no Cliente:</strong> Persistência local no navegador e preparação para consumo de serviços web.</span>
               </li>
             </ul>
           </div>
@@ -516,201 +524,288 @@
             <h3>⏱️ Carga Horária & Estrutura:</h3>
             <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.8rem;">
               <div style="background: rgba(56, 189, 248, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(56, 189, 248, 0.3);">
-                <strong>Carga Horária Total:</strong> 120 Horas (4ª Fase do CST em Sistemas para a Internet).
+                <strong>Carga Horária Total:</strong> 120 Horas (CST em Sistemas para a Internet).
               </div>
               <div style="background: rgba(22, 163, 74, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(22, 163, 74, 0.3);">
-                <strong>Divisão das Atividades:</strong> 20h Teóricas | 60h Práticas em Laboratório | 40h de Extensão Integrada.
+                <strong>Prática de Laboratório:</strong> 60h Práticas em Laboratório | 40h de Extensão Integrada | 20h Teórica.
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 4: Estilizando a Página com Bootstrap 5 -->
+      <!-- SLIDE 4: Bootstrap 5 — Layout & Estilização (Exemplos 1 e 2) -->
       <section class="slide" id="slide-4">
-        <h2 class="slide-title">🎨 Começando do Simples: Estilizando com Bootstrap 5</h2>
-        <p class="slide-subtitle">Como transformar um formulário comum em uma interface bonita apenas adicionando classes:</p>
+        <h2 class="slide-title">🎨 Bootstrap 5: Recursos de Layout & Formulários</h2>
+        <p class="slide-subtitle">Como estilizar elementos visuais da página observando o efeito imediato das classes:</p>
 
         <div class="grid-2">
           <div class="card card-highlight-purple">
-            <h3>💡 O Efeito Visual das Classes Prontas:</h3>
-            <p style="margin-top: 0.5rem; margin-bottom: 1rem;">No Bootstrap 5, não precisamos criar regras CSS do zero. Adicionamos nomes de classes direto nas tags HTML e vemos o efeito instantâneo:</p>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.7rem;">
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--accent-purple);">🔹</span>
-                <span><code>form-control</code> ➔ Transforma inputs em caixas modernas com foco.</span>
-              </li>
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--accent-purple);">🔹</span>
-                <span><code>btn btn-success</code> ➔ Cria botões verdes estilizados.</span>
-              </li>
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--accent-purple);">🔹</span>
-                <span><code>card p-4</code> ➔ Empacota o conteúdo em um painel elevado com bordas.</span>
-              </li>
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--accent-purple);">🔹</span>
-                <span><code>table table-hover</code> ➔ Formata tabelas com linhas destacadas ao passar o mouse.</span>
-              </li>
-            </ul>
+            <span class="example-tag">Exemplo 1</span>
+            <h3>Grid Responsivo & Containers</h3>
+            <p style="margin-bottom: 0.8rem;">Em vez de criar regras CSS manuais, usamos o sistema de 12 colunas do Bootstrap:</p>
+            <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-4"</span>&gt;Item 1&lt;/<span class="kw">div</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-8"</span>&gt;Item 2&lt;/<span class="kw">div</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
           </div>
 
-          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-purple);">
-            <h3 style="color: var(--accent-purple); font-family: 'Fira Code', monospace;">Exemplo Prático HTML + Bootstrap 5:</h3>
-            <pre style="margin-top: 0.8rem;"><code><span class="cm">&lt;!-- Formulário Estilizado Rapidamente com Bootstrap --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"card p-4 shadow"</span>&gt;
+          <div class="card card-highlight-purple">
+            <span class="example-tag">Exemplo 2</span>
+            <h3>Formulários & Grupos de Entrada</h3>
+            <p style="margin-bottom: 0.8rem;">Transforme um input comum em um campo moderno com rótulo e borda focada:</p>
+            <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
   &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Digite seu nome"</span>&gt;
-  
-  &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success mt-3"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ana Silva"</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 5: Acessando o DOM de Forma Fácil com jQuery -->
+      <!-- SLIDE 5: Bootstrap 5 — Componentes Visuais & Utilitários (Exemplos 3 e 4) -->
       <section class="slide" id="slide-5">
-        <h2 class="slide-title">⚡ Acessando o DOM de Forma Simples com jQuery</h2>
-        <p class="slide-subtitle">Como o símbolo cifrão <code>$()</code> facilita a seleção e manipulação de elementos da página:</p>
+        <h2 class="slide-title">🎨 Bootstrap 5: Componentes Visuais & Utilitários</h2>
+        <p class="slide-subtitle">Como empacotar conteúdos com cartões, botões e tabelas elegantes:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-purple">
+            <span class="example-tag">Exemplo 3</span>
+            <h3>Cards, Botões & Alertas</h3>
+            <p style="margin-bottom: 0.8rem;">Componentes prontos com cores semânticas (<code>btn-success</code>, <code>alert-danger</code>):</p>
+            <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"alert alert-info"</span>&gt;Cliente ativo!&lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-check"</span>&gt;&lt;/<span class="kw">i</span>&gt; Salvar&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+
+          <div class="card card-highlight-purple">
+            <span class="example-tag">Exemplo 4</span>
+            <h3>Tabelas & Utilitários de Espaçamento</h3>
+            <p style="margin-bottom: 0.8rem;">Tabelas estilizadas com margens (<code>mb-3</code>), paddings (<code>p-4</code>) e flexbox (<code>d-flex</code>):</p>
+            <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped"</span>&gt;
+  &lt;<span class="kw">thead</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Ações&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
+  &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;&lt;/<span class="kw">tbody</span>&gt;
+&lt;/<span class="kw">table</span>&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: jQuery — Recursos Funcionais (Exemplo 5) -->
+      <section class="slide" id="slide-6">
+        <h2 class="slide-title">⚡ jQuery: Recursos Funcionais (Seleção & Dados)</h2>
+        <p class="slide-subtitle">Aceder e manipular valores do DOM de forma direta e intuitiva com o cifrão <code>$()</code>:</p>
 
         <div class="grid-2">
           <div class="card card-highlight-blue">
-            <h3>🔍 Familiarizando-se com Seletores jQuery:</h3>
-            <p style="margin-top: 0.5rem; margin-bottom: 1rem;">O jQuery usa a mesma sintaxe de seletores do CSS que vocês viram em ProgWeb 1:</p>
-            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem 0.9rem; border-radius: var(--radius-md);">
-                <code>$('#nome')</code> ➔ Seleciona o elemento pelo ID <code>id="nome"</code>
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem 0.9rem; border-radius: var(--radius-md);">
+            <span class="example-tag">Exemplo 5</span>
+            <h3>Seletores & Leitura/Escrita de Dados</h3>
+            <p style="margin-top: 0.4rem; margin-bottom: 0.8rem;">O jQuery usa os mesmos seletores CSS para ler e alterar o DOM com métodos simples:</p>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem;">
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
                 <code>$('#nome').val()</code> ➔ Lê o valor digitado dentro do input
               </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem 0.9rem; border-radius: var(--radius-md);">
-                <code>$('#btn').on('click', fn)</code> ➔ Escuta o clique no botão
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
+                <code>$('#titulo').text('Novo Título')</code> ➔ Altera o texto visível do elemento
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
+                <code>$('#resultado').html('&lt;b&gt;Ok!&lt;/b&gt;')</code> ➔ Insere HTML internamente
               </div>
             </div>
           </div>
 
           <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
-            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo Simples de Manipulação no jQuery:</h3>
-            <pre style="margin-top: 0.8rem;"><code><span class="cm">// Quando clicar no botão...</span>
-$(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-  <span class="cm">// 1. Lê o nome digitado</span>
-  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  
-  <span class="cm">// 2. Escreve a mensagem na tela!</span>
-  $(<span class="str">'#mensagem'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${nome}! Seja bem-vindo!`</span>);
-});</code></pre>
+            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo 5 em Código JS:</h3>
+            <pre style="margin-top: 0.8rem;"><code><span class="cm">// Lendo input e escrevendo em outro elemento com jQuery</span>
+<span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();
+
+<span class="cm">// Atualiza o texto da mensagem na tela</span>
+$(<span class="str">'#mensagem-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>);</code></pre>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 6: Conectando com APIs (Fetch API & ViaCEP) -->
-      <section class="slide" id="slide-6">
-        <h2 class="slide-title">📡 Conectando a Aplicação: O Papel das APIs Assíncronas</h2>
-        <p class="slide-subtitle">Após aprender a estilizar (Bootstrap) e manipular o DOM (jQuery), estendemos nossa página para a web:</p>
+      <!-- SLIDE 7: jQuery — Recursos Estéticos (Exemplo 6) -->
+      <section class="slide" id="slide-7">
+        <h2 class="slide-title">⚡ jQuery: Recursos Estéticos (Efeitos & Classes CSS)</h2>
+        <p class="slide-subtitle">Como criar efeitos visuais, ocultar elementos e alternar classes CSS com animações fluidas:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-amber">
-            <h3>🍽️ A Metáfora do Garçom (Requisição HTTP):</h3>
-            <p style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Ao digitar o CEP no formulário, a aplicação faz um pedido (requisição HTTP) ao serviço do <strong>ViaCEP</strong>. O garçom busca o endereço e traz o JSON de volta sem recarregar a página!</p>
-            <div style="background: rgba(245, 158, 11, 0.1); padding: 0.8rem; border-radius: var(--radius-md); font-size: 0.88rem; color: #fbbf24;">
-              <code>$.getJSON('https://viacep.com.br/ws/88495000/json/')</code>
+          <div class="card card-highlight-blue">
+            <span class="example-tag">Exemplo 6</span>
+            <h3>Efeitos Visuais & Manipulação de Classes</h3>
+            <p style="margin-top: 0.4rem; margin-bottom: 0.8rem;">Animações nativas para mostrar/ocultar mensagens e alternar estados visuais:</p>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem;">
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
+                <code>$('#alerta').fadeIn()</code> / <code>fadeOut()</code> ➔ Efeito suave de aparecer/desaparecer
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
+                <code>$('#caixa').addClass('alert-success')</code> ➔ Adiciona classe CSS do Bootstrap
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
+                <code>$('#painel').toggleClass('d-none')</code> ➔ Alterna a exibição visual do painel
+              </div>
             </div>
           </div>
 
-          <div class="card card-highlight">
-            <h3>💾 Persistindo Dados no LocalStorage:</h3>
-            <p style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Para que os clientes cadastrados não desapareçam ao fechar o navegador, usamos o <strong>LocalStorage</strong> para gravar os dados diretamente no computador do usuário:</p>
-            <div style="background: rgba(22, 163, 74, 0.1); padding: 0.8rem; border-radius: var(--radius-md); font-size: 0.88rem; color: #4ade80;">
-              <code>localStorage.setItem('clientes', JSON.stringify(lista))</code>
-            </div>
+          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
+            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo 6 em Código JS:</h3>
+            <pre style="margin-top: 0.8rem;"><code><span class="cm">// Exibindo mensagem com animação fadeIn()</span>
+$(<span class="str">'#mensagem-status'</span>)
+  .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
+  .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
+  .<span class="fn">text</span>(<span class="str">'Operação realizada com sucesso!'</span>)
+  .<span class="fn">fadeIn</span>();</code></pre>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 7: Guia Interativo de Código -->
-      <section class="slide" id="slide-7">
-        <h2 class="slide-title">💻 Guia Interativo de Código & Abas Passo a Passo</h2>
-        <p class="slide-subtitle">Clique nas abas para acompanhar a evolução progressiva do código:</p>
+      <!-- SLIDE 8: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 7 e 8) -->
+      <section class="slide" id="slide-8">
+        <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
+        <p class="slide-subtitle">Escuta de eventos, inserção dinâmica de elementos no DOM e persistência local:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-blue">
+            <span class="example-tag">Exemplo 7</span>
+            <h3>Eventos & Inserção Dinâmica no DOM</h3>
+            <p style="margin-bottom: 0.8rem;">Escutar cliques e formulários para adicionar linhas na tabela dinamicamente:</p>
+            <pre><code>$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
+  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(<span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;/tr&gt;`</span>);
+});</code></pre>
+          </div>
+
+          <div class="card card-highlight-amber">
+            <span class="example-tag">Exemplo 8</span>
+            <h3>Persistindo Dados Locais (LocalStorage)</h3>
+            <p style="margin-bottom: 0.8rem;">Gravar e ler a lista de clientes no navegador para não perder dados ao dar F5:</p>
+            <pre><code><span class="cm">// Salvar lista no LocalStorage</span>
+localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
+
+<span class="cm">// Ler lista do LocalStorage ao abrir</span>
+<span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: Guia Interativo de Código -->
+      <section class="slide" id="slide-9">
+        <h2 class="slide-title">💻 Guia Interativo de Código (Exemplos 1 a 8)</h2>
+        <p class="slide-subtitle">Use as abas abaixo para consultar e referenciar qualquer um dos 8 exemplos durante a aula:</p>
 
         <div class="code-tabs">
           <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-bootstrap-form')">1. Bootstrap 5 (Estilo Prático)</button>
-            <button class="tab-btn" onclick="switchTab('tab-jquery-dom')">2. jQuery (Acessando o DOM)</button>
-            <button class="tab-btn" onclick="switchTab('tab-jquery-cep')">3. Consulta CEP (ViaCEP)</button>
-            <button class="tab-btn" onclick="switchTab('tab-localstorage')">4. LocalStorage (Persistência)</button>
+            <button class="tab-btn active" onclick="switchTab('tab-ex1')">Exemplo 1 (Grid BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex2')">Exemplo 2 (Forms BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex3')">Exemplo 3 (Cards/Alerts BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex4')">Exemplo 4 (Tabelas BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex5')">Exemplo 5 (Seletores jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex6')">Exemplo 6 (Efeitos jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex7')">Exemplo 7 (Eventos/DOM jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex8')">Exemplo 8 (LocalStorage)</button>
           </div>
 
-          <div id="tab-bootstrap-form" class="tab-content active">
-            <pre><code><span class="cm">&lt;!-- Criando formulário rápido no Bootstrap 5 --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"col-md-6"</span>&gt;
-    &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
-    &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> id=<span class="str">"nome"</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"col-md-6"</span>&gt;
-    &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> class=<span class="str">"btn btn-success"</span>&gt;Cadastrar&lt;/<span class="kw">button</span>&gt;
+          <div id="tab-ex1" class="tab-content active">
+            <pre><code><span class="cm">&lt;!-- Exemplo 1: Grid Responsivo do Bootstrap 5 --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-4"</span>&gt;Coluna 1 (Metade em MD, 1/3 em LG)&lt;/<span class="kw">div</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-8"</span>&gt;Coluna 2 (Metade em MD, 2/3 em LG)&lt;/<span class="kw">div</span>&gt;
   &lt;/<span class="kw">div</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
           </div>
 
-          <div id="tab-jquery-dom" class="tab-content">
-            <pre><code><span class="cm">// Lendo input e reagindo a cliques com jQuery</span>
+          <div id="tab-ex2" class="tab-content">
+            <pre><code><span class="cm">&lt;!-- Exemplo 2: Formulários Estilizados com Bootstrap 5 --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
+  &lt;<span class="kw">label</span> for=<span class="str">"email"</span> class=<span class="str">"form-label"</span>&gt;Endereço de E-mail&lt;/<span class="kw">label</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> id=<span class="str">"email"</span> placeholder=<span class="str">"nome@exemplo.com"</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-ex3" class="tab-content">
+            <pre><code><span class="cm">&lt;!-- Exemplo 3: Componentes Cards, Botões e Alertas --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"card p-4 shadow"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"alert alert-success"</span> role=<span class="str">"alert"</span>&gt;Cliente salvo com sucesso!&lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> class=<span class="str">"btn btn-success"</span>&gt;Cadastrar Cliente&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-ex4" class="tab-content">
+            <pre><code><span class="cm">&lt;!-- Exemplo 4: Tabelas Elegantes com Utilitários --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"table-responsive mt-3"</span>&gt;
+  &lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped align-middle"</span>&gt;
+    &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;
+      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Ações&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+    &lt;/<span class="kw">thead</span>&gt;
+    &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;&lt;/<span class="kw">tbody</span>&gt;
+  &lt;/<span class="kw">table</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-ex5" class="tab-content">
+            <pre><code><span class="cm">// Exemplo 5: Seletores e Leitura/Escrita no jQuery</span>
+<span class="kw">const</span> nomeDigitado = $(<span class="str">'#nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê o valor do input</span>
+$(<span class="str">'#titulo-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Bem-vindo, ${nomeDigitado}!`</span>); <span class="cm">// Altera texto</span>
+$(<span class="str">'#painel'</span>).<span class="fn">html</span>(<span class="str">'&lt;span class="badge bg-success"&gt;Ativo&lt;/span&gt;'</span>); <span class="cm">// Altera HTML</span></code></pre>
+          </div>
+
+          <div id="tab-ex6" class="tab-content">
+            <pre><code><span class="cm">// Exemplo 6: Recursos Estéticos e Efeitos Visuais no jQuery</span>
+$(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
+$(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
+$(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
+          </div>
+
+          <div id="tab-ex7" class="tab-content">
+            <pre><code><span class="cm">// Exemplo 7: Eventos e Inserção Dinâmica no DOM com jQuery</span>
 $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>(); <span class="cm">// Evita recarregar a página</span>
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
   
-  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê o input de nome</span>
-  console.<span class="fn">log</span>(<span class="str">'Nome cadastrado:'</span>, nome);
+  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
+  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
 });</code></pre>
           </div>
 
-          <div id="tab-jquery-cep" class="tab-content">
-            <pre><code><span class="cm">// Consulta de CEP simples via jQuery $.getJSON</span>
-$(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">'blur'</span>, <span class="kw">function</span>() {
-  <span class="kw">const</span> cep = $(<span class="str">'#cep'</span>).<span class="fn">val</span>().<span class="fn">replace</span>(<span class="str">/\D/g</span>, <span class="str">''</span>);
-  
-  <span class="kw">if</span> (cep.length === 8) {
-    $.<span class="fn">getJSON</span>(<span class="str">`https://viacep.com.br/ws/${cep}/json/`</span>)
-      .<span class="fn">done</span>(<span class="kw">function</span>(dados) {
-        $(<span class="str">'#logradouro'</span>).<span class="fn">val</span>(dados.logradouro || <span class="str">''</span>);
-        $(<span class="str">'#cidade'</span>).<span class="fn">val</span>(dados.localidade || <span class="str">''</span>);
-      });
-  }
-});</code></pre>
-          </div>
+          <div id="tab-ex8" class="tab-content">
+            <pre><code><span class="cm">// Exemplo 8: Persistindo Dados no LocalStorage</span>
+<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
+  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
+}
 
-          <div id="tab-localstorage" class="tab-content">
-            <pre><code><span class="cm">// Persistência de dados com LocalStorage</span>
-<span class="kw">function</span> <span class="fn">salvarCliente</span>(novoCliente) {
-  <span class="kw">let</span> lista = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];
-  lista.<span class="fn">push</span>(novoCliente);
-  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
+<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
+  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
+  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
 }</code></pre>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 8: Checklist da Aula -->
-      <section class="slide" id="slide-8">
-        <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade em Aula)</h2>
-        <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e execute os passos no VS Code:</p>
+      <!-- SLIDE 10: Checklist da Aula -->
+      <section class="slide" id="slide-10">
+        <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade da Aula)</h2>
+        <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e siga o roteiro prático no seu VS Code:</p>
 
         <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> e observar o formulário estilizado com Bootstrap 5.</div>
+            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> e observar os links de Bootstrap 5 e jQuery no <code>index.html</code>.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">2. Digitar o CEP <code>88495000</code> e observar o preenchimento automático via jQuery e API ViaCEP.</div>
+            <div class="check-text">2. Testar os formulários estilizados com o grid do Bootstrap (<strong>Exemplos 1 e 2</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar 2 clientes e conferir as linhas sendo inseridas na tabela formatada.</div>
+            <div class="check-text">3. Cadastrar 2 clientes e observar a captura dos inputs e inclusão dinâmica na tabela com jQuery (<strong>Exemplos 5 e 7</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">4. Pressionar <code>F5</code> para recarregar a página e confirmar que os clientes permanecem salvos no <code>localStorage</code>.</div>
+            <div class="check-text">4. Recarregar a página (<code>F5</code>) e comprovar que os clientes permanecem salvos no <code>localStorage</code> (<strong>Exemplo 8</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
@@ -719,15 +814,15 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
         </div>
       </section>
 
-      <!-- SLIDE 9: Encerramento -->
-      <section class="slide" id="slide-9">
+      <!-- SLIDE 11: Encerramento & Prévia da Aula 02 -->
+      <section class="slide" id="slide-11">
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 850px; margin: 0 auto;">
           <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🚀</div>
           <h2 class="slide-title" style="font-size: 2.8rem; justify-content: center;">
-            Excelente Transição para ProgWeb 2!
+            Parabéns pelo Progresso!
           </h2>
           <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
-            Com os conceitos de ProgWeb 1 revisados e os fundamentos de Bootstrap 5, jQuery e consumo de APIs consolidados, estamos prontos para avançar no <strong>Módulo 2: ES6 Modules & Arquitetura Limpa no Frontend</strong>!
+            Hoje dominamos o uso do <strong>Bootstrap 5</strong> (Exemplos 1 a 4) e dos recursos funcionais, estéticos e dinâmicos do <strong>jQuery</strong> (Exemplos 5 a 8). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong> e chamadas HTTP assíncronas!
           </p>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
@@ -746,7 +841,7 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
         <div class="progress-bar-bg">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 9</span>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 11</span>
       </div>
 
       <div class="nav-controls">
@@ -766,7 +861,7 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
 
   <script>
     let currentSlide = 1;
-    const totalSlides = 9;
+    const totalSlides = 11;
 
     function updateSlides() {
       document.querySelectorAll('.slide').forEach((slide, idx) => {

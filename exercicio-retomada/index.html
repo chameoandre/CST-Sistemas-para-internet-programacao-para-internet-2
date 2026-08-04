@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exercício de Retomada — Bootstrap + jQuery + Fetch API (IFSC)</title>
-  <!-- Bootstrap 5 CSS -->
+  <title>Exercício de Retomada — Bootstrap 5 + jQuery (ProgWeb 2)</title>
+  <!-- Bootstrap 5 CSS (Exemplos 1 a 4) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -38,36 +38,38 @@
 </head>
 <body class="py-4">
 
+  <!-- Exemplo 1: Grid Responsivo & Containers -->
   <div class="container max-width-lg">
 
-    <!-- Header Institucional com Bootstrap Navbar/Card -->
+    <!-- Header Institucional com Bootstrap Card (Exemplo 3) -->
     <header class="card card-custom p-4 mb-4 border-start border-success border-5">
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div class="d-flex align-items-center gap-3">
           <span class="badge ifsc-badge fs-5 px-3 py-2">IFSC</span>
           <div>
-            <h1 class="h4 mb-0 fw-bold">Programação para a Internet II</h1>
+            <h1 class="h4 mb-0 fw-bold">Programação para a Internet 2 (ProgWeb 2)</h1>
             <p class="text-secondary small mb-0">CST em Sistemas para a Internet — Câmpus Garopaba</p>
           </div>
         </div>
         <div>
           <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
-            <i class="bi bi-code-slash me-1"></i> Retomada: Bootstrap 5 + jQuery + Fetch API
+            <i class="bi bi-code-slash me-1"></i> Aula 01: Bootstrap 5 + jQuery + LocalStorage
           </span>
         </div>
       </div>
     </header>
 
-    <!-- Formulário de Cadastro com Bootstrap Grid e Form Controls -->
+    <!-- Formulário de Cadastro com Bootstrap Grid & Forms (Exemplo 2) -->
     <section class="card card-custom p-4 mb-4">
       <h2 class="h5 fw-bold mb-1">
-        <i class="bi bi-person-plus-fill text-success me-2"></i>Cadastro de Cliente & Consulta de CEP (ViaCEP)
+        <i class="bi bi-person-plus-fill text-success me-2"></i>Cadastro de Cliente (Prática de Bootstrap 5 e jQuery)
       </h2>
       <p class="text-secondary small mb-4">
-        Digite o CEP para consultar o endereço de forma assíncrona. Os dados são salvos no <code>localStorage</code> usando jQuery!
+        Preencha os campos abaixo. A página utiliza Bootstrap 5 para estilo visual e jQuery para manipulação do DOM e LocalStorage!
       </p>
 
       <form id="form-cliente" novalidate>
+        <!-- Exemplo 1: Uso da linha (row) e colunas (col-md) -->
         <div class="row g-3 mb-3">
           <div class="col-md-5">
             <label for="nome" class="form-label fw-semibold">Nome Completo *</label>
@@ -78,38 +80,13 @@
             <input type="email" class="form-control" id="email" required placeholder="Ex.: ana@exemplo.com">
           </div>
           <div class="col-md-3">
-            <label for="cep" class="form-label fw-semibold">CEP *</label>
-            <div class="input-group">
-              <input type="text" class="form-control" id="cep" maxlength="9" required placeholder="88495-000">
-              <button class="btn btn-outline-secondary" type="button" id="btn-buscar-cep">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-            <div class="form-text text-info small" id="cep-status-help">Digite 8 números e saia do campo.</div>
+            <label for="cidade" class="form-label fw-semibold">Cidade / UF *</label>
+            <input type="text" class="form-control" id="cidade" required placeholder="Ex.: Garopaba / SC">
           </div>
         </div>
 
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label for="logradouro" class="form-label fw-semibold">Rua / Logradouro</label>
-            <input type="text" class="form-control" id="logradouro" placeholder="Preenchido via API ViaCEP...">
-          </div>
-          <div class="col-md-3">
-            <label for="bairro" class="form-label fw-semibold">Bairro</label>
-            <input type="text" class="form-control" id="bairro" placeholder="Autocompletado...">
-          </div>
-          <div class="col-md-2">
-            <label for="cidade" class="form-label fw-semibold">Cidade</label>
-            <input type="text" class="form-control" id="cidade" placeholder="Autocompletado...">
-          </div>
-          <div class="col-md-1">
-            <label for="uf" class="form-label fw-semibold">UF</label>
-            <input type="text" class="form-control" id="uf" maxlength="2" placeholder="UF">
-          </div>
-        </div>
-
-        <!-- Alerta de Mensagem do Bootstrap -->
-        <div id="mensagem-status" class="alert d-none" role="alert"></div>
+        <!-- Alerta de Mensagem do Bootstrap (Exemplo 3 e 6) -->
+        <div id="mensagem-status" class="alert d-none mb-3" role="alert"></div>
 
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-success fw-semibold px-4">
@@ -122,14 +99,14 @@
       </form>
     </section>
 
-    <!-- Tabela com Bootstrap Table & Card -->
+    <!-- Tabela com Bootstrap Table & Card (Exemplo 4) -->
     <section class="card card-custom p-4">
       <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <h2 class="h5 fw-bold mb-0">
-          <i class="bi bi-people-fill text-primary me-2"></i>Clientes Cadastrados (localStorage)
+          <i class="bi bi-people-fill text-primary me-2"></i>Clientes Cadastrados (Persistência no LocalStorage)
         </h2>
         <div class="d-flex gap-2 align-items-center">
-          <!-- Desafio Extra: Filtro por nome com jQuery -->
+          <!-- Desafio Extra: Filtro por nome com jQuery (Exemplo 7) -->
           <div class="input-group input-group-sm" style="max-width: 250px;">
             <span class="input-group-text"><i class="bi bi-funnel"></i></span>
             <input type="text" id="filtro-nome" class="form-control" placeholder="Filtrar por nome...">
@@ -140,6 +117,7 @@
         </div>
       </div>
 
+      <!-- Exemplo 4: Tabela com Bootstrap -->
       <div class="table-responsive">
         <table class="table table-hover table-dark-custom align-middle mb-0">
           <thead>
@@ -147,13 +125,12 @@
               <th scope="col">#</th>
               <th scope="col">Nome</th>
               <th scope="col">E-mail</th>
-              <th scope="col">CEP</th>
               <th scope="col">Cidade / UF</th>
               <th scope="col" class="text-center">Ações</th>
             </tr>
           </thead>
           <tbody id="tabela-body">
-            <!-- Linhas geradas via jQuery -->
+            <!-- Linhas geradas dinamicamente via jQuery (Exemplo 7) -->
           </tbody>
         </table>
 
