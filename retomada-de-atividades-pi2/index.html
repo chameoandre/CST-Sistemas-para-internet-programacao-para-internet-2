@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retomada & Transição PI-1 para PI-2 — IFSC Garopaba</title>
+  <title>Retomada & Transição ProgWeb 1 para ProgWeb 2 — IFSC Garopaba</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -221,7 +221,7 @@
     .card-highlight-purple { border-left: 4px solid var(--accent-purple); }
     .card-highlight-amber { border-left: 4px solid var(--accent-amber); }
 
-    /* Code Tabs & Interactive Demos */
+    /* Code Tabs */
     .code-tabs {
       display: flex;
       flex-direction: column;
@@ -410,8 +410,8 @@
       <div class="brand">
         <img src="../figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
         <div class="brand-text">
-          <h1>Programação para a Internet II</h1>
-          <p>CST em Sistemas para a Internet — Transição PI-1 para PI-2</p>
+          <h1>Programação para a Internet 2 (ProgWeb 2)</h1>
+          <p>CST em Sistemas para a Internet — Transição de ProgWeb 1 para ProgWeb 2</p>
         </div>
       </div>
       <div class="header-badges">
@@ -427,206 +427,245 @@
       <section class="slide active" id="slide-1">
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 950px;">
           <span class="badge badge-green" style="width: fit-content; margin-bottom: 1.2rem; font-size: 0.9rem;">
-            👋 Boas-Vindas ao 2º Semestre!
+            👋 Boas-Vindas a ProgWeb 2!
           </span>
           <h2 class="slide-title" style="font-size: 3rem; line-height: 1.15; margin-bottom: 1rem;">
-            A Ponte Entre PI-1 e PI-2
+            A Ponte Entre ProgWeb 1 e ProgWeb 2
           </h2>
           <p class="slide-subtitle" style="font-size: 1.2rem; line-height: 1.6;">
-            Bem-vindos de volta! Hoje faremos a conexão perfeita entre a <strong>base construída em Programação para a Internet I</strong> (HTML5, CSS3, DOM e Formulários) e a <strong>evolução prática para o desenvolvimento web moderno</strong> (Fetch API, Bootstrap 5 e jQuery).
+            Sejam bem-vindos! Hoje faremos a transição gradual e prática entre a <strong>base construída em ProgWeb 1</strong> (HTML5 semântico, CSS3 e manipulação de elementos) e os <strong>primeiros passos de ProgWeb 2</strong> (estilização rápida com Bootstrap 5, seleção ágil com jQuery e introdução simples a chamadas de API).
           </p>
 
           <div class="grid-3" style="margin-top: 1rem; flex: initial;">
             <div class="card card-highlight">
               <div class="card-icon">🧱</div>
-              <h3>1. A Base de PI-1</h3>
-              <p>Relembrar HTML5 semântico, estilização com CSS3 e manipulação de páginas estáticas.</p>
+              <h3>1. Onde Estávamos em ProgWeb 1</h3>
+              <p>Rever HTML5 semântico, estilização com CSS3 e manipulação básica da página.</p>
             </div>
-            <div class="card card-highlight-amber">
-              <div class="card-icon">⚡</div>
-              <h3>2. A virada para o Dinâmico</h3>
-              <p>Compreender como a Fetch API conecta nossa página a dados reais da web sem recarregar.</p>
+            <div class="card card-highlight-purple">
+              <div class="card-icon">🎨</div>
+              <h3>2. Começando do Simples: Bootstrap 5</h3>
+              <p>Estilizar os elementos da página de forma rápida observando o efeito visual imediato.</p>
             </div>
             <div class="card card-highlight-blue">
-              <div class="card-icon">🎨</div>
-              <h3>3. Ferramentas Modernas</h3>
-              <p>Acelerar a criação visual e de código com Bootstrap 5 e a simplicidade do jQuery.</p>
+              <div class="card-icon">⚡</div>
+              <h3>3. DOM Fácil com jQuery</h3>
+              <p>Familiarizar-se com os seletores <code>$('#id')</code> e eventos simples antes das chamadas HTTP.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 2: A Jornada de PI-1 -->
+      <!-- SLIDE 2: O que vimos em ProgWeb 1 -->
       <section class="slide" id="slide-2">
-        <h2 class="slide-title">🧱 A Jornada de PI-1: O que já dominamos?</h2>
-        <p class="slide-subtitle">Em Programação para a Internet I, construímos os blocos essenciais do Frontend:</p>
+        <h2 class="slide-title">🧱 A Base de ProgWeb 1: O que já construímos?</h2>
+        <p class="slide-subtitle">Em Programação para a Internet 1 (ProgWeb 1), dominamos a estrutura base do frontend:</p>
 
         <div class="grid-4">
           <div class="card card-highlight">
             <div class="card-icon">🏷️</div>
             <h3>HTML5 Semântico</h3>
-            <p>Uso consciente de tags como <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;form&gt;</code> e <code>&lt;table&gt;</code> para dar significado ao conteúdo.</p>
+            <p>Tags semânticas como <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;form&gt;</code> e <code>&lt;table&gt;</code> dando estrutura ao conteúdo.</p>
           </div>
 
           <div class="card card-highlight-blue">
             <div class="card-icon">🎨</div>
             <h3>CSS3 & Responsividade</h3>
-            <p>Estilização visual, cores, tipografia, alinhamentos flexíveis com Flexbox / CSS Grid e adaptação para dispositivos móveis.</p>
+            <p>Box model, cores, Flexbox e CSS Grid para organizar o layout estático em diferentes telas.</p>
           </div>
 
           <div class="card card-highlight-purple">
             <div class="card-icon">🌳</div>
-            <h3>JavaScript & DOM</h3>
-            <p>Interatividade básica selecionando elementos (<code>querySelector</code>), reagindo a cliques/submits (<code>addEventListener</code>).</p>
+            <h3>Interatividade Básica</h3>
+            <p>Acessar a página via JavaScript, reagindo a cliques e formulários simples no navegador.</p>
           </div>
 
           <div class="card card-highlight-amber">
             <div class="card-icon">🚀</div>
             <h3>Git & GitHub Pages</h3>
-            <p>Versionamento de código com commits disciplinados e publicação pública de sites estáticos.</p>
+            <p>Versionamento dos projetos e publicação dos sites na web.</p>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 3: Da Página Estática ao JavaScript Reativo -->
+      <!-- SLIDE 3: Alinhamento com o PPC de Sistemas para a Internet -->
       <section class="slide" id="slide-3">
-        <h2 class="slide-title">⚙️ Do HTML Estático à Interatividade com JavaScript</h2>
-        <p class="slide-subtitle">Como o JavaScript transforma documentos de texto em interfaces vivas:</p>
+        <h2 class="slide-title">📋 Alinhamento com o PPC do Curso (ProgWeb 2 — 120h)</h2>
+        <p class="slide-subtitle">O que o Projeto Pedagógico do Curso (PPC do IFSC Garopaba) estabelece para ProgWeb 2?</p>
 
-        <div class="grid-3">
-          <div class="card">
-            <div class="card-icon">1️⃣</div>
-            <h3>Captura de Interação</h3>
-            <p>O usuário digita no input ou clica num botão. O JavaScript captura esse momento com <strong>Event Listeners</strong> (ex: <code>blur</code>, <code>submit</code>, <code>click</code>).</p>
+        <div class="grid-2">
+          <div class="card card-highlight">
+            <h3>🎯 Competências & Conhecimentos do PPC:</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem;">
+              <li style="display: flex; gap: 0.8rem;">
+                <span style="color: var(--ifsc-green);">✔️</span>
+                <span><strong>Desenvolvimento com Frameworks CSS/JS:</strong> Agilidade de construção de interfaces com ferramentas como Bootstrap e jQuery.</span>
+              </li>
+              <li style="display: flex; gap: 0.8rem;">
+                <span style="color: var(--ifsc-green);">✔️</span>
+                <span><strong>Comunicação Assíncrona & APIs:</strong> Integração de dados via requisições HTTP e serviços web RESTful em JSON.</span>
+              </li>
+              <li style="display: flex; gap: 0.8rem;">
+                <span style="color: var(--ifsc-green);">✔️</span>
+                <span><strong>Arquitetura & Padrões no Cliente/Servidor:</strong> Organização modular de código e persistência no navegador.</span>
+              </li>
+            </ul>
           </div>
 
           <div class="card card-highlight-blue">
-            <div class="card-icon">2️⃣</div>
-            <h3>Leitura e Validação</h3>
-            <p>O JS lê os dados digitados (<code>input.value</code>), faz verificações de segurança (campos obrigatórios, validação de e-mail e formato de CEP).</p>
-          </div>
-
-          <div class="card card-highlight">
-            <div class="card-icon">3️⃣</div>
-            <h3>Atualização Dinâmica (DOM)</h3>
-            <p>O JS altera o conteúdo HTML em tempo real (criando linhas <code>&lt;tr&gt;</code> na tabela) sem que o usuário precise dar F5 na página!</p>
+            <h3>⏱️ Carga Horária & Estrutura:</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.8rem;">
+              <div style="background: rgba(56, 189, 248, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(56, 189, 248, 0.3);">
+                <strong>Carga Horária Total:</strong> 120 Horas (4ª Fase do CST em Sistemas para a Internet).
+              </div>
+              <div style="background: rgba(22, 163, 74, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(22, 163, 74, 0.3);">
+                <strong>Divisão das Atividades:</strong> 20h Teóricas | 60h Práticas em Laboratório | 40h de Extensão Integrada.
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 4: A Virada de Chave — O Papel da Fetch API -->
+      <!-- SLIDE 4: Estilizando a Página com Bootstrap 5 -->
       <section class="slide" id="slide-4">
-        <h2 class="slide-title">📡 A Virada de Chave: Conectando com a Web (Fetch API)</h2>
-        <p class="slide-subtitle">Por que uma página web precisa da Fetch API para se tornar uma aplicação profissional?</p>
+        <h2 class="slide-title">🎨 Começando do Simples: Estilizando com Bootstrap 5</h2>
+        <p class="slide-subtitle">Como transformar um formulário comum em uma interface bonita apenas adicionando classes:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-purple">
+            <h3>💡 O Efeito Visual das Classes Prontas:</h3>
+            <p style="margin-top: 0.5rem; margin-bottom: 1rem;">No Bootstrap 5, não precisamos criar regras CSS do zero. Adicionamos nomes de classes direto nas tags HTML e vemos o efeito instantâneo:</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.7rem;">
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--accent-purple);">🔹</span>
+                <span><code>form-control</code> ➔ Transforma inputs em caixas modernas com foco.</span>
+              </li>
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--accent-purple);">🔹</span>
+                <span><code>btn btn-success</code> ➔ Cria botões verdes estilizados.</span>
+              </li>
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--accent-purple);">🔹</span>
+                <span><code>card p-4</code> ➔ Empacota o conteúdo em um painel elevado com bordas.</span>
+              </li>
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--accent-purple);">🔹</span>
+                <span><code>table table-hover</code> ➔ Formata tabelas com linhas destacadas ao passar o mouse.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-purple);">
+            <h3 style="color: var(--accent-purple); font-family: 'Fira Code', monospace;">Exemplo Prático HTML + Bootstrap 5:</h3>
+            <pre style="margin-top: 0.8rem;"><code><span class="cm">&lt;!-- Formulário Estilizado Rapidamente com Bootstrap --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"card p-4 shadow"</span>&gt;
+  &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Digite seu nome"</span>&gt;
+  
+  &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success mt-3"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Acessando o DOM de Forma Fácil com jQuery -->
+      <section class="slide" id="slide-5">
+        <h2 class="slide-title">⚡ Acessando o DOM de Forma Simples com jQuery</h2>
+        <p class="slide-subtitle">Como o símbolo cifrão <code>$()</code> facilita a seleção e manipulação de elementos da página:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-blue">
+            <h3>🔍 Familiarizando-se com Seletores jQuery:</h3>
+            <p style="margin-top: 0.5rem; margin-bottom: 1rem;">O jQuery usa a mesma sintaxe de seletores do CSS que vocês viram em ProgWeb 1:</p>
+            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem 0.9rem; border-radius: var(--radius-md);">
+                <code>$('#nome')</code> ➔ Seleciona o elemento pelo ID <code>id="nome"</code>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem 0.9rem; border-radius: var(--radius-md);">
+                <code>$('#nome').val()</code> ➔ Lê o valor digitado dentro do input
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem 0.9rem; border-radius: var(--radius-md);">
+                <code>$('#btn').on('click', fn)</code> ➔ Escuta o clique no botão
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
+            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo Simples de Manipulação no jQuery:</h3>
+            <pre style="margin-top: 0.8rem;"><code><span class="cm">// Quando clicar no botão...</span>
+$(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+  <span class="cm">// 1. Lê o nome digitado</span>
+  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
+  
+  <span class="cm">// 2. Escreve a mensagem na tela!</span>
+  $(<span class="str">'#mensagem'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${nome}! Seja bem-vindo!`</span>);
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Conectando com APIs (Fetch API & ViaCEP) -->
+      <section class="slide" id="slide-6">
+        <h2 class="slide-title">📡 Conectando a Aplicação: O Papel das APIs Assíncronas</h2>
+        <p class="slide-subtitle">Após aprender a estilizar (Bootstrap) e manipular o DOM (jQuery), estendemos nossa página para a web:</p>
 
         <div class="grid-2">
           <div class="card card-highlight-amber">
-            <h3>🔴 Sem Fetch API (Limitado):</h3>
-            <p style="margin-top: 0.5rem; margin-bottom: 0.8rem;">O site só conhece os dados que já estão gravados no seu próprio código HTML. Se o usuário digitar um CEP, teríamos que cadastrar todos os CEPs do Brasil à mão dentro do código (impossível!).</p>
-            <span class="badge" style="background: rgba(220, 38, 38, 0.15); color: #fca5a5; width: fit-content;">Site Estático e Isolado</span>
+            <h3>🍽️ A Metáfora do Garçom (Requisição HTTP):</h3>
+            <p style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Ao digitar o CEP no formulário, a aplicação faz um pedido (requisição HTTP) ao serviço do <strong>ViaCEP</strong>. O garçom busca o endereço e traz o JSON de volta sem recarregar a página!</p>
+            <div style="background: rgba(245, 158, 11, 0.1); padding: 0.8rem; border-radius: var(--radius-md); font-size: 0.88rem; color: #fbbf24;">
+              <code>$.getJSON('https://viacep.com.br/ws/88495000/json/')</code>
+            </div>
           </div>
 
           <div class="card card-highlight">
-            <h3>🟢 Com Fetch API (Aplicação Conectada):</h3>
-            <p style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Ao digitar o CEP, o navegador envia uma mensagem pela internet para o servidor do <strong>ViaCEP</strong>. Em milissegundos, o servidor responde com o endereço exato, e o JS preenche a tela automaticamente!</p>
-
+            <h3>💾 Persistindo Dados no LocalStorage:</h3>
+            <p style="margin-top: 0.5rem; margin-bottom: 0.8rem;">Para que os clientes cadastrados não desapareçam ao fechar o navegador, usamos o <strong>LocalStorage</strong> para gravar os dados diretamente no computador do usuário:</p>
             <div style="background: rgba(22, 163, 74, 0.1); padding: 0.8rem; border-radius: var(--radius-md); font-size: 0.88rem; color: #4ade80;">
-              💡 <strong>Metáfora do Garçom:</strong> O <code>fetch()</code> é o garçom que vai até a cozinha (servidor ViaCEP), busca os dados e traz de volta para sua mesa sem congelar o restaurante!
+              <code>localStorage.setItem('clientes', JSON.stringify(lista))</code>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 5: Ferramentas de Aceleração -->
-      <section class="slide" id="slide-5">
-        <h2 class="slide-title">🛠️ Ferramentas de Aceleração: Bootstrap 5 & jQuery</h2>
-        <p class="slide-subtitle">Em PI-2, não precisamos reinventar a roda para construir interfaces incríveis:</p>
-
-        <div class="grid-2">
-          <div class="card card-highlight-purple">
-            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
-              <span style="font-size: 2rem;">🎨</span>
-              <div>
-                <h3>Bootstrap 5 (Potencializa o CSS3)</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Framework de Estilização Pronta</p>
-              </div>
-            </div>
-            <p>Em vez de criar dezenas de regras CSS à mão, o Bootstrap nos fornece classes prontas para sistema de grid (<code>row</code>, <code>col-md-6</code>), botões estilizados (<code>btn btn-success</code>), cartões (<code>card</code>), formulários e tabelas elegantes.</p>
-          </div>
-
-          <div class="card card-highlight-blue">
-            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
-              <span style="font-size: 2rem;">⚡</span>
-              <div>
-                <h3>jQuery (Potencializa o JavaScript)</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">Biblioteca de Manipulação Ágil</p>
-              </div>
-            </div>
-            <p>Simplifica radicalmente a escrita de código. Em vez de comandos longos do JS Vanilla, usamos a sintaxe ágil <code>$('#cep').val()</code> para ler valores e <code>$.getJSON()</code> para consultas de API em pouquíssimas linhas.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 6: Onde vamos chegar em PI-2 -->
-      <section class="slide" id="slide-6">
-        <h2 class="slide-title">🗺️ Onde vamos chegar em PI-2? (Nosso Roadmap)</h2>
-        <p class="slide-subtitle">A evolução contínua da nossa disciplina ao longo deste semestre:</p>
-
-        <div class="grid-5" style="margin-top: 0.5rem;">
-          <div class="card card-highlight">
-            <span class="badge badge-green" style="width: fit-content; margin-bottom: 0.6rem;">Módulo 1</span>
-            <h3>Retomada & APIs</h3>
-            <p>DOM, Fetch, Bootstrap 5, jQuery e LocalStorage (Hoje!).</p>
-          </div>
-          <div class="card card-highlight-blue">
-            <span class="badge badge-blue" style="width: fit-content; margin-bottom: 0.6rem;">Módulo 2</span>
-            <h3>ES6 Modules</h3>
-            <p>Arquitetura limpa, import/export e separação de código.</p>
-          </div>
-          <div class="card">
-            <span class="badge" style="width: fit-content; margin-bottom: 0.6rem; background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">Módulo 3</span>
-            <h3>Formulários & Estado</h3>
-            <p>Validação reativa e gestão de estado local avançada.</p>
-          </div>
-          <div class="card card-highlight-purple">
-            <span class="badge" style="width: fit-content; margin-bottom: 0.6rem; background: rgba(168, 85, 247, 0.15); color: var(--accent-purple);">Módulo 4</span>
-            <h3>SPAs & REST</h3>
-            <p>Single Page Applications e roteamento client-side.</p>
-          </div>
-          <div class="card">
-            <span class="badge" style="width: fit-content; margin-bottom: 0.6rem; background: rgba(255, 255, 255, 0.1); color: #fff;">Módulo 5</span>
-            <h3>Vite & Frameworks</h3>
-            <p>Empacotadores modernos e introdução ao React/Vue.</p>
           </div>
         </div>
       </section>
 
       <!-- SLIDE 7: Guia Interativo de Código -->
       <section class="slide" id="slide-7">
-        <h2 class="slide-title">💻 Guia Interativo de Código & Abas Comparativas</h2>
-        <p class="slide-subtitle">Clique nas abas para comparar as estruturas de código de PI-1 com o avanço de PI-2:</p>
+        <h2 class="slide-title">💻 Guia Interativo de Código & Abas Passo a Passo</h2>
+        <p class="slide-subtitle">Clique nas abas para acompanhar a evolução progressiva do código:</p>
 
         <div class="code-tabs">
           <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-html-base')">1. Base HTML5 (PI-1)</button>
-            <button class="tab-btn" onclick="switchTab('tab-jquery-cep')">2. Busca CEP com jQuery (PI-2)</button>
-            <button class="tab-btn" onclick="switchTab('tab-fetch-async')">3. Fetch API Nativa (PI-2)</button>
-            <button class="tab-btn" onclick="switchTab('tab-storage')">4. LocalStorage & Persistência</button>
+            <button class="tab-btn active" onclick="switchTab('tab-bootstrap-form')">1. Bootstrap 5 (Estilo Prático)</button>
+            <button class="tab-btn" onclick="switchTab('tab-jquery-dom')">2. jQuery (Acessando o DOM)</button>
+            <button class="tab-btn" onclick="switchTab('tab-jquery-cep')">3. Consulta CEP (ViaCEP)</button>
+            <button class="tab-btn" onclick="switchTab('tab-localstorage')">4. LocalStorage (Persistência)</button>
           </div>
 
-          <div id="tab-html-base" class="tab-content active">
-            <pre><code><span class="cm">&lt;!-- Estrutura Semântica Base trabalhada em PI-1 --&gt;</span>
-&lt;<span class="kw">form</span> id=<span class="str">"form-cliente"</span>&gt;
-  &lt;<span class="kw">label</span> for=<span class="str">"nome"</span>&gt;Nome Completo:&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"nome"</span> required&gt;
+          <div id="tab-bootstrap-form" class="tab-content active">
+            <pre><code><span class="cm">&lt;!-- Criando formulário rápido no Bootstrap 5 --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"col-md-6"</span>&gt;
+    &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
+    &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> id=<span class="str">"nome"</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"col-md-6"</span>&gt;
+    &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> class=<span class="str">"btn btn-success"</span>&gt;Cadastrar&lt;/<span class="kw">button</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-jquery-dom" class="tab-content">
+            <pre><code><span class="cm">// Lendo input e reagindo a cliques com jQuery</span>
+$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>(); <span class="cm">// Evita recarregar a página</span>
   
-  &lt;<span class="kw">label</span> for=<span class="str">"cep"</span>&gt;CEP:&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"cep"</span> maxlength=<span class="str">"9"</span>&gt;
-&lt;/<span class="kw">form</span>&gt;</code></pre>
+  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê o input de nome</span>
+  console.<span class="fn">log</span>(<span class="str">'Nome cadastrado:'</span>, nome);
+});</code></pre>
           </div>
 
           <div id="tab-jquery-cep" class="tab-content">
-            <pre><code><span class="cm">// Busca de CEP simples usando jQuery $.getJSON (Novo em PI-2)</span>
+            <pre><code><span class="cm">// Consulta de CEP simples via jQuery $.getJSON</span>
 $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">'blur'</span>, <span class="kw">function</span>() {
   <span class="kw">const</span> cep = $(<span class="str">'#cep'</span>).<span class="fn">val</span>().<span class="fn">replace</span>(<span class="str">/\D/g</span>, <span class="str">''</span>);
   
@@ -635,29 +674,13 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
       .<span class="fn">done</span>(<span class="kw">function</span>(dados) {
         $(<span class="str">'#logradouro'</span>).<span class="fn">val</span>(dados.logradouro || <span class="str">''</span>);
         $(<span class="str">'#cidade'</span>).<span class="fn">val</span>(dados.localidade || <span class="str">''</span>);
-        $(<span class="str">'#uf'</span>).<span class="fn">val</span>(dados.uf || <span class="str">''</span>);
       });
   }
 });</code></pre>
           </div>
 
-          <div id="tab-fetch-async" class="tab-content">
-            <pre><code><span class="cm">// Busca de CEP usando a Fetch API com Async/Await</span>
-<span class="kw">async function</span> <span class="fn">buscarCep</span>(cep) {
-  <span class="kw">try</span> {
-    <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`https://viacep.com.br/ws/${cep}/json/`</span>);
-    <span class="kw">const</span> dados = <span class="kw">await</span> response.<span class="fn">json</span>();
-    
-    document.<span class="fn">querySelector</span>(<span class="str">'#logradouro'</span>).value = dados.logradouro || <span class="str">''</span>;
-    document.<span class="fn">querySelector</span>(<span class="str">'#cidade'</span>).value = dados.localidade || <span class="str">''</span>;
-  } <span class="kw">catch</span> (erro) {
-    console.<span class="fn">error</span>(<span class="str">'Erro ao consultar o CEP'</span>, erro);
-  }
-}</code></pre>
-          </div>
-
-          <div id="tab-storage" class="tab-content">
-            <pre><code><span class="cm">// Persistência de estado local com LocalStorage</span>
+          <div id="tab-localstorage" class="tab-content">
+            <pre><code><span class="cm">// Persistência de dados com LocalStorage</span>
 <span class="kw">function</span> <span class="fn">salvarCliente</span>(novoCliente) {
   <span class="kw">let</span> lista = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];
   lista.<span class="fn">push</span>(novoCliente);
@@ -669,21 +692,21 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
 
       <!-- SLIDE 8: Checklist da Aula -->
       <section class="slide" id="slide-8">
-        <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade da Aula)</h2>
+        <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade em Aula)</h2>
         <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e execute os passos no VS Code:</p>
 
         <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> e analisar os links de Bootstrap 5 e jQuery no <code>index.html</code>.</div>
+            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> e observar o formulário estilizado com Bootstrap 5.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">2. Digitar o CEP <code>88495000</code> e conferir o autocompletar automático do endereço via ViaCEP.</div>
+            <div class="check-text">2. Digitar o CEP <code>88495000</code> e observar o preenchimento automático via jQuery e API ViaCEP.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar 2 clientes e verificar a tabela dinâmica formatada com classes do Bootstrap (<code>table table-hover</code>).</div>
+            <div class="check-text">3. Cadastrar 2 clientes e conferir as linhas sendo inseridas na tabela formatada.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
@@ -691,7 +714,7 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">🔥 <strong>Desafio Extra com jQuery:</strong> Testar a busca por nome digitando no campo de filtro acima da tabela!</div>
+            <div class="check-text">🔥 <strong>Desafio Extra com jQuery:</strong> Testar o filtro por nome digitando no campo de busca acima da tabela!</div>
           </div>
         </div>
       </section>
@@ -701,10 +724,10 @@ $(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 850px; margin: 0 auto;">
           <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🚀</div>
           <h2 class="slide-title" style="font-size: 2.8rem; justify-content: center;">
-            Excelente Transição!
+            Excelente Transição para ProgWeb 2!
           </h2>
           <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
-            Com a ponte entre os conceitos fundamentais de PI-1 e os avanços de Fetch API, Bootstrap 5 e jQuery consolidada, estamos prontos para avançar no <strong>Módulo 2: ES6 Modules & Arquitetura Limpa no Frontend</strong>!
+            Com os conceitos de ProgWeb 1 revisados e os fundamentos de Bootstrap 5, jQuery e consumo de APIs consolidados, estamos prontos para avançar no <strong>Módulo 2: ES6 Modules & Arquitetura Limpa no Frontend</strong>!
           </p>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">

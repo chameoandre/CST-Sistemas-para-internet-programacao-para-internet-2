@@ -1,8 +1,8 @@
 % =====================================================
-% ROTEIRO PRÁTICO 01 — PROGRAMAÇÃO PARA A INTERNET II
+% ROTEIRO PRÁTICO 01 — PROGRAMAÇÃO PARA A INTERNET 2
 % =====================================================
 
-\section{Roteiro Prático 01 — Retomada e Transição: De PI-I às APIs Assíncronas, Bootstrap 5 e jQuery}
+\section{Roteiro Prático 01 — Retomada e Transição de ProgWeb 1 para ProgWeb 2}
 
 % =====================================================
 % OBJETIVOS
@@ -14,11 +14,11 @@
 Ao final desta aula o estudante será capaz de:
 
 \begin{itemize}
-\item Conectar a base de HTML5, CSS3 e DOM construída em PI-I com o avanço do desenvolvimento web em PI-II;
-\item Compreender o papel da \texttt{Fetch API} e das requisições assíncronas na criação de aplicações web conectadas;
-\item Utilizar componentes e o sistema de grid do \texttt{Bootstrap 5} para estilização responsiva ágil;
-\item Empregar a biblioteca \texttt{jQuery} para simplificação da manipulação do DOM e requisições \texttt{\textdollar.getJSON()};
-\item Desenvolver uma aplicação web integrada com autocompletar de CEP (ViaCEP) e persistência em \texttt{localStorage}.
+\item Conectar a base de HTML5 semântico, CSS3 e DOM desenvolvida em \textbf{ProgWeb 1} com a evolução de \textbf{ProgWeb 2};
+\item Compreender o alinhamento das competências do semestre com o Projeto Pedagógico do Curso (\textbf{PPC} de 120h);
+\item Aplicar o \textbf{Bootstrap 5} para estilizar elementos visuais e componentes de forma simples e ágil;
+\item Utilizar o \textbf{jQuery} para selecionar elementos do DOM (\texttt{\textdollar('\#id')}) e reagir a eventos do usuário;
+\item Realizar consultas assíncronas simples a APIs públicas (\texttt{\textdollar.getJSON} / ViaCEP) e persistir dados no \texttt{localStorage}.
 \end{itemize}
 \end{boxObjetivos}
 
@@ -28,28 +28,28 @@ Ao final desta aula o estudante será capaz de:
 
 \subsection{Introdução}
 
-Bem-vindos à disciplina de \textbf{Programação para a Internet II}!
+Bem-vindos à disciplina de \textbf{Programação para a Internet 2 (ProgWeb 2)}!
 
-Neste primeiro encontro, construímos uma ponte direta entre os conceitos trabalhados no semestre anterior (HTML5 semântico, CSS3, Flexbox/Grid e seleções básicas do DOM) e a evolução para aplicações web dinâmicas. Desmistificamos a **Fetch API / requisições assíncronas** e apresentamos o **Bootstrap 5** e o **jQuery** como ferramentas de aceleração.
+Neste primeiro encontro, construímos uma transição didática entre a base de **ProgWeb 1** e os novos recursos do semestre. Iniciamos de forma simples: primeiro observando a transformação visual imediata dos elementos da página com o **Bootstrap 5**, em seguida manipulando o DOM de forma intuitiva com o **jQuery**, para então conectarmos a aplicação a dados reais via requisições HTTP (**Fetch API / ViaCEP**).
 
-O trabalho é guiado pela \textbf{Apresentação Interativa de Transição} projetada em sala (\texttt{retomada-de-atividades-pi2/index.html}) e pela execução do projeto prático em \texttt{exercicio-retomada/}.
+O trabalho é guiado pela \textbf{Apresentação Interativa de Transição} projetada em sala (\texttt{retomada-de-atividades-pi2/index.html}) e pela execução do projeto prático na pasta \texttt{exercicio-retomada/}.
 
 % =====================================================
 % PARTE 1
 % =====================================================
 
-\subsection{Parte 1 — Apresentação Interativa de Transição (25 minutos)}
+\subsection{Parte 1 — Apresentação Interativa e Alinhamento com o PPC (25 minutos)}
 
-\begin{boxAtividade}[{Atividade 1 -- Projeção da Apresentação de Slides (retomada-de-atividades-pi2/index.html)}]
+\begin{boxAtividade}[{Atividade 1 -- Projeção dos Slides de Transição (retomada-de-atividades-pi2/index.html)}]
 
 Acompanhamento da apresentação em slides dinâmicos:
 
 \begin{enumerate}
-\item \textbf{A Jornada de PI-I (Slide 2):} Recapitulação de HTML5 semântico, CSS3, responsividade e versionamento no Git/GitHub;
-\item \textbf{Do Estático ao Reativo (Slide 3):} O papel da manipulação do DOM e da escuta de eventos na interatividade;
-\item \textbf{A Virada de Chave -- Fetch API (Slide 4):} Desmistificação da Fetch API com a Metáfora do Garçom e envio/recebimento de dados JSON;
-\item \textbf{Ferramentas de Aceleração (Slide 5):} Apresentação do Bootstrap 5 (grid e componentes) e do jQuery (sintaxe \texttt{\textdollar()} e \texttt{\textdollar.getJSON()});
-\item \textbf{Roadmap do Semestre (Slide 6):} Visão geral da evolução em 5 módulos até o uso de ferramentas modernas como Vite e React.
+\item \textbf{A Base de ProgWeb 1 (Slide 2):} Recapitulação da estrutura HTML5 semântica, CSS3, Flexbox/Grid e seletores do DOM;
+\item \textbf{Alinhamento com o PPC (Slide 3):} Apresentação da ementa oficial do curso (120h) focada em frameworks CSS/JS, comunicação com APIs REST e padrões frontend;
+\item \textbf{Estilização Simples com Bootstrap 5 (Slide 4):} Observação do efeito imediato das classes visuais (\texttt{.form-control}, \texttt{.btn-success}, \texttt{.card}, \texttt{.table});
+\item \textbf{DOM Fácil com jQuery (Slide 5):} Introdução gradual aos seletores \texttt{\textdollar('\#id')} e eventos antes da introdução de chamadas assíncronas;
+\item \textbf{A Virada para APIs (Slide 6):} Explicação da Fetch API com a Metáfora do Garçom e requisição ao ViaCEP.
 \end{enumerate}
 
 \end{boxAtividade}
@@ -58,17 +58,17 @@ Acompanhamento da apresentação em slides dinâmicos:
 % PARTE 2
 % =====================================================
 
-\subsection{Parte 2 — Tarefa Prática: Dashboard com Bootstrap 5, jQuery e ViaCEP (50 minutos)}
+\subsection{Parte 2 — Tarefa Prática: Estilização, Manipulação do DOM e ViaCEP (50 minutos)}
 
 \begin{boxAtividade}[{Atividade 2 -- Execução na Pasta exercicio-retomada/}]
 
 Na pasta \texttt{exercicio-retomada/}, os estudantes deverão construir/completar a aplicação web:
 
 \begin{enumerate}
-\item \textbf{Estrutura Bootstrap 5:} Incluir as dependências via CDN no \texttt{index.html} e utilizar formulários e tabela estilizada do Bootstrap;
-\item \textbf{Busca Assíncrona de CEP:} Implementar a chamada à API ViaCEP via \texttt{\textdollar.getJSON()} no \texttt{app.js};
-\item \textbf{Persistência com LocalStorage:} Salvar os dados do cliente no \texttt{localStorage} (\texttt{JSON.stringify}) e renderizar na tabela via jQuery;
-\item \textbf{Exclusão Individual:} Permitir remover registros salvos atualizando a tabela e o \texttt{localStorage}.
+\item \textbf{Estilização com Bootstrap 5:} Aplicar as classes de formulário e tabela do Bootstrap no \texttt{index.html} e observar o resultado visual;
+\item \textbf{Seleção e Eventos com jQuery:} No arquivo \texttt{app.js}, capturar o input de CEP e os eventos de clique do formulário utilizando \texttt{\textdollar('\#id')};
+\item \textbf{Busca de CEP Assíncrona:} Conectar a chamada à API ViaCEP via \texttt{\textdollar.getJSON()};
+\item \textbf{Persistência em LocalStorage:} Salvar os dados do cliente (\texttt{JSON.stringify}) e permitir a exclusão de registros.
 \end{enumerate}
 
 \end{boxAtividade}
@@ -77,14 +77,14 @@ Na pasta \texttt{exercicio-retomada/}, os estudantes deverão construir/completa
 % PARTE 3
 % =====================================================
 
-\subsection{Parte 3 — Desafio Extra: Filtro Dinâmico com jQuery (25 minutos)}
+\subsection{Parte 3 — Desafio Extra: Filtro em Tempo Real com jQuery (25 minutos)}
 
-\begin{boxAtividade}[{Atividade 3 -- Filtro por Nome em Tempo Real}]
+\begin{boxAtividade}[{Atividade 3 -- Filtro por Nome na Tabela}]
 
 Como atividade de aprimoramento em sala:
 
 \begin{enumerate}
-\item Adicionar um campo de busca por nome sobre a tabela de clientes (\texttt{\textdollar('\#filtro-nome')});
+\item Criar um campo de busca por nome acima da tabela (\texttt{\textdollar('\#filtro-nome')});
 \item Implementar o evento \texttt{input} do jQuery para filtrar dinamicamente as linhas exibidas à medida que o usuário digita.
 \end{enumerate}
 
@@ -101,10 +101,10 @@ Como atividade de aprimoramento em sala:
 Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de aceitação:
 
 \begin{itemize}
-\item O projeto faz uso das classes de grid e formulário do Bootstrap 5;
-\item A busca de CEP é assíncrona e preenche a rua, bairro, cidade e UF sem recarregar a página;
-\item O cadastro insere o cliente na tabela dinâmica usando jQuery;
-\item Os dados persistem no \texttt{localStorage} mesmo após fechar ou recarregar o navegador (\texttt{F5});
+\item A página utiliza as classes de formulário, botões e tabela do Bootstrap 5;
+\item O jQuery é utilizado para selecionar elementos do DOM (\texttt{\textdollar}) e reagir a eventos do usuário;
+\item A busca de CEP é assíncrona (\texttt{\textdollar.getJSON}) e preenche a rua, bairro, cidade e UF sem recarregar a página;
+\item Os dados persistem no \texttt{localStorage} mesmo após recarregar a página (\texttt{F5});
 \item O filtro por nome e o botão de exclusão funcionam perfeitamente.
 \end{itemize}
 
@@ -116,4 +116,4 @@ Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de
 
 \subsection*{Reflexão Técnica}
 
-A transição da web estática (HTML/CSS) para o desenvolvimento de aplicações conectadas é marcada pela compreensão do assincronismo. Dominar a integração entre bibliotecas visuais (Bootstrap 5), manipuladores ágeis (jQuery) e consumo de APIs externas (Fetch API / \texttt{\textdollar.getJSON}) é o alicerce para construir arquiteturas profissionais no cliente!
+A transição de ProgWeb 1 para ProgWeb 2 ganha ritmo ao combinarmos a simplicidade de estilização do Bootstrap 5 com a agilidade de manipulação do jQuery e o poder de integração das APIs assíncronas. Esse aprendizado gradual constrói a base sólida recomendada pelo PPC para avançarmos rumo aos módulos de ES6 Modules e bibliotecas de interface reativa!
