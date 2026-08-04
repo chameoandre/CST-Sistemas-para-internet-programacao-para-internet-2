@@ -1,0 +1,204 @@
+\documentclass[12pt,a4paper]{article}
+
+% =====================================================
+% PACOTES E CONFIGURAÇÕES DE PÁGINA
+% =====================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil,shorthands=off]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{newtxtext,newtxmath}
+\usepackage[most]{tcolorbox}
+\usepackage{qrcode}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{colortbl}
+\usetikzlibrary{arrows.meta, positioning}
+
+\geometry{
+    top=2.5cm,
+    bottom=3cm,
+    left=1.5cm,
+    right=1.5cm
+}
+
+\onehalfspacing
+
+% =====================================================
+% CORES PERSONALIZADAS (PADRÃO INSTITUCIONAL IFSC)
+% =====================================================
+\definecolor{azulObjetivos}{RGB}{30,60,90}
+\definecolor{cinzaCodigo}{RGB}{245,245,245}
+\definecolor{vermelhoCodigo}{RGB}{180,50,50}
+\definecolor{pretoTabela}{RGB}{0,0,0}
+\definecolor{cinzaTabela}{RGB}{235,235,235}
+\definecolor{mostarda}{RGB}{204,153,0}
+\definecolor{azulTitulo}{RGB}{30,60,90}
+
+% =====================================================
+% BOX VISUALS
+% =====================================================
+\newtcolorbox{boxObjetivos}{
+    colback=azulObjetivos!10,
+    colframe=azulObjetivos,
+    boxrule=1pt,
+    arc=4pt,
+    left=6pt,
+    right=6pt,
+    top=6pt,
+    bottom=6pt,
+    title=Objetivos
+}
+
+\newtcolorbox{boxCodigo}{
+    breakable,
+    colback=cinzaCodigo,
+    colframe=vermelhoCodigo,
+    boxrule=0.8pt,
+    arc=2pt,
+    left=6pt,
+    right=6pt,
+    top=6pt,
+    bottom=6pt,
+    borderline={0.5pt}{0pt}{vermelhoCodigo,dashed}
+}
+
+\newtcolorbox{boxAtividade}[1][]{
+    breakable,
+    enhanced,
+    colback=azulTitulo!5,
+    colframe=azulTitulo,
+    boxrule=0pt,
+    arc=6pt,
+    outer arc=6pt,
+    boxsep=0pt,
+    left=14pt,
+    right=14pt,
+    top=16pt,
+    bottom=14pt,
+    title={{#1}},
+    coltitle=white,
+    colbacktitle=azulTitulo,
+    fonttitle=\bfseries,
+    attach boxed title to top left={
+        yshift=-3mm,
+        xshift=6mm
+    },
+    boxed title style={
+        sharp corners,
+        boxrule=0pt
+    }
+}
+
+\newtcolorbox{boxDica}{
+    colback=blue!5,
+    colframe=azulTitulo,
+    title=\textbf{Dicas Úteis},
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.8pt
+}
+
+\newtcolorbox{boxTabela}{
+    colback=cinzaTabela,
+    colframe=pretoTabela,
+    boxrule=0.8pt,
+    arc=2pt,
+    left=4pt,
+    right=4pt,
+    top=4pt,
+    bottom=4pt
+}
+
+\newcommand{\RepositorioQRCode}[2]{
+\begin{tcolorbox}[
+    colback=gray!5,
+    colframe=black!40,
+    title=Material do repositório,
+    fonttitle=\bfseries,
+    arc=3pt,
+    boxrule=0.5pt
+]
+\begin{minipage}{0.7\textwidth}
+Acesse o repositório oficial desta unidade curricular:
+
+\url{#1}
+
+\end{minipage}
+\begin{minipage}{0.25\textwidth}
+\centering
+\qrcode[height=2.0cm]{#2}
+\end{minipage}
+\end{tcolorbox}
+}
+
+% =====================================================
+% ESTILOS DE SEÇÃO
+% =====================================================
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{azulTitulo}}
+{\thesection}
+{1em}
+{}
+[\vspace{0.3cm}\hrule]
+
+\titleformat{\subsection}
+{\normalfont\bfseries}
+{}
+{0em}
+{}
+[\vspace{0.2cm}\hrule]
+
+% =====================================================
+% CABEÇALHO E RODAPÉ
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{
+\includegraphics[height=1.8cm]{figures/garopaba_horizontal_marca2015_PNG.png}
+}
+
+\fancyhead[R]{
+\textbf{UC – Programação para a Internet II}\\
+Docente: Prof. André Moraes\\
+\textbf{CST em Sistemas para a Internet}
+}
+
+\fancyfoot[L]{\small\textit{\leftmark}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small Página \thepage}
+\renewcommand{\footrulewidth}{2.4pt}
+
+\setlength{\headheight}{45pt}
+
+% =====================================================
+% DOCUMENTO PRINCIPAL
+% =====================================================
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{PROGRAMAÇÃO PARA A INTERNET II}}\\
+    Caderno de Roteiros Práticos da Unidade Curricular\\
+    Curso Superior de Tecnologia em Sistemas para a Internet — IFSC Garopaba
+\end{center}
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.8cm}
+
+\tableofcontents
+\newpage
+
+\input{visao-geral/main.tex}
+\newpage
+\input{roteiro-1/main.tex}
+
+\end{document}

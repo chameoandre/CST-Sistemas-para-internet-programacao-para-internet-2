@@ -1,0 +1,94 @@
+% =====================================================
+% VISÃO GERAL DA DISCIPLINA — PROGRAMAÇÃO PARA A INTERNET II
+% =====================================================
+\section{Visão Geral da Unidade Curricular}
+
+A Unidade Curricular de \textbf{Programação para a Internet II} tem como objetivo aprofundar os conhecimentos adquiridos na disciplina antecedente (Programação para a Internet I), evoluindo o desenvolvimento frontend básico em HTML5, CSS3 e JavaScript Vanilla para a construção de \textbf{Aplicações Web Modernas, Reativas, Modulares e Integradas a Serviços Web RESTful}.
+
+Ao longo do semestre, os estudantes irão desenvolver competências avançadas em arquitetura de código client-side, modularização com ES6 Modules, manipulação avançada de estado no cliente, consumo de APIs assíncronas, roteamento no cliente (Single Page Applications — SPAs) e introdução a ferramentas modernas de build e bibliotecas de interface (Vite e React/Vue).
+
+\subsection*{Estrutura do Semestre}
+
+O semestre está organizado em 5 módulos estruturantes de aprendizagem prática:
+
+\begin{enumerate}
+    \item \textbf{Retomada e Diagnóstico (Revisão de PI-I)} \\
+    Revisão prática de manipulação do DOM, eventos, assincronismo com \texttt{async/await}, Fetch API e armazenamento com \texttt{localStorage}.
+
+    \item \textbf{Arquitetura Modular e ES6 Modules} \\
+    Organização profissional de código frontend, separação de responsabilidades em serviços, componentes e manipuladores de eventos.
+
+    \item \textbf{Gestão Avançada de Estado e Formulários Reativos} \\
+    Persistência no navegador, validações avançadas no cliente, tratamento rigoroso de erros e experiência do usuário (UX).
+
+    \item \textbf{Consumo de APIs RESTful e Desenvolvimento de SPAs} \\
+    Construção de Single Page Applications com roteamento client-side sem recarregamento de página e integração com rotas de backend.
+
+    \item \textbf{Introdução a Ecossistemas Modernos e Projeto Final} \\
+    Uso de bundlers (\texttt{Vite}), introdução à componentização reativa e entrega de um projeto Web completo de final de semestre.
+\end{enumerate}
+
+% =====================================================
+% PIPELINE DA DISCIPLINA
+% =====================================================
+\begin{figure}[H]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    node distance=1.4cm and 1.0cm,
+    every node/.style={font=\small},
+    etapa/.style={
+        rectangle,
+        rounded corners=6pt,
+        draw=azulTitulo,
+        thick,
+        minimum width=3.2cm,
+        minimum height=1.55cm,
+        text width=3.2cm,
+        align=center,
+        fill=azulTitulo!5
+    },
+    seta/.style={
+        -{Latex[length=2.2mm]},
+        thick,
+        draw=azulTitulo
+    }
+]
+
+\node[etapa] (e1) {\textbf{1. Retomada}\\Revisão DOM, Fetch\\e LocalStorage};
+
+\node[etapa, right=of e1] (e2) {\textbf{2. Módulos ES6}\\Arquitetura limpa\\Separação em camadas};
+
+\node[etapa, right=of e2] (e3) {\textbf{3. Estado \& Forms}\\Validação reativa\\Gestão de estado local};
+
+\node[etapa, right=of e3] (e4) {\textbf{4. SPAs \& REST}\\Consumo de APIs\\Roteamento client-side};
+
+\node[etapa, right=of e4] (e5) {\textbf{5. Projeto Final}\\Vite / Frameworks\\Aplicação Web Completa};
+
+\draw[seta] (e1) -- (e2);
+\draw[seta] (e2) -- (e3);
+\draw[seta] (e3) -- (e4);
+\draw[seta] (e4) -- (e5);
+
+\end{tikzpicture}%
+}
+\caption{Pipeline de aprendizagem da UC Programação para a Internet II.}
+\end{figure}
+
+\subsection*{Competências Desenvolvidas}
+
+Ao final da disciplina, o estudante deverá ser capaz de:
+
+\begin{itemize}
+    \item Construir interfaces web altamente dinâmicas e responsivas;
+    \item Estruturar aplicações JavaScript utilizando arquitetura modular em ES6 Modules;
+    \item Consumir e manipular dados de serviços Web RESTful usando \texttt{fetch} e \texttt{async/await};
+    \item Gerenciar estado local e persistência no cliente via Web Storage API;
+    \item Implementar padrões de projeto de Single Page Application (SPA);
+    \item Utilizar ferramentas modernas de ambiente de desenvolvimento web (\texttt{Node.js}, \texttt{npm}, \texttt{Vite});
+    \item Publicar e versionar aplicações web profissionais no GitHub e GitHub Pages.
+\end{itemize}
+
+\subsection*{Metodologia de Avaliação}
+
+A avaliação será continuada e baseada na entrega de roteiros práticos semanais, avaliações de desempenho prático em laboratório e no desenvolvimento de um Projeto Web Integrador entregue e apresentado ao final do semestre.

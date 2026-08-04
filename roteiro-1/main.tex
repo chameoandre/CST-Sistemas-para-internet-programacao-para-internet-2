@@ -1,0 +1,128 @@
+% =====================================================
+% ROTEIRO PRÁTICO 01 — PROGRAMAÇÃO PARA A INTERNET II
+% =====================================================
+
+\section{Roteiro Prático 01 — Retomada de Conteúdos: DOM, Assincronismo e Persistência Local}
+
+% =====================================================
+% OBJETIVOS
+% =====================================================
+
+\begin{boxObjetivos}
+\textbf{Objetivos da Aula}
+
+Ao final desta aula o estudante será capaz de:
+
+\begin{itemize}
+\item Reativar os conceitos fundamentais de HTML5 semântico e CSS3 (Flexbox/Grid);
+\item Manipular a árvore DOM e gerenciar eventos de formulário dinamicamente com JavaScript ES6+;
+\item Realizar requisições assíncronas a APIs REST públicas utilizando \texttt{fetch} e \texttt{async/await};
+\item Persistir, recuperar e remover dados no navegador utilizando a \texttt{localStorage API};
+\item Desenvolver uma aplicação web completa de gestão e consulta integrada.
+\end{itemize}
+\end{boxObjetivos}
+
+% =====================================================
+% INTRODUÇÃO
+% =====================================================
+
+\subsection{Introdução}
+
+Bem-vindos à disciplina de \textbf{Programação para a Internet II}!
+
+Neste primeiro encontro, faremos uma revisão prática intensiva das competências trabalhadas no semestre anterior (PI-I). O objetivo é garantir que toda a turma domine com segurança a tríade essencial do desenvolvimento web frontend client-side: \textbf{HTML5 Semântico}, \textbf{CSS3 Responsivo} e \textbf{JavaScript Assíncrono (DOM + Fetch + LocalStorage)}.
+
+Para este exercício inicial de retomada, vocês irão construir o \textbf{Dashboard de Cadastro de Clientes e Consulta Integrada de Endereços}, localizado na pasta \texttt{exercicio-retomada/}.
+
+% =====================================================
+% PARTE 1
+% =====================================================
+
+\subsection{Parte 1 — Revisão Conceitual e Estrutura Inicial (30 minutos)}
+
+\begin{boxAtividade}[{Atividade 1 -- Organização do Projeto e Interface HTML5}]
+
+Cada estudante deverá criar/acessar a pasta \texttt{exercicio-retomada/} e estruturar a interface base da aplicação:
+
+\begin{enumerate}
+\item Criar a estrutura de arquivos: \texttt{index.html}, \texttt{styles.css} e \texttt{app.js};
+\item No arquivo \texttt{index.html}, estruturar um documento semântico contendo:
+  \begin{itemize}
+      \item Cabeçalho institucional (\texttt{<header>});
+      \item Formulário de cadastro de cliente (\texttt{<form id="form-cliente">}) com campos para Nome, E-mail, CEP, Logradouro, Bairro, Cidade e UF;
+      \item Tabela de listagem dinâmica (\texttt{<table id="tabela-clientes">});
+  \end{itemize}
+\item Vincular corretamente o arquivo CSS externo e a tag \texttt{<script src="app.js" defer></script>}.
+\end{enumerate}
+
+\end{boxAtividade}
+
+% =====================================================
+% PARTE 2
+% =====================================================
+
+\subsection{Parte 2 — Consulta Assíncrona de CEP com Fetch API (35 minutos)}
+
+\begin{boxAtividade}[{Atividade 2 -- Integração com a API ViaCEP}]
+
+No arquivo \texttt{app.js}, implementar a função assíncrona para buscar o endereço automaticamente a partir do CEP digitado:
+
+\begin{enumerate}
+\item Adicionar um ouvinte de evento (\texttt{addEventListener}) no campo de CEP para o evento \texttt{blur} ou \texttt{input};
+\item Criar uma função \texttt{async function buscarCep(cep)} que consulte o serviço ViaCEP:
+\begin{center}
+\texttt{https://viacep.com.br/ws/\{CEP\}/json/}
+\end{center}
+\item Utilizar \texttt{try/catch} para tratar erros de rede ou CEPs inexistentes;
+\item Preencher automaticamente os campos de Logradouro, Bairro, Cidade e UF no formulário com a resposta JSON retornado.
+\end{enumerate}
+
+\end{boxAtividade}
+
+% =====================================================
+% PARTE 3
+% =====================================================
+
+\subsection{Parte 3 — Manipulação do DOM e Persistência com LocalStorage (35 minutos)}
+
+\begin{boxAtividade}[{Atividade 3 -- Cadastro, Renderização e Persistência}]
+
+Implementar a lógica de cadastro e listagem dinâmica no \texttt{app.js}:
+
+\begin{enumerate}
+\item Capturar o evento \texttt{submit} do formulário (\texttt{e.preventDefault()});
+\item Montar um objeto JavaScript com os dados do cliente e salvá-lo em um array global no \texttt{localStorage} (\texttt{JSON.stringify});
+\item Criar a função \texttt{renderizarTabela()} para atualizar a árvore DOM criando linhas (\texttt{<tr>}) e colunas (\texttt{<td>}) dinamicamente;
+\item Implementar o botão de exclusão para cada cliente cadastrado, atualizando o \texttt{localStorage} e o DOM em tempo real;
+\item Garantir que, ao recarregar a página, a função de carregamento inicial leia o \texttt{localStorage} (\texttt{JSON.parse}) e exiba os dados persistidos.
+\end{enumerate}
+
+\end{boxAtividade}
+
+% =====================================================
+% CHECKLIST
+% =====================================================
+
+\subsection{Checklist Final da Aula}
+
+\begin{boxAtividade}[{Verificação Técnica}]
+
+Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de aceitação:
+
+\begin{itemize}
+\item A página possui marcação HTML5 semântica e estilização CSS responsiva em Flexbox/Grid;
+\item O preenchimento do CEP realiza requisição \texttt{fetch} e autocompleta os campos de endereço sem recarregar a página;
+\item O cadastro adiciona o novo cliente na tabela dinamicamente via manipulação do DOM;
+\item Os dados persistem no \texttt{localStorage} mesmo após fechar ou recarregar o navegador;
+\item A remoção de registros funciona corretamente atualizando o estado persistido.
+\end{itemize}
+
+\end{boxAtividade}
+
+% =====================================================
+% REFLEXÃO TÉCNICA
+% =====================================================
+
+\subsection*{Reflexão Técnica}
+
+Aplicações web modernas fundamentam-se no domínio do assincronismo e na gestão de estado client-side. Dominar a manipulação limpa do DOM, o tratamento de respostas HTTP JSON e a persistência local é o requisito básico para avançarmos em direção aos frameworks reativos (React, Vue) e arquiteturas de Single Page Application (SPA) neste semestre!
