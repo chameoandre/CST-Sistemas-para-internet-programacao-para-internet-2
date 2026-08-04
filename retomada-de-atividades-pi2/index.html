@@ -118,7 +118,7 @@
     .slide {
       position: absolute;
       inset: 0;
-      padding: 2rem 4rem;
+      padding: 1.8rem 3.5rem;
       display: flex;
       flex-direction: column;
       opacity: 0;
@@ -135,9 +135,9 @@
 
     .slide-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
+      font-size: 1.95rem;
       font-weight: 800;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -147,39 +147,39 @@
     }
 
     .slide-subtitle {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.2rem;
       max-width: 980px;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     /* Grids & Cards Layout */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.4rem;
+      gap: 1.2rem;
       flex: 1;
     }
 
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+      gap: 1.1rem;
       flex: 1;
     }
 
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1.1rem;
+      gap: 1rem;
     }
 
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.3rem;
+      padding: 1.2rem;
       display: flex;
       flex-direction: column;
       transition: all 0.3s ease;
@@ -192,20 +192,20 @@
     }
 
     .card-icon {
-      font-size: 1.7rem;
-      margin-bottom: 0.6rem;
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .card h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       margin-bottom: 0.4rem;
       color: #fff;
     }
 
     .card p {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.5;
     }
@@ -215,12 +215,12 @@
       background: rgba(56, 189, 248, 0.15);
       color: var(--accent-blue);
       border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 0.25rem 0.6rem;
+      padding: 0.2rem 0.55rem;
       border-radius: 6px;
       font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
       width: fit-content;
     }
 
@@ -228,6 +228,51 @@
     .card-highlight-blue { border-left: 4px solid var(--accent-blue); }
     .card-highlight-purple { border-left: 4px solid var(--accent-purple); }
     .card-highlight-amber { border-left: 4px solid var(--accent-amber); }
+
+    /* Custom Table for "Para explorar mais..." */
+    .explore-box {
+      background: rgba(11, 16, 29, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.8rem 1rem;
+      margin-top: 0.8rem;
+    }
+
+    .explore-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .explore-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .explore-table th {
+      color: var(--text-muted);
+      text-align: left;
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .explore-table td {
+      padding: 0.35rem 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .explore-table code {
+      font-family: 'Fira Code', monospace;
+      color: var(--accent-blue);
+      font-size: 0.78rem;
+    }
 
     /* Code Tabs */
     .code-tabs {
@@ -360,7 +405,7 @@
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--ifsc-green) 0%, var(--accent-blue) 100%);
-      width: 9.09%;
+      width: 8.33%;
       transition: width 0.3s ease;
     }
 
@@ -437,10 +482,10 @@
           <span class="badge badge-green" style="width: fit-content; margin-bottom: 1.2rem; font-size: 0.9rem;">
             👋 Boas-Vindas a ProgWeb 2!
           </span>
-          <h2 class="slide-title" style="font-size: 3rem; line-height: 1.15; margin-bottom: 1rem;">
+          <h2 class="slide-title" style="font-size: 2.8rem; line-height: 1.15; margin-bottom: 0.8rem;">
             Transição Prática de ProgWeb 1 para ProgWeb 2
           </h2>
-          <p class="slide-subtitle" style="font-size: 1.2rem; line-height: 1.6;">
+          <p class="slide-subtitle" style="font-size: 1.15rem; line-height: 1.6;">
             Sejam bem-vindos! Hoje iniciamos ProgWeb 2 revisando a base de <strong>ProgWeb 1</strong> e introduzindo duas ferramentas fundamentais de produtividade: <strong>Bootstrap 5</strong> (estilização ágil) e <strong>jQuery</strong> (recursos funcionais, estéticos e manipulação simples do DOM).
           </p>
 
@@ -504,7 +549,7 @@
         <div class="grid-2">
           <div class="card card-highlight">
             <h3>🎯 Competências do PPC (Fase 4):</h3>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem;">
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.6rem;">
               <li style="display: flex; gap: 0.8rem;">
                 <span style="color: var(--ifsc-green);">✔️</span>
                 <span><strong>Frameworks & Bibliotecas CSS/JS:</strong> Agilidade de construção de interfaces com ferramentas como Bootstrap e jQuery.</span>
@@ -522,7 +567,7 @@
 
           <div class="card card-highlight-blue">
             <h3>⏱️ Carga Horária & Estrutura:</h3>
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.8rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.6rem;">
               <div style="background: rgba(56, 189, 248, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(56, 189, 248, 0.3);">
                 <strong>Carga Horária Total:</strong> 120 Horas (CST em Sistemas para a Internet).
               </div>
@@ -534,186 +579,386 @@
         </div>
       </section>
 
-      <!-- SLIDE 4: Bootstrap 5 — Layout & Estilização (Exemplos 1 e 2) -->
+      <!-- SLIDE 4: NOVO — Como e Onde Chamar o Bootstrap 5 & jQuery -->
       <section class="slide" id="slide-4">
+        <h2 class="slide-title">📦 Como e Onde Incluir o Bootstrap 5 e o jQuery?</h2>
+        <p class="slide-subtitle">A estrutura correta de inclusão via CDN no HTML e a boa prática de organização de arquivos:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-amber">
+            <h3>1. Onde incluir no Documento HTML5:</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; font-size: 0.88rem;">
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--accent-amber);">🔹</span>
+                <span><strong>Bootstrap CSS:</strong> No <code>&lt;head&gt;</code> para carregar os estilos visuais antes do conteúdo renderizar.</span>
+              </li>
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--accent-amber);">🔹</span>
+                <span><strong>jQuery & Bootstrap JS:</strong> Antes de fechar o <code>&lt;/body&gt;</code> para não travar o carregamento inicial da tela.</span>
+              </li>
+              <li style="display: flex; gap: 0.6rem;">
+                <span style="color: var(--ifsc-green);">💡</span>
+                <span><strong>Arquivo JS Externo (<code>app.js</code>):</strong> É a boa prática profissional recomendada! O código JS fica em <code>app.js</code> separado, evitando scripts espalhados no HTML.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
+            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo de Inclusão no HTML:</h3>
+            <pre style="margin-top: 0.6rem;"><code><span class="cm">&lt;!-- 1. No &lt;head&gt;: Bootstrap 5 CSS --&gt;</span>
+&lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
+
+<span class="cm">&lt;!-- 2. Antes de fechar &lt;/body&gt;: jQuery + Script Externo app.js --&gt;</span>
+&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
+&lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Bootstrap 5 — Layout & Estilização (Exemplos 1 e 2) -->
+      <section class="slide" id="slide-5">
         <h2 class="slide-title">🎨 Bootstrap 5: Recursos de Layout & Formulários</h2>
         <p class="slide-subtitle">Como estilizar elementos visuais da página observando o efeito imediato das classes:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-purple">
-            <span class="example-tag">Exemplo 1</span>
-            <h3>Grid Responsivo & Containers</h3>
-            <p style="margin-bottom: 0.8rem;">Em vez de criar regras CSS manuais, usamos o sistema de 12 colunas do Bootstrap:</p>
-            <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
+          <div>
+            <div class="card card-highlight-purple mb-3">
+              <span class="example-tag">Exemplo 1</span>
+              <h3>Grid Responsivo & Containers</h3>
+              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-4"</span>&gt;Item 1&lt;/<span class="kw">div</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-8"</span>&gt;Item 2&lt;/<span class="kw">div</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-4"</span>&gt;Item 1&lt;/<span class="kw">div</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-8"</span>&gt;Item 2&lt;/<span class="kw">div</span>&gt;
   &lt;/<span class="kw">div</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
+            </div>
+
+            <div class="card card-highlight-purple">
+              <span class="example-tag">Exemplo 2</span>
+              <h3>Formulários & Inputs</h3>
+              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
+  &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;E-mail&lt;/<span class="kw">label</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"ana@exemplo.com"</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+            </div>
           </div>
 
-          <div class="card card-highlight-purple">
-            <span class="example-tag">Exemplo 2</span>
-            <h3>Formulários & Grupos de Entrada</h3>
-            <p style="margin-bottom: 0.8rem;">Transforme um input comum em um campo moderno com rótulo e borda focada:</p>
-            <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-  &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ana Silva"</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no Bootstrap (Grid & Forms):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Classe / Opção</th>
+                    <th>Descrição & Efeito Visual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>col-12 col-sm-6</code></td>
+                    <td>Ocupa 100% no celular e 50% em telas pequenas (Small 576px).</td>
+                  </tr>
+                  <tr>
+                    <td><code>col-md-4 col-lg-3</code></td>
+                    <td>Ocupa 1/3 da tela em tablets e 1/4 em desktops grandes.</td>
+                  </tr>
+                  <tr>
+                    <td><code>form-control-lg</code></td>
+                    <td>Aumenta a altura e tamanho da fonte do campo input.</td>
+                  </tr>
+                  <tr>
+                    <td><code>form-select</code></td>
+                    <td>Aplica o estilo moderno do Bootstrap em menus <code>&lt;select&gt;</code>.</td>
+                  </tr>
+                  <tr>
+                    <td><code>input-group</code></td>
+                    <td>Junta botões ou ícones diretamente ao lado do campo de texto.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 5: Bootstrap 5 — Componentes Visuais & Utilitários (Exemplos 3 e 4) -->
-      <section class="slide" id="slide-5">
+      <!-- SLIDE 6: Bootstrap 5 — Componentes Visuais & Utilitários (Exemplos 3 e 4) -->
+      <section class="slide" id="slide-6">
         <h2 class="slide-title">🎨 Bootstrap 5: Componentes Visuais & Utilitários</h2>
         <p class="slide-subtitle">Como empacotar conteúdos com cartões, botões e tabelas elegantes:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-purple">
-            <span class="example-tag">Exemplo 3</span>
-            <h3>Cards, Botões & Alertas</h3>
-            <p style="margin-bottom: 0.8rem;">Componentes prontos com cores semânticas (<code>btn-success</code>, <code>alert-danger</code>):</p>
-            <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"alert alert-info"</span>&gt;Cliente ativo!&lt;/<span class="kw">div</span>&gt;
-  &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-check"</span>&gt;&lt;/<span class="kw">i</span>&gt; Salvar&lt;/<span class="kw">button</span>&gt;
+          <div>
+            <div class="card card-highlight-purple mb-3">
+              <span class="example-tag">Exemplo 3</span>
+              <h3>Cards, Botões & Alertas</h3>
+              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"alert alert-success"</span>&gt;Salvo!&lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
-          </div>
+            </div>
 
-          <div class="card card-highlight-purple">
-            <span class="example-tag">Exemplo 4</span>
-            <h3>Tabelas & Utilitários de Espaçamento</h3>
-            <p style="margin-bottom: 0.8rem;">Tabelas estilizadas com margens (<code>mb-3</code>), paddings (<code>p-4</code>) e flexbox (<code>d-flex</code>):</p>
-            <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped"</span>&gt;
-  &lt;<span class="kw">thead</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Ações&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
+            <div class="card card-highlight-purple">
+              <span class="example-tag">Exemplo 4</span>
+              <h3>Tabelas & Utilitários</h3>
+              <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped"</span>&gt;
+  &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
   &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;&lt;/<span class="kw">tbody</span>&gt;
 &lt;/<span class="kw">table</span>&gt;</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no Bootstrap (Componentes & Utilitários):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Classe / Opção</th>
+                    <th>Descrição & Efeito Visual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>btn-outline-danger</code></td>
+                    <td>Cria botão vazado com borda vermelha que preenche ao passar o mouse.</td>
+                  </tr>
+                  <tr>
+                    <td><code>badge bg-primary</code></td>
+                    <td>Cria uma pequena etiqueta colorida para contadores ou status.</td>
+                  </tr>
+                  <tr>
+                    <td><code>shadow-sm / shadow-lg</code></td>
+                    <td>Aplica sombra suave ou pronunciada para dar profundidade de elevação.</td>
+                  </tr>
+                  <tr>
+                    <td><code>p-4 mb-3 mt-2</code></td>
+                    <td>Utilitários de espaçamento: Padding 4, Margin Bottom 3, Margin Top 2.</td>
+                  </tr>
+                  <tr>
+                    <td><code>d-flex justify-content-between</code></td>
+                    <td>Ativa Flexbox e alinha itens nas extremidades da caixa.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 6: jQuery — Recursos Funcionais (Exemplo 5) -->
-      <section class="slide" id="slide-6">
+      <!-- SLIDE 7: jQuery — Recursos Funcionais (Exemplo 5) -->
+      <section class="slide" id="slide-7">
         <h2 class="slide-title">⚡ jQuery: Recursos Funcionais (Seleção & Dados)</h2>
         <p class="slide-subtitle">Aceder e manipular valores do DOM de forma direta e intuitiva com o cifrão <code>$()</code>:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-blue">
-            <span class="example-tag">Exemplo 5</span>
-            <h3>Seletores & Leitura/Escrita de Dados</h3>
-            <p style="margin-top: 0.4rem; margin-bottom: 0.8rem;">O jQuery usa os mesmos seletores CSS para ler e alterar o DOM com métodos simples:</p>
-            <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem;">
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
-                <code>$('#nome').val()</code> ➔ Lê o valor digitado dentro do input
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
-                <code>$('#titulo').text('Novo Título')</code> ➔ Altera o texto visível do elemento
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
-                <code>$('#resultado').html('&lt;b&gt;Ok!&lt;/b&gt;')</code> ➔ Insere HTML internamente
-              </div>
-            </div>
-          </div>
-
-          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
-            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo 5 em Código JS:</h3>
-            <pre style="margin-top: 0.8rem;"><code><span class="cm">// Lendo input e escrevendo em outro elemento com jQuery</span>
+          <div>
+            <div class="card card-highlight-blue mb-3">
+              <span class="example-tag">Exemplo 5</span>
+              <h3>Seletores & Leitura/Escrita no jQuery</h3>
+              <pre><code><span class="cm">// Lendo input e escrevendo em outro elemento</span>
 <span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();
 
 <span class="cm">// Atualiza o texto da mensagem na tela</span>
 $(<span class="str">'#mensagem-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>);</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Seletores & Dados):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método / Seletor</th>
+                    <th>Descrição & Uso no Código</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$('.minha-classe')</code></td>
+                    <td>Seleciona todos os elementos que possuem uma determinada classe CSS.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$('input[type="text"]')</code></td>
+                    <td>Seleciona elementos por atributo HTML (ex: inputs do tipo texto).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(this)</code></td>
+                    <td>Refere-se ao elemento específico que disparou o evento atual.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).attr('disabled', true)</code></td>
+                    <td>Lê ou desabilita atributos HTML de um elemento (ex: desativar botão).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).removeAttr('disabled')</code></td>
+                    <td>Remove um atributo HTML (ex: reativar um botão).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 7: jQuery — Recursos Estéticos (Exemplo 6) -->
-      <section class="slide" id="slide-7">
+      <!-- SLIDE 8: jQuery — Recursos Estéticos (Exemplo 6) -->
+      <section class="slide" id="slide-8">
         <h2 class="slide-title">⚡ jQuery: Recursos Estéticos (Efeitos & Classes CSS)</h2>
         <p class="slide-subtitle">Como criar efeitos visuais, ocultar elementos e alternar classes CSS com animações fluidas:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-blue">
-            <span class="example-tag">Exemplo 6</span>
-            <h3>Efeitos Visuais & Manipulação de Classes</h3>
-            <p style="margin-top: 0.4rem; margin-bottom: 0.8rem;">Animações nativas para mostrar/ocultar mensagens e alternar estados visuais:</p>
-            <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.88rem;">
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
-                <code>$('#alerta').fadeIn()</code> / <code>fadeOut()</code> ➔ Efeito suave de aparecer/desaparecer
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
-                <code>$('#caixa').addClass('alert-success')</code> ➔ Adiciona classe CSS do Bootstrap
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: var(--radius-md);">
-                <code>$('#painel').toggleClass('d-none')</code> ➔ Alterna a exibição visual do painel
-              </div>
-            </div>
-          </div>
-
-          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
-            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo 6 em Código JS:</h3>
-            <pre style="margin-top: 0.8rem;"><code><span class="cm">// Exibindo mensagem com animação fadeIn()</span>
+          <div>
+            <div class="card card-highlight-blue mb-3">
+              <span class="example-tag">Exemplo 6</span>
+              <h3>Efeitos Visuais & Classes CSS no jQuery</h3>
+              <pre><code><span class="cm">// Exibindo alerta com animação fadeIn()</span>
 $(<span class="str">'#mensagem-status'</span>)
   .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
   .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-  .<span class="fn">text</span>(<span class="str">'Operação realizada com sucesso!'</span>)
-  .<span class="fn">fadeIn</span>();</code></pre>
+  .<span class="fn">text</span>(<span class="str">'Salvo com sucesso!'</span>)
+  .<span class="fn">fadeIn</span>(300);</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Efeitos & Efeitos Visuais):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método de Efeito</th>
+                    <th>Descrição & Efeito Visual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).hide() / .show()</code></td>
+                    <td>Oculta ou exibe o elemento instantaneamente na tela.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideUp() / .slideDown()</code></td>
+                    <td>Efeito de deslizar para cima (recolher) ou deslizar para baixo (expandir).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideToggle()</code></td>
+                    <td>Alterna entre deslizar para cima e para baixo a cada clique.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).toggleClass('d-none')</code></td>
+                    <td>Alterna a presença de uma classe CSS (adiciona se não tiver, remove se tiver).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 8: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 7 e 8) -->
-      <section class="slide" id="slide-8">
+      <!-- SLIDE 9: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 7 e 8) -->
+      <section class="slide" id="slide-9">
         <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
         <p class="slide-subtitle">Escuta de eventos, inserção dinâmica de elementos no DOM e persistência local:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-blue">
-            <span class="example-tag">Exemplo 7</span>
-            <h3>Eventos & Inserção Dinâmica no DOM</h3>
-            <p style="margin-bottom: 0.8rem;">Escutar cliques e formulários para adicionar linhas na tabela dinamicamente:</p>
-            <pre><code>$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+          <div>
+            <div class="card card-highlight-blue mb-2">
+              <span class="example-tag">Exemplo 7</span>
+              <h3>Eventos & Inserção no DOM</h3>
+              <pre><code>$(<span class="str">'#form'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
   e.<span class="fn">preventDefault</span>();
   <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(<span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;/tr&gt;`</span>);
+  $(<span class="str">'#tabela'</span>).<span class="fn">append</span>(<span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;/tr&gt;`</span>);
 });</code></pre>
+            </div>
+
+            <div class="card card-highlight-amber">
+              <span class="example-tag">Exemplo 8</span>
+              <h3>Persistência no LocalStorage</h3>
+              <pre><code>localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
+<span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
+            </div>
           </div>
 
-          <div class="card card-highlight-amber">
-            <span class="example-tag">Exemplo 8</span>
-            <h3>Persistindo Dados Locais (LocalStorage)</h3>
-            <p style="margin-bottom: 0.8rem;">Gravar e ler a lista de clientes no navegador para não perder dados ao dar F5:</p>
-            <pre><code><span class="cm">// Salvar lista no LocalStorage</span>
-localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
-
-<span class="cm">// Ler lista do LocalStorage ao abrir</span>
-<span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Manipulação do DOM):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método DOM</th>
+                    <th>Descrição & Uso no Código</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).append(html)</code></td>
+                    <td>Insere novo conteúdo HTML no final do elemento selecionado.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).prepend(html)</code></td>
+                    <td>Insere novo conteúdo HTML no início do elemento selecionado.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).empty()</code></td>
+                    <td>Remove todo o conteúdo interno do elemento (útil para limpar tabelas).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).remove()</code></td>
+                    <td>Remove o próprio elemento e seus filhos da árvore DOM.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(this).closest('tr')</code></td>
+                    <td>Sobe na árvore DOM até encontrar a linha <code>&lt;tr&gt;</code> pai mais próxima.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 9: Guia Interativo de Código -->
-      <section class="slide" id="slide-9">
+      <!-- SLIDE 10: Guia Interativo de Código -->
+      <section class="slide" id="slide-10">
         <h2 class="slide-title">💻 Guia Interativo de Código (Exemplos 1 a 8)</h2>
         <p class="slide-subtitle">Use as abas abaixo para consultar e referenciar qualquer um dos 8 exemplos durante a aula:</p>
 
         <div class="code-tabs">
           <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-ex1')">Exemplo 1 (Grid BS5)</button>
+            <button class="tab-btn active" onclick="switchTab('tab-cdn')">Guia de Inclusão CDN</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex1')">Exemplo 1 (Grid BS5)</button>
             <button class="tab-btn" onclick="switchTab('tab-ex2')">Exemplo 2 (Forms BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex3')">Exemplo 3 (Cards/Alerts BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex4')">Exemplo 4 (Tabelas BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex3')">Exemplo 3 (Cards/Alerts)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex4')">Exemplo 4 (Tabelas)</button>
             <button class="tab-btn" onclick="switchTab('tab-ex5')">Exemplo 5 (Seletores jQ)</button>
             <button class="tab-btn" onclick="switchTab('tab-ex6')">Exemplo 6 (Efeitos jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex7')">Exemplo 7 (Eventos/DOM jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex7')">Exemplo 7 (Eventos/DOM)</button>
             <button class="tab-btn" onclick="switchTab('tab-ex8')">Exemplo 8 (LocalStorage)</button>
           </div>
 
-          <div id="tab-ex1" class="tab-content active">
+          <div id="tab-cdn" class="tab-content active">
+            <pre><code><span class="cm">&lt;!-- Estrutura Recomendada de Inclusão de Dependências --&gt;</span>
+&lt;<span class="kw">head</span>&gt;
+  &lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
+&lt;/<span class="kw">head</span>&gt;
+&lt;<span class="kw">body</span>&gt;
+  <span class="cm">&lt;!-- Conteúdo da página --&gt;</span>
+
+  &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
+  &lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt; <span class="cm">&lt;!-- Boa prática: Lógica JS isolada em app.js --&gt;</span>
+&lt;/<span class="kw">body</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-ex1" class="tab-content">
             <pre><code><span class="cm">&lt;!-- Exemplo 1: Grid Responsivo do Bootstrap 5 --&gt;</span>
 &lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-4"</span>&gt;Coluna 1 (Metade em MD, 1/3 em LG)&lt;/<span class="kw">div</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-md-6 col-lg-8"</span>&gt;Coluna 2 (Metade em MD, 2/3 em LG)&lt;/<span class="kw">div</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-4"</span>&gt;Coluna 1&lt;/<span class="kw">div</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-8"</span>&gt;Coluna 2&lt;/<span class="kw">div</span>&gt;
   &lt;/<span class="kw">div</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
           </div>
@@ -785,27 +1030,27 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         </div>
       </section>
 
-      <!-- SLIDE 10: Checklist da Aula -->
-      <section class="slide" id="slide-10">
+      <!-- SLIDE 11: Checklist da Aula -->
+      <section class="slide" id="slide-11">
         <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade da Aula)</h2>
-        <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e siga o roteiro prático no seu VS Code:</p>
+        <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e siga o roteiro prático no VS Code:</p>
 
         <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> e observar os links de Bootstrap 5 e jQuery no <code>index.html</code>.</div>
+            <div class="check-text">1. Analisar onde o Bootstrap 5 CSS e os scripts jQuery / <code>app.js</code> são chamados no <code>index.html</code> (Slide 4).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">2. Testar os formulários estilizados com o grid do Bootstrap (<strong>Exemplos 1 e 2</strong>).</div>
+            <div class="check-text">2. Testar o formulário estilizado com o grid e componentes do Bootstrap (<strong>Exemplos 1 a 4</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar 2 clientes e observar a captura dos inputs e inclusão dinâmica na tabela com jQuery (<strong>Exemplos 5 e 7</strong>).</div>
+            <div class="check-text">3. Cadastrar clientes observando a leitura de inputs e inserção dinâmica na tabela com jQuery (<strong>Exemplos 5 e 7</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">4. Recarregar a página (<code>F5</code>) e comprovar que os clientes permanecem salvos no <code>localStorage</code> (<strong>Exemplo 8</strong>).</div>
+            <div class="check-text">4. Pressionar <code>F5</code> para recarregar a página e comprovar que os clientes permanecem salvos no <code>localStorage</code> (<strong>Exemplo 8</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
@@ -814,15 +1059,15 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         </div>
       </section>
 
-      <!-- SLIDE 11: Encerramento & Prévia da Aula 02 -->
-      <section class="slide" id="slide-11">
+      <!-- SLIDE 12: Encerramento & Prévia da Aula 02 -->
+      <section class="slide" id="slide-12">
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 850px; margin: 0 auto;">
           <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🚀</div>
           <h2 class="slide-title" style="font-size: 2.8rem; justify-content: center;">
             Parabéns pelo Progresso!
           </h2>
           <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
-            Hoje dominamos o uso do <strong>Bootstrap 5</strong> (Exemplos 1 a 4) e dos recursos funcionais, estéticos e dinâmicos do <strong>jQuery</strong> (Exemplos 5 a 8). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong> e chamadas HTTP assíncronas!
+            Hoje dominamos a inclusão correta de dependências, o uso do <strong>Bootstrap 5</strong> (Exemplos 1 a 4) e dos recursos funcionais, estéticos e dinâmicos do <strong>jQuery</strong> (Exemplos 5 a 8). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong>!
           </p>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
@@ -841,7 +1086,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         <div class="progress-bar-bg">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 11</span>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 12</span>
       </div>
 
       <div class="nav-controls">
@@ -861,7 +1106,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
 
   <script>
     let currentSlide = 1;
-    const totalSlides = 11;
+    const totalSlides = 12;
 
     function updateSlides() {
       document.querySelectorAll('.slide').forEach((slide, idx) => {
