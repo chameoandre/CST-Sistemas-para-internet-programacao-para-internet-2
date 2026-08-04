@@ -229,6 +229,27 @@
     .card-highlight-purple { border-left: 4px solid var(--accent-purple); }
     .card-highlight-amber { border-left: 4px solid var(--accent-amber); }
 
+    .link-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 0.8rem;
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .link-box a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .link-box a:hover { text-decoration: underline; }
+
     /* Custom Table for "Para explorar mais..." */
     .explore-box {
       background: rgba(11, 16, 29, 0.7);
@@ -579,37 +600,62 @@
         </div>
       </section>
 
-      <!-- SLIDE 4: NOVO — Como e Onde Chamar o Bootstrap 5 & jQuery -->
+      <!-- SLIDE 4: Onde Buscar & Como Inclusão do Bootstrap 5 & jQuery -->
       <section class="slide" id="slide-4">
-        <h2 class="slide-title">📦 Como e Onde Incluir o Bootstrap 5 e o jQuery?</h2>
-        <p class="slide-subtitle">A estrutura correta de inclusão via CDN no HTML e a boa prática de organização de arquivos:</p>
+        <h2 class="slide-title">🌐 Onde Obter & Como Incluir o Bootstrap 5 e o jQuery</h2>
+        <p class="slide-subtitle">Sites oficiais de documentação, links CDN oficiais e a boa prática de organização de arquivos:</p>
 
         <div class="grid-2">
-          <div class="card card-highlight-amber">
-            <h3>1. Onde incluir no Documento HTML5:</h3>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; font-size: 0.88rem;">
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--accent-amber);">🔹</span>
-                <span><strong>Bootstrap CSS:</strong> No <code>&lt;head&gt;</code> para carregar os estilos visuais antes do conteúdo renderizar.</span>
-              </li>
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--accent-amber);">🔹</span>
-                <span><strong>jQuery & Bootstrap JS:</strong> Antes de fechar o <code>&lt;/body&gt;</code> para não travar o carregamento inicial da tela.</span>
-              </li>
-              <li style="display: flex; gap: 0.6rem;">
-                <span style="color: var(--ifsc-green);">💡</span>
-                <span><strong>Arquivo JS Externo (<code>app.js</code>):</strong> É a boa prática profissional recomendada! O código JS fica em <code>app.js</code> separado, evitando scripts espalhados no HTML.</span>
-              </li>
-            </ul>
+          <div>
+            <div class="card card-highlight-purple mb-3">
+              <h3>🌐 Sites Oficiais & Documentação:</h3>
+              <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.4rem;">
+                <div class="link-box">
+                  <div>
+                    <strong>Bootstrap 5 (Docs & CDN):</strong>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Documentação de componentes, grid e CDN jsDelivr.</div>
+                  </div>
+                  <a href="https://getbootstrap.com" target="_blank">getbootstrap.com ↗</a>
+                </div>
+
+                <div class="link-box">
+                  <div>
+                    <strong>jQuery (Oficial & CDN):</strong>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Downloads oficiais e CDN com versão minificada (.min.js).</div>
+                  </div>
+                  <a href="https://jquery.com" target="_blank">jquery.com ↗</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-highlight-amber">
+              <h3>📁 Onde Incluir no Documento HTML5:</h3>
+              <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; font-size: 0.85rem;">
+                <li style="display: flex; gap: 0.5rem;">
+                  <span style="color: var(--accent-amber);">🔹</span>
+                  <span><strong>Bootstrap CSS:</strong> No <code>&lt;head&gt;</code> para estilizar a página instantaneamente.</span>
+                </li>
+                <li style="display: flex; gap: 0.5rem;">
+                  <span style="color: var(--accent-amber);">🔹</span>
+                  <span><strong>jQuery & Script:</strong> Antes de fechar o <code>&lt;/body&gt;</code> para não travar a tela.</span>
+                </li>
+                <li style="display: flex; gap: 0.5rem;">
+                  <span style="color: var(--ifsc-green);">💡</span>
+                  <span><strong>Arquivo JS Externo (<code>app.js</code>):</strong> Lógica isolada em <code>app.js</code> mantendo o HTML limpo.</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
             <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo de Inclusão no HTML:</h3>
-            <pre style="margin-top: 0.6rem;"><code><span class="cm">&lt;!-- 1. No &lt;head&gt;: Bootstrap 5 CSS --&gt;</span>
+            <pre style="margin-top: 0.6rem;"><code><span class="cm">&lt;!-- 1. No &lt;head&gt;: Bootstrap 5 CSS do site getbootstrap.com --&gt;</span>
 &lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
 
-<span class="cm">&lt;!-- 2. Antes de fechar &lt;/body&gt;: jQuery + Script Externo app.js --&gt;</span>
+<span class="cm">&lt;!-- 2. Antes de fechar &lt;/body&gt;: jQuery do site code.jquery.com --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
+
+<span class="cm">&lt;!-- 3. Script externo com a lógica da aplicação --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;</code></pre>
           </div>
         </div>
@@ -825,7 +871,7 @@ $(<span class="str">'#mensagem-status'</span>)
 
           <!-- Tabela "Para explorar mais..." -->
           <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no jQuery (Efeitos & Efeitos Visuais):</div>
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Efeitos Visuais):</div>
             <div class="table-responsive">
               <table class="explore-table">
                 <thead>
@@ -943,13 +989,17 @@ $(<span class="str">'#mensagem-status'</span>)
           <div id="tab-cdn" class="tab-content active">
             <pre><code><span class="cm">&lt;!-- Estrutura Recomendada de Inclusão de Dependências --&gt;</span>
 &lt;<span class="kw">head</span>&gt;
+  <span class="cm">&lt;!-- Bootstrap 5 CSS (Official: https://getbootstrap.com) --&gt;</span>
   &lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
 &lt;/<span class="kw">head</span>&gt;
 &lt;<span class="kw">body</span>&gt;
-  <span class="cm">&lt;!-- Conteúdo da página --&gt;</span>
+  <span class="cm">&lt;!-- Conteúdo HTML da página --&gt;</span>
 
+  <span class="cm">&lt;!-- jQuery JS (Official: https://jquery.com / CDN: https://code.jquery.com) --&gt;</span>
   &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-  &lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt; <span class="cm">&lt;!-- Boa prática: Lógica JS isolada em app.js --&gt;</span>
+
+  <span class="cm">&lt;!-- Script externo com a lógica da aplicação (app.js) --&gt;</span>
+  &lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
 &lt;/<span class="kw">body</span>&gt;</code></pre>
           </div>
 
@@ -1038,7 +1088,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">1. Analisar onde o Bootstrap 5 CSS e os scripts jQuery / <code>app.js</code> são chamados no <code>index.html</code> (Slide 4).</div>
+            <div class="check-text">1. Analisar de onde buscamos o Bootstrap (<code>getbootstrap.com</code>) e o jQuery (<code>code.jquery.com</code>) no <code>index.html</code> (Slide 4).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
@@ -1046,7 +1096,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar clientes observando a leitura de inputs e inserção dinâmica na tabela com jQuery (<strong>Exemplos 5 e 7</strong>).</div>
+            <div class="check-text">3. Cadastrar clientes observando a leitura de inputs e inserção dinâmica na tabela com jQuery em <code>app.js</code> (<strong>Exemplos 5 e 7</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
@@ -1067,7 +1117,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
             Parabéns pelo Progresso!
           </h2>
           <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
-            Hoje dominamos a inclusão correta de dependências, o uso do <strong>Bootstrap 5</strong> (Exemplos 1 a 4) e dos recursos funcionais, estéticos e dinâmicos do <strong>jQuery</strong> (Exemplos 5 a 8). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong>!
+            Hoje dominamos a inclusão correta de dependências, os sites oficiais do <strong>Bootstrap 5</strong> (<code>getbootstrap.com</code>) e <strong>jQuery</strong> (<code>jquery.com</code>), o uso do Bootstrap 5 (Exemplos 1 a 4) e dos recursos do jQuery (Exemplos 5 a 8). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong>!
           </p>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">

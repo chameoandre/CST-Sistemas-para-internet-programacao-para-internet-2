@@ -16,7 +16,8 @@ Ao final desta aula o estudante será capaz de:
 \begin{itemize}
 \item Conectar a base de HTML5 semântico e CSS3 de \textbf{ProgWeb 1} com a evolução prática de \textbf{ProgWeb 2};
 \item Compreender o alinhamento do semestre com o Projeto Pedagógico do Curso (\textbf{PPC} CONSUP 30/2020 — 120h);
-\item Configurar o ambiente incluindo o \textbf{Bootstrap 5} no \texttt{<head>} e os scripts no final do \texttt{<body>}, organizando a lógica em arquivo JavaScript externo (\texttt{app.js});
+\item Localizar e obter as dependências nos sites oficiais do \textbf{Bootstrap 5} (\url{https://getbootstrap.com}) e do \textbf{jQuery} (\url{https://jquery.com} e \url{https://code.jquery.com});
+\item Configurar o ambiente incluindo o Bootstrap CSS no \texttt{<head>} e os scripts no final do \texttt{<body>}, organizando a lógica em arquivo JavaScript externo (\texttt{app.js});
 \item Aplicar o \textbf{Bootstrap 5} para estilizar elementos (Exemplos 1 a 4: Grid, Formulários, Cards e Tabelas);
 \item Empregar o \textbf{jQuery} explorando seus recursos funcionais, estéticos e dinâmicos de manipulação do DOM (Exemplos 5 a 7);
 \item Persistir e recuperar dados no navegador utilizando o \textbf{LocalStorage} (Exemplo 8);
@@ -28,15 +29,15 @@ Ao final desta aula o estudante será capaz de:
 % INTRODUÇÃO & INCLUSÃO
 % =====================================================
 
-\subsection{Introdução e Organização de Arquivos}
+\subsection{Introdução, Sites Oficiais e Organização de Arquivos}
 
 Bem-vindos à disciplina de \textbf{Programação para a Internet 2 (ProgWeb 2)}!
 
-Neste primeiro encontro, construímos uma transição didática entre a base de **ProgWeb 1** e os novos recursos do semestre. Iniciamos revisando onde e como chamamos os arquivos de dependência:
+Neste primeiro encontro, construímos uma transição didática entre a base de **ProgWeb 1** e os novos recursos do semestre. Iniciamos identificando onde obter as bibliotecas nos seus portais oficiais:
 
 \begin{enumerate}
-\item \textbf{Bootstrap 5 CSS:} Incluído via tag \texttt{<link rel="stylesheet">} dentro da seção \texttt{<head>} para garantir que a página renderize com estilo desde o primeiro milissegundo;
-\item \textbf{jQuery e Bootstrap JS:} Incluídos via tags \texttt{<script>} imediatamente antes do fechamento do \texttt{</body>}, impedindo o bloqueio da renderização inicial da tela;
+\item \textbf{Bootstrap 5 (Site Oficial \& CDN):} No site \url{https://getbootstrap.com}, encontramos a documentação de componentes e os links de CDN (jsDelivr) que incluímos via tag \texttt{<link rel="stylesheet">} dentro da seção \texttt{<head>};
+\item \textbf{jQuery (Site Oficial \& CDN):} No portal \url{https://jquery.com} e no servidor de CDN \url{https://code.jquery.com}, obtemos os links da versão minificada (\texttt{jquery-3.7.1.min.js}), incluídos via tag \texttt{<script>} antes do fechamento do \texttt{</body>};
 \item \textbf{Organização Profissional (Arquivo External \texttt{app.js}):} Em **ProgWeb 2**, adotamos como boa prática o desacoplamento do código JavaScript em um arquivo separado (\texttt{app.js}), em vez de escrever scripts dentro de tags inline no HTML.
 \end{enumerate}
 
@@ -48,13 +49,13 @@ O trabalho é guiado pela \textbf{Apresentação Interativa de Transição} proj
 
 \subsection{Parte 1 — Apresentação Interativa e Exemplos Guiados (25 minutos)}
 
-\begin{boxAtividade}[{Atividade 1 -- Projeção dos Slides e Tabelas "Para Explorar Mais"}]
+\begin{boxAtividade}[{Atividade 1 -- Projeção dos Slides e Portais Oficiais}]
 
 Acompanhamento da apresentação em slides dinâmicos (\texttt{retomada-de-atividades-pi2/index.html}):
 
 \begin{enumerate}
 \item \textbf{A Base de ProgWeb 1 \& PPC (Slides 2 e 3):} Recapitulação semântica e ementa de 120h do curso;
-\item \textbf{Inclusão \& Estrutura (Slide 4):} Chamada via CDN e vinculação do script externo \texttt{app.js};
+\item \textbf{Obtenção \& Inclusão CDN (Slide 4):} Acesso aos portais oficiais (\texttt{getbootstrap.com} e \texttt{jquery.com}) e vinculação do script externo \texttt{app.js};
 \item \textbf{Bootstrap 5 em Prática (Slides 5 e 6):} Grid Responsivo (\textbf{Exemplo 1}), Formulários (\textbf{Exemplo 2}), Cards/Alertas (\textbf{Exemplo 3}) e Tabelas (\textbf{Exemplo 4}) acompanhados da tabela \textbf{"Para explorar mais no Bootstrap"};
 \item \textbf{jQuery Funcional, Estético e Dinâmico (Slides 7, 8 e 9):} Seletores (\textbf{Exemplo 5}), Efeitos \texttt{.fadeIn()} (\textbf{Exemplo 6}), Inserção no DOM (\textbf{Exemplo 7}) e LocalStorage (\textbf{Exemplo 8}) com a tabela \textbf{"Para explorar mais no jQuery"};
 \item \textbf{Guia Interativo de Código (Slide 10):} Navegação pelas abas dos Exemplos 1 a 8 e CDN.
@@ -111,7 +112,7 @@ Para dar suporte aos alunos na construção de seus aplicativos web, o quadro ab
 Na pasta \texttt{exercicio-retomada/}, os estudantes deverão construir/completar a aplicação web:
 
 \begin{enumerate}
-\item \textbf{Verificação das Dependências:} Abrir \texttt{index.html} e identificar onde o Bootstrap 5 CSS e os scripts jQuery / \texttt{app.js} foram incluídos;
+\item \textbf{Verificação dos Portais e Dependências:} Abrir o \texttt{index.html} e consultar onde os arquivos de \texttt{getbootstrap.com} e \texttt{code.jquery.com} foram incluídos;
 \item \textbf{Estilização com Bootstrap 5:} Aplicar as classes de formulário e tabela do Bootstrap e testar variações do quadro "Para explorar mais";
 \item \textbf{Seleção e Eventos em \texttt{app.js}:} No arquivo externo \texttt{app.js}, capturar inputs e eventos de formulário com \texttt{\textdollar('\#id')};
 \item \textbf{Inserção Dinâmica no DOM:} Adicionar linhas na tabela com \texttt{\textdollar('\#tabela-body').append()};
@@ -149,6 +150,7 @@ Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de
 
 \begin{itemize}
 \item O Bootstrap 5 CSS está no \texttt{<head>} e o jQuery / \texttt{app.js} estão antes do \texttt{</body>};
+\item Os links oficiais de \texttt{getbootstrap.com} e \texttt{code.jquery.com} estão corretos;
 \item A lógica JavaScript está organizada no arquivo externo \texttt{app.js};
 \item A página utiliza as classes de formulário, botões e tabela do Bootstrap 5 (Exemplos 1 a 4);
 \item O jQuery é utilizado para selecionar elementos do DOM (\texttt{\textdollar}) e reagir a eventos (Exemplos 5 a 7);
@@ -164,4 +166,4 @@ Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de
 
 \subsection*{Reflexão Técnica}
 
-A transição de ProgWeb 1 para ProgWeb 2 ganha ritmo ao combinarmos a inclusão organizada de arquivos, a simplicidade de estilização do Bootstrap 5 e a agilidade de manipulação do jQuery dividida em aspectos funcionais, estéticos e dinâmicos. Esse aprendizado gradual constrói a base sólida recomendada pelo PPC para avançarmos rumo à Fetch API e APIs REST na Aula 02!
+A transição de ProgWeb 1 para ProgWeb 2 ganha ritmo ao combinarmos a inclusão organizada de arquivos dos sites oficiais, a simplicidade de estilização do Bootstrap 5 e a agilidade de manipulação do jQuery dividida em aspectos funcionais, estéticos e dinâmicos. Esse aprendizado gradual constrói a base sólida recomendada pelo PPC para avançarmos rumo à Fetch API e APIs REST na Aula 02!
