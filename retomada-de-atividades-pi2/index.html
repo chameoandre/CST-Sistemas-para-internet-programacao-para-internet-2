@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retomada de Atividades — Programação para a Internet II (IFSC)</title>
+  <title>Retomada & Diagnóstico — Fetch API, Bootstrap 5 & jQuery (IFSC)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -41,7 +41,6 @@
       width: 100vw;
     }
 
-    /* Container de Slides */
     .deck-container {
       position: relative;
       width: 100%;
@@ -50,13 +49,13 @@
       flex-direction: column;
     }
 
-    /* Header Fixo Institucional */
+    /* Header Fixo */
     .app-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.2rem 2.5rem;
-      background: rgba(19, 27, 46, 0.8);
+      padding: 1rem 2.5rem;
+      background: rgba(19, 27, 46, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       z-index: 100;
@@ -69,15 +68,14 @@
     }
 
     .brand img {
-      height: 48px;
+      height: 44px;
       filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
     }
 
     .brand-text h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
     }
 
     .brand-text p {
@@ -96,7 +94,6 @@
       border-radius: 20px;
       font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 0.3px;
     }
 
     .badge-green {
@@ -111,7 +108,13 @@
       border: 1px solid rgba(56, 189, 248, 0.4);
     }
 
-    /* Estutura do Slide */
+    .badge-purple {
+      background: rgba(168, 85, 247, 0.15);
+      color: var(--accent-purple);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+
+    /* Estutura dos Slides */
     .slide-stage {
       flex: 1;
       position: relative;
@@ -121,7 +124,7 @@
     .slide {
       position: absolute;
       inset: 0;
-      padding: 2.5rem 4rem;
+      padding: 2.2rem 4rem;
       display: flex;
       flex-direction: column;
       opacity: 0;
@@ -138,9 +141,9 @@
 
     .slide-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.2rem;
+      font-size: 2.1rem;
       font-weight: 800;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -150,10 +153,11 @@
     }
 
     .slide-subtitle {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--text-muted);
-      margin-bottom: 2rem;
-      max-width: 900px;
+      margin-bottom: 1.8rem;
+      max-width: 950px;
+      line-height: 1.5;
     }
 
     /* Grids & Cards Layout */
@@ -171,60 +175,45 @@
       flex: 1;
     }
 
-    .grid-5 {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
-    }
-
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      padding: 1.4rem;
       display: flex;
       flex-direction: column;
       transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
     }
 
     .card:hover {
       border-color: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      transform: translateY(-2px);
     }
 
     .card-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
     }
 
     .card h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
       color: #fff;
     }
 
     .card p {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
       line-height: 1.6;
     }
 
-    .card-highlight {
-      border-left: 4px solid var(--ifsc-green);
-    }
-
-    .card-highlight-blue {
-      border-left: 4px solid var(--accent-blue);
-    }
-
-    .card-highlight-purple {
-      border-left: 4px solid var(--accent-purple);
-    }
+    .card-highlight { border-left: 4px solid var(--ifsc-green); }
+    .card-highlight-blue { border-left: 4px solid var(--accent-blue); }
+    .card-highlight-purple { border-left: 4px solid var(--accent-purple); }
+    .card-highlight-amber { border-left: 4px solid var(--accent-amber); }
 
     /* Code Tabs & Interactive Demos */
     .code-tabs {
@@ -241,24 +230,24 @@
       display: flex;
       background: rgba(15, 23, 42, 0.8);
       border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
     }
 
     .tab-btn {
-      padding: 0.8rem 1.4rem;
+      padding: 0.8rem 1.2rem;
       background: transparent;
       border: none;
       color: var(--text-muted);
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
       transition: all 0.2s;
       border-bottom: 2px solid transparent;
+      white-space: nowrap;
     }
 
-    .tab-btn:hover {
-      color: #fff;
-    }
+    .tab-btn:hover { color: #fff; }
 
     .tab-btn.active {
       color: var(--accent-blue);
@@ -267,19 +256,17 @@
     }
 
     .tab-content {
-      padding: 1.5rem;
+      padding: 1.4rem;
       flex: 1;
       overflow-y: auto;
       display: none;
     }
 
-    .tab-content.active {
-      display: block;
-    }
+    .tab-content.active { display: block; }
 
     pre code {
       font-family: 'Fira Code', monospace;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: #e2e8f0;
       line-height: 1.6;
       white-space: pre-wrap;
@@ -290,7 +277,7 @@
     .str { color: #4ade80; }
     .cm { color: #64748b; font-style: italic; }
 
-    /* Interactive Checklist */
+    /* Checklist Interativo */
     .checklist {
       display: flex;
       flex-direction: column;
@@ -303,15 +290,13 @@
       gap: 1rem;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border-color);
-      padding: 1rem 1.2rem;
+      padding: 0.9rem 1.2rem;
       border-radius: var(--radius-md);
       cursor: pointer;
       transition: all 0.2s;
     }
 
-    .check-item:hover {
-      background: rgba(255, 255, 255, 0.06);
-    }
+    .check-item:hover { background: rgba(255, 255, 255, 0.06); }
 
     .check-box {
       width: 22px;
@@ -330,17 +315,14 @@
       color: #fff;
     }
 
-    .check-text {
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
+    .check-text { font-size: 0.92rem; font-weight: 500; }
 
-    /* Footer & Navigation Controls */
+    /* Footer & Controls */
     .app-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2.5rem;
+      padding: 0.9rem 2.5rem;
       background: rgba(19, 27, 46, 0.9);
       border-top: 1px solid var(--border-color);
     }
@@ -364,7 +346,7 @@
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--ifsc-green) 0%, var(--accent-blue) 100%);
-      width: 14%;
+      width: 12.5%;
       transition: width 0.3s ease;
     }
 
@@ -381,14 +363,14 @@
     }
 
     .nav-btn {
-      padding: 0.6rem 1.2rem;
+      padding: 0.55rem 1.2rem;
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--border-color);
       color: #fff;
       border-radius: var(--radius-md);
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -407,8 +389,8 @@
     }
 
     .btn-fs {
-      padding: 0.6rem;
-      width: 40px;
+      padding: 0.55rem;
+      width: 38px;
       justify-content: center;
     }
   </style>
@@ -423,7 +405,7 @@
         <img src="../figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
         <div class="brand-text">
           <h1>Programação para a Internet II</h1>
-          <p>CST em Sistemas para a Internet — Aula 01 (Retomada & Diagnóstico)</p>
+          <p>CST em Sistemas para a Internet — Retomada, Fetch API, Bootstrap 5 & jQuery</p>
         </div>
       </div>
       <div class="header-badges">
@@ -435,262 +417,248 @@
     <!-- Palco Principal de Slides -->
     <main class="slide-stage">
 
-      <!-- SLIDE 1: Capa / Boas-Vindas -->
+      <!-- SLIDE 1: Capa -->
       <section class="slide active" id="slide-1">
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 950px;">
           <span class="badge badge-green" style="width: fit-content; margin-bottom: 1.2rem; font-size: 0.9rem;">
             👋 Boas-Vindas ao 2º Semestre!
           </span>
-          <h2 class="slide-title" style="font-size: 3.2rem; line-height: 1.15; margin-bottom: 1rem;">
-            Retomada de Atividades & Diagnóstico Prático
+          <h2 class="slide-title" style="font-size: 3rem; line-height: 1.15; margin-bottom: 1rem;">
+            Retomada de Atividades & Ferramentas Modernas
           </h2>
-          <p class="slide-subtitle" style="font-size: 1.25rem; line-height: 1.6;">
-            Bem-vindos à disciplina de <strong>Programação para a Internet II</strong>! Hoje faremos uma recapitulação interativa das competências de HTML5, CSS3, Manipulação do DOM, Async/Await e LocalStorage para iniciarmos o semestre com uma base sólida.
+          <p class="slide-subtitle" style="font-size: 1.2rem; line-height: 1.6;">
+            Sejam bem-vindos! Hoje vamos revisar a base de web client-side, <strong>destrinchar de forma simples o funcionamento da Fetch API / requisições assíncronas</strong> e introduzir dois novos aliados de produtividade: <strong>Bootstrap 5</strong> (para layouts visuais incríveis) e <strong>jQuery</strong> (para manipulação ágil do DOM).
           </p>
 
-          <div class="grid-3" style="margin-top: 1.5rem; flex: initial;">
+          <div class="grid-3" style="margin-top: 1rem; flex: initial;">
             <div class="card card-highlight">
-              <div class="card-icon">⚡</div>
-              <h3>1. Reativar Conceitos</h3>
-              <p>Revisar a tríade Frontend Vanilla com foco em assincronismo e gestão de estado local.</p>
-            </div>
-            <div class="card card-highlight-blue">
-              <div class="card-icon">🧪</div>
-              <h3>2. Mão na Massa</h3>
-              <p>Construir um Dashboard com autocompletar de CEP (ViaCEP) e cadastro persistido.</p>
+              <div class="card-icon">📡</div>
+              <h3>1. Entender a Fetch API</h3>
+              <p>Desmistificar como funcionam as requisições assíncronas em JSON sem complicações.</p>
             </div>
             <div class="card card-highlight-purple">
-              <div class="card-icon">🚀</div>
-              <h3>3. Visão do Semestre</h3>
-              <p>Conhecer o roadmap de ES6 Modules, SPAs, APIs RESTful e frameworks reativos.</p>
+              <div class="card-icon">🎨</div>
+              <h3>2. Bootstrap 5</h3>
+              <p>Construir interfaces profissionais com sistema de grid, formulários e cards prontos.</p>
+            </div>
+            <div class="card card-highlight-blue">
+              <div class="card-icon">⚡</div>
+              <h3>3. jQuery Simplificado</h3>
+              <p>Manipular elementos, eventos e chamadas HTTP com poucas linhas de código.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 2: Roadmap de PI-2 -->
+      <!-- SLIDE 2: Destrinchando a Fetch API -->
       <section class="slide" id="slide-2">
-        <h2 class="slide-title">🗺️ O que nos espera em Programação para a Internet II?</h2>
-        <p class="slide-subtitle">Confira os 5 módulos estruturantes de aprendizagem prática do nosso semestre:</p>
+        <h2 class="slide-title">📡 Destrinchando a Fetch API de Forma Simples</h2>
+        <p class="slide-subtitle">O que é uma requisição assíncrona e por que usamos para buscar dados (ex: CEP)?</p>
 
-        <div class="grid-5" style="margin-top: 1rem;">
-          <div class="card card-highlight">
-            <span class="badge badge-green" style="width: fit-content; margin-bottom: 0.8rem;">Módulo 1</span>
-            <h3>Retomada & Diagnóstico</h3>
-            <p>DOM, Eventos, Fetch API e LocalStorage (Aula de Hoje!).</p>
+        <div class="grid-3">
+          <div class="card card-highlight-amber">
+            <div class="card-icon">🍽️</div>
+            <h3>1. A Metáfora do Garçom</h3>
+            <p>Em um restaurante, você pede a comida ao garçom (<strong>Requisição HTTP</strong>). Você não fica congelado parado; você continua conversando. O garçom busca o prato na cozinha e traz de volta a resposta quando estiver pronto!</p>
           </div>
+
           <div class="card card-highlight-blue">
-            <span class="badge badge-blue" style="width: fit-content; margin-bottom: 0.8rem;">Módulo 2</span>
-            <h3>ES6 Modules & Arquitetura</h3>
-            <p>Modularização, export/import e separação em camadas.</p>
-          </div>
-          <div class="card">
-            <span class="badge" style="width: fit-content; margin-bottom: 0.8rem; background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">Módulo 3</span>
-            <h3>Formulários & Estado</h3>
-            <p>Validação reativa no cliente e UX avançada.</p>
-          </div>
-          <div class="card card-highlight-purple">
-            <span class="badge" style="width: fit-content; margin-bottom: 0.8rem; background: rgba(168, 85, 247, 0.15); color: var(--accent-purple);">Módulo 4</span>
-            <h3>SPAs & APIs REST</h3>
-            <p>Single Page Applications e roteamento no cliente.</p>
-          </div>
-          <div class="card">
-            <span class="badge" style="width: fit-content; margin-bottom: 0.8rem; background: rgba(255, 255, 255, 0.1); color: #fff;">Módulo 5</span>
-            <h3>Ecossistema Moderno</h3>
-            <p>Vite, empacotadores e introdução a bibliotecas reativas.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 3: Onde Estávamos (Raio-X de PI-1) -->
-      <section class="slide" id="slide-3">
-        <h2 class="slide-title">🧠 Onde Estávamos? — Tríade do Frontend Vanilla</h2>
-        <p class="slide-subtitle">Revisão dos 4 pilares fundamentais construídos em PI-1:</p>
-
-        <div class="grid-2">
-          <div class="card">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <span style="font-size: 2.2rem;">🌐</span>
-              <div>
-                <h3>1. HTML5 Semântico & CSS3 Responsivo</h3>
-                <p style="font-size: 0.85rem;">Estruturação limpa e layout adaptável</p>
-              </div>
-            </div>
-            <p>Uso de tags semânticas (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;form&gt;</code>) e estilização moderna com Flexbox, CSS Grid, variáveis CSS e Media Queries para responsividade.</p>
+            <div class="card-icon">📦</div>
+            <h3>2. O que é uma Promise?</h3>
+            <p>Quando chamamos <code>fetch(URL)</code>, o navegador nos dá uma <strong>Promessa (Promise)</strong> de que a resposta vai chegar. Não precisamos travar a página web enquanto o servidor responde.</p>
           </div>
 
-          <div class="card">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <span style="font-size: 2.2rem;">🌳</span>
-              <div>
-                <h3>2. Manipulação da Árvore DOM</h3>
-                <p style="font-size: 0.85rem;">Seleção de elementos e escuta de eventos</p>
-              </div>
-            </div>
-            <p>Seleção via <code>document.querySelector()</code>, inclusão/remoção de nós com <code>createElement()</code> / <code>appendChild()</code> e escuta de interações de usuário com <code>addEventListener()</code>.</p>
-          </div>
-
-          <div class="card">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <span style="font-size: 2.2rem;">📡</span>
-              <div>
-                <h3>3. Programação Assíncrona & Fetch API</h3>
-                <p style="font-size: 0.85rem;">Consumo de serviços Web RESTful em JSON</p>
-              </div>
-            </div>
-            <p>Uso de <code>async/await</code> e <code>fetch()</code> para realizar requisições HTTP a APIs REST sem recarregar a página web (AJAX/Fetch semântico).</p>
-          </div>
-
-          <div class="card">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <span style="font-size: 2.2rem;">💾</span>
-              <div>
-                <h3>4. Persistência com Web Storage API</h3>
-                <p style="font-size: 0.85rem;">Armazenamento de estado no navegador</p>
-              </div>
-            </div>
-            <p>Uso do <code>localStorage</code> com <code>JSON.stringify()</code> e <code>JSON.parse()</code> para manter dados salvos mesmo após o fechamento do navegador.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 4: Desafio de Hoje -->
-      <section class="slide" id="slide-4">
-        <h2 class="slide-title">🎯 O Desafio Prático da Aula de Hoje</h2>
-        <p class="slide-subtitle">Construir o Dashboard de Cadastro de Clientes e Consulta de CEP (pasta <code>exercicio-retomada/</code>):</p>
-
-        <div class="grid-2">
           <div class="card card-highlight">
-            <h3>📌 Funcionalidades a Desenvolver:</h3>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem;">
-              <li style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.95rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Formulário Semântico:</strong> Campos para Nome, Email, CEP e Endereço complete.</span>
+            <div class="card-icon">🔄</div>
+            <h3>3. Do Texto ao JSON</h3>
+            <p>A resposta da API vem como texto puro. Convertemos para um <strong>Objeto JavaScript (JSON)</strong> usando <code>.json()</code> para podermos ler <code>dados.logradouro</code> ou <code>dados.localidade</code> diretamente.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: O que é o Bootstrap 5? -->
+      <section class="slide" id="slide-3">
+        <h2 class="slide-title">🎨 Produtividade Visual com Bootstrap 5</h2>
+        <p class="slide-subtitle">Como criar páginas web modernas e responsivas sem precisar escrever centenas de linhas de CSS do zero:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-purple">
+            <h3>🧩 Por que usar o Bootstrap 5?</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem;">
+              <li style="display: flex; gap: 0.8rem;">
+                <span style="color: var(--accent-purple);">✔️</span>
+                <span><strong>Grid Responsivo:</strong> Organize elementos em colunas usando <code>container</code>, <code>row</code>, <code>col-md-6</code>.</span>
               </li>
-              <li style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.95rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Autocompletar de CEP:</strong> Consulta assíncrona ao digitar o CEP via API ViaCEP.</span>
+              <li style="display: flex; gap: 0.8rem;">
+                <span style="color: var(--accent-purple);">✔️</span>
+                <span><strong>Componentes Prontos:</strong> Botões (<code>btn btn-success</code>), Cards (<code>card</code>), Tabelas (<code>table</code>), Alertas (<code>alert</code>).</span>
               </li>
-              <li style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.95rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Persistência Local:</strong> Salvamento e leitura imediata no <code>localStorage</code>.</span>
-              </li>
-              <li style="display: flex; align-items: center; gap: 0.8rem; font-size: 0.95rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Renderização Dinâmica:</strong> Atualização da tabela de clientes sem reload.</span>
+              <li style="display: flex; gap: 0.8rem;">
+                <span style="color: var(--accent-purple);">✔️</span>
+                <span><strong>Classes Utilitárias:</strong> Margens (<code>mb-3</code>), Alinhamento (<code>d-flex</code>) e cores semânticas (<code>text-primary</code>).</span>
               </li>
             </ul>
           </div>
 
-          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
-            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">💻 Estrutura do Projeto:</h3>
-            <pre style="margin-top: 1rem;"><code>exercicio-retomada/
-├── index.html     <span class="cm"><!-- Marcação semântica e formulário --></span>
-├── styles.css     <span class="cm">/* Layout Flexbox/Grid e IFSC Theme */</span>
-├── app.js         <span class="cm">// Lógica JS (Fetch + DOM + Storage)</span>
-└── README.md      <span class="cm"># Guia de desafios práticos</span></code></pre>
+          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-purple);">
+            <h3 style="color: var(--accent-purple); font-family: 'Fira Code', monospace;">📦 Incluindo via CDN no HTML:</h3>
+            <pre style="margin-top: 1rem;"><code><span class="cm"><!-- Bootstrap 5 CSS no &lt;head&gt; --></span>
+&lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
+
+<span class="cm"><!-- Bootstrap Icons --></span>
+&lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"</span>&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: O que é o jQuery? -->
+      <section class="slide" id="slide-4">
+        <h2 class="slide-title">⚡ Agilidade de Código com jQuery</h2>
+        <p class="slide-subtitle">Como a biblioteca jQuery simplifica a seleção de elementos, escuta de eventos e chamadas HTTP:</p>
+
+        <div class="grid-2">
+          <div class="card card-highlight-blue">
+            <h3>✨ Comparativo de Sintaxe:</h3>
+            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 1.2rem;">
+              <div>
+                <p style="font-weight: 600; color: #fff;">1. Pegar valor de um input:</p>
+                <p><code class="cm">JS Vanilla:</code> <code>document.querySelector('#cep').value</code></p>
+                <p><code class="cm">jQuery:</code> <code style="color: var(--accent-blue); font-weight: 600;">$('#cep').val()</code></p>
+              </div>
+              <div>
+                <p style="font-weight: 600; color: #fff;">2. Escutar clique no botão:</p>
+                <p><code class="cm">JS Vanilla:</code> <code>btn.addEventListener('click', fn)</code></p>
+                <p><code class="cm">jQuery:</code> <code style="color: var(--accent-blue); font-weight: 600;">$('#btn').on('click', fn)</code></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-highlight">
+            <h3>🌐 Requisição HTTP Simplificada (<code>$.getJSON</code>):</h3>
+            <p style="margin-top: 0.5rem; margin-bottom: 1rem;">Com o jQuery, fazer uma consulta assíncrona a uma API JSON exige pouquíssimas linhas:</p>
+            <pre><code><span class="cm">// Busca CEP com jQuery $.getJSON</span>
+$.<span class="fn">getJSON</span>(<span class="str">`https://viacep.com.br/ws/${cep}/json/`</span>)
+  .<span class="fn">done</span>(<span class="kw">function</span>(dados) {
+    <span class="cm">// Preenche os campos diretamente!</span>
+    $(<span class="str">'#logradouro'</span>).<span class="fn">val</span>(dados.logradouro);
+    $(<span class="str">'#cidade'</span>).<span class="fn">val</span>(dados.localidade);
+  });</code></pre>
           </div>
         </div>
       </section>
 
       <!-- SLIDE 5: Guia Interativo de Código -->
       <section class="slide" id="slide-5">
-        <h2 class="slide-title">💻 Guia Interativo de Código & Padrões JS</h2>
-        <p class="slide-subtitle">Clique nas abas para relembrar a sintaxe de cada operação no JavaScript ES6+:</p>
+        <h2 class="slide-title">💻 Guia Interativo de Código & Abas de Exemplos</h2>
+        <p class="slide-subtitle">Compare as abordagens de Fetch API, jQuery e Bootstrap 5 lado a lado:</p>
 
         <div class="code-tabs">
           <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-fetch')">1. Fetch API & Async/Await</button>
-            <button class="tab-btn" onclick="switchTab('tab-storage')">2. LocalStorage (JSON)</button>
-            <button class="tab-btn" onclick="switchTab('tab-dom')">3. Manipulação do DOM & Eventos</button>
+            <button class="tab-btn active" onclick="switchTab('tab-jquery-cep')">1. Busca de CEP com jQuery</button>
+            <button class="tab-btn" onclick="switchTab('tab-fetch-async')">2. Busca com Fetch + Async/Await</button>
+            <button class="tab-btn" onclick="switchTab('tab-bootstrap-form')">3. Formulário no Bootstrap 5</button>
+            <button class="tab-btn" onclick="switchTab('tab-localstorage')">4. LocalStorage com jQuery</button>
           </div>
 
-          <div id="tab-fetch" class="tab-content active">
-            <pre><code><span class="cm">// Função assíncrona para consultar o ViaCEP</span>
-<span class="kw">async function</span> <span class="fn">buscarEnderecoPorCep</span>(cep) {
+          <div id="tab-jquery-cep" class="tab-content active">
+            <pre><code><span class="cm">// Busca de CEP usando jQuery $.getJSON (Fácil e Direto)</span>
+$(<span class="str">'#cep'</span>).<span class="fn">on</span>(<span class="str">'blur'</span>, <span class="kw">function</span>() {
+  <span class="kw">const</span> cep = $(<span class="str">'#cep'</span>).<span class="fn">val</span>().<span class="fn">replace</span>(<span class="str">/\D/g</span>, <span class="str">''</span>);
+  
+  <span class="kw">if</span> (cep.length === 8) {
+    $.<span class="fn">getJSON</span>(<span class="str">`https://viacep.com.br/ws/${cep}/json/`</span>)
+      .<span class="fn">done</span>(<span class="kw">function</span>(dados) {
+        $(<span class="str">'#logradouro'</span>).<span class="fn">val</span>(dados.logradouro || <span class="str">''</span>);
+        $(<span class="str">'#bairro'</span>).<span class="fn">val</span>(dados.bairro || <span class="str">''</span>);
+        $(<span class="str">'#cidade'</span>).<span class="fn">val</span>(dados.localidade || <span class="str">''</span>);
+        $(<span class="str">'#uf'</span>).<span class="fn">val</span>(dados.uf || <span class="str">''</span>);
+      });
+  }
+});</code></pre>
+          </div>
+
+          <div id="tab-fetch-async" class="tab-content">
+            <pre><code><span class="cm">// Busca de CEP usando a Fetch API nativa do JS</span>
+<span class="kw">async function</span> <span class="fn">buscarCep</span>(cep) {
   <span class="kw">try</span> {
     <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`https://viacep.com.br/ws/${cep}/json/`</span>);
-    <span class="kw">if</span> (!response.ok) <span class="kw">throw new</span> Error(<span class="str">'Erro na requisição'</span>);
-    
     <span class="kw">const</span> dados = <span class="kw">await</span> response.<span class="fn">json</span>();
-    <span class="kw">return</span> dados; <span class="cm">// Retorna objeto { logradouro, bairro, localidade, uf }</span>
+    
+    document.<span class="fn">querySelector</span>(<span class="str">'#logradouro'</span>).value = dados.logradouro || <span class="str">''</span>;
+    document.<span class="fn">querySelector</span>(<span class="str">'#cidade'</span>).value = dados.localidade || <span class="str">''</span>;
   } <span class="kw">catch</span> (erro) {
-    console.<span class="fn">error</span>(<span class="str">'Falha ao buscar CEP:'</span>, erro);
+    console.<span class="fn">error</span>(<span class="str">'Erro ao consultar o CEP'</span>, erro);
   }
 }</code></pre>
           </div>
 
-          <div id="tab-storage" class="tab-content">
-            <pre><code><span class="cm">// 1. Salvar array de objetos no LocalStorage</span>
-<span class="kw">const</span> clientes = [{ id: 1, nome: <span class="str">'Ana'</span>, cep: <span class="str">'88495-000'</span> }];
-localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_key'</span>, JSON.<span class="fn">stringify</span>(clientes));
-
-<span class="cm">// 2. Ler array do LocalStorage</span>
-<span class="kw">const</span> dadosSalvos = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_key'</span>);
-<span class="kw">const</span> listaClientes = dadosSalvos ? JSON.<span class="fn">parse</span>(dadosSalvos) : [];</code></pre>
+          <div id="tab-bootstrap-form" class="tab-content">
+            <pre><code><span class="cm">&lt;!-- Estrutura Responsiva do Bootstrap 5 --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"col-md-6"</span>&gt;
+    &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
+    &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> id=<span class="str">"nome"</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"col-md-6"</span>&gt;
+    &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> class=<span class="str">"btn btn-success"</span>&gt;Cadastrar&lt;/<span class="kw">button</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
           </div>
 
-          <div id="tab-dom" class="tab-content">
-            <pre><code><span class="cm">// 1. Escutar evento submit do formulário</span>
-document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'</span>).<span class="fn">addEventListener</span>(<span class="str">'submit'</span>, (e) => {
-  e.<span class="fn">preventDefault</span>(); <span class="cm">// Evita o reload da página</span>
-  
-  <span class="cm">// 2. Inserir linha dinâmica na tabela</span>
-  <span class="kw">const</span> tr = document.<span class="fn">createElement</span>(<span class="str">'tr'</span>);
-  tr.innerHTML = <span class="str">`&lt;td&gt;Ana&lt;/td&gt;&lt;td&gt;88495-000&lt;/td&gt;`</span>;
-  document.<span class="fn">querySelector</span>(<span class="str">'#tabela-body'</span>).<span class="fn">appendChild</span>(tr);
-});</code></pre>
+          <div id="tab-localstorage" class="tab-content">
+            <pre><code><span class="cm">// Persistência de dados com LocalStorage</span>
+<span class="kw">function</span> <span class="fn">salvarCliente</span>(cliente) {
+  <span class="kw">let</span> lista = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];
+  lista.<span class="fn">push</span>(cliente);
+  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
+}</code></pre>
           </div>
         </div>
       </section>
 
       <!-- SLIDE 6: Checklist da Aula -->
       <section class="slide" id="slide-6">
-        <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade em Aula)</h2>
-        <p class="slide-subtitle">Marque os itens conforme for concluindo a atividade no seu computador:</p>
+        <h2 class="slide-title">📝 Checklist Mão na Massa (Exercício Prático)</h2>
+        <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e execute os 5 passos no seu VS Code:</p>
 
-        <div class="checklist" style="max-width: 900px; margin-top: 1rem;">
+        <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> no VS Code (ou criar os arquivos <code>index.html</code>, <code>styles.css</code>, <code>app.js</code>).</div>
+            <div class="check-text">1. Abrir a pasta <code>exercicio-retomada/</code> e observar os links de Bootstrap 5 e jQuery no <code>index.html</code>.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">2. Testar o autocompletar de CEP digitando um CEP real no campo do formulário.</div>
+            <div class="check-text">2. Digitar o CEP <code>88495000</code> no formulário e testar o preenchimento automático do endereço pelo jQuery / ViaCEP.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar ao menos 2 clientes e confirmar que aparecem na tabela sem recarregar a página.</div>
+            <div class="check-text">3. Cadastrar 2 clientes e conferir a tabela estilizada com classes do Bootstrap (<code>table table-hover</code>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">4. Recarregar a página (<code>F5</code>) e comprovar que os clientes permanecem gravados no <code>localStorage</code>.</div>
+            <div class="check-text">4. Pressionar <code>F5</code> para recarregar a página e confirmar a persistência dos dados no <code>localStorage</code>.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">5. Testar a exclusão de um cliente específico.</div>
-          </div>
-          <div class="check-item" onclick="toggleCheck(this)">
-            <div class="check-box">✓</div>
-            <div class="check-text">🔥 <strong>Desafio Extra:</strong> Criar um campo de busca por nome para filtrar a tabela em tempo real!</div>
+            <div class="check-text">🔥 <strong>Desafio Prático com jQuery:</strong> Testar o filtro por nome em tempo real digitando no campo de busca!</div>
           </div>
         </div>
       </section>
 
       <!-- SLIDE 7: Encerramento -->
       <section class="slide" id="slide-7">
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 800px; margin: 0 auto;">
-          <div style="font-size: 3.5rem; margin-bottom: 1rem;">🚀</div>
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 850px; margin: 0 auto;">
+          <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🚀</div>
           <h2 class="slide-title" style="font-size: 2.8rem; justify-content: center;">
             Excelente Trabalho!
           </h2>
-          <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 1rem;">
-            Com estes conceitos revisados e consolidados, estamos prontos para avançar no <strong>Módulo 2: Arquitetura Modular com ES6 Modules</strong> em nosso próximo encontro!
+          <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
+            Com a base de manipulação do DOM, requisições HTTP (Fetch/$.getJSON), Bootstrap 5 e jQuery dominadas, estamos prontos para avançar no <strong>Módulo 2: ES6 Modules & Arquitetura Limpa no Frontend</strong>!
           </p>
 
-          <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+          <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
             <span class="badge badge-green" style="padding: 0.6rem 1.2rem; font-size: 0.95rem;">
-              Dúvidas? Fale com o Prof. André Moraes
+              Dúvidas? Prof. André Moraes
             </span>
           </div>
         </div>
@@ -698,7 +666,7 @@ document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'
 
     </main>
 
-    <!-- Rodapé e Navegação de Slides -->
+    <!-- Rodapé -->
     <footer class="app-footer">
       <div class="progress-container">
         <div class="progress-bar-bg">
@@ -722,7 +690,6 @@ document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'
 
   </div>
 
-  <!-- Script da Apresentação -->
   <script>
     let currentSlide = 1;
     const totalSlides = 7;
@@ -736,11 +703,9 @@ document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'
         }
       });
 
-      // Atualiza botões
       document.getElementById('btn-prev').disabled = (currentSlide === 1);
       document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
 
-      // Atualiza contador e progresso
       document.getElementById('slide-counter').textContent = `Slide ${currentSlide} de ${totalSlides}`;
       const percentage = (currentSlide / totalSlides) * 100;
       document.getElementById('progress-fill').style.width = `${percentage}%`;
@@ -760,7 +725,6 @@ document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'
       }
     }
 
-    // Teclas de Atalho (Seta Direita/Esquerda)
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'Space') {
         nextSlide();
@@ -769,7 +733,6 @@ document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'
       }
     });
 
-    // Alternar Abas no Slide 5
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -778,12 +741,10 @@ document.<span class="fn">querySelector</span>(<span class="str">'#form-cliente'
       document.getElementById(tabId).classList.add('active');
     }
 
-    // Checklist Interativo no Slide 6
     function toggleCheck(el) {
       el.classList.toggle('checked');
     }
 
-    // Fullscreen Toggle
     function toggleFullscreen() {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
