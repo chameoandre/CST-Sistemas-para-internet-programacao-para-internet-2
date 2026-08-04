@@ -118,7 +118,7 @@
     .slide {
       position: absolute;
       inset: 0;
-      padding: 1.8rem 3.5rem;
+      padding: 1.6rem 3.5rem;
       display: flex;
       flex-direction: column;
       opacity: 0;
@@ -135,9 +135,9 @@
 
     .slide-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.95rem;
+      font-size: 1.9rem;
       font-weight: 800;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.15rem;
       background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -147,9 +147,9 @@
     }
 
     .slide-subtitle {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-muted);
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.1rem;
       max-width: 980px;
       line-height: 1.45;
     }
@@ -179,7 +179,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.2rem;
+      padding: 1.1rem;
       display: flex;
       flex-direction: column;
       transition: all 0.3s ease;
@@ -200,14 +200,25 @@
       font-family: 'Outfit', sans-serif;
       font-size: 1.05rem;
       font-weight: 700;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.3rem;
       color: #fff;
     }
 
     .card p {
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      line-height: 1.45;
+    }
+
+    .example-desc {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid var(--accent-blue);
+      padding: 0.55rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #e2e8f0;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
     }
 
     .example-tag {
@@ -220,7 +231,7 @@
       font-family: 'Fira Code', monospace;
       font-size: 0.78rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       width: fit-content;
     }
 
@@ -233,7 +244,7 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 0.6rem 0.8rem;
+      padding: 0.55rem 0.8rem;
       margin-top: 0.4rem;
       display: flex;
       align-items: center;
@@ -244,7 +255,7 @@
       color: var(--accent-blue);
       text-decoration: none;
       font-family: 'Fira Code', monospace;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
     }
 
@@ -255,13 +266,13 @@
       background: rgba(11, 16, 29, 0.7);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 0.8rem 1rem;
-      margin-top: 0.8rem;
+      padding: 0.75rem 0.9rem;
+      margin-top: 0.6rem;
     }
 
     .explore-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       font-weight: 700;
       color: var(--accent-amber);
       margin-bottom: 0.4rem;
@@ -273,7 +284,7 @@
     .explore-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
 
     .explore-table th {
@@ -292,7 +303,7 @@
     .explore-table code {
       font-family: 'Fira Code', monospace;
       color: var(--accent-blue);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
     }
 
     /* Code Tabs */
@@ -346,7 +357,7 @@
 
     pre code {
       font-family: 'Fira Code', monospace;
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       color: #e2e8f0;
       line-height: 1.55;
       white-space: pre-wrap;
@@ -519,12 +530,12 @@
             <div class="card card-highlight-purple">
               <div class="card-icon">🎨</div>
               <h3>2. Bootstrap 5 em Prática</h3>
-              <p>Estilizar os elementos visuais da página observando o efeito imediato das classes.</p>
+              <p>Estilitar elementos visuais observando o efeito imediato das classes (Exemplos 1 a 4).</p>
             </div>
             <div class="card card-highlight-blue">
               <div class="card-icon">⚡</div>
               <h3>3. jQuery em 3 Dimensões</h3>
-              <p>Explorar recursos funcionais, estéticos e dinâmicos para acessar o DOM.</p>
+              <p>Explorar recursos funcionais, estéticos e dinâmicos para acessar o DOM (Exemplos 5 a 8).</p>
             </div>
           </div>
         </div>
@@ -609,7 +620,7 @@
           <div>
             <div class="card card-highlight-purple mb-3">
               <h3>🌐 Sites Oficiais & Documentação:</h3>
-              <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.4rem;">
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem;">
                 <div class="link-box">
                   <div>
                     <strong>Bootstrap 5 (Docs & CDN):</strong>
@@ -671,6 +682,9 @@
             <div class="card card-highlight-purple mb-3">
               <span class="example-tag">Exemplo 1</span>
               <h3>Grid Responsivo & Containers</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Layout responsivo flexível. A classe <code>.container</code> centraliza o conteúdo, <code>.row</code> cria a linha de grade e <code>.col-12 .col-md-6 .col-lg-4</code> ajusta a largura para 100% no celular, 50% em tablets e 33.3% em telas grandes.
+              </div>
               <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
     &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-4"</span>&gt;Item 1&lt;/<span class="kw">div</span>&gt;
@@ -681,7 +695,10 @@
 
             <div class="card card-highlight-purple">
               <span class="example-tag">Exemplo 2</span>
-              <h3>Formulários & Inputs</h3>
+              <h3>Formulários & Inputs Estilizados</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Campo de entrada com visual moderno. A classe <code>.mb-3</code> adiciona margem inferior, <code>.form-label</code> formata o texto do rótulo e <code>.form-control</code> estiliza o campo com bordas arredondadas e efeito de foco azul.
+              </div>
               <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
   &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;E-mail&lt;/<span class="kw">label</span>&gt;
   &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"ana@exemplo.com"</span>&gt;
@@ -737,7 +754,10 @@
           <div>
             <div class="card card-highlight-purple mb-3">
               <span class="example-tag">Exemplo 3</span>
-              <h3>Cards, Botões & Alertas</h3>
+              <h3>Cards, Botões & Alertas Visuais</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Componentes de feedback e acionamento. Cria um cartão com elevação (<code>.card .shadow</code>), exibe um alerta verde de confirmação (<code>.alert .alert-success</code>) e um botão verde (<code>.btn .btn-success</code>).
+              </div>
               <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"alert alert-success"</span>&gt;Salvo!&lt;/<span class="kw">div</span>&gt;
   &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
@@ -746,7 +766,10 @@
 
             <div class="card card-highlight-purple">
               <span class="example-tag">Exemplo 4</span>
-              <h3>Tabelas & Utilitários</h3>
+              <h3>Tabelas Elegantes & Utilitários</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Tabela zebrada e interativa. A classe <code>.table</code> adiciona padding interno automático, <code>.table-hover</code> destaca a linha sob o mouse e <code>.table-striped</code> alterna as cores das linhas para facilitar a leitura.
+              </div>
               <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped"</span>&gt;
   &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
   &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;&lt;/<span class="kw">tbody</span>&gt;
@@ -802,7 +825,10 @@
           <div>
             <div class="card card-highlight-blue mb-3">
               <span class="example-tag">Exemplo 5</span>
-              <h3>Seletores & Leitura/Escrita no jQuery</h3>
+              <h3>Seletores & Leitura/Escrita de Dados</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Leitura e escrita dinâmica de dados. O comando <code>$('#input-nome').val()</code> extrai o texto digitado pelo usuário e <code>$('#mensagem-boas-vindas').text('...')</code> atualiza instantaneamente a tela com uma saudação personalizada.
+              </div>
               <pre><code><span class="cm">// Lendo input e escrevendo em outro elemento</span>
 <span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();
 
@@ -859,7 +885,10 @@ $(<span class="str">'#mensagem-boas-vindas'</span>).<span class="fn">text</span>
           <div>
             <div class="card card-highlight-blue mb-3">
               <span class="example-tag">Exemplo 6</span>
-              <h3>Efeitos Visuais & Classes CSS no jQuery</h3>
+              <h3>Efeitos Visuais & Classes CSS</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Feedback visual animado ao usuário. Remove a classe <code>d-none</code> para tornar o alerta visível, aplica a classe de cor <code>alert-success</code> do Bootstrap, altera a mensagem com <code>.text()</code> e faz o quadro surgir suavemente com <code>.fadeIn(300)</code>.
+              </div>
               <pre><code><span class="cm">// Exibindo alerta com animação fadeIn()</span>
 $(<span class="str">'#mensagem-status'</span>)
   .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
@@ -913,7 +942,10 @@ $(<span class="str">'#mensagem-status'</span>)
           <div>
             <div class="card card-highlight-blue mb-2">
               <span class="example-tag">Exemplo 7</span>
-              <h3>Eventos & Inserção no DOM</h3>
+              <h3>Eventos & Inserção Dinâmica no DOM</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela via formulário. Escuta o evento <code>submit</code> do formulário, impede a atualização da página com <code>e.preventDefault()</code>, monta uma linha HTML (<code>&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code>) e a insere no final da tabela com <code>.append()</code>.
+              </div>
               <pre><code>$(<span class="str">'#form'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
   e.<span class="fn">preventDefault</span>();
   <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
@@ -924,6 +956,9 @@ $(<span class="str">'#mensagem-status'</span>)
             <div class="card card-highlight-amber">
               <span class="example-tag">Exemplo 8</span>
               <h3>Persistência no LocalStorage</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Armazenamento duradouro no navegador. Salva a lista de clientes convertendo para texto com <code>JSON.stringify()</code> e recupera os dados salvos convertendo de volta para objeto/array com <code>JSON.parse()</code> para os dados não sumirem ao pressionar F5.
+              </div>
               <pre><code>localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
 <span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
             </div>
@@ -987,6 +1022,9 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
 
           <div id="tab-cdn" class="tab-content active">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido:</strong> Estruturação básica de inclusão de dependências. O CSS do Bootstrap é carregado no <code>&lt;head&gt;</code> para evitar telas sem formatação, e o jQuery e o script da aplicação (<code>app.js</code>) são carregados no final do <code>&lt;body&gt;</code>.
+            </div>
             <pre><code><span class="cm">&lt;!-- Estrutura Recomendada de Inclusão de Dependências --&gt;</span>
 &lt;<span class="kw">head</span>&gt;
   <span class="cm">&lt;!-- Bootstrap 5 CSS (Official: https://getbootstrap.com) --&gt;</span>
@@ -1004,6 +1042,9 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
 
           <div id="tab-ex1" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 1):</strong> Grid Responsivo do Bootstrap 5. Demonstra como organizar colunas em containers usando as classes <code>col-12 col-md-6 col-lg-4</code> para ajustar a visualização em celulares, tablets e telas grandes.
+            </div>
             <pre><code><span class="cm">&lt;!-- Exemplo 1: Grid Responsivo do Bootstrap 5 --&gt;</span>
 &lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
@@ -1014,6 +1055,9 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
 
           <div id="tab-ex2" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 2):</strong> Formulários Estilizados com Bootstrap 5. Aplica <code>.form-label</code> e <code>.form-control</code> para deixar o campo de entrada de texto moderno, fluido e responsivo.
+            </div>
             <pre><code><span class="cm">&lt;!-- Exemplo 2: Formulários Estilizados com Bootstrap 5 --&gt;</span>
 &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
   &lt;<span class="kw">label</span> for=<span class="str">"email"</span> class=<span class="str">"form-label"</span>&gt;Endereço de E-mail&lt;/<span class="kw">label</span>&gt;
@@ -1022,6 +1066,9 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
 
           <div id="tab-ex3" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 3):</strong> Componentes Cards, Botões e Alertas. Agrupa dados em um cartão elevado com sombra (<code>.card .shadow</code>), exibe alertas coloridos (<code>.alert-success</code>) e cria botões de ação (<code>.btn-success</code>).
+            </div>
             <pre><code><span class="cm">&lt;!-- Exemplo 3: Componentes Cards, Botões e Alertas --&gt;</span>
 &lt;<span class="kw">div</span> class=<span class="str">"card p-4 shadow"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"alert alert-success"</span> role=<span class="str">"alert"</span>&gt;Cliente salvo com sucesso!&lt;/<span class="kw">div</span>&gt;
@@ -1030,6 +1077,9 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
 
           <div id="tab-ex4" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 4):</strong> Tabelas Elegantes com Utilitários. Formata dados em formato tabular zebrado com <code>.table .table-hover .table-striped</code> para facilitar a leitura dos registros.
+            </div>
             <pre><code><span class="cm">&lt;!-- Exemplo 4: Tabelas Elegantes com Utilitários --&gt;</span>
 &lt;<span class="kw">div</span> class=<span class="str">"table-responsive mt-3"</span>&gt;
   &lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped align-middle"</span>&gt;
@@ -1042,6 +1092,9 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
 
           <div id="tab-ex5" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 5):</strong> Seletores e Leitura/Escrita no jQuery. Lê o texto inserido em um campo de entrada com <code>$('#nome').val()</code> e altera dinamicamente o texto de outro elemento na tela com <code>.text()</code> ou <code>.html()</code>.
+            </div>
             <pre><code><span class="cm">// Exemplo 5: Seletores e Leitura/Escrita no jQuery</span>
 <span class="kw">const</span> nomeDigitado = $(<span class="str">'#nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê o valor do input</span>
 $(<span class="str">'#titulo-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Bem-vindo, ${nomeDigitado}!`</span>); <span class="cm">// Altera texto</span>
@@ -1049,6 +1102,9 @@ $(<span class="str">'#painel'</span>).<span class="fn">html</span>(<span class="
           </div>
 
           <div id="tab-ex6" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
+            </div>
             <pre><code><span class="cm">// Exemplo 6: Recursos Estéticos e Efeitos Visuais no jQuery</span>
 $(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
 $(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
@@ -1056,6 +1112,9 @@ $(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<s
           </div>
 
           <div id="tab-ex7" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
+            </div>
             <pre><code><span class="cm">// Exemplo 7: Eventos e Inserção Dinâmica no DOM com jQuery</span>
 $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
   e.<span class="fn">preventDefault</span>();
@@ -1067,6 +1126,9 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
           </div>
 
           <div id="tab-ex8" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+            </div>
             <pre><code><span class="cm">// Exemplo 8: Persistindo Dados no LocalStorage</span>
 <span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
   localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));

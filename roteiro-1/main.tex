@@ -21,7 +21,7 @@ Ao final desta aula o estudante será capaz de:
 \item Aplicar o \textbf{Bootstrap 5} para estilizar elementos (Exemplos 1 a 4: Grid, Formulários, Cards e Tabelas);
 \item Empregar o \textbf{jQuery} explorando seus recursos funcionais, estéticos e dinâmicos de manipulação do DOM (Exemplos 5 a 7);
 \item Persistir e recuperar dados no navegador utilizando o \textbf{LocalStorage} (Exemplo 8);
-\item Consultar o quadro de apoio \textbf{"Para explorar mais..."} para expandir as opções de classes e métodos.
+\item Consultar a descrição detalhada do desenvolvimento de cada exemplo e o quadro \textbf{"Para explorar mais..."}.
 \end{itemize}
 \end{boxObjetivos}
 
@@ -47,21 +47,20 @@ O trabalho é guiado pela \textbf{Apresentação Interativa de Transição} proj
 % PARTE 1
 % =====================================================
 
-\subsection{Parte 1 — Apresentação Interativa e Exemplos Guiados (25 minutos)}
+\subsection{Parte 1 — Detalhamento Didático dos Exemplos 1 a 8 (25 minutos)}
 
-\begin{boxAtividade}[{Atividade 1 -- Projeção dos Slides e Portais Oficiais}]
+Abaixo está o detalhamento de o que está sendo desenvolvido em cada exemplo para guiar os alunos durante a explicação:
 
-Acompanhamento da apresentação em slides dinâmicos (\texttt{retomada-de-atividades-pi2/index.html}):
-
-\begin{enumerate}
-\item \textbf{A Base de ProgWeb 1 \& PPC (Slides 2 e 3):} Recapitulação semântica e ementa de 120h do curso;
-\item \textbf{Obtenção \& Inclusão CDN (Slide 4):} Acesso aos portais oficiais (\texttt{getbootstrap.com} e \texttt{jquery.com}) e vinculação do script externo \texttt{app.js};
-\item \textbf{Bootstrap 5 em Prática (Slides 5 e 6):} Grid Responsivo (\textbf{Exemplo 1}), Formulários (\textbf{Exemplo 2}), Cards/Alertas (\textbf{Exemplo 3}) e Tabelas (\textbf{Exemplo 4}) acompanhados da tabela \textbf{"Para explorar mais no Bootstrap"};
-\item \textbf{jQuery Funcional, Estético e Dinâmico (Slides 7, 8 e 9):} Seletores (\textbf{Exemplo 5}), Efeitos \texttt{.fadeIn()} (\textbf{Exemplo 6}), Inserção no DOM (\textbf{Exemplo 7}) e LocalStorage (\textbf{Exemplo 8}) com a tabela \textbf{"Para explorar mais no jQuery"};
-\item \textbf{Guia Interativo de Código (Slide 10):} Navegação pelas abas dos Exemplos 1 a 8 e CDN.
-\end{enumerate}
-
-\end{boxAtividade}
+\begin{itemize}
+\item \textbf{Exemplo 1 (Bootstrap 5 — Grid Responsivo \& Containers):} \textit{Desenvolvimento de layout responsivo flexível.} A classe \texttt{.container} centraliza o conteúdo, \texttt{.row} cria a linha de grade e \texttt{.col-12 .col-md-6 .col-lg-4} ajusta a largura para 100\% no celular, 50\% em tablets e 33.3\% em telas grandes;
+\item \textbf{Exemplo 2 (Bootstrap 5 — Formulários \& Inputs Estilizados):} \textit{Construção de campos com visual moderno.} A classe \texttt{.mb-3} adiciona margem inferior, \texttt{.form-label} formata o rótulo e \texttt{.form-control} estiliza o campo com bordas arredondadas e efeito de foco azul;
+\item \textbf{Exemplo 3 (Bootstrap 5 — Cards, Botões \& Alertas Visuais):} \textit{Empacotamento de componentes de interface.} Cria um cartão com elevação visual (\texttt{.card .shadow}), exibe um alerta verde de confirmação (\texttt{.alert .alert-success}) e insere um botão estilizado (\texttt{.btn .btn-success});
+\item \textbf{Exemplo 4 (Bootstrap 5 — Tabelas Elegantes \& Utilitários):} \textit{Formatação visual de tabelas.} Aplica \texttt{.table} para espaçamento automático, \texttt{.table-hover} para destacar a linha sob o ponteiro do mouse e \texttt{.table-striped} para alternar as cores das linhas;
+\item \textbf{Exemplo 5 (jQuery Funcional — Seleção \& Leitura/Escrita):} \textit{Leitura e alteração dinâmica de dados.} O comando \texttt{\textdollar('\#input').val()} extrai o texto digitado pelo usuário e \texttt{\textdollar('\#titulo').text('...')} atualiza a tela instantaneamente;
+\item \textbf{Exemplo 6 (jQuery Estético — Efeitos Visuais \& Classes CSS):} \textit{Feedback visual animado.} Remove a classe \texttt{.d-none}, altera a cor do quadro e faz a mensagem surgir suavemente com \texttt{.fadeIn(300)};
+\item \textbf{Exemplo 7 (jQuery Dinâmico — Eventos \& Inserção no DOM):} \textit{Inserção dinâmica de dados.} Escuta o envio do formulário com \texttt{.on('submit')}, impede a atualização da tela com \texttt{e.preventDefault()} e insere novas linhas na tabela com \texttt{.append()};
+\item \textbf{Exemplo 8 (Persistência Local — Gerenciamento com LocalStorage):} \textit{Armazenamento duradouro no navegador.} Salva a lista convertendo para texto com \texttt{JSON.stringify()} e a recupera com \texttt{JSON.parse()} ao recarregar a página (F5).
+\end{itemize}
 
 % =====================================================
 % TABELAS "PARA EXPLORAR MAIS"
