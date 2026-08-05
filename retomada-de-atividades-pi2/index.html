@@ -748,7 +748,7 @@
       <!-- SLIDE 6: Bootstrap 5 — Componentes Visuais & Utilitários (Exemplos 3 e 4) -->
       <section class="slide" id="slide-6">
         <h2 class="slide-title">🎨 Bootstrap 5: Componentes Visuais & Utilitários</h2>
-        <p class="slide-subtitle">Como empacotar conteúdos com cartões, botões e tabelas elegantes:</p>
+        <p class="slide-subtitle">Como empacotar conteúdos com cartões, botões e tabelas zebradas elegantes:</p>
 
         <div class="grid-2">
           <div>
@@ -766,20 +766,23 @@
 
             <div class="card card-highlight-purple">
               <span class="example-tag">Exemplo 4</span>
-              <h3>Tabelas Elegantes & Utilitários</h3>
+              <h3>Tabelas Elegantes & Utilitários (Referência W3Schools)</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Tabela zebrada e interativa. A classe <code>.table</code> adiciona padding interno automático, <code>.table-hover</code> destaca a linha sob o mouse e <code>.table-striped</code> alterna as cores das linhas para facilitar a leitura.
+                <strong>O que está sendo desenvolvido:</strong> Tabela zebrada com múltiplos registros e badges. A classe <code>.table-striped</code> alterna as cores das linhas para facilitar a leitura, <code>.table-hover</code> destaca a linha sob o mouse e <code>.badge</code> exibe tags de status.
               </div>
-              <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped"</span>&gt;
-  &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
-  &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;&lt;/<span class="kw">tbody</span>&gt;
+              <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover table-bordered align-middle"</span>&gt;
+  &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Status&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
+  &lt;<span class="kw">tbody</span>&gt;
+    &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;1&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+    &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;2&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+  &lt;/<span class="kw">tbody</span>&gt;
 &lt;/<span class="kw">table</span>&gt;</code></pre>
             </div>
           </div>
 
           <!-- Tabela "Para explorar mais..." -->
           <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no Bootstrap (Componentes & Utilitários):</div>
+            <div class="explore-title">🔍 Para explorar mais no Bootstrap (Componentes & Utilitários - W3Schools):</div>
             <div class="table-responsive">
               <table class="explore-table">
                 <thead>
@@ -790,24 +793,24 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><code>btn-outline-danger</code></td>
-                    <td>Cria botão vazado com borda vermelha que preenche ao passar o mouse.</td>
+                    <td><code>table-striped / table-hover</code></td>
+                    <td>Alterna fundo das linhas (zebrado) e adiciona efeito hover ao passar o mouse.</td>
                   </tr>
                   <tr>
-                    <td><code>badge bg-primary</code></td>
-                    <td>Cria uma pequena etiqueta colorida para contadores ou status.</td>
+                    <td><code>badge bg-success / bg-danger</code></td>
+                    <td>Etiquetas coloridas de status (Verde para ativo, Vermelho para inativo).</td>
+                  </tr>
+                  <tr>
+                    <td><code>btn-outline-primary / btn-sm</code></td>
+                    <td>Botões vazados de tamanho reduzido ideais para ações em tabelas.</td>
                   </tr>
                   <tr>
                     <td><code>shadow-sm / shadow-lg</code></td>
-                    <td>Aplica sombra suave ou pronunciada para dar profundidade de elevação.</td>
-                  </tr>
-                  <tr>
-                    <td><code>p-4 mb-3 mt-2</code></td>
-                    <td>Utilitários de espaçamento: Padding 4, Margin Bottom 3, Margin Top 2.</td>
+                    <td>Sombra suave ou pronunciada para dar profundidade aos cartões.</td>
                   </tr>
                   <tr>
                     <td><code>d-flex justify-content-between</code></td>
-                    <td>Ativa Flexbox e alinha itens nas extremidades da caixa.</td>
+                    <td>Ativa Flexbox alinhando elementos nas extremidades do container.</td>
                   </tr>
                 </tbody>
               </table>
@@ -816,15 +819,80 @@
         </div>
       </section>
 
-      <!-- SLIDE 7: jQuery — Recursos Funcionais (Exemplo 5) -->
+      <!-- SLIDE 7: Bootstrap 5 — Integração Completa de Componentes (Exemplo 5) -->
       <section class="slide" id="slide-7">
+        <h2 class="slide-title">🧩 Bootstrap 5: Integração de Componentes (Layout Final)</h2>
+        <p class="slide-subtitle">Combinando Grid, Formulários, Cards e Tabelas Zebradas em uma única interface antes de iniciar o jQuery:</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="card card-highlight-purple mb-3">
+              <span class="example-tag">Exemplo 5 (Novo!)</span>
+              <h3>Integração Completa de Componentes</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Layout integrado de cadastro e listagem. Combina <code>.row .col-lg-4</code> (Formulário no Card) e <code>.col-lg-8</code> (Tabela Zebrada com Busca), preparando o terreno visual para a interatividade com jQuery.
+              </div>
+              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"row g-4"</span>&gt;
+  &lt;<span class="cm">&lt;!-- Coluna do Formulário --&gt;</span>
+  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-4"</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"card shadow-sm p-3"</span>&gt;
+      &lt;<span class="kw">input</span> class=<span class="str">"form-control mb-2"</span> placeholder=<span class="str">"Nome"</span>&gt;
+      &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success w-100"</span>&gt;Cadastrar&lt;/<span class="kw">button</span>&gt;
+    &lt;/<span class="kw">div</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+
+  &lt;<span class="cm">&lt;!-- Coluna da Tabela Zebrada --&gt;</span>
+  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-8"</span>&gt;
+    &lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover"</span>&gt;...&lt;/<span class="kw">table</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">💡 Vantagens da Integração Visual Bootstrap (W3Schools):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Elemento Integrado</th>
+                    <th>Benefício Didático & Prático</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Formulário + Card</code></td>
+                    <td>Encapsula campos de entrada com visual limpo e bordas bem definidas.</td>
+                  </tr>
+                  <tr>
+                    <td><code>Tabela Zebrada + Badges</code></td>
+                    <td>Exibe registros com rápida distinção visual de status.</td>
+                  </tr>
+                  <tr>
+                    <td><code>Grid Responsivo (.row)</code></td>
+                    <td>Adapta form e tabela lado a lado no desktop e empilhados no celular.</td>
+                  </tr>
+                  <tr>
+                    <td><code>Ponte para o jQuery</code></td>
+                    <td>Permite focar 100% na lógica de manipulação sem se preocupar com CSS.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: jQuery — Recursos Funcionais (Exemplo 6) -->
+      <section class="slide" id="slide-8">
         <h2 class="slide-title">⚡ jQuery: Recursos Funcionais (Seleção & Dados)</h2>
         <p class="slide-subtitle">Aceder e manipular valores do DOM de forma direta e intuitiva com o cifrão <code>$()</code>:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 5</span>
+              <span class="example-tag">Exemplo 6</span>
               <h3>Seletores & Leitura/Escrita de Dados</h3>
               <div class="example-desc">
                 <strong>O que está sendo desenvolvido:</strong> Leitura e escrita dinâmica de dados. O comando <code>$('#input-nome').val()</code> extrai o texto digitado pelo usuário e <code>$('#mensagem-boas-vindas').text('...')</code> atualiza instantaneamente a tela com uma saudação personalizada.
@@ -876,15 +944,15 @@ $(<span class="str">'#mensagem-boas-vindas'</span>).<span class="fn">text</span>
         </div>
       </section>
 
-      <!-- SLIDE 8: jQuery — Recursos Estéticos (Exemplo 6) -->
-      <section class="slide" id="slide-8">
+      <!-- SLIDE 9: jQuery — Recursos Estéticos (Exemplo 7) -->
+      <section class="slide" id="slide-9">
         <h2 class="slide-title">⚡ jQuery: Recursos Estéticos (Efeitos & Classes CSS)</h2>
         <p class="slide-subtitle">Como criar efeitos visuais, ocultar elementos e alternar classes CSS com animações fluidas:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 6</span>
+              <span class="example-tag">Exemplo 7</span>
               <h3>Efeitos Visuais & Classes CSS</h3>
               <div class="example-desc">
                 <strong>O que está sendo desenvolvido:</strong> Feedback visual animado ao usuário. Remove a classe <code>d-none</code> para tornar o alerta visível, aplica a classe de cor <code>alert-success</code> do Bootstrap, altera a mensagem com <code>.text()</code> e faz o quadro surgir suavemente com <code>.fadeIn(300)</code>.
@@ -933,15 +1001,15 @@ $(<span class="str">'#mensagem-status'</span>)
         </div>
       </section>
 
-      <!-- SLIDE 9: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 7 e 8) -->
-      <section class="slide" id="slide-9">
+      <!-- SLIDE 10: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 8 e 9) -->
+      <section class="slide" id="slide-10">
         <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
         <p class="slide-subtitle">Escuta de eventos, inserção dinâmica de elementos no DOM e persistência local:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-2">
-              <span class="example-tag">Exemplo 7</span>
+              <span class="example-tag">Exemplo 8</span>
               <h3>Eventos & Inserção Dinâmica no DOM</h3>
               <div class="example-desc">
                 <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela via formulário. Escuta o evento <code>submit</code> do formulário, impede a atualização da página com <code>e.preventDefault()</code>, monta uma linha HTML (<code>&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code>) e a insere no final da tabela com <code>.append()</code>.
@@ -954,7 +1022,7 @@ $(<span class="str">'#mensagem-status'</span>)
             </div>
 
             <div class="card card-highlight-amber">
-              <span class="example-tag">Exemplo 8</span>
+              <span class="example-tag">Exemplo 9</span>
               <h3>Persistência no LocalStorage</h3>
               <div class="example-desc">
                 <strong>O que está sendo desenvolvido:</strong> Armazenamento duradouro no navegador. Salva a lista de clientes convertendo para texto com <code>JSON.stringify()</code> e recupera os dados salvos convertendo de volta para objeto/array com <code>JSON.parse()</code> para os dados não sumirem ao pressionar F5.
@@ -1003,22 +1071,23 @@ $(<span class="str">'#mensagem-status'</span>)
         </div>
       </section>
 
-      <!-- SLIDE 10: Guia Interativo de Código -->
-      <section class="slide" id="slide-10">
-        <h2 class="slide-title">💻 Guia Interativo de Código (Exemplos 1 a 8)</h2>
-        <p class="slide-subtitle">Use as abas abaixo para consultar e referenciar qualquer um dos 8 exemplos durante a aula:</p>
+      <!-- SLIDE 11: Guia Interativo de Código -->
+      <section class="slide" id="slide-11">
+        <h2 class="slide-title">💻 Guia Interativo de Código (Exemplos 1 a 9)</h2>
+        <p class="slide-subtitle">Use as abas abaixo para consultar e referenciar qualquer um dos 9 exemplos durante a aula:</p>
 
         <div class="code-tabs">
           <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-cdn')">Guia de Inclusão CDN</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex1')">Exemplo 1 (Grid BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex2')">Exemplo 2 (Forms BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex3')">Exemplo 3 (Cards/Alerts)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex4')">Exemplo 4 (Tabelas)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex5')">Exemplo 5 (Seletores jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex6')">Exemplo 6 (Efeitos jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex7')">Exemplo 7 (Eventos/DOM)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex8')">Exemplo 8 (LocalStorage)</button>
+            <button class="tab-btn active" onclick="switchTab('tab-cdn')">Guia CDN</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex1')">Ex 1 (Grid BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex2')">Ex 2 (Forms BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex3')">Ex 3 (Cards/Alerts)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex4')">Ex 4 (Tabelas)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex5')">Ex 5 (Integração BS5)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex6')">Ex 6 (Seletores jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex7')">Ex 7 (Efeitos jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex8')">Ex 8 (Eventos/DOM)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex9')">Ex 9 (LocalStorage)</button>
           </div>
 
           <div id="tab-cdn" class="tab-content active">
@@ -1078,44 +1147,65 @@ $(<span class="str">'#mensagem-status'</span>)
 
           <div id="tab-ex4" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 4):</strong> Tabelas Elegantes com Utilitários. Formata dados em formato tabular zebrado com <code>.table .table-hover .table-striped</code> para facilitar a leitura dos registros.
+              <strong>O que está sendo desenvolvido (Exemplo 4):</strong> Tabelas Elegantes com Utilitários e Badges. Formata dados em tabela zebrada com <code>.table .table-hover .table-striped .table-bordered</code> e exibe etiquetas de status com <code>.badge</code>.
             </div>
-            <pre><code><span class="cm">&lt;!-- Exemplo 4: Tabelas Elegantes com Utilitários --&gt;</span>
+            <pre><code><span class="cm">&lt;!-- Exemplo 4: Tabelas Elegantes com Utilitários (W3Schools) --&gt;</span>
 &lt;<span class="kw">div</span> class=<span class="str">"table-responsive mt-3"</span>&gt;
-  &lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped align-middle"</span>&gt;
+  &lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped table-bordered align-middle"</span>&gt;
     &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;
-      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Ações&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;E-mail&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Status&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;
     &lt;/<span class="kw">thead</span>&gt;
-    &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;&lt;/<span class="kw">tbody</span>&gt;
+    &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;
+      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;1&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;ana@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;2&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;bruno@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+    &lt;/<span class="kw">tbody</span>&gt;
   &lt;/<span class="kw">table</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
           </div>
 
           <div id="tab-ex5" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 5):</strong> Seletores e Leitura/Escrita no jQuery. Lê o texto inserido em um campo de entrada com <code>$('#nome').val()</code> e altera dinamicamente o texto de outro elemento na tela com <code>.text()</code> ou <code>.html()</code>.
+              <strong>O que está sendo desenvolvido (Exemplo 5):</strong> Integração de Componentes Bootstrap 5. Une Grid responsivo, formulário de cadastro, cards com bordas/sombras e tabela zebrada em um único layout antes da introdução ao jQuery.
             </div>
-            <pre><code><span class="cm">// Exemplo 5: Seletores e Leitura/Escrita no jQuery</span>
+            <pre><code><span class="cm">&lt;!-- Exemplo 5: Integração Completa de Componentes Bootstrap 5 --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"row g-4"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-4"</span>&gt;
+    &lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow-sm"</span>&gt;
+      &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control mb-2"</span> id=<span class="str">"nome"</span> placeholder=<span class="str">"Nome"</span>&gt;
+      &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success w-100"</span>&gt;Cadastrar&lt;/<span class="kw">button</span>&gt;
+    &lt;/<span class="kw">div</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-8"</span>&gt;
+    &lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover"</span>&gt;...&lt;/<span class="kw">table</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+&lt;/<span class="kw">div</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-ex6" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Seletores e Leitura/Escrita no jQuery. Lê o texto inserido em um campo de entrada com <code>$('#nome').val()</code> e altera dinamicamente o texto de outro elemento na tela com <code>.text()</code> ou <code>.html()</code>.
+            </div>
+            <pre><code><span class="cm">// Exemplo 6: Seletores e Leitura/Escrita no jQuery</span>
 <span class="kw">const</span> nomeDigitado = $(<span class="str">'#nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê o valor do input</span>
 $(<span class="str">'#titulo-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Bem-vindo, ${nomeDigitado}!`</span>); <span class="cm">// Altera texto</span>
 $(<span class="str">'#painel'</span>).<span class="fn">html</span>(<span class="str">'&lt;span class="badge bg-success"&gt;Ativo&lt;/span&gt;'</span>); <span class="cm">// Altera HTML</span></code></pre>
           </div>
 
-          <div id="tab-ex6" class="tab-content">
+          <div id="tab-ex7" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
+              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
             </div>
-            <pre><code><span class="cm">// Exemplo 6: Recursos Estéticos e Efeitos Visuais no jQuery</span>
+            <pre><code><span class="cm">// Exemplo 7: Recursos Estéticos e Efeitos Visuais no jQuery</span>
 $(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
 $(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
 $(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
           </div>
 
-          <div id="tab-ex7" class="tab-content">
+          <div id="tab-ex8" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
+              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
             </div>
-            <pre><code><span class="cm">// Exemplo 7: Eventos e Inserção Dinâmica no DOM com jQuery</span>
+            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
 $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
   e.<span class="fn">preventDefault</span>();
   <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
@@ -1125,11 +1215,11 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
 });</code></pre>
           </div>
 
-          <div id="tab-ex8" class="tab-content">
+          <div id="tab-ex9" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
             </div>
-            <pre><code><span class="cm">// Exemplo 8: Persistindo Dados no LocalStorage</span>
+            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
 <span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
   localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
 }
@@ -1142,27 +1232,27 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         </div>
       </section>
 
-      <!-- SLIDE 11: Checklist da Aula -->
-      <section class="slide" id="slide-11">
+      <!-- SLIDE 12: Checklist da Aula -->
+      <section class="slide" id="slide-12">
         <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade da Aula)</h2>
         <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e siga o roteiro prático no VS Code:</p>
 
         <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">1. Analisar de onde buscamos o Bootstrap (<code>getbootstrap.com</code>) e o jQuery (<code>code.jquery.com</code>) no <code>index.html</code> (Slide 4).</div>
+            <div class="check-text">1. Analisar a inclusão das dependências do Bootstrap (<code>getbootstrap.com</code>) e do jQuery (<code>code.jquery.com</code>) no <code>index.html</code>.</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">2. Testar o formulário estilizado com o grid e componentes do Bootstrap (<strong>Exemplos 1 a 4</strong>).</div>
+            <div class="check-text">2. Construir o formulário e a tabela zebrada integrando componentes do Bootstrap (<strong>Exemplos 1 a 5</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar clientes observando a leitura de inputs e inserção dinâmica na tabela com jQuery em <code>app.js</code> (<strong>Exemplos 5 e 7</strong>).</div>
+            <div class="check-text">3. Cadastrar dados observando a leitura de inputs e inserção dinâmica na tabela com jQuery em <code>app.js</code> (<strong>Exemplos 6 a 8</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
-            <div class="check-text">4. Pressionar <code>F5</code> para recarregar a página e comprovar que os clientes permanecem salvos no <code>localStorage</code> (<strong>Exemplo 8</strong>).</div>
+            <div class="check-text">4. Pressionar <code>F5</code> para recarregar a página e comprovar a persistência no <code>localStorage</code> (<strong>Exemplo 9</strong>).</div>
           </div>
           <div class="check-item" onclick="toggleCheck(this)">
             <div class="check-box">✓</div>
@@ -1171,15 +1261,15 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         </div>
       </section>
 
-      <!-- SLIDE 12: Encerramento & Prévia da Aula 02 -->
-      <section class="slide" id="slide-12">
+      <!-- SLIDE 13: Encerramento & Prévia da Aula 02 -->
+      <section class="slide" id="slide-13">
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 850px; margin: 0 auto;">
           <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🚀</div>
           <h2 class="slide-title" style="font-size: 2.8rem; justify-content: center;">
             Parabéns pelo Progresso!
           </h2>
           <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
-            Hoje dominamos a inclusão correta de dependências, os sites oficiais do <strong>Bootstrap 5</strong> (<code>getbootstrap.com</code>) e <strong>jQuery</strong> (<code>jquery.com</code>), o uso do Bootstrap 5 (Exemplos 1 a 4) e dos recursos do jQuery (Exemplos 5 a 8). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong>!
+            Hoje dominamos a inclusão correta de dependências, os sites oficiais do <strong>Bootstrap 5</strong> (<code>getbootstrap.com</code>) e <strong>jQuery</strong> (<code>jquery.com</code>), o uso do Bootstrap 5 integrando componentes (Exemplos 1 a 5) e os recursos do jQuery com LocalStorage (Exemplos 6 a 9). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong>!
           </p>
 
           <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
@@ -1198,7 +1288,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         <div class="progress-bar-bg">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 12</span>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 13</span>
       </div>
 
       <div class="nav-controls">
@@ -1211,6 +1301,9 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
           ⛶
         </button>
+        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
+          ⛶
+        </button>
       </div>
     </footer>
 
@@ -1218,7 +1311,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
 
   <script>
     let currentSlide = 1;
-    const totalSlides = 12;
+    const totalSlides = 13;
 
     function updateSlides() {
       document.querySelectorAll('.slide').forEach((slide, idx) => {

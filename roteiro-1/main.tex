@@ -18,10 +18,10 @@ Ao final desta aula o estudante será capaz de:
 \item Compreender o alinhamento do semestre com o Projeto Pedagógico do Curso (\textbf{PPC} CONSUP 30/2020 — 120h);
 \item Localizar e obter as dependências nos sites oficiais do \textbf{Bootstrap 5} (\url{https://getbootstrap.com}) e do \textbf{jQuery} (\url{https://jquery.com} e \url{https://code.jquery.com});
 \item Configurar o ambiente incluindo o Bootstrap CSS no \texttt{<head>} e os scripts no final do \texttt{<body>}, organizando a lógica em arquivo JavaScript externo (\texttt{app.js});
-\item Aplicar o \textbf{Bootstrap 5} para estilizar elementos (Exemplos 1 a 4: Grid, Formulários, Cards e Tabelas);
-\item Empregar o \textbf{jQuery} explorando seus recursos funcionais, estéticos e dinâmicos de manipulação do DOM (Exemplos 5 a 7);
-\item Persistir e recuperar dados no navegador utilizando o \textbf{LocalStorage} (Exemplo 8);
-\item Consultar a descrição detalhada do desenvolvimento de cada exemplo e o quadro \textbf{"Para explorar mais..."}.
+\item Aplicar o \textbf{Bootstrap 5} para estilizar elementos (Exemplos 1 a 5: Grid, Formulários, Cards, Tabelas Zebradas e Integração de Componentes);
+\item Empregar o \textbf{jQuery} explorando seus recursos funcionais, estéticos e dinâmicos de manipulação do DOM (Exemplos 6 a 8);
+\item Persistir e recuperar dados no navegador utilizando o \textbf{LocalStorage} (Exemplo 9);
+\item Consultar o W3Schools e a documentação oficial nos quadros de apoio \textbf{"Para explorar mais..."}.
 \end{itemize}
 \end{boxObjetivos}
 
@@ -33,12 +33,12 @@ Ao final desta aula o estudante será capaz de:
 
 Bem-vindos à disciplina de \textbf{Programação para a Internet 2 (ProgWeb 2)}!
 
-Neste primeiro encontro, construímos uma transição didática entre a base de **ProgWeb 1** e os novos recursos do semestre. Iniciamos identificando onde obter as bibliotecas nos seus portais oficiais:
+Neste primeiro encontro, construímos uma transição didática entre a base de \textbf{ProgWeb 1} e os novos recursos do semestre. Iniciamos identificando onde obter as bibliotecas nos seus portais oficiais:
 
 \begin{enumerate}
-\item \textbf{Bootstrap 5 (Site Oficial \& CDN):} No site \url{https://getbootstrap.com}, encontramos a documentação de componentes e os links de CDN (jsDelivr) que incluímos via tag \texttt{<link rel="stylesheet">} dentro da seção \texttt{<head>};
+\item \textbf{Bootstrap 5 (Site Oficial \& CDN):} No site \url{https://getbootstrap.com} e nas referências do W3Schools, encontramos a documentação de componentes e os links de CDN (jsDelivr) que incluímos via tag \texttt{<link rel="stylesheet">} dentro da seção \texttt{<head>};
 \item \textbf{jQuery (Site Oficial \& CDN):} No portal \url{https://jquery.com} e no servidor de CDN \url{https://code.jquery.com}, obtemos os links da versão minificada (\texttt{jquery-3.7.1.min.js}), incluídos via tag \texttt{<script>} antes do fechamento do \texttt{</body>};
-\item \textbf{Organização Profissional (Arquivo External \texttt{app.js}):} Em **ProgWeb 2**, adotamos como boa prática o desacoplamento do código JavaScript em um arquivo separado (\texttt{app.js}), em vez de escrever scripts dentro de tags inline no HTML.
+\item \textbf{Organização Profissional (Arquivo Externo \texttt{app.js}):} Em \textbf{ProgWeb 2}, adotamos como boa prática o desacoplamento do código JavaScript em um arquivo separado (\texttt{app.js}), em vez de escrever scripts dentro de tags inline no HTML.
 \end{enumerate}
 
 O trabalho é guiado pela \textbf{Apresentação Interativa de Transição} projetada em sala (\texttt{retomada-de-atividades-pi2/index.html}) e pela execução do projeto prático na pasta \texttt{exercicio-retomada/}.
@@ -47,7 +47,7 @@ O trabalho é guiado pela \textbf{Apresentação Interativa de Transição} proj
 % PARTE 1
 % =====================================================
 
-\subsection{Parte 1 — Detalhamento Didático dos Exemplos 1 a 8 (25 minutos)}
+\subsection{Parte 1 — Detalhamento Didático dos Exemplos 1 a 9 (25 minutos)}
 
 Abaixo está o detalhamento de o que está sendo desenvolvido em cada exemplo para guiar os alunos durante a explicação:
 
@@ -55,11 +55,12 @@ Abaixo está o detalhamento de o que está sendo desenvolvido em cada exemplo pa
 \item \textbf{Exemplo 1 (Bootstrap 5 — Grid Responsivo \& Containers):} \textit{Desenvolvimento de layout responsivo flexível.} A classe \texttt{.container} centraliza o conteúdo, \texttt{.row} cria a linha de grade e \texttt{.col-12 .col-md-6 .col-lg-4} ajusta a largura para 100\% no celular, 50\% em tablets e 33.3\% em telas grandes;
 \item \textbf{Exemplo 2 (Bootstrap 5 — Formulários \& Inputs Estilizados):} \textit{Construção de campos com visual moderno.} A classe \texttt{.mb-3} adiciona margem inferior, \texttt{.form-label} formata o rótulo e \texttt{.form-control} estiliza o campo com bordas arredondadas e efeito de foco azul;
 \item \textbf{Exemplo 3 (Bootstrap 5 — Cards, Botões \& Alertas Visuais):} \textit{Empacotamento de componentes de interface.} Cria um cartão com elevação visual (\texttt{.card .shadow}), exibe um alerta verde de confirmação (\texttt{.alert .alert-success}) e insere um botão estilizado (\texttt{.btn .btn-success});
-\item \textbf{Exemplo 4 (Bootstrap 5 — Tabelas Elegantes \& Utilitários):} \textit{Formatação visual de tabelas.} Aplica \texttt{.table} para espaçamento automático, \texttt{.table-hover} para destacar a linha sob o ponteiro do mouse e \texttt{.table-striped} para alternar as cores das linhas;
-\item \textbf{Exemplo 5 (jQuery Funcional — Seleção \& Leitura/Escrita):} \textit{Leitura e alteração dinâmica de dados.} O comando \texttt{\textdollar('\#input').val()} extrai o texto digitado pelo usuário e \texttt{\textdollar('\#titulo').text('...')} atualiza a tela instantaneamente;
-\item \textbf{Exemplo 6 (jQuery Estético — Efeitos Visuais \& Classes CSS):} \textit{Feedback visual animado.} Remove a classe \texttt{.d-none}, altera a cor do quadro e faz a mensagem surgir suavemente com \texttt{.fadeIn(300)};
-\item \textbf{Exemplo 7 (jQuery Dinâmico — Eventos \& Inserção no DOM):} \textit{Inserção dinâmica de dados.} Escuta o envio do formulário com \texttt{.on('submit')}, impede a atualização da tela com \texttt{e.preventDefault()} e insere novas linhas na tabela com \texttt{.append()};
-\item \textbf{Exemplo 8 (Persistência Local — Gerenciamento com LocalStorage):} \textit{Armazenamento duradouro no navegador.} Salva a lista convertendo para texto com \texttt{JSON.stringify()} e a recupera com \texttt{JSON.parse()} ao recarregar a página (F5).
+\item \textbf{Exemplo 4 (Bootstrap 5 — Tabelas Elegantes \& Utilitários - W3Schools):} \textit{Formatação visual de tabelas com múltiplos registros e status.} Aplica \texttt{.table} para espaçamento automático, \texttt{.table-hover} para destacar a linha sob o mouse, \texttt{.table-striped} para alternar as cores das linhas (zebrado visual) e \texttt{.badge} para exibir tags coloridas de status (ex: Ativo / Pendente);
+\item \textbf{Exemplo 5 (Bootstrap 5 — Integração Completa de Componentes):} \textit{Layout integrado de cadastro e listagem.} Combina Grid responsivo (\texttt{.row .col-lg-4} e \texttt{.col-lg-8}), Formulário no Card e Tabela Zebrada com busca em uma única interface, servindo de ponte para a interatividade com jQuery;
+\item \textbf{Exemplo 6 (jQuery Funcional — Seleção \& Leitura/Escrita):} \textit{Leitura e alteração dinâmica de dados.} O comando \texttt{\textdollar('\#input').val()} extrai o texto digitado pelo usuário e \texttt{\textdollar('\#titulo').text('...')} atualiza a tela instantaneamente;
+\item \textbf{Exemplo 7 (jQuery Estético — Efeitos Visuais \& Classes CSS):} \textit{Feedback visual animado.} Remove a classe \texttt{.d-none}, altera a cor do quadro e faz a mensagem surgir suavemente com \texttt{.fadeIn(300)};
+\item \textbf{Exemplo 8 (jQuery Dinâmico — Eventos \& Inserção no DOM):} \textit{Inserção dinâmica de dados.} Escuta o envio do formulário com \texttt{.on('submit')}, impede a atualização da tela com \texttt{e.preventDefault()} e insere novas linhas na tabela com \texttt{.append()};
+\item \textbf{Exemplo 9 (Persistência Local — Gerenciamento com LocalStorage):} \textit{Armazenamento duradouro no navegador.} Salva a lista convertendo para texto com \texttt{JSON.stringify()} e a recupera com \texttt{JSON.parse()} ao recarregar a página (F5).
 \end{itemize}
 
 % =====================================================
