@@ -5,145 +5,227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap 5 CSS (cdn getbootstrap.com) & Ícones -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Exemplo 5 — Integração de Componentes Bootstrap 5</title>
+    <title>Exemplo 5 — Integração Completa de Componentes (Bootstrap 5)</title>
+
+    <style>
+        /* Efeito de destaque suave ao focar nos inputs */
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+    </style>
 </head>
 
 <body class="bg-light">
 
-    <!-- Cabeçalho Jumbotron -->
+    <!-- Cabeçalho Jumbotron / Banner Principal -->
     <div class="container-fluid p-4 bg-primary text-white text-center shadow-sm mb-4">
-        <h1 class="h2 fw-bold">Quinto Exemplo: Integração Completa de Componentes Bootstrap</h1>
-        <p class="mb-0 text-white-50">Combinando Grid, Formulários, Cards, Alertas e Tabelas Zebradas em uma única Interface (Ponte para o jQuery)</p>
+        <h1 class="h2 fw-bold">Quinto Exemplo: Integração Completa de Componentes Bootstrap 5</h1>
+        <p class="mb-0 text-white-50">Grid Responsivo, Formulários Avançados, Efeitos de Foco/Validação e Tabelas Zebradas com Rolagem Responsiva (Ponte para o jQuery)</p>
     </div>
 
     <div class="container my-4">
         <div class="row g-4">
             
-            <!-- Coluna da Esquerda: Formulário dentro de um Card -->
-            <div class="col-12 col-lg-4">
+            <!-- COLUNA DA ESQUERDA: Formulário com Diversos Elementos & Efeitos Visuais -->
+            <div class="col-12 col-lg-5">
                 <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-dark text-white fw-bold">
-                        <i class="bi bi-person-plus-fill me-2"></i>Novo Cadastro
+                    <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-person-plus-fill me-2 text-info"></i>Novo Cadastro de Aluno</span>
+                        <span class="badge bg-secondary">Form Controls</span>
                     </div>
                     <div class="card-body">
                         <form id="form-cadastro-exemplo">
+                            
+                            <!-- 1. Input Group com Ícone (Nome) -->
                             <div class="mb-3">
                                 <label for="nome" class="form-label fw-semibold">Nome Completo</label>
-                                <input type="text" class="form-control" id="nome" placeholder="Ex: Maria Oliveira" required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="bi bi-person text-primary"></i></span>
+                                    <input type="text" class="form-control" id="nome" placeholder="Ex: Maria Oliveira" required>
+                                </div>
                             </div>
 
+                            <!-- 2. Input Group com Feedback de Validação Visual (E-mail) -->
                             <div class="mb-3">
                                 <label for="email" class="form-label fw-semibold">Endereço de E-mail</label>
-                                <input type="email" class="form-control" id="email" placeholder="nome@exemplo.com" required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="bi bi-envelope text-primary"></i></span>
+                                    <input type="email" class="form-control" id="email" placeholder="nome@exemplo.com" required>
+                                </div>
+                                <div class="form-text">Dica: Utilize o e-mail institucional @aluno.ifsc.edu.br</div>
                             </div>
 
+                            <!-- 3. Select Menu Estilizado (Curso) -->
                             <div class="mb-3">
-                                <label for="curso" class="form-label fw-semibold">Curso</label>
-                                <select class="form-select" id="curso">
-                                    <option value="Sistemas para Internet" selected>Sistemas para Internet</option>
-                                    <option value="Análise e Des. de Sistemas">Análise e Des. de Sistemas</option>
-                                    <option value="Engenharia de Software">Engenharia de Software</option>
-                                </select>
+                                <label for="curso" class="form-label fw-semibold">Curso Matriculado</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="bi bi-mortarboard text-primary"></i></span>
+                                    <select class="form-select" id="curso">
+                                        <option value="Sistemas para Internet" selected>Sistemas para Internet</option>
+                                        <option value="Análise e Des. de Sistemas">Análise e Des. de Sistemas</option>
+                                        <option value="Engenharia de Software">Engenharia de Software</option>
+                                        <option value="Licenciatura em Computação">Licenciatura em Computação</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="alert alert-success d-flex align-items-center py-2 px-3 mb-3 small" role="alert">
-                                <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-                                <div>Formulário pronto para integração dinâmica com o jQuery!</div>
+                            <!-- 4. Textarea para Observações -->
+                            <div class="mb-3">
+                                <label for="obs" class="form-label fw-semibold">Observações / Perfil</label>
+                                <textarea class="form-control" id="obs" rows="2" placeholder="Digite uma breve observação ou interesse de pesquisa..."></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-success w-100 fw-bold shadow-sm">
-                                <i class="bi bi-save me-1"></i> Cadastrar Aluno
-                            </button>
+                            <!-- 5. Toggle Switch Checkbox (Opção de Notificação) -->
+                            <div class="mb-3 form-check form-switch p-2 bg-white rounded border ps-5">
+                                <input class="form-check-input" type="checkbox" id="notificar" checked>
+                                <label class="form-check-label fw-semibold text-dark" for="notificar">
+                                    <i class="bi bi-bell-fill me-1 text-warning"></i> Enviar notificações de atividades por e-mail
+                                </label>
+                            </div>
+
+                            <!-- Alerta de Orientação Pedagógica -->
+                            <div class="alert alert-info d-flex align-items-center py-2 px-3 mb-3 small" role="alert">
+                                <i class="bi bi-info-circle-fill me-2 fs-5 text-info"></i>
+                                <div><strong>Preparo para jQuery:</strong> Nos exemplos a seguir, capturaremos o <code>submit</code> deste formulário e inseriremos os dados na tabela ao lado!</div>
+                            </div>
+
+                            <!-- Botões Duplos de Ação -->
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-success flex-grow-1 fw-bold shadow-sm">
+                                    <i class="bi bi-save me-1"></i> Cadastrar Aluno
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary">
+                                    <i class="bi bi-eraser"></i> Limpar
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <!-- Coluna da Direita: Tabela Zebrada e Filtros dentro de outro Card -->
-            <div class="col-12 col-lg-8">
+            <!-- COLUNA DA DIREITA: Tabela Zebrada com Responsividade e Bordas Refinadas -->
+            <div class="col-12 col-lg-7">
                 <div class="card shadow-sm border-0 h-100">
                     <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                        <span class="fw-bold"><i class="bi bi-people-fill me-2"></i>Alunos Registrados</span>
-                        <span class="badge bg-primary">5 Registros</span>
+                        <span class="fw-bold"><i class="bi bi-people-fill me-2 text-success"></i>Alunos Registrados no Sistema</span>
+                        <span class="badge bg-primary fs-6 px-3 py-1">6 Registros</span>
                     </div>
                     <div class="card-body">
                         
-                        <!-- Barra de Busca de Exemplo -->
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-8">
+                        <!-- Barra de Busca de Exemplo e Filtros -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-12 col-md-7">
                                 <div class="input-group">
                                     <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                                    <input type="text" class="form-control" placeholder="Buscar aluno por nome..." id="busca-input">
+                                    <input type="text" class="form-control" placeholder="Buscar por nome ou e-mail..." id="busca-input">
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4 mt-2 mt-md-0">
+                            <div class="col-12 col-md-5">
                                 <select class="form-select" id="filtro-status">
                                     <option value="todos">Todos os Status</option>
                                     <option value="ativo">Apenas Ativos</option>
-                                    <option value="pendente">Pendententes</option>
+                                    <option value="pendente">Pendentes</option>
+                                    <option value="inativo">Inativos</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Tabela Zebrada com Bootstrap -->
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-bordered align-middle mb-0">
-                                <thead class="table-light">
+                        <!-- TABELA RESPONSIVA: .table-responsive permite rolagem em telas pequenas -->
+                        <div class="table-responsive rounded border">
+                            <table class="table table-striped table-hover table-bordered border-secondary-subtle align-middle mb-0">
+                                <thead class="table-dark">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Nome</th>
-                                        <th>E-mail</th>
-                                        <th>Curso</th>
-                                        <th>Status</th>
+                                        <th scope="col" class="text-center">#</th>
+                                        <th scope="col">Nome Completo</th>
+                                        <th scope="col">E-mail</th>
+                                        <th scope="col">Curso</th>
+                                        <th scope="col" class="text-center">Notif.</th>
+                                        <th scope="col" class="text-center">Status</th>
+                                        <th scope="col" class="text-center">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="table-group-divider" id="tabela-corpo">
                                     <tr>
-                                        <td>1</td>
-                                        <td class="fw-semibold">Ana Silva</td>
+                                        <th scope="row" class="text-center">1</th>
+                                        <td class="fw-bold text-primary">Ana Silva</td>
                                         <td>ana.silva@aluno.ifsc.edu.br</td>
                                         <td>Sistemas para Internet</td>
-                                        <td><span class="badge bg-success">Ativo</span></td>
+                                        <td class="text-center"><i class="bi bi-check-circle-fill text-success fs-5"></i></td>
+                                        <td class="text-center"><span class="badge bg-success">Ativo</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>2</td>
-                                        <td class="fw-semibold">Bruno Souza</td>
+                                        <th scope="row" class="text-center">2</th>
+                                        <td class="fw-bold text-primary">Bruno Souza</td>
                                         <td>bruno.souza@aluno.ifsc.edu.br</td>
                                         <td>Sistemas para Internet</td>
-                                        <td><span class="badge bg-warning text-dark">Pendente</span></td>
+                                        <td class="text-center"><i class="bi bi-x-circle-fill text-muted fs-5"></i></td>
+                                        <td class="text-center"><span class="badge bg-warning text-dark">Pendente</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>3</td>
-                                        <td class="fw-semibold">Carla Mendes</td>
+                                        <th scope="row" class="text-center">3</th>
+                                        <td class="fw-bold text-primary">Carla Mendes</td>
                                         <td>carla.mendes@aluno.ifsc.edu.br</td>
                                         <td>Análise e Des. de Sistemas</td>
-                                        <td><span class="badge bg-success">Ativo</span></td>
+                                        <td class="text-center"><i class="bi bi-check-circle-fill text-success fs-5"></i></td>
+                                        <td class="text-center"><span class="badge bg-success">Ativo</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>4</td>
-                                        <td class="fw-semibold">Diego Oliveira</td>
+                                        <th scope="row" class="text-center">4</th>
+                                        <td class="fw-bold text-primary">Diego Oliveira</td>
                                         <td>diego.o@aluno.ifsc.edu.br</td>
                                         <td>Sistemas para Internet</td>
-                                        <td><span class="badge bg-danger">Inativo</span></td>
+                                        <td class="text-center"><i class="bi bi-x-circle-fill text-muted fs-5"></i></td>
+                                        <td class="text-center"><span class="badge bg-danger">Inativo</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>5</td>
-                                        <td class="fw-semibold">Elena Rostova</td>
+                                        <th scope="row" class="text-center">5</th>
+                                        <td class="fw-bold text-primary">Elena Rostova</td>
                                         <td>elena.rostova@aluno.ifsc.edu.br</td>
-                                        <td>Sistemas para Internet</td>
-                                        <td><span class="badge bg-success">Ativo</span></td>
+                                        <td>Licenciatura em Computação</td>
+                                        <td class="text-center"><i class="bi bi-check-circle-fill text-success fs-5"></i></td>
+                                        <td class="text-center"><span class="badge bg-success">Ativo</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="text-center">6</th>
+                                        <td class="fw-bold text-primary">Fernando Costa</td>
+                                        <td>fernando.c@aluno.ifsc.edu.br</td>
+                                        <td>Engenharia de Software</td>
+                                        <td class="text-center"><i class="bi bi-check-circle-fill text-success fs-5"></i></td>
+                                        <td class="text-center"><span class="badge bg-success">Ativo</span></td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
                     </div>
-                    <div class="card-footer bg-white text-muted small">
-                        <i class="bi bi-lightning-charge-fill text-warning me-1"></i>
-                        <strong>Próximo Passo Didático:</strong> Nos Exemplos 6 a 9, utilizaremos o <strong>jQuery</strong> para dar vida a este formulário, inserindo novas linhas na tabela sem dar F5 e persistindo os dados no <strong>LocalStorage</strong>!
+                    <div class="card-footer bg-white text-muted small d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-table text-primary me-1"></i>
+                            <strong>Recursos Utilizados:</strong> <code>.table-responsive</code>, <code>.table-striped</code>, <code>.table-hover</code> e <code>.table-group-divider</code>.
+                        </div>
+                        <span class="badge bg-light text-dark border">W3Schools Ref</span>
                     </div>
                 </div>
             </div>
