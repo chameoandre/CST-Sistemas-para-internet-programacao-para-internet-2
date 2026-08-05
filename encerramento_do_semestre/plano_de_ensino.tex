@@ -1,0 +1,297 @@
+\documentclass[12pt,a4paper]{article}
+
+% =====================================================
+% PACOTES E CONFIGURAÇÕES DE PÁGINA
+% =====================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil,shorthands=off]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{newtxtext,newtxmath}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.0cm,
+    right=2.0cm
+}
+
+\onehalfspacing
+
+% =====================================================
+% CORES INSTITUCIONAIS (IFSC)
+% =====================================================
+\definecolor{ifscGreen}{RGB}{22,163,74}
+\definecolor{azulTitulo}{RGB}{30,60,90}
+\definecolor{cinzaCabecalho}{RGB}{235,240,245}
+\definecolor{cinzaLinha}{RGB}{248,250,252}
+\definecolor{borderGray}{RGB}{200,210,220}
+
+% =====================================================
+% CONFIGURAÇÃO DE HIPERLINKS
+% =====================================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=azulTitulo,
+    urlcolor=ifscGreen,
+    citecolor=azulTitulo
+}
+
+% =====================================================
+% ESTILOS DE SEÇÃO
+% =====================================================
+\titleformat{\section}
+{\normalfont\large\bfseries\color{azulTitulo}}
+{\thesection}
+{1em}
+{}
+[\vspace{0.2cm}\hrule\vspace{0.2cm}]
+
+\titleformat{\subsection}
+{\normalfont\bfseries\color{azulTitulo}}
+{\thesubsection}
+{1em}
+{}
+
+% =====================================================
+% CABEÇALHO E RODAPÉ
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{
+\includegraphics[height=1.3cm]{../figures/garopaba_horizontal_marca2015_PNG.png}
+}
+
+\fancyhead[R]{
+\textbf{Plano de Ensino — 2026/2}\\
+\small UC: Programação para a Internet 2 (ProgWeb 2)\\
+\small CST em Sistemas para a Internet — IFSC Garopaba
+}
+
+\fancyfoot[L]{\small\textit{Plano de Ensino — UC Programação para a Internet 2 (PPC CONSUP 30/2020)}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small Página \thepage}
+\renewcommand{\footrulewidth}{1.5pt}
+
+\setlength{\headheight}{45pt}
+
+% =====================================================
+% DOCUMENTO PRINCIPAL
+% =====================================================
+\begin{document}
+
+% -----------------------------------------------------
+% CABEÇALHO DE IDENTIFICAÇÃO INSTITUCIONAL
+% -----------------------------------------------------
+\begin{center}
+    \includegraphics[height=2.2cm]{../figures/garopaba_horizontal_marca2015_PNG.png}\\[0.4cm]
+    {\Large \textbf{MINISTÉRIO DA EDUCAÇÃO}}\\
+    {\large SECRETARIA DE EDUCAÇÃO PROFISSIONAL E TECNOLÓGICA}\\
+    {\large INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DE SANTA CATARINA}\\
+    {\large CÂMPUS GAROPABA}\\[0.4cm]
+    {\Large \textbf{PLANO DE ENSINO — UNIDADE CURRICULAR}}\\[0.2cm]
+    {\large \textbf{Semestre Letivo: 2026/2}}
+\end{center}
+
+\vspace{0.3cm}
+
+% -----------------------------------------------------
+% 1. DADOS DE IDENTIFICAÇÃO
+% -----------------------------------------------------
+\section{Dados de Identificação}
+
+\begin{table}[H]
+\centering
+\small
+\arrayrulecolor{borderGray}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor{cinzaCabecalho}
+\multicolumn{2}{|c|}{\textbf{INFORMAÇÕES DA UNIDADE CURRICULAR}} \\ \hline
+\textbf{Curso:} & Curso Superior de Tecnologia em Sistemas para a Internet (PPC 30/2020) \\ \hline
+\textbf{Unidade Curricular (UC):} & Programação para a Internet 2 (ProgWeb 2) \\ \hline
+\textbf{Carga Horária Total:} & 80 horas (80 horas/aula práticas em laboratório) \\ \hline
+\textbf{Carga Horária Semanal:} & 4 horas/aula semanais \\ \hline
+\textbf{Fase / Módulo:} & 2ª Fase \\ \hline
+\textbf{Pré-requisito(s):} & Programação para a Internet 1 (ProgWeb 1) \\ \hline
+\textbf{Docente Responsável:} & Prof. André Moraes (\texttt{chameoandre}) \\ \hline
+\textbf{E-mail do Docente:} & \url{andre.moraes@ifsc.edu.br} \\ \hline
+\end{tabularx}
+\end{table}
+
+% -----------------------------------------------------
+% 2. EMENTA (PPC DE SISTEMAS PARA A INTERNET)
+% -----------------------------------------------------
+\section{Ementa}
+
+Conceitos avançados de desenvolvimento frontend client-side; Inclusão e integração de bibliotecas e frameworks de interface (Bootstrap 5, jQuery); Arquitetura de código JavaScript modular utilizando ES6 Modules (\texttt{import}/\texttt{export}); Manipulação avançada do DOM e formulários reativos com validação visual no cliente; Programação assíncrona avançada com \texttt{Promises}, \texttt{async/await} e consumo de APIs RESTful via \texttt{Fetch API}; Conceitos e arquitetura de Single Page Applications (SPAs) com roteamento client-side sem recarregamento de página; Gerenciamento de Estado no Cliente e armazenamento persistente via Web Storage API (\texttt{localStorage} e \texttt{sessionStorage}); Introdução às ferramentas modernas de empacotamento, build e ecossistemas frontend (\texttt{Node.js}, \texttt{npm}, \texttt{Vite}); Versionamento, publicação e hospedagem de aplicações web profissionais com Git, GitHub e GitHub Pages.
+
+% -----------------------------------------------------
+% 3. OBJETIVOS
+% -----------------------------------------------------
+\section{Objetivos de Aprendizagem}
+
+\subsection{Objetivo Geral}
+Capacitar os estudantes na construção de aplicações web modernas, reativas, modulares e profissionais no lado do cliente (frontend), aptas a interagir assincronamente com serviços web RESTful e preparadas para os ecossistemas industriais de desenvolvimento web.
+
+\subsection{Objetivos Específicos}
+\begin{itemize}[leftmargin=*]
+    \item Integrar componentes avançados de frameworks de UI (Bootstrap 5) e utilitários de manipulação do DOM (jQuery) em layouts responsivos completos;
+    \item Arquitetar projetos frontend modulares aplicando os padrões de ES6 Modules (\texttt{import}/\texttt{export}) e separação de responsabilidades;
+    \item Desenvolver rotinas assíncronas utilizando \texttt{async/await} para consumo e tratamento de exceções na integração com APIs RESTful via \texttt{Fetch API};
+    \item Implementar padrões de armazenamento local duradouro no navegador com a Web Storage API (\texttt{localStorage} e \texttt{sessionStorage});
+    \item Projetar arquiteturas de Single Page Applications (SPA) com gerenciamento de estado e navegação client-side;
+    \item Utilizar ferramentas de automação e ecossistemas web modernos (\texttt{Node.js}, \texttt{npm}, \texttt{Vite});
+    \item Versionar e publicar aplicações web utilizando Git, GitHub e a plataforma GitHub Pages.
+\end{itemize}
+
+% -----------------------------------------------------
+% 4. CONTEÚDO PROGRAMÁTICO E CRONOGRAMA SEMESTRAL
+% -----------------------------------------------------
+\section{Conteúdo Programático e Cronograma de Aulas}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|c|X|c|}
+\hline
+\rowcolor{cinzaCabecalho}
+\textbf{Semana} & \textbf{Conteúdo Programático e Atividades Práticas} & \textbf{CH (h)} \\ \hline
+\rowcolor{cinzaLinha}
+01 & \textbf{Módulo 1: Retomada \& Diagnóstico} — Transição ProgWeb 1 para ProgWeb 2, inclusão de CDNs (Bootstrap 5 / jQuery), desacoplamento com \texttt{app.js}, formulários e tabelas zebradas. & 4h \\ \hline
+02 & \textbf{Manipulação Dinâmica do DOM com jQuery} — Seletores avançados, eventos (\texttt{submit}, \texttt{click}), inserção dinâmica de elementos (\texttt{.append()}) e utilitários de animação. & 4h \\ \hline
+\rowcolor{cinzaLinha}
+03 & \textbf{Persistência Local no Navegador} — Armazenamento duradouro com Web Storage API (\texttt{localStorage}/\texttt{sessionStorage}), conversão JSON (\texttt{stringify}/\texttt{parse}). & 4h \\ \hline
+04 & \textbf{Formulários Reativos \& Validação Visual} — Validação de formulários no cliente, máscaras de entrada, feedbacks visuais de erro/sucesso e experiência do usuário (UX). & 4h \\ \hline
+\rowcolor{cinzaLinha}
+05 & \textbf{Módulo 2: Arquitetura Modular \& ES6 Modules} — Separação de responsabilidades em camadas, exportação e importação de módulos (\texttt{export}/\texttt{import}), escopo de arquivos. & 4h \\ \hline
+06 & \textbf{Padrões de Projeto no Client-Side} — Organização de serviços de dados (\textit{Services}), manipuladores de eventos (\textit{Handlers}) e renderizadores de UI (\textit{Views}). & 4h \\ \hline
+\rowcolor{cinzaLinha}
+07 & \textbf{Módulo 3: Assincronismo \& Consumo de APIs RESTful} — Conceito de requisições assíncronas, \texttt{Promises}, sintaxe \texttt{async/await} e tratamento com \texttt{try/catch}. & 4h \\ \hline
+08 & \textbf{Integração com Fetch API} — Verbos HTTP (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{DELETE}), manipulação de cabeçalhos (\texttt{Headers}) e payloads JSON. & 4h \\ \hline
+\rowcolor{cinzaLinha}
+09 & \textbf{Avaliação Prática Individual 1 (A1)} — Avaliação prática individual em laboratório sobre manipulação do DOM, módulos ES6 e consumo assíncrono de APIs. & 4h \\ \hline
+10 & \textbf{Tratamento Avançado de Erros e Feedbacks} — Estados de carregamento (\textit{spinners}), alertas de falha de conexão, tratamento de \textit{status codes} HTTP (404, 500). & 4h \\ \hline
+\rowcolor{cinzaLinha}
+11 & \textbf{Módulo 4: Single Page Applications (SPAs)} — Arquitetura de aplicações de página única, roteamento client-side via JavaScript sem recarregamento da página. & 4h \\ \hline
+12 & \textbf{Gerenciamento de Estado Global no Cliente} — Padrões de gestão de estado reativo, sincronização entre componentes e armazenamento em memória. & 4h \\ \hline
+\rowcolor{cinzaLinha}
+13 & \textbf{Módulo 5: Ecossistemas Web Modernos} — Introdução ao \texttt{Node.js} e gerenciador de pacotes \texttt{npm}, inicialização de projetos e gestão de dependências. & 4h \\ \hline
+14 & \textbf{Ferramentas de Build \& Bundlers (\texttt{Vite})} — Configuração do ambiente com \texttt{Vite}, compilação rápida, minificação de scripts e variáveis de ambiente (\texttt{.env}). & 4h \\ \hline
+\rowcolor{cinzaLinha}
+15 & \textbf{Introdução a Bibliotecas de Interface Reativas} — Conceitos de componentização, estado e propriedades em bibliotecas modernas (React / Vue). & 4h \\ \hline
+16 & \textbf{Lançamento do Projeto Integrador Final} — Definição do escopo, modelagem de dados, arquitetura da aplicação e divisão de etapas do projeto de conclusão. & 4h \\ \hline
+\rowcolor{cinzaLinha}
+17 & \textbf{Desenvolvimento Guiado do Projeto Final} — Mentoria técnica em laboratório, integração do frontend com APIs backend e testes de usabilidade. & 4h \\ \hline
+18 & \textbf{Avaliação Prática Individual 2 (A2)} — Avaliação individual prática de consolidação de código e resolução de problemas assíncronos. & 4h \\ \hline
+\rowcolor{cinzaLinha}
+19 & \textbf{Apresentação e Entrega do Projeto Final (A3)} — Entrega do código-fonte no GitHub, publicação no GitHub Pages e defesa oral/demonstrativa do projeto. & 4h \\ \hline
+20 & \textbf{Encerramento do Semestre \& Recuperação Paralela} — Reavaliações finais, consolidação das notas e encerramento das atividades letivas. & 4h \\ \hline
+\multicolumn{2}{|r|}{\textbf{Carga Horária Total Semestral:}} & \textbf{80h} \\ \hline
+\end{tabularx}
+\end{table}
+
+% -----------------------------------------------------
+% 5. METODOLOGIA DE ENSINO
+% -----------------------------------------------------
+\section{Metodologia de Ensino e Aprendizagem}
+
+As aulas serão ministradas em \textbf{laboratório de informática}, adotando uma abordagem fortemente prática e centrada no estudante (\textit{Learning by Doing} e \textit{Project-Based Learning}):
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Exposições Diálogo-Práticas:} Apresentações conceituais interativas seguidas de demonstrações ao vivo de codificação pelo docente;
+    \item \textbf{Roteiros Práticos Semanais:} Resolução de roteiros de laboratório com atividades orientadas passo a passo dispostas no repositório institucional do curso;
+    \item \textbf{Desenvolvimento de Projeto Integrador:} Construção de uma aplicação web real ao longo da segunda metade do semestre;
+    \item \textbf{Versionamento \& Publicação Contínua:} Utilização do \texttt{Git}, \texttt{GitHub} e \texttt{GitHub Pages} como ambiente profissional de entrega dos trabalhos acadêmicos.
+\end{itemize}
+
+% -----------------------------------------------------
+% 6. PROCEDIMENTOS DE AVALIAÇÃO
+% -----------------------------------------------------
+\section{Procedimentos de Avaliação da Aprendizagem}
+
+A avaliação será contínua e formativa. O desempenho semestral será composto pelo somatório ponderado das seguintes etapas avaliativas:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|X|c|}
+\hline
+\rowcolor{cinzaCabecalho}
+\textbf{Instrumento Avaliativo} & \textbf{Descrição e Critérios de Desempenho} & \textbf{Peso} \\ \hline
+\textbf{Roteiros Práticos Semanais (R1..R8)} & Resolução e entrega dos exercícios práticos desenvolvidos nos laboratórios semanais. Critérios: corretude, organização e pontualidade. & 30\% \\ \hline
+\rowcolor{cinzaLinha}
+\textbf{Avaliações Práticas Individuais (A1 e A2)} & Duas provas práticas individuais em laboratório sem consulta externa direta, avaliando o domínio técnico de JS/Fetch/DOM. & 30\% \\ \hline
+\textbf{Projeto Web Integrador Final (A3)} & Desenvolvimento de aplicação web SPA completa, integrada a APIs REST, hospedada no GitHub Pages com apresentação demonstrativa. & 40\% \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Critérios de Aprovação}
+\begin{itemize}[leftmargin=*]
+    \item Frequência mínima exigida de \textbf{75\%} das aulas ministradas;
+    \item Média Final (\textbf{MF}) igual ou superior a \textbf{6,0 (seis)}, calculada pela média ponderada dos instrumentos de avaliação.
+\end{itemize}
+
+\subsection{Recuperação Paralela da Aprendizagem}
+Conforme a Organização Didática do IFSC, o estudante com rendimento insatisfatório terá direito ao processo de recuperação paralela ao longo e ao final do semestre letivo, por meio da reexecução orientada de avaliações práticas e refatoração de roteiros com nova submissão no GitHub.
+
+% -----------------------------------------------------
+% 7. BIBLIOGRAFIA E REFERÊNCIAS
+% -----------------------------------------------------
+\section{Bibliografia e Fontes de Consulta}
+
+\subsection{Bibliografia Básica}
+\begin{enumerate}[leftmargin=*]
+    \item FLANAGAN, David. \textbf{JavaScript: O Guia Definitivo}. 7. ed. Porto Alegre: Bookman, 2021.
+    \item DUCKETT, Jon. \textbf{HTML e CSS: projete e construa websites}. Rio de Janeiro: Alta Books, 2014.
+    \item MOZILLA DEVELOPER NETWORK (MDN). \textbf{MDN Web Docs: HTML, CSS e JavaScript}. Mozilla Foundation. Disponível em: \url{https://developer.mozilla.org}. Acesso em: 2026.
+\end{enumerate}
+
+\subsection{Bibliografia Complementar}
+\begin{enumerate}[leftmargin=*]
+    \item FREEMAN, Adam. \textbf{Pro Bootstrap 5: Responsive Web Development}. New York: Apress, 2021.
+    \item W3SCHOOLS. \textbf{Bootstrap 5 \& JavaScript Tutorials and References}. W3Schools Web Tutorials. Disponível em: \url{https://www.w3schools.com}. Acesso em: 2026.
+    \item VITE CORE TEAM. \textbf{Vite: Next Generation Frontend Tooling}. Disponível em: \url{https://vitejs.dev}. Acesso em: 2026.
+    \item BOOTSTRAP TEAM. \textbf{Bootstrap 5 Official Documentation}. Disponível em: \url{https://getbootstrap.com}. Acesso em: 2026.
+    \item JQUERY FOUNDATION. \textbf{jQuery Official API Documentation}. Disponível em: \url{https://api.jquery.com}. Acesso em: 2026.
+\end{enumerate}
+
+\vspace{1.2cm}
+
+% -----------------------------------------------------
+% 8. ASSINATURAS INSTITUCIONAIS
+% -----------------------------------------------------
+\begin{center}
+\small
+Garopaba (SC), \dots\dots\dots de \dots\dots\dots\dots\dots\dots\dots\dots\dots de 2026.
+
+\vspace{1.8cm}
+
+\begin{minipage}{0.45\textwidth}
+\centering
+\hrulefill \\
+\textbf{Prof. André Moraes}\\
+Docente Responsável — IFSC Garopaba
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\centering
+\hrulefill \\
+\textbf{Coordenadoria do Curso}\\
+CST em Sistemas para a Internet
+\end{minipage}
+\end{center}
+
+\end{document}
