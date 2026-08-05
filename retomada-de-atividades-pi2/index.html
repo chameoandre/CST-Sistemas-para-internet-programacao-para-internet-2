@@ -849,87 +849,116 @@
         <h2 class="slide-title">🧩 Bootstrap 5: Layout Estático Completo (Exemplo 5)</h2>
         <p class="slide-subtitle">Construção gradual da Interface 100% Estática com Bootstrap 5 (sem JavaScript/jQuery ainda):</p>
 
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-purple mb-3">
+        <div class="card card-highlight-purple" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
+          <div class="d-flex justify-content-between align-items-center mb-2" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
               <span class="example-tag">Exemplo 5 (Bootstrap 5 Estático)</span>
-              <h3>Layout Consolidado (Form + Cards + Tabela)</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Montagem do layout completo com Formulário (Input Groups, Select, Textarea e Switch) e Tabela Zebrada Responsiva com bordas (<code>.table-bordered</code> e <code>.table-group-divider</code>). <em>Interface estática sem lógica JS.</em>
-              </div>
-              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"row g-4"</span>&gt;
-  <span class="cm">&lt;!-- Form com Input Groups e Switch --&gt;</span>
+              <strong style="color: #fff; font-size: 1rem; margin-left: 0.5rem;">Layout Consolidado (Grid + Form + Cards + Tabela Zebrada)</strong>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--accent-amber); background: rgba(245, 158, 11, 0.1); padding: 0.3rem 0.8rem; border-radius: 6px; border: 1px solid rgba(245, 158, 11, 0.3);">
+              🎓 <strong>Fase 1 (Bootstrap 5 Puro):</strong> Nenhuma lógica JS ainda. O formulário e a tabela serão dinamizados no Exemplo 6+ com jQuery.
+            </div>
+          </div>
+
+          <div class="example-desc" style="margin-bottom: 0.6rem;">
+            <strong>O que está sendo desenvolvido:</strong> Estrutura completa de painel web combinando Formulário (Input Groups com ícones, Select, Textarea e Toggle Switch) com Tabela Zebrada Responsiva de 6 registros com bordas (<code>.table-responsive</code>, <code>.table-bordered</code> e <code>.table-group-divider</code>).
+          </div>
+
+          <pre style="flex: 1; max-height: 420px; overflow-y: auto; font-size: 0.86rem; padding: 1rem; line-height: 1.5; background: #080c14; border-radius: 8px; border: 1px solid var(--border-color);"><code>&lt;<span class="kw">div</span> class=<span class="str">"row g-4"</span>&gt;
+  <span class="cm">&lt;!-- COLUNA DA ESQUERDA: Formulário Avançado Bootstrap 5 --&gt;</span>
   &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-5"</span>&gt;
     &lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow-sm border-0"</span>&gt;
       &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
         &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
         &lt;<span class="kw">div</span> class=<span class="str">"input-group"</span>&gt;
           &lt;<span class="kw">span</span> class=<span class="str">"input-group-text"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-person"</span>&gt;&lt;/<span class="kw">i</span>&gt;&lt;/<span class="kw">span</span>&gt;
-          &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: Maria Oliveira"</span>&gt;
+          &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> id=<span class="str">"nome"</span> placeholder=<span class="str">"Ex: Maria Oliveira"</span>&gt;
         &lt;/<span class="kw">div</span>&gt;
       &lt;/<span class="kw">div</span>&gt;
       &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
         &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Endereço de E-mail&lt;/<span class="kw">label</span>&gt;
         &lt;<span class="kw">div</span> class=<span class="str">"input-group"</span>&gt;
           &lt;<span class="kw">span</span> class=<span class="str">"input-group-text"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-envelope"</span>&gt;&lt;/<span class="kw">i</span>&gt;&lt;/<span class="kw">span</span>&gt;
-          &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"nome@exemplo.com"</span>&gt;
+          &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> id=<span class="str">"email"</span> placeholder=<span class="str">"nome@exemplo.com"</span>&gt;
         &lt;/<span class="kw">div</span>&gt;
+        &lt;<span class="kw">div</span> class=<span class="str">"form-text"</span>&gt;Utilize o e-mail institucional @aluno.ifsc.edu.br&lt;/<span class="kw">div</span>&gt;
       &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3 form-check form-switch"</span>&gt;
-        &lt;<span class="kw">input</span> class=<span class="str">"form-check-input"</span> type=<span class="str">"checkbox"</span> checked&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-check-label"</span>&gt;Notificar por e-mail&lt;/<span class="kw">label</span>&gt;
+      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
+        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Curso Matriculado&lt;/<span class="kw">label</span>&gt;
+        &lt;<span class="kw">select</span> class=<span class="str">"form-select"</span> id=<span class="str">"curso"</span>&gt;
+          &lt;<span class="kw">option</span> selected&gt;Sistemas para Internet&lt;/<span class="kw">option</span>&gt;
+          &lt;<span class="kw">option</span>&gt;Análise e Des. de Sistemas&lt;/<span class="kw">option</span>&gt;
+        &lt;/<span class="kw">select</span>&gt;
       &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success w-100"</span>&gt;Cadastrar Aluno (Estático)&lt;/<span class="kw">button</span>&gt;
+      &lt;<span class="kw">div</span> class=<span class="str">"mb-3 form-check form-switch p-2 bg-white rounded border ps-5"</span>&gt;
+        &lt;<span class="kw">input</span> class=<span class="str">"form-check-input"</span> type=<span class="str">"checkbox"</span> id=<span class="str">"notificar"</span> checked&gt;
+        &lt;<span class="kw">label</span> class=<span class="str">"form-check-label"</span> for=<span class="str">"notificar"</span>&gt;Receber avisos por e-mail&lt;/<span class="kw">label</span>&gt;
+      &lt;/<span class="kw">div</span>&gt;
+      &lt;<span class="kw">button</span> type=<span class="str">"button"</span> class=<span class="str">"btn btn-success w-100"</span>&gt;Cadastrar Aluno (Estático)&lt;/<span class="kw">button</span>&gt;
     &lt;/<span class="kw">div</span>&gt;
   &lt;/<span class="kw">div</span>&gt;
 
-  <span class="cm">&lt;!-- Tabela Responsiva Zebrada com Bordas --&gt;</span>
+  <span class="cm">&lt;!-- COLUNA DA DIREITA: Tabela Zebrada Responsiva com Bordas --&gt;</span>
   &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-7"</span>&gt;
     &lt;<span class="kw">div</span> class=<span class="str">"table-responsive rounded border"</span>&gt;
-      &lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover table-bordered border-secondary-subtle align-middle"</span>&gt;
+      &lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover table-bordered border-secondary-subtle align-middle mb-0"</span>&gt;
         &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome Completo&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;E-mail&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Status&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">th</span> class=<span class="str">"text-center"</span>&gt;#&lt;/<span class="kw">th</span>&gt;
+            &lt;<span class="kw">th</span>&gt;Nome Completo&lt;/<span class="kw">th</span>&gt;
+            &lt;<span class="kw">th</span>&gt;E-mail&lt;/<span class="kw">th</span>&gt;
+            &lt;<span class="kw">th</span>&gt;Curso&lt;/<span class="kw">th</span>&gt;
+            &lt;<span class="kw">th</span> class=<span class="str">"text-center"</span>&gt;Status&lt;/<span class="kw">th</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
         &lt;/<span class="kw">thead</span>&gt;
         &lt;<span class="kw">tbody</span> class=<span class="str">"table-group-divider"</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;1&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;ana@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;2&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;bruno@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;3&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Carla Mendes&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;carla@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;1&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;ana.silva@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;2&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;bruno.souza@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;3&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Carla Mendes&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;carla.mendes@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;Análise e Des. de Sistemas&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;4&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Diego Oliveira&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;diego.o@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-danger"</span>&gt;Inativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;5&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Elena Rostova&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;elena.rostova@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;Licenciatura em Computação&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
+          &lt;<span class="kw">tr</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;6&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Fernando Costa&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;fernando.c@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span>&gt;Engenharia de Software&lt;/<span class="kw">td</span>&gt;
+            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
+          &lt;/<span class="kw">tr</span>&gt;
         &lt;/<span class="kw">tbody</span>&gt;
       &lt;/<span class="kw">table</span>&gt;
     &lt;/<span class="kw">div</span>&gt;
   &lt;/<span class="kw">div</span>&gt;
 &lt;/<span class="kw">div</span>&gt;</code></pre>
-            </div>
-          </div>
-
-          <!-- Tabela "Evolução Pedagógica Didática" -->
-          <div class="card">
-            <div class="explore-title">🎓 Evolução Pedagógica do Aprendizado:</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Fase da Aula</th>
-                    <th>Tecnologia & Foco Pedagógico</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>Exemplos 1 a 5</code></td>
-                    <td><strong>Bootstrap 5 Puro (Estático):</strong> Layout, Grid, Forms, Cards e Tabelas Zebradas sem scripts.</td>
-                  </tr>
-                  <tr>
-                    <td><code>Exemplos 6 a 9</code></td>
-                    <td><strong>jQuery & LocalStorage:</strong> Seletores, alteração de HTML/texto, eventos de submit e persistência.</td>
-                  </tr>
-                  <tr>
-                    <td><code>Projeto Final (exercicio-retomada/)</code></td>
-                    <td><strong>Integração Bootstrap + jQuery:</strong> O layout do Exemplo 5 ganha vida com cadastro dinâmico em <code>app.js</code>!</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
         </div>
       </section>
 
