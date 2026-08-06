@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 1. Bootstrap 5 CSS para estilização da página -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Exemplo 6 — Introdução Prática ao jQuery (Primeiros Passos)</title>
+</head>
+
+<body class="bg-light">
+
+    <!-- Cabeçalho Jumbotron -->
+    <div class="container-fluid p-4 bg-dark text-white text-center shadow-sm mb-4">
+        <h1 class="h2 fw-bold text-info"><i class="bi bi-lightning-charge-fill me-2"></i>Sexto Exemplo: Primeiro Passo com jQuery</h1>
+        <p class="mb-0 text-white-50">Entendendo a Inclusão da Biblioteca, a Inicialização com $(document).ready() e a Leitura de Inputs</p>
+    </div>
+
+    <div class="container my-4" style="max-width: 800px;">
+        
+        <!-- CARD DE DEMONSTRAÇÃO PRÁTICA -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-primary text-white fw-bold">
+                <i class="bi bi-input-cursor-text me-2"></i>Interatividade Básica com jQuery
+            </div>
+            <div class="card-body p-4">
+                
+                <div class="mb-3">
+                    <label for="input-nome" class="form-label fw-semibold">Digite seu Nome:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" id="input-nome" class="form-control" placeholder="Ex: Ana Maria">
+                    </div>
+                </div>
+
+                <button id="btn-saudar" class="btn btn-primary w-100 fw-bold mb-3">
+                    <i class="bi bi-chat-dots-fill me-1"></i> Executar Leitura com jQuery
+                </button>
+
+                <!-- Quadro onde o texto será alterado dinamicamente -->
+                <div id="caixa-mensagem" class="alert alert-secondary text-center mb-0" role="alert">
+                    Aguardando interação do usuário...
+                </div>
+
+            </div>
+        </div>
+
+        <!-- QUADRO DE EXPLICAÇÃO PEDAGÓGICA -->
+        <div class="card border-info shadow-sm">
+            <div class="card-header bg-info text-white fw-bold">
+                <i class="bi bi-journal-code me-2"></i>Passo a Passo Didático do jQuery neste Exemplo
+            </div>
+            <div class="card-body small">
+                <ol class="mb-0">
+                    <li class="mb-2"><strong>Etapa 1 (Inclusão):</strong> Carregamos a biblioteca jQuery via CDN (<code>jquery-3.7.1.min.js</code>) antes de fechar a tag <code>&lt;/body&gt;</code>. Isso cria a função global <code>$()</code>.</li>
+                    <li class="mb-2"><strong>Etapa 2 (Inicialização Segura):</strong> Envolvemos nosso código dentro de <code>$(document).ready(function() { ... })</code>. Isso garante que o navegador já leu todo o HTML e os elementos <code>#input-nome</code> e <code>#btn-saudar</code> já existem antes do código tentar acessá-los.</li>
+                    <li class="mb-0"><strong>Etapa 3 (Anatomia do Comando):</strong> Usamos <code>$('#input-nome').val()</code> para <strong>ler</strong> o texto do campo e <code>$('#caixa-mensagem').text('...')</code> para <strong>escrever</strong> o resultado na tela.</li>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- ETAPA 1: INCLUSÃO DA BIBLIOTECA JQUERY VIA CDN (ANTES DO </body_>) -->
+    <!-- ================================================================= -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- ETAPA 2 & 3: CÓDIGO JQUERY DA APLICAÇÃO -->
+    <script>
+        // -----------------------------------------------------------------
+        // ETAPA 2: Aguarda o documento HTML estar 100% carregado e pronto!
+        // Syntax oficial: $(document).ready(function() { ... });
+        // -----------------------------------------------------------------
+        $(document).ready(function() {
+            
+            console.log("jQuery carregado e pronto para uso!");
+
+            // -------------------------------------------------------------
+            // ETAPA 3: Escuta o evento de clique no botão #btn-saudar
+            // -------------------------------------------------------------
+            $('#btn-saudar').on('click', function() {
+                
+                // 1. Lê o valor do campo de entrada usando .val()
+                const nomeDigitado = $('#input-nome').val();
+
+                // Validando se o usuário digitou algo
+                if (nomeDigitado.trim() === '') {
+                    $('#caixa-mensagem')
+                        .removeClass('alert-secondary alert-success')
+                        .addClass('alert-warning')
+                        .text('⚠️ Por favor, digite um nome antes de clicar!');
+                } else {
+                    // 2. Altera o texto da div de mensagem usando .text()
+                    $('#caixa-mensagem')
+                        .removeClass('alert-secondary alert-warning')
+                        .addClass('alert-success')
+                        .html(`🎉 <strong>Sucesso!</strong> Olá <u>${nomeDigitado}</u>, o jQuery leu seu nome e atualizou esta div dinamicamente!`);
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

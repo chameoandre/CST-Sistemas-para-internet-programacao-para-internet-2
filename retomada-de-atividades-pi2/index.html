@@ -972,58 +972,67 @@
         </div>
       </section>
 
-      <!-- SLIDE 8: jQuery — Recursos Funcionais (Exemplo 6) -->
+      <!-- SLIDE 8: jQuery — Introdução Prática & Primeiros Passos (Exemplo 6) -->
       <section class="slide" id="slide-8">
-        <h2 class="slide-title">⚡ jQuery: Recursos Funcionais (Seleção & Dados)</h2>
-        <p class="slide-subtitle">Aceder e manipular valores do DOM de forma direta e intuitiva com o cifrão <code>$()</code>:</p>
+        <h2 class="slide-title">⚡ jQuery: Introdução Prática & Primeiros Passos (Exemplo 6)</h2>
+        <p class="slide-subtitle">Entendendo a Inclusão da Biblioteca, a Inicialização com <code>$(document).ready()</code> e a Anatomia dos Comandos:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 6</span>
-              <h3>Seletores & Leitura/Escrita de Dados</h3>
+              <span class="example-tag">Exemplo 6 (Primeiro Passo no jQuery)</span>
+              <h3>Inclusão, $(document).ready() & Seletores</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Leitura e escrita dinâmica de dados. O comando <code>$('#input-nome').val()</code> extrai o texto digitado pelo usuário e <code>$('#mensagem-boas-vindas').text('...')</code> atualiza instantaneamente a tela com uma saudação personalizada.
+                <strong>O que está sendo desenvolvido:</strong> Passo a passo inicial de uso da biblioteca. 
+                1. Incluímos a biblioteca via CDN (<code>jquery-3.7.1.min.js</code>); 
+                2. Aguardamos o HTML ser completamente renderizado com <code>$(document).ready()</code>; 
+                3. Usamos o cifrão <code>$()</code> para selecionar (<code>$('#id')</code>), ler (<code>.val()</code>) e escrever na tela (<code>.text()</code>).
               </div>
-              <pre><code><span class="cm">// Lendo input e escrevendo em outro elemento</span>
-<span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();
+              <pre style="max-height: 290px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Inclusão do jQuery via CDN antes de fechar o &lt;/body&gt; --&gt;</span>
+&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
 
-<span class="cm">// Atualiza o texto da mensagem na tela</span>
-$(<span class="str">'#mensagem-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>);</code></pre>
+&lt;<span class="kw">script</span>&gt;
+  <span class="cm">// 2. Inicialização Segura: Aguarda o HTML estar 100% pronto</span>
+  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
+    
+    <span class="cm">// 3. Escuta evento e manipula o DOM ($seletor.método)</span>
+    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+      <span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>); <span class="cm">// Altera texto</span>
+    });
+
+  });
+&lt;/<span class="kw">script</span>&gt;</code></pre>
             </div>
           </div>
 
-          <!-- Tabela "Para explorar mais..." -->
+          <!-- Tabela "Etapas do jQuery" -->
           <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no jQuery (Seletores & Dados):</div>
+            <div class="explore-title">🔍 As 3 Etapas Fundamentais para Usar o jQuery:</div>
             <div class="table-responsive">
               <table class="explore-table">
                 <thead>
                   <tr>
-                    <th>Método / Seletor</th>
-                    <th>Descrição & Uso no Código</th>
+                    <th>Etapa</th>
+                    <th>Comando & Função Pedagógica</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><code>$('.minha-classe')</code></td>
-                    <td>Seleciona todos os elementos que possuem uma determinada classe CSS.</td>
+                    <td><code>1. Inclusão CDN</code></td>
+                    <td><code>&lt;script src="jquery.min.js"&gt;</code>: Carrega a biblioteca e cria o atalho global <code>$()</code>.</td>
                   </tr>
                   <tr>
-                    <td><code>$('input[type="text"]')</code></td>
-                    <td>Seleciona elementos por atributo HTML (ex: inputs do tipo texto).</td>
+                    <td><code>2. Espera do DOM</code></td>
+                    <td><code>$(document).ready(...)</code>: Garante que os elementos HTML já foram carregados antes de serem acessados.</td>
                   </tr>
                   <tr>
-                    <td><code>$(this)</code></td>
-                    <td>Refere-se ao elemento específico que disparou o evento atual.</td>
+                    <td><code>3. Seletor + Ação</code></td>
+                    <td><code>$('#nome').val()</code>: Seleciona o elemento pelo ID <code>#nome</code> e executa o método de leitura <code>.val()</code>.</td>
                   </tr>
                   <tr>
-                    <td><code>$(el).attr('disabled', true)</code></td>
-                    <td>Lê ou desabilita atributos HTML de um elemento (ex: desativar botão).</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).removeAttr('disabled')</code></td>
-                    <td>Remove um atributo HTML (ex: reativar um botão).</td>
+                    <td><code>4. Escrita na Tela</code></td>
+                    <td><code>$('#msg').text('...')</code> ou <code>.html('...')</code>: Atualiza dinamicamente o texto ou HTML de um elemento.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1357,12 +1366,23 @@ $(<span class="str">'#mensagem-status'</span>)
 
           <div id="tab-ex6" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Seletores e Leitura/Escrita no jQuery. Lê o texto inserido em um campo de entrada com <code>$('#nome').val()</code> e altera dinamicamente o texto de outro elemento na tela com <code>.text()</code> ou <code>.html()</code>.
+              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Primeiro Passo Didático com jQuery. Explica as 3 etapas essenciais: 1. Inclusão do script via CDN; 2. Espera da inicialização do DOM com <code>$(document).ready()</code>; 3. Anatomia do comando (selecionar com <code>$('#id')</code>, ler com <code>.val()</code> e escrever na tela com <code>.text()</code>).
             </div>
-            <pre><code><span class="cm">// Exemplo 6: Seletores e Leitura/Escrita no jQuery</span>
-<span class="kw">const</span> nomeDigitado = $(<span class="str">'#nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê o valor do input</span>
-$(<span class="str">'#titulo-boas-vindas'</span>).<span class="fn">text</span>(<span class="str">`Bem-vindo, ${nomeDigitado}!`</span>); <span class="cm">// Altera texto</span>
-$(<span class="str">'#painel'</span>).<span class="fn">html</span>(<span class="str">'&lt;span class="badge bg-success"&gt;Ativo&lt;/span&gt;'</span>); <span class="cm">// Altera HTML</span></code></pre>
+            <pre><code><span class="cm">&lt;!-- 1. Inclusão da Biblioteca jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
+&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
+
+&lt;<span class="kw">script</span>&gt;
+  <span class="cm">// 2. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
+  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
+    
+    <span class="cm">// 3. Escuta evento de clique e manipula o DOM ($seletor.ação)</span>
+    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+      <span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>); <span class="cm">// Altera texto</span>
+    });
+
+  });
+&lt;/<span class="kw">script</span>&gt;</code></pre>
           </div>
 
           <div id="tab-ex7" class="tab-content">
