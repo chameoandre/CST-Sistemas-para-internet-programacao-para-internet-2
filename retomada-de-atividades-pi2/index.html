@@ -994,11 +994,22 @@
 &lt;<span class="kw">script</span>&gt;
   <span class="cm">// 2. Inicialização Segura: Aguarda o HTML estar 100% pronto</span>
   $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
-    
+
     <span class="cm">// 3. Escuta evento e manipula o DOM ($seletor.método)</span>
     $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-      <span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
-      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>); <span class="cm">// Altera texto</span>
+      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+
+      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
+          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
+      } <span class="kw">else</span> {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
+          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
+      }
     });
 
   });
@@ -1374,11 +1385,22 @@ $(<span class="str">'#mensagem-status'</span>)
 &lt;<span class="kw">script</span>&gt;
   <span class="cm">// 2. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
   $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
-    
+
     <span class="cm">// 3. Escuta evento de clique e manipula o DOM ($seletor.ação)</span>
     $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-      <span class="kw">const</span> valorNome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
-      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">text</span>(<span class="str">`Olá, ${valorNome}!`</span>); <span class="cm">// Altera texto</span>
+      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+
+      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
+          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
+      } <span class="kw">else</span> {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
+          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
+      }
     });
 
   });
