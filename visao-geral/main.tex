@@ -3,9 +3,9 @@
 % =====================================================
 \section{Visão Geral da Unidade Curricular}
 
-A Unidade Curricular de \textbf{Programação para a Internet II} tem como objetivo aprofundar os conhecimentos adquiridos na disciplina antecedente (Programação para a Internet I), evoluindo o desenvolvimento frontend básico em HTML5, CSS3 e JavaScript Vanilla para a construção de \textbf{Aplicações Web Modernas, Reativas, Modulares e Integradas a Serviços Web RESTful}.
+A Unidade Curricular de \textbf{Programação para a Internet II} tem como objetivo aprofundar os conhecimentos adquiridos na disciplina antecedente (Programação para a Internet I), evoluindo o desenvolvimento frontend básico em HTML5, CSS3 e JavaScript Vanilla para a construção de \textbf{Aplicações Web Modernas, Reativas, Modulares e Integradas a Serviços Web RESTful com aplicação de extensão comunitária}.
 
-Ao longo do semestre, os estudantes irão desenvolver competências avançadas em arquitetura de código client-side, modularização com ES6 Modules, manipulação avançada de estado no cliente, consumo de APIs assíncronas, roteamento no cliente (Single Page Applications — SPAs) e introdução a ferramentas modernas de build e bibliotecas de interface (Vite e React/Vue).
+Ao longo do semestre, em encontros semanais de \textbf{3h/aula em laboratório}, os estudantes irão desenvolver competências avançadas em arquitetura de código client-side, modularização com ES6 Modules, manipulação avançada de estado no cliente, consumo de APIs assíncronas, roteamento no cliente (Single Page Applications — SPAs), introdução a ferramentas modernas de build (Vite) e desenvolvimento de um Projeto Prático Integrador de Extensão.
 
 \subsection*{Estrutura do Semestre}
 
@@ -13,7 +13,7 @@ O semestre está organizado em 5 módulos estruturantes de aprendizagem prática
 
 \begin{enumerate}
     \item \textbf{Retomada e Diagnóstico (Revisão de PI-I)} \\
-    Revisão prática de manipulação do DOM, eventos, assincronismo com \texttt{async/await}, Fetch API e armazenamento com \texttt{localStorage}.
+    Revisão prática de manipulação do DOM, elementos visuais (Bootstrap 5), jQuery, assincronismo com \texttt{async/await}, Fetch API e armazenamento com \texttt{localStorage}.
 
     \item \textbf{Arquitetura Modular e ES6 Modules} \\
     Organização profissional de código frontend, separação de responsabilidades em serviços, componentes e manipuladores de eventos.
@@ -24,8 +24,8 @@ O semestre está organizado em 5 módulos estruturantes de aprendizagem prática
     \item \textbf{Consumo de APIs RESTful e Desenvolvimento de SPAs} \\
     Construção de Single Page Applications com roteamento client-side sem recarregamento de página e integração com rotas de backend.
 
-    \item \textbf{Introdução a Ecossistemas Modernos e Projeto Final} \\
-    Uso de bundlers (\texttt{Vite}), introdução à componentização reativa e entrega de um projeto Web completo de final de semestre.
+    \item \textbf{Introdução a Ecossistemas Modernos e Projeto de Extensão} \\
+    Uso de bundlers (\texttt{Vite}), introdução à componentização reativa e entrega de um Projeto Prático Integrador de Extensão completo de final de semestre.
 \end{enumerate}
 
 % =====================================================
@@ -63,7 +63,7 @@ O semestre está organizado em 5 módulos estruturantes de aprendizagem prática
 
 \node[etapa, right=of e3] (e4) {\textbf{4. SPAs \& REST}\\Consumo de APIs\\Roteamento client-side};
 
-\node[etapa, right=of e4] (e5) {\textbf{5. Projeto Final}\\Vite / Frameworks\\Aplicação Web Completa};
+\node[etapa, right=of e4] (e5) {\textbf{5. Projeto Extensão}\\Vite / Frameworks\\Aplicação Web Completa};
 
 \draw[seta] (e1) -- (e2);
 \draw[seta] (e2) -- (e3);
@@ -86,9 +86,16 @@ Ao final da disciplina, o estudante deverá ser capaz de:
     \item Gerenciar estado local e persistência no cliente via Web Storage API;
     \item Implementar padrões de projeto de Single Page Application (SPA);
     \item Utilizar ferramentas modernas de ambiente de desenvolvimento web (\texttt{Node.js}, \texttt{npm}, \texttt{Vite});
+    \item Desenvolver um projeto prático integrador de extensão atendendo demandas reais da comunidade;
     \item Publicar e versionar aplicações web profissionais no GitHub e GitHub Pages.
 \end{itemize}
 
 \subsection*{Metodologia de Avaliação}
 
-A avaliação será continuada e baseada na entrega de roteiros práticos semanais, avaliações de desempenho prático em laboratório e no desenvolvimento de um Projeto Web Integrador entregue e apresentado ao final do semestre.
+A avaliação é contínua e formativa, dividida em três eixos principais:
+
+\begin{enumerate}
+    \item \textbf{Avaliação Teórica Única (A1 — 25\%):} Prova teórica individual de verificação dos conceitos fundamentais de arquitetura modular, assincronismo, protocolo HTTP, consumo de APIs e SPAs.
+    \item \textbf{Avaliação Contínua de Aulas (A2 — 35\%):} Conjunto de \textbf{Participação Ativa + Pontualidade de Entrega} dos roteiros práticos semanais desenvolvidos nos laboratórios.
+    \item \textbf{Trabalho Prático Integrador / Extensão (A3 — 40\%):} Desenvolvendo uma aplicação web completa de extensão comunitária/acadêmica que integra todos os conteúdos ministrados na unidade curricular (Bootstrap 5, JS ES6 Modular, Fetch API, LocalStorage, Roteamento SPA e Vite), hospedada no GitHub Pages com defesa demonstrativa.
+\end{enumerate}
