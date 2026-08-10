@@ -2090,7 +2090,7 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         <div class="progress-bar-bg">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 13</span>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 10</span>
       </div>
 
       <div class="nav-controls">
@@ -2103,9 +2103,6 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
         <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
           ⛶
         </button>
-        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
-          ⛶
-        </button>
       </div>
     </footer>
 
@@ -2113,7 +2110,8 @@ $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span cla
 
   <script>
     let currentSlide = 1;
-    const totalSlides = 13;
+    const slides = document.querySelectorAll(".slide-stage > section.slide");
+    const totalSlides = slides.length;
 
     function updateSlides() {
       document.querySelectorAll('.slide').forEach((slide, idx) => {
