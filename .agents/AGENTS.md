@@ -22,3 +22,8 @@ The rules in this file are automatically loaded by the AI assistant whenever wor
 ## 4. Repository Hygiene & Commits
 - **Git Commit Messages:** Write clear, professional commit messages in Portuguese starting with action verbs (e.g., `Estrutura o Exemplo 6...`, `Adiciona o arquivo .nojekyll...`).
 - **Ignored Metadata:** Maintain `.gitignore` entries for `.DS_Store`, `Icon\r`, and auxiliary LaTeX build logs.
+
+## 5. Workspace Trust & Command Execution Directives
+- **Trusted Workspace Execution:** This workspace (`uc-programacao-para-a-internet-2`) is fully trusted for file creation, modification, LaTeX compilation via `tectonic`, and Git operations.
+- **Streamlined Command Execution:** Always combine shell commands into single non-interactive executions (e.g. using `&&` operators) to streamline builds, testing, and git deployments without unnecessary interactive prompt pauses.
+
