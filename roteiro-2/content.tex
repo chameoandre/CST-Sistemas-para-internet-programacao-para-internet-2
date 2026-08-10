@@ -48,8 +48,58 @@ Nesta aula, transformamos a interface estática do Bootstrap 5 em um sistema **d
 Abaixo está o detalhamento da evolução funcional desenvolvida nesta etapa:
 
 \begin{itemize}
-\item \textbf{Exemplo 6 (jQuery — Introdução Prática \& Primeiros Passos):} \textit{Passo a passo didático inicial da biblioteca.} Explica em 3 etapas: (1) Inclusão do script via CDN antes de fechar o \texttt{</body>}; (2) Inicialização segura com \texttt{\textdollar(document).ready(function() \{...\})} para aguardar a renderização completa do HTML; e (3) Anatomia do comando \texttt{\textdollar('\#id').val()} para leitura e \texttt{\textdollar('\#msg').text('...')} para escrita na tela;
+\item \textbf{Exemplo 6 (jQuery — Introdução Prática, Estrutura HTML \& Seletores):} \textit{Passo a passo didático inicial da biblioteca.} Mostra como o HTML fornece os elementos com IDs (\texttt{\#input-nome}, \texttt{\#btn-saudar}, \texttt{\#caixa-mensagem}) e como o jQuery lê e escreve nesses seletores no lado do cliente:
+
+\small
+\begin{verbatim}
+<!-- 1. Estrutura HTML dos Campos e Alerta Alvo (Bootstrap 5) -->
+<div class="card p-3 mb-3">
+  <div class="mb-3">
+    <label for="input-nome" class="form-label">Digite seu Nome:</label>
+    <input type="text" id="input-nome" class="form-control" placeholder="Ex: Maria Silva">
+  </div>
+
+  <button type="button" id="btn-saudar" class="btn btn-primary">
+    Enviar Saudação
+  </button>
+</div>
+
+<!-- Alerta Alvo que receberá o resultado manipulado pelo jQuery -->
+<div id="caixa-mensagem" class="alert alert-secondary">
+  Aguardando interação...
+</div>
+
+<!-- 2. Inclusão da Biblioteca jQuery via CDN (antes do </body>) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+  // 3. Inicialização Segura: Aguarda a renderização do DOM
+  $(document).ready(function() {
+
+    // 4. Escuta o clique no botão e manipula o DOM ($seletor.método)
+    $('#btn-saudar').on('click', function() {
+      const nomeDigitado = $('#input-nome').val(); // Lê o campo input
+
+      if (nomeDigitado.trim() === '') {
+        $('#caixa-mensagem')
+          .removeClass('alert-secondary alert-success')
+          .addClass('alert-warning')
+          .text('Por favor, digite um nome antes de clicar!');
+      } else {
+        $('#caixa-mensagem')
+          .removeClass('alert-secondary alert-warning')
+          .addClass('alert-success')
+          .html(`Sucesso! Olá ${nomeDigitado}, o jQuery leu seu nome!`);
+      }
+    });
+
+  });
+</script>
+\end{verbatim}
+
+
 \item \textbf{Exemplo 7 (jQuery Estético — Efeitos Visuais \& Classes CSS):} \textit{Feedback visual animado.} Remove a classe \texttt{.d-none}, altera a cor do quadro e faz a mensagem surgir suavemente com \texttt{.fadeIn(300)} ou expandir com \texttt{.slideToggle()};
+
 \item \textbf{Exemplo 8 (jQuery Dinâmico — Eventos \& Inserção no DOM):} \textit{Inserção dinâmica de dados na tabela.} Escuta o envio do formulário com \texttt{.on('submit')}, impede a atualização da tela com \texttt{e.preventDefault()} e insere novas linhas dinâmicas na tabela com \texttt{.append()};
 \item \textbf{Exemplo 9 (Persistência Local — Gerenciamento com LocalStorage):} \textit{Armazenamento duradouro no navegador.} Salva o array de objetos no navegador convertendo para texto com \texttt{JSON.stringify()} e recupera com \texttt{JSON.parse()} ao recarregar a página (F5).
 \end{itemize}

@@ -602,19 +602,33 @@
               <span class="example-tag">Exemplo 6 (Primeiro Passo no jQuery)</span>
               <h3>Inclusão, $(document).ready() & Seletores</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Passo a passo inicial de uso da biblioteca. 
-                1. Incluímos a biblioteca via CDN (<code>jquery-3.7.1.min.js</code>); 
-                2. Aguardamos o HTML ser completamente renderizado com <code>$(document).ready()</code>; 
-                3. Usamos o cifrão <code>$()</code> para selecionar (<code>$('#id')</code>), ler (<code>.val()</code>) e escrever na tela (<code>.text()</code>).
+                <strong>O que está sendo desenvolvido:</strong> Exemplo Didático Completo (HTML + jQuery). 
+                1. <strong>Estrutura HTML:</strong> O campo <code>&lt;input id="input-nome"&gt;</code>, o botão <code>&lt;button id="btn-saudar"&gt;</code> e o alerta <code>&lt;div id="caixa-mensagem"&gt;</code>;
+                2. <strong>Inclusão do jQuery:</strong> Tag <code>&lt;script src="jquery-3.7.1.min.js"&gt;</code> via CDN;
+                3. <strong>Manipulação:</strong> Aguardamos <code>$(document).ready()</code> e lemos o valor com <code>$('#input-nome').val()</code>.
               </div>
-              <pre style="max-height: 290px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Inclusão do jQuery via CDN antes de fechar o &lt;/body&gt; --&gt;</span>
+              <pre style="max-height: 340px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML do Formulário e Alerta Alvo (Bootstrap 5) --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
+  &lt;<span class="kw">label</span> for=<span class="str">"input-nome"</span> class=<span class="str">"form-label"</span>&gt;Digite seu Nome:&lt;/<span class="kw">label</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"input-nome"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: Maria Silva"</span>&gt;
+&lt;/<span class="kw">div</span>&gt;
+
+&lt;<span class="kw">button</span> type=<span class="str">"button"</span> id=<span class="str">"btn-saudar"</span> class=<span class="str">"btn btn-primary mb-3"</span>&gt;
+  Enviar Saudação
+&lt;/<span class="kw">button</span>&gt;
+
+&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-secondary"</span>&gt;
+  Aguardando interação...
+&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">&lt;!-- 2. Inclusão do jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
 
 &lt;<span class="kw">script</span>&gt;
-  <span class="cm">// 2. Inicialização Segura: Aguarda o HTML estar 100% pronto</span>
+  <span class="cm">// 3. Inicialização Segura: Aguarda o HTML estar 100% pronto no DOM</span>
   $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
 
-    <span class="cm">// 3. Escuta evento e manipula o DOM ($seletor.método)</span>
+    <span class="cm">// 4. Escuta evento de clique e manipula o DOM ($seletor.método)</span>
     $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
       <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
 
@@ -845,16 +859,33 @@ $(<span class="str">'#mensagem-status'</span>)
 
 <div id="tab-ex6" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Primeiro Passo Didático com jQuery. Explica as 3 etapas essenciais: 1. Inclusão do script via CDN; 2. Espera da inicialização do DOM com <code>$(document).ready()</code>; 3. Anatomia do comando (selecionar com <code>$('#id')</code>, ler com <code>.val()</code> e escrever na tela com <code>.text()</code>).
+              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Primeiro Passo Didático com jQuery (Estrutura HTML + Script). Mostra como os elementos HTML (<code>#input-nome</code>, <code>#btn-saudar</code> e <code>#caixa-mensagem</code>) são selecionados e manipulados dinamicamente via <code>$()</code> no cliente.
             </div>
-            <pre><code><span class="cm">&lt;!-- 1. Inclusão da Biblioteca jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
+            <pre style="max-height: 380px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML dos Campos e Alerta Alvo (Bootstrap 5) --&gt;</span>
+&lt;<span class="kw">div</span> class=<span class="str">"card p-3 mb-3"</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
+    &lt;<span class="kw">label</span> for=<span class="str">"input-nome"</span> class=<span class="str">"form-label"</span>&gt;Digite seu Nome:&lt;/<span class="kw">label</span>&gt;
+    &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"input-nome"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: Maria Silva"</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
+
+  &lt;<span class="kw">button</span> type=<span class="str">"button"</span> id=<span class="str">"btn-saudar"</span> class=<span class="str">"btn btn-primary"</span>&gt;
+    Enviar Saudação
+  &lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">div</span>&gt;
+
+&lt;<span class="cm">&lt;!-- Alerta Alvo que receberá as mensagens via jQuery --&gt;</span>
+&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-secondary"</span>&gt;
+  Aguardando interação...
+&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">&lt;!-- 2. Inclusão da Biblioteca jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
 
 &lt;<span class="kw">script</span>&gt;
-  <span class="cm">// 2. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
+  <span class="cm">// 3. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
   $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
 
-    <span class="cm">// 3. Escuta evento de clique e manipula o DOM ($seletor.ação)</span>
+    <span class="cm">// 4. Escuta evento de clique e manipula os seletores ($)</span>
     $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
       <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
 
