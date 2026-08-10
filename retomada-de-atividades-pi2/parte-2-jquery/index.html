@@ -591,60 +591,40 @@
           </div>
         </div>
       </section>
-<!-- SLIDE 8: jQuery — Introdução Prática & Primeiros Passos (Exemplo 6) -->
+<!-- SLIDE 3: jQuery — Introdução Prática & Primeiros Passos (Exemplo 6) -->
       <section class="slide" id="slide-3">
         <h2 class="slide-title">⚡ jQuery: Introdução Prática & Primeiros Passos (Exemplo 6)</h2>
-        <p class="slide-subtitle">Entendendo a Inclusão da Biblioteca, a Inicialização com <code>$(document).ready()</code> e a Anatomia dos Comandos:</p>
+        <p class="slide-subtitle">A Base HTML Unificada, a Inicialização com <code>$(document).ready()</code> e a Leitura de Campos:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 6 (Primeiro Passo no jQuery)</span>
-              <h3>Inclusão, $(document).ready() & Seletores</h3>
+              <span class="example-tag">Exemplo 6 (Passo 1: Leitura & Escrita Básica)</span>
+              <h3>Base HTML Unificada & Seletores $()</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Exemplo Didático Completo (HTML + jQuery). 
-                1. <strong>Estrutura HTML:</strong> O campo <code>&lt;input id="input-nome"&gt;</code>, o botão <code>&lt;button id="btn-saudar"&gt;</code> e o alerta <code>&lt;div id="caixa-mensagem"&gt;</code>;
-                2. <strong>Inclusão do jQuery:</strong> Tag <code>&lt;script src="jquery-3.7.1.min.js"&gt;</code> via CDN;
-                3. <strong>Manipulação:</strong> Aguardamos <code>$(document).ready()</code> e lemos o valor com <code>$('#input-nome').val()</code>.
+                <strong>O que está sendo desenvolvido:</strong> Estruturação da página de Cadastro de Clientes. 
+                Utilizamos o formulário <code>#form-cadastro</code> com os inputs <code>#input-nome</code> e <code>#input-email</code>, o botão <code>#btn-salvar</code> e a caixa de alerta <code>#caixa-alerta</code>.
               </div>
-              <pre style="max-height: 340px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML do Formulário e Alerta Alvo (Bootstrap 5) --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-  &lt;<span class="kw">label</span> for=<span class="str">"input-nome"</span> class=<span class="str">"form-label"</span>&gt;Digite seu Nome:&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"input-nome"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: Maria Silva"</span>&gt;
-&lt;/<span class="kw">div</span>&gt;
+              <pre style="max-height: 340px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) --&gt;</span>
+&lt;<span class="kw">form</span> id=<span class="str">"form-cadastro"</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"input-nome"</span> class=<span class="str">"form-control mb-2"</span> placeholder=<span class="str">"Nome"</span>&gt;
+  &lt;<span class="kw">input</span> type=<span class="str">"email"</span> id=<span class="str">"input-email"</span> class=<span class="str">"form-control mb-2"</span> placeholder=<span class="str">"E-mail"</span>&gt;
+  &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> id=<span class="str">"btn-salvar"</span> class=<span class="str">"btn btn-primary"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">form</span>&gt;
 
-&lt;<span class="kw">button</span> type=<span class="str">"button"</span> id=<span class="str">"btn-saudar"</span> class=<span class="str">"btn btn-primary mb-3"</span>&gt;
-  Enviar Saudação
-&lt;/<span class="kw">button</span>&gt;
+&lt;<span class="kw">div</span> id=<span class="str">"caixa-alerta"</span> class=<span class="str">"alert alert-info mt-3 d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
 
-&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-secondary"</span>&gt;
-  Aguardando interação...
-&lt;/<span class="kw">div</span>&gt;
-
-<span class="cm">&lt;!-- 2. Inclusão do jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
+<span class="cm">&lt;!-- 2. Inclusão do jQuery e Script app.js --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-
 &lt;<span class="kw">script</span>&gt;
-  <span class="cm">// 3. Inicialização Segura: Aguarda o HTML estar 100% pronto no DOM</span>
   $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
+    $(<span class="str">'#form-cadastro'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+      e.<span class="fn">preventDefault</span>();
+      <span class="kw">const</span> nome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();
+      <span class="kw">const</span> email = $(<span class="str">'#input-email'</span>).<span class="fn">val</span>();
 
-    <span class="cm">// 4. Escuta evento de clique e manipula o DOM ($seletor.método)</span>
-    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
-
-      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
-          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
-      } <span class="kw">else</span> {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
-      }
+      $(<span class="str">'#caixa-alerta'</span>).<span class="fn">html</span>(<span class="str">`Lido: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
     });
-
   });
 &lt;/<span class="kw">script</span>&gt;</code></pre>
             </div>
@@ -672,11 +652,11 @@
                   </tr>
                   <tr>
                     <td><code>3. Seletor + Ação</code></td>
-                    <td><code>$('#nome').val()</code>: Seleciona o elemento pelo ID <code>#nome</code> e executa o método de leitura <code>.val()</code>.</td>
+                    <td><code>$('#input-nome').val()</code>: Seleciona pelo ID e executa o método de leitura <code>.val()</code>.</td>
                   </tr>
                   <tr>
                     <td><code>4. Escrita na Tela</code></td>
-                    <td><code>$('#msg').text('...')</code> ou <code>.html('...')</code>: Atualiza dinamicamente o texto ou HTML de um elemento.</td>
+                    <td><code>$('#caixa-alerta').html('...')</code>: Atualiza dinamicamente o texto ou HTML da mensagem.</td>
                   </tr>
                 </tbody>
               </table>
@@ -684,25 +664,27 @@
           </div>
         </div>
       </section>
-<!-- SLIDE 9: jQuery — Recursos Estéticos (Exemplo 7) -->
+
+      <!-- SLIDE 4: jQuery — Recursos Estéticos (Exemplo 7) -->
       <section class="slide" id="slide-4">
         <h2 class="slide-title">⚡ jQuery: Recursos Estéticos (Efeitos & Classes CSS)</h2>
-        <p class="slide-subtitle">Como criar efeitos visuais, ocultar elementos e alternar classes CSS com animações fluidas:</p>
+        <p class="slide-subtitle">Incrementando a Base HTML com Animações Fluidas e Feedback Visual:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 7</span>
-              <h3>Efeitos Visuais & Classes CSS</h3>
+              <span class="example-tag">Exemplo 7 (Passo 2: Animações & Classes)</span>
+              <h3>Feedback Animado no #caixa-alerta</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Feedback visual animado ao usuário. Remove a classe <code>d-none</code> para tornar o alerta visível, aplica a classe de cor <code>alert-success</code> do Bootstrap, altera a mensagem com <code>.text()</code> e faz o quadro surgir suavemente com <code>.fadeIn(300)</code>.
+                <strong>O que está sendo desenvolvido:</strong> Incremento estético no mesmo formulário. Remove a classe <code>d-none</code>, adiciona <code>alert-success</code> e faz a mensagem surgir suavemente com <code>.fadeIn(400)</code>.
               </div>
-              <pre><code><span class="cm">// Exibindo alerta com animação fadeIn()</span>
-$(<span class="str">'#mensagem-status'</span>)
-  .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
+              <pre><code><span class="cm">// Incremento 2: Exibindo alerta animado na mesma div #caixa-alerta</span>
+$(<span class="str">'#caixa-alerta'</span>)
+  .<span class="fn">removeClass</span>(<span class="str">'d-none alert-danger'</span>)
   .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-  .<span class="fn">text</span>(<span class="str">'Salvo com sucesso!'</span>)
-  .<span class="fn">fadeIn</span>(300);</code></pre>
+  .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Cliente &lt;u&gt;${nome}&lt;/u&gt; cadastrado com sucesso!`</span>)
+  .<span class="fn">hide</span>()
+  .<span class="fn">fadeIn</span>(400);</code></pre>
             </div>
           </div>
 
@@ -714,7 +696,7 @@ $(<span class="str">'#mensagem-status'</span>)
                 <thead>
                   <tr>
                     <th>Método de Efeito</th>
-                    <th>Descrição & Efeito Visual</th>
+                    <th>Descrição & Efeito Visual na Mesma Tela</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -732,7 +714,7 @@ $(<span class="str">'#mensagem-status'</span>)
                   </tr>
                   <tr>
                     <td><code>$(el).toggleClass('d-none')</code></td>
-                    <td>Alterna a presença de uma classe CSS (adiciona se não tiver, remove se tiver).</td>
+                    <td>Alterna a presença de uma classe CSS no elemento selecionado.</td>
                   </tr>
                 </tbody>
               </table>
@@ -740,34 +722,79 @@ $(<span class="str">'#mensagem-status'</span>)
           </div>
         </div>
       </section>
-<!-- SLIDE 10: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 8 e 9) -->
+
+      <!-- SLIDE 5: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 8 e 9) -->
       <section class="slide" id="slide-5">
         <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
-        <p class="slide-subtitle">Escuta de eventos, inserção dinâmica de elementos no DOM e persistência local:</p>
+        <p class="slide-subtitle">Inserção na Tabela com <code>.append()</code> e Persistência no Navegador com <code>LocalStorage</code>:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-2">
-              <span class="example-tag">Exemplo 8</span>
-              <h3>Eventos & Inserção Dinâmica no DOM</h3>
+              <span class="example-tag">Exemplo 8 (Passo 3: DOM Dinâmico)</span>
+              <h3>Inserção na #tabela-corpo com .append()</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela via formulário. Escuta o evento <code>submit</code> do formulário, impede a atualização da página com <code>e.preventDefault()</code>, monta uma linha HTML (<code>&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code>) e a insere no final da tabela com <code>.append()</code>.
+                <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela <code>#tabela-corpo</code>. Monta a linha <code>&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;...&lt;/tr&gt;</code> e a insere com <code>.append()</code>.
               </div>
-              <pre><code>$(<span class="str">'#form'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
-  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  $(<span class="str">'#tabela'</span>).<span class="fn">append</span>(<span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;/tr&gt;`</span>);
+              <pre><code><span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Excluir&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`</span>;
+$(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml);
+
+<span class="cm">// Remover linha da tabela ao clicar em Excluir:</span>
+$(<span class="str">'#tabela-corpo'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="str">'.btn-excluir'</span>, <span class="kw">function</span>() {
+  $(<span class="kw">this</span>).<span class="fn">closest</span>(<span class="str">'tr'</span>).<span class="fn">remove</span>();
 });</code></pre>
             </div>
 
             <div class="card card-highlight-amber">
-              <span class="example-tag">Exemplo 9</span>
-              <h3>Persistência no LocalStorage</h3>
+              <span class="example-tag">Exemplo 9 (Passo 4: LocalStorage)</span>
+              <h3>Persistência no LocalStorage com JSON</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Armazenamento duradouro no navegador. Salva a lista de clientes convertendo para texto com <code>JSON.stringify()</code> e recupera os dados salvos convertendo de volta para objeto/array com <code>JSON.parse()</code> para os dados não sumirem ao pressionar F5.
+                <strong>O que está sendo desenvolvido:</strong> Salva o array de clientes em memória no navegador para os dados não sumirem ao pressionar F5.
               </div>
-              <pre><code>localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
-<span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
+              <pre><code><span class="kw">let</span> clientes = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'lista_clientes'</span>)) || [];
+clientes.<span class="fn">push</span>({ nome, email });
+localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'</span>, JSON.<span class="fn">stringify</span>(clientes));</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Manipulação do DOM):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método DOM</th>
+                    <th>Descrição & Uso na Mesma Aplicação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).append(html)</code></td>
+                    <td>Insere novo conteúdo HTML no final da tabela.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).prepend(html)</code></td>
+                    <td>Insere novo conteúdo no início da tabela.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).empty()</code></td>
+                    <td>Limpa todo o conteúdo interno (útil ao recarregar do LocalStorage).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).remove()</code></td>
+                    <td>Remove o próprio elemento e seus filhos da árvore DOM.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(this).closest('tr')</code></td>
+                    <td>Sobe na árvore DOM até encontrar a linha <code>&lt;tr&gt;</code> pai mais próxima.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
             </div>
           </div>
 
@@ -857,68 +884,49 @@ $(<span class="str">'#mensagem-status'</span>)
             </div>
           </div>
 
-<div id="tab-ex6" class="tab-content">
+          <div id="tab-ex6" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Primeiro Passo Didático com jQuery (Estrutura HTML + Script). Mostra como os elementos HTML (<code>#input-nome</code>, <code>#btn-saudar</code> e <code>#caixa-mensagem</code>) são selecionados e manipulados dinamicamente via <code>$()</code> no cliente.
+              <strong>O que está sendo desenvolvido (Exemplo 6 — Passo 1):</strong> Leitura & Escrita de Campos na Base HTML Unificada.
+              Utilizamos o formulário <code>#form-cadastro</code>, lendo <code>#input-nome</code> e <code>#input-email</code> com <code>.val()</code> e exibindo na caixa <code>#caixa-alerta</code> com <code>.html()</code>.
             </div>
-            <pre style="max-height: 380px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML dos Campos e Alerta Alvo (Bootstrap 5) --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"card p-3 mb-3"</span>&gt;
+            <pre style="max-height: 380px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) --&gt;</span>
+&lt;<span class="kw">form</span> id=<span class="str">"form-cadastro"</span> class=<span class="str">"card p-3 mb-3"</span>&gt;
   &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-    &lt;<span class="kw">label</span> for=<span class="str">"input-nome"</span> class=<span class="str">"form-label"</span>&gt;Digite seu Nome:&lt;/<span class="kw">label</span>&gt;
+    &lt;<span class="kw">label</span> for=<span class="str">"input-nome"</span> class=<span class="str">"form-label"</span>&gt;Nome do Cliente:&lt;/<span class="kw">label</span>&gt;
     &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"input-nome"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: Maria Silva"</span>&gt;
   &lt;/<span class="kw">div</span>&gt;
 
-  &lt;<span class="kw">button</span> type=<span class="str">"button"</span> id=<span class="str">"btn-saudar"</span> class=<span class="str">"btn btn-primary"</span>&gt;
-    Enviar Saudação
-  &lt;/<span class="kw">button</span>&gt;
-&lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
+    &lt;<span class="kw">label</span> for=<span class="str">"input-email"</span> class=<span class="str">"form-label"</span>&gt;E-mail:&lt;/<span class="kw">label</span>&gt;
+    &lt;<span class="kw">input</span> type=<span class="str">"email"</span> id=<span class="str">"input-email"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: maria@email.com"</span>&gt;
+  &lt;/<span class="kw">div</span>&gt;
 
-&lt;<span class="cm">&lt;!-- Alerta Alvo que receberá as mensagens via jQuery --&gt;</span>
-&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-secondary"</span>&gt;
-  Aguardando interação...
-&lt;/<span class="kw">div</span>&gt;
+  &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> id=<span class="str">"btn-salvar"</span> class=<span class="str">"btn btn-primary"</span>&gt;Salvar Cliente&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">form</span>&gt;
 
-<span class="cm">&lt;!-- 2. Inclusão da Biblioteca jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
+&lt;<span class="cm">&lt;!-- Caixa de Alerta Alvo que receberá as mensagens --&gt;</span>
+&lt;<span class="kw">div</span> id=<span class="str">"caixa-alerta"</span> class=<span class="str">"alert alert-info d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
+
+<span class="cm">&lt;!-- 2. Inclusão da Biblioteca jQuery via CDN (antes do &lt;/body&gt;) --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
 
 &lt;<span class="kw">script</span>&gt;
-  <span class="cm">// 3. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
   $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
+    $(<span class="str">'#form-cadastro'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+      e.<span class="fn">preventDefault</span>(); <span class="cm">// Previne recarregamento da página</span>
 
-    <span class="cm">// 4. Escuta evento de clique e manipula os seletores ($)</span>
-    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+      <span class="kw">const</span> nome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();   <span class="cm">// Lê input de nome</span>
+      <span class="kw">const</span> email = $(<span class="str">'#input-email'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input de e-mail</span>
 
-      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
-          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
-      } <span class="kw">else</span> {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
-      }
+      <span class="cm">// Escrita dinâmica na div de alerta</span>
+      $(<span class="str">'#caixa-alerta'</span>).<span class="fn">html</span>(<span class="str">`Lido com sucesso: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
     });
-
   });
 &lt;/<span class="kw">script</span>&gt;</code></pre>
           </div>
 
           <div id="tab-ex7" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
-            </div>
-            <pre><code><span class="cm">// Exemplo 7: Recursos Estéticos e Efeitos Visuais no jQuery</span>
-$(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
-$(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
-$(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
-          </div>
-
-          <div id="tab-ex8" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
             </div>
             <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
 $(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {

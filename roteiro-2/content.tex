@@ -43,66 +43,45 @@ Nesta aula, transformamos a interface estática do Bootstrap 5 em um sistema **d
 % PARTE 1
 % =====================================================
 
-\subsection{Detalhamento Didático dos Exemplos de jQuery (Exemplos 6 a 9)}
+\subsection{Detalhamento Didático da Estrutura HTML Base Unificada \& Exemplos 6 a 9}
 
-Abaixo está o detalhamento da evolução funcional desenvolvida nesta etapa:
+Para manter uma linha contínua de aprendizado sem perder a conexão entre os seletores, todos os exemplos da Parte 2 utilizam a **mesma estrutura HTML base da aplicação de Cadastro de Clientes** (Exemplo 5 do Bootstrap 5), incrementando-a passo a passo:
 
-\begin{itemize}
-\item \textbf{Exemplo 6 (jQuery — Introdução Prática, Estrutura HTML \& Seletores):} \textit{Passo a passo didático inicial da biblioteca.} Mostra como o HTML fornece os elementos com IDs (\texttt{\#input-nome}, \texttt{\#btn-saudar}, \texttt{\#caixa-mensagem}) e como o jQuery lê e escreve nesses seletores no lado do cliente:
+\begin{boxCodigo}
+\textbf{Estrutura HTML Base Unificada (Formulário, Alerta e Tabela):}
 
 \small
 \begin{verbatim}
-<!-- 1. Estrutura HTML dos Campos e Alerta Alvo (Bootstrap 5) -->
-<div class="card p-3 mb-3">
-  <div class="mb-3">
-    <label for="input-nome" class="form-label">Digite seu Nome:</label>
-    <input type="text" id="input-nome" class="form-control" placeholder="Ex: Maria Silva">
-  </div>
+<!-- Formulário de Cadastro (#form-cadastro) -->
+<form id="form-cadastro" class="card p-3 mb-3">
+  <input type="text" id="input-nome" class="form-control mb-2" placeholder="Nome">
+  <input type="email" id="input-email" class="form-control mb-2" placeholder="E-mail">
+  <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar Cliente</button>
+</form>
 
-  <button type="button" id="btn-saudar" class="btn btn-primary">
-    Enviar Saudação
-  </button>
-</div>
+<!-- Caixa de Alerta para Feedback Visual (#caixa-alerta) -->
+<div id="caixa-alerta" class="alert alert-info d-none"></div>
 
-<!-- Alerta Alvo que receberá o resultado manipulado pelo jQuery -->
-<div id="caixa-mensagem" class="alert alert-secondary">
-  Aguardando interação...
-</div>
-
-<!-- 2. Inclusão da Biblioteca jQuery via CDN (antes do </body>) -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<script>
-  // 3. Inicialização Segura: Aguarda a renderização do DOM
-  $(document).ready(function() {
-
-    // 4. Escuta o clique no botão e manipula o DOM ($seletor.método)
-    $('#btn-saudar').on('click', function() {
-      const nomeDigitado = $('#input-nome').val(); // Lê o campo input
-
-      if (nomeDigitado.trim() === '') {
-        $('#caixa-mensagem')
-          .removeClass('alert-secondary alert-success')
-          .addClass('alert-warning')
-          .text('Por favor, digite um nome antes de clicar!');
-      } else {
-        $('#caixa-mensagem')
-          .removeClass('alert-secondary alert-warning')
-          .addClass('alert-success')
-          .html(`Sucesso! Olá ${nomeDigitado}, o jQuery leu seu nome!`);
-      }
-    });
-
-  });
-</script>
+<!-- Tabela com Corpo Dinâmico (#tabela-corpo) -->
+<table class="table table-striped">
+  <thead><tr><th>Nome</th><th>E-mail</th><th>Ação</th></tr></thead>
+  <tbody id="tabela-corpo"></tbody>
+</table>
 \end{verbatim}
+\end{boxCodigo}
 
+Abaixo está a progressão funcional realizada sobre a mesma estrutura:
 
-\item \textbf{Exemplo 7 (jQuery Estético — Efeitos Visuais \& Classes CSS):} \textit{Feedback visual animado.} Remove a classe \texttt{.d-none}, altera a cor do quadro e faz a mensagem surgir suavemente com \texttt{.fadeIn(300)} ou expandir com \texttt{.slideToggle()};
+\begin{itemize}
+\item \textbf{Exemplo 6 (Passo 1 — Leitura \& Escrita de Campos):} Captura a submissão do \texttt{\#form-cadastro}, impede o recarregamento com \texttt{e.preventDefault()}, lê os valores de \texttt{\#input-nome} e \texttt{\#input-email} com \texttt{.val()} e escreve na caixa \texttt{\#caixa-alerta} com \texttt{.html()};
 
-\item \textbf{Exemplo 8 (jQuery Dinâmico — Eventos \& Inserção no DOM):} \textit{Inserção dinâmica de dados na tabela.} Escuta o envio do formulário com \texttt{.on('submit')}, impede a atualização da tela com \texttt{e.preventDefault()} e insere novas linhas dinâmicas na tabela com \texttt{.append()};
-\item \textbf{Exemplo 9 (Persistência Local — Gerenciamento com LocalStorage):} \textit{Armazenamento duradouro no navegador.} Salva o array de objetos no navegador convertendo para texto com \texttt{JSON.stringify()} e recupera com \texttt{JSON.parse()} ao recarregar a página (F5).
+\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} Incrementa a mesma \texttt{\#caixa-alerta} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta surgir suavemente com \texttt{.fadeIn(400)};
+
+\item \textbf{Exemplo 8 (Passo 3 — Manipulação Dinâmica do DOM \& Exclusão):} Insere a nova linha \texttt{<tr>} com os dados e o botão \texttt{.btn-excluir} diretamente na \texttt{\#tabela-corpo} com \texttt{.append()}. Ao clicar em Excluir, remove a linha pai da tabela com \texttt{\$(this).closest('tr').remove()};
+
+\item \textbf{Exemplo 9 (Passo 4 — Persistência no LocalStorage com JSON):} Salva o array de clientes no navegador com \texttt{localStorage.setItem('lista\_clientes', JSON.stringify(clientes))} e restaura a \texttt{\#tabela-corpo} ao pressionar F5 com \texttt{JSON.parse()}.
 \end{itemize}
+
 
 % =====================================================
 % TABELAS "PARA EXPLORAR MAIS"
