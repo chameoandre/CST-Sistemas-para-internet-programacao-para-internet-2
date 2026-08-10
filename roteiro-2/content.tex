@@ -1,0 +1,131 @@
+\section{Roteiro Prático 02 — Retomada e Transição Parte 2: jQuery, Manipulação do DOM \& LocalStorage}
+
+% =====================================================
+% OBJETIVOS
+% =====================================================
+
+\begin{boxObjetivos}
+\textbf{Objetivos da Aula (Parte 2 — jQuery \& Dinâmica Frontend)}
+
+Ao final desta aula o estudante será capaz de:
+
+\begin{itemize}
+\item Retomar o layout estático construído no Bootstrap 5 e adicionar inteligência no lado do cliente com \textbf{jQuery};
+\item Localizar e obter a biblioteca no portal oficial do \textbf{jQuery} (\url{https://jquery.com} e \url{https://code.jquery.com});
+\item Incluir os scripts no final do \texttt{<body>} e organizar a lógica em arquivo JavaScript externo (\texttt{app.js});
+\item Compreender o manipulador de inicialização segura \texttt{\textdollar(document).ready(function() \{...\})};
+\item Selecionar elementos do DOM com \texttt{\textdollar()} e escutar eventos de formulário e clique (\texttt{.on('submit')}, \texttt{.click()});
+\item Aplicar efeitos visuais e animações fluidas na interface (\texttt{.fadeIn()}, \texttt{.slideToggle()}, \texttt{.addClass()});
+\item Inserir e remover elementos dinamicamente na árvore DOM com \texttt{.append()}, \texttt{.val()} e \texttt{.remove()};
+\item Persistir e recuperar dados no navegador utilizando o \textbf{LocalStorage} (\texttt{setItem}, \texttt{getItem}, \texttt{JSON.stringify}, \texttt{JSON.parse});
+\item Implementar filtro de busca dinâmico em tempo real na tabela;
+\item Acompanhar o material através da apresentação de slides interativa da Parte 2 (\url{https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/retomada-de-atividades-pi2/parte-2-jquery/index.html}).
+\end{itemize}
+\end{boxObjetivos}
+
+% =====================================================
+% INTRODUÇÃO & INCLUSÃO
+% =====================================================
+
+\subsection{Introdução, Sites Oficiais e Organização em Arquivo Externo \texttt{app.js}}
+
+Bem-vindos à segunda parte da retomada prática da disciplina de \textbf{Programação para a Internet 2 (ProgWeb 2)}!
+
+Nesta aula, transformamos a interface estática do Bootstrap 5 em um sistema **dinâmico, interativo e funcional** utilizando a biblioteca **jQuery**.
+
+\begin{enumerate}
+\item \textbf{jQuery (Site Oficial \& CDN):} No portal \url{https://jquery.com} e no servidor de CDN \url{https://code.jquery.com}, obtemos os links da versão minificada (\texttt{jquery-3.7.1.min.js}), incluída via tag \texttt{<script>} antes do fechamento do \texttt{</body>};
+\item \textbf{Organização Profissional em Arquivo Externo (\texttt{app.js}):} Adotamos como boa prática o desacoplamento do código JavaScript em um arquivo separado (\texttt{app.js}), inicializado com \texttt{\textdollar(document).ready()};
+\item \textbf{Acompanhamento Interativo:} O trabalho é guiado pelos slides da Parte 2 (\texttt{parte-2-jquery/index.html}) e pela prática na pasta \texttt{exercicio-retomada/}.
+\end{enumerate}
+
+% =====================================================
+% PARTE 1
+% =====================================================
+
+\subsection{Detalhamento Didático dos Exemplos de jQuery (Exemplos 6 a 9)}
+
+Abaixo está o detalhamento da evolução funcional desenvolvida nesta etapa:
+
+\begin{itemize}
+\item \textbf{Exemplo 6 (jQuery — Introdução Prática \& Primeiros Passos):} \textit{Passo a passo didático inicial da biblioteca.} Explica em 3 etapas: (1) Inclusão do script via CDN antes de fechar o \texttt{</body>}; (2) Inicialização segura com \texttt{\textdollar(document).ready(function() \{...\})} para aguardar a renderização completa do HTML; e (3) Anatomia do comando \texttt{\textdollar('\#id').val()} para leitura e \texttt{\textdollar('\#msg').text('...')} para escrita na tela;
+\item \textbf{Exemplo 7 (jQuery Estético — Efeitos Visuais \& Classes CSS):} \textit{Feedback visual animado.} Remove a classe \texttt{.d-none}, altera a cor do quadro e faz a mensagem surgir suavemente com \texttt{.fadeIn(300)} ou expandir com \texttt{.slideToggle()};
+\item \textbf{Exemplo 8 (jQuery Dinâmico — Eventos \& Inserção no DOM):} \textit{Inserção dinâmica de dados na tabela.} Escuta o envio do formulário com \texttt{.on('submit')}, impede a atualização da tela com \texttt{e.preventDefault()} e insere novas linhas dinâmicas na tabela com \texttt{.append()};
+\item \textbf{Exemplo 9 (Persistência Local — Gerenciamento com LocalStorage):} \textit{Armazenamento duradouro no navegador.} Salva o array de objetos no navegador convertendo para texto com \texttt{JSON.stringify()} e recupera com \texttt{JSON.parse()} ao recarregar a página (F5).
+\end{itemize}
+
+% =====================================================
+% TABELAS "PARA EXPLORAR MAIS"
+% =====================================================
+
+\subsection{Guia de Apoio: "Para Explorar Mais no jQuery"}
+
+Para dar suporte aos alunos na programação dinâmica, o quadro abaixo resume métodos essenciais do jQuery:
+
+\begin{boxTabela}
+\textbf{Opções Adicionais de jQuery (Seletores, Efeitos e Manipulação do DOM)}
+
+\begin{tabular}{|l|p{11cm}|}
+\hline
+\textbf{Método / Seletor} & \textbf{Descrição e Uso no Código} \\ \hline
+\texttt{\textdollar('.minha-classe')} & Seleciona todos os elementos do DOM que possuem uma classe CSS específica. \\ \hline
+\texttt{\textdollar(el).slideDown() / .slideUp()} & Animação fluida de expandir para baixo ou recolher para cima. \\ \hline
+\texttt{\textdollar(el).attr('disabled', true)} & Lê ou altera atributos HTML de um elemento (ex: desativar botões). \\ \hline
+\texttt{\textdollar(el).prepend(html)} & Insere novo conteúdo HTML no início do elemento selecionado. \\ \hline
+\texttt{\textdollar(el).empty() / .remove()} & Limpa todo o conteúdo interno ou remove o próprio elemento da página. \\ \hline
+\end{tabular}
+\end{boxTabela}
+
+% =====================================================
+% TAREFA PRÁTICA
+% =====================================================
+
+\subsection{Parte 2 — Tarefa Prática: Programação Dinâmica em Arquivo Externo app.js}
+
+\begin{boxAtividade}[{Atividade Prática -- Dinâmica com jQuery e LocalStorage}]
+
+Na pasta \texttt{exercicio-retomada/}, os estudantes deverão tornar a aplicação 100\% dinâmica:
+
+\begin{enumerate}
+\item \textbf{Inclusão do jQuery:} Adicionar a tag \texttt{<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>} antes do \texttt{</body>};
+\item \textbf{Seleção e Eventos em \texttt{app.js}:} No arquivo externo \texttt{app.js}, capturar a submissão do formulário com \texttt{\textdollar('\#formCadastro').on('submit')};
+\item \textbf{Inserção Dinâmica no DOM:} Ler os campos com \texttt{\textdollar('\#nome').val()} e adicionar a nova linha na tabela com \texttt{\textdollar('\#tabela-body').append()};
+\item \textbf{Persistência no LocalStorage (Exemplo 9):} Salvar a lista de registros com \texttt{localStorage.setItem()} e tratar a restauração dos dados ao abrir a página (F5).
+\end{enumerate}
+
+\end{boxAtividade}
+
+% =====================================================
+% PARTE 3 — DESAFIO EXTRA
+% =====================================================
+
+\subsection{Parte 3 — Desafio Extra: Filtro Dinâmico em Tempo Real}
+
+\begin{boxAtividade}[{Desafio Extra -- Filtro por Nome com jQuery}]
+
+Como atividade de aprimoramento em sala:
+
+\begin{enumerate}
+\item Criar um campo de busca por nome acima da tabela (\texttt{\textdollar('\#filtro-nome')});
+\item Implementar o evento \texttt{input} do jQuery para filtrar dinamicamente as linhas exibidas à medida que o usuário digita.
+\end{enumerate}
+
+\end{boxAtividade}
+
+% =====================================================
+% CHECKLIST
+% =====================================================
+
+\subsection{Checklist Final da Aula 2}
+
+\begin{boxAtividade}[{Verificação Técnica Parte 2}]
+
+Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de aceitação:
+
+\begin{itemize}
+\item [ ] O script do jQuery 3.7.1 está incluído e o arquivo \texttt{app.js} inicializa com \texttt{\textdollar(document).ready()};
+\item [ ] Ao cadastrar um novo registro, a tabela é atualizada instantaneamente sem recarregar a página;
+\item [ ] Ao pressionar F5 (Recarregar), os dados salvos no \texttt{LocalStorage} permanecem visíveis na tela.
+\end{itemize}
+
+\end{boxAtividade}
