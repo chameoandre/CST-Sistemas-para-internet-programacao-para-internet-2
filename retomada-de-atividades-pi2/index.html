@@ -1,1595 +1,206 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retomada & Transição — ProgWeb 1 para ProgWeb 2 (IFSC)</title>
+  <title>ProgWeb 2 — Retomada Prática Frontend (Bootstrap 5 & jQuery)</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
-  
+
+  <!-- Bootstrap 5 CSS & Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <style>
     :root {
-      --ifsc-green: #16a34a;
-      --ifsc-green-dark: #15803d;
-      --ifsc-red: #dc2626;
       --bg-dark: #090d16;
       --bg-card: #131b2e;
-      --bg-card-hover: #1c2742;
+      --border-color: rgba(255, 255, 255, 0.12);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --border-color: rgba(255, 255, 255, 0.1);
       --accent-blue: #38bdf8;
-      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
       --accent-amber: #f59e0b;
-      --radius-lg: 16px;
-      --radius-md: 10px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      --accent-purple: #a855f7;
     }
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-    }
-
-    .deck-container {
-      position: relative;
-      width: 100%;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      padding: 2.5rem 1rem;
     }
 
-    /* Header Fixo */
-    .app-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2.5rem;
+    .font-outfit {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .font-code {
+      font-family: 'Fira Code', monospace;
+    }
+
+    .hub-card {
       background: rgba(19, 27, 46, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 100;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-    }
-
-    .brand img {
-      height: 44px;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-    }
-
-    .brand-text h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    .brand-text p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .header-badges {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .badge {
-      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--border-color);
       border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .badge-green {
-      background: rgba(22, 163, 74, 0.15);
-      color: #4ade80;
-      border: 1px solid rgba(22, 163, 74, 0.4);
-    }
-
-    .badge-blue {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent-blue);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-    }
-
-    /* Estutura dos Slides */
-    .slide-stage {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slide {
-      position: absolute;
-      inset: 0;
-      padding: 1.6rem 3.5rem;
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(40px);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .slide.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
-    }
-
-    .slide-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.9rem;
-      font-weight: 800;
-      margin-bottom: 0.15rem;
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .slide-subtitle {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      margin-bottom: 1.1rem;
-      max-width: 980px;
-      line-height: 1.45;
-    }
-
-    /* Grids & Cards Layout */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-      flex: 1;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.1rem;
-      flex: 1;
-    }
-
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 1.1rem;
-      display: flex;
-      flex-direction: column;
+      padding: 2.2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
       transition: all 0.3s ease;
-      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .card:hover {
-      border-color: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
+    .hub-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
     }
 
-    .card-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card h3 {
-      font-family: 'Outfit', sans-serif;
+    .btn-action {
+      padding: 0.85rem 1.6rem;
+      border-radius: 10px;
+      font-weight: 700;
       font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-      color: #fff;
-    }
-
-    .card p {
-      font-size: 0.83rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .example-desc {
-      background: rgba(56, 189, 248, 0.08);
-      border-left: 3px solid var(--accent-blue);
-      padding: 0.55rem 0.75rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      color: #e2e8f0;
-      margin-bottom: 0.6rem;
-      line-height: 1.4;
-    }
-
-    .example-tag {
-      display: inline-block;
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent-blue);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      padding: 0.2rem 0.55rem;
-      border-radius: 6px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      width: fit-content;
-    }
-
-    .card-highlight { border-left: 4px solid var(--ifsc-green); }
-    .card-highlight-blue { border-left: 4px solid var(--accent-blue); }
-    .card-highlight-purple { border-left: 4px solid var(--accent-purple); }
-    .card-highlight-amber { border-left: 4px solid var(--accent-amber); }
-
-    .link-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 0.55rem 0.8rem;
-      margin-top: 0.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .link-box a {
-      color: var(--accent-blue);
       text-decoration: none;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .link-box a:hover { text-decoration: underline; }
-
-    /* Custom Table for "Para explorar mais..." */
-    .explore-box {
-      background: rgba(11, 16, 29, 0.7);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 0.75rem 0.9rem;
-      margin-top: 0.6rem;
-    }
-
-    .explore-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.83rem;
-      font-weight: 700;
-      color: var(--accent-amber);
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .explore-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-    }
-
-    .explore-table th {
-      color: var(--text-muted);
-      text-align: left;
-      padding: 0.3rem 0.5rem;
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 600;
-    }
-
-    .explore-table td {
-      padding: 0.35rem 0.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .explore-table code {
-      font-family: 'Fira Code', monospace;
-      color: var(--accent-blue);
-      font-size: 0.76rem;
-    }
-
-    /* Code Tabs */
-    .code-tabs {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      background: #0b101d;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-
-    .tab-buttons {
-      display: flex;
-      background: rgba(15, 23, 42, 0.8);
-      border-bottom: 1px solid var(--border-color);
-      overflow-x: auto;
-    }
-
-    .tab-btn {
-      padding: 0.75rem 1.1rem;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
-    }
-
-    .tab-btn:hover { color: #fff; }
-
-    .tab-btn.active {
-      color: var(--accent-blue);
-      border-bottom-color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.08);
-    }
-
-    .tab-content {
-      padding: 1.3rem;
-      flex: 1;
-      overflow-y: auto;
-      display: none;
-    }
-
-    .tab-content.active { display: block; }
-
-    pre code {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.82rem;
-      color: #e2e8f0;
-      line-height: 1.55;
-      white-space: pre-wrap;
-    }
-
-    .card pre {
-      background: #0b101d;
-      padding: 0.8rem;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      max-height: 270px;
-      overflow-y: auto;
-      margin-top: 0.5rem;
-    }
-
-    .card pre::-webkit-scrollbar {
-      width: 6px;
-    }
-    .card pre::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 4px;
-    }
-    .card pre::-webkit-scrollbar-thumb {
-      background: rgba(56, 189, 248, 0.4);
-      border-radius: 4px;
-    }
-    .card pre::-webkit-scrollbar-thumb:hover {
-      background: rgba(56, 189, 248, 0.7);
-    }
-
-    .kw { color: #f472b6; font-weight: 600; }
-    .fn { color: #38bdf8; font-weight: 600; }
-    .str { color: #4ade80; }
-    .cm { color: #64748b; font-style: italic; }
-
-    /* Checklist Interativo */
-    .checklist {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .check-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
-      padding: 0.85rem 1.2rem;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .check-item:hover { background: rgba(255, 255, 255, 0.06); }
-
-    .check-box {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 2px solid var(--text-muted);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .check-item.checked .check-box {
-      background: var(--ifsc-green);
-      border-color: var(--ifsc-green);
-      color: #fff;
-    }
-
-    .check-text { font-size: 0.9rem; font-weight: 500; }
-
-    /* Footer & Controls */
-    .app-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 2.5rem;
-      background: rgba(19, 27, 46, 0.9);
-      border-top: 1px solid var(--border-color);
-    }
-
-    .progress-container {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex: 1;
-      max-width: 400px;
-    }
-
-    .progress-bar-bg {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--ifsc-green) 0%, var(--accent-blue) 100%);
-      width: 8.33%;
-      transition: width 0.3s ease;
-    }
-
-    .slide-counter {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .nav-controls {
-      display: flex;
-      gap: 0.8rem;
-      align-items: center;
-    }
-
-    .nav-btn {
-      padding: 0.55rem 1.2rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      border-radius: var(--radius-md);
-      font-family: 'Outfit', sans-serif;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
       gap: 0.5rem;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      width: 100%;
     }
 
-    .nav-btn:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-1px);
+    .btn-action-p1 {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: white;
     }
 
-    .nav-btn:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
+    .btn-action-p1:hover {
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      color: white;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
     }
 
-    .btn-fs {
-      padding: 0.55rem;
-      width: 38px;
-      justify-content: center;
+    .btn-action-p2 {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: white;
+    }
+
+    .btn-action-p2:hover {
+      background: linear-gradient(135deg, #047857, #059669);
+      color: white;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
     }
   </style>
 </head>
+
 <body>
 
-  <div class="deck-container">
+  <div class="container" style="max-width: 1100px;">
 
-    <!-- Header Fixo -->
-    <header class="app-header">
-      <div class="brand">
-        <img src="../figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
-        <div class="brand-text">
-          <h1>Programação para a Internet 2 (ProgWeb 2)</h1>
-          <p>CST em Sistemas para a Internet — Aula 01: Retomada, Bootstrap 5 & jQuery</p>
-        </div>
-      </div>
-      <div class="header-badges">
-        <span class="badge badge-green">Prof. André Moraes</span>
-        <span class="badge badge-blue">2026-2</span>
-      </div>
-    </header>
+    <!-- CABEÇALHO PORTAL -->
+    <div class="text-center mb-5">
+      <span class="badge bg-primary bg-opacity-20 text-info border border-info border-opacity-25 px-3 py-2 rounded-pill font-code fs-6 mb-3">
+        <i class="bi bi-code-slash me-1"></i> Programação para a Internet 2 • CST Sistemas para a Internet
+      </span>
+      <h1 class="display-5 font-outfit text-white fw-bold mb-3">
+        Portal de Retomada Frontend:<br>
+        <span class="text-info">Bootstrap 5 & jQuery</span>
+      </h1>
+      <p class="lead text-secondary mx-auto" style="max-width: 800px; font-size: 1.15rem;">
+        Selecione abaixo o tópico desejado para acessar os slides interativos e os guias práticos de código:
+      </p>
+    </div>
 
-    <!-- Palco Principal de Slides -->
-    <main class="slide-stage">
+    <!-- CARDS DE NAVEGAÇÃO SIGAA -->
+    <div class="row g-4 justify-content-center">
 
-      <!-- SLIDE 1: Capa & Boas-Vindas -->
-      <section class="slide active" id="slide-1">
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 950px;">
-          <span class="badge badge-green" style="width: fit-content; margin-bottom: 1.2rem; font-size: 0.9rem;">
-            👋 Boas-Vindas a ProgWeb 2!
-          </span>
-          <h2 class="slide-title" style="font-size: 2.8rem; line-height: 1.15; margin-bottom: 0.8rem;">
-            Transição Prática de ProgWeb 1 para ProgWeb 2
-          </h2>
-          <p class="slide-subtitle" style="font-size: 1.15rem; line-height: 1.6;">
-            Sejam bem-vindos! Hoje iniciamos ProgWeb 2 revisando a base de <strong>ProgWeb 1</strong> e introduzindo duas ferramentas fundamentais de produtividade: <strong>Bootstrap 5</strong> (estilização ágil) e <strong>jQuery</strong> (recursos funcionais, estéticos e manipulação simples do DOM).
-          </p>
-
-          <div class="grid-3" style="margin-top: 1rem; flex: initial;">
-            <div class="card card-highlight">
-              <div class="card-icon">🧱</div>
-              <h3>1. Onde Estávamos em ProgWeb 1</h3>
-              <p>Rever HTML5 semântico, CSS3 e manipulação básica da página.</p>
+      <!-- CARD PARTE 1: BOOTSTRAP 5 -->
+      <div class="col-md-6">
+        <div class="hub-card" style="border-top: 4px solid var(--accent-blue);">
+          <div>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="p-3 bg-info bg-opacity-20 text-info rounded-3 fs-2">
+                <i class="bi bi-bootstrap-fill"></i>
+              </div>
+              <span class="badge bg-info text-dark font-code fw-bold fs-6">TÓPICO 1 • PARTE 1</span>
             </div>
-            <div class="card card-highlight-purple">
-              <div class="card-icon">🎨</div>
-              <h3>2. Bootstrap 5 em Prática</h3>
-              <p>Estilitar elementos visuais observando o efeito imediato das classes (Exemplos 1 a 4).</p>
-            </div>
-            <div class="card card-highlight-blue">
-              <div class="card-icon">⚡</div>
-              <h3>3. jQuery em 3 Dimensões</h3>
-              <p>Explorar recursos funcionais, estéticos e dinâmicos para acessar o DOM (Exemplos 5 a 8).</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- SLIDE 2: A Base de ProgWeb 1 -->
-      <section class="slide" id="slide-2">
-        <h2 class="slide-title">🧱 A Base de ProgWeb 1: O que já construímos?</h2>
-        <p class="slide-subtitle">Em Programação para a Internet 1 (ProgWeb 1), dominamos a estrutura base do frontend:</p>
+            <h2 class="h4 font-outfit text-white fw-bold mb-2">Parte 1 — Bootstrap 5: Layout & Design Estático</h2>
+            <p class="text-secondary small mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+              Estruturação da interface web responsiva utilizando o sistema de Grid de 12 colunas, formulários estilizados, cartões, badges e tabelas zebradas.
+            </p>
 
-        <div class="grid-4">
-          <div class="card card-highlight">
-            <div class="card-icon">🏷️</div>
-            <h3>HTML5 Semântico</h3>
-            <p>Tags semânticas como <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;form&gt;</code> e <code>&lt;table&gt;</code> dando estrutura ao conteúdo.</p>
-          </div>
-
-          <div class="card card-highlight-blue">
-            <div class="card-icon">🎨</div>
-            <h3>CSS3 & Layouts</h3>
-            <p>Box model, cores, Flexbox e CSS Grid para organizar o layout estático em diferentes telas.</p>
-          </div>
-
-          <div class="card card-highlight-purple">
-            <div class="card-icon">🌳</div>
-            <h3>Manipulação Básica</h3>
-            <p>Acessar a página via JavaScript nativo, reagindo a cliques e formulários simples.</p>
-          </div>
-
-          <div class="card card-highlight-amber">
-            <div class="card-icon">🚀</div>
-            <h3>Git & GitHub Pages</h3>
-            <p>Versionamento de código e publicação pública dos projetos web.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 3: Alinhamento com o PPC -->
-      <section class="slide" id="slide-3">
-        <h2 class="slide-title">📋 Alinhamento com o PPC do Curso (ProgWeb 2 — 120h)</h2>
-        <p class="slide-subtitle">O que o Projeto Pedagógico do Curso (PPC CONSUP 30/2020) estabelece para ProgWeb 2?</p>
-
-        <div class="grid-2">
-          <div class="card card-highlight">
-            <h3>🎯 Competências do PPC (Fase 4):</h3>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.6rem;">
-              <li style="display: flex; gap: 0.8rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Frameworks & Bibliotecas CSS/JS:</strong> Agilidade de construção de interfaces com ferramentas como Bootstrap e jQuery.</span>
-              </li>
-              <li style="display: flex; gap: 0.8rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Manipulação Avançada de Interfaces:</strong> Componentização, tratamento de formulários e experiência do usuário.</span>
-              </li>
-              <li style="display: flex; gap: 0.8rem;">
-                <span style="color: var(--ifsc-green);">✔️</span>
-                <span><strong>Comunicação e Estado no Cliente:</strong> Persistência local no navegador e preparação para consumo de serviços web.</span>
-              </li>
+            <ul class="text-secondary small ps-3 mb-4 font-code" style="font-size: 0.88rem; line-height: 1.7;">
+              <li><i class="bi bi-check2-circle text-info me-1"></i> Grid 12 Colunas & Containers</li>
+              <li><i class="bi bi-check2-circle text-info me-1"></i> Formulários & Inputs Estilizados</li>
+              <li><i class="bi bi-check2-circle text-info me-1"></i> Cards, Modais & Tabelas</li>
+              <li><i class="bi bi-check2-circle text-info me-1"></i> Layout Estático Completo (Exemplo 5)</li>
             </ul>
           </div>
 
-          <div class="card card-highlight-blue">
-            <h3>⏱️ Carga Horária & Estrutura:</h3>
-            <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.6rem;">
-              <div style="background: rgba(56, 189, 248, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(56, 189, 248, 0.3);">
-                <strong>Carga Horária Total:</strong> 120 Horas (CST em Sistemas para a Internet).
-              </div>
-              <div style="background: rgba(22, 163, 74, 0.1); padding: 0.8rem 1rem; border-radius: var(--radius-md); border: 1px solid rgba(22, 163, 74, 0.3);">
-                <strong>Prática de Laboratório:</strong> 60h Práticas em Laboratório | 40h de Extensão Integrada | 20h Teórica.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 4: Onde Buscar & Como Inclusão do Bootstrap 5 & jQuery -->
-      <section class="slide" id="slide-4">
-        <h2 class="slide-title">🌐 Onde Obter & Como Incluir o Bootstrap 5 e o jQuery</h2>
-        <p class="slide-subtitle">Sites oficiais de documentação, links CDN oficiais e a boa prática de organização de arquivos:</p>
-
-        <div class="grid-2">
           <div>
-            <div class="card card-highlight-purple mb-3">
-              <h3>🌐 Sites Oficiais & Documentação:</h3>
-              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem;">
-                <div class="link-box">
-                  <div>
-                    <strong>Bootstrap 5 (Docs & CDN):</strong>
-                    <div style="font-size: 0.78rem; color: var(--text-muted);">Documentação de componentes, grid e CDN jsDelivr.</div>
-                  </div>
-                  <a href="https://getbootstrap.com" target="_blank">getbootstrap.com ↗</a>
-                </div>
-
-                <div class="link-box">
-                  <div>
-                    <strong>jQuery (Oficial & CDN):</strong>
-                    <div style="font-size: 0.78rem; color: var(--text-muted);">Downloads oficiais e CDN com versão minificada (.min.js).</div>
-                  </div>
-                  <a href="https://jquery.com" target="_blank">jquery.com ↗</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="card card-highlight-amber">
-              <h3>📁 Onde Incluir no Documento HTML5:</h3>
-              <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; font-size: 0.85rem;">
-                <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-                  <span style="color: var(--accent-blue);">🔹</span>
-                  <span><strong>Bootstrap 5 CSS (head):</strong> CSS de estilização de componentes do <code>getbootstrap.com</code> via CDN.</span>
-                </li>
-                <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-                  <span style="color: var(--accent-amber);">🔹</span>
-                  <span><strong>Bootstrap Icons (head):</strong> Biblioteca oficial para exibir ícones como <code>&lt;i class="bi bi-person"&gt;&lt;/i&gt;</code>.</span>
-                </li>
-                <li style="margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
-                  <span style="color: var(--accent-purple);">🔹</span>
-                  <span><strong>jQuery (fim do body):</strong> Biblioteca de manipulação do DOM do <code>code.jquery.com</code>.</span>
-                </li>
-                <li style="display: flex; align-items: flex-start; gap: 0.5rem;">
-                  <span style="color: var(--ifsc-green);">🔹</span>
-                  <span><strong>Arquivo JS Externo (<code>app.js</code>):</strong> Lógica isolada em <code>app.js</code> mantendo o HTML limpo.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="card" style="background: rgba(15, 23, 42, 0.7); border: 1px dashed var(--accent-blue);">
-            <h3 style="color: var(--accent-blue); font-family: 'Fira Code', monospace;">Exemplo de Inclusão no HTML:</h3>
-            <pre style="margin-top: 0.6rem;"><code><span class="cm">&lt;!-- 1. No &lt;head&gt;: Bootstrap 5 CSS --&gt;</span>
-&lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
-
-<span class="cm">&lt;!-- 2. No &lt;head&gt;: Bootstrap Icons (Obrigatório para os ícones &lt;i class="bi bi-*"&gt;) --&gt;</span>
-&lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"</span>&gt;
-
-<span class="cm">&lt;!-- 3. Antes de fechar &lt;/body&gt;: jQuery --&gt;</span>
-&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-
-<span class="cm">&lt;!-- 4. Script externo da aplicação --&gt;</span>
-&lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;</code></pre>
+            <a href="parte-1-bootstrap/index.html" class="btn-action btn-action-p1 font-outfit">
+              <i class="bi bi-journal-code me-1"></i> Acessar Slides da Parte 1 (Bootstrap 5) &rarr;
+            </a>
           </div>
         </div>
-      </section>
-
-      <!-- SLIDE 5: Bootstrap 5 — Layout & Estilização (Exemplos 1 e 2) -->
-      <section class="slide" id="slide-5">
-        <h2 class="slide-title">🎨 Bootstrap 5: Recursos de Layout & Formulários</h2>
-        <p class="slide-subtitle">Como estilizar elementos visuais da página observando o efeito imediato das classes:</p>
-
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-purple mb-3">
-              <span class="example-tag">Exemplo 1</span>
-              <h3>Grid Responsivo & Containers</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Layout responsivo flexível. A classe <code>.container</code> centraliza o conteúdo, <code>.row</code> cria a linha de grade e <code>.col-12 .col-md-6 .col-lg-4</code> ajusta a largura para 100% no celular, 50% em tablets e 33.3% em telas grandes.
-              </div>
-              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-4"</span>&gt;Item 1&lt;/<span class="kw">div</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-8"</span>&gt;Item 2&lt;/<span class="kw">div</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-            </div>
-
-            <div class="card card-highlight-purple">
-              <span class="example-tag">Exemplo 2</span>
-              <h3>Formulários & Inputs Estilizados</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Campo de entrada com visual moderno. A classe <code>.mb-3</code> adiciona margem inferior, <code>.form-label</code> formata o texto do rótulo e <code>.form-control</code> estiliza o campo com bordas arredondadas e efeito de foco azul.
-              </div>
-              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-  &lt;<span class="kw">label</span> class=<span class="str">"form-label"</span>&gt;E-mail&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"ana@exemplo.com"</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-            </div>
-          </div>
-
-          <!-- Tabela "Para explorar mais..." -->
-          <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no Bootstrap (Grid & Forms):</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Classe / Opção</th>
-                    <th>Descrição & Efeito Visual</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>col-12 col-sm-6</code></td>
-                    <td>Ocupa 100% no celular e 50% em telas pequenas (Small 576px).</td>
-                  </tr>
-                  <tr>
-                    <td><code>col-md-4 col-lg-3</code></td>
-                    <td>Ocupa 1/3 da tela em tablets e 1/4 em desktops grandes.</td>
-                  </tr>
-                  <tr>
-                    <td><code>form-control-lg</code></td>
-                    <td>Aumenta a altura e tamanho da fonte do campo input.</td>
-                  </tr>
-                  <tr>
-                    <td><code>form-select</code></td>
-                    <td>Aplica o estilo moderno do Bootstrap em menus <code>&lt;select&gt;</code>.</td>
-                  </tr>
-                  <tr>
-                    <td><code>input-group</code></td>
-                    <td>Junta botões ou ícones diretamente ao lado do campo de texto.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 6: Bootstrap 5 — Componentes Visuais & Utilitários (Exemplos 3 e 4) -->
-      <section class="slide" id="slide-6">
-        <h2 class="slide-title">🎨 Bootstrap 5: Componentes Visuais & Utilitários</h2>
-        <p class="slide-subtitle">Como empacotar conteúdos com cartões, botões e tabelas zebradas elegantes:</p>
-
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-purple mb-3">
-              <span class="example-tag">Exemplo 3</span>
-              <h3>Cards, Botões & Alertas Visuais</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Componentes de feedback e acionamento. Cria um cartão com elevação (<code>.card .shadow</code>), exibe um alerta verde de confirmação (<code>.alert .alert-success</code>) e um botão verde (<code>.btn .btn-success</code>).
-              </div>
-              <pre><code>&lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"alert alert-success"</span>&gt;Salvo!&lt;/<span class="kw">div</span>&gt;
-  &lt;<span class="kw">button</span> class=<span class="str">"btn btn-success"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-            </div>
-
-            <div class="card card-highlight-purple">
-              <span class="example-tag">Exemplo 4</span>
-              <h3>Tabelas Elegantes & Utilitários (Referência W3Schools)</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Tabela zebrada com múltiplos registros e badges. A classe <code>.table-striped</code> alterna as cores das linhas para facilitar a leitura, <code>.table-hover</code> destaca a linha sob o mouse e <code>.badge</code> exibe tags de status.
-              </div>
-              <pre><code>&lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover table-bordered align-middle"</span>&gt;
-  &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;&lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Status&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;&lt;/<span class="kw">thead</span>&gt;
-  &lt;<span class="kw">tbody</span>&gt;
-    &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;1&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-    &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;2&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-  &lt;/<span class="kw">tbody</span>&gt;
-&lt;/<span class="kw">table</span>&gt;</code></pre>
-            </div>
-          </div>
-
-          <!-- Tabela "Para explorar mais..." -->
-          <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no Bootstrap (Componentes & Utilitários - W3Schools):</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Classe / Opção</th>
-                    <th>Descrição & Efeito Visual</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>table-striped / table-hover</code></td>
-                    <td>Alterna fundo das linhas (zebrado) e adiciona efeito hover ao passar o mouse.</td>
-                  </tr>
-                  <tr>
-                    <td><code>badge bg-success / bg-danger</code></td>
-                    <td>Etiquetas coloridas de status (Verde para ativo, Vermelho para inativo).</td>
-                  </tr>
-                  <tr>
-                    <td><code>btn-outline-primary / btn-sm</code></td>
-                    <td>Botões vazados de tamanho reduzido ideais para ações em tabelas.</td>
-                  </tr>
-                  <tr>
-                    <td><code>shadow-sm / shadow-lg</code></td>
-                    <td>Sombra suave ou pronunciada para dar profundidade aos cartões.</td>
-                  </tr>
-                  <tr>
-                    <td><code>d-flex justify-content-between</code></td>
-                    <td>Ativa Flexbox alinhando elementos nas extremidades do container.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 7: Bootstrap 5 — Layout Estático Completo (Exemplo 5) -->
-      <section class="slide" id="slide-7">
-        <h2 class="slide-title">🧩 Bootstrap 5: Layout Estático Completo (Exemplo 5)</h2>
-        <p class="slide-subtitle">Construção gradual da Interface 100% Estática com Bootstrap 5 (sem JavaScript/jQuery ainda):</p>
-
-        <div class="card card-highlight-purple" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
-          <div class="d-flex justify-content-between align-items-center mb-2" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <span class="example-tag">Exemplo 5 (Bootstrap 5 Estático)</span>
-              <strong style="color: #fff; font-size: 1rem; margin-left: 0.5rem;">Layout Consolidado (Grid + Form + Cards + Tabela Zebrada)</strong>
-            </div>
-            <div style="font-size: 0.8rem; color: var(--accent-amber); background: rgba(245, 158, 11, 0.1); padding: 0.3rem 0.8rem; border-radius: 6px; border: 1px solid rgba(245, 158, 11, 0.3);">
-              🎓 <strong>Fase 1 (Bootstrap 5 Puro):</strong> Nenhuma lógica JS ainda. O formulário e a tabela serão dinamizados no Exemplo 6+ com jQuery.
-            </div>
-          </div>
-
-          <div class="example-desc" style="margin-bottom: 0.6rem;">
-            <strong>O que está sendo desenvolvido:</strong> Estrutura completa de painel web combinando Formulário (Input Groups com ícones, Select, Textarea e Toggle Switch) com Tabela Zebrada Responsiva de 6 registros com bordas (<code>.table-responsive</code>, <code>.table-bordered</code> e <code>.table-group-divider</code>).
-          </div>
-
-          <pre style="flex: 1; max-height: 420px; overflow-y: auto; font-size: 0.86rem; padding: 1rem; line-height: 1.5; background: #080c14; border-radius: 8px; border: 1px solid var(--border-color);"><code><span class="cm">&lt;!-- ⚠️ IMPORTANTE: No &lt;head&gt;, inclua o Bootstrap Icons CSS para exibir os ícones (&lt;i class="bi bi-*"&gt;) --&gt;</span>
-<span class="cm">&lt;!-- &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"&gt; --&gt;</span>
-
-&lt;<span class="kw">div</span> class=<span class="str">"row g-4"</span>&gt;
-  <span class="cm">&lt;!-- COLUNA DA ESQUERDA: Formulário Avançado Bootstrap 5 --&gt;</span>
-  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-5"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow-sm border-0"</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
-        &lt;<span class="kw">div</span> class=<span class="str">"input-group"</span>&gt;
-          &lt;<span class="kw">span</span> class=<span class="str">"input-group-text"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-person"</span>&gt;&lt;/<span class="kw">i</span>&gt;&lt;/<span class="kw">span</span>&gt;
-          &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> id=<span class="str">"nome"</span> placeholder=<span class="str">"Ex: Maria Oliveira"</span>&gt;
-        &lt;/<span class="kw">div</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Endereço de E-mail&lt;/<span class="kw">label</span>&gt;
-        &lt;<span class="kw">div</span> class=<span class="str">"input-group"</span>&gt;
-          &lt;<span class="kw">span</span> class=<span class="str">"input-group-text"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-envelope"</span>&gt;&lt;/<span class="kw">i</span>&gt;&lt;/<span class="kw">span</span>&gt;
-          &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> id=<span class="str">"email"</span> placeholder=<span class="str">"nome@exemplo.com"</span>&gt;
-        &lt;/<span class="kw">div</span>&gt;
-        &lt;<span class="kw">div</span> class=<span class="str">"form-text"</span>&gt;Utilize o e-mail institucional @aluno.ifsc.edu.br&lt;/<span class="kw">div</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Curso Matriculado&lt;/<span class="kw">label</span>&gt;
-        &lt;<span class="kw">select</span> class=<span class="str">"form-select"</span> id=<span class="str">"curso"</span>&gt;
-          &lt;<span class="kw">option</span> selected&gt;Sistemas para Internet&lt;/<span class="kw">option</span>&gt;
-          &lt;<span class="kw">option</span>&gt;Análise e Des. de Sistemas&lt;/<span class="kw">option</span>&gt;
-        &lt;/<span class="kw">select</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3 form-check form-switch p-2 bg-white rounded border ps-5"</span>&gt;
-        &lt;<span class="kw">input</span> class=<span class="str">"form-check-input"</span> type=<span class="str">"checkbox"</span> id=<span class="str">"notificar"</span> checked&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-check-label"</span> for=<span class="str">"notificar"</span>&gt;Receber avisos por e-mail&lt;/<span class="kw">label</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">button</span> type=<span class="str">"button"</span> class=<span class="str">"btn btn-success w-100"</span>&gt;Cadastrar Aluno (Estático)&lt;/<span class="kw">button</span>&gt;
-    &lt;/<span class="kw">div</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-
-  <span class="cm">&lt;!-- COLUNA DA DIREITA: Tabela Zebrada Responsiva com Bordas --&gt;</span>
-  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-7"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"table-responsive rounded border"</span>&gt;
-      &lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover table-bordered border-secondary-subtle align-middle mb-0"</span>&gt;
-        &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">th</span> class=<span class="str">"text-center"</span>&gt;#&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span>&gt;Nome Completo&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span>&gt;E-mail&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span>&gt;Curso&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span> class=<span class="str">"text-center"</span>&gt;Status&lt;/<span class="kw">th</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-        &lt;/<span class="kw">thead</span>&gt;
-        &lt;<span class="kw">tbody</span> class=<span class="str">"table-group-divider"</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;1&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;ana.silva@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;2&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;bruno.souza@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;3&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Carla Mendes&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;carla.mendes@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Análise e Des. de Sistemas&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;4&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Diego Oliveira&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;diego.o@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-danger"</span>&gt;Inativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;5&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Elena Rostova&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;elena.rostova@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Licenciatura em Computação&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;6&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Fernando Costa&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;fernando.c@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Engenharia de Software&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-        &lt;/<span class="kw">tbody</span>&gt;
-      &lt;/<span class="kw">table</span>&gt;
-    &lt;/<span class="kw">div</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-        </div>
-      </section>
-
-      <!-- SLIDE 8: jQuery — Introdução Prática & Primeiros Passos (Exemplo 6) -->
-      <section class="slide" id="slide-8">
-        <h2 class="slide-title">⚡ jQuery: Introdução Prática & Primeiros Passos (Exemplo 6)</h2>
-        <p class="slide-subtitle">Entendendo a Inclusão da Biblioteca, a Inicialização com <code>$(document).ready()</code> e a Anatomia dos Comandos:</p>
-
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 6 (Primeiro Passo no jQuery)</span>
-              <h3>Inclusão, $(document).ready() & Seletores</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Passo a passo inicial de uso da biblioteca. 
-                1. Incluímos a biblioteca via CDN (<code>jquery-3.7.1.min.js</code>); 
-                2. Aguardamos o HTML ser completamente renderizado com <code>$(document).ready()</code>; 
-                3. Usamos o cifrão <code>$()</code> para selecionar (<code>$('#id')</code>), ler (<code>.val()</code>) e escrever na tela (<code>.text()</code>).
-              </div>
-              <pre style="max-height: 290px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Inclusão do jQuery via CDN antes de fechar o &lt;/body&gt; --&gt;</span>
-&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-
-&lt;<span class="kw">script</span>&gt;
-  <span class="cm">// 2. Inicialização Segura: Aguarda o HTML estar 100% pronto</span>
-  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
-
-    <span class="cm">// 3. Escuta evento e manipula o DOM ($seletor.método)</span>
-    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
-
-      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
-          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
-      } <span class="kw">else</span> {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
-      }
-    });
-
-  });
-&lt;/<span class="kw">script</span>&gt;</code></pre>
-            </div>
-          </div>
-
-          <!-- Tabela "Etapas do jQuery" -->
-          <div class="card">
-            <div class="explore-title">🔍 As 3 Etapas Fundamentais para Usar o jQuery:</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Etapa</th>
-                    <th>Comando & Função Pedagógica</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>1. Inclusão CDN</code></td>
-                    <td><code>&lt;script src="jquery.min.js"&gt;</code>: Carrega a biblioteca e cria o atalho global <code>$()</code>.</td>
-                  </tr>
-                  <tr>
-                    <td><code>2. Espera do DOM</code></td>
-                    <td><code>$(document).ready(...)</code>: Garante que os elementos HTML já foram carregados antes de serem acessados.</td>
-                  </tr>
-                  <tr>
-                    <td><code>3. Seletor + Ação</code></td>
-                    <td><code>$('#nome').val()</code>: Seleciona o elemento pelo ID <code>#nome</code> e executa o método de leitura <code>.val()</code>.</td>
-                  </tr>
-                  <tr>
-                    <td><code>4. Escrita na Tela</code></td>
-                    <td><code>$('#msg').text('...')</code> ou <code>.html('...')</code>: Atualiza dinamicamente o texto ou HTML de um elemento.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 9: jQuery — Recursos Estéticos (Exemplo 7) -->
-      <section class="slide" id="slide-9">
-        <h2 class="slide-title">⚡ jQuery: Recursos Estéticos (Efeitos & Classes CSS)</h2>
-        <p class="slide-subtitle">Como criar efeitos visuais, ocultar elementos e alternar classes CSS com animações fluidas:</p>
-
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-blue mb-3">
-              <span class="example-tag">Exemplo 7</span>
-              <h3>Efeitos Visuais & Classes CSS</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Feedback visual animado ao usuário. Remove a classe <code>d-none</code> para tornar o alerta visível, aplica a classe de cor <code>alert-success</code> do Bootstrap, altera a mensagem com <code>.text()</code> e faz o quadro surgir suavemente com <code>.fadeIn(300)</code>.
-              </div>
-              <pre><code><span class="cm">// Exibindo alerta com animação fadeIn()</span>
-$(<span class="str">'#mensagem-status'</span>)
-  .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
-  .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-  .<span class="fn">text</span>(<span class="str">'Salvo com sucesso!'</span>)
-  .<span class="fn">fadeIn</span>(300);</code></pre>
-            </div>
-          </div>
-
-          <!-- Tabela "Para explorar mais..." -->
-          <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no jQuery (Efeitos Visuais):</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Método de Efeito</th>
-                    <th>Descrição & Efeito Visual</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>$(el).hide() / .show()</code></td>
-                    <td>Oculta ou exibe o elemento instantaneamente na tela.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).slideUp() / .slideDown()</code></td>
-                    <td>Efeito de deslizar para cima (recolher) ou deslizar para baixo (expandir).</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).slideToggle()</code></td>
-                    <td>Alterna entre deslizar para cima e para baixo a cada clique.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).toggleClass('d-none')</code></td>
-                    <td>Alterna a presença de uma classe CSS (adiciona se não tiver, remove se tiver).</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 10: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 8 e 9) -->
-      <section class="slide" id="slide-10">
-        <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
-        <p class="slide-subtitle">Escuta de eventos, inserção dinâmica de elementos no DOM e persistência local:</p>
-
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-blue mb-2">
-              <span class="example-tag">Exemplo 8</span>
-              <h3>Eventos & Inserção Dinâmica no DOM</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela via formulário. Escuta o evento <code>submit</code> do formulário, impede a atualização da página com <code>e.preventDefault()</code>, monta uma linha HTML (<code>&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code>) e a insere no final da tabela com <code>.append()</code>.
-              </div>
-              <pre><code>$(<span class="str">'#form'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
-  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  $(<span class="str">'#tabela'</span>).<span class="fn">append</span>(<span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;/tr&gt;`</span>);
-});</code></pre>
-            </div>
-
-            <div class="card card-highlight-amber">
-              <span class="example-tag">Exemplo 9</span>
-              <h3>Persistência no LocalStorage</h3>
-              <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Armazenamento duradouro no navegador. Salva a lista de clientes convertendo para texto com <code>JSON.stringify()</code> e recupera os dados salvos convertendo de volta para objeto/array com <code>JSON.parse()</code> para os dados não sumirem ao pressionar F5.
-              </div>
-              <pre><code>localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
-<span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
-            </div>
-          </div>
-
-          <!-- Tabela "Para explorar mais..." -->
-          <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no jQuery (Manipulação do DOM):</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Método DOM</th>
-                    <th>Descrição & Uso no Código</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>$(el).append(html)</code></td>
-                    <td>Insere novo conteúdo HTML no final do elemento selecionado.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).prepend(html)</code></td>
-                    <td>Insere novo conteúdo HTML no início do elemento selecionado.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).empty()</code></td>
-                    <td>Remove todo o conteúdo interno do elemento (útil para limpar tabelas).</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).remove()</code></td>
-                    <td>Remove o próprio elemento e seus filhos da árvore DOM.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(this).closest('tr')</code></td>
-                    <td>Sobe na árvore DOM até encontrar a linha <code>&lt;tr&gt;</code> pai mais próxima.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 11: Guia Interativo de Código -->
-      <section class="slide" id="slide-11">
-        <h2 class="slide-title">💻 Guia Interativo de Código (Exemplos 1 a 9)</h2>
-        <p class="slide-subtitle">Use as abas abaixo para consultar e referenciar qualquer um dos 9 exemplos durante a aula:</p>
-
-        <div class="code-tabs">
-          <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-cdn')">Guia CDN</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex1')">Ex 1 (Grid BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex2')">Ex 2 (Forms BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex3')">Ex 3 (Cards/Alerts)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex4')">Ex 4 (Tabelas)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex5')">Ex 5 (Integração BS5)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex6')">Ex 6 (Seletores jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex7')">Ex 7 (Efeitos jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex8')">Ex 8 (Eventos/DOM)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex9')">Ex 9 (LocalStorage)</button>
-          </div>
-
-          <div id="tab-cdn" class="tab-content active">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido:</strong> Estruturação básica de inclusão de dependências. O CSS do Bootstrap 5 e os Ícones (Bootstrap Icons para as tags <code>&lt;i class="bi bi-*"&gt;</code>) são carregados no <code>&lt;head&gt;</code>, e o jQuery e o script da aplicação (<code>app.js</code>) são carregados antes de fechar o <code>&lt;/body&gt;</code>.
-            </div>
-            <pre><code><span class="cm">&lt;!-- Estrutura Recomendada de Inclusão de Dependências --&gt;</span>
-&lt;<span class="kw">head</span>&gt;
-  <span class="cm">&lt;!-- 1. Bootstrap 5 CSS --&gt;</span>
-  &lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</span>&gt;
-
-  <span class="cm">&lt;!-- 2. Bootstrap Icons (Necessário para os ícones &lt;i class="bi bi-*"&gt;&lt;/i&gt;) --&gt;</span>
-  &lt;<span class="kw">link</span> rel=<span class="str">"stylesheet"</span> href=<span class="str">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"</span>&gt;
-&lt;/<span class="kw">head</span>&gt;
-&lt;<span class="kw">body</span>&gt;
-  <span class="cm">&lt;!-- Conteúdo HTML da página --&gt;</span>
-
-  <span class="cm">&lt;!-- 3. jQuery JS (Official: https://jquery.com / CDN: https://code.jquery.com) --&gt;</span>
-  &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-
-  <span class="cm">&lt;!-- 4. Script externo com a lógica da aplicação (app.js) --&gt;</span>
-  &lt;<span class="kw">script</span> src=<span class="str">"app.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-&lt;/<span class="kw">body</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex1" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 1):</strong> Grid Responsivo do Bootstrap 5. Demonstra como organizar colunas em containers usando as classes <code>col-12 col-md-6 col-lg-4</code> para ajustar a visualização em celulares, tablets e telas grandes.
-            </div>
-            <pre><code><span class="cm">&lt;!-- Exemplo 1: Grid Responsivo do Bootstrap 5 --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"container"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"row g-3"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-4"</span>&gt;Coluna 1&lt;/<span class="kw">div</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-md-6 col-lg-8"</span>&gt;Coluna 2&lt;/<span class="kw">div</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex2" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 2):</strong> Formulários Estilizados com Bootstrap 5. Aplica <code>.form-label</code> e <code>.form-control</code> para deixar o campo de entrada de texto moderno, fluido e responsivo.
-            </div>
-            <pre><code><span class="cm">&lt;!-- Exemplo 2: Formulários Estilizados com Bootstrap 5 --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-  &lt;<span class="kw">label</span> for=<span class="str">"email"</span> class=<span class="str">"form-label"</span>&gt;Endereço de E-mail&lt;/<span class="kw">label</span>&gt;
-  &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> id=<span class="str">"email"</span> placeholder=<span class="str">"nome@exemplo.com"</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex3" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 3):</strong> Componentes Cards, Botões e Alertas. Agrupa dados em um cartão elevado com sombra (<code>.card .shadow</code>), exibe alertas coloridos (<code>.alert-success</code>) e cria botões de ação (<code>.btn-success</code>).
-            </div>
-            <pre><code><span class="cm">&lt;!-- Exemplo 3: Componentes Cards, Botões e Alertas --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"card p-4 shadow"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"alert alert-success"</span> role=<span class="str">"alert"</span>&gt;Cliente salvo com sucesso!&lt;/<span class="kw">div</span>&gt;
-  &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> class=<span class="str">"btn btn-success"</span>&gt;Cadastrar Cliente&lt;/<span class="kw">button</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex4" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 4):</strong> Tabelas Elegantes com Utilitários e Badges. Formata dados em tabela zebrada com <code>.table .table-hover .table-striped .table-bordered</code> e exibe etiquetas de status com <code>.badge</code>.
-            </div>
-            <pre><code><span class="cm">&lt;!-- Exemplo 4: Tabelas Elegantes com Utilitários (W3Schools) --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"table-responsive mt-3"</span>&gt;
-  &lt;<span class="kw">table</span> class=<span class="str">"table table-hover table-striped table-bordered align-middle"</span>&gt;
-    &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;
-      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">th</span>&gt;#&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Nome&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;E-mail&lt;/<span class="kw">th</span>&gt;&lt;<span class="kw">th</span>&gt;Status&lt;/<span class="kw">th</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-    &lt;/<span class="kw">thead</span>&gt;
-    &lt;<span class="kw">tbody</span> id=<span class="str">"tabela-corpo"</span>&gt;
-      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;1&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;ana@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-      &lt;<span class="kw">tr</span>&gt;&lt;<span class="kw">td</span>&gt;2&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;bruno@exemplo.com&lt;/<span class="kw">td</span>&gt;&lt;<span class="kw">td</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
-    &lt;/<span class="kw">tbody</span>&gt;
-  &lt;/<span class="kw">table</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex5" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 5):</strong> Código HTML completo do Layout Estático do Bootstrap 5. Combina Formulário em Card (Input Groups, Select, Textarea e Switch) com Tabela Zebrada Responsiva de 6 registros com bordas (<code>.table-responsive</code>, <code>.table-bordered</code> e <code>.table-group-divider</code>).
-            </div>
-            <pre><code><span class="cm">&lt;!-- Exemplo 5: Código Completo do Layout Estático (Apenas Bootstrap 5) --&gt;</span>
-&lt;<span class="kw">div</span> class=<span class="str">"row g-4"</span>&gt;
-  <span class="cm">&lt;!-- Coluna do Formulário --&gt;</span>
-  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-5"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"card p-3 shadow-sm border-0"</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Nome Completo&lt;/<span class="kw">label</span>&gt;
-        &lt;<span class="kw">div</span> class=<span class="str">"input-group"</span>&gt;
-          &lt;<span class="kw">span</span> class=<span class="str">"input-group-text"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-person"</span>&gt;&lt;/<span class="kw">i</span>&gt;&lt;/<span class="kw">span</span>&gt;
-          &lt;<span class="kw">input</span> type=<span class="str">"text"</span> class=<span class="str">"form-control"</span> id=<span class="str">"nome"</span> placeholder=<span class="str">"Ex: Maria Oliveira"</span>&gt;
-        &lt;/<span class="kw">div</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Endereço de E-mail&lt;/<span class="kw">label</span>&gt;
-        &lt;<span class="kw">div</span> class=<span class="str">"input-group"</span>&gt;
-          &lt;<span class="kw">span</span> class=<span class="str">"input-group-text"</span>&gt;&lt;<span class="kw">i</span> class=<span class="str">"bi bi-envelope"</span>&gt;&lt;/<span class="kw">i</span>&gt;&lt;/<span class="kw">span</span>&gt;
-          &lt;<span class="kw">input</span> type=<span class="str">"email"</span> class=<span class="str">"form-control"</span> id=<span class="str">"email"</span> placeholder=<span class="str">"nome@exemplo.com"</span>&gt;
-        &lt;/<span class="kw">div</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-label fw-semibold"</span>&gt;Curso Matriculado&lt;/<span class="kw">label</span>&gt;
-        &lt;<span class="kw">select</span> class=<span class="str">"form-select"</span> id=<span class="str">"curso"</span>&gt;
-          &lt;<span class="kw">option</span> selected&gt;Sistemas para Internet&lt;/<span class="kw">option</span>&gt;
-          &lt;<span class="kw">option</span>&gt;Análise e Des. de Sistemas&lt;/<span class="kw">option</span>&gt;
-        &lt;/<span class="kw">select</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">div</span> class=<span class="str">"mb-3 form-check form-switch"</span>&gt;
-        &lt;<span class="kw">input</span> class=<span class="str">"form-check-input"</span> type=<span class="str">"checkbox"</span> id=<span class="str">"notificar"</span> checked&gt;
-        &lt;<span class="kw">label</span> class=<span class="str">"form-check-label"</span> for=<span class="str">"notificar"</span>&gt;Notificar por e-mail&lt;/<span class="kw">label</span>&gt;
-      &lt;/<span class="kw">div</span>&gt;
-      &lt;<span class="kw">button</span> type=<span class="str">"button"</span> class=<span class="str">"btn btn-success w-100"</span>&gt;Cadastrar Aluno&lt;/<span class="kw">button</span>&gt;
-    &lt;/<span class="kw">div</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-
-  <span class="cm">&lt;!-- Coluna da Tabela Zebrada Responsiva --&gt;</span>
-  &lt;<span class="kw">div</span> class=<span class="str">"col-12 col-lg-7"</span>&gt;
-    &lt;<span class="kw">div</span> class=<span class="str">"table-responsive rounded border"</span>&gt;
-      &lt;<span class="kw">table</span> class=<span class="str">"table table-striped table-hover table-bordered border-secondary-subtle align-middle mb-0"</span>&gt;
-        &lt;<span class="kw">thead</span> class=<span class="str">"table-dark"</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">th</span> class=<span class="str">"text-center"</span>&gt;#&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span>&gt;Nome Completo&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span>&gt;E-mail&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span>&gt;Curso&lt;/<span class="kw">th</span>&gt;
-            &lt;<span class="kw">th</span> class=<span class="str">"text-center"</span>&gt;Status&lt;/<span class="kw">th</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-        &lt;/<span class="kw">thead</span>&gt;
-        &lt;<span class="kw">tbody</span> class=<span class="str">"table-group-divider"</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;1&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Ana Silva&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;ana.silva@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;2&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Bruno Souza&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;bruno.souza@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-warning text-dark"</span>&gt;Pendente&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;3&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Carla Mendes&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;carla.mendes@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Análise e Des. de Sistemas&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;4&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Diego Oliveira&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;diego.o@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Sistemas para Internet&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-danger"</span>&gt;Inativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;5&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Elena Rostova&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;elena.rostova@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Licenciatura em Computação&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-          &lt;<span class="kw">tr</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;6&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"fw-bold text-primary"</span>&gt;Fernando Costa&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;fernando.c@aluno.ifsc.edu.br&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span>&gt;Engenharia de Software&lt;/<span class="kw">td</span>&gt;
-            &lt;<span class="kw">td</span> class=<span class="str">"text-center"</span>&gt;&lt;<span class="kw">span</span> class=<span class="str">"badge bg-success"</span>&gt;Ativo&lt;/<span class="kw">span</span>&gt;&lt;/<span class="kw">td</span>&gt;
-          &lt;/<span class="kw">tr</span>&gt;
-        &lt;/<span class="kw">tbody</span>&gt;
-      &lt;/<span class="kw">table</span>&gt;
-    &lt;/<span class="kw">div</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-&lt;/<span class="kw">div</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex6" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Primeiro Passo Didático com jQuery. Explica as 3 etapas essenciais: 1. Inclusão do script via CDN; 2. Espera da inicialização do DOM com <code>$(document).ready()</code>; 3. Anatomia do comando (selecionar com <code>$('#id')</code>, ler com <code>.val()</code> e escrever na tela com <code>.text()</code>).
-            </div>
-            <pre><code><span class="cm">&lt;!-- 1. Inclusão da Biblioteca jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
-&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-
-&lt;<span class="kw">script</span>&gt;
-  <span class="cm">// 2. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
-  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
-
-    <span class="cm">// 3. Escuta evento de clique e manipula o DOM ($seletor.ação)</span>
-    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
-
-      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
-          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
-      } <span class="kw">else</span> {
-        $(<span class="str">'#caixa-mensagem'</span>)
-          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
-          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
-      }
-    });
-
-  });
-&lt;/<span class="kw">script</span>&gt;</code></pre>
-          </div>
-
-          <div id="tab-ex7" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
-            </div>
-            <pre><code><span class="cm">// Exemplo 7: Recursos Estéticos e Efeitos Visuais no jQuery</span>
-$(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
-$(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
-$(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
-          </div>
-
-          <div id="tab-ex8" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
-            </div>
-            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
-$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
-  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  
-  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
-  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
-});</code></pre>
-          </div>
-
-          <div id="tab-ex9" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
-            </div>
-            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
-<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
-  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
-}
-
-<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
-  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
-  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
-}</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 12: Checklist da Aula -->
-      <section class="slide" id="slide-12">
-        <h2 class="slide-title">📝 Checklist Mão na Massa (Atividade da Aula)</h2>
-        <p class="slide-subtitle">Abra a pasta <code>exercicio-retomada/</code> e siga o roteiro prático no VS Code:</p>
-
-        <div class="checklist" style="max-width: 950px; margin-top: 0.5rem;">
-          <div class="check-item" onclick="toggleCheck(this)">
-            <div class="check-box">✓</div>
-            <div class="check-text">1. Analisar a inclusão das dependências do Bootstrap (<code>getbootstrap.com</code>) e do jQuery (<code>code.jquery.com</code>) no <code>index.html</code>.</div>
-          </div>
-          <div class="check-item" onclick="toggleCheck(this)">
-            <div class="check-box">✓</div>
-            <div class="check-text">2. Construir o formulário e a tabela zebrada integrando componentes do Bootstrap (<strong>Exemplos 1 a 5</strong>).</div>
-          </div>
-          <div class="check-item" onclick="toggleCheck(this)">
-            <div class="check-box">✓</div>
-            <div class="check-text">3. Cadastrar dados observando a leitura de inputs e inserção dinâmica na tabela com jQuery em <code>app.js</code> (<strong>Exemplos 6 a 8</strong>).</div>
-          </div>
-          <div class="check-item" onclick="toggleCheck(this)">
-            <div class="check-box">✓</div>
-            <div class="check-text">4. Pressionar <code>F5</code> para recarregar a página e comprovar a persistência no <code>localStorage</code> (<strong>Exemplo 9</strong>).</div>
-          </div>
-          <div class="check-item" onclick="toggleCheck(this)">
-            <div class="check-box">✓</div>
-            <div class="check-text">🔥 <strong>Desafio Extra com jQuery:</strong> Testar o filtro por nome digitando no campo de busca acima da tabela!</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 13: Encerramento & Prévia da Aula 02 -->
-      <section class="slide" id="slide-13">
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 850px; margin: 0 auto;">
-          <div style="font-size: 3.5rem; margin-bottom: 0.8rem;">🚀</div>
-          <h2 class="slide-title" style="font-size: 2.8rem; justify-content: center;">
-            Parabéns pelo Progresso!
-          </h2>
-          <p class="slide-subtitle" style="font-size: 1.15rem; margin-top: 0.8rem; line-height: 1.6;">
-            Hoje dominamos a inclusão correta de dependências, os sites oficiais do <strong>Bootstrap 5</strong> (<code>getbootstrap.com</code>) e <strong>jQuery</strong> (<code>jquery.com</code>), o uso do Bootstrap 5 integrando componentes (Exemplos 1 a 5) e os recursos do jQuery com LocalStorage (Exemplos 6 a 9). Na <strong>Aula 02</strong>, daremos o próximo passo conectando nossa aplicação a APIs externas com a <strong>Fetch API</strong>!
-          </p>
-
-          <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-            <span class="badge badge-green" style="padding: 0.6rem 1.2rem; font-size: 0.95rem;">
-              Dúvidas? Prof. André Moraes
-            </span>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Rodapé -->
-    <footer class="app-footer">
-      <div class="progress-container">
-        <div class="progress-bar-bg">
-          <div id="progress-fill" class="progress-bar-fill"></div>
-        </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 13</span>
       </div>
 
-      <div class="nav-controls">
-        <button id="btn-prev" class="nav-btn" onclick="prevSlide()" disabled>
-          ◀ Anterior
-        </button>
-        <button id="btn-next" class="nav-btn" onclick="nextSlide()">
-          Próximo ▶
-        </button>
-        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
-          ⛶
-        </button>
-        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
-          ⛶
-        </button>
+      <!-- CARD PARTE 2: JQUERY -->
+      <div class="col-md-6">
+        <div class="hub-card" style="border-top: 4px solid var(--accent-emerald);">
+          <div>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="p-3 bg-success bg-opacity-20 text-success rounded-3 fs-2">
+                <i class="bi bi-lightning-charge-fill"></i>
+              </div>
+              <span class="badge bg-success text-white font-code fw-bold fs-6">TÓPICO 2 • PARTE 2</span>
+            </div>
+
+            <h2 class="h4 font-outfit text-white fw-bold mb-2">Parte 2 — jQuery: Programação Dinâmica & LocalStorage</h2>
+            <p class="text-secondary small mb-4" style="font-size: 0.95rem; line-height: 1.6;">
+              Adição de inteligência e interatividade no cliente: manipulação da árvore DOM, escutadores de eventos, animações visuais e salvamento local.
+            </p>
+
+            <ul class="text-secondary small ps-3 mb-4 font-code" style="font-size: 0.88rem; line-height: 1.7;">
+              <li><i class="bi bi-check2-circle text-success me-1"></i> Seletores $() & Eventos de Clique</li>
+              <li><i class="bi bi-check2-circle text-success me-1"></i> Efeitos Visuais (fadeIn, slideToggle)</li>
+              <li><i class="bi bi-check2-circle text-success me-1"></i> Manipulação do DOM (.append, .val)</li>
+              <li><i class="bi bi-check2-circle text-success me-1"></i> Persistência com LocalStorage</li>
+            </ul>
+          </div>
+
+          <div>
+            <a href="parte-2-jquery/index.html" class="btn-action btn-action-p2 font-outfit">
+              <i class="bi bi-journal-code me-1"></i> Acessar Slides da Parte 2 (jQuery) &rarr;
+            </a>
+          </div>
+        </div>
       </div>
-    </footer>
+
+    </div>
+
+    <!-- RODAPÉ INSTITUCIONAL -->
+    <div class="text-center mt-5 text-muted small">
+      <p class="mb-0">
+        Prof. André Moraes • Instituto Federal de Santa Catarina (IFSC Câmpus Garopaba)
+      </p>
+    </div>
 
   </div>
 
-  <script>
-    let currentSlide = 1;
-    const totalSlides = 13;
-
-    function updateSlides() {
-      document.querySelectorAll('.slide').forEach((slide, idx) => {
-        if (idx + 1 === currentSlide) {
-          slide.classList.add('active');
-        } else {
-          slide.classList.remove('active');
-        }
-      });
-
-      document.getElementById('btn-prev').disabled = (currentSlide === 1);
-      document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
-
-      document.getElementById('slide-counter').textContent = `Slide ${currentSlide} de ${totalSlides}`;
-      const percentage = (currentSlide / totalSlides) * 100;
-      document.getElementById('progress-fill').style.width = `${percentage}%`;
-    }
-
-    function nextSlide() {
-      if (currentSlide < totalSlides) {
-        currentSlide++;
-        updateSlides();
-      }
-    }
-
-    function prevSlide() {
-      if (currentSlide > 1) {
-        currentSlide--;
-        updateSlides();
-      }
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === 'Space') {
-        nextSlide();
-      } else if (e.key === 'ArrowLeft') {
-        prevSlide();
-      }
-    });
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-      event.target.classList.add('active');
-      document.getElementById(tabId).classList.add('active');
-    }
-
-    function toggleCheck(el) {
-      el.classList.toggle('checked');
-    }
-
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        }
-      }
-    }
-  </script>
-
 </body>
+
 </html>

@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retomada & Transição — ProgWeb 1 para ProgWeb 2 (IFSC)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --ifsc-green: #16a34a;
+      --ifsc-green-dark: #15803d;
+      --ifsc-red: #dc2626;
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --accent-blue: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-amber: #f59e0b;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .deck-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Fixo */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(19, 27, 46, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .brand img {
+      height: 44px;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+    }
+
+    .brand-text h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .brand-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-green {
+      background: rgba(22, 163, 74, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(22, 163, 74, 0.4);
+    }
+
+    .badge-blue {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+
+    /* Estutura dos Slides */
+    .slide-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 1.6rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(40px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .slide-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 0.15rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .slide-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+      max-width: 980px;
+      line-height: 1.45;
+    }
+
+    /* Grids & Cards Layout */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      flex: 1;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.1rem;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .example-desc {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid var(--accent-blue);
+      padding: 0.55rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #e2e8f0;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+    }
+
+    .example-tag {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      width: fit-content;
+    }
+
+    .card-highlight { border-left: 4px solid var(--ifsc-green); }
+    .card-highlight-blue { border-left: 4px solid var(--accent-blue); }
+    .card-highlight-purple { border-left: 4px solid var(--accent-purple); }
+    .card-highlight-amber { border-left: 4px solid var(--accent-amber); }
+
+    .link-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.55rem 0.8rem;
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .link-box a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .link-box a:hover { text-decoration: underline; }
+
+    /* Custom Table for "Para explorar mais..." */
+    .explore-box {
+      background: rgba(11, 16, 29, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 0.9rem;
+      margin-top: 0.6rem;
+    }
+
+    .explore-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .explore-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .explore-table th {
+      color: var(--text-muted);
+      text-align: left;
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .explore-table td {
+      padding: 0.35rem 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .explore-table code {
+      font-family: 'Fira Code', monospace;
+      color: var(--accent-blue);
+      font-size: 0.76rem;
+    }
+
+    /* Code Tabs */
+    .code-tabs {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #0b101d;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .tab-buttons {
+      display: flex;
+      background: rgba(15, 23, 42, 0.8);
+      border-bottom: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1.1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover { color: #fff; }
+
+    .tab-btn.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .tab-content {
+      padding: 1.3rem;
+      flex: 1;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .tab-content.active { display: block; }
+
+    pre code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .card pre {
+      background: #0b101d;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      max-height: 270px;
+      overflow-y: auto;
+      margin-top: 0.5rem;
+    }
+
+    .card pre::-webkit-scrollbar {
+      width: 6px;
+    }
+    .card pre::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 4px;
+    }
+    .card pre::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.4);
+      border-radius: 4px;
+    }
+    .card pre::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.7);
+    }
+
+    .kw { color: #f472b6; font-weight: 600; }
+    .fn { color: #38bdf8; font-weight: 600; }
+    .str { color: #4ade80; }
+    .cm { color: #64748b; font-style: italic; }
+
+    /* Checklist Interativo */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      padding: 0.85rem 1.2rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .check-item:hover { background: rgba(255, 255, 255, 0.06); }
+
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .check-item.checked .check-box {
+      background: var(--ifsc-green);
+      border-color: var(--ifsc-green);
+      color: #fff;
+    }
+
+    .check-text { font-size: 0.9rem; font-weight: 500; }
+
+    /* Footer & Controls */
+    .app-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2.5rem;
+      background: rgba(19, 27, 46, 0.9);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .progress-bar-bg {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ifsc-green) 0%, var(--accent-blue) 100%);
+      width: 8.33%;
+      transition: width 0.3s ease;
+    }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .nav-controls {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      padding: 0.55rem 1.2rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      border-radius: var(--radius-md);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .btn-fs {
+      padding: 0.55rem;
+      width: 38px;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck-container">
+
+    <!-- Header Fixo -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="../figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
+        <div class="brand-text">
+          <h1>Programação para a Internet 2 (ProgWeb 2)</h1>
+          <p>CST em Sistemas para a Internet — Aula 01: Retomada, Bootstrap 5 & jQuery</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="badge badge-green">Prof. André Moraes</span>
+        <span class="badge badge-blue">2026-2</span>
+      </div>
+    </header>
+
+    <!-- Palco Principal de Slides -->
+    <main class="slide-stage">
+      <!-- SLIDE 1: Capa & Boas-Vindas Parte 2 -->
+      <section class="slide active" id="slide-1">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+          <div style="margin-bottom: 1rem;">
+            <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--accent-emerald); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600;">
+              <i class="bi bi-lightning-charge-fill me-1"></i> Parte 2 • jQuery & Programação Dinâmica Frontend
+            </span>
+          </div>
+
+          <h2 class="slide-title" style="font-size: 2.5rem; line-height: 1.15; margin-bottom: 0.8rem;">
+            Retomada Prática de Frontend — Parte 2:<br>
+            <span style="color: var(--accent-emerald);">Manipulação do DOM & LocalStorage com jQuery</span>
+          </h2>
+
+          <p class="slide-subtitle" style="font-size: 1.1rem; line-height: 1.6; max-width: 850px; margin: 0 auto 1.8rem auto;">
+            Transforme o layout estático criado no Bootstrap 5 em uma <strong>aplicação web 100% interativa</strong>, com captura de eventos, animações fluidas e persistência de dados.
+          </p>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem;">
+            <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.5rem; text-align: left; min-width: 250px;">
+              <div style="color: var(--accent-emerald); font-weight: 700; margin-bottom: 0.3rem;"><i class="bi bi-cursor-fill me-1"></i> Seletores & Eventos</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Sintaxe $() e escutadores .on('click')</div>
+            </div>
+            <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.5rem; text-align: left; min-width: 250px;">
+              <div style="color: var(--accent-purple); font-weight: 700; margin-bottom: 0.3rem;"><i class="bi bi-magic me-1"></i> Efeitos & DOM</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">fadeIn, slideToggle, append e remove</div>
+            </div>
+            <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem 1.5rem; text-align: left; min-width: 250px;">
+              <div style="color: var(--accent-amber); font-weight: 700; margin-bottom: 0.3rem;"><i class="bi bi-hdd-network-fill me-1"></i> LocalStorage</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Persistência de Dados no Navegador</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- SLIDE 2: Recapitulação da Parte 1 -->
+      <section class="slide" id="slide-2">
+        <h2 class="slide-title">🔄 Recapitulação: Onde Paramos na Parte 1?</h2>
+        <p class="slide-subtitle">Na Parte 1, construímos toda a estrutura visual responsiva utilizando o Bootstrap 5:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 1rem;">
+          <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+            <div style="color: var(--accent-blue); font-size: 1.8rem; margin-bottom: 0.5rem;"><i class="bi bi-check2-square"></i></div>
+            <h3 style="color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">Grid Responsivo Montado</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Dividimos a tela em colunas adaptáveis para formulários e tabelas em dispositivos móveis e desktops.</p>
+          </div>
+
+          <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+            <div style="color: var(--accent-emerald); font-size: 1.8rem; margin-bottom: 0.5rem;"><i class="bi bi-eye-fill"></i></div>
+            <h3 style="color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">Interface Bonita mas Estática</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Os botões e formulários já possuem visual profissional, mas nada acontece ainda ao clicar neles.</p>
+          </div>
+
+          <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+            <div style="color: var(--accent-amber); font-size: 1.8rem; margin-bottom: 0.5rem;"><i class="bi bi-lightning-fill"></i></div>
+            <h3 style="color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;">O Papel do jQuery Agora</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Adicionar a inteligência no cliente: ler os dados digitados, inserir novas linhas na tabela dinamicamente e salvar tudo no navegador.</p>
+          </div>
+        </div>
+      </section>
+<!-- SLIDE 8: jQuery — Introdução Prática & Primeiros Passos (Exemplo 6) -->
+      <section class="slide" id="slide-3">
+        <h2 class="slide-title">⚡ jQuery: Introdução Prática & Primeiros Passos (Exemplo 6)</h2>
+        <p class="slide-subtitle">Entendendo a Inclusão da Biblioteca, a Inicialização com <code>$(document).ready()</code> e a Anatomia dos Comandos:</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="card card-highlight-blue mb-3">
+              <span class="example-tag">Exemplo 6 (Primeiro Passo no jQuery)</span>
+              <h3>Inclusão, $(document).ready() & Seletores</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Passo a passo inicial de uso da biblioteca. 
+                1. Incluímos a biblioteca via CDN (<code>jquery-3.7.1.min.js</code>); 
+                2. Aguardamos o HTML ser completamente renderizado com <code>$(document).ready()</code>; 
+                3. Usamos o cifrão <code>$()</code> para selecionar (<code>$('#id')</code>), ler (<code>.val()</code>) e escrever na tela (<code>.text()</code>).
+              </div>
+              <pre style="max-height: 290px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Inclusão do jQuery via CDN antes de fechar o &lt;/body&gt; --&gt;</span>
+&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
+
+&lt;<span class="kw">script</span>&gt;
+  <span class="cm">// 2. Inicialização Segura: Aguarda o HTML estar 100% pronto</span>
+  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
+
+    <span class="cm">// 3. Escuta evento e manipula o DOM ($seletor.método)</span>
+    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+
+      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
+          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
+      } <span class="kw">else</span> {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
+          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
+      }
+    });
+
+  });
+&lt;/<span class="kw">script</span>&gt;</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Etapas do jQuery" -->
+          <div class="card">
+            <div class="explore-title">🔍 As 3 Etapas Fundamentais para Usar o jQuery:</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Etapa</th>
+                    <th>Comando & Função Pedagógica</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>1. Inclusão CDN</code></td>
+                    <td><code>&lt;script src="jquery.min.js"&gt;</code>: Carrega a biblioteca e cria o atalho global <code>$()</code>.</td>
+                  </tr>
+                  <tr>
+                    <td><code>2. Espera do DOM</code></td>
+                    <td><code>$(document).ready(...)</code>: Garante que os elementos HTML já foram carregados antes de serem acessados.</td>
+                  </tr>
+                  <tr>
+                    <td><code>3. Seletor + Ação</code></td>
+                    <td><code>$('#nome').val()</code>: Seleciona o elemento pelo ID <code>#nome</code> e executa o método de leitura <code>.val()</code>.</td>
+                  </tr>
+                  <tr>
+                    <td><code>4. Escrita na Tela</code></td>
+                    <td><code>$('#msg').text('...')</code> ou <code>.html('...')</code>: Atualiza dinamicamente o texto ou HTML de um elemento.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+<!-- SLIDE 9: jQuery — Recursos Estéticos (Exemplo 7) -->
+      <section class="slide" id="slide-4">
+        <h2 class="slide-title">⚡ jQuery: Recursos Estéticos (Efeitos & Classes CSS)</h2>
+        <p class="slide-subtitle">Como criar efeitos visuais, ocultar elementos e alternar classes CSS com animações fluidas:</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="card card-highlight-blue mb-3">
+              <span class="example-tag">Exemplo 7</span>
+              <h3>Efeitos Visuais & Classes CSS</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Feedback visual animado ao usuário. Remove a classe <code>d-none</code> para tornar o alerta visível, aplica a classe de cor <code>alert-success</code> do Bootstrap, altera a mensagem com <code>.text()</code> e faz o quadro surgir suavemente com <code>.fadeIn(300)</code>.
+              </div>
+              <pre><code><span class="cm">// Exibindo alerta com animação fadeIn()</span>
+$(<span class="str">'#mensagem-status'</span>)
+  .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
+  .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
+  .<span class="fn">text</span>(<span class="str">'Salvo com sucesso!'</span>)
+  .<span class="fn">fadeIn</span>(300);</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Efeitos Visuais):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método de Efeito</th>
+                    <th>Descrição & Efeito Visual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).hide() / .show()</code></td>
+                    <td>Oculta ou exibe o elemento instantaneamente na tela.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideUp() / .slideDown()</code></td>
+                    <td>Efeito de deslizar para cima (recolher) ou deslizar para baixo (expandir).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideToggle()</code></td>
+                    <td>Alterna entre deslizar para cima e para baixo a cada clique.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).toggleClass('d-none')</code></td>
+                    <td>Alterna a presença de uma classe CSS (adiciona se não tiver, remove se tiver).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+<!-- SLIDE 10: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 8 e 9) -->
+      <section class="slide" id="slide-5">
+        <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
+        <p class="slide-subtitle">Escuta de eventos, inserção dinâmica de elementos no DOM e persistência local:</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="card card-highlight-blue mb-2">
+              <span class="example-tag">Exemplo 8</span>
+              <h3>Eventos & Inserção Dinâmica no DOM</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela via formulário. Escuta o evento <code>submit</code> do formulário, impede a atualização da página com <code>e.preventDefault()</code>, monta uma linha HTML (<code>&lt;tr&gt;&lt;td&gt;...&lt;/td&gt;&lt;/tr&gt;</code>) e a insere no final da tabela com <code>.append()</code>.
+              </div>
+              <pre><code>$(<span class="str">'#form'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">const</span> nome = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
+  $(<span class="str">'#tabela'</span>).<span class="fn">append</span>(<span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;/tr&gt;`</span>);
+});</code></pre>
+            </div>
+
+            <div class="card card-highlight-amber">
+              <span class="example-tag">Exemplo 9</span>
+              <h3>Persistência no LocalStorage</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Armazenamento duradouro no navegador. Salva a lista de clientes convertendo para texto com <code>JSON.stringify()</code> e recupera os dados salvos convertendo de volta para objeto/array com <code>JSON.parse()</code> para os dados não sumirem ao pressionar F5.
+              </div>
+              <pre><code>localStorage.<span class="fn">setItem</span>(<span class="str">'clientes'</span>, JSON.<span class="fn">stringify</span>(lista));
+<span class="kw">const</span> dados = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'clientes'</span>)) || [];</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais..." -->
+          <div class="card">
+            <div class="explore-title">🔍 Para explorar mais no jQuery (Manipulação do DOM):</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método DOM</th>
+                    <th>Descrição & Uso no Código</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).append(html)</code></td>
+                    <td>Insere novo conteúdo HTML no final do elemento selecionado.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).prepend(html)</code></td>
+                    <td>Insere novo conteúdo HTML no início do elemento selecionado.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).empty()</code></td>
+                    <td>Remove todo o conteúdo interno do elemento (útil para limpar tabelas).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).remove()</code></td>
+                    <td>Remove o próprio elemento e seus filhos da árvore DOM.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(this).closest('tr')</code></td>
+                    <td>Sobe na árvore DOM até encontrar a linha <code>&lt;tr&gt;</code> pai mais próxima.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- SLIDE 6: Guia Interativo de Código jQuery -->
+      <section class="slide" id="slide-6">
+        <h2 class="slide-title">💻 Guia Interativo de Código (jQuery)</h2>
+        <p class="slide-subtitle">Use as abas abaixo para consultar os exemplos de programação dinâmica durante a aula:</p>
+
+        <div class="code-tabs">
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('tab-cdn-jq')">Guia CDN jQuery</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex6')">Ex 6 (Seletores jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex7')">Ex 7 (Efeitos jQ)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex8')">Ex 8 (Eventos/DOM)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex9')">Ex 9 (LocalStorage Completo)</button>
+          </div>
+
+          <div id="tab-cdn-jq" class="tab-content active">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido:</strong> Inclusão da biblioteca jQuery 3.7.1 via CDN oficial antes de fechar a tag &lt;/body&gt;.
+            </div>
+            <div class="code-preview-split">
+              <div class="code-column">
+                <pre><code class="language-html">&lt;!-- jQuery CDN (Posicionar antes do &lt;/body&gt;) --&gt;
+&lt;script src="https://code.jquery.com/jquery-3.7.1.min.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  $(document).ready(function() {
+    console.log("jQuery carregado e pronto para uso!");
+    $("#meuBotao").click(function() {
+      alert("Botão clicado via jQuery!");
+    });
+  });
+&lt;/script&gt;</code></pre>
+              </div>
+              <div class="preview-column">
+                <div class="preview-header">
+                  <span class="preview-title">Resultado no Navegador:</span>
+                  <span class="preview-badge">JavaScript / DOM</span>
+                </div>
+                <div class="preview-body bg-light p-3 rounded">
+                  <div class="container text-center py-3">
+                    <button class="btn btn-success font-code" onclick="alert('Botão clicado via jQuery!')">
+                      <i class="bi bi-play-circle-fill me-1"></i> Testar Execução jQuery
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<div id="tab-ex6" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 6):</strong> Primeiro Passo Didático com jQuery. Explica as 3 etapas essenciais: 1. Inclusão do script via CDN; 2. Espera da inicialização do DOM com <code>$(document).ready()</code>; 3. Anatomia do comando (selecionar com <code>$('#id')</code>, ler com <code>.val()</code> e escrever na tela com <code>.text()</code>).
+            </div>
+            <pre><code><span class="cm">&lt;!-- 1. Inclusão da Biblioteca jQuery via CDN (antes de fechar o &lt;/body&gt;) --&gt;</span>
+&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
+
+&lt;<span class="kw">script</span>&gt;
+  <span class="cm">// 2. Inicialização Segura: Aguarda o documento HTML estar 100% pronto!</span>
+  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
+
+    <span class="cm">// 3. Escuta evento de clique e manipula o DOM ($seletor.ação)</span>
+    $(<span class="str">'#btn-saudar'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+      <span class="kw">const</span> nomeDigitado = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input</span>
+
+      <span class="kw">if</span> (nomeDigitado.<span class="fn">trim</span>() === <span class="str">''</span>) {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-success'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-warning'</span>)
+          .<span class="fn">text</span>(<span class="str">'⚠️ Por favor, digite um nome antes de clicar!'</span>);
+      } <span class="kw">else</span> {
+        $(<span class="str">'#caixa-mensagem'</span>)
+          .<span class="fn">removeClass</span>(<span class="str">'alert-secondary alert-warning'</span>)
+          .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
+          .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Olá &lt;u&gt;${nomeDigitado}&lt;/u&gt;, o jQuery leu seu nome!`</span>);
+      }
+    });
+
+  });
+&lt;/<span class="kw">script</span>&gt;</code></pre>
+          </div>
+
+          <div id="tab-ex7" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
+            </div>
+            <pre><code><span class="cm">// Exemplo 7: Recursos Estéticos e Efeitos Visuais no jQuery</span>
+$(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
+$(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
+$(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
+          </div>
+
+          <div id="tab-ex8" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
+            </div>
+            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
+$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
+  
+  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
+  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
+});</code></pre>
+          </div>
+
+          <div id="tab-ex9" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+            </div>
+            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
+<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
+  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
+}
+
+<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
+  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
+  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
+}</code></pre>
+          
+<div id="tab-ex7" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
+            </div>
+            <pre><code><span class="cm">// Exemplo 7: Recursos Estéticos e Efeitos Visuais no jQuery</span>
+$(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
+$(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
+$(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
+          </div>
+
+          <div id="tab-ex8" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
+            </div>
+            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
+$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
+  
+  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
+  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
+});</code></pre>
+          </div>
+
+          <div id="tab-ex9" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+            </div>
+            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
+<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
+  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
+}
+
+<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
+  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
+  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
+}</code></pre>
+          
+<div id="tab-ex8" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
+            </div>
+            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
+$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
+  
+  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
+  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
+});</code></pre>
+          </div>
+
+          <div id="tab-ex9" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+            </div>
+            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
+<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
+  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
+}
+
+<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
+  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
+  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
+}</code></pre>
+          
+<div id="tab-ex9" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+            </div>
+            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
+<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
+  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
+}
+
+<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
+  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
+  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
+}</code></pre>
+          
+        </div>
+      </section>
+      <!-- SLIDE 7: Checklist Mão na Massa Parte 2 -->
+      <section class="slide" id="slide-7">
+        <h2 class="slide-title">📝 Checklist Mão na Massa (Parte 2: jQuery)</h2>
+        <p class="slide-subtitle">Tornando a aplicação 100% dinâmica no laboratório:</p>
+
+        <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; max-width: 900px; margin: 0 auto;">
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+              <div style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">1</div>
+              <div>
+                <strong style="color: white; font-size: 1.05rem;">Incluir o jQuery & $(document).ready()</strong>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Adicionar a tag <code>&lt;script src="https://code.jquery.com/jquery-3.7.1.min.js"&gt;&lt;/script&gt;</code> antes de fechar o <code>&lt;/body&gt;</code> e inicializar a função principal.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+              <div style="background: rgba(168, 85, 247, 0.2); color: var(--accent-purple); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</div>
+              <div>
+                <strong style="color: white; font-size: 1.05rem;">Capturar Submissão & Adicionar Linhas Dinâmicas</strong>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Escutar o evento <code>$("#formCadastro").submit()</code>, ler os campos com <code>$("#nome").val()</code>, prevenir o recarregamento com <code>e.preventDefault()</code> e dar <code>.append()</code> na tabela.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+              <div style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">3</div>
+              <div>
+                <strong style="color: white; font-size: 1.05rem;">Implementar Salvamento no LocalStorage (Exemplo 9)</strong>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">Salvar o array de objetos no navegador com <code>localStorage.setItem("registros", JSON.stringify(lista))</code> e recarregar automaticamente ao abrir a página.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- SLIDE 8: Encerramento Parte 2 -->
+      <section class="slide" id="slide-8">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+          <div style="margin-bottom: 1rem;">
+            <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--accent-emerald); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600;">
+              <i class="bi bi-trophy-fill me-1"></i> Módulo de Retomada Frontend Concluído!
+            </span>
+          </div>
+
+          <h2 class="slide-title" style="font-size: 2.4rem; line-height: 1.2; margin-bottom: 0.8rem;">
+            Parabéns! Sua Aplicação Web Está Dinâmica e Funcional!
+          </h2>
+
+          <p class="slide-subtitle" style="font-size: 1.1rem; line-height: 1.6; max-width: 800px; margin: 0 auto 2rem auto;">
+            Você dominou o design responsivo com Bootstrap 5 e a programação no cliente com jQuery & LocalStorage.
+          </p>
+
+          <div style="background: rgba(19, 27, 46, 0.8); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; max-width: 650px; width: 100%; margin-bottom: 1.5rem;">
+            <h3 style="color: white; font-size: 1.2rem; margin-bottom: 0.8rem;">🚀 Próximas Aulas de ProgWeb 2:</h3>
+            <ul style="text-align: left; color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; padding-left: 1.2rem;">
+              <li>Arquitetura de APIs RESTful e requisições assíncronas (AJAX / Fetch)</li>
+              <li>Consumo de dados em formato JSON em tempo real</li>
+              <li>Estruturação do Backend e conexão com banco de dados</li>
+            </ul>
+
+            <a href="../parte-1-bootstrap/index.html" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.75rem 1.8rem; font-size: 1.05rem; background: var(--accent-blue); color: white; border-radius: 8px; font-weight: 700;">
+              <i class="bi bi-arrow-left-circle-fill"></i> Voltar para a Parte 1 (Bootstrap 5)
+            </a>
+          </div>
+        </div>
+      </section>
+      </main>
+
+    <!-- Rodapé -->
+    <footer class="app-footer">
+      <div class="progress-container">
+        <div class="progress-bar-bg">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 13</span>
+      </div>
+
+      <div class="nav-controls">
+        <button id="btn-prev" class="nav-btn" onclick="prevSlide()" disabled>
+          ◀ Anterior
+        </button>
+        <button id="btn-next" class="nav-btn" onclick="nextSlide()">
+          Próximo ▶
+        </button>
+        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
+          ⛶
+        </button>
+        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia">
+          ⛶
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 13;
+
+    function updateSlides() {
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      document.getElementById('btn-prev').disabled = (currentSlide === 1);
+      document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
+
+      document.getElementById('slide-counter').textContent = `Slide ${currentSlide} de ${totalSlides}`;
+      const percentage = (currentSlide / totalSlides) * 100;
+      document.getElementById('progress-fill').style.width = `${percentage}%`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlides();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlides();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function toggleCheck(el) {
+      el.classList.toggle('checked');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
