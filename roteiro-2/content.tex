@@ -54,17 +54,27 @@ Para manter uma linha contínua de aprendizado sem perder a conexão entre os se
 \begin{verbatim}
 <!-- Formulário de Cadastro (#form-cadastro) -->
 <form id="form-cadastro" class="card p-3 mb-3">
-  <input type="text" id="input-nome" class="form-control mb-2" placeholder="Nome">
-  <input type="email" id="input-email" class="form-control mb-2" placeholder="E-mail">
-  <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar Cliente</button>
+  <input type="text" id="input-nome" 
+         class="form-control mb-2" placeholder="Nome">
+  <input type="email" id="input-email" 
+         class="form-control mb-2" placeholder="E-mail">
+  <button type="submit" id="btn-salvar" 
+          class="btn btn-primary">Salvar Cliente</button>
 </form>
 
 <!-- Caixa de Alerta para Feedback Visual (#caixa-alerta) -->
-<div id="caixa-alerta" class="alert alert-info d-none"></div>
+<div id="caixa-alerta" 
+     class="alert alert-info d-none"></div>
 
 <!-- Tabela com Corpo Dinâmico (#tabela-corpo) -->
 <table class="table table-striped">
-  <thead><tr><th>Nome</th><th>E-mail</th><th>Ação</th></tr></thead>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Ação</th>
+    </tr>
+  </thead>
   <tbody id="tabela-corpo"></tbody>
 </table>
 \end{verbatim}
@@ -94,7 +104,7 @@ Para dar suporte aos alunos na programação dinâmica, o quadro abaixo resume m
 \begin{boxTabela}
 \textbf{Opções Adicionais de jQuery (Seletores, Efeitos e Manipulação do DOM)}
 
-\begin{tabular}{|l|p{11cm}|}
+\begin{tabularx}{\linewidth}{|l|X|}
 \hline
 \textbf{Método / Seletor} & \textbf{Descrição e Uso no Código} \\ \hline
 \texttt{\textdollar('.minha-classe')} & Seleciona todos os elementos do DOM que possuem uma classe CSS específica. \\ \hline
@@ -102,7 +112,7 @@ Para dar suporte aos alunos na programação dinâmica, o quadro abaixo resume m
 \texttt{\textdollar(el).attr('disabled', true)} & Lê ou altera atributos HTML de um elemento (ex: desativar botões). \\ \hline
 \texttt{\textdollar(el).prepend(html)} & Insere novo conteúdo HTML no início do elemento selecionado. \\ \hline
 \texttt{\textdollar(el).empty() / .remove()} & Limpa todo o conteúdo interno ou remove o próprio elemento da página. \\ \hline
-\end{tabular}
+\end{tabularx}
 \end{boxTabela}
 
 % =====================================================
