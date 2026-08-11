@@ -603,7 +603,7 @@
               <h3>Base HTML Unificada & Seletores $()</h3>
               <div class="example-desc">
                 <strong>O que está sendo desenvolvido:</strong> Estruturação da página de Cadastro de Clientes. 
-                Utilizamos o formulário <code>#form-cadastro</code> com os inputs <code>#input-nome</code> e <code>#input-email</code>, o botão <code>#btn-salvar</code> e a caixa de alerta <code>#caixa-alerta</code>.
+                Utilizamos o formulário <code>#form-cadastro</code> com os inputs <code>#input-nome</code> e <code>#input-email</code>, o botão <code>#btn-salvar</code> e a caixa de alerta <code>#caixa-mensagem</code>.
               </div>
               <pre style="max-height: 340px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) --&gt;</span>
 &lt;<span class="kw">form</span> id=<span class="str">"form-cadastro"</span>&gt;
@@ -612,7 +612,7 @@
   &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> id=<span class="str">"btn-salvar"</span> class=<span class="str">"btn btn-primary"</span>&gt;Salvar&lt;/<span class="kw">button</span>&gt;
 &lt;/<span class="kw">form</span>&gt;
 
-&lt;<span class="kw">div</span> id=<span class="str">"caixa-alerta"</span> class=<span class="str">"alert alert-info mt-3 d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
+&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-info mt-3 d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
 
 <span class="cm">&lt;!-- 2. Inclusão do jQuery e Script app.js --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
@@ -623,7 +623,7 @@
       <span class="kw">const</span> nome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();
       <span class="kw">const</span> email = $(<span class="str">'#input-email'</span>).<span class="fn">val</span>();
 
-      $(<span class="str">'#caixa-alerta'</span>).<span class="fn">html</span>(<span class="str">`Lido: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
+      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">html</span>(<span class="str">`Lido: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
     });
   });
 &lt;/<span class="kw">script</span>&gt;</code></pre>
@@ -656,7 +656,7 @@
                   </tr>
                   <tr>
                     <td><code>4. Escrita na Tela</code></td>
-                    <td><code>$('#caixa-alerta').html('...')</code>: Atualiza dinamicamente o texto ou HTML da mensagem.</td>
+                    <td><code>$('#caixa-mensagem').html('...')</code>: Atualiza dinamicamente o texto ou HTML da mensagem.</td>
                   </tr>
                 </tbody>
               </table>
@@ -674,12 +674,12 @@
           <div>
             <div class="card card-highlight-blue mb-3">
               <span class="example-tag">Exemplo 7 (Passo 2: Animações & Classes)</span>
-              <h3>Feedback Animado no #caixa-alerta</h3>
+              <h3>Feedback Animado no #caixa-mensagem</h3>
               <div class="example-desc">
                 <strong>O que está sendo desenvolvido:</strong> Incremento estético no mesmo formulário. Remove a classe <code>d-none</code>, adiciona <code>alert-success</code> e faz a mensagem surgir suavemente com <code>.fadeIn(400)</code>.
               </div>
-              <pre><code><span class="cm">// Incremento 2: Exibindo alerta animado na mesma div #caixa-alerta</span>
-$(<span class="str">'#caixa-alerta'</span>)
+              <pre><code><span class="cm">// Incremento 2: Exibindo alerta animado na mesma div #caixa-mensagem</span>
+$(<span class="str">'#caixa-mensagem'</span>)
   .<span class="fn">removeClass</span>(<span class="str">'d-none alert-danger'</span>)
   .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
   .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Cliente &lt;u&gt;${nome}&lt;/u&gt; cadastrado com sucesso!`</span>)
@@ -887,7 +887,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
           <div id="tab-ex6" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
               <strong>O que está sendo desenvolvido (Exemplo 6 — Passo 1):</strong> Leitura & Escrita de Campos na Base HTML Unificada.
-              Utilizamos o formulário <code>#form-cadastro</code>, lendo <code>#input-nome</code> e <code>#input-email</code> com <code>.val()</code> e exibindo na caixa <code>#caixa-alerta</code> com <code>.html()</code>.
+              Utilizamos o formulário <code>#form-cadastro</code>, lendo <code>#input-nome</code> e <code>#input-email</code> com <code>.val()</code> e exibindo na caixa <code>#caixa-mensagem</code> com <code>.html()</code>.
             </div>
             <pre style="max-height: 380px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) --&gt;</span>
 &lt;<span class="kw">form</span> id=<span class="str">"form-cadastro"</span> class=<span class="str">"card p-3 mb-3"</span>&gt;
@@ -905,7 +905,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 &lt;/<span class="kw">form</span>&gt;
 
 &lt;<span class="cm">&lt;!-- Caixa de Alerta Alvo que receberá as mensagens --&gt;</span>
-&lt;<span class="kw">div</span> id=<span class="str">"caixa-alerta"</span> class=<span class="str">"alert alert-info d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
+&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-info d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
 
 <span class="cm">&lt;!-- 2. Inclusão da Biblioteca jQuery via CDN (antes do &lt;/body&gt;) --&gt;</span>
 &lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
@@ -919,7 +919,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
       <span class="kw">const</span> email = $(<span class="str">'#input-email'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input de e-mail</span>
 
       <span class="cm">// Escrita dinâmica na div de alerta</span>
-      $(<span class="str">'#caixa-alerta'</span>).<span class="fn">html</span>(<span class="str">`Lido com sucesso: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
+      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">html</span>(<span class="str">`Lido com sucesso: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
     });
   });
 &lt;/<span class="kw">script</span>&gt;</code></pre>

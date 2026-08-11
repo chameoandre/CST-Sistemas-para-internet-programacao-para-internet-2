@@ -62,8 +62,8 @@ Para manter uma linha contínua de aprendizado sem perder a conexão entre os se
           class="btn btn-primary">Salvar Cliente</button>
 </form>
 
-<!-- Caixa de Alerta para Feedback Visual (#caixa-alerta) -->
-<div id="caixa-alerta" 
+<!-- Caixa de Alerta para Feedback Visual (#caixa-mensagem) -->
+<div id="caixa-mensagem" 
      class="alert alert-info d-none"></div>
 
 <!-- Tabela com Corpo Dinâmico (#tabela-corpo) -->
@@ -83,9 +83,9 @@ Para manter uma linha contínua de aprendizado sem perder a conexão entre os se
 Abaixo está a progressão funcional realizada sobre a mesma estrutura:
 
 \begin{itemize}
-\item \textbf{Exemplo 6 (Passo 1 — Leitura \& Escrita de Campos):} Captura a submissão do \texttt{\#form-cadastro}, impede o recarregamento com \texttt{e.preventDefault()}, lê os valores de \texttt{\#input-nome} e \texttt{\#input-email} com \texttt{.val()} e escreve na caixa \texttt{\#caixa-alerta} com \texttt{.html()};
+\item \textbf{Exemplo 6 (Passo 1 — Leitura \& Escrita de Campos):} Captura a submissão do \texttt{\#form-cadastro}, impede o recarregamento com \texttt{e.preventDefault()}, lê os valores de \texttt{\#input-nome} e \texttt{\#input-email} com \texttt{.val()} e escreve na caixa \texttt{\#caixa-mensagem} com \texttt{.html()};
 
-\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} Incrementa a mesma \texttt{\#caixa-alerta} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta surgir suavemente com \texttt{.fadeIn(400)};
+\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} Incrementa a mesma \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta surgir suavemente com \texttt{.fadeIn(400)};
 
 \item \textbf{Exemplo 8 (Passo 3 — Manipulação Dinâmica do DOM \& Exclusão):} Insere a nova linha \texttt{<tr>} com os dados e o botão \texttt{.btn-excluir} diretamente na \texttt{\#tabela-corpo} com \texttt{.append()}. Ao clicar em Excluir, remove a linha pai da tabela com \texttt{\$(this).closest('tr').remove()};
 
