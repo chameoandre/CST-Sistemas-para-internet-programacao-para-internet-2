@@ -675,15 +675,15 @@
               <span class="example-tag">Exemplo 7 (Passo 2: Animações & Classes)</span>
               <h3>Feedback Animado no #caixa-mensagem</h3>
               <div class="example-desc">
-                <strong>Adicionado em relação ao Exemplo 6:</strong> Aplicação dinâmica de classes CSS do Bootstrap (<code>.removeClass('d-none')</code>, <code>.addClass('alert-success')</code>) e exibição com efeito de esmaecimento suave usando <code>.fadeIn(400)</code>.
+                <strong>Adicionado em relação ao Exemplo 6:</strong> Aplicação de classes CSS do Bootstrap (<code>.addClass('alert-success')</code>) e <strong>efeito visual de piscar / pulsar duplo</strong> encadeando <code>.fadeOut(150).fadeIn(150)</code> para destacar a mensagem na tela.
               </div>
-              <pre><code><span class="cm">// Incremento no Exemplo 6: Alerta animado com troca de classes</span>
+              <pre><code><span class="cm">// Incremento no Exemplo 6: Alerta animado que pisca 2x ao salvar</span>
 $(<span class="str">'#caixa-mensagem'</span>)
-  .<span class="fn">removeClass</span>(<span class="str">'d-none alert-danger'</span>)
+  .<span class="fn">removeClass</span>(<span class="str">'d-none alert-danger alert-info'</span>)
   .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
   .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Cliente &lt;u&gt;${nome}&lt;/u&gt; cadastrado com sucesso!`</span>)
-  .<span class="fn">hide</span>()
-  .<span class="fn">fadeIn</span>(400);</code></pre>
+  .<span class="fn">fadeOut</span>(150).<span class="fn">fadeIn</span>(150)
+  .<span class="fn">fadeOut</span>(150).<span class="fn">fadeIn</span>(400);</code></pre>
             </div>
           </div>
 
@@ -944,14 +944,14 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
           <div id="tab-ex7" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Adicionado em relação ao Exemplo 6:</strong> Classes CSS do Bootstrap (<code>.removeClass()</code>, <code>.addClass()</code>) e esmaecimento suave com <code>.fadeIn(400)</code>.
+              <strong>Adicionado em relação ao Exemplo 6:</strong> Classes CSS do Bootstrap e <strong>efeito visual de piscar/pulsar duplo</strong> encadeando <code>.fadeOut(150).fadeIn(150)</code> para deixar a animação visível.
             </div>
             <pre><code>$('#caixa-mensagem')
-  .removeClass('d-none alert-danger')
+  .removeClass('d-none alert-info alert-danger')
   .addClass('alert-success')
   .html(`🎉 <strong>Sucesso!</strong> Cliente <u>${nome}</u> cadastrado!`)
-  .hide()
-  .fadeIn(400);</code></pre>
+  .fadeOut(150).fadeIn(150)
+  .fadeOut(150).fadeIn(400);</code></pre>
           </div>
 
           <div id="tab-ex8" class="tab-content">

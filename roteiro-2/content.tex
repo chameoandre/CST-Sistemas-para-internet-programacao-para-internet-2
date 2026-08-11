@@ -85,7 +85,7 @@ Abaixo está a progressão funcional realizada sobre a mesma estrutura pedagógi
 \begin{itemize}
 \item \textbf{Exemplo 6 (Passo 1 — Leitura \& Escrita de Campos):} \textit{Estrutura Base Inicial:} Captura a submissão do \texttt{\#form-cadastro}, impede o recarregamento com \texttt{e.preventDefault()}, lê os valores de \texttt{\#input-nome} e \texttt{\#input-email} com \texttt{.val()} e escreve na caixa \texttt{\#caixa-mensagem} com \texttt{.html()};
 
-\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} \textit{Adicionado em relação ao Exemplo 6:} Incrementa a \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e exibindo o alerta suavemente com \texttt{.fadeIn(400)};
+\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} \textit{Adicionado em relação ao Exemplo 6:} Incrementa a \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta piscar/pulsar de forma altamente visível encadeando \texttt{.fadeOut(150).fadeIn(150).fadeOut(150).fadeIn(400)};
 
 \item \textbf{Exemplo 8 (Passo 3 — Troca Dinâmica de Cores e Estilos CSS):} \textit{Adicionado em relação ao Exemplo 7:} Altera o estilo diretamente via código com \texttt{.css()}, modificando a cor de fundo do formulário e as bordas/cores da caixa de mensagem de forma dinâmica;
 

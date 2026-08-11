@@ -39,19 +39,16 @@
 
                 if (nomeDigitado.trim() === '') {
                     $('#caixa-mensagem')
-                        .removeClass('alert-secondary alert-success')
+                        .removeClass('alert-secondary alert-success d-none')
                         .addClass('alert-warning')
-                        .text(`⚠️ Por favor, digite um nome antes de clicar!`);
+                        .html(`⚠️ <strong>Atenção!</strong> Por favor, digite um nome antes de clicar!`)
+                        .fadeOut(150).fadeIn(150).fadeOut(150).fadeIn(300);
                 } else {
                     $('#caixa-mensagem')
-                        .removeClass('d-none alter-danger')
+                        .removeClass('d-none alert-danger alert-secondary alert-warning')
                         .addClass('alert-success')
-                        .html(`<strong>Sucesso!</strong> Olá <u>${nomeDigitado}</u>, o jQuery leu seu nome!`)
-                        .hide()
-                        .delay(100)
-                        .fadeIn(500)
-                        ;
-
+                        .html(`🎉 <strong>Sucesso!</strong> Olá <u>${nomeDigitado}</u>, o jQuery animou e leu seu nome com sucesso!`)
+                        .fadeOut(150).fadeIn(150).fadeOut(150).fadeIn(400);
                 }
             });
         })
