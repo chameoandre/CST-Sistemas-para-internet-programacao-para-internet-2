@@ -602,8 +602,7 @@
               <span class="example-tag">Exemplo 6 (Passo 1: Leitura & Escrita Básica)</span>
               <h3>Base HTML Unificada & Seletores $()</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Estruturação da página de Cadastro de Clientes. 
-                Utilizamos o formulário <code>#form-cadastro</code> com os inputs <code>#input-nome</code> e <code>#input-email</code>, o botão <code>#btn-salvar</code> e a caixa de alerta <code>#caixa-mensagem</code>.
+                <strong>Estrutura Base Inicial:</strong> Criação da página com o formulário <code>#form-cadastro</code>, inputs (<code>#input-nome</code>, <code>#input-email</code>), botão <code>#btn-salvar</code> e div de alerta <code>#caixa-mensagem</code>. Ao submeter, faz a leitura dos campos com <code>.val()</code> e escrita com <code>.html()</code>.
               </div>
               <pre style="max-height: 340px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) --&gt;</span>
 &lt;<span class="kw">form</span> id=<span class="str">"form-cadastro"</span>&gt;
@@ -676,9 +675,9 @@
               <span class="example-tag">Exemplo 7 (Passo 2: Animações & Classes)</span>
               <h3>Feedback Animado no #caixa-mensagem</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Incremento estético no mesmo formulário. Remove a classe <code>d-none</code>, adiciona <code>alert-success</code> e faz a mensagem surgir suavemente com <code>.fadeIn(400)</code>.
+                <strong>Adicionado em relação ao Exemplo 6:</strong> Aplicação dinâmica de classes CSS do Bootstrap (<code>.removeClass('d-none')</code>, <code>.addClass('alert-success')</code>) e exibição com efeito de esmaecimento suave usando <code>.fadeIn(400)</code>.
               </div>
-              <pre><code><span class="cm">// Incremento 2: Exibindo alerta animado na mesma div #caixa-mensagem</span>
+              <pre><code><span class="cm">// Incremento no Exemplo 6: Alerta animado com troca de classes</span>
 $(<span class="str">'#caixa-mensagem'</span>)
   .<span class="fn">removeClass</span>(<span class="str">'d-none alert-danger'</span>)
   .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
@@ -734,7 +733,7 @@ $(<span class="str">'#caixa-mensagem'</span>)
               <span class="example-tag">Exemplo 8 (Troca de Cores com .css())</span>
               <h3>Estilização Dinâmica na Página</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Alteração de cores e propriedades CSS diretamente nos elementos ao salvar o cliente.
+                <strong>Adicionado em relação ao Exemplo 7:</strong> Manipulação direta de estilos e cores via código usando <code>$(el).css()</code>, alterando a cor de fundo do formulário e as bordas/texto do <code>#caixa-mensagem</code>.
               </div>
               <pre><code><span class="cm">// Exemplo 8: Alterando a cor de fundo do formulário e caixa de mensagem</span>
 $(<span class="str">'#form-cadastro'</span>).<span class="fn">css</span>(<span class="str">'background-color'</span>, <span class="str">'#eaf5eb'</span>);
@@ -752,7 +751,7 @@ $(<span class="str">'#caixa-mensagem'</span>)
               <span class="example-tag">Exemplo 9 (Efeitos Visuais .slideToggle())</span>
               <h3>Deslizamento Suave de Painéis</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Ocultar e revelar elementos de forma animada deslizando para cima/baixo.
+                <strong>Adicionado em relação ao Exemplo 8:</strong> Botão de instrução com painel retrátil usando <code>.slideToggle(300)</code> e exibição da mensagem em movimento deslizando para baixo com <code>.slideDown(400)</code>.
               </div>
               <pre><code><span class="cm">// Alternar painel de ajuda deslizando:</span>
 $(<span class="str">'#btn-toggle-ajuda'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
@@ -814,7 +813,7 @@ $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">hide</span>().<sp
               <span class="example-tag">Exemplo 10 (Tabela Dinâmica .append())</span>
               <h3>Montando Linhas de Tabela em Tempo Real</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Inserção e remoção de linhas na <code>#tabela-corpo</code>.
+                <strong>Adicionado em relação ao Exemplo 9:</strong> Estruturação de uma tabela dinâmica (<code>#tabela-corpo</code>) onde novas linhas <code>&lt;tr&gt;</code> são inseridas com <code>.append()</code> e removidas ao clicar com <code>$(this).closest('tr').fadeOut().remove()</code>.
               </div>
               <pre><code><span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`</span>;
 $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml);
@@ -828,7 +827,7 @@ $(<span class="str">'#tabela-corpo'</span>).<span class="fn">on</span>(<span cla
               <span class="example-tag">Exemplo 11 (LocalStorage + JSON)</span>
               <h3>Persistência de Dados no Navegador</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Salva e recupera a lista de clientes no <code>localStorage</code> com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
+                <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de persistência permanente no navegador com <code>localStorage</code>, convertendo a lista de objetos em texto com <code>JSON.stringify()</code> e restaurando ao atualizar a página com <code>JSON.parse()</code>.
               </div>
               <pre><code><span class="kw">let</span> clientes = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'lista_clientes'</span>)) || [];
 clientes.<span class="fn">push</span>({ nome, email });
@@ -931,7 +930,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
           <div id="tab-ex6" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Exemplo 6:</strong> Leitura e Escrita de Campos com <code>.val()</code> e <code>.html()</code>.
+              <strong>Estrutura Base (Exemplo 6):</strong> Leitura & Escrita de Campos com <code>.val()</code> e <code>.html()</code> no formulário unificado.
             </div>
             <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
   $('#form-cadastro').on('submit', function(e) {
@@ -945,7 +944,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
           <div id="tab-ex7" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Exemplo 7:</strong> Classes CSS e Feedback Animado com <code>.addClass()</code> e <code>.fadeIn()</code>.
+              <strong>Adicionado em relação ao Exemplo 6:</strong> Classes CSS do Bootstrap (<code>.removeClass()</code>, <code>.addClass()</code>) e esmaecimento suave com <code>.fadeIn(400)</code>.
             </div>
             <pre><code>$('#caixa-mensagem')
   .removeClass('d-none alert-danger')
@@ -957,7 +956,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
           <div id="tab-ex8" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Exemplo 8:</strong> Troca Dinâmica de Cores e Estilos CSS com <code>.css()</code>.
+              <strong>Adicionado em relação ao Exemplo 7:</strong> Troca dinâmica de cores de fundo, texto e bordas diretamente via código usando <code>$(el).css()</code>.
             </div>
             <pre><code>$('#form-cadastro').css('background-color', '#eaf5eb');
 $('#caixa-mensagem')
@@ -972,7 +971,7 @@ $('#caixa-mensagem')
 
           <div id="tab-ex9" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Exemplo 9:</strong> Efeitos Visuais de Deslizamento com <code>.slideToggle()</code> e <code>.slideDown()</code>.
+              <strong>Adicionado em relação ao Exemplo 8:</strong> Painel retrátil de instruções com <code>.slideToggle(300)</code> e revelação de alerta deslizando com <code>.slideDown(400)</code>.
             </div>
             <pre><code>$('#btn-toggle-ajuda').on('click', function() {
   $('#painel-ajuda').slideToggle(300);
@@ -986,7 +985,7 @@ $('#caixa-mensagem')
 
           <div id="tab-ex10" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Exemplo 10:</strong> Manipulação Dinâmica da Tabela com <code>.append()</code> e <code>.remove()</code>.
+              <strong>Adicionado em relação ao Exemplo 9:</strong> Tabela dinâmica onde novas linhas são inseridas com <code>.append()</code> e removidas com <code>$(this).closest('tr').fadeOut().remove()</code>.
             </div>
             <pre><code>const trHtml = `
   <tr>
@@ -1006,7 +1005,7 @@ $('#tabela-corpo').on('click', '.btn-excluir', function() {
 
           <div id="tab-ex11" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Exemplo 11:</strong> Persistência de Dados no LocalStorage com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
+              <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de armazenamento permanente no navegador via <code>localStorage</code> com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
             </div>
             <pre><code>let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
 
