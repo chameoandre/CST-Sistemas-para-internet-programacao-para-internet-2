@@ -41,18 +41,18 @@
                     $('#caixa-mensagem')
                         .removeClass('alert-secondary alert-success')
                         .addClass('alert-warning')
-                        .text('⚠️ Por favor, digite um nome antes de clicar!');
+                        .text(`⚠️ Por favor, digite um nome antes de clicar!`);
                 } else {
                     $('#caixa-mensagem')
-                        .removeClass('alert-secondary alert-warning')
+                        .removeClass('d-none alter-danger')
                         .addClass('alert-success')
-                        .html(`🎉 <strong>Sucesso!</strong> Olá <u>${nomeDigitado}</u>, o jQuery leu seu nome!`);
+                        .html(`<strong>Sucesso!</strong> Olá <u>${nomeDigitado}</u>, o jQuery leu seu nome!`)
+                        .hide()
+                        .delay(100)
+                        .fadeIn(500)
+                        ;
+
                 }
-
-
-
-
-
             });
         })
     </script>

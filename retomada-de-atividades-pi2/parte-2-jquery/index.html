@@ -723,33 +723,112 @@ $(<span class="str">'#caixa-mensagem'</span>)
         </div>
       </section>
 
-      <!-- SLIDE 5: jQuery — Recursos Dinâmicos & LocalStorage (Exemplos 8 e 9) -->
+      <!-- SLIDE 5: jQuery — Troca de Cores, Estilos e Efeitos Visuais (Exemplos 8 e 9) -->
       <section class="slide" id="slide-5">
-        <h2 class="slide-title">⚡ jQuery: Recursos Dinâmicos & LocalStorage</h2>
+        <h2 class="slide-title">⚡ jQuery: Estilos, Cores & Efeitos Visuais</h2>
+        <p class="slide-subtitle">Troca Dinâmica de Estilos com <code>.css()</code> e Efeitos de Deslizamento com <code>.slideToggle()</code>:</p>
+
+        <div class="grid-2">
+          <div>
+            <div class="card card-highlight-blue mb-2">
+              <span class="example-tag">Exemplo 8 (Troca de Cores com .css())</span>
+              <h3>Estilização Dinâmica na Página</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Alteração de cores e propriedades CSS diretamente nos elementos ao salvar o cliente.
+              </div>
+              <pre><code><span class="cm">// Exemplo 8: Alterando a cor de fundo do formulário e caixa de mensagem</span>
+$(<span class="str">'#form-cadastro'</span>).<span class="fn">css</span>(<span class="str">'background-color'</span>, <span class="str">'#eaf5eb'</span>);
+$(<span class="str">'#caixa-mensagem'</span>)
+  .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
+  .<span class="fn">css</span>({
+    <span class="str">'background-color'</span>: <span class="str">'#d1e7dd'</span>,
+    <span class="str">'color'</span>: <span class="str">'#0f5132'</span>,
+    <span class="str">'border-color'</span>: <span class="str">'#badbcc'</span>
+  })
+  .<span class="fn">html</span>(<span class="str">`🎨 &lt;strong&gt;Estilo Aplicado!&lt;/strong&gt; Cliente cadastrado com sucesso.`</span>);</code></pre>
+            </div>
+
+            <div class="card card-highlight-amber">
+              <span class="example-tag">Exemplo 9 (Efeitos Visuais .slideToggle())</span>
+              <h3>Deslizamento Suave de Painéis</h3>
+              <div class="example-desc">
+                <strong>O que está sendo desenvolvido:</strong> Ocultar e revelar elementos de forma animada deslizando para cima/baixo.
+              </div>
+              <pre><code><span class="cm">// Alternar painel de ajuda deslizando:</span>
+$(<span class="str">'#btn-toggle-ajuda'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+  $(<span class="str">'#painel-ajuda'</span>).<span class="fn">slideToggle</span>(300);
+});
+
+<span class="cm">// Deslizar alerta para baixo ao salvar:</span>
+$(<span class="str">'#caixa-mensagem'</span>).<span class="fn">hide</span>().<span class="fn">slideDown</span>(400);</code></pre>
+            </div>
+          </div>
+
+          <!-- Tabela "Para explorar mais no jQuery" -->
+          <div class="card">
+            <div class="explore-title">🔍 Métodos Estéticos & Efeitos Visuais:</div>
+            <div class="table-responsive">
+              <table class="explore-table">
+                <thead>
+                  <tr>
+                    <th>Método jQuery</th>
+                    <th>Descrição & Efeito Visual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).css('prop', 'valor')</code></td>
+                    <td>Altera uma propriedade CSS individual diretamente.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).css({ obj })</code></td>
+                    <td>Aplica um objeto com múltiplos estilos CSS simultaneamente.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideDown(ms)</code></td>
+                    <td>Exibe o elemento deslizando para baixo.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideUp(ms)</code></td>
+                    <td>Recolhe o elemento deslizando para cima.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).slideToggle(ms)</code></td>
+                    <td>Alterna entre expandir e recolher a cada clique.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5.1: jQuery — DOM Dinâmico & LocalStorage (Exemplos 10 e 11) -->
+      <section class="slide" id="slide-5-1">
+        <h2 class="slide-title">⚡ jQuery: DOM Dinâmico & LocalStorage</h2>
         <p class="slide-subtitle">Inserção na Tabela com <code>.append()</code> e Persistência no Navegador com <code>LocalStorage</code>:</p>
 
         <div class="grid-2">
           <div>
             <div class="card card-highlight-blue mb-2">
-              <span class="example-tag">Exemplo 8 (Passo 3: DOM Dinâmico)</span>
-              <h3>Inserção na #tabela-corpo com .append()</h3>
+              <span class="example-tag">Exemplo 10 (Tabela Dinâmica .append())</span>
+              <h3>Montando Linhas de Tabela em Tempo Real</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Inserção de linhas na tabela <code>#tabela-corpo</code>. Monta a linha <code>&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;...&lt;/tr&gt;</code> e a insere com <code>.append()</code>.
+                <strong>O que está sendo desenvolvido:</strong> Inserção e remoção de linhas na <code>#tabela-corpo</code>.
               </div>
-              <pre><code><span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Excluir&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`</span>;
+              <pre><code><span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`</span>;
 $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml);
 
-<span class="cm">// Remover linha da tabela ao clicar em Excluir:</span>
 $(<span class="str">'#tabela-corpo'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="str">'.btn-excluir'</span>, <span class="kw">function</span>() {
-  $(<span class="kw">this</span>).<span class="fn">closest</span>(<span class="str">'tr'</span>).<span class="fn">remove</span>();
+  $(<span class="kw">this</span>).<span class="fn">closest</span>(<span class="str">'tr'</span>).<span class="fn">fadeOut</span>(300, <span class="kw">function</span>() { $(<span class="kw">this</span>).<span class="fn">remove</span>(); });
 });</code></pre>
             </div>
 
             <div class="card card-highlight-amber">
-              <span class="example-tag">Exemplo 9 (Passo 4: LocalStorage)</span>
-              <h3>Persistência no LocalStorage com JSON</h3>
+              <span class="example-tag">Exemplo 11 (LocalStorage + JSON)</span>
+              <h3>Persistência de Dados no Navegador</h3>
               <div class="example-desc">
-                <strong>O que está sendo desenvolvido:</strong> Salva o array de clientes em memória no navegador para os dados não sumirem ao pressionar F5.
+                <strong>O que está sendo desenvolvido:</strong> Salva e recupera a lista de clientes no <code>localStorage</code> com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
               </div>
               <pre><code><span class="kw">let</span> clientes = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'lista_clientes'</span>)) || [];
 clientes.<span class="fn">push</span>({ nome, email });
@@ -759,13 +838,13 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
           <!-- Tabela "Para explorar mais..." -->
           <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no jQuery (Manipulação do DOM):</div>
+            <div class="explore-title">🔍 Métodos do DOM & Armazenamento:</div>
             <div class="table-responsive">
               <table class="explore-table">
                 <thead>
                   <tr>
-                    <th>Método DOM</th>
-                    <th>Descrição & Uso na Mesma Aplicação</th>
+                    <th>Comando</th>
+                    <th>Descrição & Uso</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -774,20 +853,24 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
                     <td>Insere novo conteúdo HTML no final da tabela.</td>
                   </tr>
                   <tr>
-                    <td><code>$(el).prepend(html)</code></td>
-                    <td>Insere novo conteúdo no início da tabela.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).empty()</code></td>
-                    <td>Limpa todo o conteúdo interno (útil ao recarregar do LocalStorage).</td>
+                    <td><code>$(this).closest('tr')</code></td>
+                    <td>Sobe na árvore DOM até a linha <code>&lt;tr&gt;</code> pai.</td>
                   </tr>
                   <tr>
                     <td><code>$(el).remove()</code></td>
-                    <td>Remove o próprio elemento e seus filhos da árvore DOM.</td>
+                    <td>Remove o próprio elemento da árvore DOM.</td>
                   </tr>
                   <tr>
-                    <td><code>$(this).closest('tr')</code></td>
-                    <td>Sobe na árvore DOM até encontrar a linha <code>&lt;tr&gt;</code> pai mais próxima.</td>
+                    <td><code>localStorage.setItem(k, v)</code></td>
+                    <td>Salva uma chave e valor no armazenamento do navegador.</td>
+                  </tr>
+                  <tr>
+                    <td><code>JSON.stringify(obj)</code></td>
+                    <td>Converte array/objeto JS em texto JSON para salvar.</td>
+                  </tr>
+                  <tr>
+                    <td><code>JSON.parse(str)</code></td>
+                    <td>Converte texto JSON de volta para array/objeto JS.</td>
                   </tr>
                 </tbody>
               </table>
@@ -795,59 +878,21 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
           </div>
         </div>
       </section>
-            </div>
-          </div>
 
-          <!-- Tabela "Para explorar mais..." -->
-          <div class="card">
-            <div class="explore-title">🔍 Para explorar mais no jQuery (Manipulação do DOM):</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Método DOM</th>
-                    <th>Descrição & Uso no Código</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>$(el).append(html)</code></td>
-                    <td>Insere novo conteúdo HTML no final do elemento selecionado.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).prepend(html)</code></td>
-                    <td>Insere novo conteúdo HTML no início do elemento selecionado.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).empty()</code></td>
-                    <td>Remove todo o conteúdo interno do elemento (útil para limpar tabelas).</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).remove()</code></td>
-                    <td>Remove o próprio elemento e seus filhos da árvore DOM.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(this).closest('tr')</code></td>
-                    <td>Sobe na árvore DOM até encontrar a linha <code>&lt;tr&gt;</code> pai mais próxima.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
       <!-- SLIDE 6: Guia Interativo de Código jQuery -->
       <section class="slide" id="slide-6">
         <h2 class="slide-title">💻 Guia Interativo de Código (jQuery)</h2>
-        <p class="slide-subtitle">Use as abas abaixo para consultar os exemplos de programação dinâmica durante a aula:</p>
+        <p class="slide-subtitle">Use as abas abaixo para consultar os exemplos da aula:</p>
 
         <div class="code-tabs">
           <div class="tab-buttons">
-            <button class="tab-btn active" onclick="switchTab('tab-cdn-jq')">Guia CDN jQuery</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex6')">Ex 6 (Seletores jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex7')">Ex 7 (Efeitos jQ)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex8')">Ex 8 (Eventos/DOM)</button>
-            <button class="tab-btn" onclick="switchTab('tab-ex9')">Ex 9 (LocalStorage Completo)</button>
+            <button class="tab-btn active" onclick="switchTab('tab-cdn-jq')">CDN jQuery</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex6')">Ex 6 (.val / .html)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex7')">Ex 7 (Classes/Fade)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex8')">Ex 8 (Cores .css)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex9')">Ex 9 (.slideToggle)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex10')">Ex 10 (DOM Tabela)</button>
+            <button class="tab-btn" onclick="switchTab('tab-ex11')">Ex 11 (LocalStorage)</button>
           </div>
 
           <div id="tab-cdn-jq" class="tab-content active">
@@ -861,7 +906,7 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
 &lt;script&gt;
   $(document).ready(function() {
-    console.log("jQuery carregado e pronto para uso!");
+    console.log("jQuery carregado!");
     $("#meuBotao").click(function() {
       alert("Botão clicado via jQuery!");
     });
@@ -886,78 +931,88 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
 
           <div id="tab-ex6" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 6 — Passo 1):</strong> Leitura & Escrita de Campos na Base HTML Unificada.
-              Utilizamos o formulário <code>#form-cadastro</code>, lendo <code>#input-nome</code> e <code>#input-email</code> com <code>.val()</code> e exibindo na caixa <code>#caixa-mensagem</code> com <code>.html()</code>.
+              <strong>Exemplo 6:</strong> Leitura e Escrita de Campos com <code>.val()</code> e <code>.html()</code>.
             </div>
-            <pre style="max-height: 380px; overflow-y: auto;"><code><span class="cm">&lt;!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) --&gt;</span>
-&lt;<span class="kw">form</span> id=<span class="str">"form-cadastro"</span> class=<span class="str">"card p-3 mb-3"</span>&gt;
-  &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-    &lt;<span class="kw">label</span> for=<span class="str">"input-nome"</span> class=<span class="str">"form-label"</span>&gt;Nome do Cliente:&lt;/<span class="kw">label</span>&gt;
-    &lt;<span class="kw">input</span> type=<span class="str">"text"</span> id=<span class="str">"input-nome"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: Maria Silva"</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-
-  &lt;<span class="kw">div</span> class=<span class="str">"mb-3"</span>&gt;
-    &lt;<span class="kw">label</span> for=<span class="str">"input-email"</span> class=<span class="str">"form-label"</span>&gt;E-mail:&lt;/<span class="kw">label</span>&gt;
-    &lt;<span class="kw">input</span> type=<span class="str">"email"</span> id=<span class="str">"input-email"</span> class=<span class="str">"form-control"</span> placeholder=<span class="str">"Ex: maria@email.com"</span>&gt;
-  &lt;/<span class="kw">div</span>&gt;
-
-  &lt;<span class="kw">button</span> type=<span class="str">"submit"</span> id=<span class="str">"btn-salvar"</span> class=<span class="str">"btn btn-primary"</span>&gt;Salvar Cliente&lt;/<span class="kw">button</span>&gt;
-&lt;/<span class="kw">form</span>&gt;
-
-&lt;<span class="cm">&lt;!-- Caixa de Alerta Alvo que receberá as mensagens --&gt;</span>
-&lt;<span class="kw">div</span> id=<span class="str">"caixa-mensagem"</span> class=<span class="str">"alert alert-info d-none"</span>&gt;&lt;/<span class="kw">div</span>&gt;
-
-<span class="cm">&lt;!-- 2. Inclusão da Biblioteca jQuery via CDN (antes do &lt;/body&gt;) --&gt;</span>
-&lt;<span class="kw">script</span> src=<span class="str">"https://code.jquery.com/jquery-3.7.1.min.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-
-&lt;<span class="kw">script</span>&gt;
-  $(document).<span class="fn">ready</span>(<span class="kw">function</span>() {
-    $(<span class="str">'#form-cadastro'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-      e.<span class="fn">preventDefault</span>(); <span class="cm">// Previne recarregamento da página</span>
-
-      <span class="kw">const</span> nome = $(<span class="str">'#input-nome'</span>).<span class="fn">val</span>();   <span class="cm">// Lê input de nome</span>
-      <span class="kw">const</span> email = $(<span class="str">'#input-email'</span>).<span class="fn">val</span>(); <span class="cm">// Lê input de e-mail</span>
-
-      <span class="cm">// Escrita dinâmica na div de alerta</span>
-      $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">html</span>(<span class="str">`Lido com sucesso: &lt;strong&gt;${nome}&lt;/strong&gt; (${email})`</span>);
-    });
+            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+    $('#caixa-mensagem').html(`Lido: <strong>${nome}</strong> (${email})`);
   });
-&lt;/<span class="kw">script</span>&gt;</code></pre>
+});</code></pre>
           </div>
 
           <div id="tab-ex7" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>Exemplo 7:</strong> Classes CSS e Feedback Animado com <code>.addClass()</code> e <code>.fadeIn()</code>.
             </div>
-            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
-$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
-  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  
-  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
-  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
-});</code></pre>
+            <pre><code>$('#caixa-mensagem')
+  .removeClass('d-none alert-danger')
+  .addClass('alert-success')
+  .html(`🎉 <strong>Sucesso!</strong> Cliente <u>${nome}</u> cadastrado!`)
+  .hide()
+  .fadeIn(400);</code></pre>
+          </div>
+
+          <div id="tab-ex8" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>Exemplo 8:</strong> Troca Dinâmica de Cores e Estilos CSS com <code>.css()</code>.
+            </div>
+            <pre><code>$('#form-cadastro').css('background-color', '#eaf5eb');
+$('#caixa-mensagem')
+  .removeClass('d-none')
+  .css({
+    'background-color': '#d1e7dd',
+    'color': '#0f5132',
+    'border-color': '#badbcc'
+  })
+  .html(`🎨 <strong>Estilo Aplicado!</strong> Cliente <u>${nome}</u> (${email}) cadastrado.`);</code></pre>
           </div>
 
           <div id="tab-ex9" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
+              <strong>Exemplo 9:</strong> Efeitos Visuais de Deslizamento com <code>.slideToggle()</code> e <code>.slideDown()</code>.
             </div>
-            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
-<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
-  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
-}
+            <pre><code>$('#btn-toggle-ajuda').on('click', function() {
+  $('#painel-ajuda').slideToggle(300);
+});
 
-<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
-  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
-  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
-}</code></pre>
-          
-<div id="tab-ex7" class="tab-content">
+$('#caixa-mensagem')
+  .html(`✨ <strong>Cliente Salvo!</strong> <u>${nome}</u> (${email}).`)
+  .hide()
+  .slideDown(400);</code></pre>
+          </div>
+
+          <div id="tab-ex10" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 7):</strong> Recursos Estéticos e Efeitos Visuais no jQuery. Alterna classes CSS e exibe quadros de aviso animados com efeito de esmaecimento suave usando <code>.fadeIn(300)</code> e <code>.removeClass('d-none')</code>.
+              <strong>Exemplo 10:</strong> Manipulação Dinâmica da Tabela com <code>.append()</code> e <code>.remove()</code>.
             </div>
-            <pre><code><span class="cm">// Exemplo 7: Recursos Estéticos e Efeitos Visuais no jQuery</span>
-$(<span class="str">'#alerta-sucesso'</span>).<span class="fn">removeClass</span>(<span class="str">'d-none'</span>).<span class="fn">fadeIn</span>(); <span class="cm">// Mostra suavemente</span>
+            <pre><code>const trHtml = `
+  <tr>
+    <td>${nome}</td>
+    <td>${email}</td>
+    <td><button class="btn btn-danger btn-sm btn-excluir">Remover</button></td>
+  </tr>
+`;
+$('#tabela-corpo').append(trHtml);
+
+$('#tabela-corpo').on('click', '.btn-excluir', function() {
+  $(this).closest('tr').fadeOut(300, function() {
+    $(this).remove();
+  });
+});</code></pre>
+          </div>
+
+          <div id="tab-ex11" class="tab-content">
+            <div class="example-desc" style="margin-bottom: 0.8rem;">
+              <strong>Exemplo 11:</strong> Persistência de Dados no LocalStorage com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
+            </div>
+            <pre><code>let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
+
+clientes.push({ nome, email });
+localStorage.setItem('lista_clientes', JSON.stringify(clientes));</code></pre>
+          </div>
 $(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
 $(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
           </div>

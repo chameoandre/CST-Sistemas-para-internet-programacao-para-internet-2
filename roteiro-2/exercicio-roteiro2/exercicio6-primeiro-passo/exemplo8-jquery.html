@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Exemplo 8 - jQuery (.css() e Troca de Cores)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+    <h2>Exemplo 8 — Troca Dinâmica de Cores e Estilos (.css())</h2>
+    
+    <form id="form-cadastro" class="card p-3 mb-3">
+        <input type="text" id="input-nome" class="form-control mb-2" placeholder="Nome do Cliente">
+        <input type="email" id="input-email" class="form-control mb-2" placeholder="E-mail">
+        <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar Cliente</button>
+    </form>
+
+    <div id="caixa-mensagem" class="alert alert-info d-none"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#form-cadastro').on('submit', function(e) {
+          e.preventDefault();
+          const nome = $('#input-nome').val();
+          const email = $('#input-email').val();
+
+          // Exemplo 8: Alterando a cor de fundo do formulário e o estilo da mensagem via .css()
+          $('#form-cadastro').css('background-color', '#eaf5eb');
+          $('#caixa-mensagem')
+            .removeClass('d-none')
+            .css({
+              'background-color': '#d1e7dd',
+              'color': '#0f5132',
+              'border-color': '#badbcc'
+            })
+            .html(`🎨 <strong>Estilo Aplicado!</strong> Cliente <u>${nome}</u> (${email}) cadastrado.`);
+        });
+      });
+    </script>
+</body>
+</html>

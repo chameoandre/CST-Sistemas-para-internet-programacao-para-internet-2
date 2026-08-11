@@ -80,16 +80,20 @@ Para manter uma linha contínua de aprendizado sem perder a conexão entre os se
 \end{verbatim}
 \end{boxCodigo}
 
-Abaixo está a progressão funcional realizada sobre a mesma estrutura:
+Abaixo está a progressão funcional realizada sobre a mesma estrutura pedagógica:
 
 \begin{itemize}
 \item \textbf{Exemplo 6 (Passo 1 — Leitura \& Escrita de Campos):} Captura a submissão do \texttt{\#form-cadastro}, impede o recarregamento com \texttt{e.preventDefault()}, lê os valores de \texttt{\#input-nome} e \texttt{\#input-email} com \texttt{.val()} e escreve na caixa \texttt{\#caixa-mensagem} com \texttt{.html()};
 
-\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} Incrementa a mesma \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta surgir suavemente com \texttt{.fadeIn(400)};
+\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} Incrementa a \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e exibindo o alerta suavemente com \texttt{.fadeIn(400)};
 
-\item \textbf{Exemplo 8 (Passo 3 — Manipulação Dinâmica do DOM \& Exclusão):} Insere a nova linha \texttt{<tr>} com os dados e o botão \texttt{.btn-excluir} diretamente na \texttt{\#tabela-corpo} com \texttt{.append()}. Ao clicar em Excluir, remove a linha pai da tabela com \texttt{\$(this).closest('tr').remove()};
+\item \textbf{Exemplo 8 (Passo 3 — Troca Dinâmica de Cores e Estilos CSS):} Altera o estilo diretamente via código com \texttt{.css()}, modificando a cor de fundo do formulário e as bordas/cores da caixa de mensagem de forma dinâmica;
 
-\item \textbf{Exemplo 9 (Passo 4 — Persistência no LocalStorage com JSON):} Salva o array de clientes no navegador com \texttt{localStorage.setItem('lista\_clientes', JSON.stringify(clientes))} e restaura a \texttt{\#tabela-corpo} ao pressionar F5 com \texttt{JSON.parse()}.
+\item \textbf{Exemplo 9 (Passo 4 — Efeitos Visuais de Deslizamento):} Explora o efeito \texttt{.slideToggle(300)} para alternar o painel de instruções de cadastro e \texttt{.slideDown(400)} para a mensagem surgir deslizando;
+
+\item \textbf{Exemplo 10 (Passo 5 — Manipulação Dinâmica do DOM \& Tabela):} Insere a nova linha \texttt{<tr>} com os dados e o botão de exclusão na \texttt{\#tabela-corpo} com \texttt{.append()}. Ao clicar em Remover, exclui a linha pai com \texttt{\$(this).closest('tr').fadeOut(300, function() \{ \$(this).remove(); \})};
+
+\item \textbf{Exemplo 11 (Passo 6 — Persistência no LocalStorage com JSON):} Salva o array de clientes no navegador com \texttt{localStorage.setItem('lista\_clientes', JSON.stringify(clientes))} e restaura a tabela ao recarregar a página com \texttt{JSON.parse()}.
 \end{itemize}
 
 
