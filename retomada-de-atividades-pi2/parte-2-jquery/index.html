@@ -677,13 +677,21 @@
               <div class="example-desc">
                 <strong>Adicionado em relação ao Exemplo 6:</strong> Aplicação de classes CSS do Bootstrap (<code>.addClass('alert-success')</code>) e <strong>efeito visual de piscar / pulsar duplo</strong> encadeando <code>.fadeOut(150).fadeIn(150)</code> para destacar a mensagem na tela.
               </div>
-              <pre><code><span class="cm">// Incremento no Exemplo 6: Alerta animado que pisca 2x ao salvar</span>
-$(<span class="str">'#caixa-mensagem'</span>)
-  .<span class="fn">removeClass</span>(<span class="str">'d-none alert-danger alert-info'</span>)
-  .<span class="fn">addClass</span>(<span class="str">'alert-success'</span>)
-  .<span class="fn">html</span>(<span class="str">`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Cliente &lt;u&gt;${nome}&lt;/u&gt; cadastrado com sucesso!`</span>)
-  .<span class="fn">fadeOut</span>(150).<span class="fn">fadeIn</span>(150)
-  .<span class="fn">fadeOut</span>(150).<span class="fn">fadeIn</span>(400);</code></pre>
+              <pre style="max-height: 340px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// NOVO NO EXEMPLO 7: Troca de classes e animação de piscar 2x</span>
+    $('#caixa-mensagem')
+      .removeClass('d-none alert-info alert-danger')
+      .addClass('alert-success')
+      .html(`🎉 &lt;strong&gt;Sucesso!&lt;/strong&gt; Cliente &lt;u&gt;${nome}&lt;/u&gt; cadastrado!`)
+      .fadeOut(150).fadeIn(150)
+      .fadeOut(150).fadeIn(400);
+  });
+});</code></pre>
             </div>
           </div>
 
@@ -735,16 +743,17 @@ $(<span class="str">'#caixa-mensagem'</span>)
               <div class="example-desc">
                 <strong>Adicionado em relação ao Exemplo 7:</strong> Manipulação direta de estilos e cores via código usando <code>$(el).css()</code>, alterando a cor de fundo do formulário e as bordas/texto do <code>#caixa-mensagem</code>.
               </div>
-              <pre><code><span class="cm">// Exemplo 8: Alterando a cor de fundo do formulário e caixa de mensagem</span>
-$(<span class="str">'#form-cadastro'</span>).<span class="fn">css</span>(<span class="str">'background-color'</span>, <span class="str">'#eaf5eb'</span>);
-$(<span class="str">'#caixa-mensagem'</span>)
-  .<span class="fn">removeClass</span>(<span class="str">'d-none'</span>)
-  .<span class="fn">css</span>({
-    <span class="str">'background-color'</span>: <span class="str">'#d1e7dd'</span>,
-    <span class="str">'color'</span>: <span class="str">'#0f5132'</span>,
-    <span class="str">'border-color'</span>: <span class="str">'#badbcc'</span>
-  })
-  .<span class="fn">html</span>(<span class="str">`🎨 &lt;strong&gt;Estilo Aplicado!&lt;/strong&gt; Cliente cadastrado com sucesso.`</span>);</code></pre>
+              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    <span class="cm">// NOVO NO EXEMPLO 8: Alterando cores e estilos via .css()</span>
+    $('#form-cadastro').css('background-color', '#eaf5eb');
+    $('#caixa-mensagem')
+      .removeClass('d-none')
+      .css({ 'background-color': '#d1e7dd', 'color': '#0f5132', 'border-color': '#badbcc' })
+      .html(`🎨 &lt;strong&gt;Estilo Aplicado!&lt;/strong&gt; Cliente cadastrado com sucesso.`);
+  });
+});</code></pre>
             </div>
 
             <div class="card card-highlight-amber">
@@ -753,13 +762,18 @@ $(<span class="str">'#caixa-mensagem'</span>)
               <div class="example-desc">
                 <strong>Adicionado em relação ao Exemplo 8:</strong> Botão de instrução com painel retrátil usando <code>.slideToggle(300)</code> e exibição da mensagem em movimento deslizando para baixo com <code>.slideDown(400)</code>.
               </div>
-              <pre><code><span class="cm">// Alternar painel de ajuda deslizando:</span>
-$(<span class="str">'#btn-toggle-ajuda'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
-  $(<span class="str">'#painel-ajuda'</span>).<span class="fn">slideToggle</span>(300);
-});
+              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+  <span class="cm">// NOVO NO EXEMPLO 9: Alternar painel de ajuda deslizando</span>
+  $('#btn-toggle-ajuda').on('click', function() {
+    $('#painel-ajuda').slideToggle(300);
+  });
 
-<span class="cm">// Deslizar alerta para baixo ao salvar:</span>
-$(<span class="str">'#caixa-mensagem'</span>).<span class="fn">hide</span>().<span class="fn">slideDown</span>(400);</code></pre>
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    <span class="cm">// NOVO NO EXEMPLO 9: Deslizar alerta para baixo ao salvar</span>
+    $('#caixa-mensagem').hide().slideDown(400);
+  });
+});</code></pre>
             </div>
           </div>
 
@@ -815,11 +829,18 @@ $(<span class="str">'#caixa-mensagem'</span>).<span class="fn">hide</span>().<sp
               <div class="example-desc">
                 <strong>Adicionado em relação ao Exemplo 9:</strong> Estruturação de uma tabela dinâmica (<code>#tabela-corpo</code>) onde novas linhas <code>&lt;tr&gt;</code> são inseridas com <code>.append()</code> e removidas ao clicar com <code>$(this).closest('tr').fadeOut().remove()</code>.
               </div>
-              <pre><code><span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`</span>;
-$(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml);
+              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    <span class="cm">// NOVO NO EXEMPLO 10: Inserir nova linha na tabela</span>
+    const trHtml = `&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`;
+    $('#tabela-corpo').append(trHtml);
+  });
 
-$(<span class="str">'#tabela-corpo'</span>).<span class="fn">on</span>(<span class="str">'click'</span>, <span class="str">'.btn-excluir'</span>, <span class="kw">function</span>() {
-  $(<span class="kw">this</span>).<span class="fn">closest</span>(<span class="str">'tr'</span>).<span class="fn">fadeOut</span>(300, <span class="kw">function</span>() { $(<span class="kw">this</span>).<span class="fn">remove</span>(); });
+  <span class="cm">// NOVO NO EXEMPLO 10: Remover linha pai ao clicar em Excluir</span>
+  $('#tabela-corpo').on('click', '.btn-excluir', function() {
+    $(this).closest('tr').fadeOut(300, function() { $(this).remove(); });
+  });
 });</code></pre>
             </div>
 
@@ -829,9 +850,17 @@ $(<span class="str">'#tabela-corpo'</span>).<span class="fn">on</span>(<span cla
               <div class="example-desc">
                 <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de persistência permanente no navegador com <code>localStorage</code>, convertendo a lista de objetos em texto com <code>JSON.stringify()</code> e restaurando ao atualizar a página com <code>JSON.parse()</code>.
               </div>
-              <pre><code><span class="kw">let</span> clientes = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'lista_clientes'</span>)) || [];
-clientes.<span class="fn">push</span>({ nome, email });
-localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'</span>, JSON.<span class="fn">stringify</span>(clientes));</code></pre>
+              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+  <span class="cm">// NOVO NO EXEMPLO 11: Carregar dados salvos do localStorage</span>
+  let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
+
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    <span class="cm">// NOVO NO EXEMPLO 11: Salvar no localStorage com JSON.stringify</span>
+    clientes.push({ nome, email });
+    localStorage.setItem('lista_clientes', JSON.stringify(clientes));
+  });
+});</code></pre>
             </div>
           </div>
 
@@ -946,59 +975,94 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'lista_clientes'<
             <div class="example-desc" style="margin-bottom: 0.8rem;">
               <strong>Adicionado em relação ao Exemplo 6:</strong> Classes CSS do Bootstrap e <strong>efeito visual de piscar/pulsar duplo</strong> encadeando <code>.fadeOut(150).fadeIn(150)</code> para deixar a animação visível.
             </div>
-            <pre><code>$('#caixa-mensagem')
-  .removeClass('d-none alert-info alert-danger')
-  .addClass('alert-success')
-  .html(`🎉 <strong>Sucesso!</strong> Cliente <u>${nome}</u> cadastrado!`)
-  .fadeOut(150).fadeIn(150)
-  .fadeOut(150).fadeIn(400);</code></pre>
+            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// NOVO NO EXEMPLO 7: Troca de classe alert-success + piscar 2x</span>
+    $('#caixa-mensagem')
+      .removeClass('d-none alert-info alert-danger')
+      .addClass('alert-success')
+      .html(`🎉 <strong>Sucesso!</strong> Cliente <u>${nome}</u> cadastrado!`)
+      .fadeOut(150).fadeIn(150)
+      .fadeOut(150).fadeIn(400);
+  });
+});</code></pre>
           </div>
 
           <div id="tab-ex8" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
               <strong>Adicionado em relação ao Exemplo 7:</strong> Troca dinâmica de cores de fundo, texto e bordas diretamente via código usando <code>$(el).css()</code>.
             </div>
-            <pre><code>$('#form-cadastro').css('background-color', '#eaf5eb');
-$('#caixa-mensagem')
-  .removeClass('d-none')
-  .css({
-    'background-color': '#d1e7dd',
-    'color': '#0f5132',
-    'border-color': '#badbcc'
-  })
-  .html(`🎨 <strong>Estilo Aplicado!</strong> Cliente <u>${nome}</u> (${email}) cadastrado.`);</code></pre>
+            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// NOVO NO EXEMPLO 8: Alterando a cor do formulário e da mensagem com .css()</span>
+    $('#form-cadastro').css('background-color', '#eaf5eb');
+    $('#caixa-mensagem')
+      .removeClass('d-none')
+      .css({ 'background-color': '#d1e7dd', 'color': '#0f5132', 'border-color': '#badbcc' })
+      .html(`🎨 <strong>Estilo Aplicado!</strong> Cliente <u>${nome}</u> (${email}) cadastrado.`);
+  });
+});</code></pre>
           </div>
 
           <div id="tab-ex9" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
               <strong>Adicionado em relação ao Exemplo 8:</strong> Painel retrátil de instruções com <code>.slideToggle(300)</code> e revelação de alerta deslizando com <code>.slideDown(400)</code>.
             </div>
-            <pre><code>$('#btn-toggle-ajuda').on('click', function() {
-  $('#painel-ajuda').slideToggle(300);
-});
+            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
+  <span class="cm">// NOVO NO EXEMPLO 9: Botão que alterna o painel de ajuda deslizando</span>
+  $('#btn-toggle-ajuda').on('click', function() {
+    $('#painel-ajuda').slideToggle(300);
+  });
 
-$('#caixa-mensagem')
-  .html(`✨ <strong>Cliente Salvo!</strong> <u>${nome}</u> (${email}).`)
-  .hide()
-  .slideDown(400);</code></pre>
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// NOVO NO EXEMPLO 9: Deslizar caixa de mensagem para baixo</span>
+    $('#caixa-mensagem')
+      .html(`✨ <strong>Cliente Salvo!</strong> <u>${nome}</u> (${email}).`)
+      .hide()
+      .slideDown(400);
+  });
+});</code></pre>
           </div>
 
           <div id="tab-ex10" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
               <strong>Adicionado em relação ao Exemplo 9:</strong> Tabela dinâmica onde novas linhas são inseridas com <code>.append()</code> e removidas com <code>$(this).closest('tr').fadeOut().remove()</code>.
             </div>
-            <pre><code>const trHtml = `
-  <tr>
-    <td>${nome}</td>
-    <td>${email}</td>
-    <td><button class="btn btn-danger btn-sm btn-excluir">Remover</button></td>
-  </tr>
-`;
-$('#tabela-corpo').append(trHtml);
+            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
 
-$('#tabela-corpo').on('click', '.btn-excluir', function() {
-  $(this).closest('tr').fadeOut(300, function() {
-    $(this).remove();
+    <span class="cm">// NOVO NO EXEMPLO 10: Inserir nova linha &lt;tr&gt; na tabela</span>
+    const trHtml = `
+      &lt;tr&gt;
+        &lt;td&gt;${nome}&lt;/td&gt;
+        &lt;td&gt;${email}&lt;/td&gt;
+        &lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Remover&lt;/button&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    `;
+    $('#tabela-corpo').append(trHtml);
+    $('#form-cadastro')[0].reset();
+  });
+
+  <span class="cm">// NOVO NO EXEMPLO 10: Remover linha &lt;tr&gt; pai ao clicar no botão Excluir</span>
+  $('#tabela-corpo').on('click', '.btn-excluir', function() {
+    $(this).closest('tr').fadeOut(300, function() {
+      $(this).remove();
+    });
   });
 });</code></pre>
           </div>
@@ -1007,85 +1071,39 @@ $('#tabela-corpo').on('click', '.btn-excluir', function() {
             <div class="example-desc" style="margin-bottom: 0.8rem;">
               <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de armazenamento permanente no navegador via <code>localStorage</code> com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
             </div>
-            <pre><code>let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
+            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
+  <span class="cm">// NOVO NO EXEMPLO 11: Carregar clientes salvos do LocalStorage</span>
+  let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
 
-clientes.push({ nome, email });
-localStorage.setItem('lista_clientes', JSON.stringify(clientes));</code></pre>
-          </div>
-$(<span class="str">'#btn-salvar'</span>).<span class="fn">addClass</span>(<span class="str">'disabled'</span>); <span class="cm">// Adiciona classe do Bootstrap</span>
-$(<span class="str">'#caixa-info'</span>).<span class="fn">toggleClass</span>(<span class="str">'d-none'</span>); <span class="cm">// Alterna visibilidade</span></code></pre>
-          </div>
+  function renderTabela() {
+    $('#tabela-corpo').empty();
+    clientes.forEach((c, index) => {
+      const tr = `&lt;tr&gt;&lt;td&gt;${c.nome}&lt;/td&gt;&lt;td&gt;${c.email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`;
+      $('#tabela-corpo').append(tr);
+    });
+  }
 
-          <div id="tab-ex8" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
-            </div>
-            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
-$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
-  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  
-  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
-  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
+  renderTabela();
+
+  $('#form-cadastro').on('submit', function(e) {
+    e.preventDefault();
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// NOVO NO EXEMPLO 11: Salvar no localStorage com JSON.stringify</span>
+    clientes.push({ nome, email });
+    localStorage.setItem('lista_clientes', JSON.stringify(clientes));
+    renderTabela();
+  });
+
+  $('#tabela-corpo').on('click', '.btn-excluir', function() {
+    const index = $(this).data('index');
+    clientes.splice(index, 1);
+    localStorage.setItem('lista_clientes', JSON.stringify(clientes));
+    renderTabela();
+  });
 });</code></pre>
           </div>
-
-          <div id="tab-ex9" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
-            </div>
-            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
-<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
-  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
-}
-
-<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
-  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
-  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
-}</code></pre>
-          
-<div id="tab-ex8" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 8):</strong> Eventos e Inserção Dinâmica no DOM com jQuery. Escuta o evento <code>submit</code> do formulário, evita o recarregamento com <code>e.preventDefault()</code> e insere uma nova linha <code>&lt;tr&gt;</code> na tabela com <code>.append()</code>.
-            </div>
-            <pre><code><span class="cm">// Exemplo 8: Eventos e Inserção Dinâmica no DOM com jQuery</span>
-$(<span class="str">'#form-cliente'</span>).<span class="fn">on</span>(<span class="str">'submit'</span>, <span class="kw">function</span>(e) {
-  e.<span class="fn">preventDefault</span>();
-  <span class="kw">const</span> cliente = $(<span class="str">'#nome'</span>).<span class="fn">val</span>();
-  
-  <span class="kw">const</span> trHtml = <span class="str">`&lt;tr&gt;&lt;td&gt;${cliente}&lt;/td&gt;&lt;/tr&gt;`</span>;
-  $(<span class="str">'#tabela-corpo'</span>).<span class="fn">append</span>(trHtml); <span class="cm">// Insere linha na tabela</span>
-});</code></pre>
-          </div>
-
-          <div id="tab-ex9" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
-            </div>
-            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
-<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
-  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
-}
-
-<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
-  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
-  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
-}</code></pre>
-          
-<div id="tab-ex9" class="tab-content">
-            <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>O que está sendo desenvolvido (Exemplo 9):</strong> Persistência no LocalStorage. Converte objetos/arrays em texto com <code>JSON.stringify()</code> para salvar no navegador e reconverte com <code>JSON.parse()</code> ao carregar a página.
-            </div>
-            <pre><code><span class="cm">// Exemplo 9: Persistindo Dados no LocalStorage</span>
-<span class="kw">function</span> <span class="fn">salvarNoStorage</span>(lista) {
-  localStorage.<span class="fn">setItem</span>(<span class="str">'clientes_progweb2'</span>, JSON.<span class="fn">stringify</span>(lista));
-}
-
-<span class="kw">function</span> <span class="fn">carregarDoStorage</span>() {
-  <span class="kw">const</span> dados = localStorage.<span class="fn">getItem</span>(<span class="str">'clientes_progweb2'</span>);
-  <span class="kw">return</span> dados ? JSON.<span class="fn">parse</span>(dados) : [];
-}</code></pre>
-          
         </div>
       </section>
       <!-- SLIDE 7: Checklist Mão na Massa Parte 2 -->
