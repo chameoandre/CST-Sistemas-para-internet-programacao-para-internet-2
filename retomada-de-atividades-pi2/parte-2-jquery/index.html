@@ -591,6 +591,122 @@
           </div>
         </div>
       </section>
+
+      <!-- SLIDE 2.1: Conceitos do DOM & Interação com JavaScript -->
+      <section class="slide" id="slide-dom">
+        <h2 class="slide-title">🌐 Conceitos Fundamentais: O que é o DOM?</h2>
+        <p class="slide-subtitle">Compreendendo como o navegador representa a página e como o JavaScript/jQuery interage com ela:</p>
+
+        <div class="grid-2" style="grid-template-columns: 1.1fr 0.9fr; gap: 1.2rem; align-items: stretch;">
+          
+          <!-- Coluna 1: Explicação Conceitual Direta -->
+          <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+            
+            <div style="background: rgba(19, 27, 46, 0.85); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-blue); border-radius: 10px; padding: 1rem;">
+              <div style="color: var(--accent-blue); font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;">
+                <i class="bi bi-diagram-3-fill me-1"></i> Significado da Sigla DOM
+              </div>
+              <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.5; margin: 0;">
+                <strong>DOM (Document Object Model - Modelo de Objeto do Documento)</strong> é a representação em memória (estrutura em árvore) da página web. Quando o navegador lê o HTML, ele transforma cada tag em um <strong>objeto acessível e manipulável</strong>.
+              </p>
+            </div>
+
+            <div style="background: rgba(19, 27, 46, 0.85); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-emerald); border-radius: 10px; padding: 1rem;">
+              <div style="color: var(--accent-emerald); font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;">
+                <i class="bi bi-gear-wide-connected me-1"></i> Responsabilidades Principais do DOM
+              </div>
+              <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.5; margin: 0;">
+                1. <strong>Mapeamento Hierárquico:</strong> Organiza a relação entre elementos pais e filhos (ex: <code>&lt;form&gt;</code> contendo <code>&lt;input&gt;</code>).<br>
+                2. <strong>Interface de Interatividade:</strong> Fornece comandos para ler valores, modificar textos, alterar estilos CSS e escutar eventos (cliques e envios).
+              </p>
+            </div>
+
+            <div style="background: rgba(19, 27, 46, 0.85); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-purple); border-radius: 10px; padding: 1rem;">
+              <div style="color: var(--accent-purple); font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem;">
+                <i class="bi bi-lightning-charge-fill me-1"></i> Como o JavaScript / jQuery Interage?
+              </div>
+              <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.5; margin: 0;">
+                O código JS consulta a árvore usando seletores como <code>$('#input-nome')</code>. A partir daí, executa <strong>operações dinâmicas</strong>: lê dados (<code>.val()</code>), altera textos (<code>.html()</code>), modifica cores (<code>.css()</code>) e reage a eventos (<code>.on('click')</code>).
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Coluna 2: Ilustração Visual da Árvore do DOM -->
+          <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.8rem;">
+              <i class="bi bi-tree-fill me-1"></i> Ilustração: Árvore do DOM no Navegador
+            </div>
+
+            <!-- Diagrama Visual em Árvore CSS -->
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: monospace; font-size: 0.8rem;">
+              
+              <!-- Raiz: Document / Window -->
+              <div style="background: rgba(59, 130, 246, 0.2); border: 1px solid var(--accent-blue); color: #93c5fd; padding: 0.35rem 1rem; border-radius: 6px; font-weight: 700;">
+                window . document
+              </div>
+              <div style="color: var(--text-muted); line-height: 1; font-size: 0.75rem;">↓</div>
+
+              <!-- Elemento Raiz HTML -->
+              <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent-emerald); color: #6ee7b7; padding: 0.3rem 0.9rem; border-radius: 6px; font-weight: 600;">
+                &lt;html&gt;
+              </div>
+              <div style="color: var(--text-muted); line-height: 1; font-size: 0.75rem;">↓</div>
+
+              <!-- Body -->
+              <div style="background: rgba(168, 85, 247, 0.2); border: 1px solid var(--accent-purple); color: #d8b4fe; padding: 0.3rem 0.9rem; border-radius: 6px; font-weight: 600;">
+                &lt;body&gt;
+              </div>
+
+              <!-- Ramificação para Elementos da Aplicação -->
+              <div style="width: 90%; border-top: 1px dashed var(--border-color); margin: 0.2rem 0;"></div>
+
+              <div style="display: flex; justify-content: space-between; width: 100%; gap: 0.3rem;">
+                
+                <!-- Ramo Form -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.3rem; flex: 1;">
+                  <div style="background: rgba(245, 158, 11, 0.2); border: 1px solid var(--accent-amber); color: #fde047; padding: 0.25rem 0.4rem; border-radius: 5px; font-size: 0.72rem; font-weight: 600; text-align: center;">
+                    &lt;form#form-cadastro&gt;
+                  </div>
+                  <div style="color: var(--text-muted); font-size: 0.7rem;">↓</div>
+                  <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-color); color: #cbd5e1; padding: 0.25rem 0.4rem; border-radius: 4px; font-size: 0.68rem; text-align: center;">
+                    &lt;input#input-nome&gt;<br>
+                    <span style="color: var(--accent-emerald); font-weight: 600;">$().val()</span>
+                  </div>
+                </div>
+
+                <!-- Ramo Mensagem -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.3rem; flex: 1;">
+                  <div style="background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent-emerald); color: #6ee7b7; padding: 0.25rem 0.4rem; border-radius: 5px; font-size: 0.72rem; font-weight: 600; text-align: center;">
+                    &lt;div#caixa-mensagem&gt;
+                  </div>
+                  <div style="color: var(--text-muted); font-size: 0.7rem;">↓</div>
+                  <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-color); color: #cbd5e1; padding: 0.25rem 0.4rem; border-radius: 4px; font-size: 0.68rem; text-align: center;">
+                    Alerta Visual<br>
+                    <span style="color: var(--accent-blue); font-weight: 600;">$().html() / .css()</span>
+                  </div>
+                </div>
+
+                <!-- Ramo Tabela -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 0.3rem; flex: 1;">
+                  <div style="background: rgba(59, 130, 246, 0.2); border: 1px solid var(--accent-blue); color: #93c5fd; padding: 0.25rem 0.4rem; border-radius: 5px; font-size: 0.72rem; font-weight: 600; text-align: center;">
+                    &lt;tbody#tabela-corpo&gt;
+                  </div>
+                  <div style="color: var(--text-muted); font-size: 0.7rem;">↓</div>
+                  <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid var(--border-color); color: #cbd5e1; padding: 0.25rem 0.4rem; border-radius: 4px; font-size: 0.68rem; text-align: center;">
+                    Linhas &lt;tr&gt;<br>
+                    <span style="color: var(--accent-purple); font-weight: 600;">$().append()</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
 <!-- SLIDE 3: jQuery — Introdução Prática & Primeiros Passos (Exemplo 6) -->
       <section class="slide" id="slide-3">
         <h2 class="slide-title">⚡ jQuery: Introdução Prática & Primeiros Passos (Exemplo 6)</h2>

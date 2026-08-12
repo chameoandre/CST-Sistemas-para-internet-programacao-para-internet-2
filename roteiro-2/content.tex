@@ -40,10 +40,28 @@ Nesta aula, transformamos a interface estática do Bootstrap 5 em um sistema **d
 \end{enumerate}
 
 % =====================================================
+% CONCEITOS DO DOM
+% =====================================================
+
+\subsection{Conceitos Fundamentais: O que é o DOM (Document Object Model)?}
+
+Antes de manipularmos os elementos da página com o jQuery, é fundamental compreender o papel do \textbf{DOM (Document Object Model)}:
+
+\begin{itemize}
+\item \textbf{Significado da Sigla:} \textit{Document Object Model} (Modelo de Objeto do Documento). É a representação em memória (estrutura em árvore) que o navegador cria ao ler o arquivo HTML, transformando cada tag em um objeto manipulável;
+\item \textbf{Responsabilidades Principais do DOM:} 
+  \begin{enumerate}
+    \item \textbf{Mapeamento Hierárquico:} Organiza a relação estrutural entre elementos pais e filhos (ex: \texttt{<form>} contendo \texttt{<input>});
+    \item \textbf{Interface de Interatividade:} Fornece comandos para ler valores, alterar textos, aplicar estilos CSS e escutar eventos do usuário (cliques e submissões);
+  \end{enumerate}
+\item \textbf{Interação via JavaScript / jQuery:} O código JS consulta a árvore usando seletores como \texttt{\textdollar('\#input-nome')}. A partir daí, executa operações dinâmicas: lê dados (\texttt{.val()}), altera textos (\texttt{.html()}), modifica cores (\texttt{.css()}) e reage a eventos (\texttt{.on('submit')}).
+\end{itemize}
+
+% =====================================================
 % PARTE 1
 % =====================================================
 
-\subsection{Detalhamento Didático da Estrutura HTML Base Unificada \& Exemplos 6 a 9}
+\subsection{Detalhamento Didático da Estrutura HTML Base Unificada \& Exemplos 6 a 11}
 
 Para manter uma linha contínua de aprendizado sem perder a conexão entre os seletores, todos os exemplos da Parte 2 utilizam a **mesma estrutura HTML base da aplicação de Cadastro de Clientes** (Exemplo 5 do Bootstrap 5), incrementando-a passo a passo:
 
