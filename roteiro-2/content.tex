@@ -57,6 +57,22 @@ Antes de manipularmos os elementos da página com o jQuery, é fundamental compr
 \item \textbf{Interação via JavaScript / jQuery:} O código JS consulta a árvore usando seletores como \texttt{\textdollar('\#input-nome')}. A partir daí, executa operações dinâmicas: lê dados (\texttt{.val()}), altera textos (\texttt{.html()}), modifica cores (\texttt{.css()}) e reage a eventos (\texttt{.on('submit')}).
 \end{itemize}
 
+\subsection{Sintaxe Básica do jQuery \& O Comando \texttt{\textdollar(document).ready()}}
+
+Antes de manipularmos o formulário, precisamos compreender como as instruções são estruturadas e por que o método de inicialização é indispensável:
+
+\begin{itemize}
+\item \textbf{A Sintaxe Padrão \texttt{\textdollar(seletor).acao()}:}
+  \begin{itemize}
+    \item \texttt{\textdollar}: É o atalho para invocar a biblioteca jQuery;
+    \item \texttt{seletor}: A string com o seletor CSS do elemento desejado (ex: \texttt{'\#btn-salvar'});
+    \item \texttt{acao()}: O método que lê, modifica ou escuta o elemento (ex: \texttt{.val()}, \texttt{.html()}, \texttt{.on()});
+  \end{itemize}
+\item \textbf{O que faz o \texttt{\textdollar(document).ready(function() \{...\})}:} É a função de \textbf{inicialização segura}. Ela garante que qualquer código JavaScript/jQuery só seja executado \textbf{após o navegador ter concluído a leitura do HTML e a montagem da árvore do DOM na memória RAM};
+\item \textbf{Por que temos que utilizá-lo (A causa do erro):} Se o script rodar antes de o HTML ser lido, o elemento (ex: \texttt{\#form-cadastro}) ainda não existirá na memória. O jQuery retornará um objeto nulo/vazio e qualquer tentativa de escutar um clique ou submissão falhará silenciosamente;
+\item \textbf{Sintaxe Abreviada Equivalente:} A comunidade também utiliza a forma curta moderna: \texttt{\textdollar(function() \{ /* código seguro */ \});}.
+\end{itemize}
+
 % =====================================================
 % PARTE 1
 % =====================================================
