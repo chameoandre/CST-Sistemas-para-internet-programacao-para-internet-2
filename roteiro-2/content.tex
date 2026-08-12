@@ -73,6 +73,23 @@ Antes de manipularmos o formulário, precisamos compreender como as instruções
 \item \textbf{Sintaxe Abreviada Equivalente:} A comunidade também utiliza a forma curta moderna: \texttt{\textdollar(function() \{ /* código seguro */ \});}.
 \end{itemize}
 
+\subsection{Metodologia Pedagógica Incremental: A Mesma Aplicação Base, Recursos Crescentes}
+
+Para garantir que o aprendizado seja fluido e contínuo, adotamos a **Metodologia Incremental**:
+
+\begin{itemize}
+\item \textbf{Estrutura Base Unificada:} Em vez de criar um código HTML novo do zero para cada exercício, mantemos a mesma página de **Cadastro de Clientes** criada na Parte 1 com Bootstrap 5;
+\item \textbf{Acúmulo de Superpoderes Passo a Passo:}
+  \begin{enumerate}
+    \item \textbf{Exemplo 6 (Base):} Leitura de inputs com \texttt{.val()} e escrita em alerta com \texttt{.html()};
+    \item \textbf{Exemplo 7 (Feedback):} Remoção de \texttt{.d-none}, \texttt{.addClass('alert-success')} e piscar animado 2x com \texttt{.fadeOut().fadeIn()};
+    \item \textbf{Exemplo 8 (Estilos):} Troca dinâmica de cores de fundo e bordas via \texttt{.css(\{ ... \})};
+    \item \textbf{Exemplo 9 (Efeitos):} Deslizamento de painel retrátil com \texttt{.slideToggle()} e \texttt{.slideDown()};
+    \item \textbf{Exemplo 10 (DOM Dinâmico):} Montagem de tabela dinâmica com \texttt{.append()} e remoção de linha pai com \texttt{.closest('tr').remove()};
+    \item \textbf{Exemplo 11 (Persistência):} Armazenamento permanente no navegador com \texttt{localStorage} e conversão \texttt{JSON.stringify/parse}.
+  \end{enumerate}
+\end{itemize}
+
 % =====================================================
 % PARTE 1
 % =====================================================
