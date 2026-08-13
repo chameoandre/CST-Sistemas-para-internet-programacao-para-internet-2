@@ -14,11 +14,14 @@
         <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar Cliente</button>
     </form>
 
+    <!-- 📍 DICA DE POSICIONAMENTO: Tabela inserida APÓS o <form id="form-cadastro"> -->
     <table class="table table-striped mt-3">
-        <thead>
+        <thead class="table-dark">
             <tr><th>Nome</th><th>E-mail</th><th>Ação</th></tr>
         </thead>
-        <tbody id="tabela-corpo"></tbody>
+        <tbody id="tabela-corpo">
+            <!-- As novas linhas <tr> serão inseridas aqui dinamicamente pelo jQuery -->
+        </tbody>
     </table>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

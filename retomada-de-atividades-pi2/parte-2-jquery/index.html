@@ -1167,93 +1167,190 @@
         </div>
       </section>
 
-      <!-- SLIDE 5.2: jQuery — DOM Dinâmico & LocalStorage (Exemplos 10 e 11) -->
+      <!-- SLIDE 5.2: jQuery — DOM Dinâmico & Tabela (Exemplo 10) -->
       <section class="slide" id="slide-5-2">
-        <h2 class="slide-title">⚡ jQuery: DOM Dinâmico & LocalStorage</h2>
-        <p class="slide-subtitle">Inserção na Tabela com <code>.append()</code> e Persistência no Navegador com <code>LocalStorage</code>:</p>
+        <h2 class="slide-title">⚡ jQuery: DOM Dinâmico & Tabela (Exemplo 10)</h2>
+        <p class="slide-subtitle">Inserção de Linhas na Tabela com <code>.append()</code> e Remoção com <code>.closest('tr').remove()</code>:</p>
 
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-blue mb-2">
-              <span class="example-tag">Exemplo 10 (Tabela Dinâmica .append())</span>
-              <h3>Montando Linhas de Tabela em Tempo Real</h3>
-              <div class="example-desc">
-                <strong>Adicionado em relação ao Exemplo 9:</strong> Estruturação de uma tabela dinâmica (<code>#tabela-corpo</code>) onde novas linhas <code>&lt;tr&gt;</code> são inseridas com <code>.append()</code> e removidas ao clicar com <code>$(this).closest('tr').fadeOut().remove()</code>.
-              </div>
-              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+        <!-- Código HTML e JS Lado a Lado -->
+        <div class="grid-2 mb-3">
+          <div class="card card-highlight-amber">
+            <span class="example-tag">Exemplo 10 (📌 1. Estrutura HTML da Tabela)</span>
+            <h3>Tabela Dinâmica no Documento</h3>
+            <div class="example-desc">
+              Tabela Bootstrap com <code>&lt;tbody id="tabela-corpo"&gt;</code> <strong>inserida após o formulário <code>&lt;form id="form-cadastro"&gt;</code></strong>:
+            </div>
+            <pre style="max-height: 280px; overflow-y: auto;"><code><span class="cm">&lt;!-- 📍 POSICIONAMENTO: Inserida APÓS o &lt;form id="form-cadastro"&gt; --&gt;</span>
+&lt;table class="table table-striped mt-3"&gt;
+    &lt;thead class="table-dark"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Nome&lt;/th&gt;
+            &lt;th&gt;E-mail&lt;/th&gt;
+            &lt;th&gt;Ação&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody id="tabela-corpo"&gt;
+        <span class="cm">&lt;!-- Novas linhas &lt;tr&gt; inseridas dinamicamente aqui --&gt;</span>
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+          </div>
+
+          <div class="card card-highlight-blue">
+            <span class="example-tag">Exemplo 10 (📜 2. Script de Montagem & Remoção)</span>
+            <h3>Comportamento em JavaScript</h3>
+            <div class="example-desc">
+              Uso de <code>.append(trHtml)</code> ao salvar e remoção do <code>&lt;tr&gt;</code> pai com <code>.closest('tr')</code> ao clicar em Excluir:
+            </div>
+            <pre style="max-height: 280px; overflow-y: auto;"><code>$(document).ready(function() {
   $('#form-cadastro').on('submit', function(e) {
     e.preventDefault();
-    <span class="cm">// NOVO NO EXEMPLO 10: Inserir nova linha na tabela</span>
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// 1. Inserir nova linha na tabela com .append()</span>
     const trHtml = `&lt;tr&gt;&lt;td&gt;${nome}&lt;/td&gt;&lt;td&gt;${email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`;
     $('#tabela-corpo').append(trHtml);
+    $('#form-cadastro')[0].reset();
   });
 
-  <span class="cm">// NOVO NO EXEMPLO 10: Remover linha pai ao clicar em Excluir</span>
+  <span class="cm">// 2. Remover a linha &lt;tr&gt; pai ao clicar em Excluir</span>
   $('#tabela-corpo').on('click', '.btn-excluir', function() {
     $(this).closest('tr').fadeOut(300, function() { $(this).remove(); });
   });
 });</code></pre>
-            </div>
+          </div>
+        </div>
 
-            <div class="card card-highlight-amber">
-              <span class="example-tag">Exemplo 11 (LocalStorage + JSON)</span>
-              <h3>Persistência de Dados no Navegador</h3>
-              <div class="example-desc">
-                <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de persistência permanente no navegador com <code>localStorage</code>, convertendo a lista de objetos em texto com <code>JSON.stringify()</code> e restaurando ao atualizar a página com <code>JSON.parse()</code>.
-              </div>
-              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
-  <span class="cm">// NOVO NO EXEMPLO 11: Carregar dados salvos do localStorage</span>
+        <!-- Painel de explicação de manipulação do DOM -->
+        <div class="card mt-2">
+          <div class="explore-title">🔍 Métodos de Manipulação Dinâmica do DOM (Recursos Adicionais):</div>
+          <div class="table-responsive">
+            <table class="explore-table">
+              <thead>
+                <tr>
+                  <th>Método jQuery</th>
+                  <th>Descrição & Uso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>$(el).append(html)</code></td>
+                  <td>Insere novo conteúdo HTML no final do elemento selecionado (ex: final do <code>&lt;tbody&gt;</code>).</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).prepend(html)</code></td>
+                  <td>Insere novo conteúdo HTML no início do elemento selecionado.</td>
+                </tr>
+                <tr>
+                  <td><code>$(this).closest('tr')</code></td>
+                  <td>Sobe na árvore do DOM até encontrar o primeiro elemento ancestral <code>&lt;tr&gt;</code>.</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).remove()</code></td>
+                  <td>Remove permanentemente o próprio elemento da árvore DOM.</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).empty()</code></td>
+                  <td>Limpa todo o conteúdo interno do elemento sem removê-lo da página.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5.3: jQuery — Persistência no LocalStorage (Exemplo 11) -->
+      <section class="slide" id="slide-5-3">
+        <h2 class="slide-title">⚡ jQuery: Persistência no LocalStorage (Exemplo 11)</h2>
+        <p class="slide-subtitle">Armazenamento Permanente de Dados no Navegador com <code>JSON.stringify()</code> e <code>JSON.parse()</code>:</p>
+
+        <!-- Código de Persistência Lado a Lado -->
+        <div class="grid-2 mb-3">
+          <div class="card card-highlight-purple">
+            <span class="example-tag">Exemplo 11 (💾 1. Inicialização & Gravação)</span>
+            <h3>Gerenciamento do LocalStorage</h3>
+            <div class="example-desc">
+              Leitura inicial do <code>localStorage</code> com <code>JSON.parse()</code> e gravação com <code>JSON.stringify()</code> ao cadastrar:
+            </div>
+            <pre style="max-height: 280px; overflow-y: auto;"><code>$(document).ready(function() {
+  <span class="cm">// 1. Carrega dados salvos ou inicia array vazio []</span>
   let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
 
   $('#form-cadastro').on('submit', function(e) {
     e.preventDefault();
-    <span class="cm">// NOVO NO EXEMPLO 11: Salvar no localStorage com JSON.stringify</span>
+    const nome = $('#input-nome').val();
+    const email = $('#input-email').val();
+
+    <span class="cm">// 2. Adiciona ao array e salva no localStorage</span>
     clientes.push({ nome, email });
     localStorage.setItem('lista_clientes', JSON.stringify(clientes));
+    renderTabela();
   });
 });</code></pre>
-            </div>
           </div>
 
-          <!-- Tabela "Para explorar mais..." -->
-          <div class="card">
-            <div class="explore-title">🔍 Métodos do DOM & Armazenamento:</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Comando</th>
-                    <th>Descrição & Uso</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>$(el).append(html)</code></td>
-                    <td>Insere novo conteúdo HTML no final da tabela.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(this).closest('tr')</code></td>
-                    <td>Sobe na árvore DOM até a linha <code>&lt;tr&gt;</code> pai.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).remove()</code></td>
-                    <td>Remove o próprio elemento da árvore DOM.</td>
-                  </tr>
-                  <tr>
-                    <td><code>localStorage.setItem(k, v)</code></td>
-                    <td>Salva uma chave e valor no armazenamento do navegador.</td>
-                  </tr>
-                  <tr>
-                    <td><code>JSON.stringify(obj)</code></td>
-                    <td>Converte array/objeto JS em texto JSON para salvar.</td>
-                  </tr>
-                  <tr>
-                    <td><code>JSON.parse(str)</code></td>
-                    <td>Converte texto JSON de volta para array/objeto JS.</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="card card-highlight-emerald">
+            <span class="example-tag">Exemplo 11 (🔄 2. Renderização & Exclusão Persistente)</span>
+            <h3>Sincronização com a Tabela</h3>
+            <div class="example-desc">
+              Recriação automática das linhas <code>&lt;tr&gt;</code> ao abrir a página (F5) e sincronização ao excluir pelo índice:
             </div>
+            <pre style="max-height: 280px; overflow-y: auto;"><code><span class="cm">// 3. Renderiza a tabela lendo o array 'clientes'</span>
+function renderTabela() {
+  $('#tabela-corpo').empty();
+  clientes.forEach((c, index) => {
+    $('#tabela-corpo').append(`
+      &lt;tr&gt;
+        &lt;td&gt;${c.nome}&lt;/td&gt;&lt;td&gt;${c.email}&lt;/td&gt;
+        &lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;
+      &lt;/tr&gt;`);
+  });
+}
+
+<span class="cm">// 4. Exclui pelo índice do array e atualiza o storage</span>
+$('#tabela-corpo').on('click', '.btn-excluir', function() {
+  const index = $(this).data('index');
+  clientes.splice(index, 1);
+  localStorage.setItem('lista_clientes', JSON.stringify(clientes));
+  renderTabela();
+});</code></pre>
+          </div>
+        </div>
+
+        <!-- Painel de explicação de LocalStorage & JSON -->
+        <div class="card mt-2">
+          <div class="explore-title">🔍 Armazenamento Local & Serialização JSON (Recursos Adicionais):</div>
+          <div class="table-responsive">
+            <table class="explore-table">
+              <thead>
+                <tr>
+                  <th>Comando / API</th>
+                  <th>Descrição & Uso</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>localStorage.setItem(chave, valor)</code></td>
+                  <td>Salva uma chave e valor de texto no armazenamento permanente do navegador.</td>
+                </tr>
+                <tr>
+                  <td><code>localStorage.getItem(chave)</code></td>
+                  <td>Recupera o valor texto associado a uma chave específica.</td>
+                </tr>
+                <tr>
+                  <td><code>localStorage.removeItem(chave)</code></td>
+                  <td>Remove uma chave específica do armazenamento.</td>
+                </tr>
+                <tr>
+                  <td><code>JSON.stringify(objeto)</code></td>
+                  <td>Converte um objeto ou array JS em texto no formato JSON para poder salvar.</td>
+                </tr>
+                <tr>
+                  <td><code>JSON.parse(stringJSON)</code></td>
+                  <td>Converte um texto no formato JSON de volta para objeto ou array JS.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
