@@ -1025,15 +1025,15 @@
         <h2 class="slide-title">⚡ jQuery: Estilos, Cores & Efeitos Visuais</h2>
         <p class="slide-subtitle">Troca Dinâmica de Estilos com <code>.css()</code> e Efeitos de Deslizamento com <code>.slideToggle()</code>:</p>
 
-        <div class="grid-2">
-          <div>
-            <div class="card card-highlight-blue mb-2">
-              <span class="example-tag">Exemplo 8 (Troca de Cores com .css())</span>
-              <h3>Estilização Dinâmica na Página</h3>
-              <div class="example-desc">
-                <strong>Adicionado em relação ao Exemplo 7:</strong> Manipulação direta de estilos e cores via código usando <code>$(el).css()</code>, alterando a cor de fundo do formulário e as bordas/texto do <code>#caixa-mensagem</code>.
-              </div>
-              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+        <!-- Grid lado a lado: Exemplo 8 (Esquerda) e Exemplo 9 (Direita) -->
+        <div class="grid-2 mb-3">
+          <div class="card card-highlight-blue">
+            <span class="example-tag">Exemplo 8 (Troca de Cores com .css())</span>
+            <h3>Estilização Dinâmica na Página</h3>
+            <div class="example-desc">
+              <strong>Adicionado em relação ao Exemplo 7:</strong> Manipulação direta de estilos e cores via código usando <code>$(el).css()</code>, alterando a cor de fundo do formulário e as bordas/texto do <code>#caixa-mensagem</code>.
+            </div>
+            <pre style="max-height: 280px; overflow-y: auto;"><code>$(document).ready(function() {
   $('#form-cadastro').on('submit', function(e) {
     e.preventDefault();
     <span class="cm">// NOVO NO EXEMPLO 8: Alterando cores e estilos via .css()</span>
@@ -1044,17 +1044,17 @@
       .html(`🎨 &lt;strong&gt;Estilo Aplicado!&lt;/strong&gt; Cliente cadastrado com sucesso.`);
   });
 });</code></pre>
-            </div>
+          </div>
 
-            <div class="card card-highlight-amber">
-              <span class="example-tag">Exemplo 9 (Efeitos Visuais .slideToggle())</span>
-              <h3>Deslizamento Suave de Painéis</h3>
-              <div class="example-desc">
-                <strong>Adicionado em relação ao Exemplo 8:</strong> Botão de instrução com painel retrátil usando <code>.slideToggle(300)</code> e exibição da mensagem em movimento deslizando para baixo com <code>.slideDown(400)</code>.
-                <br><br>
-                <strong>📌 Elementos HTML necessários no documento:</strong>
-              </div>
-              <pre style="margin-bottom: 0.8rem; background: rgba(0,0,0,0.25); border: 1px dashed rgba(255,193,7,0.5);"><code><span class="cm">&lt;!-- 1. Botão para acionar a alternância --&gt;</span>
+          <div class="card card-highlight-amber">
+            <span class="example-tag">Exemplo 9 (Efeitos Visuais .slideToggle())</span>
+            <h3>Deslizamento Suave de Painéis</h3>
+            <div class="example-desc">
+              <strong>Adicionado em relação ao Exemplo 8:</strong> Botão de instrução com painel retrátil usando <code>.slideToggle(300)</code> e exibição da mensagem em movimento deslizando para baixo com <code>.slideDown(400)</code>.
+              <br><br>
+              <strong>📌 Elementos HTML necessários no documento:</strong>
+            </div>
+            <pre style="margin-bottom: 0.6rem; background: rgba(0,0,0,0.25); border: 1px dashed rgba(255,193,7,0.5);"><code><span class="cm">&lt;!-- 1. Botão para acionar a alternância --&gt;</span>
 &lt;button id="btn-toggle-ajuda" class="btn btn-outline-secondary mb-3"&gt;ℹ️ Alternar Instruções&lt;/button&gt;
 
 <span class="cm">&lt;!-- 2. Painel de ajuda oculto por padrão (display: none) --&gt;</span>
@@ -1062,10 +1062,10 @@
     &lt;strong&gt;Instruções:&lt;/strong&gt; Preencha o nome e e-mail antes de salvar.
 &lt;/div&gt;</code></pre>
 
-              <div class="example-desc" style="margin-bottom: 0.4rem;">
-                <strong>📜 Script jQuery (.slideToggle()):</strong>
-              </div>
-              <pre style="max-height: 240px; overflow-y: auto;"><code>$(document).ready(function() {
+            <div class="example-desc" style="margin-bottom: 0.3rem;">
+              <strong>📜 Script jQuery (.slideToggle()):</strong>
+            </div>
+            <pre style="max-height: 180px; overflow-y: auto;"><code>$(document).ready(function() {
   <span class="cm">// NOVO NO EXEMPLO 9: Alternar painel de ajuda deslizando</span>
   $('#btn-toggle-ajuda').on('click', function() {
     $('#painel-ajuda').slideToggle(300);
@@ -1077,44 +1077,43 @@
     $('#caixa-mensagem').hide().slideDown(400);
   });
 });</code></pre>
-            </div>
           </div>
+        </div>
 
-          <!-- Tabela "Para explorar mais no jQuery" -->
-          <div class="card">
-            <div class="explore-title">🔍 Métodos Estéticos & Efeitos Visuais:</div>
-            <div class="table-responsive">
-              <table class="explore-table">
-                <thead>
-                  <tr>
-                    <th>Método jQuery</th>
-                    <th>Descrição & Efeito Visual</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><code>$(el).css('prop', 'valor')</code></td>
-                    <td>Altera uma propriedade CSS individual diretamente.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).css({ obj })</code></td>
-                    <td>Aplica um objeto com múltiplos estilos CSS simultaneamente.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).slideDown(ms)</code></td>
-                    <td>Exibe o elemento deslizando para baixo.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).slideUp(ms)</code></td>
-                    <td>Recolhe o elemento deslizando para cima.</td>
-                  </tr>
-                  <tr>
-                    <td><code>$(el).slideToggle(ms)</code></td>
-                    <td>Alterna entre expandir e recolher a cada clique.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        <!-- Painel de explicação de recursos adicionais na parte de baixo -->
+        <div class="card mt-2">
+          <div class="explore-title">🔍 Métodos Estéticos & Efeitos Visuais (Recursos Adicionais):</div>
+          <div class="table-responsive">
+            <table class="explore-table">
+              <thead>
+                <tr>
+                  <th>Método jQuery</th>
+                  <th>Descrição & Efeito Visual</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>$(el).css('prop', 'valor')</code></td>
+                  <td>Altera uma propriedade CSS individual diretamente.</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).css({ obj })</code></td>
+                  <td>Aplica um objeto com múltiplos estilos CSS simultaneamente.</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).slideDown(ms)</code></td>
+                  <td>Exibe o elemento deslizando para baixo.</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).slideUp(ms)</code></td>
+                  <td>Recolhe o elemento deslizando para cima.</td>
+                </tr>
+                <tr>
+                  <td><code>$(el).slideToggle(ms)</code></td>
+                  <td>Alterna entre expandir e recolher a cada clique.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
