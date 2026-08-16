@@ -15,8 +15,18 @@
     <!-- 3. No <head>: chamada do jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+</head>
 
-    <!-- 4. Código de execução jQuery -->
+<body>
+    <!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) -->
+    <form id="form-cadastro">
+        <input type="text" id="input-nome" class="form-control mb-2" placeholder="Nome">
+        <input type="email" id="input-email" class="form-control mb-2" placeholder="E-mail">
+        <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar</button>
+    </form>
+
+    <div id="caixa-mensagem" class="alert alert-info mt-3 d-none"></div>
+
     <script>
         $('#form-cadastro').css('background-color', '#708090');
         $(document).ready(function () {
@@ -37,19 +47,6 @@
             });
         });
     </script>
-</head>
-
-<body>
-    <!-- 1. Estrutura HTML Base Unificada (Bootstrap 5) -->
-    <form id="form-cadastro">
-        <input type="text" id="input-nome" class="form-control mb-2" placeholder="Nome">
-        <input type="email" id="input-email" class="form-control mb-2" placeholder="E-mail">
-        <button type="submit" id="btn-salvar" class="btn btn-primary">Salvar</button>
-    </form>
-
-    <div id="caixa-mensagem" class="alert alert-info mt-3 d-none"></div>
-
-
 </body>
 
 </html>
