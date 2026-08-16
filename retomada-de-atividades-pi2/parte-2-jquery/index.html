@@ -1463,6 +1463,83 @@ $('#tabela-corpo').on('click', '.btn-excluir', function() {
         </div>
       </section>
 
+      <!-- SLIDE 5.3b: Deep Dive — Estratégia de Renderização & Persistência (Exemplo 11) -->
+      <section class="slide" id="slide-5-3b">
+        <h2 class="slide-title">🔍 Deep Dive: Estratégia de Renderização & Persistência</h2>
+        <p class="slide-subtitle">Entendendo a função <code>renderTabela()</code> e a mudança de paradigma da manipulação do DOM:</p>
+
+        <!-- Grid 2 Colunas: Mudança de Paradigma (Esquerda) vs Fluxo de Dados & Função renderTabela() (Direita) -->
+        <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 1.2rem; align-items: stretch;">
+          
+          <!-- Coluna 1: Comparativo de Paradigmas (Exemplo 10 vs Exemplo 11) -->
+          <div class="card card-highlight-purple" style="padding: 1rem 1.2rem;">
+            <span class="example-tag">1. MUDANÇA DE PARADIGMA (DOM vs DADOS)</span>
+            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Como a aplicação gerencia a tela?</h3>
+            
+            <!-- Exemplo 10 -->
+            <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 0.5rem 0.7rem; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.78rem; line-height: 1.4;">
+              <strong style="color: #f87171;">❌ Exemplo 10 (Manipulação Direta do DOM):</strong><br>
+              A cada clique, alterava a tabela HTML "na raça" com <code>.append()</code> e <code>.remove()</code>. 
+              <em>Problema:</em> O HTML era a única fonte da verdade; ao pressionar F5, todos os dados sumiam!
+            </div>
+
+            <!-- Exemplo 11 -->
+            <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 0.5rem 0.7rem; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.78rem; line-height: 1.4;">
+              <strong style="color: #34d399;">✅ Exemplo 11 (Arquitetura Reativa a Dados):</strong><br>
+              A fonte da verdade é o <strong>array <code>clientes</code></strong> gravado no <code>localStorage</code>.
+              O código não insere linhas isoladas no HTML; ele atualiza os dados e chama <code>renderTabela()</code>.
+            </div>
+
+            <!-- Vantagens da Função renderTabela() -->
+            <div style="font-size: 0.78rem; line-height: 1.38; color: var(--text-color);">
+              <div style="font-weight: bold; color: #c084fc; margin-bottom: 0.2rem;">💡 Por que criar uma função <code>renderTabela()</code> própria?</div>
+              <ul style="margin: 0; padding-left: 1.1rem;">
+                <li style="margin-bottom: 0.2rem;"><strong>Evita duplicação:</strong> O mesmo código redesenha a tela no F5, no envio do form e na remoção.</li>
+                <li style="margin-bottom: 0.2rem;"><strong>100% de Fidelidade:</strong> A interface sempre reflete exatamente o que está salvo no <code>localStorage</code>.</li>
+                <li><strong>Conceito Moderno:</strong> É a mesma lógica usada em frameworks como React, Vue e Angular!</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Coluna 2: Fluxo do Código & Anatomia da Função renderTabela() -->
+          <div class="card card-highlight-emerald" style="padding: 1rem 1.2rem;">
+            <span class="example-tag">2. FLUXO DO CÓDIGO E CICLO DE VIDA</span>
+            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Como os Dados Fluem na Aplicação:</h3>
+
+            <!-- Diagrama de Fluxo -->
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem 0.8rem; font-size: 0.76rem; margin-bottom: 0.6rem;">
+              <div style="color: #34d399; font-weight: bold; margin-bottom: 0.3rem;">🔄 As 3 Ações Principais do Sistema:</div>
+              <div style="font-family: monospace; line-height: 1.5; color: var(--text-muted);">
+                <span style="color: #60a5fa;">1. Ao Abrir a Página (F5):</span><br>
+                &nbsp;&nbsp;<code>localStorage</code> ➔ <code>JSON.parse()</code> ➔ <code>renderTabela()</code><br>
+                <span style="color: #fbbf24;">2. Ao Cadastrar Cliente:</span><br>
+                &nbsp;&nbsp;<code>clientes.push()</code> ➔ <code>JSON.stringify()</code> ➔ <code>renderTabela()</code><br>
+                <span style="color: #f87171;">3. Ao Clicar em Remover:</span><br>
+                &nbsp;&nbsp;<code>clientes.splice(idx, 1)</code> ➔ <code>JSON.stringify()</code> ➔ <code>renderTabela()</code>
+              </div>
+            </div>
+
+            <!-- Código da Função renderTabela() explicada -->
+            <div style="font-size: 0.79rem; font-weight: bold; color: #34d399; margin-bottom: 0.2rem;">
+              📜 O Algoritmo da Função <code>renderTabela()</code>:
+            </div>
+            <pre style="max-height: 130px; margin: 0; font-size: 0.73rem;"><code>function renderTabela() {
+  $('#tabela-corpo').empty(); <span class="cm">// 1. Limpa todas as linhas antigas</span>
+  
+  clientes.forEach((c, index) => { <span class="cm">// 2. Varre cada item da lista</span>
+    $('#tabela-corpo').append(`
+      &lt;tr&gt;
+        &lt;td&gt;${c.nome}&lt;/td&gt;&lt;td&gt;${c.email}&lt;/td&gt;
+        &lt;td&gt;&lt;button class="btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;
+      &lt;/tr&gt;`); <span class="cm">// 3. Insere a nova linha com o data-index da posição</span>
+  });
+}</code></pre>
+
+          </div>
+
+        </div>
+      </section>
+
       <!-- SLIDE 6: Guia Interativo de Código jQuery -->
       <section class="slide" id="slide-6">
         <h2 class="slide-title">💻 Guia Interativo de Código (jQuery)</h2>
