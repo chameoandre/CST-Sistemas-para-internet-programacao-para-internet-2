@@ -38,6 +38,21 @@
 
     <div id="caixa-mensagem" class="alert alert-info mt-3 d-none"></div>
 
+
+    <table class="table table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-corpo">
+            <!-- Novas linhas <tr> inseridas dinamicamente aqui -->
+        </tbody>
+    </table>
+
+
     <script>
         $('#form-cadastro').css('background-color', '#708090');
         $(document).ready(function () {
@@ -54,6 +69,12 @@
                 const nome = $('#input-nome').val();
                 const email = $('#input-email').val();
 
+                // 1. Inserir nova linha na tabela com .append()
+                const trHtml = `<tr><td>${nome}</td><td>${email}</td><td><button class="btn btn-danger btn-sm btn-excluir">Remover</button></td></tr>`;
+                $('#tabela-corpo').append(trHtml);
+                $('#form-cadastro')[0].reset();
+
+
                 $('#caixa-mensagem')
                     .removeClass('d-none alert-info alert-danger')
                     .addClass('alert-success')
@@ -61,6 +82,12 @@
                     .css({ 'background-color': '#d1e7dd', 'color': '#0f5132', 'border-color': '#badbcc' })
                     .fadeOut(300).fadeIn(300)
                     .fadeOut(150).fadeIn(400);
+            });
+
+
+            // 2. Remover a linha <tr> pai ao clicar em Excluir
+            $('#tabela-corpo').on('click', '.btn-excluir', function () {
+                $(this).closest('tr').fadeOut(300, function () { $(this).remove(); });
             });
         });
     </script>

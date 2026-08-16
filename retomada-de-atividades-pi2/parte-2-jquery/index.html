@@ -1221,40 +1221,65 @@
           </div>
         </div>
 
-        <!-- Painel de explicação de manipulação do DOM -->
-        <div class="card mt-2">
-          <div class="explore-title">🔍 Métodos de Manipulação Dinâmica do DOM (Recursos Adicionais):</div>
-          <div class="table-responsive">
-            <table class="explore-table">
-              <thead>
-                <tr>
-                  <th>Método jQuery</th>
-                  <th>Descrição & Uso</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>$(el).append(html)</code></td>
-                  <td>Insere novo conteúdo HTML no final do elemento selecionado (ex: final do <code>&lt;tbody&gt;</code>).</td>
-                </tr>
-                <tr>
-                  <td><code>$(el).prepend(html)</code></td>
-                  <td>Insere novo conteúdo HTML no início do elemento selecionado.</td>
-                </tr>
-                <tr>
-                  <td><code>$(this).closest('tr')</code></td>
-                  <td>Sobe na árvore do DOM até encontrar o primeiro elemento ancestral <code>&lt;tr&gt;</code>.</td>
-                </tr>
-                <tr>
-                  <td><code>$(el).remove()</code></td>
-                  <td>Remove permanentemente o próprio elemento da árvore DOM.</td>
-                </tr>
-                <tr>
-                  <td><code>$(el).empty()</code></td>
-                  <td>Limpa todo o conteúdo interno do elemento sem removê-lo da página.</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- Painel de explicação dividida: Métodos do DOM (Esquerda) vs Anatomia da Exclusão (Direita) -->
+        <div class="grid-2 mt-2" style="align-items: stretch;">
+          <!-- Coluna 1: Tabela de Métodos de Manipulação do DOM -->
+          <div class="card" style="padding: 0.8rem 1rem;">
+            <div class="explore-title" style="margin-bottom: 0.4rem; font-size: 0.92rem;">🔍 Métodos de Manipulação Dinâmica do DOM:</div>
+            <div class="table-responsive">
+              <table class="explore-table" style="font-size: 0.78rem;">
+                <thead>
+                  <tr>
+                    <th>Método</th>
+                    <th>Função no DOM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>$(el).append(html)</code></td>
+                    <td>Insere HTML no final do elemento selecionado (ex: final do <code>&lt;tbody&gt;</code>).</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).prepend(html)</code></td>
+                    <td>Insere HTML no início do elemento selecionado.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(this).closest('tr')</code></td>
+                    <td>Sobe no DOM até encontrar o ancestral <code>&lt;tr&gt;</code> mais próximo.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).remove()</code></td>
+                    <td>Remove o elemento definitivamente da árvore DOM.</td>
+                  </tr>
+                  <tr>
+                    <td><code>$(el).empty()</code></td>
+                    <td>Limpa todo o conteúdo interno do elemento sem removê-lo.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Coluna 2: Anatomia Detalhada do Comando de Exclusão -->
+          <div class="card card-highlight-amber" style="padding: 0.8rem 1rem;">
+            <div class="explore-title" style="margin-bottom: 0.4rem; font-size: 0.92rem;">💡 Anatomia da Exclusão <code>$(this).closest(...)</code>:</div>
+            <div style="font-size: 0.8rem; font-family: monospace; background: rgba(0, 0, 0, 0.2); padding: 0.4rem 0.6rem; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 0.5rem; white-space: nowrap; overflow-x: auto;">
+              <code>$(<span style="color:#fbbf24; font-weight:bold;">this</span>).<span style="color:#60a5fa; font-weight:bold;">closest('tr')</span>.fadeOut(300, <span style="color:#34d399; font-weight:bold;">function() { $(this).remove(); }</span>);</code>
+            </div>
+            <ul style="font-size: 0.76rem; line-height: 1.35; margin: 0; padding-left: 1.1rem;">
+              <li style="margin-bottom: 0.25rem;">
+                <strong>1. <code>$(this)</code> (1º <code>this</code>):</strong> Refere-se ao botão <code>.btn-excluir</code> específico que recebeu o clique.
+              </li>
+              <li style="margin-bottom: 0.25rem;">
+                <strong>2. <code>.closest('tr')</code>:</strong> Sobe na árvore hierárquica do DOM a partir do botão até achar o <code>&lt;tr&gt;</code> (linha) pai.
+              </li>
+              <li style="margin-bottom: 0.25rem;">
+                <strong>3. <code>.fadeOut(300, callback)</code>:</strong> Esmaece a linha por 300ms. A função interna executa <em>após</em> sumir visualmente.
+              </li>
+              <li>
+                <strong>4. <code>function() { $(this).remove(); }</code>:</strong> No callback, o 2º <code>this</code> é o <code>&lt;tr&gt;</code>, excluindo-o <strong>definitivamente</strong> do HTML/DOM.
+              </li>
+            </ul>
           </div>
         </div>
       </section>
