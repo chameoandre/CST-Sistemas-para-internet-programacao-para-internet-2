@@ -1284,6 +1284,89 @@
         </div>
       </section>
 
+      <!-- SLIDE 5.2b: Deep Dive — Entendendo $(this), .closest() & Formas Alternativas -->
+      <section class="slide" id="slide-5-2b">
+        <h2 class="slide-title">🔍 Deep Dive: Entendendo <code>$(this)</code>, <code>.closest()</code> & Alternativas</h2>
+        <p class="slide-subtitle">Por que navegamos na árvore do DOM e como implementar a exclusão de 3 formas diferentes:</p>
+
+        <!-- Grid 2 Colunas: Conceito Teórico (Esquerda) vs 3 Abordagens Práticas (Direita) -->
+        <div class="grid-2" style="grid-template-columns: 1.05fr 0.95fr; gap: 1.2rem; align-items: stretch;">
+          
+          <!-- Coluna 1: O Porquê de $(this) e .closest() + Visualização da Árvore DOM -->
+          <div class="card card-highlight-blue" style="padding: 1rem 1.2rem;">
+            <span class="example-tag">1. CONCEITO DE NAVEGAÇÃO NO DOM</span>
+            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Por que precisamos de <code>$(this)</code> e <code>.closest()</code>?</h3>
+            
+            <div style="font-size: 0.81rem; line-height: 1.4; margin-bottom: 0.7rem; color: var(--text-color);">
+              <p style="margin-bottom: 0.4rem;">
+                <strong>1. O Desafio dos Múltiplos Botões:</strong> Em tabelas dinâmicas, cada linha possui um botão <code>.btn-excluir</code> idêntico sem <code>id</code> individual. O <code>$(this)</code> dentro do evento captura <strong>exatamente o botão que foi clicado</strong>.
+              </p>
+              <p style="margin: 0;">
+                <strong>2. Subindo a Hierarquia com <code>.closest('tr')</code>:</strong> O botão está escondido dentro do <code>&lt;td&gt;</code>. Para apagar a linha inteira, o <code>.closest('tr')</code> faz o jQuery subir a árvore do DOM (de filho para pai/ancestral) até encontrar a tag <code>&lt;tr&gt;</code> envelope.
+              </p>
+            </div>
+
+            <!-- Diagrama Visual da Árvore DOM -->
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem 0.8rem; font-family: monospace; font-size: 0.76rem;">
+              <div style="color: #60a5fa; font-weight: bold; margin-bottom: 0.3rem;">🌳 Árvore Hierárquica do DOM:</div>
+              <div style="color: var(--text-muted); line-height: 1.45;">
+                &lt;tbody id="tabela-corpo"&gt;<br>
+                &nbsp;&nbsp;└── <span style="color: #34d399; font-weight: bold;">&lt;tr&gt;</span> <span style="color: #fbbf24; font-size: 0.71rem;">◄── 2. .closest('tr') seleciona ESTA linha</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── &lt;td&gt;Maria Silva&lt;/td&gt;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── &lt;td&gt;maria@email.com&lt;/td&gt;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── &lt;td&gt;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span style="color: #f87171; font-weight: bold;">&lt;button class="btn-excluir"&gt;</span> <span style="color: #fbbf24; font-size: 0.71rem;">◄── 1. $(this) começa AQUI</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/td&gt;<br>
+                &nbsp;&nbsp;&lt;/tr&gt;
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna 2: As 3 Formas de Implementar a Exclusão -->
+          <div class="card card-highlight-amber" style="padding: 1rem 1.2rem;">
+            <span class="example-tag">2. COMPARAÇÃO DE IMPLEMENTAÇÕES</span>
+            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">3 Formas de Escrever a Mesma Funcionalidade:</h3>
+
+            <!-- Opção A: Variáveis Explícitas -->
+            <div style="margin-bottom: 0.6rem;">
+              <div style="font-size: 0.79rem; font-weight: bold; color: #fbbf24; margin-bottom: 0.2rem;">
+                🟢 Opção A: Variáveis Didáticas (Passo a Passo Explícito)
+              </div>
+              <pre style="max-height: 110px; margin: 0; font-size: 0.73rem;"><code><span class="cm">// Separa cada etapa em uma variável legível</span>
+const $btn = $(this);                   <span class="cm">// 1. Botão clicado</span>
+const $linha = $btn.closest('tr');     <span class="cm">// 2. Linha &lt;tr&gt; pai</span>
+
+$linha.fadeOut(300, function() {
+  $linha.remove();                      <span class="cm">// 3. Remoção do DOM</span>
+});</code></pre>
+            </div>
+
+            <!-- Opção B: Encadear em Linha Única -->
+            <div style="margin-bottom: 0.6rem;">
+              <div style="font-size: 0.79rem; font-weight: bold; color: #60a5fa; margin-bottom: 0.2rem;">
+                ⚡ Opção B: Sintaxe Fluente / Encadeada (Usada no Exemplo 10)
+              </div>
+              <pre style="max-height: 75px; margin: 0; font-size: 0.73rem;"><code><span class="cm">// Tudo encadeado em uma única instrução</span>
+$(this).closest('tr').fadeOut(300, function() {
+  $(this).remove(); <span class="cm">// Note: este 2º this é o &lt;tr&gt;</span>
+});</code></pre>
+            </div>
+
+            <!-- Opção C: Atributo data-id -->
+            <div>
+              <div style="font-size: 0.79rem; font-weight: bold; color: #c084fc; margin-bottom: 0.2rem;">
+                💾 Opção C: Identificador <code>data-id</code> (Orientada a Dados — Exemplo 11)
+              </div>
+              <pre style="max-height: 85px; margin: 0; font-size: 0.73rem;"><code><span class="cm">// HTML: &lt;button data-id="15" class="btn-excluir"&gt;</span>
+const id = $(this).data('id');
+$(`#linha-${id}`).fadeOut(300, function() { $(this).remove(); });</code></pre>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
       <!-- SLIDE 5.3: jQuery — Persistência no LocalStorage (Exemplo 11) -->
       <section class="slide" id="slide-5-3">
         <h2 class="slide-title">⚡ jQuery: Persistência no LocalStorage (Exemplo 11)</h2>
