@@ -1540,6 +1540,84 @@ $('#tabela-corpo').on('click', '.btn-excluir', function() {
         </div>
       </section>
 
+      <!-- SLIDE 5.3c: Deep Dive — Web Storage API (LocalStorage: Características, Casos de Uso & Limitações) -->
+      <section class="slide" id="slide-5-3c">
+        <h2 class="slide-title">💾 Deep Dive: Entendendo a Web Storage API (LocalStorage)</h2>
+        <p class="slide-subtitle">Características, aplicações práticas em sistemas reais e limitações essenciais:</p>
+
+        <!-- Grid 3 Colunas: Características (Esq), Casos de Uso (Meio), Limitações & Segurança (Dir) -->
+        <div class="grid-3" style="gap: 1.1rem; align-items: stretch;">
+          
+          <!-- Coluna 1: Características Principais -->
+          <div class="card card-highlight-purple" style="padding: 1rem 1.1rem;">
+            <span class="example-tag">1. CARACTERÍSTICAS TÉCNICAS</span>
+            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Como Funciona o LocalStorage</h3>
+            
+            <ul style="font-size: 0.78rem; line-height: 1.45; margin: 0; padding-left: 1.1rem; color: var(--text-color);">
+              <li style="margin-bottom: 0.45rem;">
+                <strong>📌 Persistência Sem Prazo:</strong> Os dados continuam salvos mesmo ao fechar a aba, reiniciar o navegador ou desligar o computador (diferente do <code>sessionStorage</code>).
+              </li>
+              <li style="margin-bottom: 0.45rem;">
+                <strong>💻 Client-Side Puro:</strong> Fica guardado 100% no navegador do usuário. Não consome tráfego de rede nem banco de dados backend.
+              </li>
+              <li style="margin-bottom: 0.45rem;">
+                <strong>🔤 Apenas Strings (Chave-Valor):</strong> Guarda apenas texto. Por isso é <strong>obrigatório</strong> usar <code>JSON.stringify()</code> ao salvar e <code>JSON.parse()</code> ao ler objetos/arrays.
+              </li>
+              <li>
+                <strong>🛡️ Política de Mesma Origem:</strong> Dados isolados por domínio/porta (<code>meusite.com</code> não lê o storage de <code>outrosite.com</code>).
+              </li>
+            </ul>
+          </div>
+
+          <!-- Coluna 2: Casos de Uso em Outros Exemplos/Sistemas -->
+          <div class="card card-highlight-emerald" style="padding: 1rem 1.1rem;">
+            <span class="example-tag">2. APLICAÇÕES NO MUNDO REAL</span>
+            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Onde Mais Podemos Utilizar?</h3>
+
+            <div style="font-size: 0.77rem; line-height: 1.4; color: var(--text-color);">
+              <div style="margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--border-color);">
+                <strong style="color: #34d399;">🌙 Preferências de Interface:</strong><br>
+                Salvar a escolha do usuário entre Modo Claro / Escuro (<code>theme: "dark"</code>).
+              </div>
+              <div style="margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--border-color);">
+                <strong style="color: #60a5fa;">🛒 Rascunhos de Carrinho / Form:</strong><br>
+                Manter itens no carrinho de e-commerce antes do login ou salvar um formulário longo em rascunho.
+              </div>
+              <div style="margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--border-color);">
+                <strong style="color: #fbbf24;">🔑 Tokens de Sessão (JWT):</strong><br>
+                Armazenar tokens de acesso para manter o usuário autenticado na aplicação (SPAs).
+              </div>
+              <div>
+                <strong style="color: #c084fc;">⚙️ Filtros e Ordenações:</strong><br>
+                Lembrar quais colunas de uma tabela o usuário preferiu ocultar ou filtrar na última visita.
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna 3: Limitações e Cuidados de Segurança -->
+          <div class="card card-highlight-amber" style="padding: 1rem 1.1rem;">
+            <span class="example-tag">3. LIMITAÇÕES E SEGURANÇA</span>
+            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Cuidados que Devemos Ter</h3>
+
+            <div style="font-size: 0.77rem; line-height: 1.4; color: var(--text-color);">
+              <div style="background: rgba(245, 158, 11, 0.12); border-left: 3px solid #f59e0b; padding: 0.45rem 0.6rem; border-radius: 4px; margin-bottom: 0.45rem;">
+                <strong style="color: #fbbf24;">⚠️ Limite de Capacidade (~5MB):</strong><br>
+                Projetado para pequenos textos. Nunca guarde imagens em base64 grandes ou arquivos pesados.
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.12); border-left: 3px solid #ef4444; padding: 0.45rem 0.6rem; border-radius: 4px; margin-bottom: 0.45rem;">
+                <strong style="color: #f87171;">🔒 Inseguro para Dados Sensíveis:</strong><br>
+                <strong>Nunca</strong> guarde senhas, cartões de crédito ou dados bancários. Qualquer script malicioso (XSS) pode ler com <code>localStorage.getItem()</code>.
+              </div>
+              <div style="background: rgba(96, 165, 250, 0.12); border-left: 3px solid #3b82f6; padding: 0.45rem 0.6rem; border-radius: 4px;">
+                <strong style="color: #60a5fa;">💻 Isolamento Local:</strong><br>
+                Dados gravados no Chrome do celular <em>não</em> aparecem no PC sem um banco de dados remoto (backend).
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <!-- SLIDE 6: Guia Interativo de Código jQuery -->
       <section class="slide" id="slide-6">
         <h2 class="slide-title">💻 Guia Interativo de Código (jQuery)</h2>
