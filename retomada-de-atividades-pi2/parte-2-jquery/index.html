@@ -1287,79 +1287,104 @@
       <!-- SLIDE 5.2b: Deep Dive — Entendendo $(this), .closest() & Formas Alternativas -->
       <section class="slide" id="slide-5-2b">
         <h2 class="slide-title">🔍 Deep Dive: Entendendo <code>$(this)</code>, <code>.closest()</code> & Alternativas</h2>
-        <p class="slide-subtitle">Por que navegamos na árvore do DOM e como implementar a exclusão de 3 formas diferentes:</p>
+        <p class="slide-subtitle">Navegação na árvore do DOM e comparação prática entre 3 abordagens de exclusão:</p>
 
-        <!-- Grid 2 Colunas: Conceito Teórico (Esquerda) vs 3 Abordagens Práticas (Direita) -->
+        <!-- Grid 2 Colunas: Conceito Teórico com SVG (Esquerda) vs 3 Abordagens Práticas (Direita) -->
         <div class="grid-2" style="grid-template-columns: 1.05fr 0.95fr; gap: 1.2rem; align-items: stretch;">
           
-          <!-- Coluna 1: O Porquê de $(this) e .closest() + Visualização da Árvore DOM -->
-          <div class="card card-highlight-blue" style="padding: 1rem 1.2rem;">
-            <span class="example-tag">1. CONCEITO DE NAVEGAÇÃO NO DOM</span>
-            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Por que precisamos de <code>$(this)</code> e <code>.closest()</code>?</h3>
+          <!-- Coluna 1: O Porquê de $(this) e .closest() + SVG da Árvore DOM -->
+          <div class="card card-highlight-blue" style="padding: 1.2rem 1.4rem;">
+            <span class="example-tag">1. NAVEGAÇÃO NA ÁRVORE DO DOM</span>
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.6rem; color: white;">Por que usamos <code>$(this)</code> e <code>.closest()</code>?</h3>
             
-            <div style="font-size: 0.81rem; line-height: 1.4; margin-bottom: 0.7rem; color: var(--text-color);">
-              <p style="margin-bottom: 0.4rem;">
-                <strong>1. O Desafio dos Múltiplos Botões:</strong> Em tabelas dinâmicas, cada linha possui um botão <code>.btn-excluir</code> idêntico sem <code>id</code> individual. O <code>$(this)</code> dentro do evento captura <strong>exatamente o botão que foi clicado</strong>.
+            <div style="font-size: 0.92rem; line-height: 1.55; margin-bottom: 0.8rem; color: var(--text-color);">
+              <p style="margin-bottom: 0.5rem;">
+                <strong>1. O Desafio dos Múltiplos Botões:</strong> Em tabelas dinâmicas, cada linha possui um botão de exclusão idêntico sem <code>id</code> individual. O <code>$(this)</code> dentro do evento captura <strong>exatamente o botão que sofreu o clique</strong>.
               </p>
               <p style="margin: 0;">
-                <strong>2. Subindo a Hierarquia com <code>.closest('tr')</code>:</strong> O botão está escondido dentro do <code>&lt;td&gt;</code>. Para apagar a linha inteira, o <code>.closest('tr')</code> faz o jQuery subir a árvore do DOM (de filho para pai/ancestral) até encontrar a tag <code>&lt;tr&gt;</code> envelope.
+                <strong>2. Subindo a Hierarquia com <code>.closest('tr')</code>:</strong> O botão está dentro da célula <code>&lt;td&gt;</code>. Para apagar a linha inteira, o <code>.closest('tr')</code> faz o jQuery subir a árvore do DOM (de filho para pai) até encontrar o <code>&lt;tr&gt;</code> envelope.
               </p>
             </div>
 
-            <!-- Diagrama Visual da Árvore DOM -->
-            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem 0.8rem; font-family: monospace; font-size: 0.76rem;">
-              <div style="color: #60a5fa; font-weight: bold; margin-bottom: 0.3rem;">🌳 Árvore Hierárquica do DOM:</div>
-              <div style="color: var(--text-muted); line-height: 1.45;">
-                &lt;tbody id="tabela-corpo"&gt;<br>
-                &nbsp;&nbsp;└── <span style="color: #34d399; font-weight: bold;">&lt;tr&gt;</span> <span style="color: #fbbf24; font-size: 0.71rem;">◄── 2. .closest('tr') seleciona ESTA linha</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── &lt;td&gt;Maria Silva&lt;/td&gt;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── &lt;td&gt;maria@email.com&lt;/td&gt;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── &lt;td&gt;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <span style="color: #f87171; font-weight: bold;">&lt;button class="btn-excluir"&gt;</span> <span style="color: #fbbf24; font-size: 0.71rem;">◄── 1. $(this) começa AQUI</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/td&gt;<br>
-                &nbsp;&nbsp;&lt;/tr&gt;
-              </div>
+            <!-- Diagrama Ilustrativo SVG da Árvore DOM -->
+            <div style="margin-top: 0.6rem;">
+              <svg viewBox="0 0 500 200" style="width: 100%; height: auto; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 8px;">
+                <rect x="15" y="15" width="130" height="34" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+                <text x="80" y="37" fill="#60a5fa" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">&lt;tbody&gt;</text>
+
+                <rect x="170" y="15" width="310" height="44" rx="6" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="2.5"/>
+                <text x="325" y="34" fill="#34d399" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">&lt;tr&gt; (Linha Alvo)</text>
+                <text x="325" y="50" fill="#a7f3d0" font-family="sans-serif" font-size="11" text-anchor="middle">🎯 Selecionado pelo .closest('tr')</text>
+
+                <path d="M 145 32 L 170 32" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
+
+                <rect x="170" y="80" width="90" height="32" rx="5" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                <text x="215" y="101" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="middle">&lt;td&gt;Nome&lt;/td&gt;</text>
+
+                <rect x="270" y="80" width="90" height="32" rx="5" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                <text x="315" y="101" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="middle">&lt;td&gt;Email&lt;/td&gt;</text>
+
+                <rect x="370" y="80" width="110" height="32" rx="5" fill="rgba(239, 68, 68, 0.15)" stroke="#ef4444" stroke-width="1.5"/>
+                <text x="425" y="101" fill="#f87171" font-family="monospace" font-size="11" text-anchor="middle">&lt;td&gt; Ações &lt;/td&gt;</text>
+
+                <rect x="375" y="130" width="100" height="32" rx="6" fill="#dc2626" stroke="#fca5a5" stroke-width="2"/>
+                <text x="425" y="151" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Excluir 🗑️</text>
+
+                <rect x="355" y="168" width="135" height="24" rx="4" fill="#fbbf24"/>
+                <text x="422" y="184" fill="#000000" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">1. $(this) clicado</text>
+
+                <path d="M 370 145 C 310 145, 310 80, 310 63" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrowhead)"/>
+                
+                <defs>
+                  <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                    <polygon points="0 0, 8 4, 0 8" fill="#fbbf24"/>
+                  </marker>
+                </defs>
+
+                <text x="180" y="145" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="bold">2. .closest('tr') sobe ⬆️</text>
+              </svg>
             </div>
           </div>
 
           <!-- Coluna 2: As 3 Formas de Implementar a Exclusão -->
-          <div class="card card-highlight-amber" style="padding: 1rem 1.2rem;">
+          <div class="card card-highlight-amber" style="padding: 1.2rem 1.4rem;">
             <span class="example-tag">2. COMPARAÇÃO DE IMPLEMENTAÇÕES</span>
-            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">3 Formas de Escrever a Mesma Funcionalidade:</h3>
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.6rem; color: white;">3 Abordagens Práticas Equivalentes:</h3>
 
             <!-- Opção A: Variáveis Explícitas -->
-            <div style="margin-bottom: 0.6rem;">
-              <div style="font-size: 0.79rem; font-weight: bold; color: #fbbf24; margin-bottom: 0.2rem;">
-                🟢 Opção A: Variáveis Didáticas (Passo a Passo Explícito)
+            <div style="margin-bottom: 0.8rem;">
+              <div style="font-size: 0.88rem; font-weight: bold; color: #fbbf24; margin-bottom: 0.3rem;">
+                🟢 Opção A: Variáveis Didáticas (Passo a Passo)
               </div>
-              <pre style="max-height: 110px; margin: 0; font-size: 0.73rem;"><code><span class="cm">// Separa cada etapa em uma variável legível</span>
-const $btn = $(this);                   <span class="cm">// 1. Botão clicado</span>
-const $linha = $btn.closest('tr');     <span class="cm">// 2. Linha &lt;tr&gt; pai</span>
+              <pre style="margin: 0; padding: 0.6rem 0.8rem; font-size: 0.84rem; line-height: 1.45;"><code><span class="cm">// Separa cada etapa em uma variável legível</span>
+const $btn = $(this);              <span class="cm">// 1. Botão clicado</span>
+const $linha = $btn.closest('tr'); <span class="cm">// 2. Linha &lt;tr&gt; pai</span>
 
 $linha.fadeOut(300, function() {
-  $linha.remove();                      <span class="cm">// 3. Remoção do DOM</span>
+  $linha.remove();                 <span class="cm">// 3. Remove do DOM</span>
 });</code></pre>
             </div>
 
             <!-- Opção B: Encadear em Linha Única -->
-            <div style="margin-bottom: 0.6rem;">
-              <div style="font-size: 0.79rem; font-weight: bold; color: #60a5fa; margin-bottom: 0.2rem;">
-                ⚡ Opção B: Sintaxe Fluente / Encadeada (Usada no Exemplo 10)
+            <div style="margin-bottom: 0.8rem;">
+              <div style="font-size: 0.88rem; font-weight: bold; color: #60a5fa; margin-bottom: 0.3rem;">
+                ⚡ Opção B: Encadeada (Usada no Exemplo 10)
               </div>
-              <pre style="max-height: 75px; margin: 0; font-size: 0.73rem;"><code><span class="cm">// Tudo encadeado em uma única instrução</span>
+              <pre style="margin: 0; padding: 0.6rem 0.8rem; font-size: 0.84rem; line-height: 1.45;"><code><span class="cm">// Tudo encadeado em uma única instrução fluente</span>
 $(this).closest('tr').fadeOut(300, function() {
-  $(this).remove(); <span class="cm">// Note: este 2º this é o &lt;tr&gt;</span>
+  $(this).remove(); <span class="cm">// Este 2º $(this) refere-se ao &lt;tr&gt;</span>
 });</code></pre>
             </div>
 
             <!-- Opção C: Atributo data-id -->
             <div>
-              <div style="font-size: 0.79rem; font-weight: bold; color: #c084fc; margin-bottom: 0.2rem;">
-                💾 Opção C: Identificador <code>data-id</code> (Orientada a Dados — Exemplo 11)
+              <div style="font-size: 0.88rem; font-weight: bold; color: #c084fc; margin-bottom: 0.3rem;">
+                💾 Opção C: Atributo <code>data-index</code> (Exemplo 11)
               </div>
-              <pre style="max-height: 85px; margin: 0; font-size: 0.73rem;"><code><span class="cm">// HTML: &lt;button data-id="15" class="btn-excluir"&gt;</span>
-const id = $(this).data('id');
-$(`#linha-${id}`).fadeOut(300, function() { $(this).remove(); });</code></pre>
+              <pre style="margin: 0; padding: 0.6rem 0.8rem; font-size: 0.84rem; line-height: 1.45;"><code><span class="cm">// HTML: &lt;button data-index="2" class="btn-excluir"&gt;</span>
+const idx = $(this).data('index');
+clientes.splice(idx, 1); <span class="cm">// Remove do Array de dados</span>
+renderTabela();           <span class="cm">// Redesenha a interface</span></code></pre>
             </div>
 
           </div>
@@ -1370,95 +1395,60 @@ $(`#linha-${id}`).fadeOut(300, function() { $(this).remove(); });</code></pre>
       <!-- SLIDE 5.3: jQuery — Persistência no LocalStorage (Exemplo 11) -->
       <section class="slide" id="slide-5-3">
         <h2 class="slide-title">⚡ jQuery: Persistência no LocalStorage (Exemplo 11)</h2>
-        <p class="slide-subtitle">Armazenamento Permanente de Dados no Navegador com <code>JSON.stringify()</code> e <code>JSON.parse()</code>:</p>
+        <p class="slide-subtitle">Salvando e Recuperando a Lista de Clientes com Web Storage & JSON:</p>
 
-        <!-- Código de Persistência Lado a Lado -->
-        <div class="grid-2 mb-3">
-          <div class="card card-highlight-purple">
-            <span class="example-tag">Exemplo 11 (💾 1. Inicialização & Gravação)</span>
-            <h3>Gerenciamento do LocalStorage</h3>
-            <div class="example-desc">
-              Leitura inicial do <code>localStorage</code> com <code>JSON.parse()</code> e gravação com <code>JSON.stringify()</code> ao cadastrar:
+        <!-- Container Grid 2 Colunas: Formulário (Esquerda) vs Tabela & LocalStorage (Direita) -->
+        <div class="grid-2" style="grid-template-columns: 0.95fr 1.05fr; gap: 1.2rem; align-items: stretch;">
+          
+          <!-- Painel Esquerdo: Formulário de Entrada -->
+          <div class="card card-highlight-blue" style="padding: 1rem 1.2rem;">
+            <span class="example-tag">1. FORMULÁRIO DE CADASTRO DE CLIENTES</span>
+            
+            <form id="form-ex11" style="margin-top: 0.5rem;">
+              <div class="mb-2">
+                <label for="input-nome" class="form-label" style="color: white; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.2rem;">Nome Completo:</label>
+                <input type="text" class="form-control form-control-sm" id="input-nome" placeholder="Ex: Maria Silva" required style="background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.2); color: white; font-size: 0.82rem;">
+              </div>
+
+              <div class="mb-3">
+                <label for="input-email" class="form-label" style="color: white; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.2rem;">Endereço de E-mail:</label>
+                <input type="email" class="form-control form-control-sm" id="input-email" placeholder="Ex: maria@email.com" required style="background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.2); color: white; font-size: 0.82rem;">
+              </div>
+
+              <button type="submit" class="btn btn-success btn-sm w-100 fw-bold" style="padding: 0.4rem; font-size: 0.85rem;">
+                <i class="bi bi-person-plus-fill me-1"></i> Cadastrar & Salvar no LocalStorage
+              </button>
+            </form>
+
+            <div class="mt-3" style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 6px; padding: 0.5rem 0.7rem; font-size: 0.76rem; color: #7dd3fc; line-height: 1.4;">
+              <strong>💡 Experimente no Laboratório:</strong><br>
+              Cadastre um cliente, recarregue a página (<code>F5</code>) e comprove que os dados continuam salvos no seu navegador!
             </div>
-            <pre style="max-height: 280px; overflow-y: auto;"><code>$(document).ready(function() {
-  <span class="cm">// 1. Carrega dados salvos ou inicia array vazio []</span>
-  let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
-
-  $('#form-cadastro').on('submit', function(e) {
-    e.preventDefault();
-    const nome = $('#input-nome').val();
-    const email = $('#input-email').val();
-
-    <span class="cm">// 2. Adiciona ao array e salva no localStorage</span>
-    clientes.push({ nome, email });
-    localStorage.setItem('lista_clientes', JSON.stringify(clientes));
-    renderTabela();
-  });
-});</code></pre>
           </div>
 
-          <div class="card card-highlight-emerald">
-            <span class="example-tag">Exemplo 11 (🔄 2. Renderização & Exclusão Persistente)</span>
-            <h3>Sincronização com a Tabela</h3>
-            <div class="example-desc">
-              Recriação automática das linhas <code>&lt;tr&gt;</code> ao abrir a página (F5) e sincronização ao excluir pelo índice:
+          <!-- Painel Direito: Tabela com Dados Persistidos -->
+          <div class="card card-highlight-emerald" style="padding: 1rem 1.2rem; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="example-tag" style="margin-bottom: 0;">2. REGISTROS PERSISTIDOS NO LOCALSTORAGE</span>
+              <button class="btn btn-outline-danger btn-sm" onclick="limparStorageEx11()" style="font-size: 0.7rem; padding: 0.15rem 0.4rem;">
+                <i class="bi bi-trash-fill me-1"></i> Limpar Storage
+              </button>
             </div>
-            <pre style="max-height: 280px; overflow-y: auto;"><code><span class="cm">// 3. Renderiza a tabela lendo o array 'clientes'</span>
-function renderTabela() {
-  $('#tabela-corpo').empty();
-  clientes.forEach((c, index) => {
-    $('#tabela-corpo').append(`
-      &lt;tr&gt;
-        &lt;td&gt;${c.nome}&lt;/td&gt;&lt;td&gt;${c.email}&lt;/td&gt;
-        &lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;
-      &lt;/tr&gt;`);
-  });
-}
 
-<span class="cm">// 4. Exclui pelo índice do array e atualiza o storage</span>
-$('#tabela-corpo').on('click', '.btn-excluir', function() {
-  const index = $(this).data('index');
-  clientes.splice(index, 1);
-  localStorage.setItem('lista_clientes', JSON.stringify(clientes));
-  renderTabela();
-});</code></pre>
-          </div>
-        </div>
-
-        <!-- Painel de explicação de LocalStorage & JSON -->
-        <div class="card mt-2">
-          <div class="explore-title">🔍 Armazenamento Local & Serialização JSON (Recursos Adicionais):</div>
-          <div class="table-responsive">
-            <table class="explore-table">
-              <thead>
-                <tr>
-                  <th>Comando / API</th>
-                  <th>Descrição & Uso</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>localStorage.setItem(chave, valor)</code></td>
-                  <td>Salva uma chave e valor de texto no armazenamento permanente do navegador.</td>
-                </tr>
-                <tr>
-                  <td><code>localStorage.getItem(chave)</code></td>
-                  <td>Recupera o valor texto associado a uma chave específica.</td>
-                </tr>
-                <tr>
-                  <td><code>localStorage.removeItem(chave)</code></td>
-                  <td>Remove uma chave específica do armazenamento.</td>
-                </tr>
-                <tr>
-                  <td><code>JSON.stringify(objeto)</code></td>
-                  <td>Converte um objeto ou array JS em texto no formato JSON para poder salvar.</td>
-                </tr>
-                <tr>
-                  <td><code>JSON.parse(stringJSON)</code></td>
-                  <td>Converte um texto no formato JSON de volta para objeto ou array JS.</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive" style="flex: 1; max-height: 220px; overflow-y: auto;">
+              <table class="table table-dark table-hover table-striped table-bordered align-middle mb-0" style="font-size: 0.78rem;">
+                <thead class="table-group-divider" style="border-color: rgba(255,255,255,0.2);">
+                  <tr>
+                    <th style="color: var(--accent-blue);">Nome</th>
+                    <th style="color: var(--accent-blue);">E-mail</th>
+                    <th style="width: 80px; text-align: center; color: var(--accent-amber);">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-corpo-ex11">
+                  <!-- Linhas renderizadas dinamicamente via JS / LocalStorage -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -1466,72 +1456,96 @@ $('#tabela-corpo').on('click', '.btn-excluir', function() {
       <!-- SLIDE 5.3b: Deep Dive — Estratégia de Renderização & Persistência (Exemplo 11) -->
       <section class="slide" id="slide-5-3b">
         <h2 class="slide-title">🔍 Deep Dive: Estratégia de Renderização & Persistência</h2>
-        <p class="slide-subtitle">Entendendo a função <code>renderTabela()</code> e a mudança de paradigma da manipulação do DOM:</p>
+        <p class="slide-subtitle">Entendendo a função <code>renderTabela()</code> e o fluxo de dados em aplicações reativas:</p>
 
-        <!-- Grid 2 Colunas: Mudança de Paradigma (Esquerda) vs Fluxo de Dados & Função renderTabela() (Direita) -->
+        <!-- Grid 2 Colunas: Mudança de Paradigma (Esquerda) vs Diagrama de Fluxo & Código (Direita) -->
         <div class="grid-2" style="grid-template-columns: 1fr 1fr; gap: 1.2rem; align-items: stretch;">
           
           <!-- Coluna 1: Comparativo de Paradigmas (Exemplo 10 vs Exemplo 11) -->
-          <div class="card card-highlight-purple" style="padding: 1rem 1.2rem;">
+          <div class="card card-highlight-purple" style="padding: 1.2rem 1.4rem;">
             <span class="example-tag">1. MUDANÇA DE PARADIGMA (DOM vs DADOS)</span>
-            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Como a aplicação gerencia a tela?</h3>
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.6rem; color: white;">Como a aplicação gerencia a tela?</h3>
             
             <!-- Exemplo 10 -->
-            <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 0.5rem 0.7rem; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.78rem; line-height: 1.4;">
+            <div style="background: rgba(239, 68, 68, 0.12); border-left: 4px solid #ef4444; padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.7rem; font-size: 0.9rem; line-height: 1.5;">
               <strong style="color: #f87171;">❌ Exemplo 10 (Manipulação Direta do DOM):</strong><br>
-              A cada clique, alterava a tabela HTML "na raça" com <code>.append()</code> e <code>.remove()</code>. 
-              <em>Problema:</em> O HTML era a única fonte da verdade; ao pressionar F5, todos os dados sumiam!
+              A cada clique, alterava a tabela HTML isoladamente com <code>.append()</code> e <code>.remove()</code>.<br>
+              <em>Problema:</em> O HTML era a única fonte da verdade; ao dar F5, tudo sumia!
             </div>
 
             <!-- Exemplo 11 -->
-            <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 0.5rem 0.7rem; border-radius: 4px; margin-bottom: 0.6rem; font-size: 0.78rem; line-height: 1.4;">
+            <div style="background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; padding: 0.6rem 0.8rem; border-radius: 6px; margin-bottom: 0.7rem; font-size: 0.9rem; line-height: 1.5;">
               <strong style="color: #34d399;">✅ Exemplo 11 (Arquitetura Reativa a Dados):</strong><br>
-              A fonte da verdade é o <strong>array <code>clientes</code></strong> gravado no <code>localStorage</code>.
-              O código não insere linhas isoladas no HTML; ele atualiza os dados e chama <code>renderTabela()</code>.
+              A fonte da verdade é o <strong>array <code>clientes</code></strong> gravado no <code>localStorage</code>.<br>
+              O código atualiza os dados e chama a função <code>renderTabela()</code>.
             </div>
 
             <!-- Vantagens da Função renderTabela() -->
-            <div style="font-size: 0.78rem; line-height: 1.38; color: var(--text-color);">
-              <div style="font-weight: bold; color: #c084fc; margin-bottom: 0.2rem;">💡 Por que criar uma função <code>renderTabela()</code> própria?</div>
-              <ul style="margin: 0; padding-left: 1.1rem;">
-                <li style="margin-bottom: 0.2rem;"><strong>Evita duplicação:</strong> O mesmo código redesenha a tela no F5, no envio do form e na remoção.</li>
-                <li style="margin-bottom: 0.2rem;"><strong>100% de Fidelidade:</strong> A interface sempre reflete exatamente o que está salvo no <code>localStorage</code>.</li>
-                <li><strong>Conceito Moderno:</strong> É a mesma lógica usada em frameworks como React, Vue e Angular!</li>
+            <div style="font-size: 0.9rem; line-height: 1.5; color: var(--text-color);">
+              <div style="font-weight: bold; color: #c084fc; margin-bottom: 0.3rem;">💡 Vantagens do Método <code>renderTabela()</code>:</div>
+              <ul style="margin: 0; padding-left: 1.2rem;">
+                <li style="margin-bottom: 0.3rem;"><strong>Evita duplicação:</strong> O mesmo código redesenha a tela no F5, no envio do form e na remoção.</li>
+                <li style="margin-bottom: 0.3rem;"><strong>100% de Fidelidade:</strong> A interface reflete exatamente o estado do <code>localStorage</code>.</li>
+                <li><strong>Padrão Moderno:</strong> É a mesma arquitetura utilizada em React, Vue e Angular!</li>
               </ul>
             </div>
           </div>
 
-          <!-- Coluna 2: Fluxo do Código & Anatomia da Função renderTabela() -->
-          <div class="card card-highlight-emerald" style="padding: 1rem 1.2rem;">
-            <span class="example-tag">2. FLUXO DO CÓDIGO E CICLO DE VIDA</span>
-            <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem;">Como os Dados Fluem na Aplicação:</h3>
+          <!-- Coluna 2: Fluxograma SVG & Código renderTabela() -->
+          <div class="card card-highlight-emerald" style="padding: 1.2rem 1.4rem;">
+            <span class="example-tag">2. FLUXOGRAMA DE DADOS & CÓDIGO</span>
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.6rem; color: white;">Como os Dados Fluem no Sistema:</h3>
 
-            <!-- Diagrama de Fluxo -->
-            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem 0.8rem; font-size: 0.76rem; margin-bottom: 0.6rem;">
-              <div style="color: #34d399; font-weight: bold; margin-bottom: 0.3rem;">🔄 As 3 Ações Principais do Sistema:</div>
-              <div style="font-family: monospace; line-height: 1.5; color: var(--text-muted);">
-                <span style="color: #60a5fa;">1. Ao Abrir a Página (F5):</span><br>
-                &nbsp;&nbsp;<code>localStorage</code> ➔ <code>JSON.parse()</code> ➔ <code>renderTabela()</code><br>
-                <span style="color: #fbbf24;">2. Ao Cadastrar Cliente:</span><br>
-                &nbsp;&nbsp;<code>clientes.push()</code> ➔ <code>JSON.stringify()</code> ➔ <code>renderTabela()</code><br>
-                <span style="color: #f87171;">3. Ao Clicar em Remover:</span><br>
-                &nbsp;&nbsp;<code>clientes.splice(idx, 1)</code> ➔ <code>JSON.stringify()</code> ➔ <code>renderTabela()</code>
-              </div>
+            <!-- Diagrama Ilustrativo SVG -->
+            <div style="margin-bottom: 0.8rem;">
+              <svg viewBox="0 0 520 170" style="width: 100%; height: auto; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 6px;">
+                <rect x="15" y="15" width="110" height="48" rx="8" fill="rgba(59, 130, 246, 0.25)" stroke="#3b82f6" stroke-width="2"/>
+                <text x="70" y="37" fill="#60a5fa" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Formulário</text>
+                <text x="70" y="53" fill="#93c5fd" font-family="sans-serif" font-size="10" text-anchor="middle">Evento submit</text>
+
+                <path d="M 125 39 L 155 39" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#blue-arrow)"/>
+
+                <rect x="160" y="15" width="115" height="48" rx="8" fill="rgba(168, 85, 247, 0.25)" stroke="#a855f7" stroke-width="2"/>
+                <text x="217" y="37" fill="#c084fc" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">clientes [ ]</text>
+                <text x="217" y="53" fill="#e9d5ff" font-family="sans-serif" font-size="10" text-anchor="middle">Array de Objetos</text>
+
+                <path d="M 275 39 L 305 39" stroke="#a855f7" stroke-width="2.5" marker-end="url(#purple-arrow)"/>
+
+                <rect x="310" y="15" width="115" height="48" rx="8" fill="rgba(245, 158, 11, 0.25)" stroke="#f59e0b" stroke-width="2"/>
+                <text x="367" y="37" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">💾 LocalStorage</text>
+                <text x="367" y="53" fill="#fde68a" font-family="sans-serif" font-size="10" text-anchor="middle">JSON.stringify()</text>
+
+                <path d="M 367 63 L 367 98" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#amber-arrow)"/>
+
+                <rect x="210" y="102" width="295" height="48" rx="8" fill="rgba(16, 185, 129, 0.3)" stroke="#10b981" stroke-width="2.5"/>
+                <text x="357" y="124" fill="#34d399" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">renderTabela()</text>
+                <text x="357" y="140" fill="#a7f3d0" font-family="sans-serif" font-size="11" text-anchor="middle">Redesenha a Tabela HTML com Fidelidade</text>
+
+                <path d="M 310 39 C 180 -10, 180 126, 205 126" fill="none" stroke="#34d399" stroke-width="2" stroke-dasharray="4" marker-end="url(#emerald-arrow)"/>
+                <text x="110" y="98" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="bold">F5: Auto-Leitura</text>
+
+                <defs>
+                  <marker id="blue-arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#38bdf8"/></marker>
+                  <marker id="purple-arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#a855f7"/></marker>
+                  <marker id="amber-arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#f59e0b"/></marker>
+                  <marker id="emerald-arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#34d399"/></marker>
+                </defs>
+              </svg>
             </div>
 
-            <!-- Código da Função renderTabela() explicada -->
-            <div style="font-size: 0.79rem; font-weight: bold; color: #34d399; margin-bottom: 0.2rem;">
-              📜 O Algoritmo da Função <code>renderTabela()</code>:
+            <!-- Algoritmo da Função renderTabela() -->
+            <div style="font-size: 0.88rem; font-weight: bold; color: #34d399; margin-bottom: 0.3rem;">
+              📜 Código da Função <code>renderTabela()</code>:
             </div>
-            <pre style="max-height: 130px; margin: 0; font-size: 0.73rem;"><code>function renderTabela() {
-  $('#tabela-corpo').empty(); <span class="cm">// 1. Limpa todas as linhas antigas</span>
+            <pre style="margin: 0; padding: 0.6rem 0.8rem; font-size: 0.84rem; line-height: 1.45;"><code>function renderTabela() {
+  $('#tabela-corpo').empty(); <span class="cm">// 1. Limpa linhas antigas</span>
   
-  clientes.forEach((c, index) => { <span class="cm">// 2. Varre cada item da lista</span>
+  clientes.forEach((c, index) => { <span class="cm">// 2. Percorre lista</span>
     $('#tabela-corpo').append(`
       &lt;tr&gt;
         &lt;td&gt;${c.nome}&lt;/td&gt;&lt;td&gt;${c.email}&lt;/td&gt;
         &lt;td&gt;&lt;button class="btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;
-      &lt;/tr&gt;`); <span class="cm">// 3. Insere a nova linha com o data-index da posição</span>
+      &lt;/tr&gt;`); <span class="cm">// 3. Renderiza com index</span>
   });
 }</code></pre>
 
@@ -1543,74 +1557,98 @@ $('#tabela-corpo').on('click', '.btn-excluir', function() {
       <!-- SLIDE 5.3c: Deep Dive — Web Storage API (LocalStorage: Características, Casos de Uso & Limitações) -->
       <section class="slide" id="slide-5-3c">
         <h2 class="slide-title">💾 Deep Dive: Entendendo a Web Storage API (LocalStorage)</h2>
-        <p class="slide-subtitle">Características, aplicações práticas em sistemas reais e limitações essenciais:</p>
+        <p class="slide-subtitle">Características, diagrama de arquitetura, aplicações reais e diretrizes de segurança:</p>
 
-        <!-- Grid 3 Colunas: Características (Esq), Casos de Uso (Meio), Limitações & Segurança (Dir) -->
+        <!-- Grid 3 Colunas: Características (Esq), Ilustração SVG (Meio), Limitações & Segurança (Dir) -->
         <div class="grid-3" style="gap: 1.1rem; align-items: stretch;">
           
           <!-- Coluna 1: Características Principais -->
-          <div class="card card-highlight-purple" style="padding: 1rem 1.1rem;">
+          <div class="card card-highlight-purple" style="padding: 1.2rem 1.2rem;">
             <span class="example-tag">1. CARACTERÍSTICAS TÉCNICAS</span>
-            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Como Funciona o LocalStorage</h3>
+            <h3 style="font-size: 1.08rem; margin-bottom: 0.6rem; color: white;">Como Funciona o Storage</h3>
             
-            <ul style="font-size: 0.78rem; line-height: 1.45; margin: 0; padding-left: 1.1rem; color: var(--text-color);">
-              <li style="margin-bottom: 0.45rem;">
-                <strong>📌 Persistência Sem Prazo:</strong> Os dados continuam salvos mesmo ao fechar a aba, reiniciar o navegador ou desligar o computador (diferente do <code>sessionStorage</code>).
+            <ul style="font-size: 0.88rem; line-height: 1.55; margin: 0; padding-left: 1.2rem; color: var(--text-color);">
+              <li style="margin-bottom: 0.5rem;">
+                <strong>📌 Persistência Sem Prazo:</strong> Dados continuam salvos ao fechar a aba, reiniciar o navegador ou desligar o PC (diferente do <code>sessionStorage</code>).
               </li>
-              <li style="margin-bottom: 0.45rem;">
-                <strong>💻 Client-Side Puro:</strong> Fica guardado 100% no navegador do usuário. Não consome tráfego de rede nem banco de dados backend.
+              <li style="margin-bottom: 0.5rem;">
+                <strong>💻 Client-Side Puro:</strong> 100% no navegador do usuário. Não consome tráfego de rede nem servidor backend.
               </li>
-              <li style="margin-bottom: 0.45rem;">
-                <strong>🔤 Apenas Strings (Chave-Valor):</strong> Guarda apenas texto. Por isso é <strong>obrigatório</strong> usar <code>JSON.stringify()</code> ao salvar e <code>JSON.parse()</code> ao ler objetos/arrays.
+              <li style="margin-bottom: 0.5rem;">
+                <strong>🔤 Apenas Strings:</strong> Armazena chave-valor em texto. Exige <code>JSON.stringify()</code> ao salvar e <code>JSON.parse()</code> ao ler objetos.
               </li>
               <li>
-                <strong>🛡️ Política de Mesma Origem:</strong> Dados isolados por domínio/porta (<code>meusite.com</code> não lê o storage de <code>outrosite.com</code>).
+                <strong>🛡️ Mesma Origem:</strong> Dados isolados por domínio/porta (<code>meusite.com</code> não lê <code>outrosite.com</code>).
               </li>
             </ul>
           </div>
 
-          <!-- Coluna 2: Casos de Uso em Outros Exemplos/Sistemas -->
-          <div class="card card-highlight-emerald" style="padding: 1rem 1.1rem;">
-            <span class="example-tag">2. APLICAÇÕES NO MUNDO REAL</span>
-            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Onde Mais Podemos Utilizar?</h3>
+          <!-- Coluna 2: Diagrama Ilustrativo SVG & Casos de Uso -->
+          <div class="card card-highlight-emerald" style="padding: 1.2rem 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="example-tag">2. ARQUITETURA & APLICAÇÕES</span>
+              <h3 style="font-size: 1.08rem; margin-bottom: 0.6rem; color: white;">Diagrama & Casos de Uso Reais</h3>
+            </div>
 
-            <div style="font-size: 0.77rem; line-height: 1.4; color: var(--text-color);">
-              <div style="margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--border-color);">
-                <strong style="color: #34d399;">🌙 Preferências de Interface:</strong><br>
-                Salvar a escolha do usuário entre Modo Claro / Escuro (<code>theme: "dark"</code>).
-              </div>
-              <div style="margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--border-color);">
-                <strong style="color: #60a5fa;">🛒 Rascunhos de Carrinho / Form:</strong><br>
-                Manter itens no carrinho de e-commerce antes do login ou salvar um formulário longo em rascunho.
-              </div>
-              <div style="margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px dashed var(--border-color);">
-                <strong style="color: #fbbf24;">🔑 Tokens de Sessão (JWT):</strong><br>
-                Armazenar tokens de acesso para manter o usuário autenticado na aplicação (SPAs).
-              </div>
-              <div>
-                <strong style="color: #c084fc;">⚙️ Filtros e Ordenações:</strong><br>
-                Lembrar quais colunas de uma tabela o usuário preferiu ocultar ou filtrar na última visita.
-              </div>
+            <!-- Diagrama Ilustrativo SVG -->
+            <div style="margin: 0.3rem 0;">
+              <svg viewBox="0 0 460 180" style="width: 100%; height: auto; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 6px;">
+                <rect x="15" y="12" width="430" height="156" rx="10" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+                <rect x="15" y="12" width="430" height="26" rx="10" fill="#1e293b"/>
+                <circle cx="32" cy="25" r="4.5" fill="#ef4444"/>
+                <circle cx="46" cy="25" r="4.5" fill="#f59e0b"/>
+                <circle cx="60" cy="25" r="4.5" fill="#10b981"/>
+                <text x="230" y="29" fill="#94a3b8" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">window.localStorage (Web Storage API)</text>
+
+                <rect x="28" y="48" width="185" height="108" rx="8" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="1.5"/>
+                <text x="120" y="66" fill="#60a5fa" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">🌐 Domínio Isolado</text>
+                <text x="120" y="82" fill="#93c5fd" font-family="monospace" font-size="9.5" text-anchor="middle">https://meusite.com</text>
+
+                <rect x="38" y="94" width="165" height="50" rx="6" fill="#1e293b" stroke="#475569"/>
+                <text x="120" y="112" fill="#cbd5e1" font-family="sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Armazenamento Chave-Valor</text>
+                <text x="120" y="130" fill="#34d399" font-family="monospace" font-size="9" text-anchor="middle">'lista' ➔ "[{...}]"</text>
+
+                <rect x="228" y="48" width="205" height="108" rx="8" fill="rgba(168, 85, 247, 0.15)" stroke="#a855f7" stroke-width="1.5"/>
+                <text x="330" y="66" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">⚡ Onde Usar no Mercado?</text>
+
+                <rect x="238" y="76" width="88" height="24" rx="4" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981"/>
+                <text x="282" y="92" fill="#34d399" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">🌙 Dark Mode</text>
+
+                <rect x="334" y="76" width="90" height="24" rx="4" fill="rgba(59, 130, 246, 0.25)" stroke="#3b82f6"/>
+                <text x="379" y="92" fill="#60a5fa" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">🛒 Carrinho</text>
+
+                <rect x="238" y="108" width="88" height="24" rx="4" fill="rgba(245, 158, 11, 0.25)" stroke="#f59e0b"/>
+                <text x="282" y="124" fill="#fbbf24" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">📝 Rascunhos</text>
+
+                <rect x="334" y="108" width="90" height="24" rx="4" fill="rgba(168, 85, 247, 0.25)" stroke="#a855f7"/>
+                <text x="379" y="124" fill="#c084fc" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">🔑 Tokens JWT</text>
+              </svg>
+            </div>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted); text-align: center; font-style: italic;">
+              Disponível em todos os navegadores modernos sem instalação!
             </div>
           </div>
 
           <!-- Coluna 3: Limitações e Cuidados de Segurança -->
-          <div class="card card-highlight-amber" style="padding: 1rem 1.1rem;">
+          <div class="card card-highlight-amber" style="padding: 1.2rem 1.2rem;">
             <span class="example-tag">3. LIMITAÇÕES E SEGURANÇA</span>
-            <h3 style="font-size: 1.02rem; margin-bottom: 0.5rem;">Cuidados que Devemos Ter</h3>
+            <h3 style="font-size: 1.08rem; margin-bottom: 0.6rem; color: white;">Cuidados que Devemos Ter</h3>
 
-            <div style="font-size: 0.77rem; line-height: 1.4; color: var(--text-color);">
-              <div style="background: rgba(245, 158, 11, 0.12); border-left: 3px solid #f59e0b; padding: 0.45rem 0.6rem; border-radius: 4px; margin-bottom: 0.45rem;">
-                <strong style="color: #fbbf24;">⚠️ Limite de Capacidade (~5MB):</strong><br>
-                Projetado para pequenos textos. Nunca guarde imagens em base64 grandes ou arquivos pesados.
+            <div style="font-size: 0.88rem; line-height: 1.5; color: var(--text-color);">
+              <div style="background: rgba(245, 158, 11, 0.15); border-left: 4px solid #f59e0b; padding: 0.55rem 0.75rem; border-radius: 6px; margin-bottom: 0.6rem;">
+                <strong style="color: #fbbf24;">⚠️ Capacidade Limitada (~5MB):</strong><br>
+                Projetado para textos e pequenos JSONs. Nunca salve imagens pesadas em base64 ou arquivos.
               </div>
-              <div style="background: rgba(239, 68, 68, 0.12); border-left: 3px solid #ef4444; padding: 0.45rem 0.6rem; border-radius: 4px; margin-bottom: 0.45rem;">
+
+              <div style="background: rgba(239, 68, 68, 0.15); border-left: 4px solid #ef4444; padding: 0.55rem 0.75rem; border-radius: 6px; margin-bottom: 0.6rem;">
                 <strong style="color: #f87171;">🔒 Inseguro para Dados Sensíveis:</strong><br>
-                <strong>Nunca</strong> guarde senhas, cartões de crédito ou dados bancários. Qualquer script malicioso (XSS) pode ler com <code>localStorage.getItem()</code>.
+                <strong>Nunca</strong> guarde senhas em texto puro, cartões de crédito ou dados bancários. Scripts maliciosos (XSS) podem ler com <code>localStorage.getItem()</code>.
               </div>
-              <div style="background: rgba(96, 165, 250, 0.12); border-left: 3px solid #3b82f6; padding: 0.45rem 0.6rem; border-radius: 4px;">
+
+              <div style="background: rgba(96, 165, 250, 0.15); border-left: 4px solid #3b82f6; padding: 0.55rem 0.75rem; border-radius: 6px;">
                 <strong style="color: #60a5fa;">💻 Isolamento Local:</strong><br>
-                Dados gravados no Chrome do celular <em>não</em> aparecem no PC sem um banco de dados remoto (backend).
+                Dados gravados no Chrome do celular <em>não</em> aparecem no PC sem um banco de dados backend remoto.
               </div>
             </div>
           </div>
