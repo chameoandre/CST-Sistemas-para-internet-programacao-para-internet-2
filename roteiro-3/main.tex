@@ -1,0 +1,133 @@
+\documentclass[12pt,a4paper]{article}
+
+% =====================================================
+% PACOTES E CONFIGURAÇÕES DE PÁGINA
+% =====================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil,shorthands=off]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{newtxtext,newtxmath}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.0cm,
+    right=2.0cm
+}
+
+\onehalfspacing
+
+% =====================================================
+% CORES PERSONALIZADAS (PADRÃO INSTITUCIONAL IFSC)
+% =====================================================
+\definecolor{azulObjetivos}{RGB}{30,60,90}
+\definecolor{cinzaCodigo}{RGB}{245,245,245}
+\definecolor{vermelhoCodigo}{RGB}{180,50,50}
+\definecolor{pretoTabela}{RGB}{0,0,0}
+\definecolor{cinzaTabela}{RGB}{235,235,235}
+\definecolor{azulTitulo}{RGB}{30,60,90}
+\definecolor{ifscGreen}{RGB}{22,163,74}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=azulTitulo,
+    urlcolor=ifscGreen,
+    citecolor=azulTitulo
+}
+
+% =====================================================
+% BOX VISUALS
+% =====================================================
+\newtcolorbox{boxCodigo}{
+    breakable,
+    colback=cinzaCodigo,
+    colframe=vermelhoCodigo,
+    boxrule=0.8pt,
+    arc=2pt,
+    left=6pt, right=6pt, top=6pt, bottom=6pt,
+    borderline={0.5pt}{0pt}{vermelhoCodigo,dashed}
+}
+
+\newtcolorbox{boxObjetivos}{
+    colback=azulObjetivos!10,
+    colframe=azulObjetivos,
+    boxrule=1pt,
+    arc=4pt,
+    left=6pt, right=6pt, top=6pt, bottom=6pt,
+    title=Objetivos
+}
+
+\newtcolorbox{boxAtividade}[1][]{
+    breakable, enhanced,
+    colback=azulTitulo!5, colframe=azulTitulo,
+    boxrule=0pt, arc=6pt,
+    left=14pt, right=14pt, top=16pt, bottom=14pt,
+    title={{#1}}, coltitle=white, colbacktitle=azulTitulo, fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-3mm, xshift=6mm},
+    boxed title style={sharp corners, boxrule=0pt}
+}
+
+\newtcolorbox{boxTabela}{
+    colback=cinzaTabela, colframe=pretoTabela,
+    boxrule=0.8pt, arc=2pt,
+    left=4pt, right=4pt, top=4pt, bottom=4pt
+}
+
+% =====================================================
+% ESTILOS DE SEÇÃO
+% =====================================================
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{azulTitulo}}
+{\thesection}
+{1em}
+{}
+[\vspace{0.2cm}\hrule\vspace{0.2cm}]
+
+\titleformat{\subsection}
+{\normalfont\bfseries\color{azulTitulo}}
+{\thesubsection}
+{1em}
+{}
+
+% =====================================================
+% CABEÇALHO E RODAPÉ
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{
+\includegraphics[height=1.2cm]{../figures/garopaba_horizontal_marca2015_PNG.png}
+}
+
+\fancyhead[R]{
+\textbf{ProgWeb 2 — Roteiro Prático 03 (Atividade Autônoma)}\\
+\small Calculadora de Pedidos \& Carrinho (Bootstrap 5, jQuery \& LocalStorage)\\
+\small CST em Sistemas para a Internet — IFSC Garopaba
+}
+
+\fancyfoot[L]{\small\textit{Roteiro Prático 03 — Atividade Guiada de 2 Semanas (PPC CONSUP 30/2020)}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small Página \thepage}
+\renewcommand{\footrulewidth}{1.5pt}
+
+\setlength{\headheight}{40pt}
+
+% =====================================================
+% DOCUMENTO PRINCIPAL
+% =====================================================
+\begin{document}
+
+\input{content.tex}
+
+\end{document}
