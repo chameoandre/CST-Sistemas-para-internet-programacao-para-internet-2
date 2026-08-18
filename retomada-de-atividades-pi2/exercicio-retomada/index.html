@@ -12,20 +12,20 @@
   
   <style>
     body {
-      background-color: #0f172a;
-      color: #f8fafc;
+      background-color: #0c0a09;
+      color: #fafaf9;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
     }
     .card-custom {
-      background-color: #1e293b;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background-color: #1c1917;
+      border: 1px solid rgba(249, 115, 22, 0.25);
       border-radius: 12px;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
     }
     .card-header-custom {
-      background: rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(249, 115, 22, 0.08);
+      border-bottom: 1px solid rgba(249, 115, 22, 0.2);
       padding: 1rem 1.25rem;
     }
   </style>
@@ -36,12 +36,14 @@
     
     <!-- Cabeçalho -->
     <header class="text-center mb-4">
-      <span class="badge bg-primary px-3 py-2 fs-6 mb-2">IFSC GAROPABA • PROGWEB 2</span>
+      <span class="badge px-3 py-2 fs-6 mb-2" style="background: rgba(249, 115, 22, 0.2); color: #f97316; border: 1px solid #ea580c;">
+        <i class="bi bi-lightning-charge-fill me-1"></i> JQUERY &amp; LOCALSTORAGE (LARANJA &amp; BRANCO)
+      </span>
       <h1 class="fw-bold text-white mb-2">
-        <i class="bi bi-people-fill text-info me-2"></i>Cadastro de Clientes (Exemplo 11)
+        <i class="bi bi-people-fill text-warning me-2"></i>Cadastro de Clientes (Exemplo 11)
       </h1>
       <p class="text-secondary">
-        Aplicação prática de referência: Manipulação Dinâmica do DOM com <strong>jQuery</strong> e Persistência no <strong>LocalStorage</strong>.
+        Aplicação prática de referência: Manipulação Dinâmica do DOM com <strong class="text-warning">jQuery</strong> e Persistência no <strong>LocalStorage</strong>.
       </p>
     </header>
 
@@ -51,7 +53,7 @@
         <div class="card card-custom">
           <div class="card-header-custom">
             <h5 class="mb-0 fw-bold text-white">
-              <i class="bi bi-person-plus-fill text-success me-2"></i>Novo Cliente
+              <i class="bi bi-person-plus-fill text-warning me-2"></i>Novo Cliente
             </h5>
           </div>
           <div class="card-body p-4">
@@ -67,8 +69,8 @@
                 <input type="email" class="form-control bg-dark text-light border-secondary" id="input-email" placeholder="Ex: maria@email.com" required>
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 fw-bold">
-                <i class="bi bi-save-fill me-1"></i> Cadastrar & Salvar no Storage
+              <button type="submit" class="btn btn-warning text-dark w-100 fw-bold">
+                <i class="bi bi-save-fill me-1"></i> Cadastrar &amp; Salvar no Storage
               </button>
             </form>
 
