@@ -1818,40 +1818,104 @@ renderTabela();           <span class="cm">// Redesenha a interface</span></code
 
           <div id="tab-ex11" class="tab-content">
             <div class="example-desc" style="margin-bottom: 0.8rem;">
-              <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de armazenamento permanente no navegador via <code>localStorage</code> com <code>JSON.stringify()</code> e <code>JSON.parse()</code>.
+              <strong>Adicionado em relação ao Exemplo 10:</strong> Camada de armazenamento permanente no navegador via <code>localStorage</code> com <code>JSON.stringify()</code>, <code>JSON.parse()</code> e limpa automática de formulário.
             </div>
-            <pre style="max-height: 380px; overflow-y: auto;"><code>$(document).ready(function() {
-  <span class="cm">// NOVO NO EXEMPLO 11: Carregar clientes salvos do LocalStorage</span>
-  let clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
+            
+            <div class="code-preview-split">
+              <!-- Coluna do Código -->
+              <div class="code-column">
+                <pre style="max-height: 400px; overflow-y: auto;"><code>$(document).ready(function() {
+  <span class="cm">// 1. Leitura segura do LocalStorage (trata nulo ou erro)</span>
+  let clientes = [];
+  try {
+    clientes = JSON.parse(localStorage.getItem('lista_clientes')) || [];
+  } catch(e) { clientes = []; }
 
+  <span class="cm">// 2. Função para desenhar a tabela</span>
   function renderTabela() {
     $('#tabela-corpo').empty();
     clientes.forEach((c, index) => {
-      const tr = `&lt;tr&gt;&lt;td&gt;${c.nome}&lt;/td&gt;&lt;td&gt;${c.email}&lt;/td&gt;&lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;&lt;/tr&gt;`;
+      const tr = `&lt;tr&gt;
+        &lt;td&gt;${c.nome}&lt;/td&gt;
+        &lt;td&gt;${c.email}&lt;/td&gt;
+        &lt;td&gt;&lt;button class="btn btn-danger btn-sm btn-excluir" data-index="${index}"&gt;Remover&lt;/button&gt;&lt;/td&gt;
+      &lt;/tr&gt;`;
       $('#tabela-corpo').append(tr);
     });
   }
 
-  renderTabela();
+  renderTabela(); <span class="cm">// Auto-carrega no F5</span>
 
+  <span class="cm">// 3. Submissão e gravação no LocalStorage</span>
   $('#form-cadastro').on('submit', function(e) {
     e.preventDefault();
-    const nome = $('#input-nome').val();
-    const email = $('#input-email').val();
+    const nome = $('#input-nome').val().trim();
+    const email = $('#input-email').val().trim();
 
-    <span class="cm">// NOVO NO EXEMPLO 11: Salvar no localStorage com JSON.stringify</span>
+    if (!nome || !email) return;
+
     clientes.push({ nome, email });
     localStorage.setItem('lista_clientes', JSON.stringify(clientes));
     renderTabela();
+    $('#form-cadastro')[0].reset(); <span class="cm">// Limpa formulário</span>
   });
 
+  <span class="cm">// 4. Remoção no clique e atualização do Storage</span>
   $('#tabela-corpo').on('click', '.btn-excluir', function() {
-    const index = $(this).data('index');
+    const index = parseInt($(this).attr('data-index'), 10);
     clientes.splice(index, 1);
     localStorage.setItem('lista_clientes', JSON.stringify(clientes));
     renderTabela();
   });
 });</code></pre>
+              </div>
+
+              <!-- Coluna de Demonstração Interativa ao Vivo no Slide -->
+              <div class="preview-column">
+                <div class="preview-header">
+                  <span class="preview-title">Resultado Interativo ao Vivo (Exemplo 11):</span>
+                  <span class="preview-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">LocalStorage Ativo</span>
+                </div>
+                <div class="preview-body bg-dark text-light p-3 rounded border border-secondary" style="max-height: 400px; overflow-y: auto;">
+                  
+                  <form id="demo-slide-form" class="mb-3">
+                    <div class="row g-2 mb-2">
+                      <div class="col-6">
+                        <input type="text" id="demo-slide-nome" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Nome do cliente" required>
+                      </div>
+                      <div class="col-6">
+                        <input type="email" id="demo-slide-email" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="E-mail" required>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="btn btn-success btn-sm flex-grow-1 font-code fw-bold">
+                        <i class="bi bi-plus-circle-fill me-1"></i> Cadastrar no Storage
+                      </button>
+                      <button type="button" id="demo-slide-limpar" class="btn btn-outline-danger btn-sm font-code">
+                        <i class="bi bi-trash-fill"></i> Limpar
+                      </button>
+                    </div>
+                  </form>
+
+                  <div id="demo-slide-msg" class="alert alert-success py-1 px-2 small d-none mb-2"></div>
+
+                  <table class="table table-dark table-striped table-sm mb-0 small border border-secondary align-middle">
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th class="text-center">Ação</th>
+                      </tr>
+                    </thead>
+                    <tbody id="demo-slide-tabela">
+                      <!-- Linhas carregadas ao vivo via script -->
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -2010,6 +2074,67 @@ renderTabela();           <span class="cm">// Redesenha a interface</span></code
         }
       }
     }
+  </script>
+
+  <!-- Script de Interatividade do Exemplo 11 (LocalStorage) ao vivo no slide -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      let slideClientes = [];
+      try {
+        slideClientes = JSON.parse(localStorage.getItem('demo_slide_clientes')) || [];
+      } catch(e) { slideClientes = []; }
+
+      function renderDemoSlideTabela() {
+        const $tb = $('#demo-slide-tabela');
+        if (!$tb.length) return;
+        $tb.empty();
+        if (slideClientes.length === 0) {
+          $tb.append('<tr><td colspan="3" class="text-center text-secondary py-2">Nenhum cliente no Storage.</td></tr>');
+          return;
+        }
+        slideClientes.forEach((c, idx) => {
+          $tb.append(`<tr>
+            <td>${c.nome}</td>
+            <td>${c.email}</td>
+            <td class="text-center"><button type="button" class="btn btn-danger btn-sm py-0 px-2 btn-demo-excluir" data-index="${idx}">Remover</button></td>
+          </tr>`);
+        });
+      }
+
+      renderDemoSlideTabela();
+
+      $('#demo-slide-form').on('submit', function(e) {
+        e.preventDefault();
+        const nome = $('#demo-slide-nome').val().trim();
+        const email = $('#demo-slide-email').val().trim();
+        if (!nome || !email) return;
+
+        slideClientes.push({ nome, email });
+        localStorage.setItem('demo_slide_clientes', JSON.stringify(slideClientes));
+        renderDemoSlideTabela();
+        $('#demo-slide-form')[0].reset();
+        $('#demo-slide-msg').removeClass('d-none').html(`🎉 <strong>${nome}</strong> salvo no LocalStorage!`).hide().fadeIn(300);
+        setTimeout(() => $('#demo-slide-msg').fadeOut(300), 3000);
+      });
+
+      $('#demo-slide-tabela').on('click', '.btn-demo-excluir', function() {
+        const idx = parseInt($(this).attr('data-index'), 10);
+        if (!isNaN(idx)) {
+          slideClientes.splice(idx, 1);
+          localStorage.setItem('demo_slide_clientes', JSON.stringify(slideClientes));
+          renderDemoSlideTabela();
+        }
+      });
+
+      $('#demo-slide-limpar').on('click', function() {
+        slideClientes = [];
+        localStorage.removeItem('demo_slide_clientes');
+        renderDemoSlideTabela();
+        $('#demo-slide-msg').removeClass('d-none').html('🧹 LocalStorage limpo!').hide().fadeIn(300);
+        setTimeout(() => $('#demo-slide-msg').fadeOut(300), 3000);
+      });
+    });
   </script>
 
 </body>
