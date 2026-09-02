@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
@@ -703,8 +703,8 @@
         <span class="badge-pill badge-pill-green"><i class="bi bi-mortarboard-fill"></i> PPC CONSUP 30/2020</span>
         <span class="badge-pill badge-pill-blue"><i class="bi bi-clock-history"></i> 60h Presencial + 40h Extensão</span>
         <span class="badge-pill badge-pill-purple"><i class="bi bi-person-badge-fill"></i> Prof. André Moraes</span>
-        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
-          <i class="bi bi-sun-fill" id="themeIcon"></i> Alternar Tema
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Alternar entre tema claro e escuro">
+          <i class="bi bi-moon-stars-fill" id="themeIcon"></i> <span id="themeText">Modo Escuro</span>
         </button>
       </div>
     </div>
@@ -1406,22 +1406,29 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       }
     }
 
-    // ALTERNÂNCIA DE TEMA CLARO / ESCURO
+    // ALTERNÂNCIA DE TEMA CLARO (PADRÃO) / ESCURO
     function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme');
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
+      if (next === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
       localStorage.setItem('progweb2-theme-preference', next);
       updateThemeIcon(next);
     }
 
     function updateThemeIcon(theme) {
       const icon = document.getElementById('themeIcon');
+      const text = document.getElementById('themeText');
       if (!icon) return;
       if (theme === 'dark') {
-        icon.className = 'bi bi-sun-fill';
+        icon.className = 'bi bi-sun-fill text-warning';
+        if (text) text.innerText = 'Modo Claro';
       } else {
         icon.className = 'bi bi-moon-stars-fill';
+        if (text) text.innerText = 'Modo Escuro';
       }
     }
 
@@ -1474,12 +1481,15 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       });
     }
 
-    // RESTAURAR TEMA PREFERIDO
+    // RESTAURAR TEMA PREFERIDO (PADRÃO: CLARO INSTITUCIONAL)
     (function initTheme() {
       const saved = localStorage.getItem('progweb2-theme-preference');
-      if (saved) {
-        document.documentElement.setAttribute('data-theme', saved);
-        updateThemeIcon(saved);
+      if (saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        updateThemeIcon('dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        updateThemeIcon('light');
       }
     })();
   </script>
