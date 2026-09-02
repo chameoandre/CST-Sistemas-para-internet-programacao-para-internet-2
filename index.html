@@ -1,265 +1,1488 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Programação para a Internet 2 (ProgWeb 2) — IFSC Garopaba</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <title>Dashboard da UC — Programação para a Internet 2 (ProgWeb 2 / PIT II) — IFSC Garopaba</title>
+
+  <!-- Google Fonts & Font Awesome & Bootstrap Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
   <style>
+    :root {
+      /* TEMA CLARO INSTITUCIONAL (PADRÃO) */
+      --ifsc-green: #059669;
+      --ifsc-dark-green: #047857;
+      --bg-dark: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #F1F5F9;
+      --border-color: #E2E8F0;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --text-heading: #0F172A;
+      --accent-blue: #0284C7;
+      --accent-emerald: #059669;
+      --accent-amber: #D97706;
+      --accent-purple: #7C3AED;
+      --accent-rose: #E11D48;
+      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --card-shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --header-bg: #FFFFFF;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+    }
+
+    [data-theme="dark"] {
+      --ifsc-green: #10b981;
+      --ifsc-dark-green: #059669;
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1e293b;
+      --border-color: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-heading: #FFFFFF;
+      --accent-blue: #38bdf8;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-rose: #f43f5e;
+      --card-shadow: none;
+      --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --header-bg: linear-gradient(135deg, #064e3b 0%, #090d16 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #090d16;
-      color: #f8fafc;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      line-height: 1.6;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
-    .portal-header {
-      background: rgba(19, 27, 46, 0.9);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1.5rem 0;
+
+    .font-outfit { font-family: 'Outfit', sans-serif; }
+    .font-code { font-family: 'Fira Code', monospace; }
+
+    /* HEADER */
+    header.app-header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--card-shadow);
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
-    .card-roteiro {
-      background: #131b2e;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 1.6rem;
-      transition: all 0.3s ease;
-      height: 100%;
+
+    .header-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .brand-logo-bg {
+      background: #ffffff;
+      padding: 6px 12px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border: 1px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-logo-bg img {
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .brand-titles h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.2;
+    }
+
+    .brand-titles p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .badge-pill-green {
+      background: #ECFDF5;
+      border-color: #A7F3D0;
+      color: #047857;
+    }
+
+    .badge-pill-blue {
+      background: #F0F9FF;
+      border-color: #BAE6FD;
+      color: #0369A1;
+    }
+
+    .badge-pill-purple {
+      background: #F5F3FF;
+      border-color: #DDD6FE;
+      color: #6D28D9;
+    }
+
+    .badge-pill-amber {
+      background: #FFFBEB;
+      border-color: #FDE68A;
+      color: #B45309;
+    }
+
+    [data-theme="dark"] .badge-pill-green {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    [data-theme="dark"] .badge-pill-blue {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+
+    [data-theme="dark"] .badge-pill-purple {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #c084fc;
+    }
+
+    [data-theme="dark"] .badge-pill-amber {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-1px);
+    }
+
+    /* MAIN CONTAINER */
+    main.main-container {
+      max-width: 1320px;
+      margin: 1.8rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* KPI GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.3rem;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      user-select: none;
     }
-    .card-roteiro:hover {
-      border-color: rgba(56, 189, 248, 0.4);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow-hover);
+      border-color: var(--accent-blue);
     }
-    .card-roteiro-3 {
-      border: 2px solid #16a34a;
-      background: linear-gradient(145deg, #131b2e 0%, #064e3b 100%);
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
     }
-    .badge-number {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 800;
-      padding: 0.3rem 0.8rem;
-      border-radius: 8px;
-      display: inline-block;
+
+    .kpi-green::before { background: var(--accent-emerald); }
+    .kpi-blue::before { background: var(--accent-blue); }
+    .kpi-purple::before { background: var(--accent-purple); }
+    .kpi-amber::before { background: var(--accent-amber); }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 0.8rem;
     }
-    .btn-portal {
+
+    .kpi-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .kpi-icon { font-size: 1.4rem; }
+    .kpi-green .kpi-icon { color: var(--accent-emerald); }
+    .kpi-blue .kpi-icon { color: var(--accent-blue); }
+    .kpi-purple .kpi-icon { color: var(--accent-purple); }
+    .kpi-amber .kpi-icon { color: var(--accent-amber); }
+
+    .kpi-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+    }
+
+    .kpi-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* SECTION TABS */
+    .dashboard-tabs {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 0.6rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.65rem 1.15rem;
+      border-radius: var(--radius-md);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      box-shadow: var(--card-shadow);
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: var(--ifsc-dark-green);
+      border-color: var(--accent-emerald);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PANELS & CARDS */
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .panel-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .panel-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    /* TIMELINE & CRONOGRAMA */
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .timeline-item {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.3rem;
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 1.2rem;
+      transition: all 0.2s ease;
+    }
+
+    .timeline-item:hover {
+      border-color: var(--accent-blue);
+      transform: translateX(4px);
+    }
+
+    .timeline-num {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--accent-blue);
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+    }
+
+    .timeline-content h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .status-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    .status-done {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid var(--accent-emerald);
+    }
+
+    .status-current {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-amber);
+      border: 1px solid var(--accent-amber);
+      animation: pulseAlert 2s infinite;
+    }
+
+    .status-next {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+
+    /* ROTEIROS GRID */
+    .roteiros-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .roteiro-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .roteiro-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .roteiro-highlight {
+      border: 2px solid var(--accent-emerald);
+      background: linear-gradient(160deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.08) 100%);
+    }
+
+    .btn-action {
       font-family: 'Outfit', sans-serif;
       font-weight: 700;
-      border-radius: 10px;
-      padding: 0.55rem 1rem;
-      font-size: 0.9rem;
-    }
-    .ifsc-badge {
-      background-color: #16a34a;
-      font-weight: 800;
-    }
-    .sigaa-box {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
-      padding: 1.5rem;
-    }
-    .link-copy-box {
-      background: #090d16;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 0.5rem 0.8rem;
+      font-size: 0.85rem;
+      padding: 0.55rem 0.9rem;
       border-radius: 8px;
-      font-family: monospace;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary-action {
+      background: var(--ifsc-green);
+      color: #ffffff;
+    }
+
+    .btn-primary-action:hover {
+      background: var(--ifsc-dark-green);
+      color: #ffffff;
+    }
+
+    .btn-outline-action {
+      background: transparent;
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-outline-action:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    /* EXTENSAO DUAL-TRACK CARDS */
+    .extension-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.3rem;
+      margin-top: 1.2rem;
+    }
+
+    .ext-track-card {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+      border-left: 4px solid var(--accent-purple);
+    }
+
+    .ext-track-card-alt {
+      border-left-color: var(--accent-blue);
+    }
+
+    /* CALCULADORA DE NOTAS */
+    .sim-card {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+    }
+
+    .calc-input-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .calc-box label {
+      display: block;
       font-size: 0.82rem;
-      color: #38bdf8;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+    }
+
+    .calc-box input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .calc-box input:focus {
+      border-color: var(--accent-emerald);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .calc-result-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .calc-score {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent-emerald);
+      line-height: 1;
+    }
+
+    /* COPY LINK BOX */
+    .copy-box {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .copy-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      color: var(--accent-blue);
       word-break: break-all;
     }
-    footer {
+
+    .copy-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-emerald);
+      color: #ffffff;
+      border-color: var(--accent-emerald);
+    }
+
+    footer.app-footer {
+      background: var(--header-bg);
+      border-top: 1px solid var(--border-color);
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
       margin-top: auto;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 1.5rem 0;
-      color: #94a3b8;
+    }
+
+    @media (max-width: 768px) {
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+      .brand-area {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <header class="portal-header mb-5">
-    <div class="container">
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <div class="d-flex align-items-center gap-3">
-          <img src="figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba" style="height: 48px;">
-          <div>
-            <h1 class="h3 mb-0 fw-bold font-outfit">Programação para a Internet 2 (ProgWeb 2)</h1>
-            <p class="text-secondary mb-0 small">CST em Sistemas para a Internet — IFSC Câmpus Garopaba</p>
-          </div>
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-area">
+        <div class="brand-logo-bg">
+          <img src="figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
         </div>
-        <div>
-          <span class="badge ifsc-badge fs-6 px-3 py-2">Prof. André Moraes</span>
+        <div class="brand-titles">
+          <h1>Programação para a Internet 2 (ProgWeb 2 / PIT II)</h1>
+          <p>CST em Sistemas para a Internet — Instituto Federal de Santa Catarina (Câmpus Garopaba)</p>
         </div>
+      </div>
+
+      <div class="header-badges">
+        <span class="badge-pill badge-pill-green"><i class="bi bi-mortarboard-fill"></i> PPC CONSUP 30/2020</span>
+        <span class="badge-pill badge-pill-blue"><i class="bi bi-clock-history"></i> 60h Presencial + 40h Extensão</span>
+        <span class="badge-pill badge-pill-purple"><i class="bi bi-person-badge-fill"></i> Prof. André Moraes</span>
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
+          <i class="bi bi-sun-fill" id="themeIcon"></i> Alternar Tema
+        </button>
       </div>
     </div>
   </header>
 
-  <main class="container mb-5">
-    <div class="row justify-content-center text-center mb-4">
-      <div class="col-lg-8">
-        <h2 class="display-6 fw-bold mb-3">Portal de Materiais &amp; Aulas Práticas</h2>
-        <p class="text-secondary lead fs-6">
-          Roteiros práticos organizados em ordem cronológica para acompanhamento dos estudantes e publicação no ambiente SIGAA do IFSC:
-        </p>
-      </div>
-    </div>
+  <!-- MAIN -->
+  <main class="main-container">
 
-    <!-- GRID DOS 3 ROTEIROS EM ORDEM CRESCENTE -->
-    <div class="row g-4 mb-5">
+    <!-- TOP KPI CARDS (INTERATIVOS) -->
+    <div class="kpi-grid">
       
-      <!-- ROTEIRO 01 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card-roteiro" style="border-top: 4px solid #38bdf8;">
-          <div>
-            <span class="badge bg-info text-dark fw-bold mb-2">ROTEIRO PRÁTICO 01</span>
-            <span class="badge text-dark fw-bold mb-2 ms-1" style="background: #e0f2fe; border: 1px solid #38bdf8;">AZUL &amp; BRANCO</span>
-            <h3 class="h5 fw-bold text-white mb-2">Parte 1: Bootstrap 5 &amp; Layout Responsivo</h3>
-            <p class="text-secondary small mb-4">
-              Fundamentos do Bootstrap 5: Grid System (filosofia mobile-first), form controles, tabelas estilizadas, cards elevados e estruturação do Layout Estático.
-            </p>
-          </div>
-          <div class="mt-auto d-flex flex-column gap-2">
-            <a href="roteiro-1/main.pdf" target="_blank" class="btn btn-primary btn-portal w-100 fw-bold">
-              <i class="bi bi-file-earmark-pdf-fill me-1"></i> Baixar Guia (PDF Roteiro 01)
-            </a>
-            <a href="retomada-de-atividades-pi2/parte-1-bootstrap/index.html" class="btn btn-outline-info btn-portal w-100">
-              <i class="bi bi-easel-fill me-1"></i> Slides Parte 1 (Azul &amp; Branco)
-            </a>
-          </div>
+      <!-- KPI 1 -->
+      <div class="kpi-card kpi-green" onclick="showTab('tab-cronograma')">
+        <div class="kpi-header">
+          <span class="kpi-title">Carga Horária Semestral</span>
+          <i class="bi bi-calendar3 kpi-icon"></i>
         </div>
+        <div class="kpi-value">60 h</div>
+        <div class="kpi-desc">20 Encontros semanais de 3h/aula em laboratório de informática.</div>
       </div>
 
-      <!-- ROTEIRO 02 -->
-      <div class="col-lg-4 col-md-6">
-        <div class="card-roteiro" style="border-top: 4px solid #f97316;">
-          <div>
-            <span class="badge text-white fw-bold mb-2" style="background-color: #ea580c;">ROTEIRO PRÁTICO 02</span>
-            <span class="badge text-dark fw-bold mb-2 ms-1" style="background: #ffedd5; border: 1px solid #f97316;">LARANJA &amp; BRANCO</span>
-            <h3 class="h5 fw-bold text-white mb-2">Parte 2: jQuery, DOM &amp; LocalStorage</h3>
-            <p class="text-secondary small mb-4">
-              Manipulação dinâmica com jQuery (<code>$()</code>, <code>.val()</code>, <code>.append()</code>), efeitos de animação e persistência permanente no LocalStorage.
-            </p>
-          </div>
-          <div class="mt-auto d-flex flex-column gap-2">
-            <a href="roteiro-2/main.pdf" target="_blank" class="btn btn-warning text-dark btn-portal w-100 fw-bold">
-              <i class="bi bi-file-earmark-pdf-fill me-1"></i> Baixar Guia (PDF Roteiro 02)
-            </a>
-            <a href="retomada-de-atividades-pi2/parte-2-jquery/index.html" class="btn btn-outline-warning btn-portal w-100" style="color: #f97316; border-color: #f97316;">
-              <i class="bi bi-easel-fill me-1"></i> Slides Parte 2 (Laranja &amp; Branco)
-            </a>
-            <a href="retomada-de-atividades-pi2/exercicio-retomada/index.html" class="btn btn-warning text-dark btn-portal w-100 fw-bold">
-              <i class="bi bi-window-stack me-1"></i> App Cadastro Clientes (Laranja)
-            </a>
-          </div>
+      <!-- KPI 2 -->
+      <div class="kpi-card kpi-purple" onclick="showTab('tab-extensao')">
+        <div class="kpi-header">
+          <span class="kpi-title">Curricularização da Extensão</span>
+          <i class="bi bi-stars kpi-icon"></i>
         </div>
+        <div class="kpi-value">40 h</div>
+        <div class="kpi-desc">SNCT 2026 (Minicursos / Resumo Expandido) e submissão ao COTB.</div>
       </div>
 
-      <!-- ROTEIRO 03 -->
-      <div class="col-lg-4 col-md-12">
-        <div class="card-roteiro card-roteiro-3" style="border-top: 4px solid #10b981;">
-          <div>
-            <span class="badge bg-success text-white mb-2">ATIVIDADE AUTÔNOMA (2 SEMANAS)</span>
-            <br>
-            <span class="badge bg-emerald text-white fw-bold mb-2" style="background: #059669;">ROTEIRO PRÁTICO 03</span>
-            <h3 class="h5 fw-bold text-white mb-2"><i class="bi bi-shop text-warning me-1"></i>Calculadora de Lanchonete</h3>
-            <p class="text-secondary small mb-4">
-              Atividade prática autônoma durante o período de atestado. Aplicação em tempo real de cálculos numéricos (<code>parseFloat</code>/<code>parseInt</code>), switches e LocalStorage.
-            </p>
-          </div>
-          <div class="mt-auto d-flex flex-column gap-2">
-            <a href="roteiro-3/main.pdf" target="_blank" class="btn btn-success text-white btn-portal w-100 fw-bold">
-              <i class="bi bi-file-earmark-pdf-fill me-1"></i> Baixar Guia (PDF Roteiro 03)
-            </a>
-            <a href="roteiro-3/exercicio-roteiro3/index.html" class="btn btn-outline-success btn-portal w-100">
-              <i class="bi bi-play-circle-fill me-1"></i> Executar App Lanchonete Demo
-            </a>
-          </div>
+      <!-- KPI 3 -->
+      <div class="kpi-card kpi-amber" onclick="showTab('tab-roteiros')">
+        <div class="kpi-header">
+          <span class="kpi-title">Caderno de Práticas</span>
+          <i class="bi bi-journal-code kpi-icon"></i>
         </div>
+        <div class="kpi-value">7 Roteiros</div>
+        <div class="kpi-desc">Roteiro 03 prorrogado: Entrega na próxima terça-feira (em aula).</div>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="kpi-card kpi-blue" onclick="showTab('tab-avaliacao')">
+        <div class="kpi-header">
+          <span class="kpi-title">Sistema Avaliativo</span>
+          <i class="bi bi-award-fill kpi-icon"></i>
+        </div>
+        <div class="kpi-value">A1 + A2 + A3</div>
+        <div class="kpi-desc">Teórica (25%) + Práticas Contínuas (35%) + Projeto Integrador (40%).</div>
       </div>
 
     </div>
 
-    <!-- QUADRO DE LINKS DIRETOS PARA O SIGAA -->
-    <div class="sigaa-box">
-      <div class="d-flex align-items-center gap-2 mb-3">
-        <i class="bi bi-link-45deg text-success fs-4"></i>
-        <h3 class="h5 fw-bold text-white mb-0">Links Diretos para Postar no SIGAA (Ambiente Educacional IFSC)</h3>
+    <!-- ABAS DO DASHBOARD -->
+    <div class="dashboard-tabs">
+      <button class="tab-btn active" onclick="showTab('tab-cronograma')">
+        <i class="bi bi-calendar-range-fill"></i> 1. Cronograma &amp; Encontros (20 Aulas)
+      </button>
+      <button class="tab-btn" onclick="showTab('tab-roteiros')">
+        <i class="bi bi-code-square"></i> 2. Central de Roteiros Práticos
+      </button>
+      <button class="tab-btn" onclick="showTab('tab-extensao')">
+        <i class="bi bi-megaphone-fill"></i> 3. Curricularização da Extensão (40h)
+      </button>
+      <button class="tab-btn" onclick="showTab('tab-avaliacao')">
+        <i class="bi bi-calculator-fill"></i> 4. Sistema Avaliativo &amp; Simulador
+      </button>
+      <button class="tab-btn" onclick="showTab('tab-ementa')">
+        <i class="bi bi-book-half"></i> 5. Ementa &amp; Bibliografia (PPC)
+      </button>
+      <button class="tab-btn" onclick="showTab('tab-sigaa')">
+        <i class="bi bi-clipboard-check-fill"></i> 6. Central SIGAA &amp; Recursos
+      </button>
+    </div>
+
+    <!-- CONTEÚDO DAS ABAS -->
+
+    <!-- ABA 1: CRONOGRAMA -->
+    <div class="tab-pane active" id="tab-cronograma">
+      <div class="panel-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="bi bi-clock-history text-success"></i> Cronograma Semestral e Planejamento das 20 Aulas</h2>
+            <p class="panel-subtitle mb-0">Distribuição modular dos 20 encontros semanais (3h cada = 60h presenciais em laboratório) vinculados às atividades curriculares:</p>
+          </div>
+          <a href="encerramento_do_semestre/plano_de_ensino.pdf" target="_blank" class="btn-action btn-outline-action">
+            <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Baixar Plano de Ensino Oficial (PDF)
+          </a>
+        </div>
+
+        <div class="timeline-list">
+
+          <!-- ENCONTRO 01 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 01</div>
+            <div class="timeline-content">
+              <h4>Módulo 1: Retomada \& Transição Parte 1 (Bootstrap 5)</h4>
+              <p>Transição ProgWeb 1 para ProgWeb 2, inclusão de CDN Bootstrap 5, Grid de 12 colunas, formulários estilizados, cards, badges e layout estático completo (Roteiro 01).</p>
+            </div>
+            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído</span></div>
+          </div>
+
+          <!-- ENCONTRO 02 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 02</div>
+            <div class="timeline-content">
+              <h4>Módulo 1: Retomada \& Transição Parte 2 (jQuery \& LocalStorage)</h4>
+              <p>Inclusão do jQuery, seletores avançados, eventos (<code>submit</code>, <code>click</code>), inserção dinâmica (<code>.append()</code>), animações e persistência com LocalStorage (Roteiro 02).</p>
+            </div>
+            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído</span></div>
+          </div>
+
+          <!-- ENCONTRO 03 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-amber);">
+            <div class="timeline-num" style="color: var(--accent-amber); border-color: var(--accent-amber);">Aula 03</div>
+            <div class="timeline-content">
+              <h4>Persistência Local no Navegador &amp; Calculadora de Pedidos (Roteiro 03)</h4>
+              <p>Aplicação em tempo real de cálculos numéricos (<code>parseFloat</code>/<code>parseInt</code>), switches e LocalStorage. <strong>Submissão no SIGAA prorrogada para a próxima terça-feira (em aula).</strong></p>
+            </div>
+            <div><span class="status-badge status-current"><i class="bi bi-exclamation-circle-fill"></i> Em Andamento</span></div>
+          </div>
+
+          <!-- ENCONTRO 04 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 04</div>
+            <div class="timeline-content">
+              <h4>Formulários Reativos \& Validação Visual</h4>
+              <p>Validação de formulários no cliente, máscaras de entrada com feedback visual imediato de erro/sucesso e princípios de usabilidade e UX.</p>
+            </div>
+            <div><span class="status-badge status-next">Próxima Aula</span></div>
+          </div>
+
+          <!-- ENCONTRO 05 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 05</div>
+            <div class="timeline-content">
+              <h4>Módulo 2: Arquitetura Modular \& JavaScript ES6 Modules</h4>
+              <p>Separação de responsabilidades em camadas, exportação e importação de módulos (<code>export</code>/<code>import</code>), escopo de arquivos e organização de código limpo (Roteiro 04).</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 06 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 06</div>
+            <div class="timeline-content">
+              <h4>Padrões de Projeto no Client-Side</h4>
+              <p>Organização em camadas: Serviços de Dados (<code>services/</code>), Manipuladores de Eventos (<code>handlers/</code>) e Renderizadores de Interface (<code>views/</code>).</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 07 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 07</div>
+            <div class="timeline-content">
+              <h4>Refatoração Modular Aplicada</h4>
+              <p>Transição de scripts monolíticos para arquitetura limpa em ES6 Modules com mentoria prática individualizada em laboratório.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 08 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 08</div>
+            <div class="timeline-content">
+              <h4>Módulo 3: Assincronismo \& Consumo de APIs RESTful</h4>
+              <p>Conceito de requisições assíncronas, <code>Promises</code>, sintaxe moderna <code>async/await</code> e tratamento robusto de exceções com <code>try/catch</code>.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 09 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 09</div>
+            <div class="timeline-content">
+              <h4>Integração com Fetch API</h4>
+              <p>Verbos HTTP (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>), manipulação de cabeçalhos (<code>Headers</code>) e payloads JSON em serviços web.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 10 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 10</div>
+            <div class="timeline-content">
+              <h4>Tratamento Avançado de Erros e Feedbacks Visuais</h4>
+              <p>Estados de carregamento (<em>spinners</em>), notificações <em>toasts</em>, alertas de falha de conexão e tratamento de códigos HTTP de resposta (404, 500).</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 11 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-rose);">
+            <div class="timeline-num" style="color: var(--accent-rose); border-color: var(--accent-rose);">Aula 11</div>
+            <div class="timeline-content">
+              <h4>Avaliação Teórica Única (A1 — Peso 25%)</h4>
+              <p>Avaliação teórica individual sobre arquitetura modular ES6, assincronismo, protocolo HTTP e integração com APIs RESTful.</p>
+            </div>
+            <div><span class="status-badge" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border: 1px solid var(--accent-rose);">Avaliação A1</span></div>
+          </div>
+
+          <!-- ENCONTRO 12 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 12</div>
+            <div class="timeline-content">
+              <h4>Módulo 4: Single Page Applications (SPAs)</h4>
+              <p>Arquitetura de aplicações de página única, roteamento no lado do cliente via JavaScript sem recarregamento de página (Client-Side Routing).</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 13 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 13</div>
+            <div class="timeline-content">
+              <h4>Gerenciamento de Estado Global no Cliente</h4>
+              <p>Padrões de gestão de estado reativo, sincronização entre componentes e persistência em memória durante a navegação.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 14 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 14</div>
+            <div class="timeline-content">
+              <h4>Módulo 5: Ecossistemas Web Modernos (Node.js &amp; npm)</h4>
+              <p>Introdução ao ecossistema moderno de ferramentas, inicialização de pacotes, dependências de desenvolvimento e scripts de automação.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 15 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 15</div>
+            <div class="timeline-content">
+              <h4>Ferramentas de Build \& Bundlers (Vite)</h4>
+              <p>Configuração do ambiente de desenvolvimento rápido com Vite, Hot Module Replacement (HMR), minificação e variáveis de ambiente.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 16 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-purple);">
+            <div class="timeline-num" style="color: var(--accent-purple); border-color: var(--accent-purple);">Aula 16</div>
+            <div class="timeline-content">
+              <h4>Lançamento do Projeto Integrador de Extensão (A3 — SNCT / COTB)</h4>
+              <p>Definição dos temas com impacto comunitário e escolha da via extensionista (Minicursos na SNCT ou Resumo Expandido de Produto Web).</p>
+            </div>
+            <div><span class="status-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple);">Extensão (40h)</span></div>
+          </div>
+
+          <!-- ENCONTRO 17 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 17</div>
+            <div class="timeline-content">
+              <h4>Desenvolvimento Guiado do Projeto Final em Laboratório</h4>
+              <p>Mentoria técnica, integração do frontend modular com serviços web, persistência e validação dos fluxos de usuário.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 18 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 18</div>
+            <div class="timeline-content">
+              <h4>Mentoria Avançada, Acessibilidade \& Testes de Usabilidade</h4>
+              <p>Refatoração de código, testes de responsividade em múltiplos dispositivos, conformidade com acessibilidade e publicação no GitHub Pages.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 19 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-emerald);">
+            <div class="timeline-num" style="color: var(--accent-emerald); border-color: var(--accent-emerald);">Aula 19</div>
+            <div class="timeline-content">
+              <h4>Apresentação e Defesa do Projeto Integrador de Extensão (A3)</h4>
+              <p>Bancas avaliativas com demonstração prática ao vivo da aplicação web hospedada no GitHub Pages e apresentação dos resultados da ação extensionista.</p>
+            </div>
+            <div><span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid var(--accent-emerald);">Bancas A3</span></div>
+          </div>
+
+          <!-- ENCONTRO 20 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 20</div>
+            <div class="timeline-content">
+              <h4>Encerramento do Semestre \& Recuperação Paralela</h4>
+              <p>Reavaliações orientadas, consolidação dos diários de classe no SIGAA e encerramento das atividades letivas.</p>
+            </div>
+            <div><span class="status-badge status-next">Encerramento</span></div>
+          </div>
+
+        </div>
       </div>
-      <p class="text-secondary small mb-3">
-        Copie os links diretos abaixo para disponibilizar nos tópicos de aula do SIGAA para os alunos:
-      </p>
+    </div>
 
-      <div class="row g-3">
-        <div class="col-md-4">
-          <div class="p-3 bg-dark rounded border border-info h-100">
-            <h4 class="h6 fw-bold text-info"><i class="bi bi-1-circle-fill me-1"></i>Roteiro 01 (Bootstrap 5 • Azul)</h4>
-            <div class="mb-2">
-              <label class="text-muted small">PDF do Roteiro 01:</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf</div>
+    <!-- ABA 2: ROTEIROS PRÁTICOS -->
+    <div class="tab-pane" id="tab-roteiros">
+      <div class="panel-card">
+        <h2 class="panel-title"><i class="bi bi-journal-code text-info"></i> Caderno de Roteiros Práticos da Disciplina</h2>
+        <p class="panel-subtitle">Material didático estruturado com explicações teóricas, passos de código comentados e desafios para fixação:</p>
+
+        <div class="roteiros-grid">
+
+          <!-- CARD ROTEIRO 1 -->
+          <div class="roteiro-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge-pill badge-pill-blue">ROTEIRO PRÁTICO 01</span>
+              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle"></i> Concluído</span>
             </div>
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Parte 1: Bootstrap 5 &amp; Layout Responsivo</h3>
+            <p class="text-muted small mb-4">
+              Fundamentos do Bootstrap 5: Grid System mobile-first de 12 colunas, formulários estilizados, tabelas zebradas, cards e estruturação do Layout Estático da aplicação.
+            </p>
+            <div class="mt-auto d-flex flex-column gap-2">
+              <a href="roteiro-1/main.pdf" target="_blank" class="btn-action btn-primary-action">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 01)
+              </a>
+              <a href="retomada-de-atividades-pi2/parte-1-bootstrap/index.html" target="_blank" class="btn-action btn-outline-action">
+                <i class="bi bi-easel-fill"></i> Slides Interativos (Parte 1)
+              </a>
+            </div>
+          </div>
+
+          <!-- CARD ROTEIRO 2 -->
+          <div class="roteiro-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge-pill badge-pill-amber">ROTEIRO PRÁTICO 02</span>
+              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle"></i> Concluído</span>
+            </div>
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Parte 2: jQuery, DOM &amp; LocalStorage</h3>
+            <p class="text-muted small mb-4">
+              Manipulação dinâmica com jQuery (<code>$()</code>, <code>.val()</code>, <code>.append()</code>), efeitos de animação e persistência duradoura com Web Storage API.
+            </p>
+            <div class="mt-auto d-flex flex-column gap-2">
+              <a href="roteiro-2/main.pdf" target="_blank" class="btn-action btn-primary-action">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 02)
+              </a>
+              <a href="retomada-de-atividades-pi2/parte-2-jquery/index.html" target="_blank" class="btn-action btn-outline-action">
+                <i class="bi bi-easel-fill"></i> Slides Interativos (Parte 2)
+              </a>
+              <a href="retomada-de-atividades-pi2/exercicio-retomada/index.html" target="_blank" class="btn-action btn-outline-action">
+                <i class="bi bi-window-stack"></i> Demo: App Cadastro Clientes
+              </a>
+            </div>
+          </div>
+
+          <!-- CARD ROTEIRO 3 (EM DESTAQUE COM NOVO PRAZO) -->
+          <div class="roteiro-card roteiro-highlight">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge-pill badge-pill-green">ROTEIRO PRÁTICO 03</span>
+              <span class="status-badge status-current"><i class="bi bi-clock-history"></i> Em Andamento</span>
+            </div>
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Calculadora de Pedidos &amp; Carrinho</h3>
+            <p class="text-muted small mb-2">
+              Aplicação de cálculos numéricos em tempo real (<code>parseFloat</code>/<code>parseInt</code> com fallback <code>|| 0</code>), formatação em Reais (<code>R$</code>) e salvamento de rascunhos com <code>localStorage</code>.
+            </p>
+            
+            <div class="p-2 mb-3 rounded" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4);">
+              <div class="small fw-bold text-warning mb-1"><i class="bi bi-calendar-event-fill me-1"></i> NOVO PRAZO DE SUBMISSÃO NO SIGAA:</div>
+              <div class="small" style="color: var(--text-main);"><strong>Próxima terça-feira em horário de aula</strong> (Envio do link do GitHub + GitHub Pages).</div>
+            </div>
+
+            <div class="mt-auto d-flex flex-column gap-2">
+              <a href="roteiro-3/main.pdf" target="_blank" class="btn-action btn-primary-action">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 03)
+              </a>
+              <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="btn-action btn-outline-action">
+                <i class="bi bi-play-circle-fill"></i> Executar App Lanchonete Demo
+              </a>
+            </div>
+          </div>
+
+          <!-- CARD ROTEIRO 4 (EM BREVE) -->
+          <div class="roteiro-card" style="opacity: 0.85;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge-pill badge-pill-purple">ROTEIRO PRÁTICO 04</span>
+              <span class="status-badge status-next">Próximo Lançamento</span>
+            </div>
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Módulo 2: ES6 Modules &amp; Arquitetura</h3>
+            <p class="text-muted small mb-4">
+              Modularização com ES6 Modules (<code>import</code>/<code>export</code>), separação de responsabilidades em camadas (<code>services/</code>, <code>handlers/</code>, <code>views/</code>) e refatoração limpa.
+            </p>
+            <div class="mt-auto">
+              <button class="btn-action btn-outline-action w-100" disabled style="cursor: not-allowed;">
+                <i class="bi bi-hourglass-split"></i> Disponível na Aula 05
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-4 p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
-              <label class="text-muted small">Slides Parte 1 (Azul &amp; Branco):</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/retomada-de-atividades-pi2/parte-1-bootstrap/index.html</div>
+              <h4 class="font-outfit fs-6 fw-bold mb-1"><i class="bi bi-collection-fill text-success me-1"></i> Caderno Completo de Roteiros (prog-internet-2.pdf)</h4>
+              <p class="text-muted small mb-0">Documento unificado com a compilação de todos os roteiros práticos do semestre.</p>
+            </div>
+            <a href="prog-internet-2.pdf" target="_blank" class="btn-action btn-outline-action">
+              <i class="bi bi-download"></i> Baixar Caderno Completo (PDF)
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ABA 3: CURRICULARIZAÇÃO DA EXTENSÃO -->
+    <div class="tab-pane" id="tab-extensao">
+      <div class="panel-card">
+        <h2 class="panel-title"><i class="bi bi-stars text-warning"></i> Curricularização da Extensão Universitária (40 Horas)</h2>
+        <p class="panel-subtitle">
+          Em conformidade com a <strong>Meta 12.7 do PNE</strong>, a <strong>Resolução CNE/CES nº 07/2018</strong>, as <strong>Resoluções CONSUP/IFSC nº 40/2016 e nº 61/2016</strong> e o <strong>PPC de Sistemas para a Internet (Resolução CONSUP nº 30/2020)</strong>, esta unidade curricular integraliza <strong>40 horas de atividades extensionistas</strong> com interação dialógica transformadora com a sociedade.
+        </p>
+
+        <!-- CARDS DAS 2 MODALIDADES FLEXÍVEIS -->
+        <h3 class="font-outfit fs-6 fw-bold text-uppercase text-muted mb-2">Estrutura Flexível em Duas Vias de Realização:</h3>
+        
+        <div class="extension-cards">
+          
+          <!-- VIA 1 -->
+          <div class="ext-track-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="badge-pill badge-pill-purple"><i class="bi bi-easel2-fill"></i> MODALIDADE 1</span>
+              <span class="badge-pill badge-pill-green">Ação Presencial</span>
+            </div>
+            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Minicursos / Oficinas Práticas na SNCT</h4>
+            <p class="text-muted small mb-3">
+              Proposição e condução de oficinas práticas de curta duração (2h a 4h) no laboratório do IFSC durante a <strong>Semana Nacional de Ciência e Tecnologia (SNCT)</strong> em outubro.
+            </p>
+            <ul class="text-muted small ps-3 mb-3">
+              <li><strong>Público-alvo:</strong> Estudantes de escolas públicas da região de Garopaba e comunidade iniciante em informática.</li>
+              <li><strong>Temas sugeridos:</strong> <em>"Primeiros Passos na Criação de Páginas Web"</em>, <em>"Lógica e Programação Interativa no Navegador"</em>.</li>
+              <li><strong>Entregável:</strong> Plano de aula da oficina + Relatório com lista de presença e fotos da ação.</li>
+            </ul>
+          </div>
+
+          <!-- VIA 2 -->
+          <div class="ext-track-card ext-track-card-alt">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="badge-pill badge-pill-blue"><i class="bi bi-file-earmark-text-fill"></i> MODALIDADE 2</span>
+              <span class="badge-pill badge-pill-green">Comunicação Científica</span>
+            </div>
+            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Resumo Expandido de Produto Web (SNCT &amp; COTB)</h4>
+            <p class="text-muted small mb-3">
+              Elaboração de um <strong>Resumo Expandido (2 a 4 páginas)</strong> documentando o experimento prático e a arquitetura da aplicação web construída dentro da própria disciplina, resolvendo um problema real da comunidade.
+            </p>
+            <ul class="text-muted small ps-3 mb-3">
+              <li><strong>Apresentação:</strong> Mostra de Trabalhos Acadêmicos e Extensionistas da <strong>SNCT no Câmpus Garopaba</strong>.</li>
+              <li><strong>Submissão Científica:</strong> Formatação e submissão na trilha do congresso <strong>Computer on the Beach (COTB)</strong>.</li>
+              <li><strong>Entregável:</strong> Artigo/Resumo Expandido em PDF com comprovação de submissão.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- TABELA DE DISTRIBUIÇÃO DAS 40 HORAS -->
+        <h3 class="font-outfit fs-6 fw-bold text-uppercase text-muted mt-4 mb-3">Distribuição das 40 Horas de Extensão:</h3>
+
+        <div class="table-responsive">
+          <table class="table" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; color: var(--text-main);">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.9rem;">Etapa Extensionista</th>
+                <th style="padding: 0.9rem;">Atividades Previstas &amp; Detalhamento</th>
+                <th style="padding: 0.9rem; text-align: center;">Carga Horária</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.85rem;" class="fw-bold text-heading"><i class="bi bi-search me-1 text-info"></i> Etapa 1: Diagnóstico &amp; Demanda Comunitária</td>
+                <td style="padding: 0.85rem;" class="text-muted small">Levantamento de necessidades com atores da comunidade externa, comerciantes locais ou identificação de carências instrucionais de escolas públicas.</td>
+                <td style="padding: 0.85rem; text-align: center;" class="fw-bold">10 horas</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.85rem;" class="fw-bold text-heading"><i class="bi bi-laptop me-1 text-success"></i> Etapa 2: Desenvolvimento Orientado da Solução</td>
+                <td style="padding: 0.85rem;" class="text-muted small">Implementação da aplicação web no laboratório aplicando usabilidade, responsividade, acessibilidade e modularidade para o público-alvo.</td>
+                <td style="padding: 0.85rem; text-align: center;" class="fw-bold">20 horas</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.85rem;" class="fw-bold text-heading"><i class="bi bi-megaphone me-1 text-warning"></i> Etapa 3: Apresentação Pública &amp; Relato</td>
+                <td style="padding: 0.85rem;" class="text-muted small">Condução da oficina ou demonstração na Mostra da SNCT, coleta de feedbacks reais de usuários e redação do relato extensionista/resumo expandido.</td>
+                <td style="padding: 0.85rem; text-align: center;" class="fw-bold">10 horas</td>
+              </tr>
+              <tr style="background: var(--bg-card); font-weight: 800;">
+                <td colspan="2" style="padding: 0.85rem; text-align: right;">CARGA HORÁRIA TOTAL CURRICULARIZADA DE EXTENSÃO:</td>
+                <td style="padding: 0.85rem; text-align: center; color: var(--accent-emerald);">40 horas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ABA 4: SISTEMA AVALIATIVO & SIMULADOR -->
+    <div class="tab-pane" id="tab-avaliacao">
+      <div class="panel-card">
+        <h2 class="panel-title"><i class="bi bi-award text-warning"></i> Procedimentos de Avaliação da Aprendizagem</h2>
+        <p class="panel-subtitle">A avaliação é contínua e formativa, ponderada em três instrumentos avaliativos estruturados:</p>
+
+        <div class="row g-4 mb-4">
+          
+          <div class="col-md-4">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-rose);">
+              <span class="badge-pill" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border-color: var(--accent-rose);">INSTRUMENTO A1 (PESO 25%)</span>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1">Avaliação Teórica Única</h3>
+              <p class="text-muted small mb-0">Prova individual abordando arquitetura modular ES6, assincronismo (<code>async/await</code>), protocolo HTTP, consumo de APIs REST e Single Page Applications (Aula 11).</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-amber);">
+              <span class="badge-pill badge-pill-amber">INSTRUMENTO A2 (PESO 35%)</span>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1">Avaliação Contínua de Aulas</h3>
+              <p class="text-muted small mb-0">Composta pela pontualidade de entrega dos roteiros práticos semanais desenvolvidos em laboratório (Roteiros 01 a 07) e engajamento técnico durante as aulas.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
+              <span class="badge-pill badge-pill-green">INSTRUMENTO A3 (PESO 40%)</span>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1">Projeto Integrador &amp; Extensão</h3>
+              <p class="text-muted small mb-0">Aplicação web completa com integração de todos os conteúdos, hospedada no GitHub Pages, com ação extensionista na SNCT e defesa demonstrativa (Aulas 16 a 19).</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- SIMULADOR INTERATIVO DE MÉDIA FINAL -->
+        <div class="sim-card">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-0"><i class="bi bi-calculator text-success me-1"></i> Simulador Interativo da Média Final (MF)</h3>
+            <span class="badge-pill badge-pill-green">Fórmula: (A1×0,25) + (A2×0,35) + (A3×0,40)</span>
+          </div>
+          <p class="text-muted small mb-3">Informe as notas estimadas (de 0.0 a 10.0) para calcular automaticamente a Média Final e a situação:</p>
+
+          <div class="calc-input-group">
+            <div class="calc-box">
+              <label>Nota A1 (Teórica • 25%):</label>
+              <input type="number" id="notaA1" min="0" max="10" step="0.1" value="7.0" oninput="calcularMedia()">
+            </div>
+            <div class="calc-box">
+              <label>Nota A2 (Roteiros • 35%):</label>
+              <input type="number" id="notaA2" min="0" max="10" step="0.1" value="8.0" oninput="calcularMedia()">
+            </div>
+            <div class="calc-box">
+              <label>Nota A3 (Projeto • 40%):</label>
+              <input type="number" id="notaA3" min="0" max="10" step="0.1" value="8.5" oninput="calcularMedia()">
+            </div>
+          </div>
+
+          <div class="calc-result-box">
+            <div>
+              <span class="text-muted small text-uppercase fw-bold">Média Final Calculada:</span>
+              <div class="calc-score" id="mediaResultado">7.95</div>
+            </div>
+            <div class="text-end">
+              <span class="text-muted small text-uppercase fw-bold">Situação Acadêmica:</span>
+              <div id="situacaoResultado" class="fs-5 fw-bold text-success"><i class="bi bi-check-circle-fill"></i> Aprovado por Nota (MF &ge; 6,0)</div>
+              <div class="text-muted small">Exigência mínima de frequência: 75% das aulas presenciais.</div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="p-3 bg-dark rounded border h-100" style="border-color: #f97316 !important;">
-            <h4 class="h6 fw-bold" style="color: #f97316;"><i class="bi bi-2-circle-fill me-1"></i>Roteiro 02 (jQuery • Laranja)</h4>
-            <div class="mb-2">
-              <label class="text-muted small">PDF do Roteiro 02:</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-2/main.pdf</div>
+      </div>
+    </div>
+
+    <!-- ABA 5: EMENTA & BIBLIOGRAFIA -->
+    <div class="tab-pane" id="tab-ementa">
+      <div class="panel-card">
+        <h2 class="panel-title"><i class="bi bi-book-half text-primary"></i> Ementa Oficial &amp; Referências Bibliográficas (PPC 30/2020)</h2>
+        <p class="panel-subtitle">Componente Curricular do Curso Superior de Tecnologia em Sistemas para a Internet (IFSC Câmpus Garopaba):</p>
+
+        <div class="p-3 mb-4 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+          <h3 class="font-outfit fs-6 fw-bold text-heading text-uppercase mb-2"><i class="bi bi-card-text text-success me-1"></i> Ementa do Componente Curricular:</h3>
+          <p class="text-muted small mb-0" style="line-height: 1.6;">
+            Conceitos avançados de desenvolvimento frontend client-side; Inclusão e integração de bibliotecas e frameworks de interface (Bootstrap 5, jQuery); Arquitetura de código JavaScript modular utilizando ES6 Modules (<code>import</code>/<code>export</code>); Manipulação avançada do DOM e formulários reativos com validação visual no cliente; Programação assíncrona avançada com <code>Promises</code>, <code>async/await</code> e consumo de APIs RESTful via <code>Fetch API</code>; Conceitos e arquitetura de Single Page Applications (SPAs) com roteamento client-side sem recarregamento de página; Gerenciamento de Estado no Cliente e armazenamento persistente via Web Storage API (<code>localStorage</code> e <code>sessionStorage</code>); Introdução às ferramentas modernas de empacotamento, build e ecossistemas frontend (<code>Node.js</code>, <code>npm</code>, <code>Vite</code>); Versionamento, publicação e hospedagem de aplicações web profissionais com Git, GitHub e GitHub Pages; Desenvolvimento de Projeto Prático Integrador de Extensão.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+              <h3 class="font-outfit fs-6 fw-bold text-heading mb-3"><i class="bi bi-bookmark-star-fill text-warning me-1"></i> Bibliografia Básica</h3>
+              <ol class="text-muted small ps-3 mb-0" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                <li>FLANAGAN, David. <strong>JavaScript: O Guia Definitivo</strong>. 7. ed. Porto Alegre: Bookman, 2021.</li>
+                <li>DUCKETT, Jon. <strong>HTML e CSS: projete e construa websites</strong>. Rio de Janeiro: Alta Books, 2014.</li>
+                <li>MOZILLA FOUNDATION. <strong>MDN Web Docs: HTML, CSS e JavaScript</strong>. Disponível em: <a href="https://developer.mozilla.org" target="_blank" class="text-success text-decoration-none fw-bold">developer.mozilla.org</a>.</li>
+              </ol>
             </div>
-            <div class="mb-2">
-              <label class="text-muted small">Slides Parte 2:</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/retomada-de-atividades-pi2/parte-2-jquery/index.html</div>
-            </div>
-            <div>
-              <label class="text-muted small">App Cadastro Clientes:</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/retomada-de-atividades-pi2/exercicio-retomada/index.html</div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+              <h3 class="font-outfit fs-6 fw-bold text-heading mb-3"><i class="bi bi-bookmark-fill text-info me-1"></i> Bibliografia Complementar</h3>
+              <ol class="text-muted small ps-3 mb-0" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                <li>FREEMAN, Adam. <strong>Pro Bootstrap 5: Responsive Web Development</strong>. New York: Apress, 2021.</li>
+                <li>W3SCHOOLS. <strong>Bootstrap 5 &amp; JavaScript Tutorials</strong>. Disponível em: <a href="https://www.w3schools.com" target="_blank" class="text-success text-decoration-none fw-bold">w3schools.com</a>.</li>
+                <li>VITE CORE TEAM. <strong>Vite: Next Generation Frontend Tooling</strong>. Disponível em: <a href="https://vitejs.dev" target="_blank" class="text-success text-decoration-none fw-bold">vitejs.dev</a>.</li>
+                <li>BOOTSTRAP TEAM. <strong>Bootstrap 5 Official Documentation</strong>. Disponível em: <a href="https://getbootstrap.com" target="_blank" class="text-success text-decoration-none fw-bold">getbootstrap.com</a>.</li>
+                <li>JQUERY FOUNDATION. <strong>jQuery Official API Reference</strong>. Disponível em: <a href="https://api.jquery.com" target="_blank" class="text-success text-decoration-none fw-bold">api.jquery.com</a>.</li>
+              </ol>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="p-3 bg-dark rounded border border-secondary h-100">
-            <h4 class="h6 fw-bold text-success"><i class="bi bi-3-circle-fill me-1"></i>Roteiro 03 (Atividade 2 Semanas)</h4>
-            <div class="mb-2">
-              <label class="text-muted small">PDF do Roteiro 03:</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf</div>
-            </div>
-            <div>
-              <label class="text-muted small">App Lanchonete Demo:</label>
-              <div class="link-copy-box">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/exercicio-roteiro3/index.html</div>
-            </div>
+      </div>
+    </div>
+
+    <!-- ABA 6: CENTRAL SIGAA & RECURSOS -->
+    <div class="tab-pane" id="tab-sigaa">
+      <div class="panel-card">
+        <h2 class="panel-title"><i class="bi bi-clipboard-check text-success"></i> Central de Enunciados Prontos para Postagem no SIGAA</h2>
+        <p class="panel-subtitle">Copie com 1 clique os modelos de tarefas e tópicos de aula para publicar diretamente no ambiente virtual do IFSC:</p>
+
+        <!-- ENUNCIADO PRONTO DO ROTEIRO 03 COM NOVO PRAZO -->
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge-pill badge-pill-amber fw-bold"><i class="bi bi-pin-angle-fill"></i> TAREFA ATIVA: ROTEIRO PRÁTICO 03 (NOVO PRAZO)</span>
+            <button class="copy-btn" onclick="copyToClipboard('sigaaTextRoteiro3', this)"><i class="bi bi-clipboard-fill me-1"></i> Copiar Enunciado Completo</button>
+          </div>
+          <div class="p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.85rem;" id="sigaaTextRoteiro3">
+<strong>Título da Tarefa no SIGAA:</strong> Roteiro Prático 03 — Calculadora de Pedidos &amp; Carrinho (Bootstrap 5 + jQuery + LocalStorage)
+<br><br>
+<strong>Prazo de Entrega:</strong> Próxima terça-feira em horário de aula.
+<br>
+<strong>Formato de Envio:</strong> Link do repositório no GitHub + Link da aplicação publicada no GitHub Pages.
+<br><br>
+Prezados(as) estudantes,<br>
+Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulação dinâmica de formulários e cálculos numéricos em tempo real (jQuery com parseFloat/parseInt) e persistência duradoura no navegador (LocalStorage), está disponível a atividade prática do Roteiro 03.
+<br><br>
+🔗 <strong>Materiais de Apoio e Consulta:</strong><br>
+• Guia Completo em PDF: https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf<br>
+• Demonstração Interativa: https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/exercicio-roteiro3/index.html<br>
+• Portal da Disciplina: https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/<br>
+<br>
+📌 <strong>Critérios de Entrega:</strong><br>
+1. Cálculo automático de subtotais, adicionais e total geral reagindo em tempo real (.on('change') e .on('input'));<br>
+2. Tratamento de valores com || 0 e formatação monetária em Real (R$ X,XX);<br>
+3. Armazenamento e restauração do rascunho do pedido via localStorage;<br>
+4. Envio via link do GitHub + GitHub Pages em funcionamento.
           </div>
         </div>
+
+        <h3 class="font-outfit fs-6 fw-bold text-heading text-uppercase mt-4 mb-2">Links Diretos para Inclusão Rápida no SIGAA:</h3>
+
+        <div class="copy-box">
+          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf</span>
+          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf', this)">Copiar</button>
+        </div>
+
+        <div class="copy-box">
+          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-2/main.pdf</span>
+          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-2/main.pdf', this)">Copiar</button>
+        </div>
+
+        <div class="copy-box">
+          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf</span>
+          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf', this)">Copiar</button>
+        </div>
+
+        <div class="copy-box">
+          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/encerramento_do_semestre/plano_de_ensino.pdf</span>
+          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/encerramento_do_semestre/plano_de_ensino.pdf', this)">Copiar</button>
+        </div>
+
       </div>
     </div>
 
   </main>
 
-  <footer class="text-center">
-    <div class="container">
-      <p class="mb-0 small">
-        © 2026 Instituto Federal de Santa Catarina — Câmpus Garopaba | CST em Sistemas para a Internet
-      </p>
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <div class="header-container justify-content-center flex-column gap-1">
+      <p class="mb-0 fw-bold">© 2026 Instituto Federal de Santa Catarina — Câmpus Garopaba</p>
+      <p class="mb-0 small text-muted">Curso Superior de Tecnologia em Sistemas para a Internet | Unidade Curricular: Programação para a Internet 2 (ProgWeb 2 / PIT II)</p>
     </div>
   </footer>
+
+  <!-- JAVASCRIPT LÓGICA DO DASHBOARD -->
+  <script>
+    // NAVEGAÇÃO ENTRE ABAS
+    function showTab(tabId, shouldScroll = true) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (shouldScroll) {
+        const tabsContainer = document.querySelector('.dashboard-tabs');
+        if (tabsContainer) {
+          tabsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    // ALTERNÂNCIA DE TEMA CLARO / ESCURO
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('progweb2-theme-preference', next);
+      updateThemeIcon(next);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeIcon');
+      if (!icon) return;
+      if (theme === 'dark') {
+        icon.className = 'bi bi-sun-fill';
+      } else {
+        icon.className = 'bi bi-moon-stars-fill';
+      }
+    }
+
+    // SIMULADOR DE MÉDIA FINAL
+    function calcularMedia() {
+      const a1 = parseFloat(document.getElementById('notaA1').value) || 0;
+      const a2 = parseFloat(document.getElementById('notaA2').value) || 0;
+      const a3 = parseFloat(document.getElementById('notaA3').value) || 0;
+
+      const media = (a1 * 0.25) + (a2 * 0.35) + (a3 * 0.40);
+      const resultadoEl = document.getElementById('mediaResultado');
+      const situacaoEl = document.getElementById('situacaoResultado');
+
+      if (resultadoEl) {
+        resultadoEl.innerText = media.toFixed(2);
+      }
+
+      if (situacaoEl) {
+        if (media >= 6.0) {
+          situacaoEl.className = 'fs-5 fw-bold text-success';
+          situacaoEl.innerHTML = '<i class="bi bi-check-circle-fill"></i> Aprovado por Nota (MF &ge; 6,0)';
+        } else {
+          situacaoEl.className = 'fs-5 fw-bold text-danger';
+          situacaoEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Em Recuperação Paralela (MF &lt; 6,0)';
+        }
+      }
+    }
+
+    // COPIAR ENUNCIADO PARA ÁREA DE TRANSFERÊNCIA
+    function copyToClipboard(elementId, btn) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check-lg text-success"></i> Copiado!';
+        setTimeout(() => { btn.innerHTML = originalHtml; }, 2500);
+      });
+    }
+
+    function copySimpleLink(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copiado!';
+        btn.style.background = 'var(--accent-emerald)';
+        btn.style.color = '#ffffff';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+
+    // RESTAURAR TEMA PREFERIDO
+    (function initTheme() {
+      const saved = localStorage.getItem('progweb2-theme-preference');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+        updateThemeIcon(saved);
+      }
+    })();
+  </script>
 
 </body>
 </html>
