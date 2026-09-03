@@ -1,0 +1,313 @@
+\section{Roteiro Prático 04 — Arquitetura Frontend Modular: ES6 Modules \& Padrão em Camadas}
+
+% =====================================================
+% OBJETIVOS DA ATIVIDADE
+% =====================================================
+
+\begin{boxObjetivos}
+\textbf{Objetivos da Atividade (Módulo 2 — ES6 Modules \& Padrão em Camadas)}
+
+Ao final desta prática orientada em laboratório, o estudante será capaz de:
+
+\begin{itemize}
+\item Superar a arquitetura monolítica de arquivo único (\texttt{app.js}), organizando o frontend em múltiplos módulos especializados utilizando \textbf{ES6 Modules} (\texttt{import} e \texttt{export});
+\item Declarar o ponto de entrada modular na página web através da diretiva \texttt{<script type="module" src="js/main.js"></script>};
+\item Compreender e aplicar a separação estrita de responsabilidades no cliente em três camadas:
+  \begin{itemize}
+    \item \textbf{Camada de Serviços (\texttt{services/}):} Regras de negócio, cálculos e persistência pura no \texttt{localStorage} sem acoplamento ao DOM;
+    \item \textbf{Camada de Visão (\texttt{views/}):} Renderização de cards, tabelas, modais e Toasts via \textit{template literals} do Bootstrap 5;
+    \item \textbf{Camada Utilitária (\texttt{utils/}):} Funções puras reutilizáveis de formatação (moeda brasileira, telefone, máscaras);
+    \item \textbf{Orquestrador Central (\texttt{main.js}):} Captura de eventos do usuário e coordenação entre camadas.
+  \end{itemize}
+\item Implementar \textbf{validação visual no cliente} com feedback imediato ao usuário utilizando as classes nativas do Bootstrap 5 (\texttt{.is-valid}, \texttt{.is-invalid} e \texttt{.invalid-feedback});
+\item Disparar notificações flutuantes dinâmicas (\textbf{Bootstrap Toasts}) para confirmar operações de cadastro e exclusão;
+\item Implementar filtragem reativa em tempo real por categoria de serviço na vitrine comunitária.
+\end{itemize}
+\end{boxObjetivos}
+
+% =====================================================
+% INTRODUÇÃO E CONTEXTUALIZAÇÃO
+% =====================================================
+
+\subsection{Introdução e Contextualização do Projeto}
+
+Nos Roteiros 1, 2 e 3, trabalhamos com scripts JavaScript concentrados em um único arquivo (\texttt{app.js}). Embora essa abordagem seja excelente para aprender os fundamentos, ela se torna inviável em aplicações reais de médio e grande porte, onde a mistura de seletores do DOM, regras de validação e persistência gera o chamado \textit{"código espaguete"}.
+
+No \textbf{Roteiro Prático 04}, damos o passo definitivo rumo à arquitetura profissional de software no frontend. Desenvolveremos a **Vitrine Comunitária de Empreendedores Locais de Garopaba**, uma aplicação que permite cadastrar, listar, filtrar e gerenciar serviços da comunidade local. 
+
+Este projeto serve também como a **base tecnológica inicial para a Ação Curricularizada de Extensão na SNCT (Semana Nacional de Ciência e Tecnologia)**.
+
+% =====================================================
+% ESTRUTURA DE DIRETÓRIOS DO PROJETO
+% =====================================================
+
+\subsection{Estrutura Arquitetural de Pastas}
+
+O projeto deve ser organizado na pasta \texttt{roteiro-4/exercicio-roteiro4/} seguindo rigorosamente a estrutura modular:
+
+\begin{boxCodigo}
+\textbf{Árvore de Diretórios Modular do Projeto:}
+
+\small
+\begin{verbatim}
+roteiro-4/exercicio-roteiro4/
+|-- index.html              <-- Estrutura da vitrine e formulários (Bootstrap 5)
+|-- styles.css              <-- Estilizações personalizadas e transições
+`-- js/
+    |-- main.js             <-- Ponto de entrada modular (orquestrador de eventos)
+    |-- services/
+    |   `-- vitrineService.js <-- Regras de negócio e CRUD no LocalStorage
+    |-- views/
+    |   `-- vitrineView.js    <-- Geração dinâmica de HTML e Toasts
+    `-- utils/
+        `-- formatters.js     <-- Funções utilitárias puras (moeda, fone, sanitização)
+\end{verbatim}
+\end{boxCodigo}
+
+% =====================================================
+% FUNDAMENTAÇÃO TEÓRICA: ES6 MODULES
+% =====================================================
+
+\subsection{Fundamentação Teórica: Como Funcionam os ES6 Modules}
+
+\subsubsection{1. Declaração no HTML (\texttt{type="module"})}
+Ao declarar \texttt{<script type="module" src="js/main.js"></script>}, o navegador aplica comportamentos modernos essenciais:
+\begin{itemize}
+  \item \textbf{Modo Estrito Automático (\texttt{"use strict"}):} Impede o uso de variáveis não declaradas e falhas silenciosas;
+  \item \textbf{Escopo Fechado de Módulo:} Variáveis e funções criadas dentro de um arquivo não poluem o escopo global (\texttt{window});
+  \item \textbf{Carregamento Assíncrono com Adiamento (\texttt{defer}):} O script aguarda o parsing completo do DOM antes de executar.
+\end{itemize}
+
+\subsubsection{2. Exportação e Importação (\texttt{export} e \texttt{import})}
+Para compartilhar recursos entre arquivos, usamos a sintaxe explícita de módulos:
+
+\begin{boxCodigo}
+\textbf{Exemplo de Exportação Nomeada e Importação:}
+
+\small
+\begin{verbatim}
+// No arquivo js/utils/formatters.js
+export function formatarTelefone(telefone) {
+  return telefone.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+}
+
+// No arquivo js/main.js
+import { formatarTelefone } from './utils/formatters.js';
+console.log(formatarTelefone('48999998888')); // (48) 99999-8888
+\end{verbatim}
+\end{boxCodigo}
+
+% =====================================================
+% PASSO A PASSO GUIADO DA ATIVIDADE
+% =====================================================
+
+\subsection{Passo a Passo Guiado do Roteiro}
+
+\begin{boxAtividade}[{Passo 1: Estruturação dos Utilitários Puros (js/utils/formatters.js)}]
+Crie o arquivo de funções utilitárias que realizam operações puras de transformação de dados:
+
+\begin{boxCodigo}
+\small
+\begin{verbatim}
+// js/utils/formatters.js
+export function formatarMoeda(valor) {
+  const num = parseFloat(valor) || 0;
+  return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+export function formatarTelefone(fone) {
+  const digits = (fone || '').replace(/\D/g, '');
+  if (digits.length === 11) {
+    return digits.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  }
+  return fone;
+}
+
+export function escapeHtml(texto) {
+  const div = document.createElement('div');
+  div.textContent = texto;
+  return div.innerHTML;
+}
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
+
+\begin{boxAtividade}[{Passo 2: Camada de Dados e Serviços (js/services/vitrineService.js)}]
+Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qualquer manipulação de elementos HTML:
+
+\begin{boxCodigo}
+\small
+\begin{verbatim}
+// js/services/vitrineService.js
+const STORAGE_KEY = 'garopaba_vitrine_servicos';
+
+export function obterServicos() {
+  const dados = localStorage.getItem(STORAGE_KEY);
+  return dados ? JSON.parse(dados) : [];
+}
+
+export function salvarServico(novoServico) {
+  const servicos = obterServicos();
+  const servicoCompleto = {
+    id: Date.now().toString(),
+    dataCadastro: new Date().toISOString(),
+    ...novoServico
+  };
+  servicos.push(servicoCompleto);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  return servicoCompleto;
+}
+
+export function removerServico(id) {
+  const servicos = obterServicos();
+  const filtrados = servicos.filter(s => s.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtrados));
+  return filtrados;
+}
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
+
+\begin{boxAtividade}[{Passo 3: Camada de Renderização da Interface (js/views/vitrineView.js)}]
+Esta camada constrói os elementos visuais do Bootstrap 5 e dispara notificações dinâmicas:
+
+\begin{boxCodigo}
+\small
+\begin{verbatim}
+// js/views/vitrineView.js
+import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
+
+export function renderizarCards(servicos, containerElement) {
+  if (!servicos || servicos.length === 0) {
+    containerElement.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-inbox fs-1 text-muted"></i>
+        <h5 class="text-muted mt-2">Nenhum serviço cadastrado nesta categoria.</h5>
+      </div>`;
+    return;
+  }
+
+  containerElement.innerHTML = servicos.map(s => `
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 vitrine-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge bg-success">${escapeHtml(s.categoria)}</span>
+            <span class="fw-bold text-primary">${formatarMoeda(s.precoBase)}</span>
+          </div>
+          <h5 class="card-title fw-bold mb-1">${escapeHtml(s.nome)}</h5>
+          <h6 class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${escapeHtml(s.bairro)}</h6>
+          <p class="card-text text-secondary small">${escapeHtml(s.descricao)}</p>
+        </div>
+        <div class="card-footer bg-transparent border-0 pt-0 pb-3 d-flex justify-content-between align-items-center">
+          <a href="https://wa.me/55${(s.telefone || '').replace(/\D/g, '')}" target="_blank" class="btn btn-sm btn-outline-success">
+            <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
+          </a>
+          <button class="btn btn-sm btn-outline-danger btn-excluir" data-id="${s.id}" title="Excluir">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+export function exibirToast(mensagem, tipo = 'success') {
+  const toastEl = document.getElementById('toastNotificacao');
+  const toastBody = document.getElementById('toastMensagem');
+  if (toastEl && toastBody) {
+    toastBody.innerText = mensagem;
+    toastEl.className = `toast align-items-center text-bg-${tipo} border-0`;
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    toast.show();
+  }
+}
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
+
+\begin{boxAtividade}[{Passo 4: Orquestrador de Eventos (js/main.js)}]
+Conecte todas as camadas no arquivo central, implementando a validação visual do formulário:
+
+\begin{boxCodigo}
+\small
+\begin{verbatim}
+// js/main.js
+import { obterServicos, salvarServico, removerServico } from './services/vitrineService.js';
+import { renderizarCards, exibirToast } from './views/vitrineView.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('formCadastro');
+  const container = document.getElementById('vitrineContainer');
+  const filtroCategoria = document.getElementById('filtroCategoria');
+  const contadorEl = document.getElementById('totalServicos');
+
+  function atualizarInterface() {
+    const todos = obterServicos();
+    const filtro = filtroCategoria.value;
+    const filtrados = filtro === 'todas' ? todos : todos.filter(s => s.categoria === filtro);
+    renderizarCards(filtrados, container);
+    if (contadorEl) contadorEl.innerText = `${todos.length} cadastrados`;
+  }
+
+  // Validação e Cadastro
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      e.stopPropagation();
+      form.classList.add('was-validated');
+      return;
+    }
+
+    const novo = {
+      nome: document.getElementById('nome').value.trim(),
+      categoria: document.getElementById('categoria').value,
+      bairro: document.getElementById('bairro').value.trim(),
+      precoBase: document.getElementById('precoBase').value,
+      telefone: document.getElementById('telefone').value.trim(),
+      descricao: document.getElementById('descricao').value.trim()
+    };
+
+    salvarServico(novo);
+    form.reset();
+    form.classList.remove('was-validated');
+    atualizarInterface();
+    exibirToast('Empreendimento cadastrado com sucesso!');
+  });
+
+  // Evento de Exclusão (Delegação de Eventos)
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-excluir');
+    if (btn) {
+      const id = btn.getAttribute('data-id');
+      if (confirm('Deseja realmente remover este serviço da vitrine?')) {
+        removerServico(id);
+        atualizarInterface();
+        exibirToast('Serviço removido da vitrine.', 'warning');
+      }
+    }
+  });
+
+  filtroCategoria.addEventListener('change', atualizarInterface);
+  atualizarInterface();
+});
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
+
+% =====================================================
+% CHECKLIST DE ENTREGA DO ESTUDANTE
+% =====================================================
+
+\subsection{Checklist de Conclusão e Critérios Avaliativos}
+
+Antes de realizar o commit final no repositório, certifique-se de validar todos os itens:
+
+\begin{itemize}
+\item[$\Box$] O projeto utiliza estritamente o padrão ES6 Modules com a tag \texttt{<script type="module" src="js/main.js"></script>};
+\item[$\Box$] A estrutura em pastas (\texttt{js/services/}, \texttt{js/views/}, \texttt{js/utils/}) foi rigorosamente respeitada;
+\item[$\Box$] O arquivo \texttt{vitrineService.js} opera puramente sobre o \texttt{localStorage} sem manipular elementos do DOM;
+\item[$\Box$] O formulário exibe validações visuais nativas do Bootstrap 5 (\texttt{.is-invalid}) quando campos obrigatórios não são preenchidos;
+\item[$\Box$] A vitrine reage instantaneamente aos filtros de categoria sem recarregar a página;
+\item[$\Box$] O código está devidamente publicado e em pleno funcionamento no \textbf{GitHub Pages}.
+\end{itemize}
