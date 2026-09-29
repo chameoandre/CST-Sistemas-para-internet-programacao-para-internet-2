@@ -11,7 +11,7 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
 
 \begin{itemize}
 \item Superar a arquitetura monolítica de arquivo único (\texttt{app.js}), organizando o frontend em múltiplos módulos especializados utilizando \textbf{ES6 Modules} (\texttt{import} e \texttt{export});
-\item Declarar o ponto de entrada modular na página web através da diretiva \texttt{<script type="module" src="js/main.js"></script>};
+\item Declarar o ponto de entrada modular na página web através da diretiva:\\ \texttt{<script type="module" src="js/main.js"></script>};
 \item Compreender e aplicar a separação estrita de responsabilidades no cliente em três camadas:
   \begin{itemize}
     \item \textbf{Camada de Serviços (\texttt{services/}):} Regras de negócio, cálculos e persistência pura no \texttt{localStorage} sem acoplamento ao DOM;
@@ -19,8 +19,9 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
     \item \textbf{Camada Utilitária (\texttt{utils/}):} Funções puras reutilizáveis de formatação (moeda brasileira, telefone, máscaras);
     \item \textbf{Orquestrador Central (\texttt{main.js}):} Captura de eventos do usuário e coordenação entre camadas.
   \end{itemize}
+\item Implementar o \textbf{CRUD Completo} (\textit{Create, Read, Update, Delete}) com persistência em armazenamento local;
 \item Implementar \textbf{validação visual no cliente} com feedback imediato ao usuário utilizando as classes nativas do Bootstrap 5 (\texttt{.is-valid}, \texttt{.is-invalid} e \texttt{.invalid-feedback});
-\item Disparar notificações flutuantes dinâmicas (\textbf{Bootstrap Toasts}) para confirmar operações de cadastro e exclusão;
+\item Disparar notificações flutuantes dinâmicas (\textbf{Bootstrap Toasts}) para confirmar operações de cadastro, alteração e exclusão;
 \item Implementar filtragem reativa em tempo real por categoria de serviço na vitrine comunitária.
 \end{itemize}
 \end{boxObjetivos}
@@ -33,9 +34,9 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
 
 Nos Roteiros 1, 2 e 3, trabalhamos com scripts JavaScript concentrados em um único arquivo (\texttt{app.js}). Embora essa abordagem seja excelente para aprender os fundamentos, ela se torna inviável em aplicações reais de médio e grande porte, onde a mistura de seletores do DOM, regras de validação e persistência gera o chamado \textit{"código espaguete"}.
 
-No \textbf{Roteiro Prático 04}, damos o passo definitivo rumo à arquitetura profissional de software no frontend. Desenvolveremos a **Vitrine Comunitária de Empreendedores Locais de Garopaba**, uma aplicação que permite cadastrar, listar, filtrar e gerenciar serviços da comunidade local. 
+No \textbf{Roteiro Prático 04}, damos o passo definitivo rumo à arquitetura profissional de software no frontend. Desenvolveremos a \textbf{Vitrine Comunitária de Empreendedores Locais de Garopaba}, uma aplicação que permite cadastrar, listar, filtrar, editar e gerenciar serviços da comunidade local. 
 
-Este projeto serve também como a **base tecnológica inicial para a Ação Curricularizada de Extensão na SNCT (Semana Nacional de Ciência e Tecnologia)**.
+Este projeto serve também como a \textbf{base tecnológica inicial para a Ação Curricularizada de Extensão na SNCT (Semana Nacional de Ciência e Tecnologia)}.
 
 % =====================================================
 % ESTRUTURA DE DIRETÓRIOS DO PROJETO
@@ -48,19 +49,19 @@ O projeto deve ser organizado na pasta \texttt{roteiro-4/exercicio-roteiro4/} se
 \begin{boxCodigo}
 \textbf{Árvore de Diretórios Modular do Projeto:}
 
-\small
+\footnotesize
 \begin{verbatim}
 roteiro-4/exercicio-roteiro4/
-|-- index.html              <-- Estrutura da vitrine e formulários (Bootstrap 5)
-|-- styles.css              <-- Estilizações personalizadas e transições
+|-- index.html     <-- Vitrine e forms (BS5)
+|-- styles.css     <-- Estilos e transições
 `-- js/
-    |-- main.js             <-- Ponto de entrada modular (orquestrador de eventos)
+    |-- main.js    <-- Orquestrador central
     |-- services/
-    |   `-- vitrineService.js <-- Regras de negócio e CRUD no LocalStorage
+    |   `-- vitrineService.js <-- CRUD Storage
     |-- views/
-    |   `-- vitrineView.js    <-- Geração dinâmica de HTML e Toasts
+    |   `-- vitrineView.js    <-- HTML dinâmico
     `-- utils/
-        `-- formatters.js     <-- Funções utilitárias puras (moeda, fone, sanitização)
+        `-- formatters.js     <-- Formatações
 \end{verbatim}
 \end{boxCodigo}
 
@@ -84,16 +85,22 @@ Para compartilhar recursos entre arquivos, usamos a sintaxe explícita de módul
 \begin{boxCodigo}
 \textbf{Exemplo de Exportação Nomeada e Importação:}
 
-\small
+\footnotesize
 \begin{verbatim}
 // No arquivo js/utils/formatters.js
 export function formatarTelefone(telefone) {
-  return telefone.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  return telefone.replace(
+    /^(\d{2})(\d{5})(\d{4})/,
+    '($1) $2-$3'
+  );
 }
 
 // No arquivo js/main.js
-import { formatarTelefone } from './utils/formatters.js';
-console.log(formatarTelefone('48999998888')); // (48) 99999-8888
+import { formatarTelefone }
+  from './utils/formatters.js';
+
+// Resultado: (48) 99999-8888
+console.log(formatarTelefone('48999998888'));
 \end{verbatim}
 \end{boxCodigo}
 
@@ -107,18 +114,24 @@ console.log(formatarTelefone('48999998888')); // (48) 99999-8888
 Crie o arquivo de funções utilitárias que realizam operações puras de transformação de dados:
 
 \begin{boxCodigo}
-\small
+\footnotesize
 \begin{verbatim}
 // js/utils/formatters.js
 export function formatarMoeda(valor) {
   const num = parseFloat(valor) || 0;
-  return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  return num.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
 }
 
 export function formatarTelefone(fone) {
   const digits = (fone || '').replace(/\D/g, '');
   if (digits.length === 11) {
-    return digits.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    return digits.replace(
+      /^(\d{2})(\d{5})(\d{4})/,
+      '($1) $2-$3'
+    );
   }
   return fone;
 }
@@ -133,16 +146,17 @@ export function escapeHtml(texto) {
 \end{boxAtividade}
 
 \begin{boxAtividade}[{Passo 2: Camada de Dados e Serviços (js/services/vitrineService.js)}]
-Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qualquer manipulação de elementos HTML:
+Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qualquer manipulação de elementos HTML (operações CRUD puras):
 
 \begin{boxCodigo}
-\small
+\footnotesize
 \begin{verbatim}
 // js/services/vitrineService.js
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
 
 export function obterServicos() {
-  const dados = localStorage.getItem(STORAGE_KEY);
+  const dados =
+    localStorage.getItem(STORAGE_KEY);
   return dados ? JSON.parse(dados) : [];
 }
 
@@ -153,15 +167,41 @@ export function salvarServico(novoServico) {
     dataCadastro: new Date().toISOString(),
     ...novoServico
   };
-  servicos.push(servicoCompleto);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  servicos.unshift(servicoCompleto);
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(servicos)
+  );
   return servicoCompleto;
+}
+
+export function atualizarServico(id, dados) {
+  const servicos = obterServicos();
+  const index =
+    servicos.findIndex(s => s.id === id);
+  if (index !== -1) {
+    servicos[index] = {
+      ...servicos[index],
+      ...dados,
+      dataEdicao: new Date().toISOString()
+    };
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(servicos)
+    );
+    return servicos[index];
+  }
+  return null;
 }
 
 export function removerServico(id) {
   const servicos = obterServicos();
-  const filtrados = servicos.filter(s => s.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtrados));
+  const filtrados =
+    servicos.filter(s => s.id !== id);
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(filtrados)
+  );
   return filtrados;
 }
 \end{verbatim}
@@ -169,56 +209,113 @@ export function removerServico(id) {
 \end{boxAtividade}
 
 \begin{boxAtividade}[{Passo 3: Camada de Renderização da Interface (js/views/vitrineView.js)}]
-Esta camada constrói os elementos visuais do Bootstrap 5 e dispara notificações dinâmicas:
+Esta camada constrói os elementos visuais do Bootstrap 5, adiciona botões de ação e dispara notificações dinâmicas:
 
 \begin{boxCodigo}
-\small
+\footnotesize
 \begin{verbatim}
 // js/views/vitrineView.js
-import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
+import {
+  formatarMoeda,
+  formatarTelefone,
+  escapeHtml
+} from '../utils/formatters.js';
 
-export function renderizarCards(servicos, containerElement) {
+export function renderizarCards(
+  servicos,
+  containerElement
+) {
   if (!servicos || servicos.length === 0) {
     containerElement.innerHTML = `
       <div class="col-12 text-center py-5">
         <i class="bi bi-inbox fs-1 text-muted"></i>
-        <h5 class="text-muted mt-2">Nenhum serviço cadastrado nesta categoria.</h5>
+        <h5 class="text-muted mt-2">
+          Nenhum serviço cadastrado.
+        </h5>
       </div>`;
     return;
   }
 
-  containerElement.innerHTML = servicos.map(s => `
-    <div class="col-md-6 col-lg-4 mb-4">
-      <div class="card h-100 shadow-sm border-0 vitrine-card">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="badge bg-success">${escapeHtml(s.categoria)}</span>
-            <span class="fw-bold text-primary">${formatarMoeda(s.precoBase)}</span>
+  containerElement.innerHTML = servicos.map(s => {
+    const fone = s.telefone || '';
+    const tel = fone.replace(/\D/g, '');
+    return `
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm border-0
+                    vitrine-card">
+          <div class="card-body">
+            <div class="d-flex mb-2
+                        justify-content-between">
+              <span class="badge bg-success">
+                ${escapeHtml(s.categoria)}
+              </span>
+              <span class="fw-bold text-primary">
+                ${formatarMoeda(s.precoBase)}
+              </span>
+            </div>
+            <h5 class="card-title fw-bold mb-1">
+              ${escapeHtml(s.nome)}
+            </h5>
+            <h6 class="text-muted small mb-3">
+              <i class="bi bi-geo-alt-fill
+                        text-danger me-1"></i>
+              ${escapeHtml(s.bairro)}
+            </h6>
+            <p class="card-text text-secondary
+                      small">
+              ${escapeHtml(s.descricao)}
+            </p>
           </div>
-          <h5 class="card-title fw-bold mb-1">${escapeHtml(s.nome)}</h5>
-          <h6 class="text-muted small mb-3"><i class="bi bi-geo-alt-fill text-danger me-1"></i>${escapeHtml(s.bairro)}</h6>
-          <p class="card-text text-secondary small">${escapeHtml(s.descricao)}</p>
+          <div class="card-footer bg-transparent
+                      border-0 pt-0 pb-3 d-flex
+                      justify-content-between
+                      align-items-center">
+            <a href="https://wa.me/55${tel}"
+               target="_blank"
+               class="btn btn-sm
+                      btn-outline-success">
+              <i class="bi bi-whatsapp me-1"></i>
+              ${formatarTelefone(s.telefone)}
+            </a>
+            <div class="d-flex gap-1">
+              <button class="btn btn-sm
+                             btn-outline-primary
+                             btn-editar"
+                      data-id="${s.id}"
+                      title="Editar">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-sm
+                             btn-outline-danger
+                             btn-excluir"
+                      data-id="${s.id}"
+                      title="Excluir">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="card-footer bg-transparent border-0 pt-0 pb-3 d-flex justify-content-between align-items-center">
-          <a href="https://wa.me/55${(s.telefone || '').replace(/\D/g, '')}" target="_blank" class="btn btn-sm btn-outline-success">
-            <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
-          </a>
-          <button class="btn btn-sm btn-outline-danger btn-excluir" data-id="${s.id}" title="Excluir">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+      </div>`;
+  }).join('');
 }
 
-export function exibirToast(mensagem, tipo = 'success') {
-  const toastEl = document.getElementById('toastNotificacao');
-  const toastBody = document.getElementById('toastMensagem');
+export function exibirToast(
+  mensagem,
+  tipo = 'success'
+) {
+  const toastEl = document.getElementById(
+    'toastNotificacao'
+  );
+  const toastBody = document.getElementById(
+    'toastMensagem'
+  );
   if (toastEl && toastBody) {
     toastBody.innerText = mensagem;
-    toastEl.className = `toast align-items-center text-bg-${tipo} border-0`;
-    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    toastEl.className =
+      `toast align-items-center ` +
+      `text-bg-${tipo} border-0`;
+    const toast =
+      bootstrap.Toast.getOrCreateInstance(toastEl);
     toast.show();
   }
 }
@@ -227,30 +324,51 @@ export function exibirToast(mensagem, tipo = 'success') {
 \end{boxAtividade}
 
 \begin{boxAtividade}[{Passo 4: Orquestrador de Eventos (js/main.js)}]
-Conecte todas as camadas no arquivo central, implementando a validação visual do formulário:
+Conecte todas as camadas no arquivo central, implementando a validação visual do formulário e o ciclo completo de eventos:
 
 \begin{boxCodigo}
-\small
+\footnotesize
 \begin{verbatim}
 // js/main.js
-import { obterServicos, salvarServico, removerServico } from './services/vitrineService.js';
-import { renderizarCards, exibirToast } from './views/vitrineView.js';
+import {
+  obterServicos,
+  salvarServico,
+  atualizarServico,
+  removerServico
+} from './services/vitrineService.js';
+import {
+  renderizarCards,
+  exibirToast
+} from './views/vitrineView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('formCadastro');
-  const container = document.getElementById('vitrineContainer');
-  const filtroCategoria = document.getElementById('filtroCategoria');
-  const contadorEl = document.getElementById('totalServicos');
+  const form =
+    document.getElementById('formCadastro');
+  const container =
+    document.getElementById('vitrineContainer');
+  const filtroCategoria =
+    document.getElementById('filtroCategoria');
+  const contadorEl =
+    document.getElementById('totalServicosBadge');
+  const modalEl =
+    document.getElementById('modalCadastro');
+  const servicoIdInput =
+    document.getElementById('servicoId');
 
   function atualizarInterface() {
     const todos = obterServicos();
     const filtro = filtroCategoria.value;
-    const filtrados = filtro === 'todas' ? todos : todos.filter(s => s.categoria === filtro);
+    const filtrados = filtro === 'todas'
+      ? todos
+      : todos.filter(s => s.categoria === filtro);
     renderizarCards(filtrados, container);
-    if (contadorEl) contadorEl.innerText = `${todos.length} cadastrados`;
+    if (contadorEl) {
+      contadorEl.innerText =
+        `${todos.length} cadastrados`;
+    }
   }
 
-  // Validação e Cadastro
+  // Validação, Cadastro e Edição
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
@@ -259,36 +377,100 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const novo = {
-      nome: document.getElementById('nome').value.trim(),
-      categoria: document.getElementById('categoria').value,
-      bairro: document.getElementById('bairro').value.trim(),
-      precoBase: document.getElementById('precoBase').value,
-      telefone: document.getElementById('telefone').value.trim(),
-      descricao: document.getElementById('descricao').value.trim()
+    const idAtual =
+      servicoIdInput ? servicoIdInput.value : '';
+    const getVal = (id) =>
+      document.getElementById(id).value.trim();
+
+    const dados = {
+      nome: getVal('nome'),
+      categoria:
+        document.getElementById('categoria').value,
+      bairro: getVal('bairro'),
+      precoBase:
+        parseFloat(getVal('precoBase')) || 0,
+      telefone: getVal('telefone'),
+      descricao: getVal('descricao')
     };
 
-    salvarServico(novo);
+    if (idAtual) {
+      atualizarServico(idAtual, dados);
+      exibirToast('Serviço atualizado!');
+    } else {
+      salvarServico(dados);
+      exibirToast('Cadastrado com sucesso!');
+    }
+
     form.reset();
+    if (servicoIdInput) servicoIdInput.value = '';
     form.classList.remove('was-validated');
+
+    if (modalEl) {
+      const modal =
+        bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+    }
     atualizarInterface();
-    exibirToast('Empreendimento cadastrado com sucesso!');
   });
 
-  // Evento de Exclusão (Delegação de Eventos)
+  // Delegação: Edição e Exclusão
   container.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-excluir');
-    if (btn) {
-      const id = btn.getAttribute('data-id');
-      if (confirm('Deseja realmente remover este serviço da vitrine?')) {
+    // 1. Edição (Update)
+    const btnEditar =
+      e.target.closest('.btn-editar');
+    if (btnEditar) {
+      const id =
+        btnEditar.getAttribute('data-id');
+      const item =
+        obterServicos().find(s => s.id === id);
+      if (item) {
+        if (servicoIdInput)
+          servicoIdInput.value = item.id;
+        document.getElementById('nome').value =
+          item.nome;
+        document.getElementById('categoria').value =
+          item.categoria;
+        document.getElementById('bairro').value =
+          item.bairro;
+        document.getElementById('precoBase').value =
+          item.precoBase;
+        document.getElementById('telefone').value =
+          item.telefone;
+        document.getElementById('descricao').value =
+          item.descricao;
+
+        if (modalEl) {
+          const modal =
+            bootstrap.Modal.getOrCreateInstance(
+              modalEl
+            );
+          modal.show();
+        }
+      }
+      return;
+    }
+
+    // 2. Exclusão (Delete)
+    const btnExcluir =
+      e.target.closest('.btn-excluir');
+    if (btnExcluir) {
+      const id =
+        btnExcluir.getAttribute('data-id');
+      if (confirm('Deseja remover este serviço?')) {
         removerServico(id);
         atualizarInterface();
-        exibirToast('Serviço removido da vitrine.', 'warning');
+        exibirToast(
+          'Serviço removido.',
+          'warning'
+        );
       }
     }
   });
 
-  filtroCategoria.addEventListener('change', atualizarInterface);
+  filtroCategoria.addEventListener(
+    'change',
+    atualizarInterface
+  );
   atualizarInterface();
 });
 \end{verbatim}
@@ -299,14 +481,16 @@ document.addEventListener('DOMContentLoaded', () => {
 % CHECKLIST DE ENTREGA DO ESTUDANTE
 % =====================================================
 
+\clearpage
 \subsection{Checklist de Conclusão e Critérios Avaliativos}
 
 Antes de realizar o commit final no repositório, certifique-se de validar todos os itens:
 
 \begin{itemize}
-\item[$\Box$] O projeto utiliza estritamente o padrão ES6 Modules com a tag \texttt{<script type="module" src="js/main.js"></script>};
+\item[$\Box$] O projeto utiliza estritamente o padrão ES6 Modules com a tag:\\ \texttt{<script type="module" src="js/main.js"></script>};
 \item[$\Box$] A estrutura em pastas (\texttt{js/services/}, \texttt{js/views/}, \texttt{js/utils/}) foi rigorosamente respeitada;
 \item[$\Box$] O arquivo \texttt{vitrineService.js} opera puramente sobre o \texttt{localStorage} sem manipular elementos do DOM;
+\item[$\Box$] As quatro operações do CRUD (\textbf{Create, Read, Update e Delete}) foram implementadas e testadas com persistência no navegador;
 \item[$\Box$] O formulário exibe validações visuais nativas do Bootstrap 5 (\texttt{.is-invalid}) quando campos obrigatórios não são preenchidos;
 \item[$\Box$] A vitrine reage instantaneamente aos filtros de categoria sem recarregar a página;
 \item[$\Box$] O código está devidamente publicado e em pleno funcionamento no \textbf{GitHub Pages}.

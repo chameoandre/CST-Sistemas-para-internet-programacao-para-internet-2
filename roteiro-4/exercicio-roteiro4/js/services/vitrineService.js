@@ -69,3 +69,18 @@ export function removerServico(id) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(filtrados));
   return filtrados;
 }
+
+export function atualizarServico(id, dadosAtualizados) {
+  const servicos = obterServicos();
+  const index = servicos.findIndex(s => s.id === id);
+  if (index !== -1) {
+    servicos[index] = {
+      ...servicos[index],
+      ...dadosAtualizados,
+      dataEdicao: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+    return servicos[index];
+  }
+  return null;
+}

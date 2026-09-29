@@ -4,35 +4,500 @@
 **Curso:** Curso Superior de Tecnologia em Sistemas para a Internet  
 **Instituição:** Instituto Federal de Santa Catarina (Câmpus Garopaba)  
 **Docente:** Prof. André Moraes  
+**Tema:** Arquitetura Modular Frontend: ES6 Modules, Padrão em Camadas & CRUD Completo no LocalStorage
 
 ---
 
 ## 🎯 Objetivos de Aprendizagem
 
-- [x] Aplicação prática do padrão **ES6 Modules** no navegador (`<script type="module" src="js/main.js">`, `import` e `export`).
-- [x] Separação estrita em camadas de software no frontend:
-  - `js/services/`: Manipulação e persistência no `localStorage` sem acoplamento visual.
-  - `js/views/`: Renderização dinâmica de cards e Toasts do Bootstrap 5 via template literals.
-  - `js/utils/`: Funções utilitárias puras (moeda em Real `R$`, formatação de telefone/WhatsApp e sanitização `escapeHtml`).
-  - `js/main.js`: Orquestrador de eventos e ciclo de vida da aplicação.
-- [x] Validação visual no cliente com as classes nativas do Bootstrap 5 (`.is-valid`, `.is-invalid`, `.invalid-feedback`, `was-validated`).
-- [x] Notificações flutuantes assíncronas (**Bootstrap Toasts**) para feedback de operações ao usuário.
-- [x] Filtro reativo instantâneo por categoria sem recarregamento de página.
+- [x] Superar a arquitetura de arquivo único monolítico (`app.js`), adotando **ES6 Modules** (`import` e `export`) no navegador;
+- [x] Declarar o ponto de entrada modular na página web via `<script type="module" src="js/main.js"></script>`;
+- [x] Estruturar o frontend segundo a separação estrita de responsabilidades em **3 camadas + orquestrador**:
+  - `js/services/`: Persistência pura e regras de negócio do CRUD via `localStorage`;
+  - `js/views/`: Renderização dinâmica de cards e feedback flutuante com Bootstrap Toasts;
+  - `js/utils/`: Funções utilitárias puras (moeda em Real `R$`, formatação com máscara de telefone e sanitização anti-XSS);
+  - `js/main.js`: Orquestrador central que gerencia eventos do DOM e interliga as camadas.
+- [x] Implementar o **CRUD Completo** (Create, Read, Update, Delete) no navegador:
+  - **Create (Cadastrar):** Formulário modal com validação visual Bootstrap 5 (`was-validated`);
+  - **Read (Listar & Filtrar):** Cards responsivos dinâmicos com filtro por categoria em tempo real;
+  - **Update (Editar):** Carregamento dos dados no modal para alteração e regravação;
+  - **Delete (Excluir):** Delegação de eventos no container para exclusão com confirmação.
+- [x] Publicação da aplicação funcional no **GitHub Pages**.
 
 ---
 
-## 🚀 Como Executar Localmente
+## 📂 Estrutura de Arquivos e Pastas
 
-Como a aplicação utiliza módulos nativos do ES6 (`import`/`export`), os navegadores modernos exigem que os arquivos sejam servidos via protocolo HTTP/HTTPS (e não pelo protocolo local `file://`), devido a políticas de segurança CORS do navegador.
+Organize os diretórios do seu projeto rigorosamente na seguinte estrutura:
 
-Você pode rodar localmente usando qualquer servidor HTTP simples:
-
-```bash
-# Opção 1: Usando Python 3
-python3 -m http.server 8000
-
-# Opção 2: Usando a extensão Live Server do VS Code
-# Basta clicar em "Go Live" no canto inferior direito
+```text
+roteiro-4/exercicio-roteiro4/
+├── index.html                  # Interface completa: Header, Filtros, Vitrine e Modal de Cadastro/Edição
+├── styles.css                  # Estilos complementares, tipografia Google Fonts e microinterações
+└── js/
+    ├── main.js                 # Ponto de entrada modular e orquestrador de eventos do DOM
+    ├── services/
+    │   └── vitrineService.js   # Regras de negócio e operações de CRUD no LocalStorage (sem DOM)
+    ├── views/
+    │   └── vitrineView.js      # Geração de marcação HTML dos cards e disparo de Toasts
+    └── utils/
+        └── formatters.js       # Funções utilitárias puras (moeda, fone e sanitização)
 ```
 
-Acesse em seguida: `http://localhost:8000/roteiro-4/exercicio-roteiro4/`
+---
+
+## 🚀 Passo a Passo de Implementação do CRUD Completo
+
+Siga a ordem lógica abaixo para reproduzir a aplicação com sucesso do início ao fim:
+
+---
+
+### Passo 1: Estrutura HTML5 Base e Modal (`index.html` e `styles.css`)
+
+1. Crie o arquivo `index.html` importando as folhas de estilo do **Bootstrap 5.3.3**, os ícones do **Bootstrap Icons 1.11.3** e as fontes **Outfit** e **Plus Jakarta Sans** no `<head>`.
+2. Estruture os componentes principais da página:
+   - **Toast Container:** Elemento flutuante posicionado no canto superior direito para exibir mensagens de feedback assíncrono.
+   - **Hero Header:** Cabeçalho temático com o título da vitrine, contador dinâmico de serviços (`#totalServicosBadge`) e o botão de ação principal *"Divulgar Serviço"* com atributo `data-bs-toggle="modal"`.
+   - **Barra de Filtros:** Um `<select id="filtroCategoria">` para selecionar a categoria desejada e atualizar a vitrine em tempo real.
+   - **Container da Vitrine:** Uma `<div class="row" id="vitrineContainer">` onde os cards serão injetados dinamicamente via JavaScript.
+   - **Modal de Cadastro e Edição:** Um modal Bootstrap 5 contendo `<form id="formCadastro" novalidate>` com:
+     - Um campo oculto `<input type="hidden" id="servicoId" value="">` para armazenar o ID do registro durante a edição;
+     - Inputs para `nome`, `categoria`, `bairro`, `precoBase`, `telefone` e `descricao` com validações nativas (`required`, `pattern`, etc.);
+     - Classes de feedback (`.invalid-feedback`) para orientar o preenchimento.
+3. Importe o script do Bootstrap Bundle e, logo após, o arquivo principal JavaScript com a diretiva de módulo ES6:
+   ```html
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   <script type="module" src="js/main.js"></script>
+   ```
+4. No arquivo `styles.css`, defina as variáveis de cores institucionais e o efeito de elevação suave nos cards (`transform: translateY(-5px)` ao passar o mouse).
+
+---
+
+### Passo 2: Camada de Utilitários Puros (`js/utils/formatters.js`)
+
+Crie funções puras e exportadas nomeadamente para transformar dados brutos em representações adequadas à interface:
+
+```javascript
+// js/utils/formatters.js
+
+/** Formata um valor numérico para a moeda brasileira (R$ 0,00) */
+export function formatarMoeda(valor) {
+  const num = parseFloat(valor) || 0;
+  return num.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+}
+
+/** Formata números de telefone/WhatsApp com DDD no padrão (48) 99999-8888 */
+export function formatarTelefone(fone) {
+  const digits = (fone || '').replace(/\D/g, '');
+  if (digits.length === 11) {
+    return digits.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+  }
+  return fone;
+}
+
+/** Sanitiza strings antes de injetá-las no DOM para prevenir ataques de XSS */
+export function escapeHtml(texto) {
+  const div = document.createElement('div');
+  div.textContent = texto;
+  return div.innerHTML;
+}
+```
+
+---
+
+### Passo 3: Camada de Serviços e CRUD no LocalStorage (`js/services/vitrineService.js`)
+
+Esta camada é estritamente isolada: **ela não manipula o DOM**, apenas interage com o `localStorage` através das 4 operações do CRUD:
+
+```javascript
+// js/services/vitrineService.js
+
+const STORAGE_KEY = 'garopaba_vitrine_servicos';
+
+// Dados semente para exibição inicial caso o storage esteja vazio
+const DADOS_INICIAIS = [
+  {
+    id: '1',
+    nome: 'Maré Alta Artesanatos & Cerâmicas',
+    categoria: 'Artesanato',
+    bairro: 'Centro Histórico',
+    precoBase: 35.00,
+    telefone: '48991234567',
+    descricao: 'Peças artesanais e utilitárias modeladas à mão com argila local.'
+  },
+  {
+    id: '2',
+    nome: 'Garopaba Web & Design Studio',
+    categoria: 'Tecnologia',
+    bairro: 'Ferrugem',
+    precoBase: 150.00,
+    telefone: '48998765432',
+    descricao: 'Criação de websites profissionais responsivos e cardápios digitais.'
+  },
+  {
+    id: '3',
+    nome: 'Pescado Fresco do Zequinha',
+    categoria: 'Alimentação',
+    bairro: 'Canto das Canoas',
+    precoBase: 42.00,
+    telefone: '48984561234',
+    descricao: 'Peixes frescos e frutos do mar da pesca artesanal diária.'
+  }
+];
+
+/** READ: Recupera a lista completa de serviços do LocalStorage */
+export function obterServicos() {
+  const dados = localStorage.getItem(STORAGE_KEY);
+  if (!dados) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
+    return DADOS_INICIAIS;
+  }
+  try {
+    return JSON.parse(dados);
+  } catch (e) {
+    console.error('Erro ao processar dados do LocalStorage:', e);
+    return [];
+  }
+}
+
+/** CREATE: Adiciona um novo serviço no início da lista com ID gerado por timestamp */
+export function salvarServico(novoServico) {
+  const servicos = obterServicos();
+  const servicoCompleto = {
+    id: Date.now().toString(),
+    dataCadastro: new Date().toISOString(),
+    ...novoServico
+  };
+  servicos.unshift(servicoCompleto);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  return servicoCompleto;
+}
+
+/** UPDATE: Atualiza os dados de um serviço existente a partir do seu ID */
+export function atualizarServico(id, dadosAtualizados) {
+  const servicos = obterServicos();
+  const index = servicos.findIndex(s => s.id === id);
+  if (index !== -1) {
+    servicos[index] = {
+      ...servicos[index],
+      ...dadosAtualizados,
+      dataEdicao: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+    return servicos[index];
+  }
+  return null;
+}
+
+/** DELETE: Remove um serviço do LocalStorage filtrando pelo ID */
+export function removerServico(id) {
+  const servicos = obterServicos();
+  const filtrados = servicos.filter(s => s.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtrados));
+  return filtrados;
+}
+```
+
+---
+
+### Passo 4: Camada de Visão e Renderização (`js/views/vitrineView.js`)
+
+Esta camada é responsável por gerar marcação HTML dinâmica através de *template literals*, associar dados aos botões de ação e disparar Toasts de feedback:
+
+```javascript
+// js/views/vitrineView.js
+import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
+
+const CORES_CATEGORIA = {
+  'Alimentação': 'success',
+  'Tecnologia': 'info',
+  'Artesanato': 'warning',
+  'Serviços Gerais': 'primary',
+  'Turismo': 'secondary'
+};
+
+/** Renderiza a coleção de cards da vitrine ou exibe mensagem de lista vazia */
+export function renderizarCards(servicos, containerElement) {
+  if (!servicos || servicos.length === 0) {
+    containerElement.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <div class="p-4 rounded-4 bg-light border">
+          <i class="bi bi-inbox fs-1 text-muted d-block mb-2"></i>
+          <h5 class="fw-bold text-secondary mb-1">Nenhum serviço encontrado nesta categoria</h5>
+          <p class="text-muted small mb-0">Cadastre um novo serviço ou altere o filtro acima.</p>
+        </div>
+      </div>`;
+    return;
+  }
+
+  containerElement.innerHTML = servicos.map(s => {
+    const corBadge = CORES_CATEGORIA[s.categoria] || 'primary';
+    const telNumeros = (s.telefone || '').replace(/\D/g, '');
+
+    return `
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm border-0 vitrine-card rounded-4 overflow-hidden">
+          <div class="card-body p-4 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-${corBadge} px-3 py-2 rounded-pill font-outfit">
+                <i class="bi bi-tag-fill me-1"></i>${escapeHtml(s.categoria)}
+              </span>
+              <span class="fw-bold text-success font-outfit fs-5">
+                ${formatarMoeda(s.precoBase)}
+              </span>
+            </div>
+
+            <h5 class="card-title fw-bold text-dark mt-2 mb-1">${escapeHtml(s.nome)}</h5>
+            <h6 class="text-muted small mb-3">
+              <i class="bi bi-geo-alt-fill text-danger me-1"></i>${escapeHtml(s.bairro)}
+            </h6>
+            <p class="card-text text-secondary small flex-grow-1" style="line-height: 1.5;">
+              ${escapeHtml(s.descricao)}
+            </p>
+
+            <hr class="my-3 text-muted opacity-25">
+
+            <div class="d-flex justify-content-between align-items-center mt-auto">
+              <a href="https://wa.me/55${telNumeros}" target="_blank"
+                 class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+                <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
+              </a>
+              <div class="d-flex gap-1">
+                <button class="btn btn-sm btn-outline-primary btn-editar rounded-pill px-2"
+                        data-id="${s.id}" title="Editar serviço">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2"
+                        data-id="${s.id}" title="Remover da vitrine">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/** Dispara uma notificação flutuante (Bootstrap Toast) com mensagem e variante de cor */
+export function exibirToast(mensagem, tipo = 'success') {
+  const toastEl = document.getElementById('toastNotificacao');
+  const toastBody = document.getElementById('toastMensagem');
+  const toastHeader = document.getElementById('toastTitulo');
+
+  if (toastEl && toastBody) {
+    toastBody.innerText = mensagem;
+    if (toastHeader) {
+      toastHeader.innerText = tipo === 'success' ? 'Sucesso!' : (tipo === 'warning' ? 'Atenção' : 'Aviso');
+    }
+    toastEl.className = `toast align-items-center text-bg-${tipo} border-0 shadow-lg`;
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    toast.show();
+  }
+}
+```
+
+---
+
+### Passo 5: Orquestrador Central de Eventos (`js/main.js`)
+
+O arquivo `main.js` unifica todas as peças: escuta o evento `DOMContentLoaded`, coordena a renderização reativa, valida o formulário e gerencia a delegação de eventos para Edição e Exclusão:
+
+```javascript
+// js/main.js
+import {
+  obterServicos,
+  salvarServico,
+  atualizarServico,
+  removerServico
+} from './services/vitrineService.js';
+import { renderizarCards, exibirToast } from './views/vitrineView.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('formCadastro');
+  const container = document.getElementById('vitrineContainer');
+  const filtroCategoria = document.getElementById('filtroCategoria');
+  const totalServicosBadge = document.getElementById('totalServicosBadge');
+  const modalEl = document.getElementById('modalCadastro');
+  const modalTitulo = document.getElementById('modalCadastroLabel');
+  const btnSalvarTexto = document.getElementById('btnSalvarTexto');
+  const servicoIdInput = document.getElementById('servicoId');
+
+  // Atualiza a exibição da vitrine aplicando o filtro selecionado e o totalizador
+  function atualizarVitrine() {
+    const todos = obterServicos();
+    const categoria = filtroCategoria ? filtroCategoria.value : 'todas';
+    const filtrados = categoria === 'todas'
+      ? todos
+      : todos.filter(item => item.categoria === categoria);
+
+    renderizarCards(filtrados, container);
+
+    if (totalServicosBadge) {
+      totalServicosBadge.innerText = `${todos.length} Serviços Cadastrados`;
+    }
+  }
+
+  // Limpa o formulário e restaura títulos e botões para o estado de novo cadastro
+  function resetarFormulario() {
+    if (form) {
+      form.reset();
+      form.classList.remove('was-validated');
+    }
+    if (servicoIdInput) servicoIdInput.value = '';
+    if (modalTitulo) {
+      modalTitulo.innerHTML = '<i class="bi bi-shop text-success me-2"></i>Cadastrar Serviço na Vitrine';
+    }
+    if (btnSalvarTexto) {
+      btnSalvarTexto.innerText = 'Salvar na Vitrine';
+    }
+  }
+
+  // 1. SUBMISSÃO DO FORMULÁRIO (CREATE & UPDATE COM VALIDAÇÃO BOOTSTRAP 5)
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        e.stopPropagation();
+        form.classList.add('was-validated');
+        exibirToast('Por favor, preencha todos os campos obrigatórios.', 'danger');
+        return;
+      }
+
+      const idAtual = servicoIdInput ? servicoIdInput.value : '';
+      const dadosServico = {
+        nome: document.getElementById('nome').value.trim(),
+        categoria: document.getElementById('categoria').value,
+        bairro: document.getElementById('bairro').value.trim(),
+        precoBase: parseFloat(document.getElementById('precoBase').value) || 0,
+        telefone: document.getElementById('telefone').value.trim(),
+        descricao: document.getElementById('descricao').value.trim()
+      };
+
+      if (idAtual) {
+        // Operação UPDATE: Atualiza serviço existente
+        atualizarServico(idAtual, dadosServico);
+        exibirToast('Serviço atualizado com sucesso!');
+      } else {
+        // Operação CREATE: Cria novo serviço
+        salvarServico(dadosServico);
+        exibirToast('Empreendimento cadastrado com sucesso!');
+      }
+
+      if (modalEl) {
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+      }
+      resetarFormulario();
+      atualizarVitrine();
+    });
+  }
+
+  // Garante formulário limpo ao fechar ou reabrir o modal
+  if (modalEl) {
+    modalEl.addEventListener('hidden.bs.modal', resetarFormulario);
+  }
+
+  // 2. DELEGAÇÃO DE EVENTOS: EDIÇÃO (UPDATE) E EXCLUSÃO (DELETE)
+  if (container) {
+    container.addEventListener('click', (e) => {
+      // Ação: EDIÇÃO (Carrega dados no modal e abre para alteração)
+      const btnEditar = e.target.closest('.btn-editar');
+      if (btnEditar) {
+        const id = btnEditar.getAttribute('data-id');
+        const servico = obterServicos().find(s => s.id === id);
+
+        if (servico) {
+          if (servicoIdInput) servicoIdInput.value = servico.id;
+          document.getElementById('nome').value = servico.nome;
+          document.getElementById('categoria').value = servico.categoria;
+          document.getElementById('bairro').value = servico.bairro;
+          document.getElementById('precoBase').value = servico.precoBase;
+          document.getElementById('telefone').value = servico.telefone;
+          document.getElementById('descricao').value = servico.descricao;
+
+          if (modalTitulo) {
+            modalTitulo.innerHTML = '<i class="bi bi-pencil-square text-primary me-2"></i>Editar Serviço da Vitrine';
+          }
+          if (btnSalvarTexto) {
+            btnSalvarTexto.innerText = 'Atualizar Dados';
+          }
+
+          if (modalEl) {
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modalInstance.show();
+          }
+        }
+        return;
+      }
+
+      // Ação: EXCLUSÃO (Confirma e remove do LocalStorage)
+      const btnExcluir = e.target.closest('.btn-excluir');
+      if (btnExcluir) {
+        const id = btnExcluir.getAttribute('data-id');
+        if (confirm('Deseja realmente remover este serviço da vitrine comunitária?')) {
+          removerServico(id);
+          atualizarVitrine();
+          exibirToast('Serviço removido com sucesso.', 'warning');
+        }
+      }
+    });
+  }
+
+  // 3. FILTRO EM TEMPO REAL
+  if (filtroCategoria) {
+    filtroCategoria.addEventListener('change', atualizarVitrine);
+  }
+
+  // Carga inicial dos dados
+  atualizarVitrine();
+});
+```
+
+---
+
+## 💻 Como Executar e Testar Localmente
+
+> [!IMPORTANT]
+> **Por que é obrigatório usar um servidor HTTP?**  
+> Como a aplicação utiliza módulos nativos do ES6 (`import` e `export`), os navegadores modernos bloqueiam o carregamento através do protocolo local `file://` por razões de segurança (CORS - *Cross-Origin Resource Sharing*). O código deve ser servido via protocolo `http://` ou `https://`.
+
+Escolha uma das alternativas abaixo para rodar:
+
+```bash
+# Opção A: Servidor nativo do Python 3 (a partir da raiz do repositório)
+python3 -m http.server 8000
+
+# Acesse no navegador:
+# http://localhost:8000/roteiro-4/exercicio-roteiro4/
+```
+
+```bash
+# Opção B: Extensão Live Server do VS Code
+# Abra a pasta do projeto e clique em "Go Live" na barra inferior do editor.
+```
+
+### Roteiro de Testes do CRUD Completo
+
+1. **Teste de Listagem (Read):** Ao carregar a página pela primeira vez, os 3 serviços semente iniciais devem surgir em cards elegantes com o contador indicando "3 Serviços Cadastrados".
+2. **Teste de Filtro:** Altere o select para "Artesanato" ou "Tecnologia" e verifique a filtragem imediata sem recarregar a tela.
+3. **Teste de Cadastro (Create):** Clique em *"Divulgar Serviço"*, tente salvar vazio para verificar as mensagens de erro em vermelho do Bootstrap (`was-validated`). Em seguida, preencha os dados e salve. O novo card surgirá na vitrine e o Toast verde será exibido.
+4. **Teste de Edição (Update):** Clique no botão azul com ícone de lápis (`.btn-editar`) de qualquer card. O modal se abrirá com os dados pré-preenchidos e o título "Editar Serviço da Vitrine". Altere o preço ou a descrição e clique em *"Atualizar Dados"*. O card será atualizado imediatamente na tela.
+5. **Teste de Exclusão (Delete):** Clique no botão vermelho de lixeira (`.btn-excluir`), confirme o diálogo e observe o card desaparecer, com a atualização automática do contador e Toast amarelo de aviso.
+6. **Teste de Persistência:** Recarregue a página com `F5` ou feche o navegador. Todos os dados alterados devem permanecer intactos no `localStorage`.
+
+---
+
+## 📬 Publicação no GitHub Pages e Critérios Avaliativos
+
+- [x] O projeto utiliza estritamente o padrão ES6 Modules com a tag `<script type="module" src="js/main.js"></script>`;
+- [x] A estrutura de diretórios (`js/services/`, `js/views/`, `js/utils/`) foi rigorosamente mantida;
+- [x] As 4 operações do CRUD (**Create, Read, Update, Delete**) funcionam integradas ao `localStorage`;
+- [x] O formulário possui validações visuais nativas do Bootstrap 5 (`.is-invalid`, `.invalid-feedback`, `was-validated`);
+- [x] Notificações flutuantes assíncronas (**Bootstrap Toasts**) alertam o usuário em cada ação;
+- [x] O repositório contém o arquivo `.nojekyll` na raiz para garantir o deploy limpo no GitHub Pages;
+- [x] A aplicação está online e funcional no seu endereço pessoal do **GitHub Pages**.

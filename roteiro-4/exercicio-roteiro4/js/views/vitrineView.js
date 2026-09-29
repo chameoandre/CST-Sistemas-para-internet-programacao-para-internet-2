@@ -58,9 +58,14 @@ export function renderizarCards(servicos, containerElement) {
               <a href="https://wa.me/55${telNumeros}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
                 <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
               </a>
-              <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2" data-id="${s.id}" title="Remover da vitrine">
-                <i class="bi bi-trash"></i>
-              </button>
+              <div class="d-flex gap-1">
+                <button class="btn btn-sm btn-outline-primary btn-editar rounded-pill px-2" data-id="${s.id}" title="Editar serviço">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2" data-id="${s.id}" title="Remover da vitrine">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -104,6 +104,7 @@
         </div>
         
         <form id="formCadastro" novalidate>
+          <input type="hidden" id="servicoId" value="">
           <div class="modal-body pt-3">
             <p class="text-muted small mb-3">Preencha as informações do empreendedor local para cadastrar na vitrine:</p>
 
@@ -157,8 +158,8 @@
 
           <div class="modal-footer border-0 pt-0">
             <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success rounded-pill px-4 font-outfit fw-bold shadow-sm">
-              <i class="bi bi-check-lg me-1"></i> Salvar na Vitrine
+            <button type="submit" id="btnSalvarModal" class="btn btn-success rounded-pill px-4 font-outfit fw-bold shadow-sm">
+              <i class="bi bi-check-lg me-1"></i> <span id="btnSalvarTexto">Salvar na Vitrine</span>
             </button>
           </div>
         </form>

@@ -1,9 +1,14 @@
 /**
  * ORQUESTRADOR CENTRAL (main.js)
- * Conecta os eventos do DOM, valida formulários e chama as camadas de serviço e visualização.
+ * Conecta os eventos do DOM, valida formulários e orquestra o CRUD completo (Create, Read, Update, Delete).
  */
 
-import { obterServicos, salvarServico, removerServico } from './services/vitrineService.js';
+import {
+  obterServicos,
+  salvarServico,
+  atualizarServico,
+  removerServico
+} from './services/vitrineService.js';
 import { renderizarCards, exibirToast } from './views/vitrineView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('vitrineContainer');
   const filtroCategoria = document.getElementById('filtroCategoria');
   const totalServicosBadge = document.getElementById('totalServicosBadge');
+  const modalEl = document.getElementById('modalCadastro');
+  const modalTitulo = document.getElementById('modalCadastroLabel');
+  const btnSalvarTexto = document.getElementById('btnSalvarTexto');
+  const servicoIdInput = document.getElementById('servicoId');
 
   function atualizarVitrine() {
     const todos = obterServicos();
@@ -27,7 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 1. SUBMISSÃO E VALIDAÇÃO DE FORMULÁRIO (Bootstrap 5 Validation)
+  function resetarFormulario() {
+    if (form) {
+      form.reset();
+      form.classList.remove('was-validated');
+    }
+    if (servicoIdInput) servicoIdInput.value = '';
+    if (modalTitulo) {
+      modalTitulo.innerHTML = '<i class="bi bi-shop text-success me-2"></i>Cadastrar Serviço na Vitrine';
+    }
+    if (btnSalvarTexto) {
+      btnSalvarTexto.innerText = 'Salvar na Vitrine';
+    }
+  }
+
+  // 1. SUBMISSÃO DO FORMULÁRIO (CREATE & UPDATE COM VALIDAÇÃO BOOTSTRAP 5)
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -39,7 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const novoServico = {
+      const idAtual = servicoIdInput ? servicoIdInput.value : '';
+      const dadosServico = {
         nome: document.getElementById('nome').value.trim(),
         categoria: document.getElementById('categoria').value,
         bairro: document.getElementById('bairro').value.trim(),
@@ -48,25 +72,65 @@ document.addEventListener('DOMContentLoaded', () => {
         descricao: document.getElementById('descricao').value.trim()
       };
 
-      salvarServico(novoServico);
-      form.reset();
-      form.classList.remove('was-validated');
+      if (idAtual) {
+        // UPDATE (Atualização de item existente)
+        atualizarServico(idAtual, dadosServico);
+        exibirToast('Serviço atualizado com sucesso!');
+      } else {
+        // CREATE (Novo cadastro)
+        salvarServico(dadosServico);
+        exibirToast('Empreendimento cadastrado com sucesso!');
+      }
 
-      // Fecha o modal de cadastro se estiver aberto
-      const modalEl = document.getElementById('modalCadastro');
+      // Fecha o modal e limpa o formulário
       if (modalEl) {
         const modalInstance = bootstrap.Modal.getInstance(modalEl);
         if (modalInstance) modalInstance.hide();
       }
-
+      resetarFormulario();
       atualizarVitrine();
-      exibirToast('Empreendimento cadastrado com sucesso!');
     });
   }
 
-  // 2. EXCLUSÃO COM DELEGAÇÃO DE EVENTOS
+  // Reseta campos ao fechar ou reabrir o modal para novo cadastro
+  if (modalEl) {
+    modalEl.addEventListener('hidden.bs.modal', resetarFormulario);
+  }
+
+  // 2. DELEGAÇÃO DE EVENTOS: EDIÇÃO (UPDATE) E EXCLUSÃO (DELETE)
   if (container) {
     container.addEventListener('click', (e) => {
+      // Operação UPDATE: Carregar dados no modal para edição
+      const btnEditar = e.target.closest('.btn-editar');
+      if (btnEditar) {
+        const id = btnEditar.getAttribute('data-id');
+        const servico = obterServicos().find(s => s.id === id);
+
+        if (servico) {
+          if (servicoIdInput) servicoIdInput.value = servico.id;
+          document.getElementById('nome').value = servico.nome;
+          document.getElementById('categoria').value = servico.categoria;
+          document.getElementById('bairro').value = servico.bairro;
+          document.getElementById('precoBase').value = servico.precoBase;
+          document.getElementById('telefone').value = servico.telefone;
+          document.getElementById('descricao').value = servico.descricao;
+
+          if (modalTitulo) {
+            modalTitulo.innerHTML = '<i class="bi bi-pencil-square text-primary me-2"></i>Editar Serviço da Vitrine';
+          }
+          if (btnSalvarTexto) {
+            btnSalvarTexto.innerText = 'Atualizar Dados';
+          }
+
+          if (modalEl) {
+            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modalInstance.show();
+          }
+        }
+        return;
+      }
+
+      // Operação DELETE: Remover serviço
       const btnExcluir = e.target.closest('.btn-excluir');
       if (btnExcluir) {
         const id = btnExcluir.getAttribute('data-id');
@@ -79,11 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. FILTRO EM TEMPO REAL
+  // 3. READ & FILTRO EM TEMPO REAL
   if (filtroCategoria) {
     filtroCategoria.addEventListener('change', atualizarVitrine);
   }
 
-  // Carga inicial
+  // Carga inicial dos dados
   atualizarVitrine();
 });
