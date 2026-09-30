@@ -112,9 +112,26 @@ O componente **Toast** é uma notificação compacta e temporária que surge sob
 
 ### 3. Cartões de Conteúdo (*Cards*): Unidades Modulares e Grid Uniforme
 Um **Card** (`.card .shadow-sm`) agrupa de forma coesa todas as informações e ações de um único registro:
-- `.card-body`: Abriga a badge de categoria, nome em destaque, preço base formatado, descrição e localização;
-- `.card-footer`: Rodapé que agrupa as ações de WhatsApp, edição e exclusão;
-- `.h-100`: Força todos os cards de uma mesma linha a terem exatamente a mesma altura vertical no grid.
+- **Croqui Anatômico do Card:**
+  ```text
+  +------------------------------------------------------------------------+
+  | .card .h-100 .shadow-sm (Contêiner com altura equalizada no grid)       |
+  |   +----------------------------------------------------------------+   |
+  |   | [1. .card-body]                                                |   |
+  |   |   [.badge Categoria]                   R$ 25,00 (formatarMoeda)|   |
+  |   |   Nome do Empreendimento (.card-title)                         |   |
+  |   |   Bairro / Localização (.card-subtitle)                        |   |
+  |   |   Texto descritivo dos diferenciais (.card-text .small)...     |   |
+  |   +----------------------------------------------------------------+   |
+  |   | [2. .card-footer .bg-transparent]                              |   |
+  |   |   [WhatsApp: wa.me]                       [Editar]    [Excluir]|   |
+  |   +----------------------------------------------------------------+   |
+  +------------------------------------------------------------------------+
+  ```
+- **Anatomia no Bootstrap 5 (conforme ilustrado acima):**
+  - `.card-body`: Abriga a badge de categoria, nome em destaque, preço base formatado, descrição e localização;
+  - `.card-footer`: Rodapé que agrupa as ações de WhatsApp, edição e exclusão;
+  - `.h-100`: Força todos os cards de uma mesma linha a terem exatamente a mesma altura vertical no grid.
 
 ### 4. Validação Visual Nativa e o Campo Oculto (`<input type="hidden">`)
 - **Atributo `novalidate`:** Suprime os balões padrão do navegador para que a aplicação utilize as classes visuais do Bootstrap (`.is-valid` e `.is-invalid` combinadas com mensagens `.invalid-feedback`);

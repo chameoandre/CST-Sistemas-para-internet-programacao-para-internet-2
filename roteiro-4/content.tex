@@ -187,10 +187,81 @@ O componente \textbf{Toast} é uma notificação compacta e temporária que surg
 
 \subsubsection{3. Cartões de Conteúdo (\textit{Cards}): Unidades Modulares e Grid Uniforme}
 Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm}) que agrupa de forma coesa todas as informações e ações pertinentes a um único registro:
+
+\begin{center}
+\begin{tcolorbox}[
+    enhanced,
+    width=0.92\linewidth,
+    colback=white, colframe=azulTitulo!70,
+    arc=5pt, boxrule=1pt,
+    shadow={1.5mm}{-1.5mm}{0mm}{black!12},
+    top=0pt, bottom=0pt, left=0pt, right=0pt
+]
+  % Rotulo Geral do Componente
+  \begin{tcolorbox}[
+      colback=azulTitulo!8, colframe=azulTitulo!25,
+      arc=4pt, sharp corners=downhill,
+      boxrule=0pt, bottomrule=0.6pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    \colorbox{azulTitulo}{\color{white}\tiny\bfseries .card .h-100 .shadow-sm}
+    \hspace{4pt}
+    \textbf{\footnotesize Croqui Anatômico do Card de Serviço}
+    \hfill
+    {\tiny\color{gray!80}\textit{(Renderizado dinamicamente via vitrineView.js)}}
+  \end{tcolorbox}
+
+  % 1. Card Body (.card-body)
+  \begin{tcolorbox}[
+      colback=white, colframe=white,
+      boxrule=0pt,
+      top=6pt, bottom=6pt, left=8pt, right=8pt
+  ]
+    \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 1. .card-body}
+    \vspace{3pt}
+
+    % Topo com Badge e Preço
+    \colorbox{blue!12}{\color{blue!80!black}\scriptsize\bfseries .badge (Categoria)}
+    \hfill
+    {\normalsize\bfseries\color{ifscGreen} R\$ 25,00}
+    \hspace{2pt}
+    \colorbox{gray!20}{\tiny\texttt{formatarMoeda()}}
+
+    \vspace{3pt}
+    {\large\bfseries Nome do Empreendimento (\texttt{.card-title})}
+
+    \vspace{2pt}
+    {\footnotesize\color{gray!80} \textbf{Bairro / Localização (\texttt{.card-subtitle}):} Ferrugem \quad \textbar \quad \textbf{ID:} \texttt{1729482103}}
+
+    \vspace{3pt}
+    {\small\color{gray!90} Texto descritivo dos diferenciais do serviço (\texttt{.card-text .small})...}
+  \end{tcolorbox}
+
+  % 2. Card Footer (.card-footer)
+  \begin{tcolorbox}[
+      colback=gray!6, colframe=gray!25,
+      arc=4pt, sharp corners=uphill,
+      boxrule=0pt, toprule=0.6pt,
+      top=4pt, bottom=4pt, left=8pt, right=8pt
+  ]
+    \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 2. .card-footer}
+    \hfill
+    \colorbox{ifscGreen}{\color{white}\scriptsize\bfseries WhatsApp (\texttt{wa.me})}
+    \hspace{4pt}
+    \colorbox{orange!15}{\color{orange!85!black}\scriptsize\bfseries Editar}
+    \hspace{2pt}
+    \colorbox{red!15}{\color{red!80!black}\scriptsize\bfseries Excluir}
+  \end{tcolorbox}
+\end{tcolorbox}
+\end{center}
+
 \begin{itemize}[leftmargin=*]
-  \item \texttt{.card-body}: Área principal contendo a \textit{badge} da categoria, o nome do empreendimento em destaque, o preço base formatado, a descrição e o bairro;
-  \item \texttt{.card-footer}: Rodapé transparente (\texttt{.bg-transparent}) que agrupa as ações disponíveis: link direto para o WhatsApp do empreendedor, botão de edição e botão de exclusão;
-  \item \texttt{.h-100}: Classe utilitária fundamental que garante que todos os cards de uma mesma linha tenham exatamente a mesma altura vertical, preservando o alinhamento visual uniforme independentemente do tamanho do texto da descrição.
+  \item \textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
+    \begin{itemize}
+      \item \texttt{.card-body}: Área principal contendo a \textit{badge} da categoria, o nome do empreendimento em destaque, o preço base formatado, a descrição e o bairro;
+      \item \texttt{.card-footer}: Rodapé transparente (\texttt{.bg-transparent}) que agrupa as ações disponíveis: link direto para o WhatsApp do empreendedor, botão de edição e botão de exclusão;
+      \item \texttt{.h-100}: Classe utilitária fundamental que garante que todos os cards de uma mesma linha tenham exatamente a mesma altura vertical, preservando o alinhamento visual uniforme independentemente do tamanho do texto da descrição.
+    \end{itemize}
 \end{itemize}
 
 \subsubsection{4. Validação Visual e o Campo Oculto (\texttt{type="hidden"})}
