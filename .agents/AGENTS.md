@@ -27,3 +27,8 @@ The rules in this file are automatically loaded by the AI assistant whenever wor
 - **Trusted Workspace Execution:** This workspace (`uc-programacao-para-a-internet-2`) is fully trusted for file creation, modification, LaTeX compilation via `tectonic`, and Git operations.
 - **Streamlined Command Execution:** Always combine shell commands into single non-interactive executions (e.g. using `&&` operators) to streamline builds, testing, and git deployments without unnecessary interactive prompt pauses.
 
+## 6. Base de Conhecimento & Regra do Código Completo (Zero-Ellipsis Rule)
+- **Base de Conhecimento:** Consultar as diretrizes em `base-de-conhecimento/` como fonte única de verdade para elaboração de materiais didáticos.
+- **Código Completo em Tutoriais:** Todo trecho de código nos roteiros destinados aos estudantes deve ser 100% completo, sem resumos, sem reticências (`...`) ou omissões de elementos (como `#toastMensagem`, opções de `<select>`, ou contêineres). Qualquer elemento manipulado no JavaScript deve estar expressamente criado no HTML dos passos anteriores.
+
+
