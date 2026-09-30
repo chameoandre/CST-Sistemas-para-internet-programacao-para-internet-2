@@ -189,6 +189,18 @@
     }
 }
 
+\newtcolorbox{mockupNavegador}[1][]{
+    breakable, enhanced,
+    colback=white,
+    colframe=gray!50,
+    boxrule=0.8pt,
+    arc=5pt,
+    top=8pt, bottom=8pt, left=8pt, right=8pt,
+    title={\tikz\draw[fill=red!70,draw=none] (0,0) circle (2.8pt); \tikz\draw[fill=orange!90,draw=none] (0,0) circle (2.8pt); \tikz\draw[fill=green!70!black,draw=none] (0,0) circle (2.8pt); \hspace{6pt}\colorbox{white}{\footnotesize\ttfamily\color{gray!80}\quad http://127.0.0.1:5500/index.html \quad} \hfill \footnotesize\bfseries\color{gray!70} #1},
+    colbacktitle=gray!15,
+    coltitle=black
+}
+
 \newtcolorbox{boxTeste}[1][]{
     breakable, enhanced,
     colback=ifscGreen!5, colframe=ifscGreen,

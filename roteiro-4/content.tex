@@ -180,17 +180,30 @@ console.log(formatarTelefone('48999998888'));
 \end{boxAtividade}
 
 \vspace{-0.1cm}
-\begin{boxCroqui}[{Croqui Visual 1.1: Wireframe da Interface no Navegador}]
-+-----------------------------------------------------------------------+
-| [Vitrine de Garopaba] (0 cadastrados)             [+ Divulgar Servico] | <- Header
-+-----------------------------------------------------------------------+
-| [ Filtro: Todas as Categorias v ]                 [ Toast Notificacao] | <- Controles
-+-----------------------------------------------------------------------+
-|                                                                       |
-|    <div id="vitrineContainer">: Grid vazio aguardando os cards...     | <- Grid
-|                                                                       |
-+-----------------------------------------------------------------------+
-\end{boxCroqui}
+\begin{mockupNavegador}[Navegador Web: Interface Base (Passo 1.1)]
+  % Barra de Navegacao (Navbar)
+  \begin{tcolorbox}[colback=ifscGreen, colframe=ifscGreen, arc=3pt, boxrule=0pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    \color{white}\bfseries\small Vitrine Comunitária de Garopaba
+    \hfill
+    \colorbox{black!35}{\color{white}\scriptsize\bfseries 0 cadastrados}
+    \hspace{4pt}
+    \colorbox{yellow!90!black}{\color{black}\scriptsize\bfseries + Divulgar Serviço}
+  \end{tcolorbox}
+  
+  \vspace{3pt}
+  % Card de Filtros
+  \begin{tcolorbox}[colback=gray!6, colframe=gray!25, arc=3pt, boxrule=0.6pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
+    \footnotesize\textbf{Filtrar por Categoria:} \hspace{4pt}
+    \fboxsep=3pt\fcolorbox{gray!40}{white}{\scriptsize\ttfamily Todas as Categorias $\downarrow$}
+  \end{tcolorbox}
+
+  \vspace{3pt}
+  % Area Dinamica (vitrineContainer)
+  \begin{tcolorbox}[borderline={0.6pt}{0pt}{gray!40,dashed}, colback=gray!3, colframe=gray!40, arc=3pt, boxrule=0pt, top=8pt, bottom=8pt, halign=center]
+    \footnotesize\color{gray!80}\textbf{Ponto de Montagem Dinâmica (\texttt{\#vitrineContainer})}\\
+    \scriptsize\color{gray!60}(Área central onde os cards gerados pela camada de apresentação serão inseridos via JavaScript)
+  \end{tcolorbox}
+\end{mockupNavegador}
 
 \begin{boxCodigoHTML}
 <!-- index.html (Parte 1: Estrutura Base e Scripts) -->
@@ -288,23 +301,77 @@ Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live 
 \textbf{Responsabilidade Arquitetural:} Fornecer a interface de diálogo acessível para inserção e atualização de serviços, contendo validações visuais nativas do HTML5 (\texttt{required}), seletores padronizados e um campo oculto (\texttt{\#servicoId}) que diferencia operações de \textit{Create} (novo) e \textit{Update} (edição).
 \end{boxAtividade}
 
+\begin{tcolorbox}[
+    colback=azulTitulo!5, colframe=azulTitulo!80,
+    boxrule=0.8pt, arc=4pt, left=8pt, right=8pt, top=6pt, bottom=6pt
+]
+\textbf{\color{azulTitulo}Onde e como inserir este código no \texttt{index.html}:}
+\begin{itemize}[leftmargin=*, nosep]
+  \item \textbf{Atenção: Não apague nem substitua} o código estruturado no Passo 1.1! Todo o documento construído anteriormente permanece intacto.
+  \item \textbf{Local exato de inserção:} Insira o bloco completo do modal logo após a tag de fechamento \texttt{</main>} e imediatamente antes das tags de script (\texttt{<!-- Bootstrap Bundle JS... -->}).
+\end{itemize}
+\end{tcolorbox}
+
 \vspace{-0.1cm}
-\begin{boxCroqui}[{Croqui Visual 1.2: Anatomia do Dialogo Modal}]
-+-----------------------------------------------------------------------+
-|  Cadastrar Servico na Vitrine                                     [X] |
-+-----------------------------------------------------------------------+
-|  Nome do Empreendimento: [                                          ] |
-|  Categoria: [ Selecione... v ]         Bairro: [                    ] |
-|  Preco Base: [ R$ 0.00       ]         WhatsApp: [ 48999998888      ] |
-|  Descricao do Servico:   [                                          ] |
-|  <input type="hidden" id="servicoId">: invisivel (controle de ID)     |
-+-----------------------------------------------------------------------+
-|                                         [ Cancelar ]  [ Salvar ]      |
-+-----------------------------------------------------------------------+
-\end{boxCroqui}
+\begin{mockupNavegador}[Navegador Web: index.html (Diálogo Modal Ativo)]
+  \begin{tcolorbox}[enhanced, colback=gray!25, colframe=gray!25, arc=3pt, boxrule=0pt, top=8pt, bottom=8pt, left=12pt, right=12pt]
+    % Janela Modal Flutuante
+    \begin{tcolorbox}[colback=white, colframe=gray!35, arc=5pt, boxrule=0.8pt, shadow={1.5mm}{-1.5mm}{0mm}{black!15}, top=6pt, bottom=6pt, left=10pt, right=10pt]
+      % Cabecalho do Modal
+      {\small\bfseries Cadastrar Serviço na Vitrine}
+      \hfill
+      {\footnotesize\textbf{\textsf{\color{gray}[ $\times$ ]}}}
+      \par\vspace{2pt}\textcolor{gray!30}{\hrulefill}\vspace{4pt}
+      
+      % Corpo do Formulario
+      \scriptsize
+      \textbf{Nome do Empreendimento:} {\color{red}*}\\
+      \fboxsep=3pt\fcolorbox{gray!30}{white}{\makebox[0.96\linewidth][l]{\color{gray!70}\quad Ex: Padaria Artesanal Ferrugem}}
+      
+      \vspace{4pt}
+      \begin{minipage}[t]{0.48\linewidth}
+        \textbf{Categoria:} {\color{red}*}\\
+        \fboxsep=3pt\fcolorbox{gray!30}{white}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad Selecione... $\downarrow$}}
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.48\linewidth}
+        \textbf{Bairro:} {\color{red}*}\\
+        \fboxsep=3pt\fcolorbox{gray!30}{white}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad Ex: Ferrugem}}
+      \end{minipage}
+      
+      \vspace{4pt}
+      \begin{minipage}[t]{0.48\linewidth}
+        \textbf{Preço Base (R\$):} {\color{red}*}\\
+        \fboxsep=3pt\fcolorbox{gray!30}{white}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad 0.00}}
+      \end{minipage}
+      \hfill
+      \begin{minipage}[t]{0.48\linewidth}
+        \textbf{WhatsApp / Telefone:} {\color{red}*}\\
+        \fboxsep=3pt\fcolorbox{gray!30}{white}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad 48999998888}}
+      \end{minipage}
+      
+      \vspace{4pt}
+      \textbf{Descrição do Serviço:} {\color{red}*}\\
+      \fboxsep=3pt\fcolorbox{gray!30}{white}{\makebox[0.96\linewidth][l]{\rule{0pt}{1.1em}\color{gray!70}\quad Pães artesanais, lanches e cafés...}}
+      
+      \vspace{4pt}
+      \textit{\tiny\color{gray!80} Campo Oculto de Controle: \texttt{<input type="hidden" id="servicoId">} (não visível, gerencia Create vs Update)}
+      
+      \par\vspace{3pt}\textcolor{gray!30}{\hrulefill}\vspace{4pt}
+      % Rodape do Modal
+      \hfill
+      \colorbox{gray!20}{\scriptsize Cancelar}
+      \hspace{4pt}
+      \colorbox{ifscGreen}{\color{white}\scriptsize\bfseries Salvar na Vitrine}
+    \end{tcolorbox}
+  \end{tcolorbox}
+\end{mockupNavegador}
 
 \begin{boxCodigoHTML}
-<!-- index.html (Parte 2: Modal de Cadastro/Edição) -->
+<!-- index.html (Inserir logo após </main> e imediatamente antes de <script>) -->
+<!-- ====================================================================== -->
+<!-- PARTE 2: MODAL DE CADASTRO E EDIÇÃO (Não apaga a Parte 1!)             -->
+<!-- ====================================================================== -->
 <div class="modal fade" id="modalCadastro" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg border-0">
@@ -500,16 +567,31 @@ No Console do navegador (\textbf{F12}), teste a persistência de um serviço:
 \end{boxAtividade}
 
 \vspace{-0.1cm}
-\begin{boxCroqui}[{Croqui Visual 4: Anatomia do Card de Servico}]
-+-----------------------------------------------------------------------+
-| [ Badge Categoria ]                                          R$ 35,00 | <- Topo
-| Nome do Empreendimento                                                | <- Titulo
-| (icone) Bairro em Garopaba                                            | <- Subtitulo
-| Breve descricao dos diferenciais e produtos do negocio...             | <- Descricao
-+-----------------------------------------------------------------------+
-| [ WhatsApp (48) 9999-8888 ]               [ Editar ]  [ Excluir ]     | <- Acoes
-+-----------------------------------------------------------------------+
-\end{boxCroqui}
+\begin{center}
+\begin{tcolorbox}[enhanced, width=0.88\linewidth, colback=white, colframe=gray!30, arc=5pt, boxrule=0.8pt, shadow={1.5mm}{-1.5mm}{0mm}{black!12}, top=8pt, bottom=8pt, left=10pt, right=10pt]
+  % Topo do Card com Badge e Preco
+  \colorbox{blue!12}{\color{blue!80!black}\footnotesize\bfseries Alimentação}
+  \hfill
+  {\large\bfseries\color{ifscGreen} R\$ 25,00}
+  
+  \vspace{3pt}
+  {\large\bfseries Padaria Central da Ferrugem}
+  
+  \vspace{2pt}
+  {\footnotesize\color{gray!80} \textbf{Bairro:} Ferrugem \quad \textbar \quad \textbf{ID:} \texttt{1729482103}}
+  
+  \vspace{3pt}
+  {\small\color{gray!90} Pães de fermentação natural, café orgânico especial e tortas artesanais com entrega local.}
+  
+  \par\vspace{4pt}\textcolor{gray!25}{\hrulefill}\vspace{4pt}
+  % Acoes do Card
+  \colorbox{ifscGreen}{\color{white}\footnotesize\bfseries WhatsApp: (48) 99999-8888}
+  \hfill
+  \colorbox{orange!15}{\color{orange!85!black}\footnotesize\bfseries Editar}
+  \hspace{3pt}
+  \colorbox{red!15}{\color{red!80!black}\footnotesize\bfseries Excluir}
+\end{tcolorbox}
+\end{center}
 
 \begin{boxCodigoJS}
 // js/views/vitrineView.js (Parte 1: Template do Card)
