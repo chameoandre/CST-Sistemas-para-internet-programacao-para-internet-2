@@ -148,22 +148,266 @@ Um **Card** (`.card .shadow-sm`) agrupa de forma coesa todas as informações e 
 
 ### Passo 1: Estrutura HTML5 Base e Modal (`index.html` e `styles.css`)
 
-1. Crie o arquivo `index.html` importando as folhas de estilo do **Bootstrap 5.3.3**, os ícones do **Bootstrap Icons 1.11.3** e as fontes **Outfit** e **Plus Jakarta Sans** no `<head>`.
-2. Estruture os componentes principais da página:
-   - **Toast Container:** Elemento flutuante posicionado no canto superior direito para exibir mensagens de feedback assíncrono.
-   - **Hero Header:** Cabeçalho temático com o título da vitrine, contador dinâmico de serviços (`#totalServicosBadge`) e o botão de ação principal *"Divulgar Serviço"* com atributo `data-bs-toggle="modal"`.
-   - **Barra de Filtros:** Um `<select id="filtroCategoria">` para selecionar a categoria desejada e atualizar a vitrine em tempo real.
-   - **Container da Vitrine:** Uma `<div class="row" id="vitrineContainer">` onde os cards serão injetados dinamicamente via JavaScript.
-   - **Modal de Cadastro e Edição:** Um modal Bootstrap 5 contendo `<form id="formCadastro" novalidate>` com:
-     - Um campo oculto `<input type="hidden" id="servicoId" value="">` para armazenar o ID do registro durante a edição;
-     - Inputs para `nome`, `categoria`, `bairro`, `precoBase`, `telefone` e `descricao` com validações nativas (`required`, `pattern`, etc.);
-     - Classes de feedback (`.invalid-feedback`) para orientar o preenchimento.
-3. Importe o script do Bootstrap Bundle e, logo após, o arquivo principal JavaScript com a diretiva de módulo ES6:
-   ```html
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script type="module" src="js/main.js"></script>
-   ```
-4. No arquivo `styles.css`, defina as variáveis de cores institucionais e o efeito de elevação suave nos cards (`transform: translateY(-5px)` ao passar o mouse).
+#### 1.1 Interface Completa (`index.html`)
+
+Crie o arquivo `index.html` na raiz do projeto com toda a estrutura visual: CDNs do Bootstrap 5.3.3, Google Fonts (*Outfit* e *Plus Jakarta Sans*), container de Toasts, Hero Banner, barra de filtros, grid dinâmico da vitrine e diálogo modal com validações nativas:
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitrine Comunitária de Garopaba — Roteiro 04 (ES6 Modules)</title>
+
+  <!-- Bootstrap 5 CSS & Icons & Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- TOAST DE NOTIFICAÇÃO FLUTUANTE -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
+    <div id="toastNotificacao" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i class="bi bi-check-circle-fill fs-5"></i>
+          <div>
+            <strong id="toastTitulo" class="d-block">Sucesso!</strong>
+            <span id="toastMensagem">Operação realizada com êxito.</span>
+          </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO BANNER -->
+  <header class="hero-banner shadow-sm">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-warning text-dark font-outfit fw-bold px-3 py-2 rounded-pill">
+              <i class="bi bi-code-slash me-1"></i> ROTEIRO PRÁTICO 04
+            </span>
+            <span class="badge bg-white text-success font-outfit fw-bold px-3 py-2 rounded-pill">
+              ES6 MODULES &amp; ARQUITETURA EM CAMADAS
+            </span>
+          </div>
+          <h1 class="display-6 fw-bold font-outfit mb-1">Vitrine Comunitária de Empreendedores</h1>
+          <p class="mb-0 opacity-75 small">Guia de serviços e comércios locais de Garopaba (SC) — Projeto Base de Extensão Universitária</p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge-counter" id="totalServicosBadge">Carregando...</span>
+          <button class="btn btn-warning text-dark font-outfit fw-bold px-3 py-2 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCadastro">
+            <i class="bi bi-plus-circle-fill me-1"></i> Divulgar Serviço
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTROS & CONTEÚDO PRINCIPAL -->
+  <main class="container mb-5">
+    
+    <!-- BARRA DE CONTROLE E FILTRO -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4 p-3 bg-white">
+      <div class="row g-3 align-items-center justify-content-between">
+        <div class="col-md-5">
+          <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><i class="bi bi-funnel-fill text-muted"></i></span>
+            <select class="form-select border-start-0 bg-light" id="filtroCategoria">
+              <option value="todas">Todas as Categorias</option>
+              <option value="Alimentação">Alimentação &amp; Gastronomia</option>
+              <option value="Tecnologia">Tecnologia &amp; Internet</option>
+              <option value="Artesanato">Artesanato &amp; Arte Local</option>
+              <option value="Serviços Gerais">Serviços Gerais &amp; Reformas</option>
+              <option value="Turismo">Turismo &amp; Passeios</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-7 text-md-end text-muted small">
+          <span class="badge bg-light text-dark border me-1"><i class="bi bi-folder-fill text-warning me-1"></i> js/services/</span>
+          <span class="badge bg-light text-dark border me-1"><i class="bi bi-layout-text-window-reverse text-info me-1"></i> js/views/</span>
+          <span class="badge bg-light text-dark border"><i class="bi bi-gear-wide-connected text-success me-1"></i> js/utils/</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID DINÂMICO DE CARDS DA VITRINE -->
+    <div class="row" id="vitrineContainer">
+      <!-- Injetado dinamicamente pela vitrineView.js -->
+    </div>
+
+  </main>
+
+  <!-- MODAL DE CADASTRO COM VALIDAÇÃO VISUAL BOOTSTRAP 5 -->
+  <div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title font-outfit fw-bold text-dark" id="modalCadastroLabel">
+            <i class="bi bi-shop text-success me-2"></i>Cadastrar Serviço na Vitrine
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        
+        <form id="formCadastro" novalidate>
+          <input type="hidden" id="servicoId" value="">
+          <div class="modal-body pt-3">
+            <p class="text-muted small mb-3">Preencha as informações do empreendedor local para cadastrar na vitrine:</p>
+
+            <div class="mb-3">
+              <label for="nome" class="form-label small fw-bold text-muted">Nome do Empreendimento / Profissional *</label>
+              <input type="text" class="form-control rounded-3" id="nome" placeholder="Ex: Maré Alta Artesanatos" required>
+              <div class="invalid-feedback">Por favor, informe o nome do empreendimento.</div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label for="categoria" class="form-label small fw-bold text-muted">Categoria *</label>
+                <select class="form-select rounded-3" id="categoria" required>
+                  <option value="" selected disabled>Selecione...</option>
+                  <option value="Alimentação">Alimentação &amp; Gastronomia</option>
+                  <option value="Tecnologia">Tecnologia &amp; Internet</option>
+                  <option value="Artesanato">Artesanato &amp; Arte Local</option>
+                  <option value="Serviços Gerais">Serviços Gerais &amp; Reformas</option>
+                  <option value="Turismo">Turismo &amp; Passeios</option>
+                </select>
+                <div class="invalid-feedback">Selecione uma categoria.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="bairro" class="form-label small fw-bold text-muted">Bairro / Localidade *</label>
+                <input type="text" class="form-control rounded-3" id="bairro" placeholder="Ex: Ferrugem, Centro..." required>
+                <div class="invalid-feedback">Informe o bairro em Garopaba.</div>
+              </div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label for="precoBase" class="form-label small fw-bold text-muted">Preço Base Referência (R$) *</label>
+                <input type="number" step="0.50" min="0" class="form-control rounded-3" id="precoBase" placeholder="Ex: 50.00" required>
+                <div class="invalid-feedback">Informe um valor válido em R$.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="telefone" class="form-label small fw-bold text-muted">WhatsApp / Telefone *</label>
+                <input type="tel" class="form-control rounded-3" id="telefone" placeholder="48999998888" required pattern="[0-9]{10,11}">
+                <div class="invalid-feedback">Informe um telefone válido com DDD (10 ou 11 dígitos).</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="descricao" class="form-label small fw-bold text-muted">Descrição dos Serviços e Produtos *</label>
+              <textarea class="form-control rounded-3" id="descricao" rows="3" placeholder="Descreva os produtos, serviços, diferenciais ou formas de atendimento..." required></textarea>
+              <div class="invalid-feedback">Insira uma breve descrição sobre o negócio.</div>
+            </div>
+          </div>
+
+          <div class="modal-footer border-0 pt-0">
+            <button type="button" class="btn btn-light rounded-pill px-4 text-muted fw-bold" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success rounded-pill px-4 font-outfit fw-bold shadow-sm" id="btnSalvarModal">
+              <i class="bi bi-check2-circle me-1"></i> <span id="btnSalvarTexto">Salvar na Vitrine</span>
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ INSTITUCIONAL -->
+  <footer>
+    <div class="container text-center">
+      <p class="mb-0">Instituto Federal de Santa Catarina (IFSC) — Câmpus Garopaba</p>
+      <p class="small text-muted mb-0">CST em Sistemas para a Internet | Programação para a Internet 2 — Projeto Vitrine Comunitária</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS BOOTSTRAP BUNDLE & JS MODULAR ES6 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
+```
+
+#### 1.2 Estilos Customizados (`styles.css`)
+
+Crie o arquivo `styles.css` na raiz do projeto com as variáveis cromáticas, gradiente do banner e transições dos cards:
+
+```css
+/* styles.css */
+:root {
+  --ifsc-green: #059669;
+  --ifsc-dark-green: #047857;
+  --garopaba-blue: #0284c7;
+  --bg-page: #f8fafc;
+  --text-dark: #0f172a;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.font-outfit {
+  font-family: 'Outfit', sans-serif;
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);
+  color: #ffffff;
+  padding: 3rem 0 2.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid #10b981;
+}
+
+.vitrine-card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+}
+
+.vitrine-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.12) !important;
+}
+
+.badge-counter {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 0.25rem rgba(5, 150, 105, 0.2);
+}
+
+footer {
+  margin-top: auto;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  padding: 1.5rem 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+```
 
 ---
 
@@ -486,16 +730,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (modalEl) {
-        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-        if (modalInstance) modalInstance.hide();
+        const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modalInstance.hide();
       }
       resetarFormulario();
       atualizarVitrine();
     });
   }
 
-  // Garante formulário limpo ao fechar ou reabrir o modal
+  // Garante formulário limpo e títulos corretos ao abrir ou fechar o modal
   if (modalEl) {
+    modalEl.addEventListener('show.bs.modal', () => {
+      if (!servicoIdInput.value) {
+        resetarFormulario();
+      }
+    });
+
     modalEl.addEventListener('hidden.bs.modal', resetarFormulario);
   }
 
