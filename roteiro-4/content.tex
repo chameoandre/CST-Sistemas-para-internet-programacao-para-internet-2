@@ -82,11 +82,9 @@ Ao declarar \texttt{<script type="module" src="js/main.js"></script>}, o navegad
 \subsubsection{2. Exportação e Importação (\texttt{export} e \texttt{import})}
 Para compartilhar recursos entre arquivos, usamos a sintaxe explícita de módulos:
 
-\begin{boxCodigo}
 \textbf{Exemplo de Exportação Nomeada e Importação:}
 
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // No arquivo js/utils/formatters.js
 export function formatarTelefone(telefone) {
   return telefone.replace(
@@ -101,8 +99,7 @@ import { formatarTelefone }
 
 // Resultado: (48) 99999-8888
 console.log(formatarTelefone('48999998888'));
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 
 % =====================================================
 % PIPELINE VISUAL DA ATIVIDADE
@@ -181,9 +178,7 @@ console.log(formatarTelefone('48999998888'));
 \begin{boxAtividade}[{Passo 1.1: Estrutura HTML5 Base e Ponto de Entrada (index.html)}]
 Crie o arquivo \texttt{index.html} com as CDNs do Bootstrap 5, o ponto de montagem (\texttt{\#vitrineContainer}) e a tag \texttt{<script type="module">}:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoHTML}
 <!-- index.html (Parte 1: Estrutura Base e Scripts) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -192,11 +187,9 @@ Crie o arquivo \texttt{index.html} com as CDNs do Bootstrap 5, o ponto de montag
   <title>Vitrine de Garopaba — Roteiro 04</title>
   <!-- Bootstrap 5 CSS & Bootstrap Icons CDN -->
   <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/
-          bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/
-          bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -213,23 +206,18 @@ Crie o arquivo \texttt{index.html} com as CDNs do Bootstrap 5, o ponto de montag
   <div class="row" id="vitrineContainer"></div>
 
   <!-- Bootstrap Bundle JS + Entrada Modular ES6 -->
-  <script src="https://cdn.jsdelivr.net/npm/
-               bootstrap@5.3.3/dist/js/
-               bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoHTML}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 1.2: Modal de Cadastro e Edição (index.html)}]
 Estruture o modal Bootstrap 5 contendo o formulário com validações nativas e o campo oculto \texttt{\#servicoId}:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoHTML}
 <!-- index.html (Parte 2: Modal de Cadastro/Edição) -->
 <div class="modal fade" id="modalCadastro" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
@@ -260,17 +248,14 @@ Estruture o modal Bootstrap 5 contendo o formulário com validações nativas e 
     </div>
   </div>
 </div>
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoHTML}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 2: Estruturação dos Utilitários Puros (js/utils/formatters.js)}]
 Crie o arquivo de funções utilitárias que realizam operações puras de transformação de dados:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/utils/formatters.js
 export function formatarMoeda(valor) {
   const num = parseFloat(valor) || 0;
@@ -296,17 +281,14 @@ export function escapeHtml(texto) {
   div.textContent = texto;
   return div.innerHTML;
 }
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 3: Camada de Dados e Serviços (js/services/vitrineService.js)}]
 Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qualquer manipulação de elementos HTML (operações CRUD puras):
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/services/vitrineService.js
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
 
@@ -344,17 +326,14 @@ export function removerServico(id) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
   return servicos;
 }
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 4.1: Template do Card de Serviço (js/views/vitrineView.js)}]
 Gera a estrutura HTML de cada card individual com dados formatados e botões de ação:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/views/vitrineView.js (Parte 1: Template do Card)
 import { formatarMoeda, formatarTelefone, escapeHtml }
   from '../utils/formatters.js';
@@ -403,17 +382,14 @@ export function criarCardHtml(s) {
       </div>
     </div>`;
 }
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 4.2: Renderização da Vitrine e Estado Vazio}]
 Itera sobre a coleção de serviços chamando a função de template e tratando o estado vazio:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/views/vitrineView.js (Parte 2: Renderização)
 export function renderizarCards(servicos, container) {
   if (!servicos || servicos.length === 0) {
@@ -428,17 +404,14 @@ export function renderizarCards(servicos, container) {
   }
   container.innerHTML = servicos.map(criarCardHtml).join('');
 }
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \vspace{0.4cm}
 \begin{boxAtividade}[{Passo 4.3: Notificações Flutuantes (Bootstrap Toasts)}]
 Dispara notificações assíncronas flutuantes através da API nativa do Bootstrap Toast:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/views/vitrineView.js (Parte 3: Toasts)
 export function exibirToast(mensagem, tipo = 'success') {
   const toastEl = document.getElementById('toastNotificacao');
@@ -451,17 +424,14 @@ export function exibirToast(mensagem, tipo = 'success') {
     toast.show();
   }
 }
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 5.1: Inicialização e Reatividade (js/main.js)}]
 Configura as referências aos elementos do DOM e implementa a renderização reativa:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/main.js (Parte 1: Inicialização e Leitura)
 import {
   obterServicos, salvarServico,
@@ -493,17 +463,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   filtroCategoria.addEventListener('change', atualizarInterface);
   atualizarInterface();
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 5.2: Validação e Submissão — Create \& Update (js/main.js)}]
 Gerencia a validação nativa do formulário e alterna entre novo cadastro e atualização:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/main.js (Parte 2: Submissão do Formulário)
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -543,17 +510,14 @@ Gerencia a validação nativa do formulário e alterna entre novo cadastro e atu
     }
     atualizarInterface();
   });
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 \clearpage
 \begin{boxAtividade}[{Passo 5.3: Delegação de Eventos — Edit \& Delete (js/main.js)}]
 Escuta cliques nos botões dos cards para carregar dados no modal ou remover itens:
 
-\begin{boxCodigo}
-\footnotesize
-\begin{verbatim}
+\begin{boxCodigoJS}
 // js/main.js (Parte 3: Delegação de Cliques nos Cards)
   container.addEventListener('click', (e) => {
     // 1. Operação Update (Edição)
@@ -590,8 +554,7 @@ Escuta cliques nos botões dos cards para carregar dados no modal ou remover ite
     }
   });
 }); // Fim do DOMContentLoaded
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoJS}
 \end{boxAtividade}
 
 % =====================================================
