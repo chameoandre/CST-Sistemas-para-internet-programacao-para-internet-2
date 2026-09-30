@@ -69,6 +69,39 @@ Siga a ordem lógica abaixo para reproduzir a aplicação com sucesso do início
 
 ---
 
+## 🧠 Conceitos Teóricos: Componentes Modernos de Interface (Bootstrap 5)
+
+Antes de iniciar a codificação, é fundamental compreender a finalidade, o comportamento e a anatomia dos componentes visuais utilizados na aplicação:
+
+### 1. Janelas Modais (*Modals*): Diálogos Sobrepostos de Alta Atenção
+Uma **janela modal** é um elemento flutuante que surge acima do conteúdo principal da página, bloqueando temporariamente a interação com a tela de fundo por meio de uma camada escurecida semi-transparente chamada ***backdrop***.
+- **Finalidade:** Concentrar a atenção exclusiva do usuário em uma tarefa pontual crítica (como preencher o formulário de cadastro ou editar um serviço) sem sair da tela atual nem recarregar a página (*Single Page Application*).
+- **Anatomia no Bootstrap 5:**
+  - `.modal`: Contêiner externo invisível por padrão (`display: none`) com suporte a transição animada suave (`.fade`);
+  - `.modal-dialog` e `.modal-dialog-centered`: Controla a largura, responsividade e centralização vertical na tela;
+  - `.modal-content`: Invólucro branco do diálogo com bordas arredondadas e sombra (`.shadow-lg`), estruturado em 3 partes:
+    1. `.modal-header`: Cabeçalho com o título (`.modal-title`) e o botão de fechar (`.btn-close` com `data-bs-dismiss="modal"`);
+    2. `.modal-body`: Corpo central contendo os campos do formulário e validações;
+    3. `.modal-footer`: Rodapé com botões de ação (*Cancelar* e *Salvar*).
+- **Controle via JavaScript:** A classe `bootstrap.Modal` permite instanciar e manipular o diálogo programaticamente (`bootstrap.Modal.getOrCreateInstance(el)`), abrindo com `.show()` e fechando com `.hide()`.
+
+### 2. Notificações Flutuantes (*Toasts*): Feedback Assíncrono Não-Intrusivo
+O componente **Toast** é uma notificação compacta e temporária que surge sobreposta em uma posição fixa da tela (canto superior direito) para confirmar o sucesso de operações.
+- **Vantagem sobre o `alert()`:** O tradicional `window.alert()` é síncrono e bloqueante — congela a execução do JavaScript e força o usuário a clicar em "OK". O Toast é assíncrono, suave e desaparece sozinho após alguns segundos (*autohide*).
+- **Posicionamento:** Usa um contêiner `.toast-container` com posição fixa (`position-fixed top-0 end-0 p-3`) e índice z prioritário (`z-index: 1090`).
+
+### 3. Cartões de Conteúdo (*Cards*): Unidades Modulares e Grid Uniforme
+Um **Card** (`.card .shadow-sm`) agrupa de forma coesa todas as informações e ações de um único registro:
+- `.card-body`: Abriga a badge de categoria, nome em destaque, preço base formatado, descrição e localização;
+- `.card-footer`: Rodapé que agrupa as ações de WhatsApp, edição e exclusão;
+- `.h-100`: Força todos os cards de uma mesma linha a terem exatamente a mesma altura vertical no grid.
+
+### 4. Validação Visual Nativa e o Campo Oculto (`<input type="hidden">`)
+- **Atributo `novalidate`:** Suprime os balões padrão do navegador para que a aplicação utilize as classes visuais do Bootstrap (`.is-valid` e `.is-invalid` combinadas com mensagens `.invalid-feedback`);
+- **Papel Arquitetural do Campo Oculto (`#servicoId`):** O campo com `type="hidden"` não é visível ao usuário, mas é o elemento-chave que diferencia as operações de **Criação** (*Create*) e **Atualização** (*Update*) no CRUD: se estiver vazio, a gravação cria um novo registro; se contiver um ID, atualiza o registro correspondente.
+
+---
+
 ### Passo 1: Estrutura HTML5 Base e Modal (`index.html` e `styles.css`)
 
 1. Crie o arquivo `index.html` importando as folhas de estilo do **Bootstrap 5.3.3**, os ícones do **Bootstrap Icons 1.11.3** e as fontes **Outfit** e **Plus Jakarta Sans** no `<head>`.

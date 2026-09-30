@@ -66,10 +66,57 @@ roteiro-4/exercicio-roteiro4/
 \end{boxCodigo}
 
 % =====================================================
+% FUNDAMENTAÇÃO TEÓRICA: COMPONENTES DE INTERFACE
+% =====================================================
+
+\subsection{Fundamentação Teórica: Componentes Modernos de Interface (Bootstrap 5)}
+
+Antes de iniciarmos a implementação prática guiada, é fundamental compreender a finalidade, o comportamento e a anatomia dos principais componentes de interface gráfica utilizados na aplicação:
+
+\subsubsection{1. Janelas Modais (\textit{Modals}): Diálogos Sobrepostos de Alta Atenção}
+Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge acima de todo o conteúdo da página, bloqueando temporariamente a interação com a tela de fundo por meio de uma camada escurecida semi-transparente chamada \textbf{\textit{backdrop}}.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Finalidade de Uso:} Concentrar a atenção exclusiva do usuário em uma tarefa crítica (como preencher o formulário de cadastro ou atualizar dados de um serviço) sem sair da tela atual nem recarregar o navegador (\textit{Single Page Application});
+  \item \textbf{Anatomia no Bootstrap 5:}
+    \begin{itemize}
+      \item \texttt{.modal}: Contêiner externo invisível por padrão (\texttt{display: none}) com suporte a transição animada suave (\texttt{.fade});
+      \item \texttt{.modal-dialog} e \texttt{.modal-dialog-centered}: Define a largura, o comportamento responsivo e o alinhamento centralizado vertical na tela;
+      \item \texttt{.modal-content}: Invólucro branco do diálogo com bordas arredondadas e sombra (\texttt{.shadow-lg}), estruturado em três seções obrigatórias:
+        \begin{enumerate}
+          \item \texttt{.modal-header}: Cabeçalho com o título da ação (\texttt{.modal-title}) e o botão de fechar nativo (\texttt{.btn-close} com \texttt{data-bs-dismiss="modal"});
+          \item \texttt{.modal-body}: Corpo central onde residem os campos do formulário, rótulos e seletores;
+          \item \texttt{.modal-footer}: Rodapé com botões de ação e submissão (\textit{Cancelar} e \textit{Salvar}).
+        \end{enumerate}
+    \end{itemize}
+  \item \textbf{Controle via JavaScript:} O Bootstrap disponibiliza a classe \texttt{bootstrap.Modal}, permitindo instanciar e controlar o diálogo programaticamente (\texttt{bootstrap.Modal.getOrCreateInstance(el)}), abrindo com \texttt{.show()} e fechando automaticamente após o salvamento com \texttt{.hide()}.
+\end{itemize}
+
+\subsubsection{2. Notificações Flutuantes (\textit{Toasts}): Feedback Assíncrono Não-Intrusivo}
+O componente \textbf{Toast} é uma notificação compacta e temporária que surge sobreposta em uma posição fixa da tela (canto superior direito) para confirmar o sucesso de operações (ex: \textit{"Serviço cadastrado com sucesso!"}).
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Vantagem sobre o \texttt{alert()}:} O diálogo nativo \texttt{window.alert()} é síncrono e bloqueante: ele congela a execução de qualquer outro script JavaScript no navegador e força o usuário a clicar em "OK" para continuar. O \textbf{Toast}, por outro lado, é assíncrono, suave e desaparece automaticamente após alguns segundos (\textit{autohide}), proporcionando uma experiência de usuário profissional;
+  \item \textbf{Posicionamento com \texttt{.toast-container}:} O elemento contêiner utiliza classes utilitárias de posicionamento fixo (\texttt{position-fixed top-0 end-0 p-3}) com índice z prioritário (\texttt{z-index: 1090}), garantindo visibilidade imediata sem deslocar os demais elementos do layout.
+\end{itemize}
+
+\subsubsection{3. Cartões de Conteúdo (\textit{Cards}): Unidades Modulares e Grid Uniforme}
+Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm}) que agrupa de forma coesa todas as informações e ações pertinentes a um único registro:
+\begin{itemize}[leftmargin=*]
+  \item \texttt{.card-body}: Área principal contendo a \textit{badge} da categoria, o nome do empreendimento em destaque, o preço base formatado, a descrição e o bairro;
+  \item \texttt{.card-footer}: Rodapé transparente (\texttt{.bg-transparent}) que agrupa as ações disponíveis: link direto para o WhatsApp do empreendedor, botão de edição e botão de exclusão;
+  \item \texttt{.h-100}: Classe utilitária fundamental que garante que todos os cards de uma mesma linha tenham exatamente a mesma altura vertical, preservando o alinhamento visual uniforme independentemente do tamanho do texto da descrição.
+\end{itemize}
+
+\subsubsection{4. Validação Visual e o Campo Oculto (\texttt{type="hidden"})}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Atributo \texttt{novalidate}:} Informa ao navegador para suprimir os balões de validação nativos, permitindo que a aplicação assuma o controle visual das mensagens de erro utilizando as classes \texttt{.is-valid} (sucesso, verde) e \texttt{.is-invalid} (erro, vermelho) combinadas com contêineres contextuais \texttt{.invalid-feedback};
+  \item \textbf{Papel Arquitetural do Campo Oculto (\texttt{\#servicoId}):} O campo com \texttt{type="hidden"} não é renderizado visualmente para o usuário, mas é o elemento-chave que diferencia as operações de \textbf{Criação} (\textit{Create}) e \textbf{Atualização} (\textit{Update}) no padrão CRUD: se o campo estiver vazio, o clique em "Salvar" cria um novo serviço; se contiver um ID, atualiza o serviço correspondente mantendo o identificador original.
+\end{itemize}
+
+% =====================================================
 % FUNDAMENTAÇÃO TEÓRICA: ES6 MODULES
 % =====================================================
 
-\subsection{Fundamentação Teórica: Como Funcionam os ES6 Modules}
+\subsection{Fundamentação Teórica: Arquitetura Modular com ES6 Modules}
 
 \subsubsection{1. Declaração no HTML (\texttt{type="module"})}
 Ao declarar \texttt{<script type="module" src="js/main.js"></script>}, o navegador aplica comportamentos modernos essenciais:
