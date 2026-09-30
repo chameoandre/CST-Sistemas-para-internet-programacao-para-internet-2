@@ -160,155 +160,139 @@ export function obterServicos() {
   return dados ? JSON.parse(dados) : [];
 }
 
-export function salvarServico(novoServico) {
+export function salvarServico(novo) {
   const servicos = obterServicos();
-  const servicoCompleto = {
+  const completo = {
     id: Date.now().toString(),
     dataCadastro: new Date().toISOString(),
-    ...novoServico
+    ...novo
   };
-  servicos.unshift(servicoCompleto);
-  localStorage.setItem(STORAGE_KEY,
-    JSON.stringify(servicos));
-  return servicoCompleto;
+  servicos.unshift(completo);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  return completo;
 }
 
 export function atualizarServico(id, dados) {
   const servicos = obterServicos();
-  const index = servicos.findIndex(s => s.id === id);
-  if (index !== -1) {
-    servicos[index] = {
-      ...servicos[index],
-      ...dados,
-      dataEdicao: new Date().toISOString()
-    };
-    localStorage.setItem(STORAGE_KEY,
-      JSON.stringify(servicos));
-    return servicos[index];
+  const idx = servicos.findIndex(s => s.id === id);
+  if (idx !== -1) {
+    servicos[idx] = { ...servicos[idx], ...dados,
+                      dataEdicao: new Date().toISOString() };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+    return servicos[idx];
   }
   return null;
 }
 
 export function removerServico(id) {
-  const servicos = obterServicos();
-  const filtrados = servicos.filter(s => s.id !== id);
-  localStorage.setItem(STORAGE_KEY,
-    JSON.stringify(filtrados));
-  return filtrados;
+  const servicos = obterServicos().filter(s => s.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  return servicos;
 }
 \end{verbatim}
 \end{boxCodigo}
 \end{boxAtividade}
 
 \clearpage
-\begin{boxAtividade}[{Passo 3: Camada de Renderização da Interface (js/views/vitrineView.js)}]
-Esta camada constrói os elementos visuais do Bootstrap 5, adiciona botões de ação e dispara notificações dinâmicas:
+\begin{boxAtividade}[{Passo 3.1: Template do Card de Serviço (js/views/vitrineView.js)}]
+Gera a estrutura HTML de cada card individual com dados formatados e botões de ação:
 
 \begin{boxCodigo}
 \footnotesize
 \begin{verbatim}
-// js/views/vitrineView.js
-import {
-  formatarMoeda,
-  formatarTelefone,
-  escapeHtml
-} from '../utils/formatters.js';
+// js/views/vitrineView.js (Parte 1: Template do Card)
+import { formatarMoeda, formatarTelefone, escapeHtml }
+  from '../utils/formatters.js';
 
-export function renderizarCards(
-  servicos,
-  containerElement
-) {
+export function criarCardHtml(s) {
+  const tel = (s.telefone || '').replace(/\D/g, '');
+  return `
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 vitrine-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <span class="badge bg-success">
+              ${escapeHtml(s.categoria)}
+            </span>
+            <span class="fw-bold text-primary">
+              ${formatarMoeda(s.precoBase)}
+            </span>
+          </div>
+          <h5 class="card-title fw-bold mb-1">${escapeHtml(s.nome)}</h5>
+          <h6 class="text-muted small mb-3">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>
+            ${escapeHtml(s.bairro)}
+          </h6>
+          <p class="card-text text-secondary small">
+            ${escapeHtml(s.descricao)}
+          </p>
+        </div>
+        <div class="card-footer bg-transparent border-0 pt-0 pb-3
+                    d-flex justify-content-between align-items-center">
+          <a href="https://wa.me/55${tel}" target="_blank"
+             class="btn btn-sm btn-outline-success">
+            <i class="bi bi-whatsapp me-1"></i>
+            ${formatarTelefone(s.telefone)}
+          </a>
+          <div class="d-flex gap-1">
+            <button class="btn btn-sm btn-outline-primary btn-editar"
+                    data-id="${s.id}" title="Editar">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger btn-excluir"
+                    data-id="${s.id}" title="Excluir">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
+
+\clearpage
+\begin{boxAtividade}[{Passo 3.2: Renderização da Vitrine e Estado Vazio}]
+Itera sobre a coleção de serviços chamando a função de template e tratando o estado vazio:
+
+\begin{boxCodigo}
+\footnotesize
+\begin{verbatim}
+// js/views/vitrineView.js (Parte 2: Renderização)
+export function renderizarCards(servicos, container) {
   if (!servicos || servicos.length === 0) {
-    containerElement.innerHTML = `
+    container.innerHTML = `
       <div class="col-12 text-center py-5">
         <i class="bi bi-inbox fs-1 text-muted"></i>
         <h5 class="text-muted mt-2">
-          Nenhum serviço cadastrado.
+          Nenhum serviço cadastrado nesta categoria.
         </h5>
       </div>`;
     return;
   }
-
-  containerElement.innerHTML = servicos.map(s => {
-    const fone = s.telefone || '';
-    const tel = fone.replace(/\D/g, '');
-    return `
-      <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card h-100 shadow-sm border-0
-                    vitrine-card">
-          <div class="card-body">
-            <div class="d-flex mb-2
-                        justify-content-between">
-              <span class="badge bg-success">
-                ${escapeHtml(s.categoria)}
-              </span>
-              <span class="fw-bold text-primary">
-                ${formatarMoeda(s.precoBase)}
-              </span>
-            </div>
-            <h5 class="card-title fw-bold mb-1">
-              ${escapeHtml(s.nome)}
-            </h5>
-            <h6 class="text-muted small mb-3">
-              <i class="bi bi-geo-alt-fill
-                        text-danger me-1"></i>
-              ${escapeHtml(s.bairro)}
-            </h6>
-            <p class="card-text text-secondary
-                      small">
-              ${escapeHtml(s.descricao)}
-            </p>
-          </div>
-          <div class="card-footer bg-transparent
-                      border-0 pt-0 pb-3 d-flex
-                      justify-content-between
-                      align-items-center">
-            <a href="https://wa.me/55${tel}"
-               target="_blank"
-               class="btn btn-sm
-                      btn-outline-success">
-              <i class="bi bi-whatsapp me-1"></i>
-              ${formatarTelefone(s.telefone)}
-            </a>
-            <div class="d-flex gap-1">
-              <button class="btn btn-sm
-                             btn-outline-primary
-                             btn-editar"
-                      data-id="${s.id}"
-                      title="Editar">
-                <i class="bi bi-pencil-square"></i>
-              </button>
-              <button class="btn btn-sm
-                             btn-outline-danger
-                             btn-excluir"
-                      data-id="${s.id}"
-                      title="Excluir">
-                <i class="bi bi-trash"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
+  container.innerHTML = servicos.map(criarCardHtml).join('');
 }
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
 
-export function exibirToast(
-  mensagem,
-  tipo = 'success'
-) {
-  const toastEl = document.getElementById(
-    'toastNotificacao'
-  );
-  const toastBody = document.getElementById(
-    'toastMensagem'
-  );
+\vspace{0.4cm}
+\begin{boxAtividade}[{Passo 3.3: Notificações Flutuantes (Bootstrap Toasts)}]
+Dispara notificações assíncronas flutuantes através da API nativa do Bootstrap Toast:
+
+\begin{boxCodigo}
+\footnotesize
+\begin{verbatim}
+// js/views/vitrineView.js (Parte 3: Toasts)
+export function exibirToast(mensagem, tipo = 'success') {
+  const toastEl = document.getElementById('toastNotificacao');
+  const toastBody = document.getElementById('toastMensagem');
   if (toastEl && toastBody) {
     toastBody.innerText = mensagem;
     toastEl.className =
-      `toast align-items-center ` +
-      `text-bg-${tipo} border-0`;
-    const toast =
-      bootstrap.Toast.getOrCreateInstance(toastEl);
+      `toast align-items-center text-bg-${tipo} border-0`;
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
     toast.show();
   }
 }
@@ -317,37 +301,28 @@ export function exibirToast(
 \end{boxAtividade}
 
 \clearpage
-\begin{boxAtividade}[{Passo 4: Orquestrador de Eventos (js/main.js)}]
-Conecte todas as camadas no arquivo central, implementando a validação visual do formulário e o ciclo completo de eventos:
+\begin{boxAtividade}[{Passo 4.1: Inicialização e Reatividade (js/main.js)}]
+Configura as referências aos elementos do DOM e implementa a renderização reativa:
 
 \begin{boxCodigo}
 \footnotesize
 \begin{verbatim}
-// js/main.js
+// js/main.js (Parte 1: Inicialização e Leitura)
 import {
-  obterServicos,
-  salvarServico,
-  atualizarServico,
-  removerServico
+  obterServicos, salvarServico,
+  atualizarServico, removerServico
 } from './services/vitrineService.js';
 import {
-  renderizarCards,
-  exibirToast
+  renderizarCards, exibirToast
 } from './views/vitrineView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const form =
-    document.getElementById('formCadastro');
-  const container =
-    document.getElementById('vitrineContainer');
-  const filtroCategoria =
-    document.getElementById('filtroCategoria');
-  const contadorEl =
-    document.getElementById('totalServicosBadge');
-  const modalEl =
-    document.getElementById('modalCadastro');
-  const servicoIdInput =
-    document.getElementById('servicoId');
+  const form = document.getElementById('formCadastro');
+  const container = document.getElementById('vitrineContainer');
+  const filtroCategoria = document.getElementById('filtroCategoria');
+  const contadorEl = document.getElementById('totalServicosBadge');
+  const modalEl = document.getElementById('modalCadastro');
+  const servicoIdInput = document.getElementById('servicoId');
 
   function atualizarInterface() {
     const todos = obterServicos();
@@ -357,12 +332,24 @@ document.addEventListener('DOMContentLoaded', () => {
       : todos.filter(s => s.categoria === filtro);
     renderizarCards(filtrados, container);
     if (contadorEl) {
-      contadorEl.innerText =
-        `${todos.length} cadastrados`;
+      contadorEl.innerText = `${todos.length} cadastrados`;
     }
   }
 
-  // Validação, Cadastro e Edição
+  filtroCategoria.addEventListener('change', atualizarInterface);
+  atualizarInterface();
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
+
+\clearpage
+\begin{boxAtividade}[{Passo 4.2: Validação e Submissão — Create \& Update (js/main.js)}]
+Gerencia a validação nativa do formulário e alterna entre novo cadastro e atualização:
+
+\begin{boxCodigo}
+\footnotesize
+\begin{verbatim}
+// js/main.js (Parte 2: Submissão do Formulário)
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
@@ -371,28 +358,24 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const idAtual =
-      servicoIdInput ? servicoIdInput.value : '';
-    const getVal = (id) =>
-      document.getElementById(id).value.trim();
+    const idAtual = servicoIdInput ? servicoIdInput.value : '';
+    const getVal = (id) => document.getElementById(id).value.trim();
 
     const dados = {
       nome: getVal('nome'),
-      categoria:
-        document.getElementById('categoria').value,
+      categoria: document.getElementById('categoria').value,
       bairro: getVal('bairro'),
-      precoBase:
-        parseFloat(getVal('precoBase')) || 0,
+      precoBase: parseFloat(getVal('precoBase')) || 0,
       telefone: getVal('telefone'),
       descricao: getVal('descricao')
     };
 
     if (idAtual) {
       atualizarServico(idAtual, dados);
-      exibirToast('Serviço atualizado!');
+      exibirToast('Serviço atualizado com sucesso!');
     } else {
       salvarServico(dados);
-      exibirToast('Cadastrado com sucesso!');
+      exibirToast('Empreendimento cadastrado com sucesso!');
     }
 
     form.reset();
@@ -400,73 +383,58 @@ document.addEventListener('DOMContentLoaded', () => {
     form.classList.remove('was-validated');
 
     if (modalEl) {
-      const modal =
-        bootstrap.Modal.getInstance(modalEl);
+      const modal = bootstrap.Modal.getInstance(modalEl);
       if (modal) modal.hide();
     }
     atualizarInterface();
   });
+\end{verbatim}
+\end{boxCodigo}
+\end{boxAtividade}
 
-  // Delegação: Edição e Exclusão
+\clearpage
+\begin{boxAtividade}[{Passo 4.3: Delegação de Eventos — Edit \& Delete (js/main.js)}]
+Escuta cliques nos botões dos cards para carregar dados no modal ou remover itens:
+
+\begin{boxCodigo}
+\footnotesize
+\begin{verbatim}
+// js/main.js (Parte 3: Delegação de Cliques nos Cards)
   container.addEventListener('click', (e) => {
-    // 1. Edição (Update)
-    const btnEditar =
-      e.target.closest('.btn-editar');
+    // 1. Operação Update (Edição)
+    const btnEditar = e.target.closest('.btn-editar');
     if (btnEditar) {
-      const id =
-        btnEditar.getAttribute('data-id');
-      const item =
-        obterServicos().find(s => s.id === id);
+      const id = btnEditar.getAttribute('data-id');
+      const item = obterServicos().find(s => s.id === id);
       if (item) {
-        if (servicoIdInput)
-          servicoIdInput.value = item.id;
-        document.getElementById('nome').value =
-          item.nome;
-        document.getElementById('categoria').value =
-          item.categoria;
-        document.getElementById('bairro').value =
-          item.bairro;
-        document.getElementById('precoBase').value =
-          item.precoBase;
-        document.getElementById('telefone').value =
-          item.telefone;
-        document.getElementById('descricao').value =
-          item.descricao;
+        if (servicoIdInput) servicoIdInput.value = item.id;
+        document.getElementById('nome').value = item.nome;
+        document.getElementById('categoria').value = item.categoria;
+        document.getElementById('bairro').value = item.bairro;
+        document.getElementById('precoBase').value = item.precoBase;
+        document.getElementById('telefone').value = item.telefone;
+        document.getElementById('descricao').value = item.descricao;
 
         if (modalEl) {
-          const modal =
-            bootstrap.Modal.getOrCreateInstance(
-              modalEl
-            );
+          const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
           modal.show();
         }
       }
       return;
     }
 
-    // 2. Exclusão (Delete)
-    const btnExcluir =
-      e.target.closest('.btn-excluir');
+    // 2. Operação Delete (Exclusão)
+    const btnExcluir = e.target.closest('.btn-excluir');
     if (btnExcluir) {
-      const id =
-        btnExcluir.getAttribute('data-id');
-      if (confirm('Deseja remover este serviço?')) {
+      const id = btnExcluir.getAttribute('data-id');
+      if (confirm('Deseja realmente remover este serviço da vitrine?')) {
         removerServico(id);
         atualizarInterface();
-        exibirToast(
-          'Serviço removido.',
-          'warning'
-        );
+        exibirToast('Serviço removido da vitrine.', 'warning');
       }
     }
   });
-
-  filtroCategoria.addEventListener(
-    'change',
-    atualizarInterface
-  );
-  atualizarInterface();
-});
+}); // Fim do DOMContentLoaded
 \end{verbatim}
 \end{boxCodigo}
 \end{boxAtividade}
