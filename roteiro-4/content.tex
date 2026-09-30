@@ -105,6 +105,73 @@ console.log(formatarTelefone('48999998888'));
 \end{boxCodigo}
 
 % =====================================================
+% PIPELINE VISUAL DA ATIVIDADE
+% =====================================================
+
+\providecolor{ifscGreen}{RGB}{22,163,74}
+\vspace{0.4cm}
+\begin{figure}[H]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.8cm and 0.5cm,
+    every node/.style={font=\small},
+    etapa/.style={
+        rectangle,
+        rounded corners=5pt,
+        draw=azulTitulo,
+        thick,
+        minimum width=4.9cm,
+        minimum height=1.75cm,
+        text width=4.7cm,
+        align=center,
+        fill=azulTitulo!6
+    },
+    etapaHighlight/.style={
+        rectangle,
+        rounded corners=5pt,
+        draw=ifscGreen,
+        thick,
+        minimum width=4.9cm,
+        minimum height=1.75cm,
+        text width=4.7cm,
+        align=center,
+        fill=ifscGreen!10
+    },
+    seta/.style={
+        -{Latex[length=2.5mm]},
+        thick,
+        draw=azulTitulo
+    }
+]
+
+% Linha 1: Estrutura Base e Serviços
+\node[etapa] (p1) {\textbf{Passo 1: HTML5 \& Bootstrap}\\\footnotesize Estrutura base, modais, toasts e\\\texttt{<script type="module">}};
+
+\node[etapa, right=of p1] (p2) {\textbf{Passo 2: Utilitários Puros}\\\footnotesize \texttt{formatters.js}: moedas, fone e\\\texttt{escapeHtml} contra XSS};
+
+\node[etapa, right=of p2] (p3) {\textbf{Passo 3: Camada de Serviços}\\\footnotesize \texttt{vitrineService.js}: CRUD puro\\(\textit{Create, Read, Update, Delete})};
+
+% Linha 2: Interface e Orquestração
+\node[etapa, below=of p3] (p4) {\textbf{Passo 4: Camada de Visão}\\\footnotesize \texttt{vitrineView.js}: cards dinâmicos,\\estado vazio e feedback Toast};
+
+\node[etapa, left=of p4] (p5) {\textbf{Passo 5: Orquestrador Central}\\\footnotesize \texttt{main.js}: validação nativa BS5,\\filtros reativos e eventos CRUD};
+
+\node[etapaHighlight, left=of p5] (p6) {\textbf{Conclusão \& Deploy}\\\footnotesize Teste do ciclo completo e deploy\\automático no \textbf{GitHub Pages}};
+
+% Conexões do fluxo
+\draw[seta] (p1) -- (p2);
+\draw[seta] (p2) -- (p3);
+\draw[seta] (p3) -- (p4);
+\draw[seta] (p4) -- (p5);
+\draw[seta] (p5) -- (p6);
+
+\end{tikzpicture}%
+}
+\caption{Pipeline arquitetural e sequência cronológica de implementação do Roteiro 04.}
+\end{figure}
+
+% =====================================================
 % PASSO A PASSO GUIADO DA ATIVIDADE
 % =====================================================
 

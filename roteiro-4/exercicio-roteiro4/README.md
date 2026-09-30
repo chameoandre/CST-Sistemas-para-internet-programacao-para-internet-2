@@ -46,7 +46,24 @@ roteiro-4/exercicio-roteiro4/
 
 ---
 
-## 🚀 Passo a Passo de Implementação do CRUD Completo
+## 🚀 Pipeline Visual & Passo a Passo de Implementação
+
+```mermaid
+flowchart LR
+    P1["<b>Passo 1: HTML5 &amp; Bootstrap</b><br/>index.html: CDNs, Modais,<br/>Toasts e &lt;script type='module'&gt;"]
+    P2["<b>Passo 2: Utilitários Puros</b><br/>js/utils/formatters.js:<br/>formatarMoeda, fone e escapeHtml"]
+    P3["<b>Passo 3: Serviços CRUD</b><br/>js/services/vitrineService.js:<br/>obter, salvar, atualizar e remover"]
+    P4["<b>Passo 4: Camada de Visão</b><br/>js/views/vitrineView.js:<br/>criarCardHtml, render e Toasts"]
+    P5["<b>Passo 5: Orquestrador</b><br/>js/main.js: validação BS5,<br/>filtros e delegação de cliques"]
+    P6["<b>Conclusão &amp; Deploy</b><br/>Validação do CRUD e publicação<br/>no GitHub Pages (HTTPS)"]
+
+    P1 --> P2 --> P3 --> P4 --> P5 --> P6
+
+    classDef step fill:#f0f7ff,stroke:#1e3c5a,stroke-width:2px,color:#1e3c5a;
+    classDef finalStep fill:#ecfdf5,stroke:#16a34a,stroke-width:2px,color:#16a34a;
+    class P1,P2,P3,P4,P5 step;
+    class P6 finalStep;
+```
 
 Siga a ordem lógica abaixo para reproduzir a aplicação com sucesso do início ao fim:
 
