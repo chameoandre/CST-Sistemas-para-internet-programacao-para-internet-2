@@ -79,17 +79,17 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
   \item \textbf{Finalidade de Uso:} Concentrar a atenção exclusiva do usuário em uma tarefa crítica (como preencher o formulário de cadastro ou atualizar dados de um serviço) sem sair da tela atual nem recarregar o navegador (\textit{Single Page Application}).
 \end{itemize}
 
-\vspace{-0.1cm}
+\vspace{-0.15cm}
 \begin{mockupNavegador}[Croqui Anatômico do Componente Modal (Bootstrap 5)]
   \begin{tcolorbox}[
       enhanced,
       colback=gray!25, colframe=gray!25,
       arc=4pt, boxrule=0pt,
-      top=6pt, bottom=6pt, left=8pt, right=8pt
+      top=4pt, bottom=4pt, left=8pt, right=8pt
   ]
     \centering
     % Indicador de Backdrop
-    \hfill \colorbox{black!60}{\color{white}\tiny\bfseries Fundo escurecido: .modal-backdrop} \hspace{4pt}\\[3pt]
+    \hfill \colorbox{black!60}{\color{white}\tiny\bfseries Fundo escurecido: .modal-backdrop} \hspace{4pt}\\[2pt]
 
     % Janela Modal Flutuante (.modal-dialog)
     \begin{tcolorbox}[
@@ -105,7 +105,7 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
           colback=azulTitulo!8, colframe=azulTitulo!30,
           arc=4pt, sharp corners=downhill,
           boxrule=0pt, bottomrule=0.6pt,
-          top=4pt, bottom=4pt, left=8pt, right=8pt
+          top=3pt, bottom=3pt, left=8pt, right=8pt
       ]
         \colorbox{azulTitulo}{\color{white}\tiny\bfseries 1. .modal-header}
         \hspace{4pt}
@@ -120,18 +120,18 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
       \begin{tcolorbox}[
           colback=white, colframe=white,
           boxrule=0pt,
-          top=5pt, bottom=5pt, left=8pt, right=8pt
+          top=3pt, bottom=3pt, left=8pt, right=8pt
       ]
         \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 2. .modal-body}
         \hfill
         {\tiny\color{gray!80}\textit{(Área central de entrada e validação de dados)}}
-        \vspace{3pt}
+        \vspace{2pt}
 
         \scriptsize
         \textbf{Rótulo (\texttt{.form-label}):} {\color{red}*}\\
         \fboxsep=3pt\fcolorbox{gray!30}{gray!5}{\makebox[0.96\linewidth][l]{\color{gray!70}\quad Campo de entrada (\texttt{.form-control})}}
         
-        \vspace{3pt}
+        \vspace{2pt}
         \begin{minipage}[t]{0.48\linewidth}
           \textbf{Seleção (\texttt{.form-select}):} {\color{red}*}\\
           \fboxsep=3pt\fcolorbox{gray!30}{gray!5}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad Opções... $\downarrow$}}
@@ -142,7 +142,7 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
           \fboxsep=3pt\fcolorbox{gray!30}{gray!5}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad Feedback visual}}
         \end{minipage}
 
-        \vspace{3pt}
+        \vspace{2pt}
         \textit{\tiny\color{gray!80} Campo Oculto de Controle: \texttt{<input type="hidden" id="servicoId">} (diferencia Create vs Update)}
       \end{tcolorbox}
 
@@ -151,7 +151,7 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
           colback=gray!8, colframe=gray!25,
           arc=4pt, sharp corners=uphill,
           boxrule=0pt, toprule=0.6pt,
-          top=4pt, bottom=4pt, left=8pt, right=8pt
+          top=3pt, bottom=3pt, left=8pt, right=8pt
       ]
         \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 3. .modal-footer}
         \hfill
@@ -163,20 +163,64 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
   \end{tcolorbox}
 \end{mockupNavegador}
 
-\begin{itemize}[leftmargin=*]
-  \item \textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
-    \begin{itemize}
-      \item \texttt{.modal}: Contêiner externo invisível por padrão (\texttt{display: none}) com suporte a transição animada suave (\texttt{.fade});
-      \item \texttt{.modal-dialog} e \texttt{.modal-dialog-centered}: Define a largura, o comportamento responsivo e o alinhamento centralizado vertical na tela;
-      \item \texttt{.modal-content}: Invólucro branco do diálogo com bordas arredondadas e sombra (\texttt{.shadow-lg}), estruturado em três seções obrigatórias:
-        \begin{enumerate}
-          \item \texttt{.modal-header}: Cabeçalho com o título da ação (\texttt{.modal-title}) e o botão de fechar nativo (\texttt{.btn-close} com \texttt{data-bs-dismiss="modal"});
-          \item \texttt{.modal-body}: Corpo central onde residem os campos do formulário, rótulos e seletores;
-          \item \texttt{.modal-footer}: Rodapé com botões de ação e submissão (\textit{Cancelar} e \textit{Salvar}).
-        \end{enumerate}
-    \end{itemize}
-  \item \textbf{Controle via JavaScript:} O Bootstrap disponibiliza a classe \texttt{bootstrap.Modal}, permitindo instanciar e controlar o diálogo programaticamente (\texttt{bootstrap.Modal.getOrCreateInstance(el)}), abrindo com \texttt{.show()} e fechando automaticamente após o salvamento com \texttt{.hide()}.
-\end{itemize}
+\vspace{0.1cm}
+\noindent\textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
+\vspace{0.1cm}
+
+\noindent
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=azulTitulo!60,
+    arc=4pt,
+    boxrule=0.8pt,
+    top=0pt, bottom=0pt, left=0pt, right=0pt,
+    shadow={1mm}{-1mm}{0mm}{black!8}
+]
+\small
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}X}
+\rowcolor{azulTitulo}
+\textbf{\color{white}\footnotesize Elemento / Classe} & 
+\textbf{\color{white}\footnotesize Camada Anatômica} & 
+\textbf{\color{white}\footnotesize Papel Arquitetural e Comportamento} \\
+\rowcolor{white}
+\colorbox{azulTitulo!8}{\textbf{\texttt{.modal}}} & 
+Contêiner Base & 
+Invisível por padrão (\texttt{display: none}), ativa a transição animada suave (\texttt{.fade}) e o bloqueio de tela (\textit{backdrop}). \\
+\hline
+\rowcolor{cinzaFundo}
+\colorbox{azulTitulo!8}{\textbf{\texttt{.modal-dialog}}} & 
+Geometria \& Posição & 
+Controla largura responsiva e o alinhamento vertical no viewport via \texttt{.modal-dialog-centered}. \\
+\hline
+\rowcolor{white}
+\colorbox{azulTitulo!8}{\textbf{\texttt{.modal-content}}} & 
+Invólucro do Diálogo & 
+Superfície branca com cantos arredondados e elevação (\texttt{.shadow-lg}), estruturada em 3 seções: \\
+\hline
+\rowcolor{cinzaFundo}
+\hspace*{4pt}\colorbox{azulTitulo!12}{\textbf{\texttt{.modal-header}}} & 
+1. Cabeçalho & 
+Título da ação (\texttt{.modal-title}) e botão de fechar nativo (\texttt{.btn-close} com \texttt{data-bs-dismiss="modal"}). \\
+\hline
+\rowcolor{white}
+\hspace*{4pt}\colorbox{azulTitulo!12}{\textbf{\texttt{.modal-body}}} & 
+2. Corpo Central & 
+Área nobre do formulário com rótulos, campos de entrada, validações e campo oculto de controle (\texttt{\#servicoId}). \\
+\hline
+\rowcolor{cinzaFundo}
+\hspace*{4pt}\colorbox{azulTitulo!12}{\textbf{\texttt{.modal-footer}}} & 
+3. Rodapé de Ações & 
+Área de decisão e submissão com botões de controle (\textit{Cancelar} e \textit{Salvar}). \\
+\hline
+\rowcolor{white}
+\colorbox{azulTitulo!8}{\textbf{\texttt{bootstrap.Modal}}} & 
+Controle JavaScript & 
+Instanciação programática (\texttt{getOrCreateInstance}) para abertura (\texttt{.show()}) e fechamento (\texttt{.hide()}).
+\end{tabularx}
+\end{tcolorbox}
+\vspace{0.15cm}
 
 \subsubsection{2. Notificações Flutuantes (\textit{Toasts}): Feedback Assíncrono Não-Intrusivo}
 O componente \textbf{Toast} é uma notificação compacta e temporária que surge sobreposta em uma posição fixa da tela (canto superior direito) para confirmar o sucesso de operações (ex: \textit{"Serviço cadastrado com sucesso!"}).
@@ -188,6 +232,7 @@ O componente \textbf{Toast} é uma notificação compacta e temporária que surg
 \subsubsection{3. Cartões de Conteúdo (\textit{Cards}): Unidades Modulares e Grid Uniforme}
 Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm}) que agrupa de forma coesa todas as informações e ações pertinentes a um único registro:
 
+\vspace{-0.15cm}
 \begin{center}
 \begin{tcolorbox}[
     enhanced,
@@ -202,7 +247,7 @@ Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm
       colback=azulTitulo!8, colframe=azulTitulo!25,
       arc=4pt, sharp corners=downhill,
       boxrule=0pt, bottomrule=0.6pt,
-      top=4pt, bottom=4pt, left=8pt, right=8pt
+      top=3pt, bottom=3pt, left=8pt, right=8pt
   ]
     \colorbox{azulTitulo}{\color{white}\tiny\bfseries .card .h-100 .shadow-sm}
     \hspace{4pt}
@@ -215,10 +260,10 @@ Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm
   \begin{tcolorbox}[
       colback=white, colframe=white,
       boxrule=0pt,
-      top=6pt, bottom=6pt, left=8pt, right=8pt
+      top=4pt, bottom=4pt, left=8pt, right=8pt
   ]
     \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 1. .card-body}
-    \vspace{3pt}
+    \vspace{2pt}
 
     % Topo com Badge e Preço
     \colorbox{blue!12}{\color{blue!80!black}\scriptsize\bfseries .badge (Categoria)}
@@ -227,13 +272,13 @@ Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm
     \hspace{2pt}
     \colorbox{gray!20}{\tiny\texttt{formatarMoeda()}}
 
-    \vspace{3pt}
+    \vspace{2pt}
     {\large\bfseries Nome do Empreendimento (\texttt{.card-title})}
 
     \vspace{2pt}
     {\footnotesize\color{gray!80} \textbf{Bairro / Localização (\texttt{.card-subtitle}):} Ferrugem \quad \textbar \quad \textbf{ID:} \texttt{1729482103}}
 
-    \vspace{3pt}
+    \vspace{2pt}
     {\small\color{gray!90} Texto descritivo dos diferenciais do serviço (\texttt{.card-text .small})...}
   \end{tcolorbox}
 
@@ -242,7 +287,7 @@ Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm
       colback=gray!6, colframe=gray!25,
       arc=4pt, sharp corners=uphill,
       boxrule=0pt, toprule=0.6pt,
-      top=4pt, bottom=4pt, left=8pt, right=8pt
+      top=3pt, bottom=3pt, left=8pt, right=8pt
   ]
     \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 2. .card-footer}
     \hfill
@@ -254,15 +299,51 @@ Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm
   \end{tcolorbox}
 \end{tcolorbox}
 \end{center}
+\vspace{-0.15cm}
 
-\begin{itemize}[leftmargin=*]
-  \item \textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
-    \begin{itemize}
-      \item \texttt{.card-body}: Área principal contendo a \textit{badge} da categoria, o nome do empreendimento em destaque, o preço base formatado, a descrição e o bairro;
-      \item \texttt{.card-footer}: Rodapé transparente (\texttt{.bg-transparent}) que agrupa as ações disponíveis: link direto para o WhatsApp do empreendedor, botão de edição e botão de exclusão;
-      \item \texttt{.h-100}: Classe utilitária fundamental que garante que todos os cards de uma mesma linha tenham exatamente a mesma altura vertical, preservando o alinhamento visual uniforme independentemente do tamanho do texto da descrição.
-    \end{itemize}
-\end{itemize}
+\vspace{0.1cm}
+\noindent\textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
+\vspace{0.1cm}
+
+\noindent
+\begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=azulTitulo!60,
+    arc=4pt,
+    boxrule=0.8pt,
+    top=0pt, bottom=0pt, left=0pt, right=0pt,
+    shadow={1mm}{-1mm}{0mm}{black!8}
+]
+\small
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}X}
+\rowcolor{azulTitulo}
+\textbf{\color{white}\footnotesize Elemento / Classe} & 
+\textbf{\color{white}\footnotesize Camada Anatômica} & 
+\textbf{\color{white}\footnotesize Papel Arquitetural e Comportamento} \\
+\rowcolor{white}
+\colorbox{azulTitulo!8}{\textbf{\texttt{.card}}} & 
+Contêiner Modular & 
+Unidade visual básica com borda suave e elevação sutil (\texttt{.shadow-sm}) que agrupa os dados de um serviço. \\
+\hline
+\rowcolor{cinzaFundo}
+\colorbox{azulTitulo!8}{\textbf{\texttt{.h-100}}} & 
+Equalização Vertical & 
+Força 100\% da altura da coluna no grid Flexbox, garantindo nivelamento e alinhamento visual uniforme na vitrine. \\
+\hline
+\rowcolor{white}
+\hspace*{4pt}\colorbox{azulTitulo!12}{\textbf{\texttt{.card-body}}} & 
+1. Corpo Principal & 
+Abriga a badge de categoria, o título comercial (\texttt{.card-title}), o preço formatado, a localização e a descrição. \\
+\hline
+\rowcolor{cinzaFundo}
+\hspace*{4pt}\colorbox{azulTitulo!12}{\textbf{\texttt{.card-footer}}} & 
+2. Rodapé de Ações & 
+Fundo neutro transparente (\texttt{.bg-transparent}) agrupando os botões de ação: WhatsApp, Editar e Excluir.
+\end{tabularx}
+\end{tcolorbox}
+\vspace{0.15cm}
 
 \subsubsection{4. Validação Visual e o Campo Oculto (\texttt{type="hidden"})}
 \begin{itemize}[leftmargin=*]

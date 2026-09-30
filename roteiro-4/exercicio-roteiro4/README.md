@@ -97,13 +97,16 @@ Uma **janela modal** é um elemento flutuante que surge acima do conteúdo princ
   +------------------------------------------------------------------------+
   ```
 - **Anatomia no Bootstrap 5 (conforme ilustrado acima):**
-  - `.modal`: Contêiner externo invisível por padrão (`display: none`) com suporte a transição animada suave (`.fade`);
-  - `.modal-dialog` e `.modal-dialog-centered`: Controla a largura, responsividade e centralização vertical na tela;
-  - `.modal-content`: Invólucro branco do diálogo com bordas arredondadas e sombra (`.shadow-lg`), estruturado em 3 partes:
-    1. `.modal-header`: Cabeçalho com o título (`.modal-title`) e o botão de fechar (`.btn-close` com `data-bs-dismiss="modal"`);
-    2. `.modal-body`: Corpo central contendo os campos do formulário e validações;
-    3. `.modal-footer`: Rodapé com botões de ação (*Cancelar* e *Salvar*).
-- **Controle via JavaScript:** A classe `bootstrap.Modal` permite instanciar e manipular o diálogo programaticamente (`bootstrap.Modal.getOrCreateInstance(el)`), abrindo com `.show()` e fechando com `.hide()`.
+
+  | Elemento / Seletor | Camada Anatômica | Papel Arquitetural e Comportamento |
+  | :--- | :--- | :--- |
+  | `.modal` | Contêiner Base | Invisível por padrão (`display: none`), ativa transição suave (`.fade`) e bloqueio de fundo (*backdrop*). |
+  | `.modal-dialog` | Geometria & Posição | Controla a largura responsiva e o alinhamento vertical no viewport via `.modal-dialog-centered`. |
+  | `.modal-content` | Invólucro do Diálogo | Superfície branca com cantos arredondados e elevação (`.shadow-lg`), estruturada em 3 seções: |
+  | `↳ .modal-header` | 1. Cabeçalho | Título da ação (`.modal-title`) e botão de fechar nativo (`.btn-close` com `data-bs-dismiss="modal"`). |
+  | `↳ .modal-body` | 2. Corpo Central | Área nobre do formulário com rótulos, campos de entrada, validações e campo oculto (`#servicoId`). |
+  | `↳ .modal-footer` | 3. Rodapé de Ações | Área de decisão e submissão com botões de controle (*Cancelar* e *Salvar*). |
+  | `bootstrap.Modal` | Controle JavaScript | Instanciação programática (`getOrCreateInstance`) para abertura (`.show()`) e fechamento (`.hide()`). |
 
 ### 2. Notificações Flutuantes (*Toasts*): Feedback Assíncrono Não-Intrusivo
 O componente **Toast** é uma notificação compacta e temporária que surge sobreposta em uma posição fixa da tela (canto superior direito) para confirmar o sucesso de operações.
@@ -129,9 +132,13 @@ Um **Card** (`.card .shadow-sm`) agrupa de forma coesa todas as informações e 
   +------------------------------------------------------------------------+
   ```
 - **Anatomia no Bootstrap 5 (conforme ilustrado acima):**
-  - `.card-body`: Abriga a badge de categoria, nome em destaque, preço base formatado, descrição e localização;
-  - `.card-footer`: Rodapé que agrupa as ações de WhatsApp, edição e exclusão;
-  - `.h-100`: Força todos os cards de uma mesma linha a terem exatamente a mesma altura vertical no grid.
+
+  | Elemento / Seletor | Camada Anatômica | Papel Arquitetural e Comportamento |
+  | :--- | :--- | :--- |
+  | `.card` | Contêiner Modular | Unidade visual básica com borda suave e elevação sutil (`.shadow-sm`) que agrupa os dados de um serviço. |
+  | `.h-100` | Equalização Vertical | Força 100% da altura da coluna no grid Flexbox, garantindo nivelamento visual uniforme na vitrine. |
+  | `↳ .card-body` | 1. Corpo Principal | Abriga a badge de categoria, o título comercial (`.card-title`), o preço formatado, o bairro e a descrição. |
+  | `↳ .card-footer` | 2. Rodapé de Ações | Fundo neutro transparente (`.bg-transparent`) agrupando os botões de ação: WhatsApp, Editar e Excluir. |
 
 ### 4. Validação Visual Nativa e o Campo Oculto (`<input type="hidden">`)
 - **Atributo `novalidate`:** Suprime os balões padrão do navegador para que a aplicação utilize as classes visuais do Bootstrap (`.is-valid` e `.is-invalid` combinadas com mensagens `.invalid-feedback`);
