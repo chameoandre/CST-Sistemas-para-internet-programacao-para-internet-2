@@ -76,8 +76,95 @@ Antes de iniciarmos a implementação prática guiada, é fundamental compreende
 \subsubsection{1. Janelas Modais (\textit{Modals}): Diálogos Sobrepostos de Alta Atenção}
 Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge acima de todo o conteúdo da página, bloqueando temporariamente a interação com a tela de fundo por meio de uma camada escurecida semi-transparente chamada \textbf{\textit{backdrop}}.
 \begin{itemize}[leftmargin=*]
-  \item \textbf{Finalidade de Uso:} Concentrar a atenção exclusiva do usuário em uma tarefa crítica (como preencher o formulário de cadastro ou atualizar dados de um serviço) sem sair da tela atual nem recarregar o navegador (\textit{Single Page Application});
-  \item \textbf{Anatomia no Bootstrap 5:}
+  \item \textbf{Finalidade de Uso:} Concentrar a atenção exclusiva do usuário em uma tarefa crítica (como preencher o formulário de cadastro ou atualizar dados de um serviço) sem sair da tela atual nem recarregar o navegador (\textit{Single Page Application}).
+\end{itemize}
+
+\vspace{-0.1cm}
+\begin{mockupNavegador}[Croqui Anatômico do Componente Modal (Bootstrap 5)]
+  \begin{tcolorbox}[
+      enhanced,
+      colback=gray!25, colframe=gray!25,
+      arc=4pt, boxrule=0pt,
+      top=6pt, bottom=6pt, left=8pt, right=8pt
+  ]
+    \centering
+    % Indicador de Backdrop
+    \hfill \colorbox{black!60}{\color{white}\tiny\bfseries Fundo escurecido: .modal-backdrop} \hspace{4pt}\\[3pt]
+
+    % Janela Modal Flutuante (.modal-dialog)
+    \begin{tcolorbox}[
+        enhanced,
+        width=0.94\linewidth,
+        colback=white, colframe=azulTitulo!70,
+        arc=5pt, boxrule=1pt,
+        shadow={1.5mm}{-1.5mm}{0mm}{black!15},
+        top=0pt, bottom=0pt, left=0pt, right=0pt
+    ]
+      % 1. Modal Header
+      \begin{tcolorbox}[
+          colback=azulTitulo!8, colframe=azulTitulo!30,
+          arc=4pt, sharp corners=downhill,
+          boxrule=0pt, bottomrule=0.6pt,
+          top=4pt, bottom=4pt, left=8pt, right=8pt
+      ]
+        \colorbox{azulTitulo}{\color{white}\tiny\bfseries 1. .modal-header}
+        \hspace{4pt}
+        \textbf{\small Título do Diálogo (\texttt{.modal-title})}
+        \hfill
+        \fboxsep=2pt\fcolorbox{gray!50}{white}{\tiny\textbf{\textsf{\color{gray}[ $\times$ ]}}}
+        \hspace{2pt}
+        \colorbox{gray!60}{\color{white}\tiny\bfseries .btn-close}
+      \end{tcolorbox}
+
+      % 2. Modal Body
+      \begin{tcolorbox}[
+          colback=white, colframe=white,
+          boxrule=0pt,
+          top=5pt, bottom=5pt, left=8pt, right=8pt
+      ]
+        \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 2. .modal-body}
+        \hfill
+        {\tiny\color{gray!80}\textit{(Área central de entrada e validação de dados)}}
+        \vspace{3pt}
+
+        \scriptsize
+        \textbf{Rótulo (\texttt{.form-label}):} {\color{red}*}\\
+        \fboxsep=3pt\fcolorbox{gray!30}{gray!5}{\makebox[0.96\linewidth][l]{\color{gray!70}\quad Campo de entrada (\texttt{.form-control})}}
+        
+        \vspace{3pt}
+        \begin{minipage}[t]{0.48\linewidth}
+          \textbf{Seleção (\texttt{.form-select}):} {\color{red}*}\\
+          \fboxsep=3pt\fcolorbox{gray!30}{gray!5}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad Opções... $\downarrow$}}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.48\linewidth}
+          \textbf{Validação Contextual:}\\
+          \fboxsep=3pt\fcolorbox{gray!30}{gray!5}{\makebox[0.92\linewidth][l]{\color{gray!70}\quad Feedback visual}}
+        \end{minipage}
+
+        \vspace{3pt}
+        \textit{\tiny\color{gray!80} Campo Oculto de Controle: \texttt{<input type="hidden" id="servicoId">} (diferencia Create vs Update)}
+      \end{tcolorbox}
+
+      % 3. Modal Footer
+      \begin{tcolorbox}[
+          colback=gray!8, colframe=gray!25,
+          arc=4pt, sharp corners=uphill,
+          boxrule=0pt, toprule=0.6pt,
+          top=4pt, bottom=4pt, left=8pt, right=8pt
+      ]
+        \colorbox{azulTitulo!80}{\color{white}\tiny\bfseries 3. .modal-footer}
+        \hfill
+        \colorbox{gray!30}{\scriptsize Cancelar (\texttt{data-bs-dismiss="modal"})}
+        \hspace{4pt}
+        \colorbox{ifscGreen}{\color{white}\scriptsize\bfseries Ação Principal (\texttt{type="submit"})}
+      \end{tcolorbox}
+    \end{tcolorbox}
+  \end{tcolorbox}
+\end{mockupNavegador}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
     \begin{itemize}
       \item \texttt{.modal}: Contêiner externo invisível por padrão (\texttt{display: none}) com suporte a transição animada suave (\texttt{.fade});
       \item \texttt{.modal-dialog} e \texttt{.modal-dialog-centered}: Define a largura, o comportamento responsivo e o alinhamento centralizado vertical na tela;

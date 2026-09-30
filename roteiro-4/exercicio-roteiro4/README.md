@@ -76,7 +76,27 @@ Antes de iniciar a codificação, é fundamental compreender a finalidade, o com
 ### 1. Janelas Modais (*Modals*): Diálogos Sobrepostos de Alta Atenção
 Uma **janela modal** é um elemento flutuante que surge acima do conteúdo principal da página, bloqueando temporariamente a interação com a tela de fundo por meio de uma camada escurecida semi-transparente chamada ***backdrop***.
 - **Finalidade:** Concentrar a atenção exclusiva do usuário em uma tarefa pontual crítica (como preencher o formulário de cadastro ou editar um serviço) sem sair da tela atual nem recarregar a página (*Single Page Application*).
-- **Anatomia no Bootstrap 5:**
+- **Croqui Anatômico do Modal:**
+  ```text
+  +------------------------------------------------------------------------+
+  | [Fundo Escurecido: .modal-backdrop]                                    |
+  |   +----------------------------------------------------------------+   |
+  |   | .modal-dialog (centralizado via .modal-dialog-centered)        |   |
+  |   |   +--------------------------------------------------------+   |   |
+  |   |   | [1. .modal-header]                                     |   |   |
+  |   |   |   Título do Diálogo (.modal-title)     [X] .btn-close  |   |   |
+  |   |   +--------------------------------------------------------+   |   |
+  |   |   | [2. .modal-body]                                       |   |   |
+  |   |   |   .form-label, .form-control, .form-select,            |   |   |
+  |   |   |   .invalid-feedback e <input type="hidden">            |   |   |
+  |   |   +--------------------------------------------------------+   |   |
+  |   |   | [3. .modal-footer]                                     |   |   |
+  |   |   |                         [Cancelar]  [Salvar / Submit]  |   |   |
+  |   |   +--------------------------------------------------------+   |   |
+  |   +----------------------------------------------------------------+   |
+  +------------------------------------------------------------------------+
+  ```
+- **Anatomia no Bootstrap 5 (conforme ilustrado acima):**
   - `.modal`: Contêiner externo invisível por padrão (`display: none`) com suporte a transição animada suave (`.fade`);
   - `.modal-dialog` e `.modal-dialog-centered`: Controla a largura, responsividade e centralização vertical na tela;
   - `.modal-content`: Invólucro branco do diálogo com bordas arredondadas e sombra (`.shadow-lg`), estruturado em 3 partes:
