@@ -145,6 +145,7 @@ export function escapeHtml(texto) {
 \end{boxCodigo}
 \end{boxAtividade}
 
+\clearpage
 \begin{boxAtividade}[{Passo 2: Camada de Dados e Serviços (js/services/vitrineService.js)}]
 Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qualquer manipulação de elementos HTML (operações CRUD puras):
 
@@ -155,8 +156,7 @@ Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qual
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
 
 export function obterServicos() {
-  const dados =
-    localStorage.getItem(STORAGE_KEY);
+  const dados = localStorage.getItem(STORAGE_KEY);
   return dados ? JSON.parse(dados) : [];
 }
 
@@ -168,27 +168,22 @@ export function salvarServico(novoServico) {
     ...novoServico
   };
   servicos.unshift(servicoCompleto);
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(servicos)
-  );
+  localStorage.setItem(STORAGE_KEY,
+    JSON.stringify(servicos));
   return servicoCompleto;
 }
 
 export function atualizarServico(id, dados) {
   const servicos = obterServicos();
-  const index =
-    servicos.findIndex(s => s.id === id);
+  const index = servicos.findIndex(s => s.id === id);
   if (index !== -1) {
     servicos[index] = {
       ...servicos[index],
       ...dados,
       dataEdicao: new Date().toISOString()
     };
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(servicos)
-    );
+    localStorage.setItem(STORAGE_KEY,
+      JSON.stringify(servicos));
     return servicos[index];
   }
   return null;
@@ -196,18 +191,16 @@ export function atualizarServico(id, dados) {
 
 export function removerServico(id) {
   const servicos = obterServicos();
-  const filtrados =
-    servicos.filter(s => s.id !== id);
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(filtrados)
-  );
+  const filtrados = servicos.filter(s => s.id !== id);
+  localStorage.setItem(STORAGE_KEY,
+    JSON.stringify(filtrados));
   return filtrados;
 }
 \end{verbatim}
 \end{boxCodigo}
 \end{boxAtividade}
 
+\clearpage
 \begin{boxAtividade}[{Passo 3: Camada de Renderização da Interface (js/views/vitrineView.js)}]
 Esta camada constrói os elementos visuais do Bootstrap 5, adiciona botões de ação e dispara notificações dinâmicas:
 
@@ -323,6 +316,7 @@ export function exibirToast(
 \end{boxCodigo}
 \end{boxAtividade}
 
+\clearpage
 \begin{boxAtividade}[{Passo 4: Orquestrador de Eventos (js/main.js)}]
 Conecte todas as camadas no arquivo central, implementando a validação visual do formulário e o ciclo completo de eventos:
 
