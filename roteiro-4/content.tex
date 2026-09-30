@@ -175,9 +175,22 @@ console.log(formatarTelefone('48999998888'));
 \clearpage
 \subsection{Passo a Passo Guiado do Roteiro}
 
-\begin{boxAtividade}[{Passo 1.1: Estrutura HTML5 Base e Ponto de Entrada (index.html)}]
-Crie o arquivo \texttt{index.html} com as CDNs do Bootstrap 5, o contêiner de toasts (contendo \texttt{\#toastMensagem}), a barra superior com o contador (\texttt{\#totalServicosBadge}), o filtro com todas as categorias, o ponto de montagem (\texttt{\#vitrineContainer}) e a tag \texttt{<script type="module">}:
+\begin{boxAtividade}[{Fase 1.1/5: Estrutura HTML5 Base e Ponto de Entrada (index.html)}]
+\textbf{Responsabilidade Arquitetural:} Estabelecer o esqueleto visual da página, carregar as dependências de estilo (Bootstrap 5 e Icons), fornecer os pontos de ancoragem da interface (\texttt{\#vitrineContainer}, \texttt{\#toastNotificacao}, \texttt{\#totalServicosBadge} e \texttt{\#filtroCategoria}) e conectar o módulo raiz \texttt{js/main.js}.
 \end{boxAtividade}
+
+\vspace{-0.1cm}
+\begin{boxCroqui}[{Croqui Visual 1.1: Wireframe da Interface no Navegador}]
++-----------------------------------------------------------------------+
+| [Vitrine de Garopaba] (0 cadastrados)             [+ Divulgar Servico] | <- Header
++-----------------------------------------------------------------------+
+| [ Filtro: Todas as Categorias v ]                 [ Toast Notificacao] | <- Controles
++-----------------------------------------------------------------------+
+|                                                                       |
+|    <div id="vitrineContainer">: Grid vazio aguardando os cards...     | <- Grid
+|                                                                       |
++-----------------------------------------------------------------------+
+\end{boxCroqui}
 
 \begin{boxCodigoHTML}
 <!-- index.html (Parte 1: Estrutura Base e Scripts) -->
@@ -260,10 +273,35 @@ Crie o arquivo \texttt{index.html} com as CDNs do Bootstrap 5, o contêiner de t
 </html>
 \end{boxCodigoHTML}
 
+\begin{boxTeste}[{Checkpoint de Validação 1.1: Como Testar no Navegador}]
+Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live Server} do VS Code:
+\begin{enumerate}[leftmargin=*]
+  \item A barra verde superior com o título, o badge \textbf{"0 cadastrados"} e o botão amarelo \textbf{"Divulgar"} devem estar visíveis;
+  \item O seletor de filtros com as 6 opções disponíveis (Todas + 5 categorias) deve permitir seleção;
+  \item A área central estará em branco (onde os cards serão injetados pela Camada de Visão).
+\end{enumerate}
+\textit{Nota: Ao clicar em "Divulgar", o modal ainda não abrirá porque será estruturado no Passo 1.2.}
+\end{boxTeste}
+
 \clearpage
-\begin{boxAtividade}[{Passo 1.2: Modal de Cadastro e Edição (index.html)}]
-Estruture o modal Bootstrap 5 contendo o formulário com validações nativas, campos rotulados, todas as opções de categorias e o campo oculto \texttt{\#servicoId}:
+\begin{boxAtividade}[{Fase 1.2/5: Formulário Modal de Cadastro e Edição (index.html)}]
+\textbf{Responsabilidade Arquitetural:} Fornecer a interface de diálogo acessível para inserção e atualização de serviços, contendo validações visuais nativas do HTML5 (\texttt{required}), seletores padronizados e um campo oculto (\texttt{\#servicoId}) que diferencia operações de \textit{Create} (novo) e \textit{Update} (edição).
 \end{boxAtividade}
+
+\vspace{-0.1cm}
+\begin{boxCroqui}[{Croqui Visual 1.2: Anatomia do Dialogo Modal}]
++-----------------------------------------------------------------------+
+|  Cadastrar Servico na Vitrine                                     [X] |
++-----------------------------------------------------------------------+
+|  Nome do Empreendimento: [                                          ] |
+|  Categoria: [ Selecione... v ]         Bairro: [                    ] |
+|  Preco Base: [ R$ 0.00       ]         WhatsApp: [ 48999998888      ] |
+|  Descricao do Servico:   [                                          ] |
+|  <input type="hidden" id="servicoId">: invisivel (controle de ID)     |
++-----------------------------------------------------------------------+
+|                                         [ Cancelar ]  [ Salvar ]      |
++-----------------------------------------------------------------------+
+\end{boxCroqui}
 
 \begin{boxCodigoHTML}
 <!-- index.html (Parte 2: Modal de Cadastro/Edição) -->
@@ -335,9 +373,26 @@ Estruture o modal Bootstrap 5 contendo o formulário com validações nativas, c
 </div>
 \end{boxCodigoHTML}
 
+\begin{boxTeste}[{Checkpoint de Validação 1.2: Como Testar a Abertura do Modal}]
+Atualize o navegador e clique no botão amarelo \textbf{"Divulgar"}:
+\begin{enumerate}[leftmargin=*]
+  \item O modal deve abrir de forma suave e centralizada na tela;
+  \item Verifique se os 6 campos possuem seus rótulos e se o select de categoria exibe todas as opções;
+  \item Clique em \textbf{"Cancelar"} ou no botão \textbf{"X"} para confirmar que o fechamento nativo do Bootstrap funciona.
+\end{enumerate}
+\end{boxTeste}
+
 \clearpage
-\begin{boxAtividade}[{Passo 2: Estruturação dos Utilitários Puros (js/utils/formatters.js)}]
-Crie o arquivo de funções utilitárias que realizam operações puras de transformação de dados:
+\begin{boxAtividade}[{Fase 2/5: Utilitários Puros (js/utils/formatters.js)}]
+\textbf{Responsabilidade Arquitetural:} Funções puras e reutilizáveis de transformação de dados. Recebem entradas brutas e retornam formatos amigáveis para o usuário brasileiro (moeda e telefone), além de realizar a sanitização de strings contra ataques XSS (\textit{Cross-Site Scripting}). Não tocam no DOM nem no armazenamento.
+\end{boxAtividade}
+
+\vspace{-0.1cm}
+\begin{boxCroqui}[{Croqui Visual 2: Fluxo Puro de Entrada e Saida}]
+[ "48999998888" ] --------> [ formatarTelefone() ] --------> "(48) 99999-8888"
+[ 35.5          ] --------> [ formatarMoeda()    ] --------> "R$ 35,50"
+[ "<script>..." ] --------> [ escapeHtml()       ] --------> "&lt;script&gt;..."
+\end{boxCroqui}
 
 \begin{boxCodigoJS}
 // js/utils/formatters.js
@@ -366,11 +421,27 @@ export function escapeHtml(texto) {
   return div.innerHTML;
 }
 \end{boxCodigoJS}
-\end{boxAtividade}
+
+\begin{boxTeste}[{Checkpoint de Validação 2: Teste via Console do Navegador (F12)}]
+Abra o navegador, pressione \textbf{F12} (ou botão direito $\rightarrow$ Inspecionar) e selecione a aba \textbf{Console}. Execute:
+\begin{center}
+\texttt{import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9)));}
+\end{center}
+\textbf{Resultado esperado no Console:} \texttt{"R\$ 149,90"}. Isso comprova que a exportação nomeada e o cálculo nativo estão 100\% operacionais!
+\end{boxTeste}
 
 \clearpage
-\begin{boxAtividade}[{Passo 3: Camada de Dados e Serviços (js/services/vitrineService.js)}]
-Esta camada gerencia o ciclo de vida dos dados no \texttt{localStorage} sem qualquer manipulação de elementos HTML (operações CRUD puras):
+\begin{boxAtividade}[{Fase 3/5: Camada de Serviços e Dados (js/services/vitrineService.js)}]
+\textbf{Responsabilidade Arquitetural:} Isolar completamente a regra de persistência e ciclo de vida do CRUD (\textit{Create, Read, Update, Delete}). Opera estritamente sobre a chave \texttt{'garopaba\_vitrine\_servicos'} do \texttt{localStorage} do navegador, sem gerar nenhuma tag HTML nem manipular o DOM.
+\end{boxAtividade}
+
+\vspace{-0.1cm}
+\begin{boxCroqui}[{Croqui Visual 3: Arquitetura da Camada de Servicos}]
+[ Interface / main.js ] <--(obter, salvar, atualizar, remover)--> [ vitrineService ]
+                                                                        |
+                                                                        v
+                                                            [ LocalStorage (Browser) ]
+\end{boxCroqui}
 
 \begin{boxCodigoJS}
 // js/services/vitrineService.js
@@ -411,11 +482,34 @@ export function removerServico(id) {
   return servicos;
 }
 \end{boxCodigoJS}
-\end{boxAtividade}
+
+\begin{boxTeste}[{Checkpoint de Validação 3: Teste de Persistência no Console (F12)}]
+No Console do navegador (\textbf{F12}), teste a persistência de um serviço:
+\begin{center}
+\texttt{import('./js/services/vitrineService.js').then(s => \{} \\
+\texttt{  s.salvarServico(\{ nome: 'Oficina Garopaba', categoria: 'Serviços Gerais', precoBase: 50 \});} \\
+\texttt{  console.log('Serviços no LocalStorage:', s.obterServicos());} \\
+\texttt{\});}
+\end{center}
+\textbf{Resultado esperado:} O console imprimirá um array com o serviço recém-criado, contendo um identificador único \texttt{id} gerado automaticamente. Verifique também na aba \textbf{Application $\rightarrow$ Local Storage}.
+\end{boxTeste}
 
 \clearpage
-\begin{boxAtividade}[{Passo 4.1: Template do Card de Serviço (js/views/vitrineView.js)}]
-Gera a estrutura HTML de cada card individual com dados formatados e botões de ação:
+\begin{boxAtividade}[{Fase 4/5: Camada de Visão (js/views/vitrineView.js)}]
+\textbf{Responsabilidade Arquitetural:} Construir e manipular os elementos visuais na interface. Transforma objetos de dados em cards HTML (\texttt{criarCardHtml}), renderiza coleções no contêiner com tratamento de estado vazio (\texttt{renderizarCards}) e dispara mensagens de notificação flutuantes (\texttt{exibirToast}).
+\end{boxAtividade}
+
+\vspace{-0.1cm}
+\begin{boxCroqui}[{Croqui Visual 4: Anatomia do Card de Servico}]
++-----------------------------------------------------------------------+
+| [ Badge Categoria ]                                          R$ 35,00 | <- Topo
+| Nome do Empreendimento                                                | <- Titulo
+| (icone) Bairro em Garopaba                                            | <- Subtitulo
+| Breve descricao dos diferenciais e produtos do negocio...             | <- Descricao
++-----------------------------------------------------------------------+
+| [ WhatsApp (48) 9999-8888 ]               [ Editar ]  [ Excluir ]     | <- Acoes
++-----------------------------------------------------------------------+
+\end{boxCroqui}
 
 \begin{boxCodigoJS}
 // js/views/vitrineView.js (Parte 1: Template do Card)
@@ -466,15 +560,8 @@ export function criarCardHtml(s) {
       </div>
     </div>`;
 }
-\end{boxCodigoJS}
-\end{boxAtividade}
 
-\clearpage
-\begin{boxAtividade}[{Passo 4.2: Renderização da Vitrine e Estado Vazio}]
-Itera sobre a coleção de serviços chamando a função de template e tratando o estado vazio:
-
-\begin{boxCodigoJS}
-// js/views/vitrineView.js (Parte 2: Renderização)
+// js/views/vitrineView.js (Parte 2: Renderização e Estado Vazio)
 export function renderizarCards(servicos, container) {
   if (!servicos || servicos.length === 0) {
     container.innerHTML = `
@@ -488,15 +575,8 @@ export function renderizarCards(servicos, container) {
   }
   container.innerHTML = servicos.map(criarCardHtml).join('');
 }
-\end{boxCodigoJS}
-\end{boxAtividade}
 
-\vspace{0.4cm}
-\begin{boxAtividade}[{Passo 4.3: Notificações Flutuantes (Bootstrap Toasts)}]
-Dispara notificações assíncronas flutuantes através da API nativa do Bootstrap Toast:
-
-\begin{boxCodigoJS}
-// js/views/vitrineView.js (Parte 3: Toasts)
+// js/views/vitrineView.js (Parte 3: Notificações Flutuantes Toasts)
 export function exibirToast(mensagem, tipo = 'success') {
   const toastEl = document.getElementById('toastNotificacao');
   const toastBody = document.getElementById('toastMensagem');
@@ -509,14 +589,29 @@ export function exibirToast(mensagem, tipo = 'success') {
   }
 }
 \end{boxCodigoJS}
-\end{boxAtividade}
+
+\begin{boxTeste}[{Checkpoint de Validação 4: Teste de Renderização e Toast no Console}]
+No Console do navegador (\textbf{F12}), teste o disparo da notificação:
+\begin{center}
+\texttt{import('./js/views/vitrineView.js').then(v => v.exibirToast('Notificação funcionando!'));}
+\end{center}
+\textbf{Resultado esperado:} O Toast flutuante verde surgirá no canto superior direito da tela!
+\end{boxTeste}
 
 \clearpage
-\begin{boxAtividade}[{Passo 5.1: Inicialização e Reatividade (js/main.js)}]
-Configura as referências aos elementos do DOM e implementa a renderização reativa:
+\begin{boxAtividade}[{Fase 5/5: Orquestrador Central (js/main.js)}]
+\textbf{Responsabilidade Arquitetural:} O controlador principal da aplicação. Importa os serviços e as visões, escuta o carregamento do DOM, conecta os eventos de submissão do formulário (\textit{Create \& Update}), a delegação de cliques nos cards (\textit{Edit \& Delete}) e a reatividade instantânea dos filtros.
+\end{boxAtividade}
+
+\vspace{-0.1cm}
+\begin{boxCroqui}[{Croqui Visual 5: Ciclo de Vida da Orquestracao}]
+Usuario clica/submete ---> main.js valida ---> vitrineService (localStorage)
+                                                      |
+Interface renderiza cards <--- vitrineView <----------+ (atualizarInterface)
+\end{boxCroqui}
 
 \begin{boxCodigoJS}
-// js/main.js (Parte 1: Inicialização e Leitura)
+// js/main.js
 import {
   obterServicos, salvarServico,
   atualizarServico, removerServico
@@ -545,17 +640,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Filtros Reativos
   filtroCategoria.addEventListener('change', atualizarInterface);
   atualizarInterface();
-\end{boxCodigoJS}
-\end{boxAtividade}
 
-\clearpage
-\begin{boxAtividade}[{Passo 5.2: Validação e Submissão — Create \& Update (js/main.js)}]
-Gerencia a validação nativa do formulário e alterna entre novo cadastro e atualização:
-
-\begin{boxCodigoJS}
-// js/main.js (Parte 2: Submissão do Formulário)
+  // Submissão do Formulário (Create & Update)
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
@@ -594,17 +683,9 @@ Gerencia a validação nativa do formulário e alterna entre novo cadastro e atu
     }
     atualizarInterface();
   });
-\end{boxCodigoJS}
-\end{boxAtividade}
 
-\clearpage
-\begin{boxAtividade}[{Passo 5.3: Delegação de Eventos — Edit \& Delete (js/main.js)}]
-Escuta cliques nos botões dos cards para carregar dados no modal ou remover itens:
-
-\begin{boxCodigoJS}
-// js/main.js (Parte 3: Delegação de Cliques nos Cards)
+  // Delegação de Cliques nos Cards (Edit & Delete)
   container.addEventListener('click', (e) => {
-    // 1. Operação Update (Edição)
     const btnEditar = e.target.closest('.btn-editar');
     if (btnEditar) {
       const id = btnEditar.getAttribute('data-id');
@@ -626,7 +707,6 @@ Escuta cliques nos botões dos cards para carregar dados no modal ou remover ite
       return;
     }
 
-    // 2. Operação Delete (Exclusão)
     const btnExcluir = e.target.closest('.btn-excluir');
     if (btnExcluir) {
       const id = btnExcluir.getAttribute('data-id');
@@ -637,9 +717,18 @@ Escuta cliques nos botões dos cards para carregar dados no modal ou remover ite
       }
     }
   });
-}); // Fim do DOMContentLoaded
+});
 \end{boxCodigoJS}
-\end{boxAtividade}
+
+\begin{boxTeste}[{Checkpoint de Validação 5: Teste Completo da Aplicação Ponta a Ponta}]
+Parabéns! Sua aplicação está 100\% integrada. Execute o ciclo completo no navegador:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Create:} Clique em "Divulgar", preencha o formulário e salve. O card deve surgir imediatamente na vitrine e o contador deve somar +1;
+  \item \textbf{Filter:} Mude o filtro de categoria no select. Apenas serviços da categoria escolhida devem permanecer na tela;
+  \item \textbf{Update:} Clique no ícone de lápis em um card. O modal abrirá com os dados carregados. Altere o valor e salve;
+  \item \textbf{Delete:} Clique no ícone de lixeira, confirme o aviso nativo e veja o item desaparecer em tempo real!
+\end{enumerate}
+\end{boxTeste}
 
 % =====================================================
 % CHECKLIST DE ENTREGA DO ESTUDANTE
