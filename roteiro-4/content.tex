@@ -49,7 +49,7 @@ O projeto deve ser organizado na pasta \texttt{roteiro-4/exercicio-roteiro4/} se
 \begin{boxCodigo}
 \textbf{Árvore de Diretórios Modular do Projeto:}
 
-\footnotesize
+\fontsize{8.5pt}{11pt}\selectfont
 \begin{verbatim}
 roteiro-4/exercicio-roteiro4/
 |-- index.html     <-- Vitrine e forms (BS5)
@@ -538,9 +538,9 @@ export function escapeHtml(texto) {
 
 \begin{boxTeste}[{Checkpoint de Validação 2: Teste via Console do Navegador (F12)}]
 Abra o navegador, pressione \textbf{F12} (ou botão direito $\rightarrow$ Inspecionar) e selecione a aba \textbf{Console}. Execute:
-\begin{center}
-\texttt{import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9)));}
-\end{center}
+\begin{boxCodigoJS}
+import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9)));
+\end{boxCodigoJS}
 \textbf{Resultado esperado no Console:} \texttt{"R\$ 149,90"}. Isso comprova que a exportação nomeada e o cálculo nativo estão 100\% operacionais!
 \end{boxTeste}
 
@@ -599,12 +599,12 @@ export function removerServico(id) {
 
 \begin{boxTeste}[{Checkpoint de Validação 3: Teste de Persistência no Console (F12)}]
 No Console do navegador (\textbf{F12}), teste a persistência de um serviço:
-\begin{center}
-\texttt{import('./js/services/vitrineService.js').then(s => \{} \\
-\texttt{  s.salvarServico(\{ nome: 'Oficina Garopaba', categoria: 'Serviços Gerais', precoBase: 50 \});} \\
-\texttt{  console.log('Serviços no LocalStorage:', s.obterServicos());} \\
-\texttt{\});}
-\end{center}
+\begin{boxCodigoJS}
+import('./js/services/vitrineService.js').then(s => {
+  s.salvarServico({ nome: 'Oficina Garopaba', categoria: 'Serviços Gerais', precoBase: 50 });
+  console.log('Serviços no LocalStorage:', s.obterServicos());
+});
+\end{boxCodigoJS}
 \textbf{Resultado esperado:} O console imprimirá um array com o serviço recém-criado, contendo um identificador único \texttt{id} gerado automaticamente. Verifique também na aba \textbf{Application $\rightarrow$ Local Storage}.
 \end{boxTeste}
 
@@ -721,9 +721,9 @@ export function exibirToast(mensagem, tipo = 'success') {
 
 \begin{boxTeste}[{Checkpoint de Validação 4: Teste de Renderização e Toast no Console}]
 No Console do navegador (\textbf{F12}), teste o disparo da notificação:
-\begin{center}
-\texttt{import('./js/views/vitrineView.js').then(v => v.exibirToast('Notificação funcionando!'));}
-\end{center}
+\begin{boxCodigoJS}
+import('./js/views/vitrineView.js').then(v => v.exibirToast('Notificação funcionando!'));
+\end{boxCodigoJS}
 \textbf{Resultado esperado:} O Toast flutuante verde surgirá no canto superior direito da tela!
 \end{boxTeste}
 
