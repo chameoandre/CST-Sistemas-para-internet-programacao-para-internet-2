@@ -554,6 +554,7 @@ Esta camada é responsável por gerar marcação HTML dinâmica através de *tem
 // js/views/vitrineView.js
 import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
 
+// Mapeamento de cores para categorias (incluir no roteiro) 
 const CORES_CATEGORIA = {
   'Alimentação': 'success',
   'Tecnologia': 'info',
@@ -562,11 +563,11 @@ const CORES_CATEGORIA = {
   'Turismo': 'secondary'
 };
 
-/** Gera o HTML do card individual com badges, dados formatados e botões de ação */
+// Função para criar o HTML de um card de serviço
 export function criarCardHtml(s) {
   const corBadge = CORES_CATEGORIA[s.categoria] || 'primary';
   const telNumeros = (s.telefone || '').replace(/\D/g, '');
-
+  
   return `
     <div class="col-md-6 col-lg-4 mb-4">
       <div class="card h-100 shadow-sm border-0 vitrine-card rounded-4 overflow-hidden">
@@ -591,34 +592,31 @@ export function criarCardHtml(s) {
           <hr class="my-3 text-muted opacity-25">
 
           <div class="d-flex justify-content-between align-items-center mt-auto">
-            <a href="https://wa.me/55${telNumeros}" target="_blank"
-               class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+            <a href="https://wa.me/55${telNumeros}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
               <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
             </a>
             <div class="d-flex gap-1">
-              <button class="btn btn-sm btn-outline-primary btn-editar rounded-pill px-2"
-                      data-id="${s.id}" title="Editar serviço">
+              <button class="btn btn-sm btn-outline-primary btn-editar rounded-pill px-2" data-id="${s.id}" title="Editar serviço">
                 <i class="bi bi-pencil-square"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2"
-                      data-id="${s.id}" title="Remover da vitrine">
+              <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2" data-id="${s.id}" title="Remover da vitrine">
                 <i class="bi bi-trash"></i>
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>`;
+    </div>
+  `;
 }
 
-/** Renderiza a coleção de cards da vitrine ou exibe mensagem de lista vazia */
 export function renderizarCards(servicos, containerElement) {
   if (!servicos || servicos.length === 0) {
     containerElement.innerHTML = `
       <div class="col-12 text-center py-5">
         <div class="p-4 rounded-4 bg-light border">
           <i class="bi bi-inbox fs-1 text-muted d-block mb-2"></i>
-          <h5 class="fw-bold text-secondary mb-1">Nenhum serviço encontrado nesta categoria</h5>
+          <h5 class="fw-bold text-secondary mb-1">Nenhum serviço cadastrado nesta categoria</h5>
           <p class="text-muted small mb-0">Cadastre um novo serviço ou altere o filtro acima.</p>
         </div>
       </div>`;
@@ -628,19 +626,18 @@ export function renderizarCards(servicos, containerElement) {
   containerElement.innerHTML = servicos.map(criarCardHtml).join('');
 }
 
-/** Dispara uma notificação flutuante (Bootstrap Toast) com mensagem e variante de cor */
 export function exibirToast(mensagem, tipo = 'success') {
   const toastEl = document.getElementById('toastNotificacao');
-  const toastBody = document.getElementById('toastMensagem');
-  const toastHeader = document.getElementById('toastTitulo');
+  const toastMsg = document.getElementById('toastMensagem');
+  const toastTitulo = document.getElementById('toastTitulo');
 
-  if (toastEl && toastBody) {
-    toastBody.innerText = mensagem;
-    if (toastHeader) {
-      toastHeader.innerText = tipo === 'success' ? 'Sucesso!' : (tipo === 'warning' ? 'Atenção' : 'Aviso');
+  if (toastEl && toastMsg) {
+    toastMsg.innerText = mensagem;
+    if (toastTitulo) {
+      toastTitulo.innerText = tipo === 'success' ? 'Sucesso!' : 'Aviso';
     }
     toastEl.className = `toast align-items-center text-bg-${tipo} border-0 shadow-lg`;
-    const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 4000 });
     toast.show();
   }
 }

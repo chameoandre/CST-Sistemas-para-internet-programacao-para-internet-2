@@ -6,6 +6,7 @@
 
 import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
 
+// Mapeamento de cores para categorias (incluir no roteiro)
 const CORES_CATEGORIA = {
   'Alimentação': 'success',
   'Tecnologia': 'info',
@@ -14,6 +15,7 @@ const CORES_CATEGORIA = {
   'Turismo': 'secondary'
 };
 
+// Função para criar o HTML de um card de serviço -> need update (code working) 30/10
 export function criarCardHtml(s) {
   const corBadge = CORES_CATEGORIA[s.categoria] || 'primary';
   const telNumeros = (s.telefone || '').replace(/\D/g, '');
