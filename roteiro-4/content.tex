@@ -868,19 +868,18 @@ import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9))
 \end{boxAtividade}
 
 \vspace{-0.1cm}
-\begin{boxCroqui}[{Croqui Visual 3: Arquitetura da Camada de Servicos}]
-[ Interface / main.js ] <--(obter, salvar, atualizar, remover)--> [ vitrineService ]
-                                                                        |
-                                                                        v
-                                                            [ LocalStorage (Browser) ]
+\begin{boxCroqui}[{Croqui Visual 3: Arquitetura da Camada de Servicos e Carga Inicial}]
+[ DADOS_INICIAIS ] ---> [ carregarDadosIniciais() ] ---> [ LocalStorage ]
+                                                                |
+[ Interface / main.js ] <--(obterServicos, salvar, atualizar)---+
 \end{boxCroqui}
 
 \begin{boxCodigoJS}
 // js/services/vitrineService.js
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
 
-// Dados semente iniciais para enriquecer a experiência de aprendizado
-const DADOS_INICIAIS = [
+// Dados modelo semente para enriquecer a experiência inicial
+export const DADOS_INICIAIS = [
   {
     id: '1',
     nome: 'Maré Alta Artesanatos & Cerâmicas',
@@ -888,7 +887,7 @@ const DADOS_INICIAIS = [
     bairro: 'Centro Histórico',
     precoBase: 35.00,
     telefone: '48991234567',
-    descricao: 'Peças artesanais e utilitárias modeladas à mão com argila local.'
+    descricao: 'Peças artesanais e utilitárias modeladas à mão com argila local e conchas de Garopaba.'
   },
   {
     id: '2',
@@ -897,7 +896,7 @@ const DADOS_INICIAIS = [
     bairro: 'Ferrugem',
     precoBase: 150.00,
     telefone: '48998765432',
-    descricao: 'Criação de websites profissionais responsivos e cardápios digitais.'
+    descricao: 'Criação de websites profissionais responsivos, cardápios digitais e suporte para comércio local.'
   },
   {
     id: '3',
@@ -906,17 +905,28 @@ const DADOS_INICIAIS = [
     bairro: 'Canto das Canoas',
     precoBase: 42.00,
     telefone: '48984561234',
-    descricao: 'Peixes frescos e frutos do mar da pesca artesanal diária.'
+    descricao: 'Peixes frescos e frutos do mar da pesca artesanal diária entregues com higiene e pontualidade.'
   }
 ];
 
+// Função dedicada para carregar os dados modelo no LocalStorage
+export function carregarDadosIniciais() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
+  return DADOS_INICIAIS;
+}
+
+// READ: Recupera os serviços ou carrega os dados modelo se vazio
 export function obterServicos() {
   const dados = localStorage.getItem(STORAGE_KEY);
   if (!dados) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
-    return DADOS_INICIAIS;
+    return carregarDadosIniciais();
   }
-  return JSON.parse(dados);
+  try {
+    return JSON.parse(dados);
+  } catch (e) {
+    console.error('Erro ao processar dados da vitrine:', e);
+    return [];
+  }
 }
 
 export function salvarServico(novo) {
@@ -951,14 +961,14 @@ export function removerServico(id) {
 \end{boxCodigoJS}
 
 \begin{boxTeste}[{Checkpoint de Validação 3: Teste de Persistência no Console (F12)}]
-No Console do navegador (\textbf{F12}), teste a persistência de um serviço:
+No Console do navegador (\textbf{F12}), teste o carregamento dos dados modelo e a persistência:
 \begin{boxCodigoJS}
 import('./js/services/vitrineService.js').then(s => {
-  s.salvarServico({ nome: 'Oficina Garopaba', categoria: 'Serviços Gerais', precoBase: 50 });
+  s.carregarDadosIniciais();
   console.log('Serviços no LocalStorage:', s.obterServicos());
 });
 \end{boxCodigoJS}
-\textbf{Resultado esperado:} O console imprimirá um array com o serviço recém-criado, contendo um identificador único \texttt{id} gerado automaticamente. Verifique também na aba \textbf{Application $\rightarrow$ Local Storage}.
+\textbf{Resultado esperado:} O console imprimirá um array com os 3 serviços modelo semente devidamente persistidos na chave \texttt{garopaba\_vitrine\_servicos}. Verifique também na aba \textbf{Application $\rightarrow$ Local Storage}.
 \end{boxTeste}
 
 \clearpage

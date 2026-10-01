@@ -7,8 +7,8 @@
 
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
 
-// Dados semente iniciais para enriquecer a experiência de aprendizado
-const DADOS_INICIAIS = [
+// Dados modelo semente para enriquecer a experiência inicial de aprendizado
+export const DADOS_INICIAIS = [
   {
     id: '1',
     nome: 'Maré Alta Artesanatos & Cerâmicas',
@@ -38,11 +38,22 @@ const DADOS_INICIAIS = [
   }
 ];
 
+/**
+ * Função dedicada para carregar os dados modelo iniciais no LocalStorage
+ */
+export function carregarDadosIniciais() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
+  return DADOS_INICIAIS;
+}
+
+/**
+ * READ: Recupera a lista completa de serviços do LocalStorage.
+ * Se o armazenamento estiver vazio, carrega automaticamente os dados modelo iniciais.
+ */
 export function obterServicos() {
   const dados = localStorage.getItem(STORAGE_KEY);
   if (!dados) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
-    return DADOS_INICIAIS;
+    return carregarDadosIniciais();
   }
   try {
     return JSON.parse(dados);
@@ -52,6 +63,9 @@ export function obterServicos() {
   }
 }
 
+/**
+ * CREATE: Salva um novo serviço no LocalStorage gerando ID único e timestamp
+ */
 export function salvarServico(novoServico) {
   const servicos = obterServicos();
   const servicoCompleto = {
@@ -65,6 +79,9 @@ export function salvarServico(novoServico) {
   return servicoCompleto;
 }
 
+/**
+ * UPDATE: Atualiza os dados de um serviço existente a partir do seu ID
+ */
 export function atualizarServico(id, dados) {
   const servicos = obterServicos();
   const index = servicos.findIndex(s => s.id === id);
@@ -81,6 +98,9 @@ export function atualizarServico(id, dados) {
   return null;
 }
 
+/**
+ * DELETE: Remove um serviço do LocalStorage filtrando pelo ID
+ */
 export function removerServico(id) {
   const servicos = obterServicos();
   const filtrados = servicos.filter(s => s.id !== id);
