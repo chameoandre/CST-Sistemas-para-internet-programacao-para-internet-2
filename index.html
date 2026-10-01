@@ -984,7 +984,7 @@
         <i class="bi bi-book-half"></i> 5. Ementa &amp; Bibliografia (PPC)
       </button>
       <button class="tab-btn" onclick="showTab('tab-sigaa')">
-        <i class="bi bi-clipboard-check-fill"></i> 6. Central SIGAA &amp; Recursos
+        <i class="bi bi-mortarboard-fill"></i> 6. Central de Tarefas do SIGAA
       </button>
     </div>
 
@@ -1213,176 +1213,15 @@
     <div class="tab-pane" id="tab-roteiros">
       <div class="panel-card">
         
-        <!-- CENTRAL DE ACOMPANHAMENTO DE TAREFAS DO SIGAA -->
-        <div class="sigaa-central-panel">
-          <div class="sigaa-header-bar">
-            <span class="sigaa-header-title">
-              <i class="bi bi-mortarboard-fill text-primary"></i> Tarefas Individuais
-            </span>
-            <div class="sigaa-header-line"></div>
-            <span class="badge-pill badge-pill-blue small"><i class="bi bi-shield-check"></i> Ambiente Virtual SIGAA IFSC</span>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="bi bi-journal-code text-info"></i> Caderno de Roteiros Práticos da Disciplina</h2>
+            <p class="panel-subtitle mb-0">Material didático estruturado com explicações conceituais, croquis visuais de componentes, tabelas anatômicas e desafios incrementais:</p>
           </div>
-
-          <div class="sigaa-meta-strip">
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
-                <i class="bi bi-record-circle-fill text-success"></i> 1 Atividade Ativa
-              </span>
-              <span class="badge bg-info-subtle text-info fw-bold px-2 py-1 rounded">
-                <i class="bi bi-people-fill"></i> 14 Envios Confirmados
-              </span>
-              <span class="badge bg-warning-subtle text-warning fw-bold px-2 py-1 rounded">
-                <i class="bi bi-clock-history"></i> Prorrogação Presencial (Terça-feira em Aula)
-              </span>
-            </div>
-            <div class="text-muted small">
-              <i class="bi bi-info-circle me-1"></i> Acompanhamento oficial das atividades individuais de laboratório — Turma CST Sistemas para a Internet
-            </div>
-          </div>
-
-          <div class="sigaa-table-container">
-            <table class="sigaa-table">
-              <thead>
-                <tr>
-                  <th style="width: 38%;">Título</th>
-                  <th style="width: 26%;">Período de Entrega</th>
-                  <th style="width: 12%; text-align: center;">Possui Nota</th>
-                  <th style="width: 10%; text-align: center;">Envios</th>
-                  <th style="width: 14%; text-align: center;">Ações &amp; Guia</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- LINHA 1: ATIVIDADE 1 NO SIGAA (CALCULADORA DE LANCHES) -->
-                <tr class="sigaa-table-row-active">
-                  <td>
-                    <div class="d-flex align-items-start gap-2">
-                      <i class="bi bi-pin-angle-fill text-warning fs-6 mt-1"></i>
-                      <div>
-                        <strong class="text-heading font-outfit fs-6">Atividade 1: Calculadora de Lanches</strong>
-                        <div class="text-muted small">Atividade para aplicação de lanchonete.</div>
-                        <div class="mt-1 d-flex gap-1 flex-wrap">
-                          <span class="badge bg-success-subtle text-success small" style="font-size: 0.7rem;">
-                            <i class="bi bi-check2-circle"></i> Vinculada ao Roteiro Prático 03
-                          </span>
-                          <span class="badge bg-warning-subtle text-warning small" style="font-size: 0.7rem;">
-                            <i class="bi bi-alarm-fill"></i> Prazo Estendido em Sala
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="small fw-semibold text-heading">de 22/09/2026 às 00h00</div>
-                    <div class="small text-danger fw-bold">a 01/10/2026 às 23h59</div>
-                    <div class="text-muted" style="font-size: 0.72rem;">*Prorrogado para a próxima terça-feira em aula</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <span class="badge bg-light text-secondary border">Não</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <span class="badge bg-success fw-bold px-2 py-1 rounded-pill font-code fs-6">14</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">entregues</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <div class="sigaa-table-actions">
-                      <a href="roteiro-3/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Baixar Guia PDF (Roteiro 03)">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>
-                      </a>
-                      <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Executar App Demo da Lanchonete">
-                        <i class="bi bi-play-circle-fill"></i>
-                      </a>
-                      <button onclick="showTab('tab-sigaa')" class="sigaa-action-icon-btn text-primary" title="Ver Enunciado Completo e Copiar">
-                        <i class="bi bi-clipboard-check"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <!-- LINHA 2: PRÓXIMA ATIVIDADE NO SIGAA (MÓDULO 2 - VITRINE) -->
-                <tr>
-                  <td>
-                    <div class="d-flex align-items-start gap-2">
-                      <i class="bi bi-hourglass-split text-info fs-6 mt-1"></i>
-                      <div>
-                        <strong class="text-heading font-outfit fs-6">Atividade 2: Vitrine Comunitária de Serviços</strong>
-                        <div class="text-muted small">Aplicação modular profissional (ES6 Modules, LocalStorage, Modais &amp; Toasts).</div>
-                        <div class="mt-1 d-flex gap-1 flex-wrap">
-                          <span class="badge bg-purple-subtle text-purple small" style="font-size: 0.7rem; color: var(--accent-purple);">
-                            <i class="bi bi-stars"></i> Módulo 2 / Roteiro Prático 04
-                          </span>
-                          <span class="badge bg-secondary-subtle text-secondary small" style="font-size: 0.7rem;">
-                            <i class="bi bi-calendar-event"></i> Em desenvolvimento em sala
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="small text-muted">Abertura programada no SIGAA</div>
-                    <div class="text-muted" style="font-size: 0.72rem;">Submissão via link GitHub + GitHub Pages</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <span class="badge bg-light text-secondary border">Não</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <span class="badge bg-light text-muted border font-code fs-6">0</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">aguardando</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <div class="sigaa-table-actions">
-                      <a href="roteiro-4/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Baixar Guia PDF (Roteiro 04)">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>
-                      </a>
-                      <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Executar App Vitrine Demo">
-                        <i class="bi bi-shop"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-
-                <!-- LINHA 3: ATIVIDADES DE BASE CONCLUÍDAS -->
-                <tr style="opacity: 0.85;">
-                  <td>
-                    <div class="d-flex align-items-start gap-2">
-                      <i class="bi bi-check-all text-success fs-6 mt-1"></i>
-                      <div>
-                        <strong class="text-heading font-outfit fs-6">Práticas Iniciais: Bootstrap 5 &amp; jQuery DOM</strong>
-                        <div class="text-muted small">Roteiro 01 (Grid 12 Colunas) &amp; Roteiro 02 (Eventos, Animações e LocalStorage).</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="small text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Realizadas Presencialmente</div>
-                    <div class="text-muted" style="font-size: 0.72rem;">Práticas guiadas em laboratório</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <span class="badge bg-light text-secondary border">Não</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Nivelamento</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <span class="badge bg-success-subtle text-success fw-bold font-code fs-6">100%</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">turma</div>
-                  </td>
-                  <td style="text-align: center;">
-                    <div class="sigaa-table-actions">
-                      <a href="roteiro-1/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="PDF Roteiro 01">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>
-                      </a>
-                      <a href="roteiro-2/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="PDF Roteiro 02">
-                        <i class="bi bi-file-earmark-pdf-fill"></i>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <button onclick="showTab('tab-sigaa')" class="btn-action btn-outline-action">
+            <i class="bi bi-mortarboard-fill text-primary"></i> Acessar Central de Tarefas no SIGAA
+          </button>
         </div>
-
-        <h2 class="panel-title"><i class="bi bi-journal-code text-info"></i> Caderno de Roteiros Práticos da Disciplina</h2>
-        <p class="panel-subtitle">Material didático estruturado com explicações conceituais, croquis visuais de componentes, tabelas anatômicas e desafios incrementais:</p>
 
         <div class="roteiros-grid">
 
@@ -1804,13 +1643,216 @@
       </div>
     </div>
 
-    <!-- ABA 6: CENTRAL SIGAA & RECURSOS -->
+    <!-- ABA 6: CENTRAL SIGAA & TAREFAS -->
     <div class="tab-pane" id="tab-sigaa">
       <div class="panel-card">
-        <h2 class="panel-title"><i class="bi bi-clipboard-check text-success"></i> Central de Enunciados Prontos para Postagem no SIGAA</h2>
-        <p class="panel-subtitle">Copie com 1 clique os modelos de tarefas e tópicos de aula para publicar diretamente no ambiente virtual do IFSC:</p>
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="bi bi-mortarboard-fill text-primary"></i> Central de Tarefas e Atividades no SIGAA</h2>
+            <p class="panel-subtitle mb-0">Painel oficial de acompanhamento das tarefas individuais de laboratório publicadas no ambiente acadêmico do IFSC, prazos e controle de entregas:</p>
+          </div>
+          <a href="https://sigaa.ifsc.edu.br" target="_blank" class="btn-action btn-primary-action">
+            <i class="bi bi-box-arrow-up-right"></i> Acessar SIGAA IFSC
+          </a>
+        </div>
 
-        <!-- ENUNCIADO PRONTO DO ROTEIRO 03 COM NOVO PRAZO -->
+        <!-- CENTRAL DE ACOMPANHAMENTO DE TAREFAS DO SIGAA (ESTILO OFICIAL) -->
+        <div class="sigaa-central-panel">
+          <div class="sigaa-header-bar">
+            <span class="sigaa-header-title">
+              <i class="bi bi-mortarboard-fill text-primary"></i> Tarefas Individuais
+            </span>
+            <div class="sigaa-header-line"></div>
+            <span class="badge-pill badge-pill-blue small"><i class="bi bi-shield-check"></i> Ambiente Virtual SIGAA IFSC</span>
+          </div>
+
+          <div class="sigaa-meta-strip">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
+                <i class="bi bi-record-circle-fill text-success"></i> 1 Atividade Ativa
+              </span>
+              <span class="badge bg-info-subtle text-info fw-bold px-2 py-1 rounded">
+                <i class="bi bi-people-fill"></i> 14 Envios Confirmados
+              </span>
+              <span class="badge bg-warning-subtle text-warning fw-bold px-2 py-1 rounded">
+                <i class="bi bi-clock-history"></i> Prorrogação Presencial (Terça-feira em Aula)
+              </span>
+            </div>
+            <div class="text-muted small">
+              <i class="bi bi-info-circle me-1"></i> Acompanhamento oficial das atividades individuais de laboratório — Turma CST Sistemas para a Internet
+            </div>
+          </div>
+
+          <div class="sigaa-table-container">
+            <table class="sigaa-table">
+              <thead>
+                <tr>
+                  <th style="width: 38%;">Título</th>
+                  <th style="width: 26%;">Período de Entrega</th>
+                  <th style="width: 12%; text-align: center;">Possui Nota</th>
+                  <th style="width: 10%; text-align: center;">Envios</th>
+                  <th style="width: 14%; text-align: center;">Ações &amp; Guia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- LINHA 1: ATIVIDADE 1 NO SIGAA (CALCULADORA DE LANCHES) -->
+                <tr class="sigaa-table-row-active">
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-pin-angle-fill text-warning fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">Atividade 1: Calculadora de Lanches</strong>
+                        <div class="text-muted small">Atividade para aplicação de lanchonete.</div>
+                        <div class="mt-1 d-flex gap-1 flex-wrap">
+                          <span class="badge bg-success-subtle text-success small" style="font-size: 0.7rem;">
+                            <i class="bi bi-check2-circle"></i> Vinculada ao Roteiro Prático 03
+                          </span>
+                          <span class="badge bg-warning-subtle text-warning small" style="font-size: 0.7rem;">
+                            <i class="bi bi-alarm-fill"></i> Prazo Estendido em Sala
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-heading">de 22/09/2026 às 00h00</div>
+                    <div class="small text-danger fw-bold">a 01/10/2026 às 23h59</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">*Prorrogado para a próxima terça-feira em aula</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-secondary border">Não</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success fw-bold px-2 py-1 rounded-pill font-code fs-6">14</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">entregues</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-3/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Baixar Guia PDF (Roteiro 03)">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                      <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Executar App Demo da Lanchonete">
+                        <i class="bi bi-play-circle-fill"></i>
+                      </a>
+                      <button onclick="showTab('tab-roteiros')" class="sigaa-action-icon-btn text-primary" title="Ver Card do Roteiro 03">
+                        <i class="bi bi-journal-code"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- LINHA 2: PRÓXIMA ATIVIDADE NO SIGAA (MÓDULO 2 - VITRINE) -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-hourglass-split text-info fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">Atividade 2: Vitrine Comunitária de Serviços</strong>
+                        <div class="text-muted small">Aplicação modular profissional (ES6 Modules, LocalStorage, Modais &amp; Toasts).</div>
+                        <div class="mt-1 d-flex gap-1 flex-wrap">
+                          <span class="badge bg-purple-subtle text-purple small" style="font-size: 0.7rem; color: var(--accent-purple);">
+                            <i class="bi bi-stars"></i> Módulo 2 / Roteiro Prático 04
+                          </span>
+                          <span class="badge bg-secondary-subtle text-secondary small" style="font-size: 0.7rem;">
+                            <i class="bi bi-calendar-event"></i> Em desenvolvimento em sala
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-muted">Abertura programada no SIGAA</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Submissão via link GitHub + GitHub Pages</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-secondary border">Não</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-muted border font-code fs-6">0</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">aguardando</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-4/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Baixar Guia PDF (Roteiro 04)">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                      <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Executar App Vitrine Demo">
+                        <i class="bi bi-shop"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- LINHA 3: ATIVIDADES DE BASE CONCLUÍDAS -->
+                <tr style="opacity: 0.85;">
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-all text-success fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">Práticas Iniciais: Bootstrap 5 &amp; jQuery DOM</strong>
+                        <div class="text-muted small">Roteiro 01 (Grid 12 Colunas) &amp; Roteiro 02 (Eventos, Animações e LocalStorage).</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Realizadas Presencialmente</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Práticas guiadas em laboratório</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-secondary border">Não</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Nivelamento</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold font-code fs-6">100%</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">turma</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-1/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="PDF Roteiro 01">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                      <a href="roteiro-2/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="PDF Roteiro 02">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ORIENTAÇÕES DE SUBMISSÃO E AVALIAÇÃO FORMATIVA -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+              <h4 class="font-outfit fs-6 fw-bold mb-2 text-heading">
+                <i class="bi bi-patch-check-fill text-success me-1"></i> Padrão Oficial de Envio no SIGAA
+              </h4>
+              <p class="small text-muted mb-2">Para cada atividade laboratorial, os estudantes devem submeter na caixa de resposta da tarefa:</p>
+              <ul class="small mb-0 ps-3 text-muted">
+                <li class="mb-1"><strong>Link do Repositório GitHub:</strong> Código-fonte completo com histórico transparente de commits.</li>
+                <li class="mb-1"><strong>Link do GitHub Pages:</strong> Aplicação web rodando ao vivo no navegador (sem erros 404).</li>
+                <li><strong>Identificação:</strong> Nome do estudante e turma no cabeçalho dos arquivos.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+              <h4 class="font-outfit fs-6 fw-bold mb-2 text-heading">
+                <i class="bi bi-info-circle-fill text-primary me-1"></i> Critério Avaliativo Formativo (A2)
+              </h4>
+              <p class="small text-muted mb-2">As tarefas individuais no SIGAA compõem a <strong>Avaliação A2 (Práticas Contínuas de Laboratório — 35% da Média Final)</strong>:</p>
+              <div class="small text-muted">
+                A indicação <em>"Possui Nota: Não"</em> no SIGAA refere-se ao modelo de avaliação contínua/formativa por rubrica e feedback em sala de aula, cuja pontuação é consolidada no diário acadêmico ao final de cada módulo.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ENUNCIADO DE REFERÊNCIA DA ATIVIDADE 1 -->
         <div class="mb-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <span class="badge-pill badge-pill-amber fw-bold"><i class="bi bi-pin-angle-fill"></i> TAREFA ATIVA: ATIVIDADE 1 NO SIGAA (14 ENVIOS REGISTRADOS)</span>
@@ -1821,7 +1863,7 @@
 <br><br>
 <strong>Período de Entrega no SIGAA:</strong> de 22/09/2026 às 00h00 a 01/10/2026 às 23h59.
 <br>
-<strong>Prorrogação em Aula:</strong> Apresentação e entrega flexibilizada até a <strong>próxima terça-feira em horário de aula</strong>.
+<strong>Prorrogação Presencial:</strong> Apresentação e entrega flexibilizada até a <strong>próxima terça-feira em horário de aula</strong>.
 <br>
 <strong>Status Atual da Turma:</strong> 14 envios confirmados.
 <br>
@@ -1843,7 +1885,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           </div>
         </div>
 
-        <h3 class="font-outfit fs-6 fw-bold text-heading text-uppercase mt-4 mb-2">Links Diretos para Inclusão Rápida no SIGAA:</h3>
+        <h3 class="font-outfit fs-6 fw-bold text-heading text-uppercase mt-4 mb-2">Links Diretos dos Materiais para Consulta Rápida:</h3>
 
         <div class="copy-box">
           <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf</span>
