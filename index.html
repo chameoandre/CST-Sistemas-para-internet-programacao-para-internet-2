@@ -1824,41 +1824,279 @@
           </div>
         </div>
 
-        <!-- ORIENTAÇÕES DE SUBMISSÃO E AVALIAÇÃO FORMATIVA -->
-        <div class="row g-3 mb-4">
-          <div class="col-md-6">
-            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
-              <h4 class="font-outfit fs-6 fw-bold mb-2 text-heading">
-                <i class="bi bi-patch-check-fill text-success me-1"></i> Padrão Oficial de Envio no SIGAA
-              </h4>
-              <p class="small text-muted mb-2">Para cada atividade laboratorial, os estudantes devem submeter na caixa de resposta da tarefa:</p>
-              <ul class="small mb-0 ps-3 text-muted">
-                <li class="mb-1"><strong>Link do Repositório GitHub:</strong> Código-fonte completo com histórico transparente de commits.</li>
-                <li class="mb-1"><strong>Link do GitHub Pages:</strong> Aplicação web rodando ao vivo no navegador (sem erros 404).</li>
-                <li><strong>Identificação:</strong> Nome do estudante e turma no cabeçalho dos arquivos.</li>
-              </ul>
+        <!-- SEÇÃO 2: PADRÃO OFICIAL DE ENVIO & DIRETRIZES AVALIATIVAS (ESTILO SIGAA) -->
+        <div class="sigaa-central-panel">
+          <div class="sigaa-header-bar">
+            <span class="sigaa-header-title">
+              <i class="bi bi-patch-check-fill text-success"></i> Padrão Oficial de Envio &amp; Diretrizes
+            </span>
+            <div class="sigaa-header-line"></div>
+            <span class="badge-pill badge-pill-green small"><i class="bi bi-shield-check"></i> Instruções Normativas IFSC</span>
+          </div>
+
+          <div class="sigaa-meta-strip">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded">
+                <i class="bi bi-github"></i> GitHub + GitHub Pages
+              </span>
+              <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
+                <i class="bi bi-award-fill"></i> Avaliação Formativa A2 (35% da MF)
+              </span>
+              <span class="badge bg-info-subtle text-info fw-bold px-2 py-1 rounded">
+                <i class="bi bi-person-video3"></i> Validação Presencial em Laboratório
+              </span>
+            </div>
+            <div class="text-muted small">
+              <i class="bi bi-info-circle me-1"></i> Critérios de aceitação e formato obrigatório de entrega para todas as atividades individuais
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
-              <h4 class="font-outfit fs-6 fw-bold mb-2 text-heading">
-                <i class="bi bi-info-circle-fill text-primary me-1"></i> Critério Avaliativo Formativo (A2)
-              </h4>
-              <p class="small text-muted mb-2">As tarefas individuais no SIGAA compõem a <strong>Avaliação A2 (Práticas Contínuas de Laboratório — 35% da Média Final)</strong>:</p>
-              <div class="small text-muted">
-                A indicação <em>"Possui Nota: Não"</em> no SIGAA refere-se ao modelo de avaliação contínua/formativa por rubrica e feedback em sala de aula, cuja pontuação é consolidada no diário acadêmico ao final de cada módulo.
-              </div>
-            </div>
+
+          <div class="sigaa-table-container">
+            <table class="sigaa-table">
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Requisito de Envio</th>
+                  <th style="width: 42%;">Especificação Técnica &amp; Conteúdo</th>
+                  <th style="width: 20%;">Formato Esperado</th>
+                  <th style="width: 13%; text-align: center;">Critério no SIGAA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-github text-primary fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">1. Repositório no GitHub</strong>
+                        <div class="text-muted small">Código-fonte da atividade prática</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">Estrutura organizada de arquivos com raiz limpa (<code>index.html</code>, pastas <code>css/</code>, <code>js/</code>).</div>
+                    <div class="text-muted small mt-1">Histórico transparente de commits com mensagens em português documentando a evolução do desenvolvimento.</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.76rem;">
+                      https://github.com/usuario/repo
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold">Autoria &amp; Git</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Versionamento</div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-globe2 text-success fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">2. Deploy no GitHub Pages</strong>
+                        <div class="text-muted small">Aplicação publicada ao vivo</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">Aplicação web rodando no navegador sem páginas 404 de assets ou erros de script no console.</div>
+                    <div class="text-muted small mt-1">Hospedagem ativa em produção, permitindo teste imediato das interações pelo professor e pelos pares.</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-success border font-code" style="font-size: 0.76rem;">
+                      https://usuario.github.io/repo/
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-info-subtle text-info fw-bold">Execução Live</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Compatibilidade</div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-award-fill text-warning fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">3. Avaliação Formativa A2</strong>
+                        <div class="text-muted small">Indicação "Possui Nota: Não"</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">A menção <em>"Possui Nota: Não"</em> refere-se ao modelo continuado de avaliação formativa por rubricas em sala de aula.</div>
+                    <div class="text-muted small mt-1">Cada prática pontua na composição da Avaliação A2 (35% da Média Final), consolidada no encerramento do módulo.</div>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-secondary border font-code" style="font-size: 0.76rem;">
+                      35% da Média Final
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-warning-subtle text-warning fw-bold">Formativa A2</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Diário Acadêmico</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <!-- ENUNCIADO DE REFERÊNCIA DA ATIVIDADE 1 -->
-        <div class="mb-4">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="badge-pill badge-pill-amber fw-bold"><i class="bi bi-pin-angle-fill"></i> TAREFA ATIVA: ATIVIDADE 1 NO SIGAA (14 ENVIOS REGISTRADOS)</span>
-            <button class="copy-btn" onclick="copyToClipboard('sigaaTextRoteiro3', this)"><i class="bi bi-clipboard-fill me-1"></i> Copiar Enunciado Completo</button>
+        <!-- SEÇÃO 3: ENUNCIADO OFICIAL & CRITÉRIOS DA TAREFA ATIVA (ESTILO SIGAA) -->
+        <div class="sigaa-central-panel">
+          <div class="sigaa-header-bar">
+            <span class="sigaa-header-title">
+              <i class="bi bi-clipboard2-check-fill text-warning"></i> Enunciado &amp; Critérios da Tarefa Ativa: Atividade 1
+            </span>
+            <div class="sigaa-header-line"></div>
+            <button class="copy-btn" onclick="copyToClipboard('sigaaTextRoteiro3', this)">
+              <i class="bi bi-clipboard-fill me-1"></i> Copiar Enunciado Completo
+            </button>
           </div>
-          <div class="p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.85rem;" id="sigaaTextRoteiro3">
+
+          <div class="sigaa-meta-strip">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="badge bg-warning-subtle text-warning fw-bold px-2 py-1 rounded">
+                <i class="bi bi-pin-angle-fill"></i> Atividade 1: Calculadora de Lanches
+              </span>
+              <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
+                <i class="bi bi-people-fill"></i> 14 Envios Confirmados
+              </span>
+              <span class="badge bg-danger-subtle text-danger fw-bold px-2 py-1 rounded">
+                <i class="bi bi-calendar-event"></i> Período SIGAA: 22/09 às 00h00 a 01/10 às 23h59
+              </span>
+              <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded">
+                <i class="bi bi-alarm-fill"></i> Prorrogação Presencial: Próxima terça em aula
+              </span>
+            </div>
+            <div class="text-muted small">
+              <i class="bi bi-info-circle me-1"></i> Especificações pedagógicas detalhadas para homologação da Atividade 1 vinculada ao Roteiro 03
+            </div>
+          </div>
+
+          <div class="sigaa-table-container">
+            <table class="sigaa-table">
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Critério de Aceite</th>
+                  <th style="width: 44%;">Implementação Exigida (Roteiro 03)</th>
+                  <th style="width: 17%; text-align: center;">Validação Técnica</th>
+                  <th style="width: 14%; text-align: center;">Ações &amp; Teste</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-calculator-fill text-success fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">1. Cálculo em Tempo Real</strong>
+                        <div class="text-muted small">Reatividade e escuta de eventos</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">Subtotais, adicionais (queijo, molhos, acompanhamentos) e total geral atualizados instantaneamente.</div>
+                    <div class="text-muted small mt-1">Escuta dinâmica de formulário implementada com <code>.on('input change')</code> sem recarregar a tela.</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Sem recarregamento</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Testar App Lanchonete">
+                        <i class="bi bi-play-circle-fill"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-shield-check text-primary fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">2. Robustez Numérica</strong>
+                        <div class="text-muted small">Tratamento defensivo contra NaN</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">Conversão segura de valores monetários com <code>parseFloat()</code> e <code>parseInt()</code>.</div>
+                    <div class="text-muted small mt-1">Aplicação de fallback defensivo (<code>|| 0</code>) impedindo que campos vazios ou caracteres inválidos quebrem o cálculo.</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Tratamento || 0</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-3/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Ver Código no PDF Roteiro 03">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-currency-dollar text-warning fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">3. Formatação Monetária</strong>
+                        <div class="text-muted small">Padrão Real Brasileiro (BRL)</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">Exibição de valores monetários formatados no padrão brasileiro (<code>R$ X,XX</code>).</div>
+                    <div class="text-muted small mt-1">Uso de função utilitária com <code>Intl.NumberFormat</code> ou <code>.toFixed(2).replace('.', ',')</code>.</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Moeda R$</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Ver Formatação na Demo">
+                        <i class="bi bi-eye-fill"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-database-fill text-purple fs-6 mt-1" style="color: var(--accent-purple);"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">4. Persistência Offline</strong>
+                        <div class="text-muted small">Web Storage API (localStorage)</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-heading">Salvamento automático do rascunho do pedido no navegador do cliente via <code>localStorage</code>.</div>
+                    <div class="text-muted small mt-1">Restauração imediata dos dados selecionados ao recarregar ou reabrir a aplicação.</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Rascunho salvo</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-3/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Guia PDF Passo a Passo">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ENUNCIADO COMPLETO COPIÁVEL FORMATADO -->
+          <div class="mt-3 p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.85rem;" id="sigaaTextRoteiro3">
 <strong>Título Oficial no SIGAA:</strong> Atividade 1: Calculadora de Lanches (Atividade para aplicação de lanchonete)
 <br><br>
 <strong>Período de Entrega no SIGAA:</strong> de 22/09/2026 às 00h00 a 01/10/2026 às 23h59.
@@ -1885,31 +2123,130 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           </div>
         </div>
 
-        <h3 class="font-outfit fs-6 fw-bold text-heading text-uppercase mt-4 mb-2">Links Diretos dos Materiais para Consulta Rápida:</h3>
+        <!-- SEÇÃO 4: REPOSITÓRIO DE LINKS RÁPIDOS PARA O SIGAA (ESTILO SIGAA) -->
+        <div class="sigaa-central-panel">
+          <div class="sigaa-header-bar">
+            <span class="sigaa-header-title">
+              <i class="bi bi-link-45deg text-primary"></i> Repositório de Links Rápidos para Inclusão no SIGAA
+            </span>
+            <div class="sigaa-header-line"></div>
+            <span class="badge-pill badge-pill-blue small"><i class="bi bi-collection-fill"></i> Materiais Didáticos</span>
+          </div>
 
-        <div class="copy-box">
-          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf</span>
-          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf', this)">Copiar</button>
-        </div>
+          <div class="sigaa-meta-strip">
+            <div class="text-muted small">
+              <i class="bi bi-info-circle me-1"></i> URLs públicas diretas e permanentes no GitHub Pages para cópia e inserção nos tópicos de aula do SIGAA
+            </div>
+          </div>
 
-        <div class="copy-box">
-          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-2/main.pdf</span>
-          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-2/main.pdf', this)">Copiar</button>
-        </div>
+          <div class="sigaa-table-container">
+            <table class="sigaa-table">
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Material / Documento</th>
+                  <th style="width: 35%;">Descrição do Conteúdo</th>
+                  <th style="width: 28%;">URL Pública GitHub Pages</th>
+                  <th style="width: 12%; text-align: center;">Copiar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong class="text-heading font-outfit fs-6"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiro 01 (PDF)</strong>
+                  </td>
+                  <td>
+                    <span class="small text-muted">Bootstrap 5, Grid System 12 colunas e layout responsivo mobile-first.</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                      .../roteiro-1/main.pdf
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-1/main.pdf', this)">
+                      <i class="bi bi-clipboard me-1"></i> Copiar
+                    </button>
+                  </td>
+                </tr>
 
-        <div class="copy-box">
-          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf</span>
-          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf', this)">Copiar</button>
-        </div>
+                <tr>
+                  <td>
+                    <strong class="text-heading font-outfit fs-6"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiro 02 (PDF)</strong>
+                  </td>
+                  <td>
+                    <span class="small text-muted">jQuery, manipulação dinâmica do DOM e persistência com LocalStorage.</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                      .../roteiro-2/main.pdf
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-2/main.pdf', this)">
+                      <i class="bi bi-clipboard me-1"></i> Copiar
+                    </button>
+                  </td>
+                </tr>
 
-        <div class="copy-box">
-          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-4/main.pdf</span>
-          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-4/main.pdf', this)">Copiar</button>
-        </div>
+                <tr>
+                  <td>
+                    <strong class="text-heading font-outfit fs-6"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiro 03 (PDF)</strong>
+                  </td>
+                  <td>
+                    <span class="small text-muted">Calculadora de Pedidos &amp; Carrinho (Atividade 1 no SIGAA).</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                      .../roteiro-3/main.pdf
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf', this)">
+                      <i class="bi bi-clipboard me-1"></i> Copiar
+                    </button>
+                  </td>
+                </tr>
 
-        <div class="copy-box">
-          <span class="copy-text">https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/encerramento_do_semestre/plano_de_ensino.pdf</span>
-          <button class="copy-btn" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/encerramento_do_semestre/plano_de_ensino.pdf', this)">Copiar</button>
+                <tr>
+                  <td>
+                    <strong class="text-heading font-outfit fs-6"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiro 04 (PDF)</strong>
+                  </td>
+                  <td>
+                    <span class="small text-muted">Vitrine Comunitária &amp; ES6 Modules profissional em camadas.</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                      .../roteiro-4/main.pdf
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-4/main.pdf', this)">
+                      <i class="bi bi-clipboard me-1"></i> Copiar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong class="text-heading font-outfit fs-6"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Plano de Ensino</strong>
+                  </td>
+                  <td>
+                    <span class="small text-muted">Documento oficial com ementa, cronograma das 20 aulas e bibliografia PPC.</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                      .../plano_de_ensino.pdf
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/encerramento_do_semestre/plano_de_ensino.pdf', this)">
+                      <i class="bi bi-clipboard me-1"></i> Copiar
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
       </div>
