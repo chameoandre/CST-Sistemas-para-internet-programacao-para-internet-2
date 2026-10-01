@@ -539,6 +539,214 @@
       color: var(--accent-blue);
     }
 
+    /* CARD ACCENT BORDERS & HOVER */
+    .roteiro-card-blue { border-top: 4px solid var(--accent-blue); }
+    .roteiro-card-amber { border-top: 4px solid var(--accent-amber); }
+    .roteiro-card-emerald { border-top: 4px solid var(--accent-emerald); }
+    .roteiro-card-purple { border-top: 4px solid var(--accent-purple); }
+
+    /* TECH TAGS / PILLS */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .tech-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .tech-tag-blue { background: rgba(2, 132, 199, 0.08); border-color: rgba(2, 132, 199, 0.25); color: var(--accent-blue); }
+    .tech-tag-emerald { background: rgba(5, 150, 105, 0.08); border-color: rgba(5, 150, 105, 0.25); color: var(--accent-emerald); }
+    .tech-tag-amber { background: rgba(217, 119, 6, 0.08); border-color: rgba(217, 119, 6, 0.25); color: var(--accent-amber); }
+    .tech-tag-purple { background: rgba(124, 58, 237, 0.08); border-color: rgba(124, 58, 237, 0.25); color: var(--accent-purple); }
+
+    .roteiro-learning-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+      font-size: 0.82rem;
+    }
+
+    .roteiro-learning-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin-bottom: 0.45rem;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .roteiro-learning-list li i {
+      font-size: 0.85rem;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .roteiro-deliverable-box {
+      background: var(--bg-card-hover);
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.8rem;
+      border-left: 3px solid var(--accent-blue);
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    /* CENTRAL DE TAREFAS SIGAA */
+    .sigaa-central-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sigaa-header-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 1rem;
+    }
+
+    .sigaa-header-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #1a3b68;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    [data-theme="dark"] .sigaa-header-title {
+      color: #60a5fa;
+    }
+
+    .sigaa-header-line {
+      flex-grow: 1;
+      height: 3px;
+      background: linear-gradient(90deg, #1a3b68 0%, #336699 60%, rgba(51, 102, 153, 0.2) 100%);
+      border-radius: 2px;
+    }
+
+    [data-theme="dark"] .sigaa-header-line {
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 60%, rgba(96, 165, 250, 0.2) 100%);
+    }
+
+    .sigaa-meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.65rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+    }
+
+    .sigaa-table-container {
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--bg-card);
+    }
+
+    .sigaa-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    .sigaa-table th {
+      background: #E8EEF5;
+      color: #1a3b68;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid #CBD5E1;
+      white-space: nowrap;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    [data-theme="dark"] .sigaa-table th {
+      background: #1e293b;
+      color: #93c5fd;
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .sigaa-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .sigaa-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .sigaa-table tr:hover {
+      background: rgba(2, 132, 199, 0.03);
+    }
+
+    [data-theme="dark"] .sigaa-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .sigaa-table-row-active {
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .sigaa-table-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sigaa-action-icon-btn {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .sigaa-action-icon-btn:hover {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border-color: var(--accent-blue);
+    }
+
     /* EXTENSAO DUAL-TRACK CARDS */
     .extension-cards {
       display: grid;
@@ -743,7 +951,7 @@
           <i class="bi bi-journal-code kpi-icon"></i>
         </div>
         <div class="kpi-value">7 Roteiros</div>
-        <div class="kpi-desc">Roteiro 03 prorrogado: Entrega na próxima terça-feira (em aula).</div>
+        <div class="kpi-desc"><strong>14 Envios no SIGAA</strong> (Atividade 1 - Roteiro 03). Prorrogado para terça em aula.</div>
       </div>
 
       <!-- KPI 4 -->
@@ -1004,21 +1212,216 @@
     <!-- ABA 2: ROTEIROS PRÁTICOS -->
     <div class="tab-pane" id="tab-roteiros">
       <div class="panel-card">
+        
+        <!-- CENTRAL DE ACOMPANHAMENTO DE TAREFAS DO SIGAA -->
+        <div class="sigaa-central-panel">
+          <div class="sigaa-header-bar">
+            <span class="sigaa-header-title">
+              <i class="bi bi-mortarboard-fill text-primary"></i> Tarefas Individuais
+            </span>
+            <div class="sigaa-header-line"></div>
+            <span class="badge-pill badge-pill-blue small"><i class="bi bi-shield-check"></i> Ambiente Virtual SIGAA IFSC</span>
+          </div>
+
+          <div class="sigaa-meta-strip">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
+                <i class="bi bi-record-circle-fill text-success"></i> 1 Atividade Ativa
+              </span>
+              <span class="badge bg-info-subtle text-info fw-bold px-2 py-1 rounded">
+                <i class="bi bi-people-fill"></i> 14 Envios Confirmados
+              </span>
+              <span class="badge bg-warning-subtle text-warning fw-bold px-2 py-1 rounded">
+                <i class="bi bi-clock-history"></i> Prorrogação Presencial (Terça-feira em Aula)
+              </span>
+            </div>
+            <div class="text-muted small">
+              <i class="bi bi-info-circle me-1"></i> Acompanhamento oficial das atividades individuais de laboratório — Turma CST Sistemas para a Internet
+            </div>
+          </div>
+
+          <div class="sigaa-table-container">
+            <table class="sigaa-table">
+              <thead>
+                <tr>
+                  <th style="width: 38%;">Título</th>
+                  <th style="width: 26%;">Período de Entrega</th>
+                  <th style="width: 12%; text-align: center;">Possui Nota</th>
+                  <th style="width: 10%; text-align: center;">Envios</th>
+                  <th style="width: 14%; text-align: center;">Ações &amp; Guia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- LINHA 1: ATIVIDADE 1 NO SIGAA (CALCULADORA DE LANCHES) -->
+                <tr class="sigaa-table-row-active">
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-pin-angle-fill text-warning fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">Atividade 1: Calculadora de Lanches</strong>
+                        <div class="text-muted small">Atividade para aplicação de lanchonete.</div>
+                        <div class="mt-1 d-flex gap-1 flex-wrap">
+                          <span class="badge bg-success-subtle text-success small" style="font-size: 0.7rem;">
+                            <i class="bi bi-check2-circle"></i> Vinculada ao Roteiro Prático 03
+                          </span>
+                          <span class="badge bg-warning-subtle text-warning small" style="font-size: 0.7rem;">
+                            <i class="bi bi-alarm-fill"></i> Prazo Estendido em Sala
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small fw-semibold text-heading">de 22/09/2026 às 00h00</div>
+                    <div class="small text-danger fw-bold">a 01/10/2026 às 23h59</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">*Prorrogado para a próxima terça-feira em aula</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-secondary border">Não</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success fw-bold px-2 py-1 rounded-pill font-code fs-6">14</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">entregues</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-3/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Baixar Guia PDF (Roteiro 03)">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                      <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Executar App Demo da Lanchonete">
+                        <i class="bi bi-play-circle-fill"></i>
+                      </a>
+                      <button onclick="showTab('tab-sigaa')" class="sigaa-action-icon-btn text-primary" title="Ver Enunciado Completo e Copiar">
+                        <i class="bi bi-clipboard-check"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- LINHA 2: PRÓXIMA ATIVIDADE NO SIGAA (MÓDULO 2 - VITRINE) -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-hourglass-split text-info fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">Atividade 2: Vitrine Comunitária de Serviços</strong>
+                        <div class="text-muted small">Aplicação modular profissional (ES6 Modules, LocalStorage, Modais &amp; Toasts).</div>
+                        <div class="mt-1 d-flex gap-1 flex-wrap">
+                          <span class="badge bg-purple-subtle text-purple small" style="font-size: 0.7rem; color: var(--accent-purple);">
+                            <i class="bi bi-stars"></i> Módulo 2 / Roteiro Prático 04
+                          </span>
+                          <span class="badge bg-secondary-subtle text-secondary small" style="font-size: 0.7rem;">
+                            <i class="bi bi-calendar-event"></i> Em desenvolvimento em sala
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-muted">Abertura programada no SIGAA</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Submissão via link GitHub + GitHub Pages</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-secondary border">Não</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-muted border font-code fs-6">0</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">aguardando</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-4/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="Baixar Guia PDF (Roteiro 04)">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                      <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="sigaa-action-icon-btn text-success" title="Executar App Vitrine Demo">
+                        <i class="bi bi-shop"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- LINHA 3: ATIVIDADES DE BASE CONCLUÍDAS -->
+                <tr style="opacity: 0.85;">
+                  <td>
+                    <div class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-all text-success fs-6 mt-1"></i>
+                      <div>
+                        <strong class="text-heading font-outfit fs-6">Práticas Iniciais: Bootstrap 5 &amp; jQuery DOM</strong>
+                        <div class="text-muted small">Roteiro 01 (Grid 12 Colunas) &amp; Roteiro 02 (Eventos, Animações e LocalStorage).</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Realizadas Presencialmente</div>
+                    <div class="text-muted" style="font-size: 0.72rem;">Práticas guiadas em laboratório</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-light text-secondary border">Não</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Nivelamento</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge bg-success-subtle text-success fw-bold font-code fs-6">100%</span>
+                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">turma</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="sigaa-table-actions">
+                      <a href="roteiro-1/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="PDF Roteiro 01">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                      <a href="roteiro-2/main.pdf" target="_blank" class="sigaa-action-icon-btn text-danger" title="PDF Roteiro 02">
+                        <i class="bi bi-file-earmark-pdf-fill"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <h2 class="panel-title"><i class="bi bi-journal-code text-info"></i> Caderno de Roteiros Práticos da Disciplina</h2>
-        <p class="panel-subtitle">Material didático estruturado com explicações teóricas, passos de código comentados e desafios para fixação:</p>
+        <p class="panel-subtitle">Material didático estruturado com explicações conceituais, croquis visuais de componentes, tabelas anatômicas e desafios incrementais:</p>
 
         <div class="roteiros-grid">
 
           <!-- CARD ROTEIRO 1 -->
-          <div class="roteiro-card">
+          <div class="roteiro-card roteiro-card-blue">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="badge-pill badge-pill-blue">ROTEIRO PRÁTICO 01</span>
-              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle"></i> Concluído</span>
+              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Parte 1: Bootstrap 5 &amp; Layout Responsivo</h3>
-            <p class="text-muted small mb-4">
-              Fundamentos do Bootstrap 5: Grid System mobile-first de 12 colunas, formulários estilizados, tabelas zebradas, cards e estruturação do Layout Estático da aplicação.
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
+              <i class="bi bi-bootstrap-fill text-primary me-1"></i> Roteiro 01: Bootstrap 5 &amp; Layout Responsivo
+            </h3>
+            <p class="text-muted small mb-2">
+              Fundamentos de design mobile-first, grid system de 12 colunas e catálogo de componentes essenciais para interfaces web modernas.
             </p>
+            
+            <div class="tech-tags">
+              <span class="tech-tag tech-tag-blue"><i class="bi bi-grid-3x3"></i> Grid 12 Col</span>
+              <span class="tech-tag tech-tag-blue"><i class="bi bi-phone"></i> Breakpoints (sm, md, lg)</span>
+              <span class="tech-tag tech-tag-blue"><i class="bi bi-ui-radios"></i> Formulários</span>
+              <span class="tech-tag tech-tag-blue"><i class="bi bi-table"></i> Tabelas Zebradas</span>
+            </div>
+
+            <ul class="roteiro-learning-list">
+              <li>
+                <i class="bi bi-check-circle-fill text-primary"></i>
+                <span><strong>Grid System:</strong> Alinhamento com <code>.container</code>, <code>.row</code> e classes <code>col-*</code> para interfaces adaptáveis.</span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill text-primary"></i>
+                <span><strong>Componentes Base:</strong> Navbars responsivas, Cards modulares e estilização uniforme de campos de entrada.</span>
+              </li>
+            </ul>
+
+            <div class="roteiro-deliverable-box">
+              <span class="fw-bold text-primary"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
+              <span>Layout estático completo e protótipo visual responsivo estruturado em laboratório.</span>
+            </div>
+
             <div class="mt-auto d-flex flex-column gap-2">
               <a href="roteiro-1/main.pdf" target="_blank" class="btn-action btn-primary-action">
                 <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 01)
@@ -1030,15 +1433,41 @@
           </div>
 
           <!-- CARD ROTEIRO 2 -->
-          <div class="roteiro-card">
+          <div class="roteiro-card roteiro-card-amber">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="badge-pill badge-pill-amber">ROTEIRO PRÁTICO 02</span>
-              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle"></i> Concluído</span>
+              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Parte 2: jQuery, DOM &amp; LocalStorage</h3>
-            <p class="text-muted small mb-4">
-              Manipulação dinâmica com jQuery (<code>$()</code>, <code>.val()</code>, <code>.append()</code>), efeitos de animação e persistência duradoura com Web Storage API.
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
+              <i class="bi bi-code-slash text-warning me-1"></i> Roteiro 02: jQuery, DOM &amp; LocalStorage
+            </h3>
+            <p class="text-muted small mb-2">
+              Manipulação dinâmica de elementos, escuta de eventos em formulários e persistência duradoura no navegador com Web Storage API.
             </p>
+
+            <div class="tech-tags">
+              <span class="tech-tag tech-tag-amber"><i class="bi bi-cursor-fill"></i> Seletores $(seletor)</span>
+              <span class="tech-tag tech-tag-amber"><i class="bi bi-lightning-fill"></i> Eventos (.on, .click)</span>
+              <span class="tech-tag tech-tag-amber"><i class="bi bi-database-fill"></i> localStorage API</span>
+              <span class="tech-tag tech-tag-amber"><i class="bi bi-braces"></i> JSON.stringify / parse</span>
+            </div>
+
+            <ul class="roteiro-learning-list">
+              <li>
+                <i class="bi bi-check-circle-fill text-warning"></i>
+                <span><strong>Manipulação Dinâmica:</strong> Leitura e escrita via <code>.val()</code>, <code>.html()</code>, <code>.append()</code> e animações <code>.slideDown()</code>.</span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill text-warning"></i>
+                <span><strong>Persistência Offline:</strong> Serialização de arrays de objetos e restauração automática ao inicializar a página.</span>
+              </li>
+            </ul>
+
+            <div class="roteiro-deliverable-box" style="border-left-color: var(--accent-amber);">
+              <span class="fw-bold text-warning"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
+              <span>App de Cadastro de Clientes com listagem dinâmica e persistência duradoura.</span>
+            </div>
+
             <div class="mt-auto d-flex flex-column gap-2">
               <a href="roteiro-2/main.pdf" target="_blank" class="btn-action btn-primary-action">
                 <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 02)
@@ -1052,20 +1481,50 @@
             </div>
           </div>
 
-          <!-- CARD ROTEIRO 3 (EM DESTAQUE COM NOVO PRAZO) -->
-          <div class="roteiro-card roteiro-highlight">
+          <!-- CARD ROTEIRO 3 (EM DESTAQUE - ATIVIDADE SIGAA ATIVA) -->
+          <div class="roteiro-card roteiro-card-emerald roteiro-highlight">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="badge-pill badge-pill-green">ROTEIRO PRÁTICO 03</span>
-              <span class="status-badge status-current"><i class="bi bi-clock-history"></i> Em Andamento</span>
+              <span class="status-badge status-current"><i class="bi bi-clock-history"></i> Ativa no SIGAA (14 envios)</span>
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Calculadora de Pedidos &amp; Carrinho</h3>
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
+              <i class="bi bi-calculator-fill text-success me-1"></i> Roteiro 03: Calculadora de Pedidos &amp; Carrinho
+            </h3>
             <p class="text-muted small mb-2">
-              Aplicação de cálculos numéricos em tempo real (<code>parseFloat</code>/<code>parseInt</code> com fallback <code>|| 0</code>), formatação em Reais (<code>R$</code>) e salvamento de rascunhos com <code>localStorage</code>.
+              Cálculos numéricos em tempo real, formatação monetária (Real brasileiro - R$) e gestão de estados de compra com armazenamento seguro.
             </p>
-            
-            <div class="p-2 mb-3 rounded" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4);">
-              <div class="small fw-bold text-warning mb-1"><i class="bi bi-calendar-event-fill me-1"></i> NOVO PRAZO DE SUBMISSÃO NO SIGAA:</div>
-              <div class="small" style="color: var(--text-main);"><strong>Próxima terça-feira em horário de aula</strong> (Envio do link do GitHub + GitHub Pages).</div>
+
+            <div class="p-2 mb-2 rounded" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4);">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-1 mb-1">
+                <span class="small fw-bold text-warning"><i class="bi bi-pin-angle-fill me-1"></i> ATIVIDADE 1 NO SIGAA:</span>
+                <span class="badge bg-success fw-bold font-code" style="font-size: 0.72rem;">14 ENVIOS REGISTRADOS</span>
+              </div>
+              <div class="small" style="color: var(--text-main);">
+                <strong>Prorrogação Presencial:</strong> Entrega e apresentação até a <strong>próxima terça-feira em horário de aula</strong> (Envio do link do GitHub + GitHub Pages).
+              </div>
+            </div>
+
+            <div class="tech-tags">
+              <span class="tech-tag tech-tag-emerald"><i class="bi bi-123"></i> parseFloat / parseInt</span>
+              <span class="tech-tag tech-tag-emerald"><i class="bi bi-shield-check"></i> Fallback || 0</span>
+              <span class="tech-tag tech-tag-emerald"><i class="bi bi-currency-dollar"></i> Moeda BRL (R$)</span>
+              <span class="tech-tag tech-tag-emerald"><i class="bi bi-cart3"></i> Carrinho LocalStorage</span>
+            </div>
+
+            <ul class="roteiro-learning-list">
+              <li>
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <span><strong>Cálculos em Tempo Real:</strong> Reatividade instantânea com escuta em <code>.on('input change')</code> sem recarregar a tela.</span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill text-success"></i>
+                <span><strong>Robustez Numérica:</strong> Tratamento defensivo contra entradas vazias ou <code>NaN</code> garantindo subtotal e total corretos.</span>
+              </li>
+            </ul>
+
+            <div class="roteiro-deliverable-box" style="border-left-color: var(--accent-emerald);">
+              <span class="fw-bold text-success"><i class="bi bi-box-seam me-1"></i> Artefato Entregável do SIGAA:</span>
+              <span>App Calculadora de Lanches com adicionais dinâmicos, resumo monetário e rascunho persistido.</span>
             </div>
 
             <div class="mt-auto d-flex flex-column gap-2">
@@ -1078,16 +1537,43 @@
             </div>
           </div>
 
-          <!-- CARD ROTEIRO 4 -->
-          <div class="roteiro-card" style="border-top: 4px solid var(--accent-purple);">
+          <!-- CARD ROTEIRO 4 (MÓDULO 2 - ATUAL EM SALA) -->
+          <div class="roteiro-card roteiro-card-purple">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="badge-pill badge-pill-purple">ROTEIRO PRÁTICO 04</span>
-              <span class="badge-pill badge-pill-blue"><i class="bi bi-stars"></i> Módulo 2</span>
+              <span class="badge-pill badge-pill-blue"><i class="bi bi-stars"></i> Módulo 2 (Em Aula)</span>
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-2">Vitrine Comunitária &amp; ES6 Modules</h3>
-            <p class="text-muted small mb-3">
-              Arquitetura modular profissional: separação em camadas (<code>services/</code>, <code>views/</code>, <code>utils/</code>), validação visual no cliente (Bootstrap 5) e Toasts dinâmicos.
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
+              <i class="bi bi-shop text-purple me-1" style="color: var(--accent-purple);"></i> Roteiro 04: Vitrine Comunitária &amp; ES6 Modules
+            </h3>
+            <p class="text-muted small mb-2">
+              Arquitetura modular profissional em camadas (<code>services/</code>, <code>views/</code>, <code>utils/</code>), componentes interativos Bootstrap 5 e CRUD completo.
             </p>
+
+            <div class="tech-tags">
+              <span class="tech-tag tech-tag-purple"><i class="bi bi-boxes"></i> ES6 Modules</span>
+              <span class="tech-tag tech-tag-purple"><i class="bi bi-layers"></i> Camadas MVC</span>
+              <span class="tech-tag tech-tag-purple"><i class="bi bi-window"></i> Bootstrap Modais</span>
+              <span class="tech-tag tech-tag-purple"><i class="bi bi-bell-fill"></i> Bootstrap Toasts</span>
+              <span class="tech-tag tech-tag-purple"><i class="bi bi-whatsapp"></i> Ação WhatsApp</span>
+            </div>
+
+            <ul class="roteiro-learning-list">
+              <li>
+                <i class="bi bi-check-circle-fill text-purple" style="color: var(--accent-purple);"></i>
+                <span><strong>Separação de Responsabilidades:</strong> Dados no <code>vitrineService.js</code>, DOM no <code>vitrineView.js</code> e máscaras no <code>formatters.js</code>.</span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill text-purple" style="color: var(--accent-purple);"></i>
+                <span><strong>Feedback e Validação:</strong> Validação visual nativa, abertura controlada de Modais e Toasts não-bloqueantes.</span>
+              </li>
+            </ul>
+
+            <div class="roteiro-deliverable-box" style="border-left-color: var(--accent-purple);">
+              <span class="fw-bold text-purple" style="color: var(--accent-purple);"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
+              <span>Vitrine Comunitária de Serviços com filtros, cadastro modal, exclusão e dados iniciais pré-carregados.</span>
+            </div>
+
             <div class="mt-auto d-flex flex-column gap-2">
               <a href="roteiro-4/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: var(--accent-purple); border-color: var(--accent-purple);">
                 <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 04)
@@ -1104,7 +1590,7 @@
           <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
               <h4 class="font-outfit fs-6 fw-bold mb-1"><i class="bi bi-collection-fill text-success me-1"></i> Caderno Completo de Roteiros (prog-internet-2.pdf)</h4>
-              <p class="text-muted small mb-0">Documento unificado com a compilação de todos os roteiros práticos do semestre.</p>
+              <p class="text-muted small mb-0">Documento unificado com a compilação completa de todos os roteiros práticos do semestre com paginação contínua.</p>
             </div>
             <a href="prog-internet-2.pdf" target="_blank" class="btn-action btn-outline-action">
               <i class="bi bi-download"></i> Baixar Caderno Completo (PDF)
@@ -1327,18 +1813,22 @@
         <!-- ENUNCIADO PRONTO DO ROTEIRO 03 COM NOVO PRAZO -->
         <div class="mb-4">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="badge-pill badge-pill-amber fw-bold"><i class="bi bi-pin-angle-fill"></i> TAREFA ATIVA: ROTEIRO PRÁTICO 03 (NOVO PRAZO)</span>
+            <span class="badge-pill badge-pill-amber fw-bold"><i class="bi bi-pin-angle-fill"></i> TAREFA ATIVA: ATIVIDADE 1 NO SIGAA (14 ENVIOS REGISTRADOS)</span>
             <button class="copy-btn" onclick="copyToClipboard('sigaaTextRoteiro3', this)"><i class="bi bi-clipboard-fill me-1"></i> Copiar Enunciado Completo</button>
           </div>
           <div class="p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.85rem;" id="sigaaTextRoteiro3">
-<strong>Título da Tarefa no SIGAA:</strong> Roteiro Prático 03 — Calculadora de Pedidos &amp; Carrinho (Bootstrap 5 + jQuery + LocalStorage)
+<strong>Título Oficial no SIGAA:</strong> Atividade 1: Calculadora de Lanches (Atividade para aplicação de lanchonete)
 <br><br>
-<strong>Prazo de Entrega:</strong> Próxima terça-feira em horário de aula.
+<strong>Período de Entrega no SIGAA:</strong> de 22/09/2026 às 00h00 a 01/10/2026 às 23h59.
+<br>
+<strong>Prorrogação em Aula:</strong> Apresentação e entrega flexibilizada até a <strong>próxima terça-feira em horário de aula</strong>.
+<br>
+<strong>Status Atual da Turma:</strong> 14 envios confirmados.
 <br>
 <strong>Formato de Envio:</strong> Link do repositório no GitHub + Link da aplicação publicada no GitHub Pages.
 <br><br>
 Prezados(as) estudantes,<br>
-Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulação dinâmica de formulários e cálculos numéricos em tempo real (jQuery com parseFloat/parseInt) e persistência duradoura no navegador (LocalStorage), está disponível a atividade prática do Roteiro 03.
+Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulação dinâmica de formulários e cálculos numéricos em tempo real (jQuery com parseFloat/parseInt defensivo contra NaN) e persistência duradoura no navegador (LocalStorage), está disponível a atividade prática do Roteiro 03.
 <br><br>
 🔗 <strong>Materiais de Apoio e Consulta:</strong><br>
 • Guia Completo em PDF: https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-3/main.pdf<br>
