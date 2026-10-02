@@ -544,6 +544,9 @@
     .roteiro-card-amber { border-top: 4px solid var(--accent-amber); }
     .roteiro-card-emerald { border-top: 4px solid var(--accent-emerald); }
     .roteiro-card-purple { border-top: 4px solid var(--accent-purple); }
+    .roteiro-card-indigo { border-top: 4px solid #6366f1; }
+
+    .badge-pill-indigo { background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25); }
 
     /* TECH TAGS / PILLS */
     .tech-tags {
@@ -570,6 +573,7 @@
     .tech-tag-emerald { background: rgba(5, 150, 105, 0.08); border-color: rgba(5, 150, 105, 0.25); color: var(--accent-emerald); }
     .tech-tag-amber { background: rgba(217, 119, 6, 0.08); border-color: rgba(217, 119, 6, 0.25); color: var(--accent-amber); }
     .tech-tag-purple { background: rgba(124, 58, 237, 0.08); border-color: rgba(124, 58, 237, 0.25); color: var(--accent-purple); }
+    .tech-tag-indigo { background: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.25); color: #6366f1; }
 
     .roteiro-learning-list {
       list-style: none;
@@ -1100,8 +1104,8 @@
           <div class="timeline-item">
             <div class="timeline-num">Aula 08</div>
             <div class="timeline-content">
-              <h4>Módulo 3: Assincronismo \& Consumo de APIs RESTful</h4>
-              <p>Conceito de requisições assíncronas, <code>Promises</code>, sintaxe moderna <code>async/await</code> e tratamento robusto de exceções com <code>try/catch</code>.</p>
+              <h4>Módulo 3: Assincronismo &amp; Backend RESTful em Flask (Roteiro 05)</h4>
+              <p>Conceito de requisições assíncronas, <code>Promises</code>, <code>async/await</code> e inicialização do microbackend em Python Flask com banco de dados SQLite persistente (<code>vitrine.db</code>) e cabeçalhos CORS.</p>
             </div>
             <div><span class="status-badge status-next">Planejado</span></div>
           </div>
@@ -1110,8 +1114,8 @@
           <div class="timeline-item">
             <div class="timeline-num">Aula 09</div>
             <div class="timeline-content">
-              <h4>Integração com Fetch API</h4>
-              <p>Verbos HTTP (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>), manipulação de cabeçalhos (<code>Headers</code>) e payloads JSON em serviços web.</p>
+              <h4>Integração Frontend-Backend com Fetch API (Roteiro 05)</h4>
+              <p>Refatoração do <code>vitrineService.js</code> com a Fetch API nativa (<code>GET</code>, <code>POST</code>, <code>DELETE</code>), gravação direta no banco de dados SQLite e chaveamento inteligente para contingência no LocalStorage.</p>
             </div>
             <div><span class="status-badge status-next">Planejado</span></div>
           </div>
@@ -1440,6 +1444,55 @@
               </a>
               <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="btn-action btn-outline-action">
                 <i class="bi bi-shop"></i> Executar App Vitrine Demo
+              </a>
+            </div>
+          </div>
+
+          <!-- CARD ROTEIRO 5 (MÓDULO 3 - FETCH API & FLASK SQLITE) -->
+          <div class="roteiro-card roteiro-card-indigo">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge-pill badge-pill-indigo">ROTEIRO PRÁTICO 05</span>
+              <span class="badge-pill" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
+                <i class="bi bi-cloud-arrow-down-fill"></i> Módulo 3 (Próxima Etapa)
+              </span>
+            </div>
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
+              <i class="bi bi-hdd-network-fill me-1" style="color: #6366f1;"></i> Roteiro 05: Fetch API, async/await &amp; Backend Flask (SQLite)
+            </h3>
+            <p class="text-muted small mb-2">
+              Consumo assíncrono de serviços web RESTful via Fetch API, ciclo HTTP, headers CORS, persistência em banco relacional SQLite e resiliência com fallback no LocalStorage.
+            </p>
+
+            <div class="tech-tags">
+              <span class="tech-tag tech-tag-indigo"><i class="bi bi-arrow-left-right"></i> Fetch API &amp; async/await</span>
+              <span class="tech-tag tech-tag-indigo"><i class="bi bi-cpu"></i> Flask RESTful (Python)</span>
+              <span class="tech-tag tech-tag-indigo"><i class="bi bi-database-fill"></i> SQLite (vitrine.db)</span>
+              <span class="tech-tag tech-tag-indigo"><i class="bi bi-shield-lock-fill"></i> CORS</span>
+              <span class="tech-tag tech-tag-indigo"><i class="bi bi-hourglass-split"></i> Spinners &amp; Status</span>
+            </div>
+
+            <ul class="roteiro-learning-list">
+              <li>
+                <i class="bi bi-check-circle-fill" style="color: #6366f1;"></i>
+                <span><strong>Integração Cliente-Servidor:</strong> Envio de payloads JSON via <code>fetch()</code> e recebimento de status codes HTTP reais (200, 201, 404).</span>
+              </li>
+              <li>
+                <i class="bi bi-check-circle-fill" style="color: #6366f1;"></i>
+                <span><strong>Banco Relacional &amp; Resiliência:</strong> Persistência em arquivo SQLite (<code>app.py</code>) com contingência offline inteligente.</span>
+              </li>
+            </ul>
+
+            <div class="roteiro-deliverable-box" style="border-left-color: #6366f1;">
+              <span class="fw-bold" style="color: #6366f1;"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
+              <span>Vitrine Comunitária Conectada à API RESTful em Python com gravação no banco SQLite e contingência offline.</span>
+            </div>
+
+            <div class="mt-auto d-flex flex-column gap-2">
+              <a href="roteiro-5/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: #4f46e5; border-color: #4f46e5;">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 05)
+              </a>
+              <a href="roteiro-5/exercicio-roteiro5/frontend/index.html" target="_blank" class="btn-action btn-outline-action">
+                <i class="bi bi-cloud-check-fill text-primary"></i> Executar Vitrine Conectada Demo
               </a>
             </div>
           </div>
@@ -2242,6 +2295,25 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                   </td>
                   <td style="text-align: center;">
                     <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-4/main.pdf', this)">
+                      <i class="bi bi-clipboard me-1"></i> Copiar
+                    </button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <strong class="text-heading font-outfit fs-6"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiro 05 (PDF)</strong>
+                  </td>
+                  <td>
+                    <span class="small text-muted">Fetch API, async/await, backend RESTful Flask &amp; persistência SQLite.</span>
+                  </td>
+                  <td>
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                      .../roteiro-5/main.pdf
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <button class="copy-btn py-1 px-2" style="font-size: 0.75rem;" onclick="copySimpleLink('https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/roteiro-5/main.pdf', this)">
                       <i class="bi bi-clipboard me-1"></i> Copiar
                     </button>
                   </td>

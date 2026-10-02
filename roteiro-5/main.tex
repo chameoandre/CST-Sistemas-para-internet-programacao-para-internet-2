@@ -17,10 +17,8 @@
 \usepackage{tabularx}
 \usepackage{newtxtext,newtxmath}
 \usepackage[most]{tcolorbox}
-\usepackage{qrcode}
 \usepackage{float}
 \usepackage{tikz}
-\usepackage{colortbl}
 \usepackage{listings}
 \usepackage{upquote}
 \tcbuselibrary{listings,skins}
@@ -28,22 +26,21 @@
 
 \geometry{
     top=2.5cm,
-    bottom=3cm,
-    left=1.5cm,
-    right=1.5cm
+    bottom=2.5cm,
+    left=2.0cm,
+    right=2.0cm
 }
 
 \onehalfspacing
 
 % =====================================================
-% CORES PERSONALIZADAS (PADRÃO INSTITUCIONAL IFSC)
+% CORES INSTITUCIONAIS (IFSC)
 % =====================================================
 \definecolor{azulObjetivos}{RGB}{30,60,90}
 \definecolor{cinzaCodigo}{RGB}{245,245,245}
 \definecolor{vermelhoCodigo}{RGB}{180,50,50}
 \definecolor{pretoTabela}{RGB}{0,0,0}
 \definecolor{cinzaTabela}{RGB}{235,235,235}
-\definecolor{mostarda}{RGB}{204,153,0}
 \definecolor{azulTitulo}{RGB}{30,60,90}
 \definecolor{ifscGreen}{RGB}{22,163,74}
 \definecolor{borderGray}{RGB}{200,210,220}
@@ -53,8 +50,8 @@
 % Cores para Realce de Sintaxe (Syntax Highlighting)
 \definecolor{cinzaFundo}{RGB}{250,250,252}
 \definecolor{bordaCodigo}{RGB}{210,215,225}
-\definecolor{jsKeyword}{RGB}{124,58,237}     % Roxo para palavras-chave
-\definecolor{jsString}{RGB}{22,163,74}       % Verde suave para strings
+\definecolor{jsKeyword}{RGB}{124,58,237}     % Roxo para palavras-chave (const, async, await)
+\definecolor{jsString}{RGB}{22,163,74}       % Verde para strings
 \definecolor{jsComment}{RGB}{120,130,145}    % Cinza itálico para comentários
 \definecolor{htmlTag}{RGB}{220,38,38}        % Vermelho para tags HTML
 \definecolor{htmlString}{RGB}{37,99,235}     % Azul para atributos HTML
@@ -75,11 +72,11 @@
            {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1
 }
 
-% Linguagem JavaScript ES6
+% Linguagem JavaScript ES6 com suporte assíncrono
 \lstdefinelanguage{JavaScriptES6}{
-  keywords={typeof, new, true, false, catch, function, return, null, switch, var, if, in, while, do, else, case, break, const, let, export, import, from, default, async, await, try, finally},
+  keywords={typeof, new, true, false, catch, function, return, null, switch, var, if, in, while, do, else, case, break, const, let, export, import, from, default, async, await, try, finally, throw},
   keywordstyle=\color{jsKeyword}\bfseries,
-  ndkeywords={class, boolean, throw, implements, this},
+  ndkeywords={class, boolean, implements, this},
   ndkeywordstyle=\color{jsKeyword}\bfseries,
   identifierstyle=\color{black},
   sensitive=true,
@@ -90,14 +87,6 @@
   morestring=[b]',
   morestring=[b]",
   morestring=[b]`
-}
-
-% Linguagem HTML5
-\lstdefinelanguage{HTML5}{
-  language=html,
-  tagstyle=\color{htmlTag}\bfseries,
-  commentstyle=\color{jsComment}\itshape,
-  stringstyle=\color{htmlString}
 }
 
 % Linguagem Python para Flask
@@ -117,21 +106,24 @@
   morestring=[s]{"""}{"""}
 }
 
-% =====================================================
-% BOX VISUALS
-% =====================================================
-\newtcolorbox{boxObjetivos}{
-    colback=azulObjetivos!10,
-    colframe=azulObjetivos,
-    boxrule=1pt,
-    arc=4pt,
-    left=6pt,
-    right=6pt,
-    top=6pt,
-    bottom=6pt,
-    title=Objetivos
+% Linguagem HTML5
+\lstdefinelanguage{HTML5}{
+  language=html,
+  tagstyle=\color{htmlTag}\bfseries,
+  commentstyle=\color{jsComment}\itshape,
+  stringstyle=\color{htmlString}
 }
 
+\hypersetup{
+    colorlinks=true,
+    linkcolor=azulTitulo,
+    urlcolor=ifscGreen,
+    citecolor=azulTitulo
+}
+
+% =====================================================
+% BOX VISUAIS E ESTILOS
+% =====================================================
 \newtcolorbox{boxCodigo}{
     breakable,
     colback=cinzaCodigo,
@@ -139,10 +131,7 @@
     boxrule=0.8pt,
     arc=2pt,
     before upper={\singlespacing},
-    left=6pt,
-    right=6pt,
-    top=6pt,
-    bottom=6pt,
+    left=6pt, right=6pt, top=6pt, bottom=6pt,
     borderline={0.5pt}{0pt}{vermelhoCodigo,dashed}
 }
 
@@ -155,6 +144,30 @@
     arc=4pt,
     before upper={\singlespacing},
     left=8pt, right=8pt, top=6pt, bottom=6pt
+}
+
+\newtcblisting{boxCodigoJS}[1][]{
+    breakable,
+    enhanced,
+    colback=cinzaFundo,
+    colframe=azulTitulo!40,
+    boxrule=0.6pt,
+    arc=4pt,
+    before upper={\singlespacing},
+    left=8pt, right=8pt, top=5pt, bottom=5pt,
+    listing only,
+    listing engine=listings,
+    listing options={
+        language=JavaScriptES6,
+        basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
+        columns=fullflexible,
+        keepspaces=true,
+        upquote=true,
+        breaklines=true,
+        showstringspaces=false,
+        tabsize=2,
+        #1
+    }
 }
 
 \newtcblisting{boxCodigoPY}[1][]{
@@ -177,31 +190,6 @@
         breaklines=true,
         showstringspaces=false,
         tabsize=4,
-        #1
-    }
-}
-
-% Ambientes tcblisting com syntax highlighting
-\newtcblisting{boxCodigoJS}[1][]{
-    breakable,
-    enhanced,
-    colback=cinzaFundo,
-    colframe=azulTitulo!40,
-    boxrule=0.6pt,
-    arc=4pt,
-    before upper={\singlespacing},
-    left=8pt, right=8pt, top=5pt, bottom=5pt,
-    listing only,
-    listing engine=listings,
-    listing options={
-        language=JavaScriptES6,
-        basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
-        columns=fullflexible,
-        keepspaces=true,
-        upquote=true,
-        breaklines=true,
-        showstringspaces=false,
-        tabsize=2,
         #1
     }
 }
@@ -230,52 +218,23 @@
     }
 }
 
-\newtcolorbox{boxAtividade}[1][]{
-    breakable,
-    enhanced,
-    colback=azulTitulo!5,
-    colframe=azulTitulo,
-    boxrule=0pt,
-    arc=6pt,
-    outer arc=6pt,
-    boxsep=0pt,
-    left=14pt,
-    right=14pt,
-    top=16pt,
-    bottom=14pt,
-    title={{#1}},
-    coltitle=white,
-    colbacktitle=azulTitulo,
-    fonttitle=\bfseries,
-    attach boxed title to top left={
-        yshift=-3mm,
-        xshift=6mm
-    },
-    boxed title style={
-        sharp corners,
-        boxrule=0pt
-    }
+\newtcolorbox{boxObjetivos}{
+    colback=azulObjetivos!10,
+    colframe=azulObjetivos,
+    boxrule=1pt,
+    arc=4pt,
+    left=6pt, right=6pt, top=6pt, bottom=6pt,
+    title=Objetivos da Prática
 }
 
-\newtcblisting{boxCroqui}[1][]{
+\newtcolorbox{boxAtividade}[1][]{
     breakable, enhanced,
-    colback=cinzaFundo, colframe=azulTitulo!60,
-    boxrule=0.7pt, arc=4pt,
-    before upper={\singlespacing},
-    left=8pt, right=8pt, top=6pt, bottom=6pt,
-    title={{#1}}, coltitle=azulTitulo, colbacktitle=azulTitulo!12, fonttitle=\bfseries\small,
-    attach boxed title to top left={yshift=-2.5mm, xshift=5mm},
-    boxed title style={boxrule=0.5pt, colframe=azulTitulo!50, arc=3pt},
-    listing only,
-    listing engine=listings,
-    listing options={
-        basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
-        columns=fullflexible,
-        keepspaces=true,
-        upquote=true,
-        breaklines=true,
-        showstringspaces=false
-    }
+    colback=azulTitulo!5, colframe=azulTitulo,
+    boxrule=0pt, arc=6pt,
+    left=14pt, right=14pt, top=16pt, bottom=14pt,
+    title={{#1}}, coltitle=white, colbacktitle=azulTitulo, fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-3mm, xshift=6mm},
+    boxed title style={sharp corners, boxrule=0pt}
 }
 
 \newtcolorbox{mockupNavegador}[1][]{
@@ -300,48 +259,6 @@
     boxed title style={boxrule=0pt, sharp corners=downhill, arc=3pt}
 }
 
-\newtcolorbox{boxDica}{
-    colback=blue!5,
-    colframe=azulTitulo,
-    title=\textbf{Dicas Úteis},
-    fonttitle=\bfseries,
-    arc=2mm,
-    boxrule=0.8pt
-}
-
-\newtcolorbox{boxTabela}{
-    colback=cinzaTabela,
-    colframe=pretoTabela,
-    boxrule=0.8pt,
-    arc=2pt,
-    left=4pt,
-    right=4pt,
-    top=4pt,
-    bottom=4pt
-}
-
-\newcommand{\RepositorioQRCode}[2]{
-\begin{tcolorbox}[
-    colback=gray!5,
-    colframe=black!40,
-    title=Material do repositório,
-    fonttitle=\bfseries,
-    arc=3pt,
-    boxrule=0.5pt
-]
-\begin{minipage}{0.7\textwidth}
-Acesse o repositório oficial desta unidade curricular:
-
-\url{#1}
-
-\end{minipage}
-\begin{minipage}{0.25\textwidth}
-\centering
-\qrcode[height=2.0cm]{#2}
-\end{minipage}
-\end{tcolorbox}
-}
-
 % =====================================================
 % ESTILOS DE SEÇÃO
 % =====================================================
@@ -350,14 +267,13 @@ Acesse o repositório oficial desta unidade curricular:
 {\thesection}
 {1em}
 {}
-[\vspace{0.3cm}\hrule]
+[\vspace{0.2cm}\hrule\vspace{0.2cm}]
 
 \titleformat{\subsection}
-{\normalfont\bfseries}
+{\normalfont\bfseries\color{azulTitulo}}
+{\thesubsection}
+{1em}
 {}
-{0em}
-{}
-[\vspace{0.2cm}\hrule]
 
 % =====================================================
 % CABEÇALHO E RODAPÉ
@@ -366,51 +282,27 @@ Acesse o repositório oficial desta unidade curricular:
 \fancyhf{}
 
 \fancyhead[L]{
-\includegraphics[height=1.8cm]{figures/garopaba_horizontal_marca2015_PNG.png}
+\includegraphics[height=1.2cm]{../figures/garopaba_horizontal_marca2015_PNG.png}
 }
 
 \fancyhead[R]{
-\textbf{UC – Programação para a Internet 2 (ProgWeb 2)}\\
-Docente: Prof. André Moraes\\
-\textbf{CST em Sistemas para a Internet}
+\textbf{ProgWeb 2 — Roteiro Prático 05 (Fetch API \& Flask)}\\
+\small Assincronismo, async/await \& Backend RESTful com SQLite\\
+\small CST em Sistemas para a Internet — IFSC Garopaba
 }
 
-\fancyfoot[L]{\small\textit{\leftmark}}
+\fancyfoot[L]{\small\textit{Roteiro Prático 05 — Módulo 3 (PPC CONSUP 30/2020)}}
 \fancyfoot[C]{}
 \fancyfoot[R]{\small Página \thepage}
-\renewcommand{\footrulewidth}{2.4pt}
+\renewcommand{\footrulewidth}{1.5pt}
 
-\setlength{\headheight}{45pt}
+\setlength{\headheight}{40pt}
 
 % =====================================================
 % DOCUMENTO PRINCIPAL
 % =====================================================
 \begin{document}
 
-\begin{center}
-    {\Large \textbf{PROGRAMAÇÃO PARA A INTERNET 2 (PROGWEB 2)}}\\
-    Caderno de Roteiros Práticos da Unidade Curricular\\
-    Curso Superior de Tecnologia em Sistemas para a Internet — IFSC Garopaba
-\end{center}
-
-\vspace{0.5cm}
-\hrule
-\vspace{0.8cm}
-
-\tableofcontents
-\newpage
-
-\input{visao-geral/main.tex}
-\newpage
-\input{roteiro-1/content.tex}
-\newpage
-\input{roteiro-2/content.tex}
-\newpage
-\input{roteiro-3/content.tex}
-\newpage
-\input{roteiro-4/content.tex}
-\newpage
-\input{roteiro-5/content.tex}
+\input{content.tex}
 
 \end{document}
-

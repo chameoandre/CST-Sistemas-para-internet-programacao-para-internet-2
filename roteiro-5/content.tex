@@ -1,0 +1,809 @@
+\section{Roteiro Prático 05 — Assincronismo, Fetch API \& Backend RESTful em Flask (SQLite)}
+
+% =====================================================
+% OBJETIVOS DA ATIVIDADE
+% =====================================================
+
+\begin{boxObjetivos}
+\textbf{Objetivos de Aprendizagem (Módulo 3 — Assincronismo \& Integração de Serviços Web)}
+
+Ao final desta prática orientada em laboratório, o estudante será capaz de:
+
+\begin{itemize}[leftmargin=*]
+\item Compreender a transição do armazenamento isolado no navegador (\texttt{localStorage}) para a \textbf{arquitetura Cliente-Servidor real}, onde os dados são centralizados e compartilhados em rede;
+\item Configurar e executar um microbackend RESTful em \textbf{Python Flask}, compreendendo o papel dos protocolos HTTP, rotas, verbos (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{DELETE}) e códigos de status (\texttt{200}, \texttt{201}, \texttt{400}, \texttt{404}, \texttt{500});
+\item Integrar um banco de dados relacional embutido (\textbf{SQLite 3}) via arquivo persistente (\texttt{vitrine.db}), eliminando a necessidade de instalar servidores externos de banco;
+\item Compreender o mecanismo de segurança \textbf{CORS} (\textit{Cross-Origin Resource Sharing}) e por que ele bloqueia requisições entre portas distintas (ex: frontend na porta \texttt{5500} e API na porta \texttt{5000});
+\item Refatorar a camada de serviços (\texttt{vitrineService.js}) para operar com a moderna \textbf{Fetch API} do JavaScript nativo utilizando a sintaxe \textbf{\texttt{async/await}} e tratamento robusto de exceções com blocos \textbf{\texttt{try/catch}};
+\item Implementar o padrão profissional de \textbf{Contingência Resiliente (Fallback)}: se a API do Flask estiver ativa (no laboratório), o sistema opera conectado ao banco relacional; se a página for executada no GitHub Pages ou offline, a aplicação chaveia automaticamente para o \texttt{localStorage} sem quebrar;
+\item Implementar estados visuais reativos no frontend com \textbf{Spinners de Carregamento} e \textbf{Badges dinâmicos de conectividade} com a API.
+\end{itemize}
+\end{boxObjetivos}
+
+% =====================================================
+% INTRODUÇÃO E EVOLUÇÃO ARQUITETURAL
+% =====================================================
+
+\subsection{Introdução: Da Vitrine Isolada à Aplicação em Rede}
+
+No \textbf{Roteiro Prático 04}, demos um grande salto organizando o frontend na arquitetura modular com ES6 Modules (\texttt{services/}, \texttt{views/}, \texttt{utils/}). No entanto, todo o armazenamento ocorria exclusivamente dentro do navegador de cada máquina através da \texttt{Web Storage API} (\texttt{localStorage}).
+
+Na prática profissional, se um empreendedor em Garopaba cadastrar um novo serviço em seu celular, esse serviço precisa ficar imediatamente disponível para qualquer cliente que abrir a página em outro computador. Isso exige que os dados saiam do navegador e sejam gravados em um **servidor central com banco de dados**.
+
+Neste \textbf{Roteiro Prático 05}, evoluiremos a mesma base de código da \textbf{Vitrine Comunitária}, conectando o frontend modular a uma API RESTful leve construída em **Flask** com banco de dados relacional **SQLite**.
+
+% =====================================================
+% DIAGRAMA DA ARQUITETURA CLIENTE-SERVIDOR
+% =====================================================
+
+\subsection{Visão Geral da Arquitetura Cliente-Servidor}
+
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.5cm and 2.2cm,
+    caixa/.style={rectangle, draw=azulTitulo, rounded corners=5pt, fill=azulTitulo!6, line width=1pt, align=center, inner sep=8pt, font=\small},
+    nuvem/.style={rectangle, draw=ifscGreen, rounded corners=8pt, fill=ifscGreen!10, line width=1.2pt, align=center, inner sep=10pt, font=\small\bfseries},
+    seta/.style={-{Latex[length=3mm]}, line width=1.2pt}
+]
+
+% Nós
+\node[caixa] (cliente) {\textbf{Cliente Web (Navegador)}\\Bootstrap 5 + ES6 Modules\\\texttt{Live Server (Porta 5500)}};
+
+\node[nuvem, right=of cliente] (api) {\textbf{Backend RESTful (Flask)}\\Microframework Python\\\texttt{http://127.0.0.1:5000}};
+
+\node[caixa, right=of api] (banco) {\textbf{Banco Relacional}\\\textbf{SQLite 3 em Arquivo}\\\texttt{vitrine.db}};
+
+% Conexões
+\draw[seta, color=azulTitulo] (cliente.north east) to[bend left=20] node[midway, above, font=\footnotesize] {Requisição HTTP: \texttt{fetch('/api/servicos')}} (api.north west);
+
+\draw[seta, color=ifscGreen] (api.south west) to[bend left=20] node[midway, below, font=\footnotesize] {Resposta JSON: \texttt{[\{id: 1, nome: "..."\}]}} (cliente.south east);
+
+\draw[seta, color=pyKeyword] (api.east) -- node[midway, above, font=\footnotesize] {SQL Query} (banco.west);
+\draw[seta, color=pyKeyword] (banco.south west) to[bend left=15] node[midway, below, font=\footnotesize] {Cursor / Rows} (api.south east);
+
+\end{tikzpicture}
+\end{center}
+
+% =====================================================
+% ESTRUTURA DE DIRETÓRIOS DO PROJETO
+% =====================================================
+
+\subsection{Estrutura de Pastas do Projeto Integrado}
+
+Para manter o desacoplamento saudável entre a camada de backend e a camada de frontend, organizaremos o projeto na pasta \texttt{roteiro-5/exercicio-roteiro5/} com a seguinte estrutura:
+
+\begin{boxCodigo}
+\textbf{Árvore de Diretórios do Projeto Integrado (Full-Stack Didático):}
+
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+roteiro-5/exercicio-roteiro5/
+|-- backend/
+|   |-- requirements.txt   <-- Dependências Python (Flask, flask-cors)
+|   |-- app.py             <-- API RESTful com rotas e conexão SQLite
+|   `-- vitrine.db         <-- Banco SQLite (gerado automaticamente no 1º run)
+`-- frontend/
+    |-- index.html         <-- Interface com status de conexão e spinner
+    |-- styles.css         <-- Estilos complementares
+    `-- js/
+        |-- main.js        <-- Orquestrador assíncrono de eventos
+        |-- services/
+        |   `-- vitrineService.js <-- Consumo Fetch API com fallback
+        |-- views/
+        |   `-- vitrineView.js    <-- Renderizador de cards, spinner e toasts
+        `-- utils/
+            `-- formatters.js     <-- Formatações (100% inalterado!)
+\end{verbatim}
+\end{boxCodigo}
+
+\vspace{0.2cm}
+\begin{tcolorbox}[colback=ifscGreen!10, colframe=ifscGreen, title=\textbf{Princípio do Desacoplamento Arquitetural}, arc=3pt]
+Observe atentamente que a camada utilitária (\texttt{formatters.js}) e grande parte da camada de visão (\texttt{vitrineView.js}) **permanecem exatamente as mesmas do Roteiro 04**. Toda a migração de tecnologia ocorre de forma isolada no \texttt{vitrineService.js}. Este é o maior benefício do padrão arquitetural que aprendemos!
+\end{tcolorbox}
+
+% =====================================================
+% FUNDAMENTAÇÃO TEÓRICA
+% =====================================================
+
+\subsection{Fundamentação Teórica: Conceitos-Chave}
+
+\subsubsection{1. O Ciclo de Vida HTTP e Verbos REST}
+Uma API RESTful utiliza o protocolo HTTP padrão para realizar operações sobre recursos:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{\texttt{GET /api/servicos}:} Solicita a leitura da lista de serviços cadastrados (\textit{Read}). Não altera o estado do servidor. Retorna código de status \textbf{\texttt{200 OK}}.
+  \item \textbf{\texttt{POST /api/servicos}:} Envia um objeto JSON no corpo (\textit{Body}) da requisição para cadastrar um novo serviço (\textit{Create}). Retorna código \textbf{\texttt{201 Created}}.
+  \item \textbf{\texttt{PUT /api/servicos/<id>}:} Atualiza os dados de um registro existente pelo seu identificador (\textit{Update}). Retorna código \textbf{\texttt{200 OK}}.
+  \item \textbf{\texttt{DELETE /api/servicos/<id>}:} Remove permanentemente um serviço do banco (\textit{Delete}). Retorna código \textbf{\texttt{200 OK}}.
+\end{itemize}
+
+\subsubsection{2. A Política de Mesma Origem e o CORS}
+Por questões de segurança, os navegadores web impedem por padrão que um script executado em uma origem (ex: \texttt{http://127.0.0.1:5500} no Live Server) leia dados de outra origem (ex: \texttt{http://127.0.0.1:5000} no Flask). Essa política de bloqueio é chamada de **SOP** (\textit{Same-Origin Policy}).
+
+Para autorizar que o nosso frontend acesse a API, o servidor Flask precisa enviar nos cabeçalhos de resposta a diretiva \textbf{CORS} (\textit{Cross-Origin Resource Sharing}):
+\begin{center}
+\texttt{Access-Control-Allow-Origin: *}
+\end{center}
+No Python, essa autorização é resolvida de maneira elegante através da extensão \textbf{\texttt{flask-cors}}.
+
+\subsubsection{3. Assincronismo com Promises e async/await}
+No JavaScript, operações de rede (como buscar dados em outro computador) levam alguns milissegundos ou segundos para responder. Se o código executasse de forma síncrona (\textit{bloqueante}), o navegador congelaria completamente enquanto esperasse a resposta.
+
+Por isso, o JavaScript utiliza **Promises** (promessas de valores futuros) manipuladas pelas palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}}:
+\begin{boxCodigoJS}
+// A palavra 'async' declara que a função lida com operações assíncronas
+export async function obterDados() {
+  try {
+    // A palavra 'await' pausa a execução DESTA função até a resposta chegar,
+    // permitindo que o navegador continue fluido e responsivo para o usuário.
+    const resposta = await fetch('http://127.0.0.1:5000/api/servicos');
+    
+    // Converte o fluxo de texto HTTP em um objeto JavaScript
+    const dados = await resposta.json();
+    return dados;
+  } catch (erro) {
+    console.error('Falha de rede:', erro);
+  }
+}
+\end{boxCodigoJS}
+
+% =====================================================
+% FASES DE IMPLEMENTAÇÃO GUIADAS (ZERO-ELLIPSIS RULE)
+% =====================================================
+
+\newpage
+\subsection{Implementação Passo a Passo Guiada}
+
+Seguiremos a sequência didática em 6 fases de implementação estruturadas. Todo o código fornecido é **100\% completo, sem reticências ou omissões**.
+
+% --- FASE 1 ---
+\begin{boxAtividade}[{Fase 1/6: Configuração do Backend em Flask \& SQLite (backend/)}]
+\textbf{Responsabilidade Arquitetural:} Criar o ambiente isolado Python (virtualenv), instalar o microframework Flask com suporte a CORS e implementar a API RESTful com conexão ao SQLite em arquivo (\texttt{vitrine.db}).
+\end{boxAtividade}
+
+\textbf{Passo 1.1: Criar o arquivo de dependências (\texttt{backend/requirements.txt})}
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+Flask>=3.0.0
+flask-cors>=4.0.0
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\textbf{Passo 1.2: No terminal do VS Code, criar o ambiente virtual e instalar dependências:}
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+# Acesse a pasta do backend
+cd roteiro-5/exercicio-roteiro5/backend
+
+# Cria o ambiente virtual isolado
+python3 -m venv venv
+
+# Ativa o ambiente virtual (Linux/Mac)
+source venv/bin/activate
+# No Windows PowerShell utilize: .\venv\Scripts\Activate.ps1
+
+# Instala o Flask e o CORS
+pip install -r requirements.txt
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\textbf{Passo 1.3: Criar o arquivo completo do servidor (\texttt{backend/app.py}):}
+\begin{boxCodigoPY}
+import os
+import sqlite3
+from datetime import datetime
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+# Habilita CORS para permitir que o Live Server (porta 5500) acesse o Flask (5000)
+CORS(app)
+
+DB_PATH = os.path.join(os.path.dirname(__file__), 'vitrine.db')
+
+def obter_conexao():
+    """Conecta ao SQLite retornando linhas como dicionários."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def inicializar_banco():
+    """Cria a tabela servicos e popula com os 3 registros modelo de Garopaba se vazia."""
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS servicos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            categoria TEXT NOT NULL,
+            bairro TEXT NOT NULL,
+            precoBase REAL NOT NULL,
+            telefone TEXT NOT NULL,
+            descricao TEXT,
+            dataCadastro TEXT
+        )
+    ''')
+
+    cursor.execute('SELECT COUNT(*) AS total FROM servicos')
+    if cursor.fetchone()['total'] == 0:
+        dados_semente = [
+            (
+                'Maré Alta Artesanatos & Cerâmicas', 'Artesanato', 'Centro Histórico',
+                35.00, '48991234567',
+                'Peças artesanais e utilitárias modeladas à mão com argila local e conchas de Garopaba.',
+                datetime.now().isoformat()
+            ),
+            (
+                'Garopaba Web & Design Studio', 'Tecnologia', 'Ferrugem',
+                150.00, '48998765432',
+                'Criação de websites profissionais responsivos, cardápios digitais e suporte para comércio local.',
+                datetime.now().isoformat()
+            ),
+            (
+                'Pescado Fresco do Zequinha', 'Alimentação', 'Canto das Canoas',
+                42.00, '48984561234',
+                'Peixes frescos e frutos do mar da pesca artesanal diária entregues com higiene e pontualidade.',
+                datetime.now().isoformat()
+            )
+        ]
+        cursor.executemany('''
+            INSERT INTO servicos (nome, categoria, bairro, precoBase, telefone, descricao, dataCadastro)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', dados_semente)
+        conn.commit()
+    conn.close()
+
+@app.route('/api/status', methods=['GET'])
+def verificar_status():
+    """Diagnóstico de conectividade com a API."""
+    return jsonify({
+        'status': 'online',
+        'mensagem': 'API REST da Vitrine de Garopaba operacional.',
+        'banco': 'SQLite 3'
+    }), 200
+
+@app.route('/api/servicos', methods=['GET'])
+def listar_servicos():
+    """READ: Retorna a lista de todos os serviços ordenados pelo ID decrescente."""
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM servicos ORDER BY id DESC')
+    linhas = cursor.fetchall()
+    conn.close()
+    return jsonify([dict(l) for l in linhas]), 200
+
+@app.route('/api/servicos', methods=['POST'])
+def cadastrar_servico():
+    """CREATE: Grava um novo serviço enviado em formato JSON no SQLite."""
+    dados = request.get_json()
+    if not dados:
+        return jsonify({'erro': 'Payload inválido.'}), 400
+
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    data_atual = datetime.now().isoformat()
+
+    cursor.execute('''
+        INSERT INTO servicos (nome, categoria, bairro, precoBase, telefone, descricao, dataCadastro)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        dados['nome'].strip(),
+        dados['categoria'].strip(),
+        dados['bairro'].strip(),
+        float(dados['precoBase']),
+        dados['telefone'].strip(),
+        dados.get('descricao', '').strip(),
+        data_atual
+    ))
+    conn.commit()
+    novo_id = cursor.lastrowid
+    conn.close()
+
+    return jsonify({
+        'id': novo_id,
+        'nome': dados['nome'].strip(),
+        'categoria': dados['categoria'].strip(),
+        'bairro': dados['bairro'].strip(),
+        'precoBase': float(dados['precoBase']),
+        'telefone': dados['telefone'].strip(),
+        'descricao': dados.get('descricao', '').strip(),
+        'dataCadastro': data_atual
+    }), 201
+
+@app.route('/api/servicos/<int:id>', methods=['DELETE'])
+def excluir_servico(id):
+    """DELETE: Exclui um serviço pelo ID."""
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM servicos WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'mensagem': f'Serviço {id} removido.'}), 200
+
+if __name__ == '__main__':
+    inicializar_banco()
+    print('Servidor Flask ativo na porta 5000: http://127.0.0.1:5000')
+    app.run(host='127.0.0.1', port=5000, debug=True)
+\end{boxCodigoPY}
+
+% --- FASE 2 ---
+\newpage
+\begin{boxAtividade}[{Fase 2/6: Executando e Testando a API RESTful}]
+\textbf{Responsabilidade Arquitetural:} Iniciar o servidor Flask na porta 5000 e validar os endpoints de saúde (\texttt{/api/status}) e listagem (\texttt{/api/servicos}) diretamente no terminal e navegador antes da integração.
+\end{boxAtividade}
+
+\textbf{Passo 2.1: Iniciar o servidor no terminal:}
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+python app.py
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\textbf{Passo 2.2: Testar no navegador ou via cURL em outra aba do terminal:}
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+curl http://127.0.0.1:5000/api/status
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\textbf{Resposta esperada do servidor (JSON com status 200):}
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+{"banco":"SQLite 3","mensagem":"API REST da Vitrine de Garopaba operacional.","status":"online"}
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\begin{boxTeste}{Checkpoint de Validação da Fase 2}
+Abra no navegador \url{http://127.0.0.1:5000/api/servicos}. Você deverá ver a lista JSON com os 3 registros semente cadastrados automaticamente no arquivo \texttt{vitrine.db}.
+\end{boxTeste}
+
+% --- FASE 3 ---
+\begin{boxAtividade}[{Fase 3/6: A Revolução Assíncrona no vitrineService.js}]
+\textbf{Responsabilidade Arquitetural:} Refatorar os métodos de leitura e escrita para utilizarem requisições HTTP assíncronas com \texttt{fetch()} e \texttt{async/await}, mantendo uma camada de contingência transparente com \texttt{localStorage}.
+\end{boxAtividade}
+
+\begin{boxCodigoJS}
+// js/services/vitrineService.js
+const API_BASE_URL = 'http://127.0.0.1:5000/api';
+const STORAGE_KEY = 'garopaba_vitrine_servicos';
+
+let apiConectada = false;
+
+export const DADOS_INICIAIS = [
+  {
+    id: '1',
+    nome: 'Maré Alta Artesanatos & Cerâmicas',
+    categoria: 'Artesanato',
+    bairro: 'Centro Histórico',
+    precoBase: 35.00,
+    telefone: '48991234567',
+    descricao: 'Peças artesanais e utilitárias modeladas à mão com argila local e conchas de Garopaba.'
+  },
+  {
+    id: '2',
+    nome: 'Garopaba Web & Design Studio',
+    categoria: 'Tecnologia',
+    bairro: 'Ferrugem',
+    precoBase: 150.00,
+    telefone: '48998765432',
+    descricao: 'Criação de websites profissionais responsivos, cardápios digitais e suporte para comércio local.'
+  },
+  {
+    id: '3',
+    nome: 'Pescado Fresco do Zequinha',
+    categoria: 'Alimentação',
+    bairro: 'Canto das Canoas',
+    precoBase: 42.00,
+    telefone: '48984561234',
+    descricao: 'Peixes frescos e frutos do mar da pesca artesanal diária entregues com higiene e pontualidade.'
+  }
+];
+
+export function estaConectadoNaApi() {
+  return apiConectada;
+}
+
+export async function testarConexaoApi() {
+  try {
+    const resposta = await fetch(`${API_BASE_URL}/status`, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(2000)
+    });
+    apiConectada = resposta.ok;
+    return apiConectada;
+  } catch (erro) {
+    apiConectada = false;
+    return false;
+  }
+}
+
+// Rotinas Locais de Contingência (Fallback)
+function obterServicosLocal() {
+  const dados = localStorage.getItem(STORAGE_KEY);
+  if (!dados) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DADOS_INICIAIS));
+    return DADOS_INICIAIS;
+  }
+  try { return JSON.parse(dados); } catch (e) { return []; }
+}
+
+function salvarServicoLocal(novoServico) {
+  const servicos = obterServicosLocal();
+  const servicoCompleto = {
+    id: Date.now().toString(),
+    dataCadastro: new Date().toISOString(),
+    ...novoServico
+  };
+  servicos.unshift(servicoCompleto);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  return servicoCompleto;
+}
+
+function removerServicoLocal(id) {
+  const servicos = obterServicosLocal();
+  const filtrados = servicos.filter(s => s.id.toString() !== id.toString());
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtrados));
+  return filtrados;
+}
+
+// Operações Assíncronas com Fetch API
+export async function obterServicos() {
+  try {
+    const resposta = await fetch(`${API_BASE_URL}/servicos`, {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(3000)
+    });
+    if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+    const dados = await resposta.json();
+    apiConectada = true;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
+    return dados;
+  } catch (erro) {
+    apiConectada = false;
+    console.warn('API Flask offline. Ativando contingência LocalStorage:', erro.message);
+    return obterServicosLocal();
+  }
+}
+
+export async function salvarServico(novoServico) {
+  try {
+    const resposta = await fetch(`${API_BASE_URL}/servicos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(novoServico),
+      signal: AbortSignal.timeout(4000)
+    });
+    if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+    const criado = await resposta.json();
+    apiConectada = true;
+    const servicos = obterServicosLocal();
+    servicos.unshift(criado);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+    return criado;
+  } catch (erro) {
+    apiConectada = false;
+    console.warn('Falha no envio à API. Salvando localmente:', erro.message);
+    return salvarServicoLocal(novoServico);
+  }
+}
+
+export async function removerServico(id) {
+  try {
+    const resposta = await fetch(`${API_BASE_URL}/servicos/${id}`, {
+      method: 'DELETE',
+      headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(4000)
+    });
+    if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+    apiConectada = true;
+    removerServicoLocal(id);
+    return true;
+  } catch (erro) {
+    apiConectada = false;
+    console.warn('Falha na exclusão remota. Removendo localmente:', erro.message);
+    removerServicoLocal(id);
+    return true;
+  }
+}
+\end{boxCodigoJS}
+
+% --- FASE 4 ---
+\newpage
+\begin{boxAtividade}[{Fase 4/6: Camada de Visão \& Feedbacks de Rede (vitrineView.js)}]
+\textbf{Responsabilidade Arquitetural:} Adicionar componentes visuais de carregamento (\texttt{exibirSpinner}) e indicador de conectividade em tempo real com a API no topo da página.
+\end{boxAtividade}
+
+\begin{boxCodigoJS}
+// js/views/vitrineView.js
+import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
+
+const CORES_CATEGORIA = {
+  'Alimentação': 'success',
+  'Tecnologia': 'info',
+  'Artesanato': 'warning',
+  'Serviços Gerais': 'primary',
+  'Turismo': 'secondary'
+};
+
+export function criarCardHtml(s) {
+  const corBadge = CORES_CATEGORIA[s.categoria] || 'primary';
+  const telNumeros = (s.telefone || '').replace(/\D/g, '');
+
+  return `
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 vitrine-card rounded-4 overflow-hidden">
+        <div class="card-body p-4 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge bg-${corBadge} px-3 py-2 rounded-pill font-outfit">
+              <i class="bi bi-tag-fill me-1"></i>${escapeHtml(s.categoria)}
+            </span>
+            <span class="fw-bold text-success font-outfit fs-5">
+              ${formatarMoeda(s.precoBase)}
+            </span>
+          </div>
+
+          <h5 class="card-title fw-bold text-dark mt-2 mb-1">${escapeHtml(s.nome)}</h5>
+          <h6 class="text-muted small mb-3">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>${escapeHtml(s.bairro)}
+          </h6>
+          <p class="card-text text-secondary small flex-grow-1" style="line-height: 1.5;">
+            ${escapeHtml(s.descricao)}
+          </p>
+
+          <hr class="my-3 text-muted opacity-25">
+
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <a href="https://wa.me/55${telNumeros}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+              <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
+            </a>
+            <div class="d-flex gap-1">
+              <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2" data-id="${s.id}" title="Remover da vitrine">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+export function renderizarCards(servicos, containerElement) {
+  if (!containerElement) return;
+  if (!servicos || servicos.length === 0) {
+    containerElement.innerHTML = `
+      <div class="col-12 py-5 text-center text-muted">
+        <i class="bi bi-inbox fs-1 d-block mb-3 text-secondary opacity-50"></i>
+        <h5 class="fw-bold">Nenhum serviço encontrado</h5>
+        <p class="small">Cadastre um novo serviço ou altere o filtro de categoria.</p>
+      </div>
+    `;
+    return;
+  }
+  containerElement.innerHTML = servicos.map(s => criarCardHtml(s)).join('');
+}
+
+export function exibirSpinner(containerElement) {
+  if (!containerElement) return;
+  containerElement.innerHTML = `
+    <div class="col-12 py-5 text-center text-primary">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Carregando dados da API...</span>
+      </div>
+      <p class="mt-3 text-muted small fw-semibold">Consultando serviços no backend Flask (SQLite)...</p>
+    </div>
+  `;
+}
+
+export function atualizarStatusConexao(isOnline, statusBadgeEl) {
+  if (!statusBadgeEl) return;
+  if (isOnline) {
+    statusBadgeEl.className = 'badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-semibold';
+    statusBadgeEl.innerHTML = '<i class="bi bi-cloud-check-fill me-1"></i> Backend Online (Flask + SQLite)';
+  } else {
+    statusBadgeEl.className = 'badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2 rounded-pill fw-semibold';
+    statusBadgeEl.innerHTML = '<i class="bi bi-hdd-network-fill me-1"></i> Modo Offline (LocalStorage)';
+  }
+}
+
+export function exibirToast(mensagem, tipo = 'success') {
+  const toastEl = document.getElementById('toastNotificacao');
+  const toastMsgEl = document.getElementById('toastMensagem');
+  if (!toastEl || !toastMsgEl) return;
+  toastEl.className = `toast align-items-center text-white bg-${tipo} border-0 shadow-lg`;
+  toastMsgEl.innerText = mensagem;
+  const bsToast = bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 3500 });
+  bsToast.show();
+}
+\end{boxCodigoJS}
+
+% --- FASE 5 ---
+\newpage
+\begin{boxAtividade}[{Fase 5/6: Orquestrador Assíncrono da Aplicação (main.js)}]
+\textbf{Responsabilidade Arquitetural:} Coordenar os fluxos de eventos da interface utilizando \texttt{await} para aguardar a persistência no banco remoto antes de fechar modais e atualizar a vitrine.
+\end{boxAtividade}
+
+\begin{boxCodigoJS}
+// js/main.js
+import {
+  obterServicos,
+  salvarServico,
+  removerServico,
+  testarConexaoApi,
+  estaConectadoNaApi
+} from './services/vitrineService.js';
+
+import {
+  renderizarCards,
+  exibirSpinner,
+  atualizarStatusConexao,
+  exibirToast
+} from './views/vitrineView.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const form = document.getElementById('formCadastro');
+  const container = document.getElementById('vitrineContainer');
+  const filtroCategoria = document.getElementById('filtroCategoria');
+  const contadorEl = document.getElementById('totalServicosBadge');
+  const statusApiBadge = document.getElementById('statusApiBadge');
+  const modalEl = document.getElementById('modalCadastro');
+  const btnSalvarTexto = document.getElementById('btnSalvarTexto');
+  const btnSalvar = document.getElementById('btnSalvar');
+
+  let cacheServicosAtuais = [];
+
+  async function atualizarInterface() {
+    exibirSpinner(container);
+    const conectado = await testarConexaoApi();
+    atualizarStatusConexao(conectado, statusApiBadge);
+
+    cacheServicosAtuais = await obterServicos();
+    const categoriaSelecionada = filtroCategoria ? filtroCategoria.value : 'todas';
+    const servicosFiltrados = categoriaSelecionada === 'todas'
+      ? cacheServicosAtuais
+      : cacheServicosAtuais.filter(s => s.categoria === categoriaSelecionada);
+
+    renderizarCards(servicosFiltrados, container);
+    if (contadorEl) {
+      contadorEl.innerText = `${cacheServicosAtuais.length} Serviços Cadastrados`;
+    }
+  }
+
+  if (filtroCategoria) {
+    filtroCategoria.addEventListener('change', () => {
+      const categoria = filtroCategoria.value;
+      const filtrados = categoria === 'todas'
+        ? cacheServicosAtuais
+        : cacheServicosAtuais.filter(s => s.categoria === categoria);
+      renderizarCards(filtrados, container);
+    });
+  }
+
+  // Inicialização assíncrona
+  await atualizarInterface();
+
+  // Reset do formulário ao abrir modal
+  if (modalEl) {
+    modalEl.addEventListener('show.bs.modal', () => {
+      form.reset();
+      form.classList.remove('was-validated');
+    });
+  }
+
+  // Cadastro de Novo Serviço via HTTP POST
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      e.stopPropagation();
+      form.classList.add('was-validated');
+      return;
+    }
+
+    const getVal = (id) => document.getElementById(id).value.trim();
+    const dados = {
+      nome: getVal('nome'),
+      categoria: document.getElementById('categoria').value,
+      bairro: getVal('bairro'),
+      precoBase: parseFloat(getVal('precoBase')) || 0,
+      telefone: getVal('telefone'),
+      descricao: getVal('descricao')
+    };
+
+    if (btnSalvar) btnSalvar.disabled = true;
+    if (btnSalvarTexto) btnSalvarTexto.innerText = 'Gravando...';
+
+    try {
+      await salvarServico(dados);
+      const msg = estaConectadoNaApi()
+        ? 'Serviço gravado no banco de dados SQLite!'
+        : 'Serviço salvo localmente (Modo Offline).';
+      exibirToast(msg, 'success');
+
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.hide();
+      await atualizarInterface();
+    } catch (erro) {
+      exibirToast('Erro ao processar cadastro.', 'danger');
+    } finally {
+      if (btnSalvar) btnSalvar.disabled = false;
+      if (btnSalvarTexto) btnSalvarTexto.innerText = 'Salvar no Banco';
+    }
+  });
+
+  // Exclusão Assíncrona via HTTP DELETE
+  container.addEventListener('click', async (e) => {
+    const btnExcluir = e.target.closest('.btn-excluir');
+    if (btnExcluir) {
+      const id = btnExcluir.getAttribute('data-id');
+      if (confirm('Deseja realmente remover este serviço da vitrine?')) {
+        await removerServico(id);
+        await atualizarInterface();
+        exibirToast('Serviço excluído da vitrine.', 'warning');
+      }
+    }
+  });
+});
+\end{boxCodigoJS}
+
+% --- FASE 6 ---
+\newpage
+\begin{boxAtividade}[{Fase 6/6: Verificação de Integração \& Prova de Contingência}]
+\textbf{Responsabilidade Arquitetural:} Executar o roteiro de testes em dois cenários: com a API online no laboratório e com o servidor desligado comprovando a resiliência offline.
+\end{boxAtividade}
+
+\textbf{1. Teste Conectado (API Online):}
+\begin{itemize}[leftmargin=*]
+  \item Inicie o backend com \texttt{python app.py} na porta \texttt{5000};
+  \item Abra o frontend via Live Server (\texttt{http://127.0.0.1:5500/index.html});
+  \item O badge no topo deve exibir: \textbf{\textit{Backend Online (Flask + SQLite)}};
+  \item Cadastre um novo serviço e observe a requisição HTTP POST sendo logada no terminal do Flask!
+\end{itemize}
+
+\textbf{2. Teste de Resiliência (Fallback LocalStorage):}
+\begin{itemize}[leftmargin=*]
+  \item No terminal do Flask, pressione \texttt{Ctrl + C} para desligar o servidor;
+  \item Recarregue a página no navegador com \texttt{F5};
+  \item O frontend detecta a indisponibilidade e muda o badge para: \textbf{\textit{Modo Offline (LocalStorage)}};
+  \item Os cards continuam aparecendo normalmente a partir da cópia em cache!
+\end{itemize}
+
+\begin{boxTeste}{Critério de Conclusão do Roteiro 05}
+A aplicação demonstrou sucesso na comunicação assíncrona cliente-servidor via Fetch API, realizou persistência no SQLite e provou resiliência arquitetural ao operar em modo de contingência offline.
+\end{boxTeste}
+
+% =====================================================
+% RESUMO DAS TRANSFORMAÇÕES (O QUE MUDOU E POR QUE MUDOU)
+% =====================================================
+
+\subsection{Quadro Comparativo: Evolução do Roteiro 04 para o Roteiro 05}
+
+\begin{table}[H]
+\centering
+\small
+\arrayrulecolor{borderGray}
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\rowcolor{cinzaCabecalho}
+\textbf{Componente} & \textbf{Roteiro 04 (Módulo 2)} & \textbf{Roteiro 05 (Módulo 3)} \\ \hline
+\rowcolor{cinzaLinha}
+\textbf{Ambiente de Dados} & LocalStorage (isolado na aba do navegador). & Banco relacional SQLite (\texttt{vitrine.db}) no Flask. \\ \hline
+\textbf{Comunicação} & Chamadas de função síncronas em memória. & Chamadas assíncronas de rede com \texttt{fetch()} e \texttt{await}. \\ \hline
+\rowcolor{cinzaLinha}
+\textbf{Segurança de Rede} & Inexistente (tudo no cliente). & Configuração de cabeçalhos CORS (\texttt{flask-cors}). \\ \hline
+\textbf{Experiência (UX)} & Resposta imediata sem feedback de rede. & Spinners de espera e badges de status de conectividade. \\ \hline
+\rowcolor{cinzaLinha}
+\textbf{formatters.js} & Funções puras de formatação. & \textbf{100\% idêntico!} Prova de desacoplamento limpo. \\ \hline
+\end{tabularx}
+\end{table}
+
+\vspace{0.4cm}
+\noindent\textbf{Parabéns!} Você implementou uma arquitetura moderna full-stack desacoplada, apta para o ecossistema profissional e pronta para avançar rumo às Single Page Applications (SPAs) e ao projeto de extensão da SNCT!
