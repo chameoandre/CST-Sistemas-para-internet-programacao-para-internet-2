@@ -1,0 +1,318 @@
+\geometry{
+    top=2.5cm,
+    bottom=2.8cm,
+    left=1.5cm,
+    right=1.5cm
+}
+
+\onehalfspacing
+
+% =====================================================
+% CORES INSTITUCIONAIS E DE GABARITO
+% =====================================================
+\definecolor{azulTitulo}{RGB}{30,60,90}
+\definecolor{cinzaCodigo}{RGB}{245,245,245}
+\definecolor{corGabarito}{RGB}{180,40,40}
+\definecolor{ifscGreen}{RGB}{22,163,74}
+
+% --- COMANDOS PARA O GABARITO ---
+% 1. Para textos que devem aparecer em ambos, mas destacados no gabarito
+\newcommand{\correto}[1]{\iftoggle{gabarito}{\textbf{\color{corGabarito}#1}}{#1}}
+
+% 2. Para o marcador (X) que DEVE SUMIR na prova do aluno
+\newcommand{\marcar}[1]{\iftoggle{gabarito}{\textbf{\color{corGabarito}#1}}{}}
+
+% 3. Para comentários e rubricas de correção do professor
+\newcommand{\checkGabarito}[1]{\iftoggle{gabarito}{\vspace{0.2cm}\noindent\textbf{\color{corGabarito}[Critério de Correção / Resposta Esperada:]} {\color{corGabarito}#1}}{}}
+
+% =====================================================
+% CABEÇALHO E RODAPÉ
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[height=1.5cm]{../../figures/garopaba_horizontal_marca2015_PNG.png}}
+\fancyhead[R]{
+\textbf{CST em Sistemas para a Internet (PPC 30/2020)}\\
+\textbf{UC: Programação para a Internet 2 (ProgWeb 2)}\\
+Docente: Prof. André Moraes\\ 
+IFSC -- Câmpus Garopaba
+}
+\fancyfoot[L]{\small\textit{Avaliação de Validação de Conhecimentos \iftoggle{gabarito}{-- \textbf{CHAVE DE RESPOSTAS / GABARITO}}{}}}
+\fancyfoot[R]{\small Página \thepage}
+\renewcommand{\footrulewidth}{0.8pt}
+\setlength{\headheight}{45pt}
+
+% =====================================================
+% ESTILO DE SEÇÃO
+% =====================================================
+\titleformat{\section}{\normalfont\Large\bfseries\color{azulTitulo}}{\thesection}{1em}{}[\vspace{0.2cm}\hrule]
+
+% =====================================================
+% DOCUMENTO
+% =====================================================
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{AVALIAÇÃO DE VALIDAÇÃO DE CONHECIMENTOS}}\\
+    \vspace{0.15cm}
+    {\large \textbf{Unidade Curricular: Programação para a Internet 2 (ProgWeb 2)}}\\
+    \small Curso Superior de Tecnologia em Sistemas para a Internet --- IFSC Câmpus Garopaba\\[0.15cm]
+    \iftoggle{gabarito}{\textbf{\color{corGabarito}\large [GABARITO OFICIAL COMENTADO \& RUBRICAS DE PONTUAÇÃO]}}{}
+\end{center}
+
+\vspace{0.2cm}
+
+\begin{tcolorbox}[colback=white, colframe=azulTitulo!70, boxrule=0.8pt, arc=4pt]
+    \textbf{Estudante:} \ifthenelse{\equal{\nomeEstudante}{}}{\hrulefill}{\textbf{\large \nomeEstudante} \hrulefill} \\
+    \vspace{0.25cm}
+    \textbf{Data de Aplicação:} \_\_\_ / \_\_\_ / 2026 \hspace{1.5cm} 
+    \textbf{Nota Final (0 a 10,0):} \_\_\_\_\_\_\_\_\_\_ \hspace{1.5cm} 
+    \textbf{Validação:} [~~] Aprovado [~~] Reprovado
+\end{tcolorbox}
+
+\vspace{0.1cm}
+
+\section*{Instruções Gerais}
+\begin{itemize}[leftmargin=*]
+    \item A avaliação é individual e sem consulta a materiais externos ou dispositivos eletrônicos.
+    \item Esta prova é composta por \textbf{15 questões} divididas em duas seções:
+    \begin{itemize}
+        \item \textbf{Parte 1 (Questões Dissertativas):} 3 questões analíticas (valor: 1,5 ponto cada, total: 4,5 pontos).
+        \item \textbf{Parte 2 (Questões Objetivas):} 12 questões de múltipla escolha ou V/F (valor: 0,45 ponto cada, total: 5,5 pontos + 0,1 ponto de arredondamento institucional = 10,0 pontos).
+    \end{itemize}
+    \item Responda às questões dissertativas com clareza, utilizando terminologia técnica adequada.
+    \item Utilize caneta esferográfica de tinta azul ou preta. Respostas a lápis não dão direito à revisão.
+\end{itemize}
+
+\vspace{0.2cm}
+
+\section*{Parte 1: Questões Dissertativas (Valor: 4,5 pontos)}
+
+% --- QUESTÃO 1 ---
+\begin{tcolorbox}[colback=azulTitulo!4, colframe=azulTitulo, title=\textbf{Questão 1: Arquitetura Modular no Frontend (ES6 Modules) [Valor: 1,5 ponto]}]
+    No desenvolvimento web moderno no lado do cliente, a prática tradicional de concentrar todo o código JavaScript em um script monolítico único (\texttt{app.js}) foi superada pela adoção de \textbf{ES6 Modules} (\texttt{import} e \texttt{export}) com o ponto de entrada declarado via \texttt{<script type="module" src="...">}.
+
+    \textbf{Com base nos conceitos trabalhados na disciplina:}
+    \begin{enumerate}[label=\alph*)]
+        \item Explique por que a separação de responsabilidades em camadas especializadas (\textit{Services}, \textit{Views}, \textit{Utils} e \textit{Orquestrador/main.js}) é preferível a um arquivo único, citando ao menos dois benefícios diretos de engenharia de software (ex: manutenibilidade, testabilidade, escopo léxico).
+        \item Diferencie a responsabilidade estrita da camada de \textbf{Serviços (\textit{Services})} em relação à camada de \textbf{Apresentação (\textit{Views})}, esclarecendo por que um arquivo de serviço não deve manipular diretamente nós da árvore DOM.
+    \end{enumerate}
+
+    \iftoggle{gabarito}{}{
+        \vspace{7.5cm}
+    }
+    \checkGabarito{
+        \begin{itemize}[leftmargin=*]
+            \item \textbf{Item (a) [0,75 pt]:} O estudante deve explicar que a arquitetura modular elimina o problema do escopo global poluído (cada módulo ES6 tem seu próprio escopo léxico isolado, evitando colisões de variáveis). Entre os benefícios esperados: facilidade de manutenção (localização rápida de erros), reutilização de código (módulos utilitários podem ser importados em várias páginas), desacoplamento para testes automatizados unitários e legibilidade de equipe.
+            \item \textbf{Item (b) [0,75 pt]:} A camada de \textbf{Serviços} (\textit{Services}) é responsável estritamente pelas regras de negócio, persistência (leitura e gravação no \texttt{localStorage} ou chamadas HTTP via \texttt{fetch}) e tratamento de dados brutos. A camada de \textbf{Visão} (\textit{Views}) dedica-se exclusivamente à manipulação do DOM, renderização de templates/cards, aplicação de classes de estilo (Bootstrap 5) e disparos de notificações (Toasts/Modais). Um serviço não deve tocar no DOM para que possa ser testado de forma pura e para que a interface possa ser trocada ou reformulada sem alterar a lógica de persistência e comunicação da aplicação.
+        \end{itemize}
+    }
+\end{tcolorbox}
+
+\newpage
+
+% --- QUESTÃO 2 ---
+\begin{tcolorbox}[colback=azulTitulo!4, colframe=azulTitulo, title=\textbf{Questão 2: Assincronismo, Ciclo de Vida da Rede e a Sintaxe async/await [Valor: 1,5 ponto]}]
+    No JavaScript para navegadores, operações de entrada e saída em rede (como o consumo de uma API RESTful externa via \texttt{Fetch API}) são tratadas de forma \textbf{assíncrona e não-bloqueante}.
+
+    \textbf{Responda fundamentadamente aos seguintes itens:}
+    \begin{enumerate}[label=\alph*)]
+        \item O que aconteceria com a experiência do usuário e com o comportamento da página web se uma requisição de rede que demora 3 segundos fosse executada de maneira estritamente \textbf{síncrona (bloqueante)} na thread principal da interface?
+        \item Explique como as palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}} atuam em conjunto com Promises no JavaScript, e explique a importância de envolver essas chamadas em uma estrutura \textbf{\texttt{try/catch}} para a resiliência do sistema e tratamento de falhas.
+    \end{enumerate}
+
+    \iftoggle{gabarito}{}{
+        \vspace{7.5cm}
+    }
+    \checkGabarito{
+        \begin{itemize}[leftmargin=*]
+            \item \textbf{Item (a) [0,75 pt]:} Como o JavaScript no navegador opera com um modelo de concorrência baseado em \textit{Event Loop} em uma thread única de renderização (UI Thread), uma operação bloqueante de 3 segundos congelaria totalmente a interface gráfica. O usuário não conseguiria clicar em botões, digitar em formulários, rolar a página ou visualizar animações/spinners, gerando a percepção de que a página travou ("Not Responding"). O assincronismo delega a espera da rede para as APIs do navegador em segundo plano, mantendo a interface fluida e responsiva.
+            \item \textbf{Item (b) [0,75 pt]:} A palavra-chave \texttt{async} transforma uma função para que ela retorne implicitamente uma Promise. A palavra-chave \texttt{await} só pode ser usada dentro de funções \texttt{async} e pausa a execução daquela função específica até que a Promise seja resolvida (sem travar a thread principal). O bloco \texttt{try/catch} é essencial porque qualquer rejeição de Promise (como falha física de conexão, timeout, servidor offline ou erro de DNS) gera uma exceção assíncrona; sem o \texttt{catch}, a exceção fica não tratada (\textit{Uncaught Promise Rejection}), interrompendo o fluxo da aplicação e impedindo o disparo de mensagens de aviso (Toasts de erro) ou o chaveamento para rotinas de contingência (fallback).
+        \end{itemize}
+    }
+\end{tcolorbox}
+
+% --- QUESTÃO 3 ---
+\begin{tcolorbox}[colback=azulTitulo!4, colframe=azulTitulo, title=\textbf{Questão 3: Protocolo HTTP, Segurança de Rede (CORS) \& Arquitetura Híbrida [Valor: 1,5 ponto]}]
+    Considere o cenário em que desenvolvemos uma aplicação web cujo frontend está hospedado localmente no Live Server (porta \texttt{5500}) e consome uma API REST construída em Python com o microframework Flask rodando na porta \texttt{5000}.
+
+    \textbf{Analise a integração e responda:}
+    \begin{enumerate}[label=\alph*)]
+        \item O que significa a sigla \textbf{CORS} (\textit{Cross-Origin Resource Sharing}), por que o navegador bloqueia requisições entre origens diferentes por padrão, e qual componente no servidor Flask é responsável por enviar os cabeçalhos de liberação?
+        \item Em uma aplicação profissional com deploy no \textbf{GitHub Pages} (que hospeda apenas arquivos estáticos e não executa servidores Python), explique como deve ser arquitetado o serviço de dados (\texttt{vitrineService.js}) para garantir uma \textbf{contingência resiliente (fallback)} entre o banco de dados remoto da API e o armazenamento local do navegador (\texttt{localStorage}).
+    \end{enumerate}
+
+    \iftoggle{gabarito}{}{
+        \vspace{8.5cm}
+    }
+    \checkGabarito{
+        \begin{itemize}[leftmargin=*]
+            \item \textbf{Item (a) [0,75 pt]:} CORS significa \textit{Cross-Origin Resource Sharing} (Compartilhamento de Recursos de Origem Cruzada). O navegador bloqueia por padrão em decorrência da Política de Mesma Origem (\textit{Same-Origin Policy} - SOP), um mecanismo fundamental de segurança que impede que scripts maliciosos injetados em um site leiam dados privados de APIs de outro domínio sem autorização. No Flask, utilizamos a biblioteca/extensão \texttt{flask-cors} (função \texttt{CORS(app)}), que anexa os cabeçalhos HTTP necessários (como \texttt{Access-Control-Allow-Origin: *}) nas respostas da API, autorizando explicitamente o navegador a liberar os dados para o frontend.
+            \item \textbf{Item (b) [0,75 pt]:} Para garantir resiliência, a camada de serviço implementa uma estratégia híbrida: dentro da função \texttt{async}, o código tenta primeiro realizar o \texttt{fetch()} para a URL da API remota. Se a requisição for bem-sucedida, ele converte o JSON, atualiza uma cópia em cache no \texttt{localStorage} e retorna os dados do banco relacional. Caso a requisição falhe (seja por timeout, servidor Flask desligado ou por estar publicado no GitHub Pages estático sem o backend ativo), o fluxo é capturado no bloco \texttt{catch}; nele, a aplicação aciona de forma transparente a leitura da cópia armazenada no \texttt{localStorage}, retornando os dados locais e sinalizando na interface que o sistema está em modo offline/contingência, evitando que a página quebre para o usuário.
+        \end{itemize}
+    }
+\end{tcolorbox}
+
+\newpage
+
+\section*{Parte 2: Questões Objetivas (Valor: 5,5 pontos)}
+
+% --- QUESTÃO 4 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 4: Declaração de Módulos no HTML5}]
+    Para que o navegador interprete um script JavaScript reconhecendo as palavras-chave \texttt{import} e \texttt{export} e isolando seu escopo em nível de arquivo, qual atributo deve ser obrigatoriamente incluído na tag \texttt{<script>}?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{<script rel="module" src="js/main.js">}
+        \item \texttt{<script async="true" src="js/main.js">}
+        \item \correto{\texttt{<script type="module" src="js/main.js">}}
+        \item \texttt{<script language="javascript6" src="js/main.js">}
+    \end{enumerate}
+    \checkGabarito{A diretiva type="module" ativa o carregamento estrito de módulos ES6 nativos no navegador.}
+\end{tcolorbox}
+
+% --- QUESTÃO 5 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 5: Sistema de Grid e Responsividade do Bootstrap 5}]
+    No sistema de Grid de 12 colunas do Bootstrap 5, considere o seguinte elemento aplicado em um card da vitrine:\\
+    \centerline{\texttt{<div class="col-12 col-md-6 col-lg-4">}}
+    Assinale a alternativa que descreve \textbf{corretamente} o comportamento desse elemento em diferentes dispositivos:
+    \begin{enumerate}[label=\alph*)]
+        \item O card ocupa 4 colunas em celulares, 6 colunas em tablets e 12 colunas em monitores desktop.
+        \item \correto{O card ocupa a largura total da linha (12 colunas / 1 card por linha) em celulares, metade da largura (6 colunas / 2 cards por linha) a partir de telas médias (\texttt{md}) e um terço da largura (4 colunas / 3 cards por linha) em telas grandes (\texttt{lg}).}
+        \item O elemento divide a tela em 12 colunas estáticas em qualquer tamanho de monitor.
+        \item O elemento quebra para a linha seguinte apenas se a resolução for menor que 320 pixels.
+    \end{enumerate}
+    \checkGabarito{O Grid do Bootstrap é mobile-first: col-12 é o padrão base; a partir de 768px (md) assume 6 colunas e a partir de 992px (lg) assume 4 colunas.}
+\end{tcolorbox}
+
+% --- QUESTÃO 6 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 6: Persistência no Navegador (Web Storage API)}]
+    A respeito das diferenças entre \texttt{localStorage} e \texttt{sessionStorage}, assinale a afirmação \textbf{CORRETA}:
+    \begin{enumerate}[label=\alph*)]
+        \item O \texttt{sessionStorage} mantém os dados gravados mesmo após o fechamento completo do navegador e reinicialização do sistema operacional.
+        \item O \texttt{localStorage} tem seus dados apagados automaticamente assim que o usuário fecha a aba correspondente.
+        \item \correto{O \texttt{localStorage} persiste os dados sem data de expiração, mantendo-os disponíveis mesmo se o navegador for reiniciado, enquanto o \texttt{sessionStorage} é destruído ao fechar a aba/sessão da página.}
+        \item Ambos transmitem automaticamente todos os seus dados ao servidor em todas as requisições HTTP, da mesma forma que os Cookies.
+    \end{enumerate}
+    \checkGabarito{O localStorage é não-volátil (permanece até ser limpo explicitamente); sessionStorage vive apenas no ciclo de vida daquela aba.}
+\end{tcolorbox}
+
+% --- QUESTÃO 7 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 7: Serialização JSON para Armazenamento Local}]
+    Como o \texttt{localStorage} aceita exclusivamente o armazenamento de valores no formato de texto (\textit{string}), quais métodos nativos do objeto \texttt{JSON} devem ser empregados, respectivamente, para \textbf{salvar um array de objetos} e para \textbf{restaurá-lo como objeto manipulável em memória}?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{JSON.toText()} e \texttt{JSON.toObject()}
+        \item \correto{\texttt{JSON.stringify()} para salvar e \texttt{JSON.parse()} para recuperar.}
+        \item \texttt{JSON.encode()} para salvar e \texttt{JSON.decode()} para recuperar.
+        \item \texttt{JSON.serialize()} para salvar e \texttt{JSON.unserialize()} para recuperar.
+    \end{enumerate}
+    \checkGabarito{JSON.stringify() converte estruturas de dados JavaScript em texto JSON; JSON.parse() reconverte texto JSON em objetos/arrays reais.}
+\end{tcolorbox}
+
+\newpage
+
+% --- QUESTÃO 8 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 8: Componentes de Feedback no Bootstrap 5}]
+    Sobre a utilização dos componentes \textbf{Modal} e \textbf{Toast} do Bootstrap 5, assinale a alternativa \textbf{CORRETA}:
+    \begin{enumerate}[label=\alph*)]
+        \item O \textit{Toast} é um diálogo sobreposto bloqueante com fundo escuro (\textit{backdrop}) utilizado para preenchimento de formulários extensos.
+        \item O \textit{Modal} só pode ser criado dinamicamente via JavaScript puro, sendo proibida a declaração em marcação HTML.
+        \item \correto{O \textit{Modal} é uma janela de foco crítico que sobrepõe a tela com \textit{backdrop} bloqueante, enquanto o \textit{Toast} é uma notificação flutuante leve, temporizada e não-bloqueante utilizada para confirmar operações.}
+        \item Ambos os componentes recarregam a página inteira (\textit{Page Reload}) no momento em que são abertos.
+    \end{enumerate}
+    \checkGabarito{Modais bloqueiam a navegação para exigir foco exclusivo (ex: formulário de cadastro); Toasts notificam discretamente (ex: "Serviço salvo!").}
+\end{tcolorbox}
+
+% --- QUESTÃO 9 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 9: Protocolo HTTP e Códigos de Status (Status Codes)}]
+    Ao interagir com uma API RESTful, o servidor responde com códigos numéricos que indicam o resultado da operação. Relacione a operação ao seu código de status HTTP padronizado esperado:
+    \begin{itemize}[leftmargin=1.5cm]
+        \item [I.] Criação bem-sucedida de um novo serviço no banco via \texttt{POST}.
+        \item [II.] Leitura bem-sucedida da listagem de serviços via \texttt{GET}.
+        \item [III.] Tentativa de buscar um serviço com identificador inexistente no banco.
+        \item [IV.] Erro fatal de execução no código interno do servidor Python.
+    \end{itemize}
+    A sequência correta de códigos correspondentes é:
+    \begin{enumerate}[label=\alph*)]
+        \item I - 200; II - 201; III - 500; IV - 404
+        \item \correto{I - 201; II - 200; III - 404; IV - 500}
+        \item I - 204; II - 200; III - 400; IV - 502
+        \item I - 201; II - 204; III - 403; IV - 400
+    \end{enumerate}
+    \checkGabarito{201 Created (criação com sucesso), 200 OK (leitura/operação bem-sucedida), 404 Not Found (recurso não encontrado), 500 Internal Server Error.}
+\end{tcolorbox}
+
+% --- QUESTÃO 10 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 10: Envio de Dados com a Fetch API}]
+    Para enviar um novo registro em formato JSON para uma rota de backend \texttt{/api/servicos} via método \texttt{POST}, qual a configuração correta dos parâmetros da função \texttt{fetch()}?
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{fetch('/api/servicos', \{ method: 'GET', data: dados \});}
+        \item \correto{\texttt{fetch('/api/servicos', \{ method: 'POST', headers: \{ 'Content-Type': 'application/json' \}, body: JSON.stringify(dados) \});}}
+        \item \texttt{fetch('/api/servicos', \{ type: 'POST', content: dados.toString() \});}
+        \item \texttt{fetch('/api/servicos?action=post\&data=' + dados);}
+    \end{enumerate}
+    \checkGabarito{O verbo POST exige cabeçalho Content-Type: application/json e payload serializado no corpo (body) via JSON.stringify.}
+\end{tcolorbox}
+
+% --- QUESTÃO 11 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 11: Validação Visual no Cliente (Bootstrap 5)}]
+    (Verdadeiro ou Falso) Ao aplicar a classe \texttt{.was-validated} no elemento \texttt{<form>} do Bootstrap 5 após interceptar o evento \texttt{submit}, os navegadores acionam as pseudo-classes CSS \texttt{:valid} e \texttt{:invalid}, exibindo imediatamente os estilos visuais de borda verde ou vermelha e as mensagens contidas nos contêineres \texttt{.valid-feedback} e \texttt{.invalid-feedback}.
+    \begin{itemize}
+        \item (\marcar{X}) Verdadeiro
+        \item ( ) Falso
+    \end{itemize}
+    \checkGabarito{Verdadeiro. O Bootstrap 5 utiliza a classe .was-validated no form para ativar as pseudo-classes nativas do CSS em todos os inputs.}
+\end{tcolorbox}
+
+\newpage
+
+% --- QUESTÃO 12 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 12: Arquitetura de Single Page Applications (SPAs)}]
+    Qual das seguintes características define fundamentalmente uma aplicação construída sob a arquitetura de \textbf{Single Page Application (SPA)}?
+    \begin{enumerate}[label=\alph*)]
+        \item O site possui apenas uma página de texto e proíbe a exibição de mais de uma seção ou imagem.
+        \item O backend renderiza todo o HTML no servidor e recarrega a página inteira a cada link clicado pelo usuário.
+        \item \correto{A navegação e a troca de telas ocorrem no lado do cliente via JavaScript, manipulando dinamicamente o DOM sem a necessidade de recarregar a página inteira pelo navegador (\textit{no full page refresh}).}
+        \item As páginas de uma SPA não utilizam folhas de estilo CSS nem eventos de formulários.
+    \end{enumerate}
+    \checkGabarito{SPAs carregam o esqueleto inicial e alteram as visões e dados dinamicamente sem recarregamento da página inteira pelo navegador.}
+\end{tcolorbox}
+
+% --- QUESTÃO 13 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 13: Delegação de Eventos no DOM}]
+    Ao renderizar dinamicamente dezenas de cards de serviços contendo botões de exclusão (\texttt{class="btn-excluir"}), a técnica mais eficiente e performática consiste em registrar um único ouvinte de evento de clique no contêiner pai (\texttt{vitrineContainer}) e identificar o botão clicado através de:
+    \begin{enumerate}[label=\alph*)]
+        \item \texttt{event.stopPropagation()}
+        \item \correto{\texttt{event.target.closest('.btn-excluir')}}
+        \item \texttt{document.querySelectorAll('.btn-excluir').forEach(...)}
+        \item \texttt{window.location.reload()}
+    \end{enumerate}
+    \checkGabarito{A técnica de delegação de eventos utiliza closest() para detectar se o clique ocorreu no botão desejado ou em seus elementos filhos (ex: ícone <i>).}
+\end{tcolorbox}
+
+% --- QUESTÃO 14 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 14: Ecossistemas Web Modernos e Ferramentas de Build (Vite)}]
+    Em projetos frontend profissionais, ferramentas modernas de automação e empacotamento como o \textbf{Vite} com \textbf{npm / Node.js} são utilizadas prioritariamente para:
+    \begin{enumerate}[label=\alph*)]
+        \item Substituir o navegador web na renderização gráfica da página.
+        \item \correto{Oferecer um servidor de desenvolvimento ultra-rápido com Hot Module Replacement (HMR) e compilar/minificar o código final em pacotes otimizados para produção.}
+        \item Configurar roteadores de internet física e cabeamento de rede.
+        \item Proibir o uso de bibliotecas de terceiros no projeto.
+    \end{enumerate}
+    \checkGabarito{Vite é um bundler moderno que acelera o desenvolvimento local com HMR e empacota bundles altamente otimizados para produção.}
+\end{tcolorbox}
+
+% --- QUESTÃO 15 ---
+\begin{tcolorbox}[colback=white, colframe=azulTitulo, title=\textbf{Questão 15: Integração Frontend-Backend com Flask e SQLite}]
+    (Verdadeiro ou Falso) O banco de dados \textbf{SQLite} utilizado no microbackend em Python Flask armazena todas as tabelas e registros em um único arquivo local no disco (como \texttt{vitrine.db}), dispensando a instalação e configuração de servidores de banco dedicados pesados (como MySQL ou PostgreSQL), o que o torna ideal para práticas pedagógicas de laboratório e protótipos ágeis.
+    \begin{itemize}
+        \item (\marcar{X}) Verdadeiro
+        \item ( ) Falso
+    \end{itemize}
+    \checkGabarito{Verdadeiro. O SQLite é um banco de dados relacional embutido e baseado em arquivo único, que não requer servidor ou porta de rede própria.}
+\end{tcolorbox}
+
+\vspace{0.4cm}
+\begin{center}
+    \small\textit{--- Boa Prova! ---}
+\end{center}
+
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[12pt,a4paper]{article}
+
+% =====================================================
+% PACOTES E CONFIGURAÇÕES
+% =====================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{newtxtext,newtxmath}
+\usepackage[most]{tcolorbox}
+\usepackage{etoolbox}
+
+% Toggle para o Gabarito (true = gabarito do professor com respostas e rubricas)
+\newtoggle{gabarito}
+\settoggle{gabarito}{true}
+
+% Nome do estudante (Gabarito Oficial)
+\providecommand{\nomeEstudante}{GABARITO OFICIAL DO PROFESSOR (COM RUBRICAS DE CORREÇÃO)}
+
+\input{prova-validacao-corpo.tex}
