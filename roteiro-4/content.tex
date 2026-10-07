@@ -20,7 +20,7 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
     \item \textbf{Orquestrador Central (\texttt{main.js}):} Captura de eventos do usuário e coordenação entre camadas.
   \end{itemize}
 \item Implementar o \textbf{CRUD Completo} (\textit{Create, Read, Update, Delete}) com persistência em armazenamento local;
-\item Implementar \textbf{validação visual no cliente} com feedback imediato ao usuário utilizando as classes nativas do Bootstrap 5 (\texttt{.is-valid}, \texttt{.is-invalid} e \texttt{.invalid-feedback});
+\item Implementar \textbf{validação visual no cliente} com feedback imediato ao usuário utilizando as classes nativas do Bootstrap 5 (\texttt{.was-validated} e \texttt{.invalid-feedback});
 \item Disparar notificações flutuantes dinâmicas (\textbf{Bootstrap Toasts}) para confirmar operações de cadastro, alteração e exclusão;
 \item Implementar filtragem reativa em tempo real por categoria de serviço na vitrine comunitária.
 \end{itemize}
@@ -347,7 +347,7 @@ Fundo neutro transparente (\texttt{.bg-transparent}) agrupando os botões de aç
 
 \subsubsection{4. Validação Visual e o Campo Oculto (\texttt{type="hidden"})}
 \begin{itemize}[leftmargin=*]
-  \item \textbf{Atributo \texttt{novalidate}:} Informa ao navegador para suprimir os balões de validação nativos, permitindo que a aplicação assuma o controle visual das mensagens de erro utilizando as classes \texttt{.is-valid} (sucesso, verde) e \texttt{.is-invalid} (erro, vermelho) combinadas com contêineres contextuais \texttt{.invalid-feedback};
+  \item \textbf{Atributo \texttt{novalidate}:} Informa ao navegador para suprimir os balões de validação nativos, permitindo que a aplicação assuma o controle visual das mensagens de erro com o Bootstrap: ao adicionar a classe \texttt{.was-validated} ao formulário, cada campo é colorido conforme o resultado da validação nativa do HTML5 (verde para válido, vermelho para inválido) e os contêineres contextuais \texttt{.invalid-feedback} dos campos inválidos são exibidos;
   \item \textbf{Papel Arquitetural do Campo Oculto (\texttt{\#servicoId}):} O campo com \texttt{type="hidden"} não é renderizado visualmente para o usuário, mas é o elemento-chave que diferencia as operações de \textbf{Criação} (\textit{Create}) e \textbf{Atualização} (\textit{Update}) no padrão CRUD: se o campo estiver vazio, o clique em "Salvar" cria um novo serviço; se contiver um ID, atualiza o serviço correspondente mantendo o identificador original.
 \end{itemize}
 
@@ -461,12 +461,23 @@ console.log(formatarTelefone('48999998888'));
 \clearpage
 \subsection{Passo a Passo Guiado do Roteiro}
 
+\begin{tcolorbox}[
+    colback=azulTitulo!5, colframe=azulTitulo!80,
+    boxrule=0.8pt, arc=4pt, left=8pt, right=8pt, top=6pt, bottom=6pt
+]
+\textbf{\color{azulTitulo}Antes de começar:}
+\begin{itemize}[leftmargin=*, nosep]
+  \item \textbf{Abra sempre pelo Live Server.} Módulos ES6 não carregam quando o \texttt{index.html} é aberto com duplo clique (endereço \texttt{file://}).
+  \item \textbf{Ao copiar código deste PDF}, copie uma página por vez. Quando um bloco continua na página seguinte, o cabeçalho e o rodapé do documento vêm junto na seleção e precisam ser apagados.
+\end{itemize}
+\end{tcolorbox}
+
 \begin{boxAtividade}[{Fase 1.1/5: Estrutura HTML5 Base e Ponto de Entrada (index.html)}]
 \textbf{Responsabilidade Arquitetural:} Estabelecer o esqueleto visual da página, carregar as dependências de estilo (Bootstrap 5 e Icons), fornecer os pontos de ancoragem da interface (\texttt{\#vitrineContainer}, \texttt{\#toastNotificacao}, \texttt{\#totalServicosBadge} e \texttt{\#filtroCategoria}) e conectar o módulo raiz \texttt{js/main.js}.
 \end{boxAtividade}
 
 \vspace{-0.1cm}
-\begin{mockupNavegador}[Navegador Web: Interface Base (Passo 1.1)]
+\begin{mockupNavegador}[Interface Base: aparência final (após os Passos 1.3 e 5)]
   % Hero Banner
   \begin{tcolorbox}[colback=ifscGreen!85!black, colframe=ifscGreen!85!black, arc=3pt, boxrule=0pt, top=4pt, bottom=4pt, left=8pt, right=8pt]
     \colorbox{yellow!90!black}{\color{black}\tiny\bfseries ROTEIRO 04}
@@ -514,7 +525,10 @@ console.log(formatarTelefone('48999998888'));
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&display=swap">
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -552,12 +566,15 @@ console.log(formatarTelefone('48999998888'));
             </span>
           </div>
           <h1 class="display-6 fw-bold font-outfit mb-1">Vitrine Comunitária de Empreendedores</h1>
-          <p class="mb-0 opacity-75 small">Guia de serviços e comércios locais de Garopaba (SC) — Projeto Base de Extensão Universitária</p>
+          <p class="mb-0 opacity-75 small">
+            Guia de serviços e comércios locais de Garopaba (SC) —
+            Projeto Base de Extensão Universitária
+          </p>
         </div>
         <div class="d-flex align-items-center gap-2">
           <span class="badge-counter" id="totalServicosBadge">Carregando...</span>
-          <button class="btn btn-warning text-dark font-outfit fw-bold px-3 py-2 rounded-pill shadow-sm"
-                  data-bs-toggle="modal" data-bs-target="#modalCadastro">
+          <button data-bs-toggle="modal" data-bs-target="#modalCadastro"
+            class="btn btn-warning text-dark font-outfit fw-bold px-3 py-2 rounded-pill shadow-sm">
             <i class="bi bi-plus-circle-fill me-1"></i> Divulgar Serviço
           </button>
         </div>
@@ -571,7 +588,9 @@ console.log(formatarTelefone('48999998888'));
       <div class="row g-3 align-items-center justify-content-between">
         <div class="col-md-5">
           <div class="input-group">
-            <span class="input-group-text bg-light border-end-0"><i class="bi bi-funnel-fill text-muted"></i></span>
+            <span class="input-group-text bg-light border-end-0">
+              <i class="bi bi-funnel-fill text-muted"></i>
+            </span>
             <select class="form-select border-start-0 bg-light" id="filtroCategoria">
               <option value="todas">Todas as Categorias</option>
               <option value="Alimentação">Alimentação &amp; Gastronomia</option>
@@ -584,9 +603,15 @@ console.log(formatarTelefone('48999998888'));
         </div>
 
         <div class="col-md-7 text-md-end text-muted small">
-          <span class="badge bg-light text-dark border me-1"><i class="bi bi-folder-fill text-warning me-1"></i> js/services/</span>
-          <span class="badge bg-light text-dark border me-1"><i class="bi bi-layout-text-window-reverse text-info me-1"></i> js/views/</span>
-          <span class="badge bg-light text-dark border"><i class="bi bi-gear-wide-connected text-success me-1"></i> js/utils/</span>
+          <span class="badge bg-light text-dark border me-1">
+            <i class="bi bi-folder-fill text-warning me-1"></i> js/services/
+          </span>
+          <span class="badge bg-light text-dark border me-1">
+            <i class="bi bi-layout-text-window-reverse text-info me-1"></i> js/views/
+          </span>
+          <span class="badge bg-light text-dark border">
+            <i class="bi bi-gear-wide-connected text-success me-1"></i> js/utils/
+          </span>
         </div>
       </div>
     </div>
@@ -596,7 +621,8 @@ console.log(formatarTelefone('48999998888'));
   </main>
 
   <!-- Bootstrap Bundle JS + Entrada Modular ES6 -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
@@ -605,11 +631,13 @@ console.log(formatarTelefone('48999998888'));
 \begin{boxTeste}[{Checkpoint de Validação 1.1: Como Testar no Navegador}]
 Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live Server} do VS Code:
 \begin{enumerate}[leftmargin=*]
-  \item O banner degradê superior verde com os badges, o contador e o botão \textbf{"Divulgar Serviço"} devem estar visíveis;
+  \item O título, os badges, o contador (exibindo \textit{"Carregando..."}) e o botão \textbf{"Divulgar Serviço"} devem estar visíveis, ainda \textbf{sem o fundo verde}: o degradê do banner só aparece depois de criar o \texttt{styles.css} no Passo 1.3;
   \item O seletor de filtros com as categorias locais e badges dos módulos deve estar funcional;
   \item A área central estará pronta para receber os cards injetados via JavaScript.
 \end{enumerate}
 \textit{Nota: Ao clicar em "Divulgar Serviço", o modal abrirá assim que estruturado no Passo 1.2.}
+
+\textit{Nota: No Console (F12) aparecerão erros 404 para \texttt{styles.css} e \texttt{js/main.js}. Isso é esperado: esses arquivos serão criados nos Passos 1.3 e 5. O contador permanece em "Carregando..." até o Passo 5.}
 \end{boxTeste}
 
 \clearpage
@@ -695,7 +723,8 @@ Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live 
         <h5 class="modal-title font-outfit fw-bold text-dark" id="modalCadastroLabel">
           <i class="bi bi-shop text-success me-2"></i>Cadastrar Serviço na Vitrine
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Fechar"></button>
       </div>
       <form id="formCadastro" novalidate>
         <input type="hidden" id="servicoId" value="">
@@ -703,8 +732,11 @@ Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live 
           <p class="text-muted small mb-3">Preencha as informações do empreendedor local:</p>
 
           <div class="mb-3">
-            <label for="nome" class="form-label small fw-bold text-muted">Nome do Empreendimento *</label>
-            <input type="text" id="nome" class="form-control rounded-3" placeholder="Ex: Maré Alta Artesanatos" required>
+            <label for="nome" class="form-label small fw-bold text-muted">
+              Nome do Empreendimento *
+            </label>
+            <input type="text" id="nome" class="form-control rounded-3" required
+                   placeholder="Ex: Maré Alta Artesanatos">
             <div class="invalid-feedback">Por favor, informe o nome do empreendimento.</div>
           </div>
 
@@ -722,36 +754,51 @@ Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live 
               <div class="invalid-feedback">Selecione uma categoria.</div>
             </div>
             <div class="col-md-6">
-              <label for="bairro" class="form-label small fw-bold text-muted">Bairro / Localidade *</label>
-              <input type="text" id="bairro" class="form-control rounded-3" placeholder="Ex: Ferrugem, Centro..." required>
+              <label for="bairro" class="form-label small fw-bold text-muted">
+                Bairro / Localidade *
+              </label>
+              <input type="text" id="bairro" class="form-control rounded-3" required
+                     placeholder="Ex: Ferrugem, Centro...">
               <div class="invalid-feedback">Informe o bairro em Garopaba.</div>
             </div>
           </div>
 
           <div class="row g-2 mb-3">
             <div class="col-md-6">
-              <label for="precoBase" class="form-label small fw-bold text-muted">Preço Base (R$) *</label>
-              <input type="number" id="precoBase" class="form-control rounded-3" step="0.5" min="0" placeholder="Ex: 50.00" required>
+              <label for="precoBase" class="form-label small fw-bold text-muted">
+                Preço Base (R$) *
+              </label>
+              <input type="number" id="precoBase" class="form-control rounded-3" required
+                     step="0.01" min="0" placeholder="Ex: 50.00">
               <div class="invalid-feedback">Informe um valor válido em R$.</div>
             </div>
             <div class="col-md-6">
-              <label for="telefone" class="form-label small fw-bold text-muted">WhatsApp / Telefone *</label>
-              <input type="tel" id="telefone" class="form-control rounded-3" placeholder="48999998888" pattern="[0-9]{10,11}" required>
+              <label for="telefone" class="form-label small fw-bold text-muted">
+                WhatsApp / Telefone *
+              </label>
+              <input type="tel" id="telefone" class="form-control rounded-3" required
+                     pattern="[0-9]{10,11}" placeholder="48999998888">
               <div class="invalid-feedback">Informe com DDD (10 ou 11 dígitos).</div>
             </div>
           </div>
 
           <div class="mb-3">
-            <label for="descricao" class="form-label small fw-bold text-muted">Descrição dos Serviços e Produtos *</label>
-            <textarea id="descricao" class="form-control rounded-3" rows="3" placeholder="Descreva os produtos e diferenciais..." required></textarea>
+            <label for="descricao" class="form-label small fw-bold text-muted">
+              Descrição dos Serviços e Produtos *
+            </label>
+            <textarea id="descricao" class="form-control rounded-3" rows="3" required
+                      placeholder="Descreva os produtos e diferenciais..."></textarea>
             <div class="invalid-feedback">Insira uma breve descrição sobre o negócio.</div>
           </div>
         </div>
 
         <div class="modal-footer border-0 pt-0">
-          <button type="button" class="btn btn-light rounded-pill px-4 text-muted fw-bold" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" id="btnSalvarModal" class="btn btn-success rounded-pill px-4 font-outfit fw-bold shadow-sm">
-            <i class="bi bi-check2-circle me-1"></i> <span id="btnSalvarTexto">Salvar na Vitrine</span>
+          <button type="button" data-bs-dismiss="modal"
+                  class="btn btn-light rounded-pill px-4 text-muted fw-bold">Cancelar</button>
+          <button type="submit" id="btnSalvarModal"
+                  class="btn btn-success rounded-pill px-4 font-outfit fw-bold shadow-sm">
+            <i class="bi bi-check2-circle me-1"></i>
+            <span id="btnSalvarTexto">Salvar na Vitrine</span>
           </button>
         </div>
       </form>
@@ -813,6 +860,15 @@ body {
   font-weight: 700;
 }
 \end{boxCodigoHTML}
+
+\begin{boxTeste}[{Checkpoint de Validação 1.3: Como Testar a Estilização}]
+Salve o arquivo \texttt{styles.css} na mesma pasta do \texttt{index.html} e atualize o navegador:
+\begin{enumerate}[leftmargin=*]
+  \item O banner superior deve exibir o \textbf{degradê verde} com o texto em branco;
+  \item O contador deve aparecer como uma pílula translúcida ao lado do botão \textbf{"Divulgar Serviço"};
+  \item No Console (F12), o erro 404 de \texttt{styles.css} deve desaparecer (o de \texttt{js/main.js} continua até o Passo 5).
+\end{enumerate}
+\end{boxTeste}
 
 \clearpage
 \begin{boxAtividade}[{Fase 2/5: Utilitários Puros (js/utils/formatters.js)}]
@@ -887,7 +943,8 @@ export const DADOS_INICIAIS = [
     bairro: 'Centro Histórico',
     precoBase: 35.00,
     telefone: '48991234567',
-    descricao: 'Peças artesanais e utilitárias modeladas à mão com argila local e conchas de Garopaba.'
+    descricao: 'Peças artesanais e utilitárias modeladas à mão ' +
+      'com argila local e conchas de Garopaba.'
   },
   {
     id: '2',
@@ -896,7 +953,8 @@ export const DADOS_INICIAIS = [
     bairro: 'Ferrugem',
     precoBase: 150.00,
     telefone: '48998765432',
-    descricao: 'Criação de websites profissionais responsivos, cardápios digitais e suporte para comércio local.'
+    descricao: 'Criação de websites profissionais responsivos, ' +
+      'cardápios digitais e suporte para comércio local.'
   },
   {
     id: '3',
@@ -905,7 +963,8 @@ export const DADOS_INICIAIS = [
     bairro: 'Canto das Canoas',
     precoBase: 42.00,
     telefone: '48984561234',
-    descricao: 'Peixes frescos e frutos do mar da pesca artesanal diária entregues com higiene e pontualidade.'
+    descricao: 'Peixes frescos e frutos do mar da pesca artesanal ' +
+      'diária entregues com higiene e pontualidade.'
   }
 ];
 
@@ -1008,7 +1067,7 @@ import('./js/services/vitrineService.js').then(s => {
 import { formatarMoeda, formatarTelefone, escapeHtml }
   from '../utils/formatters.js';
 
-// Mapeamento de cores para categorias (incluir no roteiro)
+// Mapeamento de cores para categorias
 const CORES_CATEGORIA = {
   'Alimentação': 'success',
   'Tecnologia': 'info',
@@ -1142,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : todos.filter(s => s.categoria === filtro);
     renderizarCards(filtrados, container);
     if (contadorEl) {
-      contadorEl.innerText = `${todos.length} cadastrados`;
+      contadorEl.innerText = `${todos.length} Serviços Cadastrados`;
     }
   }
 
@@ -1264,7 +1323,8 @@ document.addEventListener('DOMContentLoaded', () => {
 \begin{boxTeste}[{Checkpoint de Validação 5: Teste Completo da Aplicação Ponta a Ponta}]
 Parabéns! Sua aplicação está 100\% integrada. Execute o ciclo completo no navegador:
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{Create:} Clique em "Divulgar", preencha o formulário e salve. O card deve surgir imediatamente na vitrine e o contador deve somar +1;
+  \item \textbf{Validação:} Clique em "Divulgar" e tente salvar com o formulário vazio. Os campos devem ficar vermelhos, com as mensagens de erro visíveis, e nada deve ser salvo;
+  \item \textbf{Create:} Preencha o formulário e salve. O card deve surgir imediatamente na vitrine e o contador deve somar +1 (ele fica sob o Toast por alguns segundos);
   \item \textbf{Filter:} Mude o filtro de categoria no select. Apenas serviços da categoria escolhida devem permanecer na tela;
   \item \textbf{Update:} Clique no ícone de lápis em um card. O modal abrirá com os dados carregados. Altere o valor e salve;
   \item \textbf{Delete:} Clique no ícone de lixeira, confirme o aviso nativo e veja o item desaparecer em tempo real!
@@ -1285,7 +1345,7 @@ Antes de realizar o commit final no repositório, certifique-se de validar todos
 \item[$\Box$] A estrutura em pastas (\texttt{js/services/}, \texttt{js/views/}, \texttt{js/utils/}) foi rigorosamente respeitada;
 \item[$\Box$] O arquivo \texttt{vitrineService.js} opera puramente sobre o \texttt{localStorage} sem manipular elementos do DOM;
 \item[$\Box$] As quatro operações do CRUD (\textbf{Create, Read, Update e Delete}) foram implementadas e testadas com persistência no navegador;
-\item[$\Box$] O formulário exibe validações visuais nativas do Bootstrap 5 (\texttt{.is-invalid}) quando campos obrigatórios não são preenchidos;
+\item[$\Box$] O formulário exibe validações visuais nativas do Bootstrap 5 (\texttt{.was-validated} e \texttt{.invalid-feedback}) quando campos obrigatórios não são preenchidos;
 \item[$\Box$] A vitrine reage instantaneamente aos filtros de categoria sem recarregar a página;
 \item[$\Box$] O código está devidamente publicado e em pleno funcionamento no \textbf{GitHub Pages}.
 \end{itemize}

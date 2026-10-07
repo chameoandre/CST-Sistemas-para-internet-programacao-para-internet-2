@@ -141,7 +141,7 @@ Um **Card** (`.card .shadow-sm`) agrupa de forma coesa todas as informações e 
   | `↳ .card-footer` | 2. Rodapé de Ações | Fundo neutro transparente (`.bg-transparent`) agrupando os botões de ação: WhatsApp, Editar e Excluir. |
 
 ### 4. Validação Visual Nativa e o Campo Oculto (`<input type="hidden">`)
-- **Atributo `novalidate`:** Suprime os balões padrão do navegador para que a aplicação utilize as classes visuais do Bootstrap (`.is-valid` e `.is-invalid` combinadas com mensagens `.invalid-feedback`);
+- **Atributo `novalidate`:** Suprime os balões padrão do navegador para que a aplicação utilize a validação visual do Bootstrap (classe `.was-validated` no formulário, combinada com mensagens `.invalid-feedback`);
 - **Papel Arquitetural do Campo Oculto (`#servicoId`):** O campo com `type="hidden"` não é visível ao usuário, mas é o elemento-chave que diferencia as operações de **Criação** (*Create*) e **Atualização** (*Update*) no CRUD: se estiver vazio, a gravação cria um novo registro; se contiver um ID, atualiza o registro correspondente.
 
 ---
@@ -294,7 +294,7 @@ Crie o arquivo `index.html` na raiz do projeto com toda a estrutura visual: CDNs
             <div class="row g-2 mb-3">
               <div class="col-md-6">
                 <label for="precoBase" class="form-label small fw-bold text-muted">Preço Base Referência (R$) *</label>
-                <input type="number" step="0.50" min="0" class="form-control rounded-3" id="precoBase" placeholder="Ex: 50.00" required>
+                <input type="number" step="0.01" min="0" class="form-control rounded-3" id="precoBase" placeholder="Ex: 50.00" required>
                 <div class="invalid-feedback">Informe um valor válido em R$.</div>
               </div>
 
@@ -554,7 +554,7 @@ Esta camada é responsável por gerar marcação HTML dinâmica através de *tem
 // js/views/vitrineView.js
 import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
 
-// Mapeamento de cores para categorias (incluir no roteiro) 
+// Mapeamento de cores para categorias
 const CORES_CATEGORIA = {
   'Alimentação': 'success',
   'Tecnologia': 'info',
@@ -846,7 +846,7 @@ python3 -m http.server 8000
 - [x] O projeto utiliza estritamente o padrão ES6 Modules com a tag `<script type="module" src="js/main.js"></script>`;
 - [x] A estrutura de diretórios (`js/services/`, `js/views/`, `js/utils/`) foi rigorosamente mantida;
 - [x] As 4 operações do CRUD (**Create, Read, Update, Delete**) funcionam integradas ao `localStorage`;
-- [x] O formulário possui validações visuais nativas do Bootstrap 5 (`.is-invalid`, `.invalid-feedback`, `was-validated`);
+- [x] O formulário possui validações visuais nativas do Bootstrap 5 (`.was-validated` e `.invalid-feedback`);
 - [x] Notificações flutuantes assíncronas (**Bootstrap Toasts**) alertam o usuário em cada ação;
 - [x] O repositório contém o arquivo `.nojekyll` na raiz para garantir o deploy limpo no GitHub Pages;
 - [x] A aplicação está online e funcional no seu endereço pessoal do **GitHub Pages**.

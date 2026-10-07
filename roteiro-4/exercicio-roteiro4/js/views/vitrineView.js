@@ -6,7 +6,7 @@
 
 import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
 
-// Mapeamento de cores para categorias (incluir no roteiro)
+// Mapeamento de cores para categorias
 const CORES_CATEGORIA = {
   'Alimentação': 'success',
   'Tecnologia': 'info',
