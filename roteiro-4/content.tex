@@ -454,6 +454,21 @@ console.log(formatarTelefone('48999998888'));
 \caption{Pipeline arquitetural e sequência cronológica de implementação do Roteiro 04.}
 \end{figure}
 
+\begin{tcolorbox}[
+    colback=azulTitulo!5, colframe=azulTitulo!80,
+    boxrule=0.8pt, arc=4pt, left=10pt, right=10pt, top=6pt, bottom=6pt
+]
+\textbf{\color{azulTitulo}Links diretos para o GitHub (Código-Fonte de Referência):}
+
+Caso prefira consultar, clonar ou comparar os arquivos diretamente no repositório:
+\begin{itemize}[leftmargin=*, nosep]
+  \item \textbf{index.html} $\rightarrow$ {\small\url{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro4-novamente/index.html}}
+  \item \textbf{main.js (orquestrador)} $\rightarrow$ {\small\url{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro4-novamente/js/main.js}}
+  \item \textbf{styles.css} $\rightarrow$ {\small\url{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro4-novamente/styles.css}}
+  \item \textbf{formatters.js} $\rightarrow$ {\small\url{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro4-novamente/js/utils/formatters.js}}
+\end{itemize}
+\end{tcolorbox}
+
 % =====================================================
 % PASSO A PASSO GUIADO DA ATIVIDADE
 % =====================================================
@@ -469,6 +484,7 @@ console.log(formatarTelefone('48999998888'));
 \begin{itemize}[leftmargin=*, nosep]
   \item \textbf{Abra sempre pelo Live Server.} Módulos ES6 não carregam quando o \texttt{index.html} é aberto com duplo clique (endereço \texttt{file://}).
   \item \textbf{Ao copiar código deste PDF}, copie uma página por vez. Quando um bloco continua na página seguinte, o cabeçalho e o rodapé do documento vêm junto na seleção e precisam ser apagados.
+  \item \textbf{Código no GitHub:} Os links diretos para cada arquivo no repositório estão disponíveis no quadro da página anterior.
 \end{itemize}
 \end{tcolorbox}
 
@@ -629,15 +645,13 @@ console.log(formatarTelefone('48999998888'));
 \end{boxCodigoHTML}
 
 \begin{boxTeste}[{Checkpoint de Validação 1.1: Como Testar no Navegador}]
-Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live Server} do VS Code:
-\begin{enumerate}[leftmargin=*]
-  \item O título, os badges, o contador (exibindo \textit{"Carregando..."}) e o botão \textbf{"Divulgar Serviço"} devem estar visíveis, ainda \textbf{sem o fundo verde}: o degradê do banner só aparece depois de criar o \texttt{styles.css} no Passo 1.3;
-  \item O seletor de filtros com as categorias locais e badges dos módulos deve estar funcional;
-  \item A área central estará pronta para receber os cards injetados via JavaScript.
+Abra o \texttt{index.html} no navegador via \textbf{Live Server}:
+\begin{enumerate}[leftmargin=*, nosep]
+  \item Título, badges, contador (\textit{"Carregando..."}) e botão \textbf{"Divulgar Serviço"} visíveis (o degradê verde do banner só surgirá com o \texttt{styles.css} no Passo 1.3);
+  \item Seletor de categorias locais e badges dos módulos visíveis e funcionais;
+  \item Área central vazia, pronta para receber os cards dinâmicos via JavaScript.
 \end{enumerate}
-\textit{Nota: Ao clicar em "Divulgar Serviço", o modal abrirá assim que estruturado no Passo 1.2.}
-
-\textit{Nota: No Console (F12) aparecerão erros 404 para \texttt{styles.css} e \texttt{js/main.js}. Isso é esperado: esses arquivos serão criados nos Passos 1.3 e 5. O contador permanece em "Carregando..." até o Passo 5.}
+\textit{Nota: Erros 404 no Console para \texttt{styles.css} e \texttt{js/main.js} são esperados até os Passos 1.3 e 5. O modal abrirá após estruturado no Passo 1.2.}
 \end{boxTeste}
 
 \clearpage
@@ -809,10 +823,10 @@ Abra o arquivo \texttt{index.html} no navegador usando a extensão \textbf{Live 
 
 \begin{boxTeste}[{Checkpoint de Validação 1.2: Como Testar a Abertura do Modal}]
 Atualize o navegador e clique no botão amarelo \textbf{"Divulgar Serviço"}:
-\begin{enumerate}[leftmargin=*]
-  \item O modal deve abrir de forma suave, centralizada e com bordas arredondadas modernas (\texttt{.rounded-4});
-  \item Verifique se todos os campos estão bem espaçados dentro do corpo do modal;
-  \item Clique em \textbf{"Cancelar"} ou no botão \textbf{"X"} para confirmar que o fechamento nativo do Bootstrap funciona.
+\begin{enumerate}[leftmargin=*, nosep]
+  \item O modal deve abrir de forma suave, centralizada e com bordas arredondadas (\texttt{.rounded-4});
+  \item Verifique se todos os campos estão bem espaçados no corpo do modal;
+  \item Clique em \textbf{"Cancelar"} ou no botão \textbf{"X"} para confirmar o fechamento nativo.
 \end{enumerate}
 \end{boxTeste}
 
@@ -862,11 +876,11 @@ body {
 \end{boxCodigoHTML}
 
 \begin{boxTeste}[{Checkpoint de Validação 1.3: Como Testar a Estilização}]
-Salve o arquivo \texttt{styles.css} na mesma pasta do \texttt{index.html} e atualize o navegador:
-\begin{enumerate}[leftmargin=*]
-  \item O banner superior deve exibir o \textbf{degradê verde} com o texto em branco;
-  \item O contador deve aparecer como uma pílula translúcida ao lado do botão \textbf{"Divulgar Serviço"};
-  \item No Console (F12), o erro 404 de \texttt{styles.css} deve desaparecer (o de \texttt{js/main.js} continua até o Passo 5).
+Salve \texttt{styles.css} na mesma pasta do \texttt{index.html} e atualize a página:
+\begin{enumerate}[leftmargin=*, nosep]
+  \item O banner superior exibe o \textbf{degradê verde} com tipografia branca;
+  \item O contador surge como uma pílula translúcida ao lado de \textbf{"Divulgar Serviço"};
+  \item No Console (F12), o erro 404 de \texttt{styles.css} desaparece (o de \texttt{js/main.js} segue até o Passo 5).
 \end{enumerate}
 \end{boxTeste}
 
@@ -911,11 +925,11 @@ export function escapeHtml(texto) {
 \end{boxCodigoJS}
 
 \begin{boxTeste}[{Checkpoint de Validação 2: Teste via Console do Navegador (F12)}]
-Abra o navegador, pressione \textbf{F12} (ou botão direito $\rightarrow$ Inspecionar) e selecione a aba \textbf{Console}. Execute:
+No Console do navegador (\textbf{F12}), execute:
 \begin{boxCodigoJS}
 import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9)));
 \end{boxCodigoJS}
-\textbf{Resultado esperado no Console:} \texttt{"R\$ 149,90"}. Isso comprova que a exportação nomeada e o cálculo nativo estão 100\% operacionais!
+\textbf{Resultado esperado:} \texttt{"R\$ 149,90"}. Comprova a exportação nomeada e a formatação nativa!
 \end{boxTeste}
 
 \clearpage
@@ -1019,40 +1033,42 @@ export function removerServico(id) {
 }
 \end{boxCodigoJS}
 
+\vspace{-0.25cm}
 \begin{boxTeste}[{Checkpoint de Validação 3: Teste de Persistência no Console (F12)}]
-No Console do navegador (\textbf{F12}), teste o carregamento dos dados modelo e a persistência:
+No Console (\textbf{F12}), teste a carga e a persistência dos dados:
 \begin{boxCodigoJS}
 import('./js/services/vitrineService.js').then(s => {
   s.carregarDadosIniciais();
-  console.log('Serviços no LocalStorage:', s.obterServicos());
+  console.log('Dados salvos:', s.obterServicos());
 });
 \end{boxCodigoJS}
-\textbf{Resultado esperado:} O console imprimirá um array com os 3 serviços modelo semente devidamente persistidos na chave \texttt{garopaba\_vitrine\_servicos}. Verifique também na aba \textbf{Application $\rightarrow$ Local Storage}.
+\textbf{Resultado esperado:} Array com os 3 serviços salvo em \texttt{garopaba\_vitrine\_servicos} (verifique também na aba \textbf{Application $\rightarrow$ Local Storage}).
 \end{boxTeste}
 
 \clearpage
 \begin{boxAtividade}[{Fase 4/5: Camada de Visão (js/views/vitrineView.js)}]
-\textbf{Responsabilidade Arquitetural:} Construir e manipular os elementos visuais na interface. Transforma objetos de dados em cards HTML (\texttt{criarCardHtml}), renderiza coleções no contêiner com tratamento de estado vazio (\texttt{renderizarCards}) e dispara mensagens de notificação flutuantes (\texttt{exibirToast}).
+\textbf{Responsabilidade Arquitetural:} Construir e manipular os elementos visuais na interface. Transforma objetos de dados em cards HTML (\texttt{criarCardHtml}), renderiza coleções no contêiner (\texttt{renderizarCards}) e dispara notificações flutuantes (\texttt{exibirToast}).
 \end{boxAtividade}
 
-\vspace{-0.1cm}
+\vspace{-0.3cm}
 \begin{center}
-\begin{tcolorbox}[enhanced, width=0.88\linewidth, colback=white, colframe=gray!30, arc=5pt, boxrule=0.8pt, shadow={1.5mm}{-1.5mm}{0mm}{black!12}, top=8pt, bottom=8pt, left=10pt, right=10pt]
+\vspace{-0.2cm}
+\begin{tcolorbox}[enhanced, width=0.88\linewidth, colback=white, colframe=gray!30, arc=5pt, boxrule=0.8pt, shadow={1.5mm}{-1.5mm}{0mm}{black!12}, top=3pt, bottom=3pt, left=10pt, right=10pt]
   % Topo do Card com Badge e Preco
   \colorbox{blue!12}{\color{blue!80!black}\footnotesize\bfseries Alimentação}
   \hfill
   {\large\bfseries\color{ifscGreen} R\$ 25,00}
   
-  \vspace{3pt}
+  \vspace{1pt}
   {\large\bfseries Padaria Central da Ferrugem}
   
-  \vspace{2pt}
+  \vspace{1pt}
   {\footnotesize\color{gray!80} \textbf{Bairro:} Ferrugem \quad \textbar \quad \textbf{ID:} \texttt{1729482103}}
   
-  \vspace{3pt}
+  \vspace{1pt}
   {\small\color{gray!90} Pães de fermentação natural, café orgânico especial e tortas artesanais com entrega local.}
   
-  \par\vspace{4pt}\textcolor{gray!25}{\hrulefill}\vspace{4pt}
+  \par\vspace{2pt}\textcolor{gray!25}{\hrulefill}\vspace{2pt}
   % Acoes do Card
   \colorbox{ifscGreen}{\color{white}\footnotesize\bfseries WhatsApp: (48) 99999-8888}
   \hfill
@@ -1060,7 +1076,9 @@ import('./js/services/vitrineService.js').then(s => {
   \hspace{3pt}
   \colorbox{red!15}{\color{red!80!black}\footnotesize\bfseries Excluir}
 \end{tcolorbox}
+\vspace{-0.2cm}
 \end{center}
+\vspace{-0.35cm}
 
 \begin{boxCodigoJS}
 // js/views/vitrineView.js
@@ -1155,12 +1173,13 @@ export function exibirToast(mensagem, tipo = 'success') {
 }
 \end{boxCodigoJS}
 
-\begin{boxTeste}[{Checkpoint de Validação 4: Teste de Renderização e Toast no Console}]
-No Console do navegador (\textbf{F12}), teste o disparo da notificação:
+\vspace{-0.25cm}
+\begin{boxTeste}[{Checkpoint de Validação 4: Teste do Toast no Console (F12)}]
+No Console (\textbf{F12}), teste a notificação flutuante:
 \begin{boxCodigoJS}
 import('./js/views/vitrineView.js').then(v => v.exibirToast('Notificação funcionando!'));
 \end{boxCodigoJS}
-\textbf{Resultado esperado:} O Toast flutuante verde surgirá no canto superior direito da tela!
+\textbf{Resultado esperado:} O Toast verde surge no canto superior direito da tela.
 \end{boxTeste}
 
 \clearpage
@@ -1320,14 +1339,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 \end{boxCodigoJS}
 
+\vspace{-0.15cm}
 \begin{boxTeste}[{Checkpoint de Validação 5: Teste Completo da Aplicação Ponta a Ponta}]
-Parabéns! Sua aplicação está 100\% integrada. Execute o ciclo completo no navegador:
-\begin{enumerate}[leftmargin=*]
-  \item \textbf{Validação:} Clique em "Divulgar" e tente salvar com o formulário vazio. Os campos devem ficar vermelhos, com as mensagens de erro visíveis, e nada deve ser salvo;
-  \item \textbf{Create:} Preencha o formulário e salve. O card deve surgir imediatamente na vitrine e o contador deve somar +1 (ele fica sob o Toast por alguns segundos);
-  \item \textbf{Filter:} Mude o filtro de categoria no select. Apenas serviços da categoria escolhida devem permanecer na tela;
-  \item \textbf{Update:} Clique no ícone de lápis em um card. O modal abrirá com os dados carregados. Altere o valor e salve;
-  \item \textbf{Delete:} Clique no ícone de lixeira, confirme o aviso nativo e veja o item desaparecer em tempo real!
+Aplicação 100\% integrada! Execute o fluxo completo no navegador:
+\begin{enumerate}[leftmargin=*, nosep]
+  \item \textbf{Validação:} Clique em "Divulgar" e salve vazio. Os campos ficam vermelhos e nada é salvo;
+  \item \textbf{Create:} Preencha e salve. O card surge na vitrine e o contador soma +1 (sob o Toast);
+  \item \textbf{Filter:} Mude a categoria no select. Apenas serviços da categoria escolhida permanecem;
+  \item \textbf{Update:} Clique no lápis em um card, altere os dados no modal e salve;
+  \item \textbf{Delete:} Clique na lixeira, confirme o aviso e veja o item ser removido imediatamente.
 \end{enumerate}
 \end{boxTeste}
 
