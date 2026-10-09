@@ -1,9 +1,62 @@
+# =====================================================
+# Avaliações, Provas e Resultados (Sigiloso / Não Público)
+# =====================================================
+provas/
+**/provas/
+
+# =====================================================
+# macOS & Arquivos do Sistema
+# =====================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Icon?
-*.log
+Icon\r
+
+# =====================================================
+# Python & Ambientes Virtuais (Roteiros com Backend)
+# =====================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+venv/
+.venv/
+env/
+ENV/
+
+# Bancos de dados locais
+*.sqlite
+*.sqlite3
+*.db
+
+# Segredos e variáveis de ambiente
+.env
+.env.*
+*.pem
+*.key
+
+# =====================================================
+# LaTeX (Arquivos Auxiliares e Logs de Build)
+# =====================================================
 *.aux
+*.log
 *.toc
 *.out
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+*.xdv
+*.bbl
+*.blg
+*.run.xml
+*.bcf
+
+# =====================================================
+# Editores e Temporários
+# =====================================================
+*.swp
+*~
+
