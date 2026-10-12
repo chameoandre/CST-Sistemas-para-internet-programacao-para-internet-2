@@ -74,8 +74,11 @@ export function salvarServico(novoServico) {
     ...novoServico
   };
 
+  // Adiciona o novo serviço no início do array
   servicos.unshift(servicoCompleto);
+  // Salva o array atualizado no LocalStorage
   localStorage.setItem(STORAGE_KEY, JSON.stringify(servicos));
+  // Retorna o novo serviço
   return servicoCompleto;
 }
 

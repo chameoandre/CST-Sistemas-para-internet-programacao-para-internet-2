@@ -20,6 +20,13 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
 \end{itemize}
 \end{boxObjetivos}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{roteiro5_fetch_api.jpg}
+    \caption{Visão Geral da Aplicação: Vitrine Comunitária conectada via Fetch API com backend RESTful em Flask e persistência relacional SQLite.}
+    \label{fig:preview_roteiro5}
+\end{figure}
+
 % =====================================================
 % INTRODUÇÃO E EVOLUÇÃO ARQUITETURAL
 % =====================================================
@@ -105,46 +112,447 @@ Observe atentamente que a camada utilitária (\texttt{formatters.js}) e grande p
 % FUNDAMENTAÇÃO TEÓRICA
 % =====================================================
 
-\subsection{Fundamentação Teórica: Conceitos-Chave}
+\subsection{Conceitos Fundamentais em Pílulas Práticas de Aquecimento}
 
-\subsubsection{1. O Ciclo de Vida HTTP e Verbos REST}
-Uma API RESTful utiliza o protocolo HTTP padrão para realizar operações sobre recursos:
+Antes de iniciarmos a construção da arquitetura completa da Vitrine Comunitária (que integrará banco de dados relacional persistente, camadas modulares em ES6 e contingência offline), realizaremos \textbf{4 mini-práticas guiadas de aquecimento}. 
+
+Cada pílula introduz um conceito arquitetural isolado e fornece o código \textbf{100\% completo} para ser executado imediatamente pelos estudantes no laboratório em poucos minutos.
+
+% -----------------------------------------------------------------
+% PÍLULA 1
+% -----------------------------------------------------------------
+\subsubsection{Pílula 1: Assincronismo e Leitura de Dados com Fetch API (GET)}
+
+\textbf{Fundamentação Teórica:} No JavaScript tradicional, operações de rede não podem ser executadas de forma síncrona (\textit{bloqueante}), pois o navegador congelaria a interface enquanto aguardasse a resposta de outro computador. 
+
+Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promessas de valores futuros) manipuladas pelas palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}}. A função global \textbf{\texttt{fetch(url)}} dispara uma requisição HTTP assíncrona. Quando a resposta do servidor chega, utilizamos o método \textbf{\texttt{await resposta.json()}} para converter o fluxo de texto HTTP em um objeto ou vetor JavaScript utilizável.
+
+\begin{boxAtividade}[Mini-Exemplo 1: Leitura Assíncrona de Arquivo JSON com Fetch GET]
+\textbf{Objetivo Prático:} Ler um vetor de serviços em formato JSON e preencher dinamicamente uma lista HTML na tela sem recarregar a página.
+\end{boxAtividade}
+
+\textbf{Passo 1.1: Criar o arquivo de dados (\texttt{mini-exemplos/01-fetch-get/dados.json}):}
+\begin{boxCodigoJS}[]
+[
+  { "id": 1, "nome": "Maré Alta Artesanatos", "preco": 35.00 },
+  { "id": 2, "nome": "Garopaba Web Studio", "preco": 150.00 },
+  { "id": 3, "nome": "Pescado Fresco do Zequinha", "preco": 42.00 }
+]
+\end{boxCodigoJS}
+
+\textbf{Passo 1.2: Criar a página de teste (\texttt{mini-exemplos/01-fetch-get/index.html}):}
+\begin{boxCodigoHTML}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 1: Fetch API GET</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 500px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 1: Fetch API (GET)</h5>
+        <p class="text-muted small">Carregamento assíncrono de dados com async/await.</p>
+        
+        <button id="btnCarregar" class="btn btn-primary w-100 mb-3">
+          Carregar Serviços Locais
+        </button>
+
+        <ul id="listaServicos" class="list-group">
+          <!-- Os itens serão inseridos aqui pelo JavaScript -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnCarregar = document.getElementById('btnCarregar');
+    const listaServicos = document.getElementById('listaServicos');
+
+    btnCarregar.addEventListener('click', async () => {
+      try {
+        const resposta = await fetch('dados.json');
+        const servicos = await resposta.json();
+
+        listaServicos.innerHTML = '';
+        servicos.forEach(servico => {
+          const item = document.createElement('li');
+          item.className = 'list-group-item d-flex justify-content-between align-items-center';
+          item.innerHTML = `
+            <span>${servico.nome}</span>
+            <span class="badge bg-success rounded-pill">R$ ${servico.preco.toFixed(2)}</span>
+          `;
+          listaServicos.appendChild(item);
+        });
+      } catch (erro) {
+        console.error('Erro ao buscar dados:', erro);
+      }
+    });
+  </script>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\begin{boxTeste}[Como testar a Pílula 1]
+Abra o arquivo \texttt{index.html} com a extensão \textbf{Live Server} do VS Code. Clique no botão \textbf{"Carregar Serviços Locais"} e observe os 3 itens serem renderizados instantaneamente no DOM.
+\end{boxTeste}
+
+% -----------------------------------------------------------------
+% PÍLULA 2
+% -----------------------------------------------------------------
+\newpage
+\subsubsection{Pílula 2: Microbackend Flask e a Política de Mesma Origem (CORS)}
+
+\textbf{Fundamentação Teórica:} Em uma arquitetura web real, os dados não residem em arquivos estáticos locais no navegador, mas sim em um servidor backend. No Python, o microframework \textbf{Flask} permite instanciar um servidor HTTP e declarar rotas RESTful com o decorador \texttt{@app.route()}.
+
+Entretanto, por medidas de segurança essenciais, os navegadores implementam a \textbf{Política de Mesma Origem} (\textit{Same-Origin Policy - SOP}). Como a nossa página frontend roda na porta \texttt{5500} (Live Server) e o Flask escuta na porta \texttt{5000}, o navegador bloqueia a requisição a menos que o backend declare explicitamente a liberação de \textbf{CORS} (\textit{Cross-Origin Resource Sharing}) via cabeçalho \texttt{Access-Control-Allow-Origin: *}. No Flask, utilizamos a biblioteca \textbf{\texttt{flask-cors}}.
+
+\begin{boxAtividade}[Mini-Exemplo 2: Microservidor Flask \& Consumo Cross-Origin]
+\textbf{Objetivo Prático:} Executar um microservidor Python em porta distinta e consumi-lo via Fetch a partir do navegador, compreendendo a atuação do CORS.
+\end{boxAtividade}
+
+\textbf{Passo 2.1: Criar o microservidor Python (\texttt{mini-exemplos/02-micro-flask-cors/server.py}):}
+\begin{boxCodigoPY}
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+# Habilita o CORS para permitir requisições de outras origens (Live Server na porta 5500)
+CORS(app)
+
+@app.route('/api/status', methods=['GET'])
+def obter_status():
+    return jsonify({
+        "status": "online",
+        "servidor": "Micro API Flask",
+        "cidade": "Garopaba - SC"
+    })
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
+\end{boxCodigoPY}
+
+\textbf{Passo 2.2: Criar a página consumidora (\texttt{mini-exemplos/02-micro-flask-cors/index.html}):}
+\begin{boxCodigoHTML}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 2: Flask API & CORS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 500px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 2: Flask API & CORS</h5>
+        <p class="text-muted small">Consumindo um microbackend Python Flask na porta 5000 a partir da porta 5500.</p>
+        
+        <button id="btnConectar" class="btn btn-dark w-100 mb-3">
+          Verificar Status da API
+        </button>
+
+        <div id="resultadoStatus" class="alert alert-secondary mb-0">
+          Aguardando conexão com a API...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnConectar = document.getElementById('btnConectar');
+    const resultadoStatus = document.getElementById('resultadoStatus');
+
+    btnConectar.addEventListener('click', async () => {
+      try {
+        const resposta = await fetch('http://127.0.0.1:5000/api/status');
+        const dados = await resposta.json();
+
+        resultadoStatus.className = 'alert alert-success mb-0';
+        resultadoStatus.innerHTML = `
+          <strong>Status:</strong> ${dados.status} <br>
+          <strong>Servidor:</strong> ${dados.servidor} <br>
+          <strong>Origem:</strong> ${dados.cidade}
+        `;
+      } catch (erro) {
+        resultadoStatus.className = 'alert alert-danger mb-0';
+        resultadoStatus.innerHTML = `
+          <strong>Erro de Conexão:</strong> Não foi possível acessar a API.<br>
+          <small>Verifique se o server.py está rodando ou se houve bloqueio de CORS.</small>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\begin{boxTeste}[Como testar a Pílula 2 e observar o CORS em ação]
+\begin{enumerate}[leftmargin=*]
+  \item No terminal do VS Code, execute: \texttt{python server.py}.
+  \item Abra o \texttt{index.html} no Live Server e clique em \textbf{"Verificar Status da API"}. O card exibirá a confirmação verde da cidade de Garopaba.
+  \item \textbf{Desafio Didático em Aula:} No \texttt{server.py}, comente temporariamente a linha \texttt{\# CORS(app)} e reinicie o servidor. Ao clicar no botão, abra a aba \textit{Console} do DevTools (F12) e observe o bloqueio em vermelho por violação de CORS! Em seguida, descomente a linha.
+\end{enumerate}
+\end{boxTeste}
+
+% -----------------------------------------------------------------
+% PÍLULA 3
+% -----------------------------------------------------------------
+\newpage
+\subsubsection{Pílula 3: Envio de Dados via POST (JSON.stringify e Headers HTTP)}
+
+\textbf{Fundamentação Teórica:} Enquanto requisições \texttt{GET} apenas solicitam dados sem alterar o estado do servidor, o verbo \textbf{\texttt{POST}} envia um payload de dados no corpo (\textit{Body}) da mensagem HTTP para criação de novos registros (\textit{Create}).
+
+Ao utilizar a Fetch API para enviar dados com \texttt{POST}, três parâmetros de configuração são \textbf{rigorosamente obrigatórios}:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{\texttt{method: 'POST'}:} Especifica o verbo HTTP de envio;
+  \item \textbf{\texttt{headers: \{ 'Content-Type': 'application/json' \}}:} Informa ao servidor que o corpo da mensagem trafega estruturado em formato JSON;
+  \item \textbf{\texttt{body: JSON.stringify(objeto)}:} Converte o objeto JavaScript em uma cadeia de caracteres de texto compatível com o protocolo HTTP.
+\end{enumerate}
+No servidor Flask, o payload é recebido e decodificado automaticamente com o método \textbf{\texttt{request.get\_json()}}.
+
+\begin{boxAtividade}[Mini-Exemplo 3: Cadastro de Serviço via Fetch POST]
+\textbf{Objetivo Prático:} Enviar dados de um formulário via POST em formato JSON para o Flask e receber confirmação com status HTTP 201 Created.
+\end{boxAtividade}
+
+\textbf{Passo 3.1: Criar o servidor com rota POST (\texttt{mini-exemplos/03-fetch-post/server.py}):}
+\begin{boxCodigoPY}
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+servicos_cadastrados = []
+
+@app.route('/api/cadastrar', methods=['POST'])
+def cadastrar_servico():
+    dados = request.get_json()
+    if not dados or 'nome' not in dados or 'preco' not in dados:
+        return jsonify({"erro": "Campos obrigatórios ausentes."}), 400
+
+    novo_id = len(servicos_cadastrados) + 1
+    registro = {
+        "id": novo_id,
+        "nome": dados['nome'],
+        "preco": float(dados['preco'])
+    }
+    servicos_cadastrados.append(registro)
+    print(f"[API FLASK] Novo servico cadastrado: {registro}")
+
+    return jsonify({
+        "mensagem": "Servico cadastrado com sucesso no servidor!",
+        "registro": registro,
+        "total": len(servicos_cadastrados)
+    }), 201
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
+\end{boxCodigoPY}
+
+\textbf{Passo 3.2: Criar o formulário frontend (\texttt{mini-exemplos/03-fetch-post/index.html}):}
+\begin{boxCodigoHTML}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 3: Fetch API POST</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 500px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 3: Fetch API (POST)</h5>
+        <p class="text-muted small">Enviando dados estruturados em JSON via requisição POST.</p>
+        
+        <form id="formCadastro">
+          <div class="mb-3">
+            <label for="campoNome" class="form-label">Nome do Serviço:</label>
+            <input type="text" id="campoNome" class="form-control" placeholder="Ex: Conserto de Pranchas" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="campoPreco" class="form-label">Preço Base (R$):</label>
+            <input type="number" id="campoPreco" class="form-control" step="0.01" placeholder="Ex: 80.00" required>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 mb-3">
+            Enviar via POST para a API
+          </button>
+        </form>
+
+        <div id="feedbackPost" class="alert alert-secondary d-none mb-0"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const formCadastro = document.getElementById('formCadastro');
+    const campoNome = document.getElementById('campoNome');
+    const campoPreco = document.getElementById('campoPreco');
+    const feedbackPost = document.getElementById('feedbackPost');
+
+    formCadastro.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+
+      const dadosParaEnvio = {
+        nome: campoNome.value.trim(),
+        preco: parseFloat(campoPreco.value)
+      };
+
+      try {
+        const resposta = await fetch('http://127.0.0.1:5000/api/cadastrar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dadosParaEnvio)
+        });
+
+        if (!resposta.ok) {
+          throw new Error(`Erro na resposta do servidor: código ${resposta.status}`);
+        }
+
+        const dadosResposta = await resposta.json();
+
+        feedbackPost.className = 'alert alert-success mb-0';
+        feedbackPost.classList.remove('d-none');
+        feedbackPost.innerHTML = `
+          <strong>${dadosResposta.mensagem}</strong><br>
+          <small>ID gerado: #${dadosResposta.registro.id} | Total no servidor: ${dadosResposta.total}</small>
+        `;
+
+        formCadastro.reset();
+      } catch (erro) {
+        feedbackPost.className = 'alert alert-danger mb-0';
+        feedbackPost.classList.remove('d-none');
+        feedbackPost.innerHTML = `<strong>Falha ao enviar:</strong> ${erro.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\begin{boxTeste}[Como testar a Pílula 3]
+Com o \texttt{server.py} em execução, digite um serviço e preço no formulário e clique em \textbf{"Enviar via POST"}. Observe que o terminal do Python exibirá o log do registro recebido e a página exibirá o alerta verde com o ID gerado pelo servidor!
+\end{boxTeste}
+
+% -----------------------------------------------------------------
+% PÍLULA 4
+% -----------------------------------------------------------------
+\newpage
+\subsubsection{Pílula 4: Resiliência de Rede e Feedback Visual (try/catch/finally com Spinner)}
+
+\textbf{Fundamentação Teórica:} Em aplicações de produção, falhas de conectividade (servidor fora do ar, oscilação de Wi-Fi, erro 500) são inevitáveis. Uma aplicação de qualidade profissional precisa:
 \begin{itemize}[leftmargin=*]
-  \item \textbf{\texttt{GET /api/servicos}:} Solicita a leitura da lista de serviços cadastrados (\textit{Read}). Não altera o estado do servidor. Retorna código de status \textbf{\texttt{200 OK}}.
-  \item \textbf{\texttt{POST /api/servicos}:} Envia um objeto JSON no corpo (\textit{Body}) da requisição para cadastrar um novo serviço (\textit{Create}). Retorna código \textbf{\texttt{201 Created}}.
-  \item \textbf{\texttt{PUT /api/servicos/<id>}:} Atualiza os dados de um registro existente pelo seu identificador (\textit{Update}). Retorna código \textbf{\texttt{200 OK}}.
-  \item \textbf{\texttt{DELETE /api/servicos/<id>}:} Remove permanentemente um serviço do banco (\textit{Delete}). Retorna código \textbf{\texttt{200 OK}}.
+  \item Interceptar erros de rede com blocos \textbf{\texttt{try...catch}};
+  \item Validar o status HTTP com a propriedade booleana \textbf{\texttt{resposta.ok}} (que retorna \texttt{true} apenas para códigos HTTP 200–299);
+  \item Fornecer feedback visual instantâneo durante a espera (\textbf{Spinner de Carregamento} do Bootstrap);
+  \item Utilizar obrigatoriamente o bloco \textbf{\texttt{finally}}, que é executado \textbf{sempre} (tanto em caso de sucesso quanto de falha), garantindo que o spinner seja ocultado e o botão reativado.
 \end{itemize}
 
-\subsubsection{2. A Política de Mesma Origem e o CORS}
-Por questões de segurança, os navegadores web impedem por padrão que um script executado em uma origem (ex: \texttt{http://127.0.0.1:5500} no Live Server) leia dados de outra origem (ex: \texttt{http://127.0.0.1:5000} no Flask). Essa política de bloqueio é chamada de **SOP** (\textit{Same-Origin Policy}).
+\begin{boxAtividade}[Mini-Exemplo 4: Controle de Loading State e Tratamento de Quedas de Rede]
+\textbf{Objetivo Prático:} Implementar um botão com spinner de carregamento e tratar quedas de conectividade com feedback amigável ao usuário.
+\end{boxAtividade}
 
-Para autorizar que o nosso frontend acesse a API, o servidor Flask precisa enviar nos cabeçalhos de resposta a diretiva \textbf{CORS} (\textit{Cross-Origin Resource Sharing}):
-\begin{center}
-\texttt{Access-Control-Allow-Origin: *}
-\end{center}
-No Python, essa autorização é resolvida de maneira elegante através da extensão \textbf{\texttt{flask-cors}}.
+\textbf{Passo 4.1: Criar a interface resiliente (\texttt{mini-exemplos/04-tratamento-erros-spinner/index.html}):}
+\begin{boxCodigoHTML}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 4: Tratamento de Falhas & Spinners</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 520px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 4: Resiliência & Spinner</h5>
+        <p class="text-muted small">
+          Controle de estados de carregamento (Loading State) e tratamento resiliente de falhas de rede com try...catch...finally.
+        </p>
 
-\subsubsection{3. Assincronismo com Promises e async/await}
-No JavaScript, operações de rede (como buscar dados em outro computador) levam alguns milissegundos ou segundos para responder. Se o código executasse de forma síncrona (\textit{bloqueante}), o navegador congelaria completamente enquanto esperasse a resposta.
+        <button id="btnVerificar" class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2 mb-3">
+          <span id="iconeBotao"><i class="bi bi-arrow-repeat"></i></span>
+          <span id="spinnerCarregamento" class="spinner-border spinner-border-sm d-none" role="status"></span>
+          <span id="textoBotao">Testar Conexão com o Servidor</span>
+        </button>
 
-Por isso, o JavaScript utiliza **Promises** (promessas de valores futuros) manipuladas pelas palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}}:
-\begin{boxCodigoJS}
-// A palavra 'async' declara que a função lida com operações assíncronas
-export async function obterDados() {
-  try {
-    // A palavra 'await' pausa a execução DESTA função até a resposta chegar,
-    // permitindo que o navegador continue fluido e responsivo para o usuário.
-    const resposta = await fetch('http://127.0.0.1:5000/api/servicos');
-    
-    // Converte o fluxo de texto HTTP em um objeto JavaScript
-    const dados = await resposta.json();
-    return dados;
-  } catch (erro) {
-    console.error('Falha de rede:', erro);
-  }
-}
-\end{boxCodigoJS}
+        <div id="caixaAlerta" class="alert d-none mb-0" role="alert"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnVerificar = document.getElementById('btnVerificar');
+    const iconeBotao = document.getElementById('iconeBotao');
+    const spinnerCarregamento = document.getElementById('spinnerCarregamento');
+    const textoBotao = document.getElementById('textoBotao');
+    const caixaAlerta = document.getElementById('caixaAlerta');
+
+    btnVerificar.addEventListener('click', async () => {
+      // 1. Início: ativa o spinner e desabilita o botão
+      btnVerificar.disabled = true;
+      iconeBotao.classList.add('d-none');
+      spinnerCarregamento.classList.remove('d-none');
+      textoBotao.textContent = 'Consultando Servidor...';
+      caixaAlerta.classList.add('d-none');
+
+      try {
+        const resposta = await fetch('http://127.0.0.1:5000/api/status');
+        if (!resposta.ok) {
+          throw new Error(`O servidor retornou o código de erro HTTP ${resposta.status}.`);
+        }
+        const dados = await resposta.json();
+
+        caixaAlerta.className = 'alert alert-success mb-0';
+        caixaAlerta.innerHTML = `
+          <i class="bi bi-check-circle-fill me-1"></i>
+          <strong>API Online!</strong> Conectado ao servidor (${dados.servidor}).
+        `;
+      } catch (erro) {
+        caixaAlerta.className = 'alert alert-danger mb-0';
+        caixaAlerta.innerHTML = `
+          <i class="bi bi-exclamation-triangle-fill me-1"></i>
+          <strong>Falha de Conectividade:</strong> Não foi possível falar com a API.<br>
+          <small class="text-muted">Detalhe: ${erro.message}</small>
+        `;
+      } finally {
+        // 4. O bloco FINALLY é SEMPRE executado, garantindo o fim do spinner
+        spinnerCarregamento.classList.add('d-none');
+        iconeBotao.classList.remove('d-none');
+        textoBotao.textContent = 'Testar Conexão com o Servidor';
+        btnVerificar.disabled = false;
+        caixaAlerta.classList.remove('d-none');
+      }
+    });
+  </script>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\begin{boxTeste}[Como testar a Resiliência da Pílula 4]
+\begin{enumerate}[leftmargin=*]
+  \item Com o servidor Flask ativo, clique no botão: observe o spinner piscar e o alerta verde de sucesso aparecer.
+  \item Em seguida, vá ao terminal do Python e encerre o servidor pressionando \textbf{Ctrl+C}.
+  \item Clique no botão novamente: note que o spinner gira durante a tentativa de conexão, é desligado com segurança pelo bloco \texttt{finally}, e um alerta vermelho amigável informa a falha sem quebrar a aplicação!
+\end{enumerate}
+\end{boxTeste}
+
+\vspace{0.4cm}
+\begin{boxAtividade}[Consolidação dos Conceitos e Transição para o Projeto Integrado]
+Com estes 4 fundamentos atômicos assimilados e testados individualmente (\textbf{Fetch GET}, \textbf{Flask com CORS}, \textbf{Fetch POST} e \textbf{Resiliência com Spinner/Finally}), avançaremos agora para a construção da \textbf{Aplicação Completa da Vitrine Comunitária Conectada}, integrando banco relacional \textbf{SQLite}, camadas modulares em \textbf{ES6 Modules} e contingência offline.
+\end{boxAtividade}
 
 % =====================================================
 % FASES DE IMPLEMENTAÇÃO GUIADAS (ZERO-ELLIPSIS RULE)

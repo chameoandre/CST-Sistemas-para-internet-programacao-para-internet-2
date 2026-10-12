@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 2: Flask API & CORS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 500px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 2: Flask API & CORS</h5>
+        <p class="text-muted small">Consumindo um microbackend Python Flask na porta 5000 a partir da porta 5500.</p>
+        
+        <button id="btnConectar" class="btn btn-dark w-100 mb-3">
+          Verificar Status da API
+        </button>
+
+        <div id="resultadoStatus" class="alert alert-secondary mb-0">
+          Aguardando conexão com a API...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnConectar = document.getElementById('btnConectar');
+    const resultadoStatus = document.getElementById('resultadoStatus');
+
+    btnConectar.addEventListener('click', async () => {
+      try {
+        const resposta = await fetch('http://127.0.0.1:5000/api/status');
+        const dados = await resposta.json();
+
+        resultadoStatus.className = 'alert alert-success mb-0';
+        resultadoStatus.innerHTML = `
+          <strong>Status:</strong> ${dados.status} <br>
+          <strong>Servidor:</strong> ${dados.servidor} <br>
+          <strong>Origem:</strong> ${dados.cidade}
+        `;
+      } catch (erro) {
+        resultadoStatus.className = 'alert alert-danger mb-0';
+        resultadoStatus.innerHTML = `
+          <strong>Erro de Conexão:</strong> Não foi possível acessar a API.<br>
+          <small>Verifique se o <code>server.py</code> está rodando ou se houve bloqueio de CORS.</small>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

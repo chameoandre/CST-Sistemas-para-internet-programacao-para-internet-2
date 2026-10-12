@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 4: Tratamento de Falhas & Spinners</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 520px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 4: Resiliência & Spinner</h5>
+        <p class="text-muted small">
+          Controle de estados de carregamento (<em>Loading State</em>) e tratamento resiliente de falhas de rede com <code>try...catch...finally</code>.
+        </p>
+
+        <button id="btnVerificar" class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2 mb-3">
+          <span id="iconeBotao"><i class="bi bi-arrow-repeat"></i></span>
+          <span id="spinnerCarregamento" class="spinner-border spinner-border-sm d-none" role="status"></span>
+          <span id="textoBotao">Testar Conexão com o Servidor</span>
+        </button>
+
+        <div id="caixaAlerta" class="alert d-none mb-0" role="alert">
+          <!-- Mensagem amigável de sucesso ou erro -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnVerificar = document.getElementById('btnVerificar');
+    const iconeBotao = document.getElementById('iconeBotao');
+    const spinnerCarregamento = document.getElementById('spinnerCarregamento');
+    const textoBotao = document.getElementById('textoBotao');
+    const caixaAlerta = document.getElementById('caixaAlerta');
+
+    btnVerificar.addEventListener('click', async () => {
+      // 1. Início do carregamento: ativa o spinner e desabilita o botão
+      btnVerificar.disabled = true;
+      iconeBotao.classList.add('d-none');
+      spinnerCarregamento.classList.remove('d-none');
+      textoBotao.textContent = 'Consultando Servidor...';
+      caixaAlerta.classList.add('d-none');
+
+      try {
+        // Tenta buscar o endpoint do Flask (porta 5000)
+        const resposta = await fetch('http://127.0.0.1:5000/api/status');
+
+        if (!resposta.ok) {
+          throw new Error(`O servidor retornou o código de erro HTTP ${resposta.status}.`);
+        }
+
+        const dados = await resposta.json();
+
+        // 2. Cenário de sucesso
+        caixaAlerta.className = 'alert alert-success mb-0';
+        caixaAlerta.innerHTML = `
+          <i class="bi bi-check-circle-fill me-1"></i>
+          <strong>API Online!</strong> Conectado com sucesso ao servidor (${dados.servidor}).
+        `;
+      } catch (erro) {
+        // 3. Cenário de falha (ex: servidor desligado, URL incorreta ou falha de rede)
+        caixaAlerta.className = 'alert alert-danger mb-0';
+        caixaAlerta.innerHTML = `
+          <i class="bi bi-exclamation-triangle-fill me-1"></i>
+          <strong>Falha de Conectividade:</strong> Não foi possível falar com a API.<br>
+          <small class="text-muted">Detalhe: ${erro.message}</small>
+        `;
+      } finally {
+        // 4. O bloco FINALLY é SEMPRE executado, garantindo que o spinner nunca trave na tela
+        spinnerCarregamento.classList.add('d-none');
+        iconeBotao.classList.remove('d-none');
+        textoBotao.textContent = 'Testar Conexão com o Servidor';
+        btnVerificar.disabled = false;
+        caixaAlerta.classList.remove('d-none');
+      }
+    });
+  </script>
+</body>
+</html>
