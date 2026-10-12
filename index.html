@@ -501,6 +501,82 @@
       background: linear-gradient(160deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.08) 100%);
     }
 
+    /* ROTEIROS HERO BANNER COM ILUSTRAÇÃO CLIPART */
+    .roteiro-hero-banner {
+      background: linear-gradient(135deg, rgba(5, 150, 105, 0.08) 0%, rgba(2, 132, 199, 0.06) 50%, rgba(124, 58, 237, 0.05) 100%), var(--bg-card);
+      border: 1px solid rgba(5, 150, 105, 0.22);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.8rem;
+    }
+
+    [data-theme="dark"] .roteiro-hero-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(168, 85, 247, 0.08) 100%), var(--bg-card);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .roteiro-hero-content {
+      flex: 1 1 58%;
+    }
+
+    .roteiro-hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-heading);
+      margin-bottom: 0.55rem;
+      line-height: 1.25;
+    }
+
+    .roteiro-hero-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+
+    .roteiro-hero-image {
+      flex: 0 0 38%;
+      max-width: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .clipart-illustration {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 12px;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.1));
+      transition: transform 0.3s ease;
+    }
+
+    .clipart-illustration:hover {
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 900px) {
+      .roteiro-hero-banner {
+        flex-direction: column-reverse;
+        text-align: left;
+        gap: 1.4rem;
+        padding: 1.25rem;
+      }
+      .roteiro-hero-image {
+        max-width: 320px;
+        width: 100%;
+      }
+    }
+
     .btn-action {
       font-family: 'Outfit', sans-serif;
       font-weight: 700;
@@ -928,8 +1004,18 @@
     <!-- TOP KPI CARDS (INTERATIVOS) -->
     <div class="kpi-grid">
       
-      <!-- KPI 1 -->
-      <div class="kpi-card kpi-green" onclick="showTab('tab-cronograma')">
+      <!-- KPI 1 (DESTAQUE: CENTRAL DE ROTEIROS PRÁTICOS) -->
+      <div class="kpi-card kpi-green" onclick="showTab('tab-roteiros')">
+        <div class="kpi-header">
+          <span class="kpi-title">Caderno de Roteiros Práticos</span>
+          <i class="bi bi-code-square kpi-icon"></i>
+        </div>
+        <div class="kpi-value">7 Roteiros</div>
+        <div class="kpi-desc"><strong>Guias práticos estruturados</strong>, arquitetura modular ES6, protótipos e laboratórios contínuos.</div>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="kpi-card kpi-blue" onclick="showTab('tab-cronograma')">
         <div class="kpi-header">
           <span class="kpi-title">Carga Horária Semestral</span>
           <i class="bi bi-calendar3 kpi-icon"></i>
@@ -938,7 +1024,7 @@
         <div class="kpi-desc">20 Encontros semanais de 3h/aula em laboratório de informática.</div>
       </div>
 
-      <!-- KPI 2 -->
+      <!-- KPI 3 -->
       <div class="kpi-card kpi-purple" onclick="showTab('tab-extensao')">
         <div class="kpi-header">
           <span class="kpi-title">Curricularização da Extensão</span>
@@ -948,18 +1034,8 @@
         <div class="kpi-desc">SNCT 2026 (Minicursos / Resumo Expandido) e submissão ao COTB.</div>
       </div>
 
-      <!-- KPI 3 -->
-      <div class="kpi-card kpi-amber" onclick="showTab('tab-roteiros')">
-        <div class="kpi-header">
-          <span class="kpi-title">Caderno de Práticas</span>
-          <i class="bi bi-journal-code kpi-icon"></i>
-        </div>
-        <div class="kpi-value">7 Roteiros</div>
-        <div class="kpi-desc"><strong>14 Envios no SIGAA</strong> (Atividade 1 - Roteiro 03). Prorrogado para terça em aula.</div>
-      </div>
-
       <!-- KPI 4 -->
-      <div class="kpi-card kpi-blue" onclick="showTab('tab-avaliacao')">
+      <div class="kpi-card kpi-amber" onclick="showTab('tab-avaliacao')">
         <div class="kpi-header">
           <span class="kpi-title">Sistema Avaliativo</span>
           <i class="bi bi-award-fill kpi-icon"></i>
@@ -972,11 +1048,11 @@
 
     <!-- ABAS DO DASHBOARD -->
     <div class="dashboard-tabs">
-      <button class="tab-btn active" onclick="showTab('tab-cronograma')">
-        <i class="bi bi-calendar-range-fill"></i> 1. Cronograma &amp; Encontros (20 Aulas)
+      <button class="tab-btn active" onclick="showTab('tab-roteiros')">
+        <i class="bi bi-code-square"></i> 1. Central de Roteiros Práticos
       </button>
-      <button class="tab-btn" onclick="showTab('tab-roteiros')">
-        <i class="bi bi-code-square"></i> 2. Central de Roteiros Práticos
+      <button class="tab-btn" onclick="showTab('tab-cronograma')">
+        <i class="bi bi-calendar-range-fill"></i> 2. Cronograma &amp; Encontros (20 Aulas)
       </button>
       <button class="tab-btn" onclick="showTab('tab-extensao')">
         <i class="bi bi-megaphone-fill"></i> 3. Curricularização da Extensão (40h)
@@ -994,249 +1070,31 @@
 
     <!-- CONTEÚDO DAS ABAS -->
 
-    <!-- ABA 1: CRONOGRAMA -->
-    <div class="tab-pane active" id="tab-cronograma">
+    <!-- ABA 1: CENTRAL DE ROTEIROS PRÁTICOS (DESTAQUE) -->
+    <div class="tab-pane active" id="tab-roteiros">
       <div class="panel-card">
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-          <div>
-            <h2 class="panel-title mb-1"><i class="bi bi-clock-history text-success"></i> Cronograma Semestral e Planejamento das 20 Aulas</h2>
-            <p class="panel-subtitle mb-0">Distribuição modular dos 20 encontros semanais (3h cada = 60h presenciais em laboratório) vinculados às atividades curriculares:</p>
+        <!-- BANNER DE DESTAQUE COM ILUSTRAÇÃO CLIPART -->
+        <div class="roteiro-hero-banner">
+          <div class="roteiro-hero-content">
+            <span class="badge-pill badge-pill-green mb-2"><i class="bi bi-code-slash"></i> Laboratório de Desenvolvimento Web</span>
+            <h2 class="roteiro-hero-title">Desenvolvimento Frontend Moderno &amp; Arquitetura Modular</h2>
+            <p class="roteiro-hero-desc">
+              Central prática orientada a projetos reais: do design responsivo com <strong>Bootstrap 5</strong> à manipulação do DOM com <strong>jQuery</strong>, arquitetura modular em camadas (<strong>ES6 Modules</strong>) e consumo de APIs REST com <strong>Fetch API</strong>.
+            </p>
+            <div class="d-flex align-items-center gap-2 flex-wrap mt-3">
+              <span class="tech-tag tech-tag-green"><i class="bi bi-check2-circle"></i> 7 Roteiros Práticos</span>
+              <span class="tech-tag tech-tag-blue"><i class="bi bi-layers"></i> Arquitetura em Camadas</span>
+              <span class="tech-tag tech-tag-purple"><i class="bi bi-boxes"></i> ES6 Modules &amp; MVC</span>
+              <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="btn-action btn-primary-action py-1 px-3">
+                <i class="bi bi-shop"></i> Executar App Vitrine Atual (Roteiro 04)
+              </a>
+            </div>
           </div>
-          <a href="encerramento_do_semestre/plano_de_ensino.pdf" target="_blank" class="btn-action btn-outline-action">
-            <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Baixar Plano de Ensino Oficial (PDF)
-          </a>
-        </div>
-
-        <div class="sigaa-meta-strip mb-3">
-          <div class="d-flex align-items-center gap-2 flex-wrap">
-            <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
-              <i class="bi bi-check2-all"></i> 4 Aulas Concluídas (Módulo 1)
-            </span>
-            <span class="badge bg-purple-subtle text-purple fw-bold px-2 py-1 rounded" style="color: var(--accent-purple);">
-              <i class="bi bi-broadcast"></i> Tópico Atual: Aula 05 (Módulo 2 — ES6 Modules)
-            </span>
-            <span class="badge bg-warning-subtle text-warning fw-bold px-2 py-1 rounded">
-              <i class="bi bi-pin-angle-fill"></i> Atividade 1 no SIGAA (14 envios registrados)
-            </span>
-          </div>
-          <div class="text-muted small">
-            <i class="bi bi-geo-alt-fill text-danger me-1"></i> Ponto de avanço atual da turma: <strong>Roteiro 04 (Arquitetura Modular em Camadas)</strong>
+          <div class="roteiro-hero-image">
+            <img src="figures/clipart_progweb2.jpg" alt="Ilustração Educacional de Desenvolvimento Web - ProgWeb 2" class="clipart-illustration">
           </div>
         </div>
 
-        <div class="timeline-list">
-
-          <!-- ENCONTRO 01 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 01</div>
-            <div class="timeline-content">
-              <h4>Módulo 1: Retomada &amp; Transição Parte 1 (Bootstrap 5)</h4>
-              <p>Transição ProgWeb 1 para ProgWeb 2, inclusão de CDN Bootstrap 5, Grid de 12 colunas, formulários estilizados, cards, badges e layout estático completo (Roteiro 01).</p>
-            </div>
-            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído</span></div>
-          </div>
-
-          <!-- ENCONTRO 02 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 02</div>
-            <div class="timeline-content">
-              <h4>Módulo 1: Retomada &amp; Transição Parte 2 (jQuery &amp; LocalStorage)</h4>
-              <p>Inclusão do jQuery, seletores avançados, eventos (<code>submit</code>, <code>click</code>), inserção dinâmica (<code>.append()</code>), animações e persistência com LocalStorage (Roteiro 02).</p>
-            </div>
-            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído</span></div>
-          </div>
-
-          <!-- ENCONTRO 03 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 03</div>
-            <div class="timeline-content">
-              <h4>Persistência Local no Navegador &amp; Calculadora de Pedidos (Roteiro 03)</h4>
-              <p>Aplicação em tempo real de cálculos numéricos (<code>parseFloat</code>/<code>parseInt</code> com fallback <code>|| 0</code>), switches e LocalStorage. <strong>Submissão ativa no SIGAA com 14 envios registrados (prazo presencial estendido para a próxima terça em aula).</strong></p>
-            </div>
-            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span></div>
-          </div>
-
-          <!-- ENCONTRO 04 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 04</div>
-            <div class="timeline-content">
-              <h4>Formulários Reativos, Modais &amp; Validação Visual (Bootstrap 5)</h4>
-              <p>Validação de formulários no cliente (<code>.is-valid</code>/<code>.is-invalid</code>), abertura programática de Modais interativos (<code>bootstrap.Modal</code>), Toasts não-bloqueantes e princípios de UX aplicados ao Roteiro 04.</p>
-            </div>
-            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span></div>
-          </div>
-
-          <!-- ENCONTRO 05 -->
-          <div class="timeline-item" style="border-left: 4px solid var(--accent-purple); background: rgba(124, 58, 237, 0.04);">
-            <div class="timeline-num" style="color: var(--accent-purple); border-color: var(--accent-purple);">Aula 05</div>
-            <div class="timeline-content">
-              <h4 style="color: var(--accent-purple);"><i class="bi bi-stars me-1"></i> Módulo 2: Arquitetura Modular &amp; JavaScript ES6 Modules (Roteiro 04)</h4>
-              <p>Separação profissional de responsabilidades em camadas no client-side: Serviços de Dados (<code>services/</code>), Renderizadores de Interface (<code>views/</code>) e Utilitários (<code>utils/</code>). Uso de <code>import</code>/<code>export</code> nativo, escopo estrito e desenvolvimento da Vitrine Comunitária de Serviços.</p>
-            </div>
-            <div>
-              <span class="status-badge" style="background: rgba(124, 58, 237, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple); animation: pulseAlert 2s infinite;">
-                <i class="bi bi-broadcast"></i> Em Andamento (Tópico Atual)
-              </span>
-            </div>
-          </div>
-
-          <!-- ENCONTRO 06 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 06</div>
-            <div class="timeline-content">
-              <h4>Padrões de Projeto no Client-Side &amp; Refatoração da Vitrine</h4>
-              <p>Consolidação da arquitetura modular, filtros dinâmicos por categoria, CRUD completo com LocalStorage e mentoria prática individualizada em laboratório.</p>
-            </div>
-            <div><span class="status-badge status-next"><i class="bi bi-calendar-event"></i> Próxima Aula</span></div>
-          </div>
-
-          <!-- ENCONTRO 07 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 07</div>
-            <div class="timeline-content">
-              <h4>Refatoração Modular Aplicada</h4>
-              <p>Transição de scripts monolíticos para arquitetura limpa em ES6 Modules com mentoria prática individualizada em laboratório.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 08 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 08</div>
-            <div class="timeline-content">
-              <h4>Módulo 3: Assincronismo &amp; Backend RESTful em Flask (Roteiro 05)</h4>
-              <p>Conceito de requisições assíncronas, <code>Promises</code>, <code>async/await</code> e inicialização do microbackend em Python Flask com banco de dados SQLite persistente (<code>vitrine.db</code>) e cabeçalhos CORS.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 09 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 09</div>
-            <div class="timeline-content">
-              <h4>Integração Frontend-Backend com Fetch API (Roteiro 05)</h4>
-              <p>Refatoração do <code>vitrineService.js</code> com a Fetch API nativa (<code>GET</code>, <code>POST</code>, <code>DELETE</code>), gravação direta no banco de dados SQLite e chaveamento inteligente para contingência no LocalStorage.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 10 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 10</div>
-            <div class="timeline-content">
-              <h4>Tratamento Avançado de Erros e Feedbacks Visuais</h4>
-              <p>Estados de carregamento (<em>spinners</em>), notificações <em>toasts</em>, alertas de falha de conexão e tratamento de códigos HTTP de resposta (404, 500).</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 11 -->
-          <div class="timeline-item" style="border-left: 4px solid var(--accent-rose);">
-            <div class="timeline-num" style="color: var(--accent-rose); border-color: var(--accent-rose);">Aula 11</div>
-            <div class="timeline-content">
-              <h4>Avaliação Teórica Única (A1 — Peso 25%)</h4>
-              <p>Avaliação teórica individual sobre arquitetura modular ES6, assincronismo, protocolo HTTP e integração com APIs RESTful.</p>
-            </div>
-            <div><span class="status-badge" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border: 1px solid var(--accent-rose);">Avaliação A1</span></div>
-          </div>
-
-          <!-- ENCONTRO 12 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 12</div>
-            <div class="timeline-content">
-              <h4>Módulo 4: Single Page Applications (SPAs)</h4>
-              <p>Arquitetura de aplicações de página única, roteamento no lado do cliente via JavaScript sem recarregamento de página (Client-Side Routing).</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 13 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 13</div>
-            <div class="timeline-content">
-              <h4>Gerenciamento de Estado Global no Cliente</h4>
-              <p>Padrões de gestão de estado reativo, sincronização entre componentes e persistência em memória durante a navegação.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 14 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 14</div>
-            <div class="timeline-content">
-              <h4>Módulo 5: Ecossistemas Web Modernos (Node.js &amp; npm)</h4>
-              <p>Introdução ao ecossistema moderno de ferramentas, inicialização de pacotes, dependências de desenvolvimento e scripts de automação.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 15 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 15</div>
-            <div class="timeline-content">
-              <h4>Ferramentas de Build \& Bundlers (Vite)</h4>
-              <p>Configuração do ambiente de desenvolvimento rápido com Vite, Hot Module Replacement (HMR), minificação e variáveis de ambiente.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 16 -->
-          <div class="timeline-item" style="border-left: 4px solid var(--accent-purple);">
-            <div class="timeline-num" style="color: var(--accent-purple); border-color: var(--accent-purple);">Aula 16</div>
-            <div class="timeline-content">
-              <h4>Lançamento do Projeto Integrador de Extensão (A3 — SNCT / COTB)</h4>
-              <p>Definição dos temas com impacto comunitário e escolha da via extensionista (Minicursos na SNCT ou Resumo Expandido de Produto Web).</p>
-            </div>
-            <div><span class="status-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple);">Extensão (40h)</span></div>
-          </div>
-
-          <!-- ENCONTRO 17 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 17</div>
-            <div class="timeline-content">
-              <h4>Desenvolvimento Guiado do Projeto Final em Laboratório</h4>
-              <p>Mentoria técnica, integração do frontend modular com serviços web, persistência e validação dos fluxos de usuário.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 18 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 18</div>
-            <div class="timeline-content">
-              <h4>Mentoria Avançada, Acessibilidade \& Testes de Usabilidade</h4>
-              <p>Refatoração de código, testes de responsividade em múltiplos dispositivos, conformidade com acessibilidade e publicação no GitHub Pages.</p>
-            </div>
-            <div><span class="status-badge status-next">Planejado</span></div>
-          </div>
-
-          <!-- ENCONTRO 19 -->
-          <div class="timeline-item" style="border-left: 4px solid var(--accent-emerald);">
-            <div class="timeline-num" style="color: var(--accent-emerald); border-color: var(--accent-emerald);">Aula 19</div>
-            <div class="timeline-content">
-              <h4>Apresentação e Defesa do Projeto Integrador de Extensão (A3)</h4>
-              <p>Bancas avaliativas com demonstração prática ao vivo da aplicação web hospedada no GitHub Pages e apresentação dos resultados da ação extensionista.</p>
-            </div>
-            <div><span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid var(--accent-emerald);">Bancas A3</span></div>
-          </div>
-
-          <!-- ENCONTRO 20 -->
-          <div class="timeline-item">
-            <div class="timeline-num">Aula 20</div>
-            <div class="timeline-content">
-              <h4>Encerramento do Semestre \& Recuperação Paralela</h4>
-              <p>Reavaliações orientadas, consolidação dos diários de classe no SIGAA e encerramento das atividades letivas.</p>
-            </div>
-            <div><span class="status-badge status-next">Encerramento</span></div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- ABA 2: ROTEIROS PRÁTICOS -->
-    <div class="tab-pane" id="tab-roteiros">
-      <div class="panel-card">
         
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
           <div>
@@ -1511,6 +1369,246 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- ABA 2: CRONOGRAMA & ENCONTROS (20 AULAS) -->
+    <div class="tab-pane" id="tab-cronograma">
+      <div class="panel-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="bi bi-clock-history text-success"></i> Cronograma Semestral e Planejamento das 20 Aulas</h2>
+            <p class="panel-subtitle mb-0">Distribuição modular dos 20 encontros semanais (3h cada = 60h presenciais em laboratório) vinculados às atividades curriculares:</p>
+          </div>
+          <a href="encerramento_do_semestre/plano_de_ensino.pdf" target="_blank" class="btn-action btn-outline-action">
+            <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Baixar Plano de Ensino Oficial (PDF)
+          </a>
+        </div>
+
+        <div class="sigaa-meta-strip mb-3">
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="badge bg-success-subtle text-success fw-bold px-2 py-1 rounded">
+              <i class="bi bi-check2-all"></i> 4 Aulas Concluídas (Módulo 1)
+            </span>
+            <span class="badge bg-purple-subtle text-purple fw-bold px-2 py-1 rounded" style="color: var(--accent-purple);">
+              <i class="bi bi-broadcast"></i> Tópico Atual: Aula 05 (Módulo 2 — ES6 Modules)
+            </span>
+            <span class="badge bg-warning-subtle text-warning fw-bold px-2 py-1 rounded">
+              <i class="bi bi-pin-angle-fill"></i> Atividade 1 no SIGAA (14 envios registrados)
+            </span>
+          </div>
+          <div class="text-muted small">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i> Ponto de avanço atual da turma: <strong>Roteiro 04 (Arquitetura Modular em Camadas)</strong>
+          </div>
+        </div>
+
+        <div class="timeline-list">
+
+          <!-- ENCONTRO 01 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 01</div>
+            <div class="timeline-content">
+              <h4>Módulo 1: Retomada &amp; Transição Parte 1 (Bootstrap 5)</h4>
+              <p>Transição ProgWeb 1 para ProgWeb 2, inclusão de CDN Bootstrap 5, Grid de 12 colunas, formulários estilizados, cards, badges e layout estático completo (Roteiro 01).</p>
+            </div>
+            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído</span></div>
+          </div>
+
+          <!-- ENCONTRO 02 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 02</div>
+            <div class="timeline-content">
+              <h4>Módulo 1: Retomada &amp; Transição Parte 2 (jQuery &amp; LocalStorage)</h4>
+              <p>Inclusão do jQuery, seletores avançados, eventos (<code>submit</code>, <code>click</code>), inserção dinâmica (<code>.append()</code>), animações e persistência com LocalStorage (Roteiro 02).</p>
+            </div>
+            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído</span></div>
+          </div>
+
+          <!-- ENCONTRO 03 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 03</div>
+            <div class="timeline-content">
+              <h4>Persistência Local no Navegador &amp; Calculadora de Pedidos (Roteiro 03)</h4>
+              <p>Aplicação em tempo real de cálculos numéricos (<code>parseFloat</code>/<code>parseInt</code> com fallback <code>|| 0</code>), switches e LocalStorage. <strong>Submissão ativa no SIGAA com 14 envios registrados (prazo presencial estendido para a próxima terça em aula).</strong></p>
+            </div>
+            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span></div>
+          </div>
+
+          <!-- ENCONTRO 04 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 04</div>
+            <div class="timeline-content">
+              <h4>Formulários Reativos, Modais &amp; Validação Visual (Bootstrap 5)</h4>
+              <p>Validação de formulários no cliente (<code>.is-valid</code>/<code>.is-invalid</code>), abertura programática de Modais interativos (<code>bootstrap.Modal</code>), Toasts não-bloqueantes e princípios de UX aplicados ao Roteiro 04.</p>
+            </div>
+            <div><span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span></div>
+          </div>
+
+          <!-- ENCONTRO 05 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-purple); background: rgba(124, 58, 237, 0.04);">
+            <div class="timeline-num" style="color: var(--accent-purple); border-color: var(--accent-purple);">Aula 05</div>
+            <div class="timeline-content">
+              <h4 style="color: var(--accent-purple);"><i class="bi bi-stars me-1"></i> Módulo 2: Arquitetura Modular &amp; JavaScript ES6 Modules (Roteiro 04)</h4>
+              <p>Separação profissional de responsabilidades em camadas no client-side: Serviços de Dados (<code>services/</code>), Renderizadores de Interface (<code>views/</code>) e Utilitários (<code>utils/</code>). Uso de <code>import</code>/<code>export</code> nativo, escopo estrito e desenvolvimento da Vitrine Comunitária de Serviços.</p>
+            </div>
+            <div>
+              <span class="status-badge" style="background: rgba(124, 58, 237, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple); animation: pulseAlert 2s infinite;">
+                <i class="bi bi-broadcast"></i> Em Andamento (Tópico Atual)
+              </span>
+            </div>
+          </div>
+
+          <!-- ENCONTRO 06 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 06</div>
+            <div class="timeline-content">
+              <h4>Padrões de Projeto no Client-Side &amp; Refatoração da Vitrine</h4>
+              <p>Consolidação da arquitetura modular, filtros dinâmicos por categoria, CRUD completo com LocalStorage e mentoria prática individualizada em laboratório.</p>
+            </div>
+            <div><span class="status-badge status-next"><i class="bi bi-calendar-event"></i> Próxima Aula</span></div>
+          </div>
+
+          <!-- ENCONTRO 07 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 07</div>
+            <div class="timeline-content">
+              <h4>Refatoração Modular Aplicada</h4>
+              <p>Transição de scripts monolíticos para arquitetura limpa em ES6 Modules com mentoria prática individualizada em laboratório.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 08 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 08</div>
+            <div class="timeline-content">
+              <h4>Módulo 3: Assincronismo &amp; Backend RESTful em Flask (Roteiro 05)</h4>
+              <p>Conceito de requisições assíncronas, <code>Promises</code>, <code>async/await</code> e inicialização do microbackend em Python Flask com banco de dados SQLite persistente (<code>vitrine.db</code>) e cabeçalhos CORS.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 09 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 09</div>
+            <div class="timeline-content">
+              <h4>Integração Frontend-Backend com Fetch API (Roteiro 05)</h4>
+              <p>Refatoração do <code>vitrineService.js</code> com a Fetch API nativa (<code>GET</code>, <code>POST</code>, <code>DELETE</code>), gravação direta no banco de dados SQLite e chaveamento inteligente para contingência no LocalStorage.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 10 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 10</div>
+            <div class="timeline-content">
+              <h4>Tratamento Avançado de Erros e Feedbacks Visuais</h4>
+              <p>Estados de carregamento (<em>spinners</em>), notificações <em>toasts</em>, alertas de falha de conexão e tratamento de códigos HTTP de resposta (404, 500).</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 11 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-rose);">
+            <div class="timeline-num" style="color: var(--accent-rose); border-color: var(--accent-rose);">Aula 11</div>
+            <div class="timeline-content">
+              <h4>Avaliação Teórica Única (A1 — Peso 25%)</h4>
+              <p>Avaliação teórica individual sobre arquitetura modular ES6, assincronismo, protocolo HTTP e integração com APIs RESTful.</p>
+            </div>
+            <div><span class="status-badge" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border: 1px solid var(--accent-rose);">Avaliação A1</span></div>
+          </div>
+
+          <!-- ENCONTRO 12 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 12</div>
+            <div class="timeline-content">
+              <h4>Módulo 4: Single Page Applications (SPAs)</h4>
+              <p>Arquitetura de aplicações de página única, roteamento no lado do cliente via JavaScript sem recarregamento de página (Client-Side Routing).</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 13 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 13</div>
+            <div class="timeline-content">
+              <h4>Gerenciamento de Estado Global no Cliente</h4>
+              <p>Padrões de gestão de estado reativo, sincronização entre componentes e persistência em memória durante a navegação.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 14 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 14</div>
+            <div class="timeline-content">
+              <h4>Módulo 5: Ecossistemas Web Modernos (Node.js &amp; npm)</h4>
+              <p>Introdução ao ecossistema moderno de ferramentas, inicialização de pacotes, dependências de desenvolvimento e scripts de automação.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 15 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 15</div>
+            <div class="timeline-content">
+              <h4>Ferramentas de Build \& Bundlers (Vite)</h4>
+              <p>Configuração do ambiente de desenvolvimento rápido com Vite, Hot Module Replacement (HMR), minificação e variáveis de ambiente.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 16 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-purple);">
+            <div class="timeline-num" style="color: var(--accent-purple); border-color: var(--accent-purple);">Aula 16</div>
+            <div class="timeline-content">
+              <h4>Lançamento do Projeto Integrador de Extensão (A3 — SNCT / COTB)</h4>
+              <p>Definição dos temas com impacto comunitário e escolha da via extensionista (Minicursos na SNCT ou Resumo Expandido de Produto Web).</p>
+            </div>
+            <div><span class="status-badge" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); border: 1px solid var(--accent-purple);">Extensão (40h)</span></div>
+          </div>
+
+          <!-- ENCONTRO 17 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 17</div>
+            <div class="timeline-content">
+              <h4>Desenvolvimento Guiado do Projeto Final em Laboratório</h4>
+              <p>Mentoria técnica, integração do frontend modular com serviços web, persistência e validação dos fluxos de usuário.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 18 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 18</div>
+            <div class="timeline-content">
+              <h4>Mentoria Avançada, Acessibilidade \& Testes de Usabilidade</h4>
+              <p>Refatoração de código, testes de responsividade em múltiplos dispositivos, conformidade com acessibilidade e publicação no GitHub Pages.</p>
+            </div>
+            <div><span class="status-badge status-next">Planejado</span></div>
+          </div>
+
+          <!-- ENCONTRO 19 -->
+          <div class="timeline-item" style="border-left: 4px solid var(--accent-emerald);">
+            <div class="timeline-num" style="color: var(--accent-emerald); border-color: var(--accent-emerald);">Aula 19</div>
+            <div class="timeline-content">
+              <h4>Apresentação e Defesa do Projeto Integrador de Extensão (A3)</h4>
+              <p>Bancas avaliativas com demonstração prática ao vivo da aplicação web hospedada no GitHub Pages e apresentação dos resultados da ação extensionista.</p>
+            </div>
+            <div><span class="status-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); border: 1px solid var(--accent-emerald);">Bancas A3</span></div>
+          </div>
+
+          <!-- ENCONTRO 20 -->
+          <div class="timeline-item">
+            <div class="timeline-num">Aula 20</div>
+            <div class="timeline-content">
+              <h4>Encerramento do Semestre &amp; Recuperação Paralela</h4>
+              <p>Reavaliações orientadas, consolidação dos diários de classe no SIGAA e encerramento das atividades letivas.</p>
+            </div>
+            <div><span class="status-badge status-next">Encerramento</span></div>
+          </div>
+
+        </div>
       </div>
     </div>
 
@@ -2462,6 +2560,14 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         updateThemeIcon('light');
       }
     })();
+
+    // VERIFICAR HASH DA URL NA CARGA (PADRÃO: ABA ROTEIROS SE NÃO HOUVER HASH)
+    window.addEventListener("DOMContentLoaded", () => {
+      const hash = window.location.hash ? window.location.hash.substring(1) : "";
+      if (hash && document.getElementById(hash)) {
+        showTab(hash, false);
+      }
+    });
   </script>
 
 </body>
