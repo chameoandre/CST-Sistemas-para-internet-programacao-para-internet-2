@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roteiro 05: Fetch API, Flask & SQLite — Slides Interativos (IFSC)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    :root {
+      --ifsc-green: #16a34a;
+      --ifsc-green-dark: #15803d;
+      --bg-dark: #090d16;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --accent-indigo: #6366f1;
+      --accent-indigo-light: #818cf8;
+      --accent-purple: #a855f7;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    .deck-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Fixo */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+      background: rgba(19, 27, 46, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand img {
+      height: 38px;
+      background: #ffffff;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      object-fit: contain;
+    }
+
+    .brand-text h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .badge-primary {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--accent-indigo-light);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Palco de Slides */
+    .slide-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 2.2rem 3.5rem;
+      overflow-y: auto;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(40px);
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      z-index: 10;
+    }
+
+    /* Tipografia de Slide */
+    .slide-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .slide-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-indigo-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .slide-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .slide-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      max-width: 900px;
+    }
+
+    /* Grids e Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      align-items: stretch;
+      flex: 1;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      flex: 1;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 12px 32px rgba(99, 102, 241, 0.15);
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-body-text {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Diagrama Arquitetural Vivo */
+    .arch-flow-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: rgba(13, 20, 36, 0.8);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .arch-node {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .arch-node.active-node {
+      border-color: var(--accent-indigo);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .arch-node .node-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .arch-node h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .arch-node .node-port {
+      display: inline-block;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-cyan);
+    }
+
+    .arch-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      color: var(--accent-indigo-light);
+      font-size: 0.8rem;
+      font-family: 'Fira Code', monospace;
+      padding: 0 0.5rem;
+    }
+
+    .arch-arrow {
+      font-size: 1.5rem;
+      animation: pulseArrow 2s infinite;
+    }
+
+    @keyframes pulseArrow {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+
+    /* Blocos de Código e Abas */
+    .code-box {
+      background: #0b0f19;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .code-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .code-dot.red { background: #ef4444; }
+    .code-dot.yellow { background: #f59e0b; }
+    .code-dot.green { background: #10b981; }
+
+    .code-box pre {
+      padding: 1rem;
+      overflow-x: auto;
+      line-height: 1.55;
+      color: #e2e8f0;
+      flex: 1;
+    }
+
+    /* Realce de sintaxe básico */
+    .token-kw { color: #c084fc; font-weight: 600; }
+    .token-fn { color: #38bdf8; }
+    .token-str { color: #4ade80; }
+    .token-cm { color: #64748b; font-style: italic; }
+    .token-num { color: #fb923c; }
+    .token-tag { color: #f87171; }
+    .token-attr { color: #60a5fa; }
+
+    /* Tags Interativas e Pílulas */
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .pill-tag.indigo { background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .pill-tag.emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .pill-tag.amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .pill-tag.cyan { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+
+    /* Footer e Controles */
+    .app-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2.5rem;
+      background: rgba(19, 27, 46, 0.9);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color);
+      z-index: 100;
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+      max-width: 480px;
+    }
+
+    .progress-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-indigo), var(--accent-purple));
+      width: 8.33%;
+      transition: width 0.3s ease;
+    }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: 'Fira Code', monospace;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .nav-controls {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--accent-indigo);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-fs {
+      padding: 0.5rem 0.8rem;
+    }
+
+    /* Checklist interativa */
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .checklist-item:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .checklist-item.checked {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .check-icon {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+
+    .checklist-item.checked .check-icon {
+      color: var(--accent-emerald);
+    }
+
+    /* Simulador de Status HTTP */
+    .status-badge-http {
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .status-200 { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .status-201 { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+    .status-400 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .status-500 { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+  </style>
+</head>
+<body>
+
+  <div class="deck-container">
+
+    <!-- Header Fixo -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="../../figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Câmpus Garopaba">
+        <div class="brand-text">
+          <h1>ProgWeb 2 — Roteiro 05: Assincronismo & RESTful API</h1>
+          <p>CST em Sistemas para a Internet | Prof. André Moraes</p>
+        </div>
+      </div>
+
+      <div class="header-badges">
+        <span class="badge badge-primary"><i class="bi bi-hdd-network-fill"></i> Módulo 3</span>
+        <span class="badge badge-success"><i class="bi bi-cpu-fill"></i> Python Flask + SQLite</span>
+      </div>
+    </header>
+
+    <!-- Palco de Slides -->
+    <main class="slide-stage">
+
+      <!-- SLIDE 1: CAPA -->
+      <section class="slide active">
+        <div class="grid-2">
+          <div style="display: flex; flex-direction: column; justify-content: center;">
+            <span class="slide-eyebrow"><i class="bi bi-stars"></i> Roteiro Prático 05</span>
+            <h2 class="slide-title" style="font-size: 2.6rem; margin-bottom: 1rem;">
+              Do LocalStorage ao <span style="background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Backend RESTful</span> Real
+            </h2>
+            <p class="slide-subtitle" style="margin-bottom: 1.8rem; line-height: 1.6;">
+              Nesta aula conectaremos o frontend moderno em <strong>Bootstrap 5 e ES6 Modules</strong> a um microservidor real em <strong>Python Flask</strong>, persistindo dados em banco relacional <strong>SQLite</strong> com total resiliência offline.
+            </p>
+
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2rem;">
+              <span class="pill-tag indigo"><i class="bi bi-arrow-left-right"></i> Fetch API & async/await</span>
+              <span class="pill-tag cyan"><i class="bi bi-shield-check"></i> CORS Security Policy</span>
+              <span class="pill-tag emerald"><i class="bi bi-database-fill"></i> SQLite 3 (vitrine.db)</span>
+              <span class="pill-tag amber"><i class="bi bi-arrow-repeat"></i> Fallback Resiliente</span>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+              <button class="nav-btn" onclick="nextSlide()" style="background: var(--accent-indigo); border-color: var(--accent-indigo); padding: 0.75rem 1.6rem; font-size: 0.95rem;">
+                Iniciar Aula <i class="bi bi-arrow-right-short"></i>
+              </button>
+              <a href="../main.pdf" target="_blank" class="nav-btn" style="text-decoration: none; padding: 0.75rem 1.4rem;">
+                <i class="bi bi-file-earmark-pdf"></i> Abrir PDF
+              </a>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(99, 102, 241, 0.4); box-shadow: 0 16px 40px rgba(0,0,0,0.6);">
+              <img src="../../figures/roteiro5_fetch_api.jpg" alt="Preview da Aplicação" style="width: 100%; height: auto; display: block; border-radius: inherit;">
+              <div style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(9, 13, 22, 0.95), transparent);">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #ffffff;"><i class="bi bi-shop me-1 text-success"></i> Vitrine Comunitária de Garopaba Conectada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: A GRANDE VIRADA ARQUITETURAL -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-arrow-left-right"></i> Evolução de Software</span>
+          <h2 class="slide-title">A Grande Virada: De Aplicação Isolada para a Nuvem</h2>
+          <p class="slide-subtitle">Por que o LocalStorage não basta para sistemas comerciais de médio e grande porte?</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--accent-amber);">
+            <div class="card-title">
+              <i class="bi bi-laptop text-warning"></i> Roteiro 04: Armazenamento Isolado
+            </div>
+            <p class="card-body-text" style="margin-bottom: 1rem;">
+              No <strong>Roteiro 04</strong>, os dados de serviços eram gravados exclusivamente no <code>localStorage</code> do navegador da máquina em que o usuário estava trabalhando.
+            </p>
+            <ul style="margin-left: 1.2rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;">
+              <li><strong>Dados presos:</strong> Se o estudante cadastrar no computador do lab, o colega ao lado não enxerga.</li>
+              <li><strong>Risco de perda:</strong> Limpar cache ou abrir aba anônima apaga todos os registros.</li>
+              <li><strong>Inviável comercialmente:</strong> Um cliente em Garopaba não consegue comprar se o catálogo vive no celular do lojista.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--accent-emerald);">
+            <div class="card-title">
+              <i class="bi bi-cloud-check-fill text-success"></i> Roteiro 05: Aplicação em Rede
+            </div>
+            <p class="card-body-text" style="margin-bottom: 1rem;">
+              No <strong>Roteiro 05</strong>, os dados saem do cliente e passam a residir em um <strong>Servidor Central com Banco de Dados Relacional</strong> acessível por toda a rede.
+            </p>
+            <ul style="margin-left: 1.2rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.7;">
+              <li><strong>Compartilhamento instantâneo:</strong> Qualquer pessoa na rede visualiza os novos cadastros.</li>
+              <li><strong>Persistência robusta:</strong> SQLite guarda os registros em arquivo com integridade relacional.</li>
+              <li><strong>Arquitetura Real:</strong> Separação limpa entre a interface (Frontend) e as regras de negócio (Backend).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: DIAGRAMA ARQUITETURAL VIVO -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-diagram-3-fill"></i> Visão Sistêmica</span>
+          <h2 class="slide-title">Topologia da Aplicação: 3 Camadas Integradas</h2>
+          <p class="slide-subtitle">Como as portas, protocolos e serviços conversam durante o ciclo de vida de uma requisição.</p>
+        </div>
+
+        <div class="arch-flow-container">
+          <!-- Nó 1: Frontend -->
+          <div class="arch-node active-node">
+            <span class="node-icon"><i class="bi bi-browser-chrome text-primary"></i></span>
+            <h4>Frontend Web</h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Bootstrap 5 + ES6 Modules</p>
+            <span class="node-port">Porta 5500 (Live Server)</span>
+          </div>
+
+          <!-- Conexão 1 -->
+          <div class="arch-connector">
+            <span>fetch()</span>
+            <span class="arch-arrow">➔</span>
+            <span style="font-size: 0.72rem; color: var(--accent-emerald);">JSON ⬅</span>
+          </div>
+
+          <!-- Nó 2: Backend Flask -->
+          <div class="arch-node active-node">
+            <span class="node-icon"><i class="bi bi-cpu-fill text-info"></i></span>
+            <h4>Backend RESTful</h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Python Flask + flask-cors</p>
+            <span class="node-port" style="color: var(--accent-indigo-light);">Porta 5000 (HTTP API)</span>
+          </div>
+
+          <!-- Conexão 2 -->
+          <div class="arch-connector">
+            <span>SQL</span>
+            <span class="arch-arrow">➔</span>
+            <span style="font-size: 0.72rem; color: var(--accent-emerald);">Rows ⬅</span>
+          </div>
+
+          <!-- Nó 3: SQLite -->
+          <div class="arch-node active-node">
+            <span class="node-icon"><i class="bi bi-database-fill-gear text-success"></i></span>
+            <h4>Banco Relacional</h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">SQLite 3 em Arquivo</p>
+            <span class="node-port" style="color: var(--accent-emerald);">vitrine.db (Local)</span>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title"><i class="bi bi-send-fill text-primary"></i> 1. Requisição Assíncrona</div>
+            <p class="card-body-text">O navegador dispara <code>fetch('http://127.0.0.1:5000/api/servicos')</code> em background sem bloquear o usuário.</p>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="bi bi-gear-wide-connected text-info"></i> 2. Roteamento Flask</div>
+            <p class="card-body-text">A rota <code>@app.route</code> processa os verbos HTTP, confere o CORS e executa a query relacional no SQLite.</p>
+          </div>
+          <div class="card">
+            <div class="card-title"><i class="bi bi-check2-circle text-success"></i> 3. Resposta em JSON</div>
+            <p class="card-body-text">O backend retorna o código de status HTTP correspondente acompanhado da carga útil codificada em JSON.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: VERBOS HTTP E CÓDIGOS DE STATUS -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-hdd-stack"></i> Protocolo HTTP</span>
+          <h2 class="slide-title">Os 4 Verbos REST Essenciais & Seus Status</h2>
+          <p class="slide-subtitle">Cada ação sobre o catálogo de serviços utiliza um método HTTP semântico padronizado.</p>
+        </div>
+
+        <div class="grid-4" style="margin-bottom: 1.5rem;">
+          <div class="card" style="border-top: 3px solid var(--accent-emerald);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="pill-tag emerald">GET</span>
+              <span class="status-badge-http status-200">200 OK</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.3rem;">Consulta / Leitura</h4>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              Lê os serviços da comunidade. Não altera o banco. Seguro e idempotente.
+            </p>
+          </div>
+
+          <div class="card" style="border-top: 3px solid var(--accent-cyan);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="pill-tag cyan">POST</span>
+              <span class="status-badge-http status-201">201 Created</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.3rem;">Criação / Cadastro</h4>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              Envia novo serviço no corpo (body). O servidor gera ID automático no SQLite.
+            </p>
+          </div>
+
+          <div class="card" style="border-top: 3px solid var(--accent-amber);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="pill-tag amber">PUT</span>
+              <span class="status-badge-http status-200">200 OK</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.3rem;">Atualização / Edição</h4>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              Atualiza dados de serviço existente pelo seu ID (<code>/api/servicos/3</code>).
+            </p>
+          </div>
+
+          <div class="card" style="border-top: 3px solid var(--accent-red);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <span class="pill-tag" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">DELETE</span>
+              <span class="status-badge-http status-200">200 OK</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-bottom: 0.3rem;">Exclusão / Remoção</h4>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              Remove o registro correspondente da tabela com confirmação no cliente.
+            </p>
+          </div>
+        </div>
+
+        <div class="card" style="background: rgba(11, 15, 25, 0.9);">
+          <div class="card-title" style="font-size: 0.95rem;">
+            <i class="bi bi-info-circle-fill text-indigo"></i> Tabela Rápida de Códigos HTTP (RFC 9110)
+          </div>
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-muted);">
+            <div><span class="status-badge-http status-200">200 OK</span> Operação concluída com sucesso</div>
+            <div><span class="status-badge-http status-201">201 Created</span> Novo recurso gravado no banco</div>
+            <div><span class="status-badge-http status-400">400 Bad Request</span> Dados incompletos ou inválidos</div>
+            <div><span class="status-badge-http status-500">500 Server Error</span> Erro interno ou falha no SQLite</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: O ENIGMA DO CORS DESVENDADO -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-shield-lock-fill"></i> Segurança Web</span>
+          <h2 class="slide-title">Por que o Navegador Bloqueia? O Papel do CORS</h2>
+          <p class="slide-subtitle">A Política de Mesma Origem (SOP) e como o Flask autoriza a comunicação entre portas.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--accent-red);">
+            <div class="card-title">
+              <i class="bi bi-x-octagon-fill text-danger"></i> O Problema: Portas Diferentes = Origens Diferentes!
+            </div>
+            <p class="card-body-text" style="margin-bottom: 1rem;">
+              Uma <strong>Origem</strong> é definida por <code>Protocolo + Domínio + Porta</code>:
+            </p>
+            <div style="background: #090d16; padding: 0.8rem; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.85rem; margin-bottom: 1rem;">
+              <div style="color: #60a5fa;">Frontend: http://127.0.0.1:<span style="color: #fbbf24; font-weight: bold;">5500</span></div>
+              <div style="color: #f87171;">Backend : http://127.0.0.1:<span style="color: #fbbf24; font-weight: bold;">5000</span></div>
+            </div>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              Como as portas são diferentes, o navegador bloqueia a leitura por segurança, gerando o temido erro vermelho: <em>"Access to fetch has been blocked by CORS policy"</em>.
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--accent-emerald);">
+            <div class="card-title">
+              <i class="bi bi-shield-check text-success"></i> A Solução: Habilitar CORS no Flask
+            </div>
+            <p class="card-body-text" style="margin-bottom: 0.8rem;">
+              O servidor envia no cabeçalho de resposta uma autorização expressa:
+            </p>
+            <div class="code-box" style="margin-bottom: 0.8rem;">
+              <pre><code><span class="token-kw">from</span> flask <span class="token-kw">import</span> Flask
+<span class="token-kw">from</span> flask_cors <span class="token-kw">import</span> CORS
+
+app = Flask(__name__)
+<span class="token-cm"># Adiciona o cabeçalho: Access-Control-Allow-Origin: *</span>
+<span class="token-fn">CORS</span>(app)</code></pre>
+            </div>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              Com apenas 2 linhas em Python, o microbackend autoriza qualquer aplicação autorizada a consumir as rotas RESTful!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: PÍLULA 1 - FETCH GET -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-1-circle-fill"></i> Aquecimento Prático</span>
+          <h2 class="slide-title">Pílula 1: O <code>fetch()</code> Mínimo (GET com async/await)</h2>
+          <p class="slide-subtitle">Como carregar dados estruturados em JSON no cliente sem recarregar a página.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">mini-exemplos/01-fetch-get/index.html</span>
+            </div>
+            <pre><code><span class="token-kw">const</span> btnCarregar = document.<span class="token-fn">getElementById</span>(<span class="token-str">'btnCarregar'</span>);
+<span class="token-kw">const</span> lista = document.<span class="token-fn">getElementById</span>(<span class="token-str">'listaServicos'</span>);
+
+btnCarregar.<span class="token-fn">addEventListener</span>(<span class="token-str">'click'</span>, <span class="token-kw">async</span> () => {
+  <span class="token-kw">try</span> {
+    <span class="token-cm">// 1. Dispara a requisição HTTP assíncrona</span>
+    <span class="token-kw">const</span> resposta = <span class="token-kw">await</span> <span class="token-fn">fetch</span>(<span class="token-str">'dados.json'</span>);
+    
+    <span class="token-cm">// 2. Converte o texto JSON em vetor de objetos</span>
+    <span class="token-kw">const</span> servicos = <span class="token-kw">await</span> resposta.<span class="token-fn">json</span>();
+
+    <span class="token-cm">// 3. Renderiza os itens no DOM</span>
+    lista.innerHTML = <span class="token-str">''</span>;
+    servicos.<span class="token-fn">forEach</span>(s => {
+      <span class="token-kw">const</span> li = document.<span class="token-fn">createElement</span>(<span class="token-str">'li'</span>);
+      li.className = <span class="token-str">'list-group-item'</span>;
+      li.textContent = <span class="token-str">`${s.nome} - R$ ${s.preco.toFixed(2)}`</span>;
+      lista.<span class="token-fn">appendChild</span>(li);
+    });
+  } <span class="token-kw">catch</span> (erro) {
+    console.<span class="token-fn">error</span>(<span class="token-str">'Erro:'</span>, erro);
+  }
+});</code></pre>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card">
+              <div class="card-title"><i class="bi bi-lightbulb-fill text-warning"></i> Por que usar async/await?</div>
+              <p class="card-body-text">
+                A sintaxe <code>async/await</code> torna o código assíncrono tão legível quanto código sequencial convencional, eliminando o encadeamento confuso de múltiplos callbacks ou <code>.then()</code>.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i class="bi bi-play-circle-fill text-success"></i> Laboratório Imediato</div>
+              <p class="card-body-text" style="margin-bottom: 0.8rem;">
+                Os estudantes abrem a pasta <code>01-fetch-get</code> no VS Code com Live Server, clicam no botão e veem os dados de Garopaba surgirem no DOM instantaneamente.
+              </p>
+              <span class="pill-tag indigo" style="align-self: flex-start;"><i class="bi bi-clock"></i> Tempo: 8 minutos</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: PÍLULA 2 - MICRO FLASK -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-2-circle-fill"></i> Aquecimento Prático</span>
+          <h2 class="slide-title">Pílula 2: O Microservidor Flask em 15 Linhas</h2>
+          <p class="slide-subtitle">Construindo uma API real em Python e comprovando a liberação de CORS no navegador.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">mini-exemplos/02-micro-flask-cors/server.py</span>
+            </div>
+            <pre><code><span class="token-kw">from</span> flask <span class="token-kw">import</span> Flask, jsonify
+<span class="token-kw">from</span> flask_cors <span class="token-kw">import</span> CORS
+
+app = Flask(__name__)
+<span class="token-fn">CORS</span>(app)  <span class="token-cm"># Libera o acesso entre as portas 5500 e 5000</span>
+
+<span class="token-kw">@app.route</span>(<span class="token-str">'/api/status'</span>, methods=[<span class="token-str">'GET'</span>])
+<span class="token-kw">def</span> <span class="token-fn">obter_status</span>():
+    <span class="token-kw">return</span> <span class="token-fn">jsonify</span>({
+        <span class="token-str">"status"</span>: <span class="token-str">"online"</span>,
+        <span class="token-str">"servidor"</span>: <span class="token-str">"Micro API Flask"</span>,
+        <span class="token-str">"cidade"</span>: <span class="token-str">"Garopaba - SC"</span>
+    })
+
+<span class="token-kw">if</span> __name__ == <span class="token-str">'__main__'</span>:
+    app.<span class="token-fn">run</span>(port=<span class="token-num">5000</span>, debug=<span class="token-kw">True</span>)</code></pre>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card">
+              <div class="card-title"><i class="bi bi-terminal-fill text-info"></i> Execução em 1 Comando</div>
+              <p class="card-body-text" style="margin-bottom: 0.8rem;">
+                No terminal integrado do VS Code:
+              </p>
+              <div style="background: #090d16; padding: 0.6rem 0.8rem; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #4ade80;">
+                $ python server.py
+              </div>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--accent-indigo);">
+              <div class="card-title"><i class="bi bi-mortarboard-fill text-indigo"></i> O Momento "Eureca" da Aula</div>
+              <p class="card-body-text">
+                Peça para os alunos comentarem <code># CORS(app)</code>. Eles clicarão no botão e verão o erro de CORS vermelho no DevTools (F12). Ao descomentar, a mensagem verde aparece imediatamente!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: PÍLULA 3 - FETCH POST -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-3-circle-fill"></i> Aquecimento Prático</span>
+          <h2 class="slide-title">Pílula 3: Enviando Dados Estruturados (POST)</h2>
+          <p class="slide-subtitle">Os 3 mandamentos do envio de dados com a Fetch API e recepção no backend.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Fetch POST no JavaScript</span>
+            </div>
+            <pre><code><span class="token-kw">const</span> resposta = <span class="token-kw">await</span> <span class="token-fn">fetch</span>(<span class="token-str">'http://127.0.0.1:5000/api/cadastrar'</span>, {
+  <span class="token-cm">// 1. Verbo HTTP</span>
+  method: <span class="token-str">'POST'</span>,
+  
+  <span class="token-cm">// 2. Cabeçalho obrigatório informando JSON</span>
+  headers: {
+    <span class="token-str">'Content-Type'</span>: <span class="token-str">'application/json'</span>
+  },
+  
+  <span class="token-cm">// 3. Conversão do objeto em texto JSON</span>
+  body: JSON.<span class="token-fn">stringify</span>({
+    nome: campoNome.value,
+    preco: parseFloat(campoPreco.value)
+  })
+});
+
+<span class="token-kw">const</span> dados = <span class="token-kw">await</span> resposta.<span class="token-fn">json</span>();
+<span class="token-cm">// Resposta: status 201 Created</span></code></pre>
+          </div>
+
+          <div class="code-box">
+            <div class="code-box-header">
+              <span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Recepção no Flask (Python)</span>
+            </div>
+            <pre><code><span class="token-kw">@app.route</span>(<span class="token-str">'/api/cadastrar'</span>, methods=[<span class="token-str">'POST'</span>])
+<span class="token-kw">def</span> <span class="token-fn">cadastrar_servico</span>():
+    <span class="token-cm"># Captura e decodifica o payload JSON</span>
+    dados = request.<span class="token-fn">get_json</span>()
+    
+    <span class="token-kw">if</span> <span class="token-kw">not</span> dados <span class="token-kw">or</span> <span class="token-str">'nome'</span> <span class="token-kw">not</span> <span class="token-kw">in</span> dados:
+        <span class="token-kw">return</span> <span class="token-fn">jsonify</span>({<span class="token-str">"erro"</span>: <span class="token-str">"Invalido"</span>}), <span class="token-num">400</span>
+
+    novo_registro = {
+        <span class="token-str">"id"</span>: len(banco) + <span class="token-num">1</span>,
+        <span class="token-str">"nome"</span>: dados[<span class="token-str">'nome'</span>],
+        <span class="token-str">"preco"</span>: dados[<span class="token-str">'preco'</span>]
+    }
+    banco.<span class="token-fn">append</span>(novo_registro)
+
+    <span class="token-kw">return</span> <span class="token-fn">jsonify</span>({
+        <span class="token-str">"mensagem"</span>: <span class="token-str">"Cadastrado!"</span>,
+        <span class="token-str">"registro"</span>: novo_registro
+    }), <span class="token-num">201</span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: PÍLULA 4 - RESILIÊNCIA E SPINNER -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-4-circle-fill"></i> Aquecimento Prático</span>
+          <h2 class="slide-title">Pílula 4: Resiliência de Rede & Feedback com Spinner</h2>
+          <p class="slide-subtitle">Como tratar erros defensivamente no mundo real com o bloco <code>finally</code>.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="code-box">
+            <div class="code-box-header">
+              <span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">try...catch...finally com Spinner</span>
+            </div>
+            <pre><code><span class="token-cm">// 1. Ativa spinner e bloqueia botão</span>
+spinner.classList.<span class="token-fn">remove</span>(<span class="token-str">'d-none'</span>);
+btn.disabled = <span class="token-kw">true</span>;
+
+<span class="token-kw">try</span> {
+  <span class="token-kw">const</span> res = <span class="token-kw">await</span> <span class="token-fn">fetch</span>(<span class="token-str">'http://127.0.0.1:5000/api/status'</span>);
+  <span class="token-kw">if</span> (!res.ok) <span class="token-kw">throw new</span> <span class="token-fn">Error</span>(<span class="token-str">`Status ${res.status}`</span>);
+  
+  <span class="token-kw">const</span> dados = <span class="token-kw">await</span> res.<span class="token-fn">json</span>();
+  exibirAlertaSucesso(dados);
+
+} <span class="token-kw">catch</span> (erro) {
+  <span class="token-cm">// 2. Trata falhas de rede (servidor desligado, etc)</span>
+  exibirAlertaErro(erro.message);
+
+} <span class="token-kw">finally</span> {
+  <span class="token-cm">// 3. SEMPRE executado: desliga o spinner!</span>
+  spinner.classList.<span class="token-fn">add</span>(<span class="token-str">'d-none'</span>);
+  btn.disabled = <span class="token-kw">false</span>;
+}</code></pre>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card" style="border-left: 4px solid var(--accent-emerald);">
+              <div class="card-title"><i class="bi bi-shield-fill-check text-success"></i> O Poder do Bloco finally</div>
+              <p class="card-body-text">
+                Sem o bloco <code>finally</code>, se ocorresse um erro inesperado no bloco <code>try</code>, o spinner de carregamento ficaria girando na tela eternamente. O <code>finally</code> garante que a interface sempre retorne ao estado operacional!
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i class="bi bi-plug-fill text-danger"></i> O Teste do "Cabo de Rede Desconectado"</div>
+              <p class="card-body-text">
+                No terminal, encerre o Flask com <code>Ctrl+C</code> e clique novamente no botão. Os alunos verão o spinner girar brevemente e a mensagem amigável de erro surgir sem travamentos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: O BANCO DE DADOS SQLITE -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-database-check"></i> Persistência Relacional</span>
+          <h2 class="slide-title">SQLite 3 em Arquivo: Sem Servidores Externos</h2>
+          <p class="slide-subtitle">A conveniência e o poder de um banco SQL completo em um único arquivo <code>vitrine.db</code>.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><i class="bi bi-table text-indigo"></i> Tabela <code>servicos</code></div>
+            <div style="background: #090d16; padding: 0.8rem; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.6; margin-bottom: 0.8rem;">
+              <span class="token-kw">CREATE TABLE</span> servicos (<br>
+              &nbsp;&nbsp;id <span class="token-tag">INTEGER PRIMARY KEY AUTOINCREMENT</span>,<br>
+              &nbsp;&nbsp;nome <span class="token-tag">TEXT NOT NULL</span>,<br>
+              &nbsp;&nbsp;categoria <span class="token-tag">TEXT NOT NULL</span>,<br>
+              &nbsp;&nbsp;bairro <span class="token-tag">TEXT NOT NULL</span>,<br>
+              &nbsp;&nbsp;precoBase <span class="token-tag">REAL NOT NULL</span>,<br>
+              &nbsp;&nbsp;telefone <span class="token-tag">TEXT NOT NULL</span>,<br>
+              &nbsp;&nbsp;descricao <span class="token-tag">TEXT</span>,<br>
+              &nbsp;&nbsp;dataCadastro <span class="token-tag">TEXT</span><br>
+              );
+            </div>
+            <p class="card-body-text" style="font-size: 0.85rem;">
+              O SQLite cria automaticamente o arquivo <code>vitrine.db</code> na primeira execução caso ele ainda não exista!
+            </p>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card">
+              <div class="card-title"><i class="bi bi-gem text-cyan"></i> Vantagens no Laboratório de Ensino</div>
+              <ul style="margin-left: 1.2rem; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+                <li><strong>Zero instalação:</strong> O módulo <code>sqlite3</code> já vem embutido nativamente na biblioteca padrão do Python!</li>
+                <li><strong>Portabilidade total:</strong> Basta copiar a pasta do projeto e o banco vai junto.</li>
+                <li><strong>Conformidade ACID:</strong> Transações atômicas seguras com <code>commit()</code> e <code>rollback()</code>.</li>
+              </ul>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--accent-emerald);">
+              <div class="card-title"><i class="bi bi-seedling text-success"></i> Semente Automática de Dados</div>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Se a tabela estiver vazia, a função <code>inicializar_banco()</code> insere automaticamente 3 negócios modelo de Garopaba (Artesanatos, Studio Web e Pescado Fresco).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: ARQUITETURA COMPLETA & FALLBACK -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-layers-fill"></i> Engenharia Frontend</span>
+          <h2 class="slide-title">Vitrine Completa & O Padrão Fallback Resiliente</h2>
+          <p class="slide-subtitle">Como garantir que a aplicação continue funcionando perfeitamente mesmo sem a API ativa.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title"><i class="bi bi-shuffle text-warning"></i> Chaveamento Inteligente no Serviço</div>
+            <p class="card-body-text" style="margin-bottom: 0.8rem;">
+              Na camada <code>js/services/vitrineService.js</code>, implementamos o padrão profissional de <strong>Contingência Automática</strong>:
+            </p>
+            <div class="code-box">
+              <pre><code><span class="token-kw">try</span> {
+  <span class="token-cm">// 1. Tenta comunicar com a API Flask</span>
+  <span class="token-kw">const</span> dados = <span class="token-kw">await</span> buscarNaApi();
+  atualizarBadgeConexao(<span class="token-str">'online-flask'</span>);
+  <span class="token-kw">return</span> dados;
+} <span class="token-kw">catch</span> (erro) {
+  <span class="token-cm">// 2. Falhou? Recorre ao LocalStorage!</span>
+  console.<span class="token-fn">warn</span>(<span class="token-str">'API offline. Ativando fallback...'</span>);
+  atualizarBadgeConexao(<span class="token-str">'offline-storage'</span>);
+  <span class="token-kw">return</span> buscarNoLocalStorage();
+}</code></pre>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card" style="border-left: 4px solid var(--accent-emerald);">
+              <div class="card-title"><i class="bi bi-github text-white"></i> Suporte Perfeito ao GitHub Pages</div>
+              <p class="card-body-text">
+                O GitHub Pages só hospeda arquivos estáticos. Graças ao <strong>Fallback</strong>, quando o aluno subir o projeto para o portfólio no GitHub Pages, a vitrine funcionará 100% via <code>localStorage</code> sem erros na tela!
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i class="bi bi-patch-check-fill text-indigo"></i> Badges Visuais Reativos</div>
+              <p class="card-body-text">
+                O cabeçalho da Vitrine exibe uma pílula dinâmica informando o modo de operação: <br>
+                <span class="pill-tag emerald mt-2 me-2"><i class="bi bi-cloud-check-fill"></i> Conectado à API Flask</span>
+                <span class="pill-tag amber mt-2"><i class="bi bi-hdd-fill"></i> Modo Offline (LocalStorage)</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: CHECKLIST E PRÓXIMOS PASSOS -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-flag-fill"></i> Mãos à Obra</span>
+          <h2 class="slide-title">Roteiro de Voo da Aula de Hoje</h2>
+          <p class="slide-subtitle">Marque cada etapa à medida que você implementar no laboratório.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.8rem; max-width: 800px;">
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <i class="bi bi-check-circle-fill check-icon"></i>
+            <div><strong>Fase 0 (Aquecimento):</strong> Implementar os 4 mini-exemplos rápidos em <code>mini-exemplos/</code>.</div>
+          </div>
+
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <i class="bi bi-check-circle-fill check-icon"></i>
+            <div><strong>Fase 1 (Backend Flask):</strong> Criar o virtualenv, instalar dependências e rodar o <code>app.py</code> com SQLite.</div>
+          </div>
+
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <i class="bi bi-check-circle-fill check-icon"></i>
+            <div><strong>Fase 2 (Frontend Service):</strong> Refatorar o <code>vitrineService.js</code> com Fetch API e Contingência Offline.</div>
+          </div>
+
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <i class="bi bi-check-circle-fill check-icon"></i>
+            <div><strong>Fase 3 (Views & Toasts):</strong> Adicionar o spinner de carregamento e o badge de status na interface.</div>
+          </div>
+
+          <div class="checklist-item" onclick="toggleCheck(this)">
+            <i class="bi bi-check-circle-fill check-icon"></i>
+            <div><strong>Fase 4 (Teste e Publicação):</strong> Cadastrar novos serviços e testar o chaveamento online/offline.</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <a href="../main.pdf" target="_blank" class="nav-btn" style="background: var(--accent-indigo); border-color: var(--accent-indigo); text-decoration: none;">
+            <i class="bi bi-file-earmark-pdf"></i> Abrir Guia do Roteiro 05 (PDF)
+          </a>
+          <a href="../exercicio-roteiro5/frontend/index.html" target="_blank" class="nav-btn" style="text-decoration: none;">
+            <i class="bi bi-play-circle-fill text-success"></i> Executar Vitrine Completa
+          </a>
+          <a href="../../index.html" class="nav-btn" style="text-decoration: none;">
+            <i class="bi bi-house-door"></i> Voltar ao Painel da Disciplina
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Rodapé com Progresso e Controles -->
+    <footer class="app-footer">
+      <div class="progress-container">
+        <div class="progress-bar-bg">
+          <div id="progress-fill" class="progress-bar-fill"></div>
+        </div>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 12</span>
+      </div>
+
+      <div class="nav-controls">
+        <button id="btn-prev" class="nav-btn" onclick="prevSlide()" disabled>
+          <i class="bi bi-chevron-left"></i> Anterior
+        </button>
+        <button id="btn-next" class="nav-btn" onclick="nextSlide()">
+          Próximo <i class="bi bi-chevron-right"></i>
+        </button>
+        <button class="nav-btn btn-fs" onclick="toggleFullscreen()" title="Alternar Tela Cheia (F)">
+          <i class="bi bi-arrows-fullscreen"></i>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const slides = document.querySelectorAll('.slide-stage > section.slide');
+    const totalSlides = slides.length;
+
+    function updateSlides() {
+      slides.forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      document.getElementById('btn-prev').disabled = (currentSlide === 1);
+      document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
+
+      document.getElementById('slide-counter').textContent = `Slide ${currentSlide} de ${totalSlides}`;
+      const percentage = (currentSlide / totalSlides) * 100;
+      document.getElementById('progress-fill').style.width = `${percentage}%`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlides();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlides();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'Home') {
+        currentSlide = 1;
+        updateSlides();
+      } else if (e.key === 'End') {
+        currentSlide = totalSlides;
+        updateSlides();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      }
+    });
+
+    function toggleCheck(el) {
+      el.classList.toggle('checked');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn('Erro ao entrar em fullscreen:', err);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
