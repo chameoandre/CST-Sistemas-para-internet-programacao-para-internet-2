@@ -472,109 +472,189 @@
       50% { opacity: 0.65; }
     }
 
-    /* ROTEIROS GRID */
+    /* ROTEIROS GRID & CARDS SUAVIZADOS (INSPIRAÇÃO PROJETO INTEGRADOR II) */
     .roteiros-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.4rem;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+      align-items: stretch;
     }
 
     .roteiro-card {
       background: var(--bg-card);
+      backdrop-filter: blur(14px);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
-      transition: all 0.25s ease;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, transform 0.2s ease;
+      box-shadow: var(--card-shadow);
     }
 
     .roteiro-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--card-shadow-hover);
+      border-color: rgba(5, 150, 105, 0.45);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="dark"] .roteiro-card:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
     .roteiro-highlight {
-      border: 2px solid var(--accent-emerald);
-      background: linear-gradient(160deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border-color: rgba(5, 150, 105, 0.45);
+      background: linear-gradient(170deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.04) 100%);
     }
 
-    /* ROTEIROS HERO BANNER COM ILUSTRAÇÃO CLIPART */
-    .roteiro-hero-banner {
-      background: linear-gradient(135deg, rgba(5, 150, 105, 0.08) 0%, rgba(2, 132, 199, 0.06) 50%, rgba(124, 58, 237, 0.05) 100%), var(--bg-card);
-      border: 1px solid rgba(5, 150, 105, 0.22);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem 1.8rem;
+    /* CARD ILUSTRAÇÃO MEDIA */
+    .roteiro-card-media {
+      position: relative;
+      width: 100%;
+      height: 172px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 0.95rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .roteiro-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .roteiro-card:hover .roteiro-card-img {
+      transform: scale(1.03);
+    }
+
+    /* CARD META HEADER */
+    .roteiro-top-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 2rem;
-      box-shadow: var(--card-shadow);
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 1.8rem;
-    }
-
-    [data-theme="dark"] .roteiro-hero-banner {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(168, 85, 247, 0.08) 100%), var(--bg-card);
-      border-color: rgba(16, 185, 129, 0.35);
-    }
-
-    .roteiro-hero-content {
-      flex: 1 1 58%;
-    }
-
-    .roteiro-hero-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--text-heading);
+      gap: 0.5rem;
       margin-bottom: 0.55rem;
-      line-height: 1.25;
+      flex-wrap: wrap;
     }
 
-    .roteiro-hero-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.55;
-      margin-bottom: 0;
-    }
-
-    .roteiro-hero-image {
-      flex: 0 0 38%;
-      max-width: 400px;
-      display: flex;
-      justify-content: center;
+    .roteiro-id-badge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 5px;
+      letter-spacing: 0.4px;
+      display: inline-flex;
       align-items: center;
+      gap: 0.3rem;
     }
 
-    .clipart-illustration {
-      width: 100%;
-      height: auto;
-      max-height: 220px;
-      object-fit: contain;
-      border-radius: 12px;
-      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.1));
-      transition: transform 0.3s ease;
+    .roteiro-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.4rem;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    .clipart-illustration:hover {
-      transform: scale(1.02);
+    .roteiro-card-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0.85rem;
     }
 
-    @media (max-width: 900px) {
-      .roteiro-hero-banner {
-        flex-direction: column-reverse;
-        text-align: left;
-        gap: 1.4rem;
-        padding: 1.25rem;
-      }
-      .roteiro-hero-image {
-        max-width: 320px;
-        width: 100%;
-      }
+    /* PILLS SUAVIZADAS ESTILO PI2 */
+    .card-quick-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .quick-meta-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.18rem 0.55rem;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .quick-meta-pill.blue {
+      background: rgba(2, 132, 199, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+
+    .quick-meta-pill.green {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .quick-meta-pill.amber {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--accent-amber);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .quick-meta-pill.purple {
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--accent-purple);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+    }
+
+    .quick-meta-pill.indigo {
+      background: rgba(99, 102, 241, 0.1);
+      color: #6366f1;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    /* FOCO PRÁTICO SUAVIZADO */
+    .roteiro-focus-box {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+
+    .roteiro-focus-box strong {
+      color: var(--text-main);
+    }
+
+    /* BOTÕES DE AÇÃO DOS CARDS */
+    .roteiro-card-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .roteiro-card-actions .btn-action {
+      flex: 1 1 calc(50% - 0.25rem);
+      padding: 0.48rem 0.75rem;
+      font-size: 0.8rem;
     }
 
     .btn-action {
@@ -1010,8 +1090,8 @@
           <span class="kpi-title">Caderno de Roteiros Práticos</span>
           <i class="bi bi-code-square kpi-icon"></i>
         </div>
-        <div class="kpi-value">7 Roteiros</div>
-        <div class="kpi-desc"><strong>Guias práticos estruturados</strong>, arquitetura modular ES6, protótipos e laboratórios contínuos.</div>
+        <div class="kpi-value">5 Roteiros Ativos</div>
+        <div class="kpi-desc">Guias didáticos ilustrados, arquitetura modular ES6, protótipos e práticas de laboratório.</div>
       </div>
 
       <!-- KPI 2 -->
@@ -1073,284 +1153,219 @@
     <!-- ABA 1: CENTRAL DE ROTEIROS PRÁTICOS (DESTAQUE) -->
     <div class="tab-pane active" id="tab-roteiros">
       <div class="panel-card">
-        <!-- BANNER DE DESTAQUE COM ILUSTRAÇÃO CLIPART -->
-        <div class="roteiro-hero-banner">
-          <div class="roteiro-hero-content">
-            <span class="badge-pill badge-pill-green mb-2"><i class="bi bi-code-slash"></i> Laboratório de Desenvolvimento Web</span>
-            <h2 class="roteiro-hero-title">Desenvolvimento Frontend Moderno &amp; Arquitetura Modular</h2>
-            <p class="roteiro-hero-desc">
-              Central prática orientada a projetos reais: do design responsivo com <strong>Bootstrap 5</strong> à manipulação do DOM com <strong>jQuery</strong>, arquitetura modular em camadas (<strong>ES6 Modules</strong>) e consumo de APIs REST com <strong>Fetch API</strong>.
-            </p>
-            <div class="d-flex align-items-center gap-2 flex-wrap mt-3">
-              <span class="tech-tag tech-tag-green"><i class="bi bi-check2-circle"></i> 7 Roteiros Práticos</span>
-              <span class="tech-tag tech-tag-blue"><i class="bi bi-layers"></i> Arquitetura em Camadas</span>
-              <span class="tech-tag tech-tag-purple"><i class="bi bi-boxes"></i> ES6 Modules &amp; MVC</span>
-              <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="btn-action btn-primary-action py-1 px-3">
-                <i class="bi bi-shop"></i> Executar App Vitrine Atual (Roteiro 04)
-              </a>
-            </div>
-          </div>
-          <div class="roteiro-hero-image">
-            <img src="figures/clipart_progweb2.jpg" alt="Ilustração Educacional de Desenvolvimento Web - ProgWeb 2" class="clipart-illustration">
-          </div>
-        </div>
-
         
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
           <div>
-            <h2 class="panel-title mb-1"><i class="bi bi-journal-code text-info"></i> Caderno de Roteiros Práticos da Disciplina</h2>
-            <p class="panel-subtitle mb-0">Material didático estruturado com explicações conceituais, croquis visuais de componentes, tabelas anatômicas e desafios incrementais:</p>
+            <h2 class="panel-title mb-1"><i class="bi bi-journal-code text-success"></i> Caderno de Roteiros Práticos</h2>
+            <p class="panel-subtitle mb-0">Guias didáticos estruturados com ilustrações conceituais, arquitetura em camadas e práticas de laboratório:</p>
           </div>
           <button onclick="showTab('tab-sigaa')" class="btn-action btn-outline-action">
-            <i class="bi bi-mortarboard-fill text-primary"></i> Acessar Central de Tarefas no SIGAA
+            <i class="bi bi-mortarboard-fill text-primary"></i> Central de Tarefas no SIGAA
           </button>
         </div>
 
         <div class="roteiros-grid">
 
           <!-- CARD ROTEIRO 1 -->
-          <div class="roteiro-card roteiro-card-blue">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge-pill badge-pill-blue">ROTEIRO PRÁTICO 01</span>
-              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+          <div class="roteiro-card">
+            <div class="roteiro-card-media">
+              <img src="figures/roteiro1_bootstrap.jpg" alt="Preview Roteiro 01 - Bootstrap 5 &amp; Layout Responsivo" class="roteiro-card-img" loading="lazy">
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
-              <i class="bi bi-bootstrap-fill text-primary me-1"></i> Roteiro 01: Bootstrap 5 &amp; Layout Responsivo
-            </h3>
-            <p class="text-muted small mb-2">
-              Fundamentos de design mobile-first, grid system de 12 colunas e catálogo de componentes essenciais para interfaces web modernas.
+
+            <div class="roteiro-top-meta">
+              <span class="roteiro-id-badge" style="background: rgba(2, 132, 199, 0.12); color: var(--accent-blue); border: 1px solid rgba(2, 132, 199, 0.25);">
+                <i class="bi bi-bootstrap-fill"></i> Roteiro #01
+              </span>
+              <span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+            </div>
+
+            <h3 class="roteiro-title">Bootstrap 5 &amp; Layout Responsivo</h3>
+            <p class="roteiro-card-desc">
+              Fundamentos de design mobile-first e sistema de grid de 12 colunas para criação de interfaces fluidas, cards modulares e formulários estruturados.
             </p>
-            
-            <div class="tech-tags">
-              <span class="tech-tag tech-tag-blue"><i class="bi bi-grid-3x3"></i> Grid 12 Col</span>
-              <span class="tech-tag tech-tag-blue"><i class="bi bi-phone"></i> Breakpoints (sm, md, lg)</span>
-              <span class="tech-tag tech-tag-blue"><i class="bi bi-ui-radios"></i> Formulários</span>
-              <span class="tech-tag tech-tag-blue"><i class="bi bi-table"></i> Tabelas Zebradas</span>
+
+            <div class="card-quick-meta">
+              <span class="quick-meta-pill blue"><i class="bi bi-grid-3x3"></i> Grid 12 Col</span>
+              <span class="quick-meta-pill blue"><i class="bi bi-phone"></i> Mobile-First</span>
+              <span class="quick-meta-pill blue"><i class="bi bi-ui-radios"></i> Formulários</span>
             </div>
 
-            <ul class="roteiro-learning-list">
-              <li>
-                <i class="bi bi-check-circle-fill text-primary"></i>
-                <span><strong>Grid System:</strong> Alinhamento com <code>.container</code>, <code>.row</code> e classes <code>col-*</code> para interfaces adaptáveis.</span>
-              </li>
-              <li>
-                <i class="bi bi-check-circle-fill text-primary"></i>
-                <span><strong>Componentes Base:</strong> Navbars responsivas, Cards modulares e estilização uniforme de campos de entrada.</span>
-              </li>
-            </ul>
-
-            <div class="roteiro-deliverable-box">
-              <span class="fw-bold text-primary"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
-              <span>Layout estático completo e protótipo visual responsivo estruturado em laboratório.</span>
+            <div class="roteiro-focus-box">
+              <i class="bi bi-box-seam text-primary"></i>
+              <span><strong>Foco Prático:</strong> Prototipagem de layout estático moderno com classes utilitárias e formulários adaptáveis.</span>
             </div>
 
-            <div class="mt-auto d-flex flex-column gap-2">
+            <div class="roteiro-card-actions">
               <a href="roteiro-1/main.pdf" target="_blank" class="btn-action btn-primary-action">
-                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 01)
+                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
               </a>
               <a href="retomada-de-atividades-pi2/parte-1-bootstrap/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-easel-fill"></i> Slides Interativos (Parte 1)
+                <i class="bi bi-easel"></i> Slides (Parte 1)
               </a>
             </div>
           </div>
 
           <!-- CARD ROTEIRO 2 -->
-          <div class="roteiro-card roteiro-card-amber">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge-pill badge-pill-amber">ROTEIRO PRÁTICO 02</span>
-              <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+          <div class="roteiro-card">
+            <div class="roteiro-card-media">
+              <img src="figures/roteiro2_jquery.jpg" alt="Preview Roteiro 02 - jQuery, DOM &amp; LocalStorage" class="roteiro-card-img" loading="lazy">
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
-              <i class="bi bi-code-slash text-warning me-1"></i> Roteiro 02: jQuery, DOM &amp; LocalStorage
-            </h3>
-            <p class="text-muted small mb-2">
-              Manipulação dinâmica de elementos, escuta de eventos em formulários e persistência duradoura no navegador com Web Storage API.
+
+            <div class="roteiro-top-meta">
+              <span class="roteiro-id-badge" style="background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.25);">
+                <i class="bi bi-code-slash"></i> Roteiro #02
+              </span>
+              <span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+            </div>
+
+            <h3 class="roteiro-title">jQuery, DOM &amp; LocalStorage</h3>
+            <p class="roteiro-card-desc">
+              Interatividade dinâmica no navegador, manipulação direta de elementos do DOM, escuta de eventos e persistência duradoura com Web Storage API.
             </p>
 
-            <div class="tech-tags">
-              <span class="tech-tag tech-tag-amber"><i class="bi bi-cursor-fill"></i> Seletores $(seletor)</span>
-              <span class="tech-tag tech-tag-amber"><i class="bi bi-lightning-fill"></i> Eventos (.on, .click)</span>
-              <span class="tech-tag tech-tag-amber"><i class="bi bi-database-fill"></i> localStorage API</span>
-              <span class="tech-tag tech-tag-amber"><i class="bi bi-braces"></i> JSON.stringify / parse</span>
+            <div class="card-quick-meta">
+              <span class="quick-meta-pill amber"><i class="bi bi-cursor-fill"></i> Seletores $( )</span>
+              <span class="quick-meta-pill amber"><i class="bi bi-lightning-fill"></i> Eventos .on()</span>
+              <span class="quick-meta-pill amber"><i class="bi bi-database-fill"></i> localStorage (JSON)</span>
             </div>
 
-            <ul class="roteiro-learning-list">
-              <li>
-                <i class="bi bi-check-circle-fill text-warning"></i>
-                <span><strong>Manipulação Dinâmica:</strong> Leitura e escrita via <code>.val()</code>, <code>.html()</code>, <code>.append()</code> e animações <code>.slideDown()</code>.</span>
-              </li>
-              <li>
-                <i class="bi bi-check-circle-fill text-warning"></i>
-                <span><strong>Persistência Offline:</strong> Serialização de arrays de objetos e restauração automática ao inicializar a página.</span>
-              </li>
-            </ul>
-
-            <div class="roteiro-deliverable-box" style="border-left-color: var(--accent-amber);">
-              <span class="fw-bold text-warning"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
-              <span>App de Cadastro de Clientes com listagem dinâmica e persistência duradoura.</span>
+            <div class="roteiro-focus-box">
+              <i class="bi bi-box-seam text-warning"></i>
+              <span><strong>Foco Prático:</strong> Sistema de cadastro de clientes com renderização reativa e persistência offline.</span>
             </div>
 
-            <div class="mt-auto d-flex flex-column gap-2">
+            <div class="roteiro-card-actions">
               <a href="roteiro-2/main.pdf" target="_blank" class="btn-action btn-primary-action">
-                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 02)
-              </a>
-              <a href="retomada-de-atividades-pi2/parte-2-jquery/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-easel-fill"></i> Slides Interativos (Parte 2)
+                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
               </a>
               <a href="retomada-de-atividades-pi2/exercicio-retomada/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-window-stack"></i> Demo: App Cadastro Clientes
+                <i class="bi bi-window-stack"></i> Demo Cadastro
+              </a>
+              <a href="retomada-de-atividades-pi2/parte-2-jquery/index.html" target="_blank" class="btn-action btn-outline-action">
+                <i class="bi bi-easel"></i> Slides (Parte 2)
               </a>
             </div>
           </div>
 
-          <!-- CARD ROTEIRO 3 (EM DESTAQUE - ATIVIDADE SIGAA ATIVA) -->
-          <div class="roteiro-card roteiro-card-emerald roteiro-highlight">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge-pill badge-pill-green">ROTEIRO PRÁTICO 03</span>
-              <span class="status-badge status-current"><i class="bi bi-clock-history"></i> Ativa no SIGAA (14 envios)</span>
+          <!-- CARD ROTEIRO 3 (ATIVIDADE SIGAA) -->
+          <div class="roteiro-card roteiro-highlight">
+            <div class="roteiro-card-media">
+              <img src="figures/roteiro3_calculadora.jpg" alt="Preview Roteiro 03 - Calculadora de Pedidos &amp; Carrinho" class="roteiro-card-img" loading="lazy">
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
-              <i class="bi bi-calculator-fill text-success me-1"></i> Roteiro 03: Calculadora de Pedidos &amp; Carrinho
-            </h3>
-            <p class="text-muted small mb-2">
-              Cálculos numéricos em tempo real, formatação monetária (Real brasileiro - R$) e gestão de estados de compra com armazenamento seguro.
+
+            <div class="roteiro-top-meta">
+              <span class="roteiro-id-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.25);">
+                <i class="bi bi-calculator-fill"></i> Roteiro #03
+              </span>
+              <span class="status-badge status-current" style="font-size: 0.73rem;">
+                <i class="bi bi-clock-history"></i> Ativa no SIGAA (14 envios)
+              </span>
+            </div>
+
+            <h3 class="roteiro-title">Calculadora de Pedidos &amp; Carrinho</h3>
+            <p class="roteiro-card-desc">
+              Processamento aritmético em tempo real, formatação de moeda brasileira (R$) e controle do estado de compras com armazenamento seguro de rascunhos.
             </p>
 
-            <div class="p-2 mb-2 rounded" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4);">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-1 mb-1">
-                <span class="small fw-bold text-warning"><i class="bi bi-pin-angle-fill me-1"></i> ATIVIDADE 1 NO SIGAA:</span>
-                <span class="badge bg-success fw-bold font-code" style="font-size: 0.72rem;">14 ENVIOS REGISTRADOS</span>
-              </div>
-              <div class="small" style="color: var(--text-main);">
-                <strong>Prorrogação Presencial:</strong> Entrega e apresentação até a <strong>próxima terça-feira em horário de aula</strong> (Envio do link do GitHub + GitHub Pages).
-              </div>
+            <div class="card-quick-meta">
+              <span class="quick-meta-pill green"><i class="bi bi-123"></i> Tempo Real</span>
+              <span class="quick-meta-pill green"><i class="bi bi-currency-dollar"></i> Moeda BRL (R$)</span>
+              <span class="quick-meta-pill green"><i class="bi bi-cart3"></i> Carrinho Persistido</span>
             </div>
 
-            <div class="tech-tags">
-              <span class="tech-tag tech-tag-emerald"><i class="bi bi-123"></i> parseFloat / parseInt</span>
-              <span class="tech-tag tech-tag-emerald"><i class="bi bi-shield-check"></i> Fallback || 0</span>
-              <span class="tech-tag tech-tag-emerald"><i class="bi bi-currency-dollar"></i> Moeda BRL (R$)</span>
-              <span class="tech-tag tech-tag-emerald"><i class="bi bi-cart3"></i> Carrinho LocalStorage</span>
+            <div class="roteiro-focus-box">
+              <i class="bi bi-pin-angle-fill text-success"></i>
+              <span><strong>Atividade 1 (SIGAA):</strong> Calculadora de lanches com adicionais e apresentação presencial na próxima aula.</span>
             </div>
 
-            <ul class="roteiro-learning-list">
-              <li>
-                <i class="bi bi-check-circle-fill text-success"></i>
-                <span><strong>Cálculos em Tempo Real:</strong> Reatividade instantânea com escuta em <code>.on('input change')</code> sem recarregar a tela.</span>
-              </li>
-              <li>
-                <i class="bi bi-check-circle-fill text-success"></i>
-                <span><strong>Robustez Numérica:</strong> Tratamento defensivo contra entradas vazias ou <code>NaN</code> garantindo subtotal e total corretos.</span>
-              </li>
-            </ul>
-
-            <div class="roteiro-deliverable-box" style="border-left-color: var(--accent-emerald);">
-              <span class="fw-bold text-success"><i class="bi bi-box-seam me-1"></i> Artefato Entregável do SIGAA:</span>
-              <span>App Calculadora de Lanches com adicionais dinâmicos, resumo monetário e rascunho persistido.</span>
-            </div>
-
-            <div class="mt-auto d-flex flex-column gap-2">
+            <div class="roteiro-card-actions">
               <a href="roteiro-3/main.pdf" target="_blank" class="btn-action btn-primary-action">
-                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 03)
+                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
               </a>
               <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-play-circle-fill"></i> Executar App Lanchonete Demo
+                <i class="bi bi-play-circle-fill"></i> Executar App Demo
               </a>
             </div>
           </div>
 
-          <!-- CARD ROTEIRO 4 (MÓDULO 2 - ATUAL EM SALA) -->
-          <div class="roteiro-card roteiro-card-purple">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge-pill badge-pill-purple">ROTEIRO PRÁTICO 04</span>
-              <span class="badge-pill badge-pill-blue"><i class="bi bi-stars"></i> Módulo 2 (Em Aula)</span>
+          <!-- CARD ROTEIRO 4 (MÓDULO ATUAL) -->
+          <div class="roteiro-card">
+            <div class="roteiro-card-media">
+              <img src="figures/roteiro4_vitrine.jpg" alt="Preview Roteiro 04 - Vitrine Comunitária &amp; Módulos ES6" class="roteiro-card-img" loading="lazy">
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
-              <i class="bi bi-shop text-purple me-1" style="color: var(--accent-purple);"></i> Roteiro 04: Vitrine Comunitária &amp; ES6 Modules
-            </h3>
-            <p class="text-muted small mb-2">
-              Arquitetura modular profissional em camadas (<code>services/</code>, <code>views/</code>, <code>utils/</code>), componentes interativos Bootstrap 5 e CRUD completo.
+
+            <div class="roteiro-top-meta">
+              <span class="roteiro-id-badge" style="background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); border: 1px solid rgba(124, 58, 237, 0.25);">
+                <i class="bi bi-shop"></i> Roteiro #04
+              </span>
+              <span class="status-badge" style="background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); border: 1px solid rgba(124, 58, 237, 0.3);">
+                <i class="bi bi-stars"></i> Módulo 2 (Em Aula)
+              </span>
+            </div>
+
+            <h3 class="roteiro-title">Vitrine Comunitária &amp; Módulos ES6</h3>
+            <p class="roteiro-card-desc">
+              Arquitetura modular em camadas separadas (<code>services</code>, <code>views</code>, <code>utils</code>), componentes modais Bootstrap 5 e fluxo CRUD com feedback por toast.
             </p>
 
-            <div class="tech-tags">
-              <span class="tech-tag tech-tag-purple"><i class="bi bi-boxes"></i> ES6 Modules</span>
-              <span class="tech-tag tech-tag-purple"><i class="bi bi-layers"></i> Camadas MVC</span>
-              <span class="tech-tag tech-tag-purple"><i class="bi bi-window"></i> Bootstrap Modais</span>
-              <span class="tech-tag tech-tag-purple"><i class="bi bi-bell-fill"></i> Bootstrap Toasts</span>
-              <span class="tech-tag tech-tag-purple"><i class="bi bi-whatsapp"></i> Ação WhatsApp</span>
+            <div class="card-quick-meta">
+              <span class="quick-meta-pill purple"><i class="bi bi-boxes"></i> ES6 Modules</span>
+              <span class="quick-meta-pill purple"><i class="bi bi-layers"></i> Camadas MVC</span>
+              <span class="quick-meta-pill purple"><i class="bi bi-window"></i> Modais &amp; Toasts</span>
             </div>
 
-            <ul class="roteiro-learning-list">
-              <li>
-                <i class="bi bi-check-circle-fill text-purple" style="color: var(--accent-purple);"></i>
-                <span><strong>Separação de Responsabilidades:</strong> Dados no <code>vitrineService.js</code>, DOM no <code>vitrineView.js</code> e máscaras no <code>formatters.js</code>.</span>
-              </li>
-              <li>
-                <i class="bi bi-check-circle-fill text-purple" style="color: var(--accent-purple);"></i>
-                <span><strong>Feedback e Validação:</strong> Validação visual nativa, abertura controlada de Modais e Toasts não-bloqueantes.</span>
-              </li>
-            </ul>
-
-            <div class="roteiro-deliverable-box" style="border-left-color: var(--accent-purple);">
-              <span class="fw-bold text-purple" style="color: var(--accent-purple);"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
-              <span>Vitrine Comunitária de Serviços com filtros, cadastro modal, exclusão e dados iniciais pré-carregados.</span>
+            <div class="roteiro-focus-box">
+              <i class="bi bi-box-seam text-purple" style="color: var(--accent-purple);"></i>
+              <span><strong>Foco Prático:</strong> Catálogo de serviços comunitários com filtros de categorias e cadastro interativo via modal.</span>
             </div>
 
-            <div class="mt-auto d-flex flex-column gap-2">
+            <div class="roteiro-card-actions">
               <a href="roteiro-4/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: var(--accent-purple); border-color: var(--accent-purple);">
-                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 04)
+                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
               </a>
               <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-shop"></i> Executar App Vitrine Demo
+                <i class="bi bi-shop"></i> Executar Vitrine Demo
               </a>
             </div>
           </div>
 
-          <!-- CARD ROTEIRO 5 (MÓDULO 3 - FETCH API & FLASK SQLITE) -->
-          <div class="roteiro-card roteiro-card-indigo">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge-pill badge-pill-indigo">ROTEIRO PRÁTICO 05</span>
-              <span class="badge-pill" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
+          <!-- CARD ROTEIRO 5 -->
+          <div class="roteiro-card">
+            <div class="roteiro-card-media">
+              <img src="figures/roteiro5_fetch_api.jpg" alt="Preview Roteiro 05 - Fetch API &amp; Backend Flask SQLite" class="roteiro-card-img" loading="lazy">
+            </div>
+
+            <div class="roteiro-top-meta">
+              <span class="roteiro-id-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
+                <i class="bi bi-hdd-network-fill"></i> Roteiro #05
+              </span>
+              <span class="status-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
                 <i class="bi bi-cloud-arrow-down-fill"></i> Módulo 3 (Próxima Etapa)
               </span>
             </div>
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
-              <i class="bi bi-hdd-network-fill me-1" style="color: #6366f1;"></i> Roteiro 05: Fetch API, async/await &amp; Backend Flask (SQLite)
-            </h3>
-            <p class="text-muted small mb-2">
-              Consumo assíncrono de serviços web RESTful via Fetch API, ciclo HTTP, headers CORS, persistência em banco relacional SQLite e resiliência com fallback no LocalStorage.
+
+            <h3 class="roteiro-title">Fetch API &amp; Backend Flask (SQLite)</h3>
+            <p class="roteiro-card-desc">
+              Comunicação assíncrona cliente-servidor via APIs RESTful, envio e recebimento de JSON, persistência em banco relacional SQLite e fallback offline resiliente.
             </p>
 
-            <div class="tech-tags">
-              <span class="tech-tag tech-tag-indigo"><i class="bi bi-arrow-left-right"></i> Fetch API &amp; async/await</span>
-              <span class="tech-tag tech-tag-indigo"><i class="bi bi-cpu"></i> Flask RESTful (Python)</span>
-              <span class="tech-tag tech-tag-indigo"><i class="bi bi-database-fill"></i> SQLite (vitrine.db)</span>
-              <span class="tech-tag tech-tag-indigo"><i class="bi bi-shield-lock-fill"></i> CORS</span>
-              <span class="tech-tag tech-tag-indigo"><i class="bi bi-hourglass-split"></i> Spinners &amp; Status</span>
+            <div class="card-quick-meta">
+              <span class="quick-meta-pill indigo"><i class="bi bi-arrow-left-right"></i> Fetch &amp; async/await</span>
+              <span class="quick-meta-pill indigo"><i class="bi bi-cpu"></i> Python Flask API</span>
+              <span class="quick-meta-pill indigo"><i class="bi bi-database-fill"></i> SQLite (vitrine.db)</span>
             </div>
 
-            <ul class="roteiro-learning-list">
-              <li>
-                <i class="bi bi-check-circle-fill" style="color: #6366f1;"></i>
-                <span><strong>Integração Cliente-Servidor:</strong> Envio de payloads JSON via <code>fetch()</code> e recebimento de status codes HTTP reais (200, 201, 404).</span>
-              </li>
-              <li>
-                <i class="bi bi-check-circle-fill" style="color: #6366f1;"></i>
-                <span><strong>Banco Relacional &amp; Resiliência:</strong> Persistência em arquivo SQLite (<code>app.py</code>) com contingência offline inteligente.</span>
-              </li>
-            </ul>
-
-            <div class="roteiro-deliverable-box" style="border-left-color: #6366f1;">
-              <span class="fw-bold" style="color: #6366f1;"><i class="bi bi-box-seam me-1"></i> Artefato Produzido:</span>
-              <span>Vitrine Comunitária Conectada à API RESTful em Python com gravação no banco SQLite e contingência offline.</span>
+            <div class="roteiro-focus-box">
+              <i class="bi bi-box-seam" style="color: #6366f1;"></i>
+              <span><strong>Foco Prático:</strong> Integração completa da vitrine com endpoints RESTful em Python e persistência relacional SQLite.</span>
             </div>
 
-            <div class="mt-auto d-flex flex-column gap-2">
+            <div class="roteiro-card-actions">
               <a href="roteiro-5/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: #4f46e5; border-color: #4f46e5;">
-                <i class="bi bi-file-earmark-pdf-fill"></i> Baixar Guia (PDF Roteiro 05)
+                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
               </a>
               <a href="roteiro-5/exercicio-roteiro5/frontend/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-cloud-check-fill text-primary"></i> Executar Vitrine Conectada Demo
+                <i class="bi bi-cloud-check-fill text-primary"></i> Executar Vitrine Conectada
               </a>
             </div>
           </div>
