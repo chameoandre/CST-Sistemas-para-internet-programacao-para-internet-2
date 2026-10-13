@@ -169,16 +169,24 @@ Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promess
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos da pagina
     const btnCarregar = document.getElementById('btnCarregar');
     const listaServicos = document.getElementById('listaServicos');
 
-    btnCarregar.addEventListener('click', async () => {
+    // 2. Funcao assincrona dedicada com nome claro (facil de ler e depurar)
+    async function carregarServicos() {
       try {
+        // Passo 2.1: Dispara a requisicao HTTP para o arquivo
         const resposta = await fetch('dados.json');
+
+        // Passo 2.2: Converte a resposta em formato JSON para um vetor JavaScript
         const servicos = await resposta.json();
 
+        // Passo 2.3: Limpa a lista antes de adicionar novos elementos
         listaServicos.innerHTML = '';
-        servicos.forEach(servico => {
+
+        // Passo 2.4: Percorre a lista com laco for..of e cria os elementos no DOM
+        for (const servico of servicos) {
           const item = document.createElement('li');
           item.className = 'list-group-item d-flex justify-content-between align-items-center';
           item.innerHTML = `
@@ -186,11 +194,15 @@ Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promess
             <span class="badge bg-success rounded-pill">R$ ${servico.preco.toFixed(2)}</span>
           `;
           listaServicos.appendChild(item);
-        });
+        }
+
       } catch (erro) {
-        console.error('Erro ao buscar dados:', erro);
+        console.error('Falha ao carregar os dados do arquivo:', erro);
       }
-    });
+    }
+
+    // 3. Vincula a funcao ao evento de clique de forma limpa e direta
+    btnCarregar.addEventListener('click', carregarServicos);
   </script>
 </body>
 </html>
@@ -264,10 +276,12 @@ if __name__ == '__main__':
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos
     const btnConectar = document.getElementById('btnConectar');
     const resultadoStatus = document.getElementById('resultadoStatus');
 
-    btnConectar.addEventListener('click', async () => {
+    // 2. Funcao assincrona nomeada que consulta a API do Flask
+    async function consultarStatusApi() {
       try {
         const resposta = await fetch('http://127.0.0.1:5000/api/status');
         const dados = await resposta.json();
@@ -281,11 +295,14 @@ if __name__ == '__main__':
       } catch (erro) {
         resultadoStatus.className = 'alert alert-danger mb-0';
         resultadoStatus.innerHTML = `
-          <strong>Erro de Conexão:</strong> Não foi possível acessar a API.<br>
-          <small>Verifique se o server.py está rodando ou se houve bloqueio de CORS.</small>
+          <strong>Erro de Conexao:</strong> Nao foi possivel acessar a API.<br>
+          <small>Verifique se o server.py esta rodando ou se houve bloqueio de CORS.</small>
         `;
       }
-    });
+    }
+
+    // 3. Vinculacao limpa do evento de clique
+    btnConectar.addEventListener('click', consultarStatusApi);
   </script>
 </body>
 </html>
@@ -393,12 +410,14 @@ if __name__ == '__main__':
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos do formulario
     const formCadastro = document.getElementById('formCadastro');
     const campoNome = document.getElementById('campoNome');
     const campoPreco = document.getElementById('campoPreco');
     const feedbackPost = document.getElementById('feedbackPost');
 
-    formCadastro.addEventListener('submit', async (evento) => {
+    // 2. Funcao assincrona nomeada para processar o envio
+    async function cadastrarNovoServico(evento) {
       evento.preventDefault();
 
       const dadosParaEnvio = {
@@ -415,8 +434,9 @@ if __name__ == '__main__':
           body: JSON.stringify(dadosParaEnvio)
         });
 
-        if (!resposta.ok) {
-          throw new Error(`Erro na resposta do servidor: código ${resposta.status}`);
+        // Validacao explicita sem contracoes
+        if (resposta.ok === false) {
+          throw new Error(`O servidor retornou codigo de erro: ${resposta.status}`);
         }
 
         const dadosResposta = await resposta.json();
@@ -429,12 +449,16 @@ if __name__ == '__main__':
         `;
 
         formCadastro.reset();
+
       } catch (erro) {
         feedbackPost.className = 'alert alert-danger mb-0';
         feedbackPost.classList.remove('d-none');
         feedbackPost.innerHTML = `<strong>Falha ao enviar:</strong> ${erro.message}`;
       }
-    });
+    }
+
+    // 3. Vincula o evento submit a funcao
+    formCadastro.addEventListener('submit', cadastrarNovoServico);
   </script>
 </body>
 </html>
@@ -494,25 +518,41 @@ Com o \texttt{server.py} em execução, digite um serviço e preço no formulár
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos da interface
     const btnVerificar = document.getElementById('btnVerificar');
     const iconeBotao = document.getElementById('iconeBotao');
     const spinnerCarregamento = document.getElementById('spinnerCarregamento');
     const textoBotao = document.getElementById('textoBotao');
     const caixaAlerta = document.getElementById('caixaAlerta');
 
-    btnVerificar.addEventListener('click', async () => {
-      // 1. Início: ativa o spinner e desabilita o botão
+    // 2. Funcoes auxiliares para clareza visual de estados
+    function ativarEstadoCarregando() {
       btnVerificar.disabled = true;
       iconeBotao.classList.add('d-none');
       spinnerCarregamento.classList.remove('d-none');
       textoBotao.textContent = 'Consultando Servidor...';
       caixaAlerta.classList.add('d-none');
+    }
+
+    function desativarEstadoCarregando() {
+      spinnerCarregamento.classList.add('d-none');
+      iconeBotao.classList.remove('d-none');
+      textoBotao.textContent = 'Testar Conexao com o Servidor';
+      btnVerificar.disabled = false;
+      caixaAlerta.classList.remove('d-none');
+    }
+
+    // 3. Funcao assincrona nomeada com bloco defensivo try...catch...finally
+    async function testarConexaoComServidor() {
+      ativarEstadoCarregando();
 
       try {
         const resposta = await fetch('http://127.0.0.1:5000/api/status');
-        if (!resposta.ok) {
-          throw new Error(`O servidor retornou o código de erro HTTP ${resposta.status}.`);
+
+        if (resposta.ok === false) {
+          throw new Error(`O servidor retornou o codigo de erro HTTP ${resposta.status}.`);
         }
+
         const dados = await resposta.json();
 
         caixaAlerta.className = 'alert alert-success mb-0';
@@ -520,22 +560,22 @@ Com o \texttt{server.py} em execução, digite um serviço e preço no formulár
           <i class="bi bi-check-circle-fill me-1"></i>
           <strong>API Online!</strong> Conectado ao servidor (${dados.servidor}).
         `;
+
       } catch (erro) {
         caixaAlerta.className = 'alert alert-danger mb-0';
         caixaAlerta.innerHTML = `
           <i class="bi bi-exclamation-triangle-fill me-1"></i>
-          <strong>Falha de Conectividade:</strong> Não foi possível falar com a API.<br>
+          <strong>Falha de Conectividade:</strong> Nao foi possivel falar com a API.<br>
           <small class="text-muted">Detalhe: ${erro.message}</small>
         `;
+
       } finally {
-        // 4. O bloco FINALLY é SEMPRE executado, garantindo o fim do spinner
-        spinnerCarregamento.classList.add('d-none');
-        iconeBotao.classList.remove('d-none');
-        textoBotao.textContent = 'Testar Conexão com o Servidor';
-        btnVerificar.disabled = false;
-        caixaAlerta.classList.remove('d-none');
+        desativarEstadoCarregando();
       }
-    });
+    }
+
+    // 4. Vinculacao do evento
+    btnVerificar.addEventListener('click', testarConexaoComServidor);
   </script>
 </body>
 </html>
@@ -1107,23 +1147,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Cadastro de Novo Serviço via HTTP POST
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!form.checkValidity()) {
-      e.stopPropagation();
+  function obterValorCampo(idCampo) {
+    const elemento = document.getElementById(idCampo);
+    if (elemento) {
+      return elemento.value.trim();
+    }
+    return '';
+  }
+
+  // Cadastro de Novo Serviço via HTTP POST (Função Nomeada)
+  async function cadastrarNovoServico(evento) {
+    evento.preventDefault();
+    if (form.checkValidity() === false) {
+      evento.stopPropagation();
       form.classList.add('was-validated');
       return;
     }
 
-    const getVal = (id) => document.getElementById(id).value.trim();
     const dados = {
-      nome: getVal('nome'),
+      nome: obterValorCampo('nome'),
       categoria: document.getElementById('categoria').value,
-      bairro: getVal('bairro'),
-      precoBase: parseFloat(getVal('precoBase')) || 0,
-      telefone: getVal('telefone'),
-      descricao: getVal('descricao')
+      bairro: obterValorCampo('bairro'),
+      precoBase: parseFloat(obterValorCampo('precoBase')) || 0,
+      telefone: obterValorCampo('telefone'),
+      descricao: obterValorCampo('descricao')
     };
 
     if (btnSalvar) btnSalvar.disabled = true;
@@ -1131,9 +1178,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       await salvarServico(dados);
-      const msg = estaConectadoNaApi()
-        ? 'Serviço gravado no banco de dados SQLite!'
-        : 'Serviço salvo localmente (Modo Offline).';
+      let msg = 'Serviço salvo localmente (Modo Offline).';
+      if (estaConectadoNaApi() === true) {
+        msg = 'Serviço gravado no banco de dados SQLite!';
+      }
       exibirToast(msg, 'success');
 
       const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -1145,11 +1193,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (btnSalvar) btnSalvar.disabled = false;
       if (btnSalvarTexto) btnSalvarTexto.innerText = 'Salvar no Banco';
     }
-  });
+  }
 
-  // Exclusão Assíncrona via HTTP DELETE
-  container.addEventListener('click', async (e) => {
-    const btnExcluir = e.target.closest('.btn-excluir');
+  form.addEventListener('submit', cadastrarNovoServico);
+
+  // Exclusão Assíncrona via HTTP DELETE (Função Nomeada)
+  async function tratarExclusaoNaVitrine(evento) {
+    const btnExcluir = evento.target.closest('.btn-excluir');
     if (btnExcluir) {
       const id = btnExcluir.getAttribute('data-id');
       if (confirm('Deseja realmente remover este serviço da vitrine?')) {
@@ -1158,7 +1208,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         exibirToast('Serviço excluído da vitrine.', 'warning');
       }
     }
-  });
+  }
+
+  container.addEventListener('click', tratarExclusaoNaVitrine);
 });
 \end{boxCodigoJS}
 

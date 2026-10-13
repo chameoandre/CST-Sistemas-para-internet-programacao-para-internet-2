@@ -25,10 +25,12 @@
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos
     const btnConectar = document.getElementById('btnConectar');
     const resultadoStatus = document.getElementById('resultadoStatus');
 
-    btnConectar.addEventListener('click', async () => {
+    // 2. Função assíncrona nomeada que consulta a API do Flask
+    async function consultarStatusApi() {
       try {
         const resposta = await fetch('http://127.0.0.1:5000/api/status');
         const dados = await resposta.json();
@@ -46,7 +48,10 @@
           <small>Verifique se o <code>server.py</code> está rodando ou se houve bloqueio de CORS.</small>
         `;
       }
-    });
+    }
+
+    // 3. Vinculação limpa do evento de clique
+    btnConectar.addEventListener('click', consultarStatusApi);
   </script>
 </body>
 </html>

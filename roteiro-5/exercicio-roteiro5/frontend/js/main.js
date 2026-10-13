@@ -106,47 +106,60 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  function obterValorCampo(idCampo) {
+    const elemento = document.getElementById(idCampo);
+    if (elemento) {
+      return elemento.value.trim();
+    }
+    return '';
+  }
+
   // 4. Submissão do Formulário (Operações Assíncronas Create & Update)
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  async function processarFormularioServico(evento) {
+    evento.preventDefault();
 
     // Validação visual nativa do Bootstrap 5
-    if (!form.checkValidity()) {
-      e.stopPropagation();
+    if (form.checkValidity() === false) {
+      evento.stopPropagation();
       form.classList.add('was-validated');
       return;
     }
 
     const idAtual = servicoIdInput ? servicoIdInput.value : '';
-    const getVal = (id) => document.getElementById(id).value.trim();
 
     const dados = {
-      nome: getVal('nome'),
+      nome: obterValorCampo('nome'),
       categoria: document.getElementById('categoria').value,
-      bairro: getVal('bairro'),
-      precoBase: parseFloat(getVal('precoBase')) || 0,
-      telefone: getVal('telefone'),
-      descricao: getVal('descricao')
+      bairro: obterValorCampo('bairro'),
+      precoBase: parseFloat(obterValorCampo('precoBase')) || 0,
+      telefone: obterValorCampo('telefone'),
+      descricao: obterValorCampo('descricao')
     };
 
     // Bloqueia temporariamente o botão para evitar cliques duplicados
-    if (btnSalvar) btnSalvar.disabled = true;
-    if (btnSalvarTexto) btnSalvarTexto.innerText = 'Enviando...';
+    if (btnSalvar) {
+      btnSalvar.disabled = true;
+    }
+    if (btnSalvarTexto) {
+      btnSalvarTexto.innerText = 'Enviando...';
+    }
 
     try {
       if (idAtual) {
         // Operação UPDATE assíncrona
         await atualizarServico(idAtual, dados);
-        const msg = estaConectadoNaApi()
-          ? 'Serviço atualizado no banco SQLite com sucesso!'
-          : 'Serviço atualizado localmente (Modo Offline).';
+        let msg = 'Serviço atualizado localmente (Modo Offline).';
+        if (estaConectadoNaApi() === true) {
+          msg = 'Serviço atualizado no banco SQLite com sucesso!';
+        }
         exibirToast(msg, 'success');
       } else {
         // Operação CREATE assíncrona
         await salvarServico(dados);
-        const msg = estaConectadoNaApi()
-          ? 'Novo empreendimento gravado no banco de dados SQLite!'
-          : 'Empreendimento gravado localmente (Modo Offline).';
+        let msg = 'Empreendimento gravado localmente (Modo Offline).';
+        if (estaConectadoNaApi() === true) {
+          msg = 'Novo empreendimento gravado no banco de dados SQLite!';
+        }
         exibirToast(msg, 'success');
       }
 
@@ -162,15 +175,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Erro ao processar formulário:', erro);
       exibirToast('Ocorreu um erro ao salvar o serviço.', 'danger');
     } finally {
-      if (btnSalvar) btnSalvar.disabled = false;
-      if (btnSalvarTexto) btnSalvarTexto.innerText = idAtual ? 'Salvar Alterações' : 'Salvar no Banco';
+      if (btnSalvar) {
+        btnSalvar.disabled = false;
+      }
+      if (btnSalvarTexto) {
+        if (idAtual) {
+          btnSalvarTexto.innerText = 'Salvar Alterações';
+        } else {
+          btnSalvarTexto.innerText = 'Salvar no Banco';
+        }
+      }
     }
-  });
+  }
+
+  form.addEventListener('submit', processarFormularioServico);
 
   // 5. Delegação de Eventos na Vitrine (Editar e Excluir)
-  container.addEventListener('click', async (e) => {
+  async function tratarAcoesNosCards(evento) {
     // 5.1. Operação Update (Edição)
-    const btnEditar = e.target.closest('.btn-editar');
+    const btnEditar = evento.target.closest('.btn-editar');
     if (btnEditar) {
       const id = btnEditar.getAttribute('data-id');
       const item = cacheServicosAtuais.find(s => s.id.toString() === id.toString());
@@ -198,18 +221,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // 5.2. Operação Delete (Exclusão Assíncrona)
-    const btnExcluir = e.target.closest('.btn-excluir');
+    const btnExcluir = evento.target.closest('.btn-excluir');
     if (btnExcluir) {
       const id = btnExcluir.getAttribute('data-id');
       if (confirm('Deseja realmente remover este serviço da vitrine comunitária?')) {
         await removerServico(id);
         await atualizarInterface();
 
-        const msg = estaConectadoNaApi()
-          ? 'Serviço excluído do banco SQLite com sucesso.'
-          : 'Serviço removido do armazenamento local.';
+        let msg = 'Serviço removido do armazenamento local.';
+        if (estaConectadoNaApi() === true) {
+          msg = 'Serviço excluído do banco SQLite com sucesso.';
+        }
         exibirToast(msg, 'warning');
       }
     }
-  });
+  }
+
+  container.addEventListener('click', tratarAcoesNosCards);
 });

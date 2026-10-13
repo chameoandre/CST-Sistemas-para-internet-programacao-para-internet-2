@@ -25,16 +25,24 @@
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos da página
     const btnCarregar = document.getElementById('btnCarregar');
     const listaServicos = document.getElementById('listaServicos');
 
-    btnCarregar.addEventListener('click', async () => {
+    // 2. Função assíncrona dedicada com nome claro (fácil de ler e depurar no Console)
+    async function carregarServicos() {
       try {
+        // Passo 2.1: Dispara a requisição HTTP assíncrona para o arquivo
         const resposta = await fetch('dados.json');
+
+        // Passo 2.2: Converte a resposta em formato JSON para um vetor JavaScript
         const servicos = await resposta.json();
 
+        // Passo 2.3: Limpa a lista antes de adicionar novos elementos
         listaServicos.innerHTML = '';
-        servicos.forEach(servico => {
+
+        // Passo 2.4: Percorre a lista com laço clássico e cria os elementos no DOM
+        for (const servico of servicos) {
           const item = document.createElement('li');
           item.className = 'list-group-item d-flex justify-content-between align-items-center';
           item.innerHTML = `
@@ -42,11 +50,15 @@
             <span class="badge bg-success rounded-pill">R$ ${servico.preco.toFixed(2)}</span>
           `;
           listaServicos.appendChild(item);
-        });
+        }
+
       } catch (erro) {
-        console.error('Erro ao buscar dados:', erro);
+        console.error('Falha ao carregar os dados do arquivo:', erro);
       }
-    });
+    }
+
+    // 3. Vincula a função ao evento de clique de forma limpa e direta
+    btnCarregar.addEventListener('click', carregarServicos);
   </script>
 </body>
 </html>

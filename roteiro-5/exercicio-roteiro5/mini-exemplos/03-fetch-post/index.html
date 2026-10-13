@@ -37,20 +37,25 @@
   </div>
 
   <script>
+    // 1. Mapeamento dos elementos do formulário
     const formCadastro = document.getElementById('formCadastro');
     const campoNome = document.getElementById('campoNome');
     const campoPreco = document.getElementById('campoPreco');
     const feedbackPost = document.getElementById('feedbackPost');
 
-    formCadastro.addEventListener('submit', async (evento) => {
+    // 2. Função assíncrona nomeada para processar o envio
+    async function cadastrarNovoServico(evento) {
+      // Impede o recarregamento padrão da página pelo formulário
       evento.preventDefault();
 
+      // Monta o objeto de dados de forma explícita
       const dadosParaEnvio = {
         nome: campoNome.value.trim(),
         preco: parseFloat(campoPreco.value)
       };
 
       try {
+        // Envia a requisição POST configurando os 3 parâmetros essenciais
         const resposta = await fetch('http://127.0.0.1:5000/api/cadastrar', {
           method: 'POST',
           headers: {
@@ -59,12 +64,14 @@
           body: JSON.stringify(dadosParaEnvio)
         });
 
-        if (!resposta.ok) {
-          throw new Error(`Erro na resposta do servidor: código ${resposta.status}`);
+        // Validação explícita de sucesso sem contrações
+        if (resposta.ok === false) {
+          throw new Error(`O servidor retornou código de erro: ${resposta.status}`);
         }
 
         const dadosResposta = await resposta.json();
 
+        // Exibe o feedback de sucesso
         feedbackPost.className = 'alert alert-success mb-0';
         feedbackPost.classList.remove('d-none');
         feedbackPost.innerHTML = `
@@ -72,13 +79,18 @@
           <small>ID gerado: #${dadosResposta.registro.id} | Total no servidor: ${dadosResposta.total}</small>
         `;
 
+        // Limpa os campos do formulário para nova digitação
         formCadastro.reset();
+
       } catch (erro) {
         feedbackPost.className = 'alert alert-danger mb-0';
         feedbackPost.classList.remove('d-none');
         feedbackPost.innerHTML = `<strong>Falha ao enviar:</strong> ${erro.message}`;
       }
-    });
+    }
+
+    // 3. Vincula o evento submit à função
+    formCadastro.addEventListener('submit', cadastrarNovoServico);
   </script>
 </body>
 </html>
