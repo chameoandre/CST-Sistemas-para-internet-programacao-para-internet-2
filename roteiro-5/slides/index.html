@@ -420,7 +420,7 @@
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--accent-indigo), var(--accent-purple));
-      width: 8.33%;
+      width: 7.69%;
       transition: width 0.3s ease;
     }
 
@@ -859,7 +859,75 @@ document.<span class="token-fn">addEventListener</span>(<span class="token-str">
         </div>
       </section>
 
-      <!-- SLIDE 7: PÍLULA 2 - MICRO FLASK -->
+      <!-- SLIDE 7: O MICROFRAMEWORK FLASK - TEORIA & INSTALAÇÃO -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-cpu-fill"></i> Fundamentos de Backend</span>
+          <h2 class="slide-title">O Microframework Flask: O que é, Como Funciona e Instalação</h2>
+          <p class="slide-subtitle">Arquitetura minimalista em Python para construção de APIs RESTful e integração com o Front-End.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Coluna 1: O Que É e Como Funciona -->
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card">
+              <div class="card-title"><i class="bi bi-boxes text-warning"></i> O Que É & Filosofia "Micro"</div>
+              <p class="card-body-text" style="margin-bottom: 0.6rem;">
+                Criado no ecossistema Python (Pallets), o <strong>Flask</strong> é um microframework web com <em>núcleo enxuto</em>. 
+                Diferente do Django (framework monolítico "baterias inclusas"), o Flask não impõe ORMs ou estruturas engessadas.
+              </p>
+              <ul style="color: var(--text-muted); font-size: 0.88rem; padding-left: 1.2rem; margin: 0; line-height: 1.5;">
+                <li>Entrega o essencial: roteamento HTTP (Werkzeug) e templates (Jinja2).</li>
+                <li>Liberdade total para estruturar pastas e acoplar bibliotecas sob demanda.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><i class="bi bi-gear-wide-connected text-info"></i> Como Funciona & Aplicações</div>
+              <p class="card-body-text" style="margin-bottom: 0.6rem;">
+                Opera no padrão <strong>WSGI</strong> com rotas declaradas via decoradores: <code>@app.route('/api/...', methods=['GET'])</code> e respostas em JSON com <code>jsonify()</code>.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                <span class="pill-tag indigo"><i class="bi bi-link-45deg"></i> APIs REST para SPAs</span>
+                <span class="pill-tag purple"><i class="bi bi-lightning-charge"></i> Microsserviços & MVPs</span>
+                <span class="pill-tag green"><i class="bi bi-robot"></i> Modelos de IA & Ciência de Dados</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna 2: Verificação e Instalação no Terminal -->
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card" style="border-left: 4px solid var(--accent-green);">
+              <div class="card-title"><i class="bi bi-terminal-check text-success"></i> 1. Como Verificar se Está Instalado</div>
+              <p class="card-body-text" style="margin-bottom: 0.6rem;">
+                No terminal integrado do VS Code, verifique a versão do Flask:
+              </p>
+              <div style="background: #090d16; padding: 0.65rem 0.85rem; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #4ade80;">
+                $ python -m flask --version <span style="color: #64748b;"># Windows / Linux</span><br>
+                $ python3 -m flask --version <span style="color: #64748b;"># macOS</span>
+              </div>
+              <p class="card-body-text" style="margin-top: 0.5rem; font-size: 0.82rem;">
+                Retorno esperado: versões do <code>Flask 3.x.x</code>, <code>Python 3.x.x</code> e <code>Werkzeug 3.x.x</code>.
+              </p>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--accent-purple);">
+              <div class="card-title"><i class="bi bi-download text-purple"></i> 2. Como Instalar (Flask + Flask-CORS)</div>
+              <p class="card-body-text" style="margin-bottom: 0.6rem;">
+                Caso não esteja instalado, instale via <code>pip</code>:
+              </p>
+              <div style="background: #090d16; padding: 0.65rem 0.85rem; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #a78bfa;">
+                $ pip install flask flask-cors
+              </div>
+              <p class="card-body-text" style="margin-top: 0.5rem; font-size: 0.82rem;">
+                <strong>Atenção:</strong> O pacote <code>flask-cors</code> é obrigatório para que o navegador (Live Server na 5500) não bloqueie requisições para a API na porta 5000!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: PÍLULA 2 - MICRO FLASK -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-2-circle-fill"></i> Aquecimento Prático</span>
@@ -912,7 +980,7 @@ app = Flask(__name__)
         </div>
       </section>
 
-      <!-- SLIDE 8: PÍLULA 3 - FETCH POST -->
+      <!-- SLIDE 9: PÍLULA 3 - FETCH POST -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-3-circle-fill"></i> Aquecimento Prático</span>
@@ -984,7 +1052,7 @@ formCadastro.<span class="token-fn">addEventListener</span>(<span class="token-s
         </div>
       </section>
 
-      <!-- SLIDE 9: PÍLULA 4 - RESILIÊNCIA E SPINNER -->
+      <!-- SLIDE 10: PÍLULA 4 - RESILIÊNCIA E SPINNER -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-4-circle-fill"></i> Aquecimento Prático</span>
@@ -1044,7 +1112,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         </div>
       </section>
 
-      <!-- SLIDE 10: O BANCO DE DADOS SQLITE -->
+      <!-- SLIDE 11: O BANCO DE DADOS SQLITE -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-database-check"></i> Persistência Relacional</span>
@@ -1092,7 +1160,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         </div>
       </section>
 
-      <!-- SLIDE 11: ARQUITETURA COMPLETA & FALLBACK -->
+      <!-- SLIDE 12: ARQUITETURA COMPLETA & FALLBACK -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-layers-fill"></i> Engenharia Frontend</span>
@@ -1141,7 +1209,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         </div>
       </section>
 
-      <!-- SLIDE 12: CHECKLIST E PRÓXIMOS PASSOS -->
+      <!-- SLIDE 13: CHECKLIST E PRÓXIMOS PASSOS -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-flag-fill"></i> Mãos à Obra</span>
@@ -1197,7 +1265,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         <div class="progress-bar-bg">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 12</span>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 13</span>
       </div>
 
       <div class="nav-controls">

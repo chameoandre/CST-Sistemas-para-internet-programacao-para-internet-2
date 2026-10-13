@@ -199,6 +199,7 @@ Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promess
 </html>
 \end{boxCodigoHTML}
 
+\newpage
 \textbf{Passo 1.3: Criar a lógica assíncrona desacoplada (\texttt{mini-exemplos/01-fetch-get/functions.js}):}
 \begin{boxCodigoJS}
 // 1. Função assíncrona dedicada com nome claro
@@ -248,9 +249,68 @@ Abra o arquivo \texttt{index.html} com a extensão \textbf{Live Server} do VS Co
 \newpage
 \subsubsection{Pílula 2: Microbackend Flask e a Política de Mesma Origem (CORS)}
 
-\textbf{Fundamentação Teórica:} Em uma arquitetura web real, os dados não residem em arquivos estáticos locais no navegador, mas sim em um servidor backend. No Python, o microframework \textbf{Flask} permite instanciar um servidor HTTP e declarar rotas RESTful com o decorador \texttt{@app.route()}.
+\textbf{Fundamentação Teórica: O que é o Microframework Flask e Como Funciona}
 
-Entretanto, por medidas de segurança essenciais, os navegadores implementam a \textbf{Política de Mesma Origem} (\textit{Same-Origin Policy - SOP}). Como a nossa página frontend roda na porta \texttt{5500} (Live Server) e o Flask escuta na porta \texttt{5000}, o navegador bloqueia a requisição a menos que o backend declare explicitamente a liberação de \textbf{CORS} (\textit{Cross-Origin Resource Sharing}) via cabeçalho \texttt{Access-Control-Allow-Origin: *}. No Flask, utilizamos a biblioteca \textbf{\texttt{flask-cors}}.
+Em uma arquitetura web desacoplada moderna, os dados não residem em arquivos estáticos locais no navegador, mas sim em um servidor backend remoto que expõe uma API RESTful. Na linguagem Python, uma das ferramentas mais consagradas e eficientes para essa finalidade é o microframework \textbf{Flask}.
+
+\textbf{1. O que é o Flask?}
+Criado em 2010 por Armin Ronacher (mantido pelo coletivo de código aberto \textit{Pallets Projects}), o Flask é classificado como um \textbf{microframework web}. O termo \textit{"micro"} não significa que ele seja limitado ou frágil; pelo contrário, expressa uma filosofia de design intencional: manter um \textbf{núcleo enxuto e minimalista} (\textit{lean core}), sem impor decisões arquiteturais rígidas ao desenvolvedor.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Contraste Didático (Flask vs. Django):} Enquanto frameworks full-stack monolíticos (como o Django) seguem a filosofia \textit{"baterias inclusas"} --- trazendo nativamente camadas obrigatórias de ORM, painéis de administração prontos e geradores de formulários complexos ---, o Flask entrega apenas o estritamente indispensável: o motor de roteamento e despacho HTTP (baseado na biblioteca \textit{Werkzeug}) e o motor de renderização de modelos (\textit{Jinja2}). O programador é 100\% livre para escolher seu banco de dados, bibliotecas de validação e arquitetura de pastas.
+\end{itemize}
+
+\textbf{2. Para quais tipos de aplicações o Flask serve?}
+Pela sua leveza, rapidez de inicialização e baixo consumo de recursos, o Flask é a escolha ideal para:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{APIs RESTful desacopladas:} Prover endpoints JSON consumidos por aplicações web ricas (\textit{Single Page Applications} - SPAs em React, Vue, Angular ou JavaScript Puro) e aplicativos mobile.
+  \item \textbf{Microsserviços:} Componentes distribuídos especializados que resolvem tarefas pontuais em nuvem (ex: serviço de envio de e-mails, processamento de pagamentos).
+  \item \textbf{Prototipagem Ágil e MVPs (\textit{Minimum Viable Products}):} Permite construir uma API comercial completa em poucos minutos em um único arquivo \texttt{.py}.
+  \item \textbf{Serviços de Inteligência Artificial e Ciência de Dados:} É o padrão de mercado para empacotar modelos de \textit{Machine Learning} e \textit{Deep Learning} (Scikit-Learn, PyTorch, TensorFlow) e disponibilizá-los na internet como serviços preditivos consumíveis via HTTP.
+\end{itemize}
+
+\textbf{3. Como o Flask funciona (Arquitetura e Ciclo de Vida)?}
+O Flask baseia-se na especificação padrão \textbf{WSGI} (\textit{Web Server Gateway Interface} - PEP 3333), que define como um servidor web se comunica com programas Python:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Instanciação da Aplicação:} Cria-se o objeto central via \texttt{app = Flask(\_\_name\_\_)}.
+  \item \textbf{Mapeamento Declarativo com Decoradores:} As rotas da API são declaradas através de decoradores Python: \texttt{@app.route('/caminho', methods=['GET', 'POST'])}. Esse padrão associa um endereço URL e um verbo HTTP diretamente a uma função executável (\textit{view function}).
+  \item \textbf{Ciclo de Requisição e Resposta:} Quando o navegador dispara uma requisição HTTP, o Flask a intercepta, processa parâmetros da URL ou corpo (JSON), executa a função mapeada e despacha uma resposta HTTP padronizada de volta ao cliente.
+  \item \textbf{Serialização JSON Nativa (\texttt{jsonify}):} Em APIs REST, as respostas são trafegadas em formato JSON. O utilitário nativo \texttt{jsonify()} converte dicionários e listas Python em strings formatadas em JSON e anexa automaticamente o cabeçalho \texttt{Content-Type: application/json; charset=utf-8}.
+\end{enumerate}
+
+\textbf{4. Como verificar se o Flask está instalado no computador?}
+
+Antes de iniciar o código prático, verifique se o interpretador Python e o pacote Flask já estão disponíveis no terminal integrado do VS Code (ou Prompt de Comando / Terminal do seu sistema operacional):
+
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+# No Windows (PowerShell ou Prompt de Comando):
+python -m flask --version
+
+# No macOS ou Linux:
+python3 -m flask --version
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\noindent Se o Flask já estiver instalado, você verá uma mensagem informando a versão do Python, do Flask (ex: \texttt{Flask 3.x.x}) e do Werkzeug.
+
+\textbf{5. Como instalar o Flask e a biblioteca de CORS (caso não esteja instalado):}
+
+Caso o terminal acuse erro de comando não encontrado ou \texttt{No module named flask}, execute o seguinte comando para realizar a instalação no seu ambiente:
+
+\begin{boxCodigoTerminal}
+\fontsize{8.5pt}{11pt}\selectfont
+\begin{verbatim}
+# Instalação do Flask e do middleware CORS via pip:
+pip install flask flask-cors
+
+# Ou vinculando explicitamente ao interpretador Python:
+python -m pip install flask flask-cors     # Windows
+python3 -m pip install flask flask-cors    # macOS / Linux
+\end{verbatim}
+\end{boxCodigoTerminal}
+
+\textbf{Por que instalamos o \texttt{flask-cors}?} Por medidas de segurança vitais, os navegadores implementam a \textbf{Política de Mesma Origem} (\textit{Same-Origin Policy - SOP}). Como a nossa página frontend roda na porta \texttt{5500} (Live Server) e o Flask escuta na porta \texttt{5000}, o navegador bloqueia a requisição a menos que o backend declare explicitamente a liberação de \textbf{CORS} (\textit{Cross-Origin Resource Sharing}) via cabeçalho \texttt{Access-Control-Allow-Origin: *}. A biblioteca \texttt{flask-cors} fornece o middleware que habilita essa autorização em apenas uma linha no Python: \texttt{CORS(app)}.
 
 \begin{boxAtividade}[Mini-Exemplo 2: Microservidor Flask \& Consumo Cross-Origin]
 \textbf{Objetivo Prático:} Executar um microservidor Python em porta distinta e consumi-lo via Fetch a partir do navegador, compreendendo a atuação do CORS com script desacoplado.
