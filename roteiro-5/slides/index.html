@@ -807,13 +807,10 @@ app = Flask(__name__)
           <div class="code-box">
             <div class="code-box-header">
               <span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">mini-exemplos/01-fetch-get/index.html</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">mini-exemplos/01-fetch-get/functions.js</span>
             </div>
-            <pre><code><span class="token-kw">const</span> btnCarregar = document.<span class="token-fn">getElementById</span>(<span class="token-str">'btnCarregar'</span>);
-<span class="token-kw">const</span> lista = document.<span class="token-fn">getElementById</span>(<span class="token-str">'listaServicos'</span>);
-
-<span class="token-cm">// 1. Função assíncrona nomeada (fácil de ler e depurar)</span>
-<span class="token-kw">async function</span> <span class="token-fn">carregarServicos</span>() {
+            <pre><code><span class="token-cm">// 1. Função assíncrona nomeada (desacoplada da interface)</span>
+<span class="token-kw">async function</span> <span class="token-fn">carregarServicos</span>(lista) {
   <span class="token-kw">try</span> {
     <span class="token-cm">// Dispara requisição HTTP com await</span>
     <span class="token-kw">const</span> resposta = <span class="token-kw">await</span> <span class="token-fn">fetch</span>(<span class="token-str">'dados.json'</span>);
@@ -834,15 +831,20 @@ app = Flask(__name__)
   }
 }
 
-<span class="token-cm">// 2. Vinculação limpa do ouvinte de eventos</span>
-btnCarregar.<span class="token-fn">addEventListener</span>(<span class="token-str">'click'</span>, carregarServicos);</code></pre>
+<span class="token-cm">// 2. Controle seguro do ciclo de vida do DOM</span>
+document.<span class="token-fn">addEventListener</span>(<span class="token-str">'DOMContentLoaded'</span>, () => {
+  <span class="token-kw">const</span> btnCarregar = document.<span class="token-fn">getElementById</span>(<span class="token-str">'btnCarregar'</span>);
+  <span class="token-kw">const</span> lista = document.<span class="token-fn">getElementById</span>(<span class="token-str">'listaServicos'</span>);
+
+  btnCarregar.<span class="token-fn">addEventListener</span>(<span class="token-str">'click'</span>, () => <span class="token-fn">carregarServicos</span>(lista));
+});</code></pre>
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <div class="card">
-              <div class="card-title"><i class="bi bi-lightbulb-fill text-warning"></i> Funções Nomeadas vs Callbacks Inline</div>
+              <div class="card-title"><i class="bi bi-shield-check text-success"></i> Arquivo JS Separado &amp; DOM Seguro</div>
               <p class="card-body-text">
-                Separar a função assíncrona (<code>async function carregarServicos</code>) da adição do evento (<code>addEventListener('click', carregarServicos)</code>) torna o fluxo linear, elimina o aninhamento excessivo e permite colocar pontos de interrupção (breakpoints) precisos no DevTools.
+                Com o script em <code>functions.js</code>, usamos <code>&lt;script src="functions.js" defer&gt;</code> no HTML e amarramos os nós dentro de <code>DOMContentLoaded</code>. Isso evita o clássico erro de nós nulos (<code>null</code>) e mantém o desacoplamento de responsabilidades.
               </p>
             </div>
 

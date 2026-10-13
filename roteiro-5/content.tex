@@ -118,6 +118,32 @@ Antes de iniciarmos a construção da arquitetura completa da Vitrine Comunitár
 
 Cada pílula introduz um conceito arquitetural isolado e fornece o código \textbf{100\% completo} para ser executado imediatamente pelos estudantes no laboratório em poucos minutos.
 
+\vspace{0.2cm}
+\begin{tcolorbox}[colback=azulObjetivos!5, colframe=azulObjetivos, title=\textbf{Padrão Arquitetural: Separação de Arquivos e Ciclo de Vida do DOM}, arc=3pt]
+\textbf{1. Separação de Responsabilidades (HTML vs. JS):}
+Seguindo a mesma lógica pedagógica aplicada ao longo do curso (Roteiro 02 com manipulação de eventos, Roteiro 04 com camadas modulares), manteremos os arquivos JavaScript estritamente separados em arquivos externos dedicados (\texttt{functions.js}). O arquivo \texttt{index.html} gerencia apenas a marcação estrutural e folhas de estilo, enquanto \texttt{functions.js} concentra a lógica comportamental e requisições assíncronas.
+
+\vspace{0.15cm}
+\textbf{2. O Desafio do Ciclo de Vida do DOM (\textit{Race Conditions}):}
+Quando incluímos um script no cabeçalho (\texttt{<head>}) de forma tradicional, o navegador interrompe o processamento do documento HTML para baixar e executar o arquivo JavaScript imediatamente. Nesse momento, os elementos visuais da interface (como \texttt{<button id="btnCarregar">} e formulários) \textbf{ainda não existem na árvore do DOM}. Caso o script tente acessá-los diretamente, o retorno será \texttt{null}, resultando no erro clássico:
+\begin{center}
+\small\texttt{\textcolor{vermelhoCodigo}{Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')}}
+\end{center}
+
+\vspace{0.15cm}
+\textbf{3. A Solução em Duas Camadas (\texttt{defer} + \texttt{DOMContentLoaded}):}
+Para garantir um ciclo de vida 100\% seguro e resiliente:
+\begin{itemize}[leftmargin=*]
+  \item \textbf{No HTML:} Utilizamos o atributo \textbf{\texttt{defer}} na tag de inclusão: \texttt{<script src="functions.js" defer></script>}. O \texttt{defer} instrui o navegador a carregar o script em segundo plano sem travar o HTML, adiando sua execução até que o parse do documento seja concluído.
+  \item \textbf{No JavaScript:} Envolvemos o mapeamento dos nós e a vinculação de ouvintes no evento \textbf{\texttt{DOMContentLoaded}}:
+\begin{verbatim}
+document.addEventListener('DOMContentLoaded', () => {
+    // Nós mapeados e eventos registrados com a árvore DOM 100% pronta!
+});
+\end{verbatim}
+\end{itemize}
+\end{tcolorbox}
+
 % -----------------------------------------------------------------
 % PÍLULA 1
 % -----------------------------------------------------------------
@@ -128,7 +154,7 @@ Cada pílula introduz um conceito arquitetural isolado e fornece o código \text
 Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promessas de valores futuros) manipuladas pelas palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}}. A função global \textbf{\texttt{fetch(url)}} dispara uma requisição HTTP assíncrona. Quando a resposta do servidor chega, utilizamos o método \textbf{\texttt{await resposta.json()}} para converter o fluxo de texto HTTP em um objeto ou vetor JavaScript utilizável.
 
 \begin{boxAtividade}[Mini-Exemplo 1: Leitura Assíncrona de Arquivo JSON com Fetch GET]
-\textbf{Objetivo Prático:} Ler um vetor de serviços em formato JSON e preencher dinamicamente uma lista HTML na tela sem recarregar a página.
+\textbf{Objetivo Prático:} Ler um vetor de serviços em formato JSON e preencher dinamicamente uma lista HTML na tela sem recarregar a página, com script externo e controle do DOM.
 \end{boxAtividade}
 
 \textbf{Passo 1.1: Criar o arquivo de dados (\texttt{mini-exemplos/01-fetch-get/dados.json}):}
@@ -140,7 +166,7 @@ Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promess
 ]
 \end{boxCodigoJS}
 
-\textbf{Passo 1.2: Criar a página de teste (\texttt{mini-exemplos/01-fetch-get/index.html}):}
+\textbf{Passo 1.2: Criar a página HTML estrutural (\texttt{mini-exemplos/01-fetch-get/index.html}):}
 \begin{boxCodigoHTML}
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -149,13 +175,15 @@ Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promess
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini-Exemplo 1: Fetch API GET</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Script externo com defer para garantir o carregamento seguro do DOM -->
+  <script src="functions.js" defer></script>
 </head>
 <body class="bg-light p-4">
   <div class="container" style="max-width: 500px;">
     <div class="card shadow-sm">
       <div class="card-body">
         <h5 class="card-title mb-3">Mini-Exemplo 1: Fetch API (GET)</h5>
-        <p class="text-muted small">Carregamento assíncrono de dados com async/await.</p>
+        <p class="text-muted small">Carregamento assíncrono de dados com <code>async/await</code>.</p>
         
         <button id="btnCarregar" class="btn btn-primary w-100 mb-3">
           Carregar Serviços Locais
@@ -167,49 +195,51 @@ Por isso, o JavaScript moderno utiliza o mecanismo de \textbf{Promises} (promess
       </div>
     </div>
   </div>
-
-  <script>
-    // 1. Mapeamento dos elementos da pagina
-    const btnCarregar = document.getElementById('btnCarregar');
-    const listaServicos = document.getElementById('listaServicos');
-
-    // 2. Funcao assincrona dedicada com nome claro (facil de ler e depurar)
-    async function carregarServicos() {
-      try {
-        // Passo 2.1: Dispara a requisicao HTTP para o arquivo
-        const resposta = await fetch('dados.json');
-
-        // Passo 2.2: Converte a resposta em formato JSON para um vetor JavaScript
-        const servicos = await resposta.json();
-
-        // Passo 2.3: Limpa a lista antes de adicionar novos elementos
-        listaServicos.innerHTML = '';
-
-        // Passo 2.4: Percorre a lista com laco for..of e cria os elementos no DOM
-        for (const servico of servicos) {
-          const item = document.createElement('li');
-          item.className = 'list-group-item d-flex justify-content-between align-items-center';
-          item.innerHTML = `
-            <span>${servico.nome}</span>
-            <span class="badge bg-success rounded-pill">R$ ${servico.preco.toFixed(2)}</span>
-          `;
-          listaServicos.appendChild(item);
-        }
-
-      } catch (erro) {
-        console.error('Falha ao carregar os dados do arquivo:', erro);
-      }
-    }
-
-    // 3. Vincula a funcao ao evento de clique de forma limpa e direta
-    btnCarregar.addEventListener('click', carregarServicos);
-  </script>
 </body>
 </html>
 \end{boxCodigoHTML}
 
+\textbf{Passo 1.3: Criar a lógica assíncrona desacoplada (\texttt{mini-exemplos/01-fetch-get/functions.js}):}
+\begin{boxCodigoJS}
+// 1. Função assíncrona dedicada com nome claro
+async function carregarServicos(listaServicos) {
+  try {
+    // Passo 1.1: Dispara a requisição HTTP assíncrona para o arquivo
+    const resposta = await fetch('dados.json');
+
+    // Passo 1.2: Converte a resposta em formato JSON para um vetor JavaScript
+    const servicos = await resposta.json();
+
+    // Passo 1.3: Limpa a lista antes de adicionar novos elementos
+    listaServicos.innerHTML = '';
+
+    // Passo 1.4: Percorre a lista e cria os elementos no DOM
+    for (const servico of servicos) {
+      const item = document.createElement('li');
+      item.className = 'list-group-item d-flex justify-content-between align-items-center';
+      item.innerHTML = `
+        <span>${servico.nome}</span>
+        <span class="badge bg-success rounded-pill">R$ ${servico.preco.toFixed(2)}</span>
+      `;
+      listaServicos.appendChild(item);
+    }
+
+  } catch (erro) {
+    console.error('Falha ao carregar os dados do arquivo:', erro);
+  }
+}
+
+// 2. Controle do ciclo de vida: executa quando o DOM estiver completamente pronto
+document.addEventListener('DOMContentLoaded', () => {
+  const btnCarregar = document.getElementById('btnCarregar');
+  const listaServicos = document.getElementById('listaServicos');
+
+  btnCarregar.addEventListener('click', () => carregarServicos(listaServicos));
+});
+\end{boxCodigoJS}
+
 \begin{boxTeste}[Como testar a Pílula 1]
-Abra o arquivo \texttt{index.html} com a extensão \textbf{Live Server} do VS Code. Clique no botão \textbf{"Carregar Serviços Locais"} e observe os 3 itens serem renderizados instantaneamente no DOM.
+Abra o arquivo \texttt{index.html} com a extensão \textbf{Live Server} do VS Code. Clique no botão \textbf{"Carregar Serviços Locais"} e observe os 3 itens serem renderizados instantaneamente no DOM. Abra o Console do DevTools (F12) e confirme que nenhum erro de nó nulo ocorre.
 \end{boxTeste}
 
 % -----------------------------------------------------------------
@@ -223,7 +253,7 @@ Abra o arquivo \texttt{index.html} com a extensão \textbf{Live Server} do VS Co
 Entretanto, por medidas de segurança essenciais, os navegadores implementam a \textbf{Política de Mesma Origem} (\textit{Same-Origin Policy - SOP}). Como a nossa página frontend roda na porta \texttt{5500} (Live Server) e o Flask escuta na porta \texttt{5000}, o navegador bloqueia a requisição a menos que o backend declare explicitamente a liberação de \textbf{CORS} (\textit{Cross-Origin Resource Sharing}) via cabeçalho \texttt{Access-Control-Allow-Origin: *}. No Flask, utilizamos a biblioteca \textbf{\texttt{flask-cors}}.
 
 \begin{boxAtividade}[Mini-Exemplo 2: Microservidor Flask \& Consumo Cross-Origin]
-\textbf{Objetivo Prático:} Executar um microservidor Python em porta distinta e consumi-lo via Fetch a partir do navegador, compreendendo a atuação do CORS.
+\textbf{Objetivo Prático:} Executar um microservidor Python em porta distinta e consumi-lo via Fetch a partir do navegador, compreendendo a atuação do CORS com script desacoplado.
 \end{boxAtividade}
 
 \textbf{Passo 2.1: Criar o microservidor Python (\texttt{mini-exemplos/02-micro-flask-cors/server.py}):}
@@ -232,7 +262,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-# Habilita o CORS para permitir requisições de outras origens (Live Server na porta 5500)
+# Habilita o CORS para permitir requisições de outras origens (porta 5500)
 CORS(app)
 
 @app.route('/api/status', methods=['GET'])
@@ -244,6 +274,7 @@ def obter_status():
     })
 
 if __name__ == '__main__':
+    # Executa na porta 5000 com recarga automática
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
@@ -256,6 +287,8 @@ if __name__ == '__main__':
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini-Exemplo 2: Flask API & CORS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Script externo com defer para carregamento seguro -->
+  <script src="functions.js" defer></script>
 </head>
 <body class="bg-light p-4">
   <div class="container" style="max-width: 500px;">
@@ -274,39 +307,41 @@ if __name__ == '__main__':
       </div>
     </div>
   </div>
-
-  <script>
-    // 1. Mapeamento dos elementos
-    const btnConectar = document.getElementById('btnConectar');
-    const resultadoStatus = document.getElementById('resultadoStatus');
-
-    // 2. Funcao assincrona nomeada que consulta a API do Flask
-    async function consultarStatusApi() {
-      try {
-        const resposta = await fetch('http://127.0.0.1:5000/api/status');
-        const dados = await resposta.json();
-
-        resultadoStatus.className = 'alert alert-success mb-0';
-        resultadoStatus.innerHTML = `
-          <strong>Status:</strong> ${dados.status} <br>
-          <strong>Servidor:</strong> ${dados.servidor} <br>
-          <strong>Origem:</strong> ${dados.cidade}
-        `;
-      } catch (erro) {
-        resultadoStatus.className = 'alert alert-danger mb-0';
-        resultadoStatus.innerHTML = `
-          <strong>Erro de Conexao:</strong> Nao foi possivel acessar a API.<br>
-          <small>Verifique se o server.py esta rodando ou se houve bloqueio de CORS.</small>
-        `;
-      }
-    }
-
-    // 3. Vinculacao limpa do evento de clique
-    btnConectar.addEventListener('click', consultarStatusApi);
-  </script>
 </body>
 </html>
 \end{boxCodigoHTML}
+
+\textbf{Passo 2.3: Criar a lógica de consumo assíncrono (\texttt{mini-exemplos/02-micro-flask-cors/functions.js}):}
+\begin{boxCodigoJS}
+// 1. Função assíncrona nomeada que consulta a API do Flask
+async function consultarStatusApi(resultadoStatus) {
+  try {
+    const resposta = await fetch('http://127.0.0.1:5000/api/status');
+    const dados = await resposta.json();
+
+    resultadoStatus.className = 'alert alert-success mb-0';
+    resultadoStatus.innerHTML = `
+      <strong>Status:</strong> ${dados.status} <br>
+      <strong>Servidor:</strong> ${dados.servidor} <br>
+      <strong>Origem:</strong> ${dados.cidade}
+    `;
+  } catch (erro) {
+    resultadoStatus.className = 'alert alert-danger mb-0';
+    resultadoStatus.innerHTML = `
+      <strong>Erro de Conexão:</strong> Não foi possível acessar a API.<br>
+      <small>Verifique se o server.py está rodando ou se houve bloqueio de CORS.</small>
+    `;
+  }
+}
+
+// 2. Controle seguro de carregamento do DOM
+document.addEventListener('DOMContentLoaded', () => {
+  const btnConectar = document.getElementById('btnConectar');
+  const resultadoStatus = document.getElementById('resultadoStatus');
+
+  btnConectar.addEventListener('click', () => consultarStatusApi(resultadoStatus));
+});
+\end{boxCodigoJS}
 
 \begin{boxTeste}[Como testar a Pílula 2 e observar o CORS em ação]
 \begin{enumerate}[leftmargin=*]
@@ -320,20 +355,19 @@ if __name__ == '__main__':
 % PÍLULA 3
 % -----------------------------------------------------------------
 \newpage
-\subsubsection{Pílula 3: Envio de Dados via POST (JSON.stringify e Headers HTTP)}
+\subsubsection{Pílula 3: Envio de Dados com Fetch POST e JSON}
 
-\textbf{Fundamentação Teórica:} Enquanto requisições \texttt{GET} apenas solicitam dados sem alterar o estado do servidor, o verbo \textbf{\texttt{POST}} envia um payload de dados no corpo (\textit{Body}) da mensagem HTTP para criação de novos registros (\textit{Create}).
+\textbf{Fundamentação Teórica:} Enquanto requisições \textbf{GET} servem para recuperar dados, o método HTTP \textbf{POST} transfere novas informações do cliente para persistência no servidor. 
 
-Ao utilizar a Fetch API para enviar dados com \texttt{POST}, três parâmetros de configuração são \textbf{rigorosamente obrigatórios}:
+Para enviar dados em formato JSON através da Fetch API, três etapas são mandatórias no objeto de configuração:
 \begin{enumerate}[leftmargin=*]
-  \item \textbf{\texttt{method: 'POST'}:} Especifica o verbo HTTP de envio;
-  \item \textbf{\texttt{headers: \{ 'Content-Type': 'application/json' \}}:} Informa ao servidor que o corpo da mensagem trafega estruturado em formato JSON;
-  \item \textbf{\texttt{body: JSON.stringify(objeto)}:} Converte o objeto JavaScript em uma cadeia de caracteres de texto compatível com o protocolo HTTP.
+  \item Declarar o método: \texttt{method: 'POST'};
+  \item Declarar o cabeçalho HTTP: \texttt{headers: \{ 'Content-Type': 'application/json' \}}, avisando ao Flask que o corpo trafega em formato JSON;
+  \item Serializar o objeto JavaScript em texto JSON puro: \texttt{body: JSON.stringify(dados)}.
 \end{enumerate}
-No servidor Flask, o payload é recebido e decodificado automaticamente com o método \textbf{\texttt{request.get\_json()}}.
 
-\begin{boxAtividade}[Mini-Exemplo 3: Cadastro de Serviço via Fetch POST]
-\textbf{Objetivo Prático:} Enviar dados de um formulário via POST em formato JSON para o Flask e receber confirmação com status HTTP 201 Created.
+\begin{boxAtividade}[Mini-Exemplo 3: Cadastro de Serviços com Fetch POST]
+\textbf{Objetivo Prático:} Submeter um formulário HTML e enviar os dados para gravação na API Flask via requisição POST, com validação e script desacoplado.
 \end{boxAtividade}
 
 \textbf{Passo 3.1: Criar o servidor com rota POST (\texttt{mini-exemplos/03-fetch-post/server.py}):}
@@ -349,6 +383,7 @@ servicos_cadastrados = []
 @app.route('/api/cadastrar', methods=['POST'])
 def cadastrar_servico():
     dados = request.get_json()
+    
     if not dados or 'nome' not in dados or 'preco' not in dados:
         return jsonify({"erro": "Campos obrigatórios ausentes."}), 400
 
@@ -359,10 +394,10 @@ def cadastrar_servico():
         "preco": float(dados['preco'])
     }
     servicos_cadastrados.append(registro)
-    print(f"[API FLASK] Novo servico cadastrado: {registro}")
+    print(f"[API FLASK] Novo serviço cadastrado: {registro}")
 
     return jsonify({
-        "mensagem": "Servico cadastrado com sucesso no servidor!",
+        "mensagem": "Serviço cadastrado com sucesso no servidor!",
         "registro": registro,
         "total": len(servicos_cadastrados)
     }), 201
@@ -380,6 +415,8 @@ if __name__ == '__main__':
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini-Exemplo 3: Fetch API POST</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Script externo com defer para carregamento seguro -->
+  <script src="functions.js" defer></script>
 </head>
 <body class="bg-light p-4">
   <div class="container" style="max-width: 500px;">
@@ -408,61 +445,65 @@ if __name__ == '__main__':
       </div>
     </div>
   </div>
-
-  <script>
-    // 1. Mapeamento dos elementos do formulario
-    const formCadastro = document.getElementById('formCadastro');
-    const campoNome = document.getElementById('campoNome');
-    const campoPreco = document.getElementById('campoPreco');
-    const feedbackPost = document.getElementById('feedbackPost');
-
-    // 2. Funcao assincrona nomeada para processar o envio
-    async function cadastrarNovoServico(evento) {
-      evento.preventDefault();
-
-      const dadosParaEnvio = {
-        nome: campoNome.value.trim(),
-        preco: parseFloat(campoPreco.value)
-      };
-
-      try {
-        const resposta = await fetch('http://127.0.0.1:5000/api/cadastrar', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(dadosParaEnvio)
-        });
-
-        // Validacao explicita sem contracoes
-        if (resposta.ok === false) {
-          throw new Error(`O servidor retornou codigo de erro: ${resposta.status}`);
-        }
-
-        const dadosResposta = await resposta.json();
-
-        feedbackPost.className = 'alert alert-success mb-0';
-        feedbackPost.classList.remove('d-none');
-        feedbackPost.innerHTML = `
-          <strong>${dadosResposta.mensagem}</strong><br>
-          <small>ID gerado: #${dadosResposta.registro.id} | Total no servidor: ${dadosResposta.total}</small>
-        `;
-
-        formCadastro.reset();
-
-      } catch (erro) {
-        feedbackPost.className = 'alert alert-danger mb-0';
-        feedbackPost.classList.remove('d-none');
-        feedbackPost.innerHTML = `<strong>Falha ao enviar:</strong> ${erro.message}`;
-      }
-    }
-
-    // 3. Vincula o evento submit a funcao
-    formCadastro.addEventListener('submit', cadastrarNovoServico);
-  </script>
 </body>
 </html>
 \end{boxCodigoHTML}
+
+\textbf{Passo 3.3: Criar a lógica de envio assíncrono (\texttt{mini-exemplos/03-fetch-post/functions.js}):}
+\begin{boxCodigoJS}
+// 1. Função assíncrona nomeada para processar o envio
+async function cadastrarNovoServico(evento, formCadastro, campoNome, campoPreco, feedbackPost) {
+  evento.preventDefault();
+
+  const dadosParaEnvio = {
+    nome: campoNome.value.trim(),
+    preco: parseFloat(campoPreco.value)
+  };
+
+  try {
+    const resposta = await fetch('http://127.0.0.1:5000/api/cadastrar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dadosParaEnvio)
+    });
+
+    // Validação explícita sem contrações
+    if (resposta.ok === false) {
+      throw new Error(`O servidor retornou o código de erro: ${resposta.status}`);
+    }
+
+    const dadosResposta = await resposta.json();
+
+    feedbackPost.className = 'alert alert-success mb-0';
+    feedbackPost.classList.remove('d-none');
+    feedbackPost.innerHTML = `
+      <strong>${dadosResposta.mensagem}</strong><br>
+      <small>ID gerado: #${dadosResposta.registro.id} | Total no servidor: ${dadosResposta.total}</small>
+    `;
+
+    formCadastro.reset();
+
+  } catch (erro) {
+    feedbackPost.className = 'alert alert-danger mb-0';
+    feedbackPost.classList.remove('d-none');
+    feedbackPost.innerHTML = `<strong>Falha ao enviar:</strong> ${erro.message}`;
+  }
+}
+
+// 2. Controle seguro de carregamento do DOM
+document.addEventListener('DOMContentLoaded', () => {
+  const formCadastro = document.getElementById('formCadastro');
+  const campoNome = document.getElementById('campoNome');
+  const campoPreco = document.getElementById('campoPreco');
+  const feedbackPost = document.getElementById('feedbackPost');
+
+  formCadastro.addEventListener('submit', (evento) => {
+    cadastrarNovoServico(evento, formCadastro, campoNome, campoPreco, feedbackPost);
+  });
+});
+\end{boxCodigoJS}
 
 \begin{boxTeste}[Como testar a Pílula 3]
 Com o \texttt{server.py} em execução, digite um serviço e preço no formulário e clique em \textbf{"Enviar via POST"}. Observe que o terminal do Python exibirá o log do registro recebido e a página exibirá o alerta verde com o ID gerado pelo servidor!
@@ -496,14 +537,16 @@ Com o \texttt{server.py} em execução, digite um serviço e preço no formulár
   <title>Mini-Exemplo 4: Tratamento de Falhas & Spinners</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Script externo com defer para carregamento seguro -->
+  <script src="functions.js" defer></script>
 </head>
 <body class="bg-light p-4">
   <div class="container" style="max-width: 520px;">
     <div class="card shadow-sm">
       <div class="card-body">
-        <h5 class="card-title mb-3">Mini-Exemplo 4: Resiliência & Spinner</h5>
+        <h5 class="card-title mb-3">Mini-Exemplo 4: Resiliência &amp; Spinner</h5>
         <p class="text-muted small">
-          Controle de estados de carregamento (Loading State) e tratamento resiliente de falhas de rede com try...catch...finally.
+          Controle de estados de carregamento (Loading State) e tratamento resiliente de falhas de rede com <code>try...catch...finally</code>.
         </p>
 
         <button id="btnVerificar" class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2 mb-3">
@@ -516,83 +559,84 @@ Com o \texttt{server.py} em execução, digite um serviço e preço no formulár
       </div>
     </div>
   </div>
-
-  <script>
-    // 1. Mapeamento dos elementos da interface
-    const btnVerificar = document.getElementById('btnVerificar');
-    const iconeBotao = document.getElementById('iconeBotao');
-    const spinnerCarregamento = document.getElementById('spinnerCarregamento');
-    const textoBotao = document.getElementById('textoBotao');
-    const caixaAlerta = document.getElementById('caixaAlerta');
-
-    // 2. Funcoes auxiliares para clareza visual de estados
-    function ativarEstadoCarregando() {
-      btnVerificar.disabled = true;
-      iconeBotao.classList.add('d-none');
-      spinnerCarregamento.classList.remove('d-none');
-      textoBotao.textContent = 'Consultando Servidor...';
-      caixaAlerta.classList.add('d-none');
-    }
-
-    function desativarEstadoCarregando() {
-      spinnerCarregamento.classList.add('d-none');
-      iconeBotao.classList.remove('d-none');
-      textoBotao.textContent = 'Testar Conexao com o Servidor';
-      btnVerificar.disabled = false;
-      caixaAlerta.classList.remove('d-none');
-    }
-
-    // 3. Funcao assincrona nomeada com bloco defensivo try...catch...finally
-    async function testarConexaoComServidor() {
-      ativarEstadoCarregando();
-
-      try {
-        const resposta = await fetch('http://127.0.0.1:5000/api/status');
-
-        if (resposta.ok === false) {
-          throw new Error(`O servidor retornou o codigo de erro HTTP ${resposta.status}.`);
-        }
-
-        const dados = await resposta.json();
-
-        caixaAlerta.className = 'alert alert-success mb-0';
-        caixaAlerta.innerHTML = `
-          <i class="bi bi-check-circle-fill me-1"></i>
-          <strong>API Online!</strong> Conectado ao servidor (${dados.servidor}).
-        `;
-
-      } catch (erro) {
-        caixaAlerta.className = 'alert alert-danger mb-0';
-        caixaAlerta.innerHTML = `
-          <i class="bi bi-exclamation-triangle-fill me-1"></i>
-          <strong>Falha de Conectividade:</strong> Nao foi possivel falar com a API.<br>
-          <small class="text-muted">Detalhe: ${erro.message}</small>
-        `;
-
-      } finally {
-        desativarEstadoCarregando();
-      }
-    }
-
-    // 4. Vinculacao do evento
-    btnVerificar.addEventListener('click', testarConexaoComServidor);
-  </script>
 </body>
 </html>
 \end{boxCodigoHTML}
 
+\textbf{Passo 4.2: Criar as funções de estado e resiliência (\texttt{mini-exemplos/04-tratamento-erros-spinner/functions.js}):}
+\begin{boxCodigoJS}
+// 1. Funções auxiliares para clareza visual de estados
+function ativarEstadoCarregando(elementos) {
+  elementos.btnVerificar.disabled = true;
+  elementos.iconeBotao.classList.add('d-none');
+  elementos.spinnerCarregamento.classList.remove('d-none');
+  elementos.textoBotao.textContent = 'Consultando Servidor...';
+  elementos.caixaAlerta.classList.add('d-none');
+}
+
+function desativarEstadoCarregando(elementos) {
+  elementos.spinnerCarregamento.classList.add('d-none');
+  elementos.iconeBotao.classList.remove('d-none');
+  elementos.textoBotao.textContent = 'Testar Conexão com o Servidor';
+  elementos.btnVerificar.disabled = false;
+  elementos.caixaAlerta.classList.remove('d-none');
+}
+
+// 2. Função assíncrona nomeada com bloco defensivo try...catch...finally
+async function testarConexaoComServidor(elementos) {
+  ativarEstadoCarregando(elementos);
+
+  try {
+    const resposta = await fetch('http://127.0.0.1:5000/api/status');
+
+    if (resposta.ok === false) {
+      throw new Error(`O servidor retornou o código de erro HTTP ${resposta.status}.`);
+    }
+
+    const dados = await resposta.json();
+
+    elementos.caixaAlerta.className = 'alert alert-success mb-0';
+    elementos.caixaAlerta.innerHTML = `
+      <i class="bi bi-check-circle-fill me-1"></i>
+      <strong>API Online!</strong> Conectado ao servidor (${dados.servidor}).
+    `;
+
+  } catch (erro) {
+    elementos.caixaAlerta.className = 'alert alert-danger mb-0';
+    elementos.caixaAlerta.innerHTML = `
+      <i class="bi bi-exclamation-triangle-fill me-1"></i>
+      <strong>Falha de Conectividade:</strong> Não foi possível falar com a API.<br>
+      <small class="text-muted">Detalhe: ${erro.message}</small>
+    `;
+
+  } finally {
+    // O bloco finally executa SEMPRE, garantindo restauração do botão
+    desativarEstadoCarregando(elementos);
+  }
+}
+
+// 3. Controle seguro de carregamento do DOM
+document.addEventListener('DOMContentLoaded', () => {
+  const elementos = {
+    btnVerificar: document.getElementById('btnVerificar'),
+    iconeBotao: document.getElementById('iconeBotao'),
+    spinnerCarregamento: document.getElementById('spinnerCarregamento'),
+    textoBotao: document.getElementById('textoBotao'),
+    caixaAlerta: document.getElementById('caixaAlerta')
+  };
+
+  elementos.btnVerificar.addEventListener('click', () => {
+    testarConexaoComServidor(elementos);
+  });
+});
+\end{boxCodigoJS}
+
 \begin{boxTeste}[Como testar a Resiliência da Pílula 4]
 \begin{enumerate}[leftmargin=*]
-  \item Com o servidor Flask ativo, clique no botão: observe o spinner piscar e o alerta verde de sucesso aparecer.
-  \item Em seguida, vá ao terminal do Python e encerre o servidor pressionando \textbf{Ctrl+C}.
-  \item Clique no botão novamente: note que o spinner gira durante a tentativa de conexão, é desligado com segurança pelo bloco \texttt{finally}, e um alerta vermelho amigável informa a falha sem quebrar a aplicação!
+  \item \textbf{Cenário de Sucesso:} Com o \texttt{server.py} da Pílula 2 rodando na porta 5000, clique no botão. Observe o spinner girar rapidamente e o alerta verde confirmar o status.
+  \item \textbf{Cenário de Queda de Rede (Servidor Desligado):} Pressione \texttt{Ctrl+C} no terminal para derrubar o \texttt{server.py}. Clique no botão novamente. Observe que o spinner gira e, graças ao bloco \texttt{catch}, a tela \textbf{não congela}: um alerta vermelho informa a falha de conectividade e o bloco \texttt{finally} restaura o botão para novo teste!
 \end{enumerate}
 \end{boxTeste}
-
-\vspace{0.4cm}
-\begin{boxAtividade}[Consolidação dos Conceitos e Transição para o Projeto Integrado]
-Com estes 4 fundamentos atômicos assimilados e testados individualmente (\textbf{Fetch GET}, \textbf{Flask com CORS}, \textbf{Fetch POST} e \textbf{Resiliência com Spinner/Finally}), avançaremos agora para a construção da \textbf{Aplicação Completa da Vitrine Comunitária Conectada}, integrando banco relacional \textbf{SQLite}, camadas modulares em \textbf{ES6 Modules} e contingência offline.
-\end{boxAtividade}
 
 % =====================================================
 % FASES DE IMPLEMENTAÇÃO GUIADAS (ZERO-ELLIPSIS RULE)
