@@ -420,7 +420,7 @@
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--accent-indigo), var(--accent-purple));
-      width: 7.69%;
+      width: 7.14%;
       transition: width 0.3s ease;
     }
 
@@ -927,7 +927,83 @@ document.<span class="token-fn">addEventListener</span>(<span class="token-str">
         </div>
       </section>
 
-      <!-- SLIDE 8: PÍLULA 2 - MICRO FLASK -->
+      <!-- SLIDE 8: DO XAMPP AO FLASK - COMPARATIVO ARQUITETURAL -->
+      <section class="slide">
+        <div class="slide-header">
+          <span class="slide-eyebrow"><i class="bi bi-arrow-left-right"></i> Paradigmas Web</span>
+          <h2 class="slide-title">Do XAMPP (PHP & Apache) ao Flask: O que Mudou?</h2>
+          <p class="slide-subtitle">Comparando a pilha clássica dos laboratórios de banco de dados com a arquitetura desacoplada moderna.</p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Coluna 1: Pilha Tradicional (XAMPP) -->
+          <div class="card" style="border-left: 4px solid var(--accent-amber); background: rgba(245, 158, 11, 0.04);">
+            <div class="card-title" style="color: #fbbf24;">
+              <i class="bi bi-archive-fill"></i> Pilha Clássica (XAMPP / PHP / Apache)
+            </div>
+            <p class="card-body-text" style="margin-bottom: 0.8rem; font-size: 0.88rem;">
+              O modelo comum em disciplinas introdutórias de banco de dados e programação de servidores:
+            </p>
+            <ul style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; padding-left: 1.2rem; margin: 0;">
+              <li><strong>Servidor Pesado:</strong> Exige instalar Apache e MySQL como serviços de sistema (portas 80/443 e 3306).</li>
+              <li><strong>Roteamento Físico:</strong> A URL espelha o disco rígido (<code>localhost/app/produtos.php</code>).</li>
+              <li><strong>Monólito SSR:</strong> O PHP mescla HTML e lógica (<code>echo '&lt;tr&gt;...'</code>), recarregando a página inteira a cada requisição.</li>
+              <li><strong>Banco via Rede:</strong> Exige MySQL em background e painel visual do phpMyAdmin.</li>
+            </ul>
+          </div>
+
+          <!-- Coluna 2: Microframework Moderno (Flask + Fetch API) -->
+          <div class="card" style="border-left: 4px solid var(--accent-emerald); background: rgba(16, 185, 129, 0.04);">
+            <div class="card-title" style="color: #34d399;">
+              <i class="bi bi-lightning-charge-fill"></i> Arquitetura Moderna (Flask + Fetch API)
+            </div>
+            <p class="card-body-text" style="margin-bottom: 0.8rem; font-size: 0.88rem;">
+              O padrão moderno da indústria para aplicações ricas (SPAs) e microsserviços:
+            </p>
+            <ul style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; padding-left: 1.2rem; margin: 0;">
+              <li><strong>Servidor Embutido:</strong> Sobe em 1 segundo direto do script Python (<code>app.run()</code>), sem instalar nada no SO.</li>
+              <li><strong>Rotas Semânticas:</strong> Mapeadas no código via decoradores (<code>@app.route('/api/produtos')</code>).</li>
+              <li><strong>API Desacoplada:</strong> O backend devolve apenas dados JSON puros (<code>jsonify()</code>); o JS atualiza o DOM sem piscar a tela.</li>
+              <li><strong>SQLite Portátil:</strong> Banco relacional em 1 arquivo (<code>vitrine.db</code>) nativo do Python, zero configuração de portas ou senhas.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Diagrama Visual de Fluxo do Flask -->
+        <div class="arch-flow-container" style="margin-top: 1.2rem; margin-bottom: 0; padding: 0.9rem 1.4rem;">
+          <div class="arch-node" style="padding: 0.8rem;">
+            <div class="node-icon" style="font-size: 1.5rem;"><i class="bi bi-browser-chrome text-indigo"></i></div>
+            <h4 style="font-size: 0.95rem;">Navegador (SPA)</h4>
+            <span class="node-port">Porta 5500 (Live Server)</span>
+          </div>
+
+          <div class="arch-connector">
+            <span>fetch('/api/status')</span>
+            <div class="arch-arrow"><i class="bi bi-arrow-right"></i></div>
+            <span style="color: var(--accent-cyan); font-size: 0.72rem;">HTTP GET</span>
+          </div>
+
+          <div class="arch-node" style="padding: 0.8rem; border-color: rgba(99, 102, 241, 0.5);">
+            <div class="node-icon" style="font-size: 1.5rem;"><i class="bi bi-cpu text-warning"></i></div>
+            <h4 style="font-size: 0.95rem;">Flask API (WSGI)</h4>
+            <span class="node-port" style="color: #4ade80;">@app.route + jsonify()</span>
+          </div>
+
+          <div class="arch-connector">
+            <span>CORS(app)</span>
+            <div class="arch-arrow"><i class="bi bi-arrow-right"></i></div>
+            <span style="color: #a78bfa; font-size: 0.72rem;">JSON 200 OK</span>
+          </div>
+
+          <div class="arch-node" style="padding: 0.8rem;">
+            <div class="node-icon" style="font-size: 1.5rem;"><i class="bi bi-database-fill text-success"></i></div>
+            <h4 style="font-size: 0.95rem;">SQLite 3</h4>
+            <span class="node-port">vitrine.db (Arquivo Local)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: PÍLULA 2 - MICRO FLASK -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-2-circle-fill"></i> Aquecimento Prático</span>
@@ -980,7 +1056,7 @@ app = Flask(__name__)
         </div>
       </section>
 
-      <!-- SLIDE 9: PÍLULA 3 - FETCH POST -->
+      <!-- SLIDE 10: PÍLULA 3 - FETCH POST -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-3-circle-fill"></i> Aquecimento Prático</span>
@@ -1052,7 +1128,7 @@ formCadastro.<span class="token-fn">addEventListener</span>(<span class="token-s
         </div>
       </section>
 
-      <!-- SLIDE 10: PÍLULA 4 - RESILIÊNCIA E SPINNER -->
+      <!-- SLIDE 11: PÍLULA 4 - RESILIÊNCIA E SPINNER -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-4-circle-fill"></i> Aquecimento Prático</span>
@@ -1112,7 +1188,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         </div>
       </section>
 
-      <!-- SLIDE 11: O BANCO DE DADOS SQLITE -->
+      <!-- SLIDE 12: O BANCO DE DADOS SQLITE -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-database-check"></i> Persistência Relacional</span>
@@ -1160,7 +1236,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         </div>
       </section>
 
-      <!-- SLIDE 12: ARQUITETURA COMPLETA & FALLBACK -->
+      <!-- SLIDE 13: ARQUITETURA COMPLETA & FALLBACK -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-layers-fill"></i> Engenharia Frontend</span>
@@ -1209,7 +1285,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         </div>
       </section>
 
-      <!-- SLIDE 13: CHECKLIST E PRÓXIMOS PASSOS -->
+      <!-- SLIDE 14: CHECKLIST E PRÓXIMOS PASSOS -->
       <section class="slide">
         <div class="slide-header">
           <span class="slide-eyebrow"><i class="bi bi-flag-fill"></i> Mãos à Obra</span>
@@ -1265,7 +1341,7 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
         <div class="progress-bar-bg">
           <div id="progress-fill" class="progress-bar-fill"></div>
         </div>
-        <span id="slide-counter" class="slide-counter">Slide 1 de 13</span>
+        <span id="slide-counter" class="slide-counter">Slide 1 de 14</span>
       </div>
 
       <div class="nav-controls">

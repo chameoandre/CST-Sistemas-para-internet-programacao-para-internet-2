@@ -277,7 +277,67 @@ O Flask baseia-se na especificação padrão \textbf{WSGI} (\textit{Web Server G
   \item \textbf{Serialização JSON Nativa (\texttt{jsonify}):} Em APIs REST, as respostas são trafegadas em formato JSON. O utilitário nativo \texttt{jsonify()} converte dicionários e listas Python em strings formatadas em JSON e anexa automaticamente o cabeçalho \texttt{Content-Type: application/json; charset=utf-8}.
 \end{enumerate}
 
-\textbf{4. Como verificar se o Flask está instalado no computador?}
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.0cm and 1.8cm,
+    caixaCliente/.style={rectangle, draw=azulTitulo, rounded corners=5pt, fill=azulTitulo!6, line width=1pt, align=center, inner sep=6pt, font=\footnotesize},
+    caixaFlask/.style={rectangle, draw=pyKeyword, rounded corners=5pt, fill=pyKeyword!8, line width=1pt, align=center, inner sep=6pt, font=\footnotesize},
+    caixaCors/.style={rectangle, draw=ifscGreen, rounded corners=5pt, fill=ifscGreen!10, line width=1pt, align=center, inner sep=6pt, font=\footnotesize},
+    seta/.style={-{Latex[length=2.5mm]}, line width=1pt}
+]
+
+% Nós
+\node[caixaCliente] (cliente) {\textbf{Navegador (Frontend)}\\\texttt{http://127.0.0.1:5500}\\\small Dispara \texttt{fetch('/api/status')}};
+
+\node[caixaFlask, right=of cliente] (roteador) {\textbf{Roteador do Flask (WSGI)}\\\texttt{@app.route('/api/status')}\\\small Mapeia URL \& Método GET};
+
+\node[caixaFlask, below=0.8cm of roteador] (view) {\textbf{Função Executável (\textit{View})}\\\texttt{def obter\_status():}\\\small Processa lógica \& chama \texttt{jsonify()}};
+
+\node[caixaCors, below=0.8cm of cliente] (cors) {\textbf{Middleware CORS (\texttt{flask-cors})}\\\texttt{Access-Control-Allow-Origin: *}\\\small Autoriza resposta para a porta 5500};
+
+% Setas
+\draw[seta, color=azulTitulo] (cliente.east) -- node[midway, above, font=\scriptsize] {1. Requisição HTTP} (roteador.west);
+\draw[seta, color=pyKeyword] (roteador.south) -- node[midway, right, font=\scriptsize] {2. Invoca função} (view.north);
+\draw[seta, color=pyKeyword] (view.west) -- node[midway, above, font=\scriptsize] {3. Gera JSON} (cors.east);
+\draw[seta, color=ifscGreen] (cors.north) -- node[midway, left, font=\scriptsize] {4. Resposta 200 OK} (cliente.south);
+
+\end{tikzpicture}
+\end{center}
+
+\textbf{4. Comparativo Didático: Pilha Tradicional XAMPP (PHP + Apache + MySQL) vs. Microframework Moderno (Flask + Python + SQLite)}
+
+Muitos estudantes de desenvolvimento web iniciam seu aprendizado utilizando o pacote integrado \textbf{XAMPP} (\textit{Cross-Platform, Apache, MySQL, PHP, Perl}), que foi o padrão clássico da web durante décadas (e comum em disciplinas introdutórias de banco de dados e programação). Para compreender por que hoje utilizamos o \textbf{Flask} com a \textbf{Fetch API}, é fundamental contrastar essas duas abordagens:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Servidor Web \& Inicialização:} No modelo tradicional, o desenvolvedor precisa instalar o software XAMPP no sistema operacional, abrir seu painel de controle e iniciar o servidor \textbf{Apache} (que roda em segundo plano consumindo portas do sistema operacional como a 80 e a 443). No Flask, \textbf{não é necessário instalar nenhum servidor web externo}: o próprio interpretador Python cria um servidor HTTP de desenvolvimento embutido e de inicialização instantânea através do comando \texttt{app.run(port=5000)}.
+  \item \textbf{Roteamento Físico vs. Roteamento Declarativo:} No PHP tradicional sobre o Apache, o roteamento de URLs está rigidamente atrelado à \textbf{árvore física de arquivos no disco}. Para acessar uma rota, a URL deve espelhar os diretórios do servidor (por exemplo, \texttt{http://localhost/meu-app/admin/listar.php} precisa obrigatoriamente apontar para o arquivo físico \texttt{listar.php}). No Flask, o roteamento é \textbf{lógico, semântico e desacoplado do sistema de arquivos}: decoradores como \texttt{@app.route('/api/produtos')} definem endereços elegantes independentemente de como o código está organizado internamente.
+  \item \textbf{Monólito Acoplado vs. Arquitetura Desacoplada (API REST):} No fluxo clássico com PHP/XAMPP, o backend frequentemente realiza \textit{Server-Side Rendering} (renderização no servidor), mesclando lógica com código de apresentação (\texttt{echo '<tr><td>' . \$dado . '</td></tr>'}). Toda ação do usuário dispara um recarregamento completo da página web. Na arquitetura moderna que estamos construindo com Flask, o backend funciona exclusivamente como uma \textbf{API REST de dados puros (JSON)}; a interface visual é uma aplicação web rica (SPA) que roda no navegador do usuário e consome os dados de forma assíncrona (\texttt{fetch()}) sem recarregar a tela.
+  \item \textbf{Banco de Dados \& Administração:} No XAMPP, utiliza-se o servidor de banco de dados MySQL/MariaDB (processo de rede separado) administrado via interface gráfica \textbf{phpMyAdmin}. No nosso projeto com Flask, adotamos o \textbf{SQLite 3}, cujo banco reside em um único arquivo local (\texttt{vitrine.db}) nativo da biblioteca padrão do Python, garantindo portabilidade absoluta (basta mover a pasta do projeto para levar o banco junto, sem senhas, usuários ou portas de rede para configurar).
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|X|X|}
+\hline
+\rowcolor{cinzaCabecalho}
+\textbf{Aspecto} & \textbf{Pilha Tradicional (XAMPP / PHP)} & \textbf{Microframework Moderno (Flask / Python)} \\
+\hline
+\textbf{Servidor Web} & Apache como serviço externo do SO (painel XAMPP, portas 80/443). & Servidor HTTP embutido no script Python (\texttt{app.run(port=5000)}). \\
+\hline
+\textbf{Roteamento} & Acoplado à árvore física de arquivos no disco (\texttt{/script.php}). & Declarativo, semântico e desacoplado (\texttt{@app.route('/api/...')}). \\
+\hline
+\textbf{Formato de Saída} & Renderização no servidor misturando lógica e HTML (\textit{SSR Monolítico}). & API REST desacoplada retornando dados em JSON puro (\texttt{jsonify()}). \\
+\hline
+\textbf{Banco de Dados} & MySQL em rede gerenciado via navegador no phpMyAdmin. & SQLite embutido em arquivo único (\texttt{vitrine.db}), zero configuração externa. \\
+\hline
+\textbf{Experiência no Cliente} & Recarregamento síncrono da página inteira no navegador. & Requisições assíncronas em segundo plano via Fetch API (\texttt{async/await}). \\
+\hline
+\end{tabularx}
+\caption{Quadro comparativo entre a abordagem clássica com XAMPP e a arquitetura moderna com Flask.}
+\end{table}
+
+\textbf{5. Como verificar se o Flask está instalado no computador?}
 
 Antes de iniciar o código prático, verifique se o interpretador Python e o pacote Flask já estão disponíveis no terminal integrado do VS Code (ou Prompt de Comando / Terminal do seu sistema operacional):
 
@@ -294,7 +354,7 @@ python3 -m flask --version
 
 \noindent Se o Flask já estiver instalado, você verá uma mensagem informando a versão do Python, do Flask (ex: \texttt{Flask 3.x.x}) e do Werkzeug.
 
-\textbf{5. Como instalar o Flask e a biblioteca de CORS (caso não esteja instalado):}
+\textbf{6. Como instalar o Flask e a biblioteca de CORS (caso não esteja instalado):}
 
 Caso o terminal acuse erro de comando não encontrado ou \texttt{No module named flask}, execute o seguinte comando para realizar a instalação no seu ambiente:
 
@@ -312,6 +372,7 @@ python3 -m pip install flask flask-cors    # macOS / Linux
 
 \textbf{Por que instalamos o \texttt{flask-cors}?} Por medidas de segurança vitais, os navegadores implementam a \textbf{Política de Mesma Origem} (\textit{Same-Origin Policy - SOP}). Como a nossa página frontend roda na porta \texttt{5500} (Live Server) e o Flask escuta na porta \texttt{5000}, o navegador bloqueia a requisição a menos que o backend declare explicitamente a liberação de \textbf{CORS} (\textit{Cross-Origin Resource Sharing}) via cabeçalho \texttt{Access-Control-Allow-Origin: *}. A biblioteca \texttt{flask-cors} fornece o middleware que habilita essa autorização em apenas uma linha no Python: \texttt{CORS(app)}.
 
+\newpage
 \begin{boxAtividade}[Mini-Exemplo 2: Microservidor Flask \& Consumo Cross-Origin]
 \textbf{Objetivo Prático:} Executar um microservidor Python em porta distinta e consumi-lo via Fetch a partir do navegador, compreendendo a atuação do CORS com script desacoplado.
 \end{boxAtividade}
