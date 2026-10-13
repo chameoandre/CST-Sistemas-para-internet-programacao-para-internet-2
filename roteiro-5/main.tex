@@ -219,13 +219,19 @@
     }
 }
 
-\newtcolorbox{boxObjetivos}{
-    colback=azulObjetivos!10,
+\newtcolorbox{boxObjetivos}[1][Objetivos da Prática]{
+    enhanced,
+    breakable,
+    colback=white,
     colframe=azulObjetivos,
-    boxrule=1pt,
-    arc=4pt,
-    left=6pt, right=6pt, top=6pt, bottom=6pt,
-    title=Objetivos da Prática
+    boxrule=0.8pt,
+    leftrule=4.5pt,
+    arc=3pt,
+    left=10pt, right=10pt, top=9pt, bottom=9pt,
+    colbacktitle=azulObjetivos,
+    coltitle=white,
+    fonttitle=\bfseries\normalsize,
+    title={#1}
 }
 
 \newtcolorbox{boxAtividade}[1][]{
@@ -287,12 +293,12 @@
 }
 
 \fancyhead[R]{
-\textbf{ProgWeb 2 — Roteiro Prático 05 (Fetch API \& Flask)}\\
-\small Assincronismo, async/await \& Backend RESTful com SQLite\\
+\textbf{ProgWeb 2 — Roteiro 05 (Parte 1: Fundamentos \& Mini-Exemplos)}\\
+\small Assincronismo, Fetch API \& Microbackend Flask\\
 \small CST em Sistemas para a Internet — IFSC Garopaba
 }
 
-\fancyfoot[L]{\small\textit{Roteiro Prático 05 — Módulo 3 (PPC CONSUP 30/2020)}}
+\fancyfoot[L]{\small\textit{Roteiro Prático 05 (Parte 1) — Módulo 3 (PPC CONSUP 30/2020)}}
 \fancyfoot[C]{}
 \fancyfoot[R]{\small Página \thepage}
 \renewcommand{\footrulewidth}{1.5pt}

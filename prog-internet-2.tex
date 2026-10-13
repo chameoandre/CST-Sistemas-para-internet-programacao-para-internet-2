@@ -121,16 +121,19 @@
 % =====================================================
 % BOX VISUALS
 % =====================================================
-\newtcolorbox{boxObjetivos}{
-    colback=azulObjetivos!10,
+\newtcolorbox{boxObjetivos}[1][Objetivos da Prática]{
+    enhanced,
+    breakable,
+    colback=white,
     colframe=azulObjetivos,
-    boxrule=1pt,
-    arc=4pt,
-    left=6pt,
-    right=6pt,
-    top=6pt,
-    bottom=6pt,
-    title=Objetivos
+    boxrule=0.8pt,
+    leftrule=4.5pt,
+    arc=3pt,
+    left=10pt, right=10pt, top=9pt, bottom=9pt,
+    colbacktitle=azulObjetivos,
+    coltitle=white,
+    fonttitle=\bfseries\normalsize,
+    title={#1}
 }
 
 \newtcolorbox{boxCodigo}{
@@ -412,6 +415,8 @@ Docente: Prof. André Moraes\\
 \input{roteiro-4/content.tex}
 \newpage
 \input{roteiro-5/content.tex}
+\newpage
+\input{roteiro-5/tarefa-guiada-content.tex}
 
 \end{document}
 

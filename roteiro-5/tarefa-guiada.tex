@@ -1,0 +1,347 @@
+\documentclass[12pt,a4paper]{article}
+
+% =====================================================
+% PACOTES E CONFIGURAÇÕES DE PÁGINA
+% =====================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil,shorthands=off]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\graphicspath{{../figures/}{figures/}}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{newtxtext,newtxmath}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{upquote}
+\tcbuselibrary{listings,skins}
+\usetikzlibrary{arrows.meta, positioning}
+
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.0cm,
+    right=2.0cm
+}
+
+\onehalfspacing
+
+% =====================================================
+% CORES INSTITUCIONAIS (IFSC)
+% =====================================================
+\definecolor{azulObjetivos}{RGB}{30,60,90}
+\definecolor{cinzaCodigo}{RGB}{245,245,245}
+\definecolor{vermelhoCodigo}{RGB}{180,50,50}
+\definecolor{pretoTabela}{RGB}{0,0,0}
+\definecolor{cinzaTabela}{RGB}{235,235,235}
+\definecolor{azulTitulo}{RGB}{30,60,90}
+\definecolor{ifscGreen}{RGB}{22,163,74}
+\definecolor{borderGray}{RGB}{200,210,220}
+\definecolor{cinzaCabecalho}{RGB}{235,240,245}
+\definecolor{cinzaLinha}{RGB}{248,250,252}
+
+% Cores para Realce de Sintaxe (Syntax Highlighting)
+\definecolor{cinzaFundo}{RGB}{250,250,252}
+\definecolor{bordaCodigo}{RGB}{210,215,225}
+\definecolor{jsKeyword}{RGB}{124,58,237}     % Roxo para palavras-chave (const, async, await)
+\definecolor{jsString}{RGB}{22,163,74}       % Verde para strings
+\definecolor{jsComment}{RGB}{120,130,145}    % Cinza itálico para comentários
+\definecolor{htmlTag}{RGB}{220,38,38}        % Vermelho para tags HTML
+\definecolor{htmlString}{RGB}{37,99,235}     % Azul para atributos HTML
+\definecolor{pyKeyword}{RGB}{194,65,12}      % Laranja escuro para Python
+\definecolor{pyBuiltin}{RGB}{14,116,144}     % Ciano escuro para builtins Python
+
+% =====================================================
+% CONFIGURAÇÕES DE CÓDIGO FONTE (LISTINGS CUSTOMIZADOS)
+% =====================================================
+
+\lstdefinelanguage{JavaScriptES6}{
+  keywords={const, let, var, function, return, if, else, for, while, async, await, try, catch, finally, export, import, default, from, class, extends, new, this, true, false, null, undefined, throw},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`
+}
+
+\lstdefinelanguage{PythonCustom}{
+  keywords={def, class, return, if, elif, else, while, for, in, try, except, finally, with, as, import, from, True, False, None, lambda, pass, raise},
+  sensitive=true,
+  comment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[s]{'''}{'''},
+  morestring=[s]{"""}{"""}
+}
+
+\lstdefinelanguage{HTML5}{
+  keywords={html, head, title, meta, link, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, ol, li, table, thead, tbody, tr, th, td, form, input, button, select, option, textarea, label, nav, header, footer, section, article, aside, main, script, style, i},
+  sensitive=false,
+  comment=[s]{<!--}{-->},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinestyle{estiloComum}{
+  basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
+  keywordstyle=\bfseries\color{jsKeyword},
+  stringstyle=\color{jsString},
+  commentstyle=\itshape\color{jsComment},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=8pt,
+  backgroundcolor=\color{cinzaFundo},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=none,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=false,
+  escapeinside={\%*}{*)},
+  xleftmargin=12pt,
+  xrightmargin=5pt
+}
+
+\lstdefinestyle{estiloPython}{
+  style=estiloComum,
+  language=PythonCustom,
+  keywordstyle=\bfseries\color{pyKeyword},
+  emph={print, len, range, enumerate, isinstance, open, dict, list, set, int, str, float},
+  emphstyle=\color{pyBuiltin}
+}
+
+\lstdefinestyle{estiloJS}{
+  style=estiloComum,
+  language=JavaScriptES6
+}
+
+\lstdefinestyle{estiloHTML}{
+  style=estiloComum,
+  language=HTML5,
+  keywordstyle=\bfseries\color{htmlTag},
+  stringstyle=\color{htmlString}
+}
+
+\lstdefinestyle{estiloTerminal}{
+  basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily\color{white},
+  backgroundcolor=\color{black!90},
+  numbers=none,
+  frame=none,
+  breaklines=true,
+  xleftmargin=8pt,
+  xrightmargin=8pt
+}
+
+% =====================================================
+% AMBIENTES TCOLORBOX CUSTOMIZADOS
+% =====================================================
+
+\newtcblisting{boxCodigoJS}[1][]{
+    breakable,
+    enhanced,
+    colback=cinzaFundo,
+    colframe=azulTitulo!40,
+    boxrule=0.6pt,
+    arc=4pt,
+    before upper={\singlespacing},
+    left=8pt, right=8pt, top=5pt, bottom=5pt,
+    listing only,
+    listing engine=listings,
+    listing options={
+        language=JavaScriptES6,
+        basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
+        columns=fullflexible,
+        keepspaces=true,
+        upquote=true,
+        breaklines=true,
+        showstringspaces=false,
+        tabsize=2,
+        #1
+    }
+}
+
+\newtcblisting{boxCodigoPY}[1][]{
+    breakable,
+    enhanced,
+    colback=cinzaFundo,
+    colframe=pyKeyword!40,
+    boxrule=0.6pt,
+    arc=4pt,
+    before upper={\singlespacing},
+    left=8pt, right=8pt, top=5pt, bottom=5pt,
+    listing only,
+    listing engine=listings,
+    listing options={
+        language=PythonCustom,
+        basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
+        columns=fullflexible,
+        keepspaces=true,
+        upquote=true,
+        breaklines=true,
+        showstringspaces=false,
+        tabsize=4,
+        #1
+    }
+}
+
+\newtcblisting{boxCodigoHTML}[1][]{
+    breakable,
+    enhanced,
+    colback=cinzaFundo,
+    colframe=azulTitulo!40,
+    boxrule=0.6pt,
+    arc=4pt,
+    before upper={\singlespacing},
+    left=8pt, right=8pt, top=5pt, bottom=5pt,
+    listing only,
+    listing engine=listings,
+    listing options={
+        language=HTML5,
+        basicstyle=\fontsize{8.5pt}{11pt}\selectfont\ttfamily,
+        columns=fullflexible,
+        keepspaces=true,
+        upquote=true,
+        breaklines=true,
+        showstringspaces=false,
+        tabsize=2,
+        #1
+    }
+}
+
+\newtcolorbox{boxObjetivos}[1][Objetivos da Prática]{
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=azulObjetivos,
+    boxrule=0.8pt,
+    leftrule=4.5pt,
+    arc=3pt,
+    left=10pt, right=10pt, top=9pt, bottom=9pt,
+    colbacktitle=azulObjetivos,
+    coltitle=white,
+    fonttitle=\bfseries\normalsize,
+    title={#1}
+}
+
+\newtcolorbox{boxAtividade}[1][]{
+    breakable, enhanced,
+    colback=azulTitulo!5, colframe=azulTitulo,
+    boxrule=0pt, arc=6pt,
+    left=14pt, right=14pt, top=16pt, bottom=14pt,
+    title={{#1}}, coltitle=white, colbacktitle=azulTitulo, fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-3mm, xshift=6mm},
+    boxed title style={sharp corners, boxrule=0pt}
+}
+
+\newtcolorbox{mockupNavegador}[1][]{
+    breakable, enhanced,
+    colback=white,
+    colframe=gray!50,
+    boxrule=1pt,
+    arc=4pt,
+    left=10pt, right=10pt, top=8pt, bottom=8pt,
+    colbacktitle=gray!20,
+    coltitle=black,
+    fonttitle=\small\ttfamily,
+    title={\textcolor{red!70}{$\bullet$} \textcolor{yellow!70}{$\bullet$} \textcolor{green!70}{$\bullet$} \hspace{5pt} #1}
+}
+
+\newtcolorbox{boxCodigoTerminal}[1][Terminal / Shell]{
+    breakable,
+    enhanced,
+    colback=black!90,
+    colframe=black!90,
+    boxrule=1pt,
+    arc=4pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    colbacktitle=black!80,
+    coltitle=white,
+    fonttitle=\small\bfseries\ttfamily,
+    title={#1}
+}
+
+\newtcolorbox{boxDica}[1][Dica de Engenharia de Software]{
+    breakable, enhanced,
+    colback=ifscGreen!5, colframe=ifscGreen,
+    boxrule=0pt, arc=6pt,
+    left=14pt, right=14pt, top=16pt, bottom=14pt,
+    title={{#1}}, coltitle=white, colbacktitle=ifscGreen, fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-3mm, xshift=6mm},
+    boxed title style={sharp corners, boxrule=0pt}
+}
+
+\newtcolorbox{boxTeste}[1][Checkpoint de Verificação]{
+    breakable, enhanced,
+    colback=vermelhoCodigo!5, colframe=vermelhoCodigo,
+    boxrule=0pt, arc=6pt,
+    left=14pt, right=14pt, top=16pt, bottom=14pt,
+    title={{#1}}, coltitle=white, colbacktitle=vermelhoCodigo, fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-3mm, xshift=6mm},
+    boxed title style={sharp corners, boxrule=0pt}
+}
+
+% =====================================================
+% FORMATAÇÃO DE SEÇÕES
+% =====================================================
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{azulTitulo}}
+{\thesection}
+{1em}
+{}
+[\titlerule]
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{azulTitulo}}
+{\thesubsection}
+{1em}
+{}
+
+\titleformat{\subsubsection}
+{\normalfont\bfseries\color{azulTitulo}}
+{\thesubsubsection}
+{1em}
+{}
+
+% =====================================================
+% CABEÇALHO E RODAPÉ
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{
+\includegraphics[height=1.2cm]{../figures/garopaba_horizontal_marca2015_PNG.png}
+}
+
+\fancyhead[R]{
+\textbf{ProgWeb 2 — Roteiro 05 (Parte 2: Tarefa Guiada)}\\
+\small Refatoração da Vitrine Comercial de Serviços (Flask \& SQLite)\\
+\small CST em Sistemas para a Internet — IFSC Garopaba
+}
+
+\fancyfoot[L]{\small\textit{Roteiro Prático 05 (Parte 2) — Módulo 3 (PPC CONSUP 30/2020)}}
+\fancyfoot[C]{}
+\fancyfoot[R]{\small Página \thepage}
+\renewcommand{\footrulewidth}{1.5pt}
+
+\setlength{\headheight}{40pt}
+
+% =====================================================
+% DOCUMENTO PRINCIPAL
+% =====================================================
+\begin{document}
+
+\input{tarefa-guiada-content.tex}
+
+\end{document}
