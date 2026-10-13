@@ -169,6 +169,14 @@
       margin-bottom: 0.4rem;
     }
 
+    .slide-eyebrow.emerald {
+      color: var(--accent-emerald);
+    }
+
+    .slide-eyebrow.amber {
+      color: var(--accent-amber);
+    }
+
     .slide-title {
       font-family: 'Outfit', sans-serif;
       font-size: 2.1rem;
@@ -542,18 +550,18 @@
       <section class="slide active">
         <div class="grid-2">
           <div style="display: flex; flex-direction: column; justify-content: center;">
-            <span class="slide-eyebrow"><i class="bi bi-stars"></i> Roteiro Prático 05</span>
+            <span class="slide-eyebrow"><i class="bi bi-stars"></i> Roteiro Prático 05 (Partes 1 &amp; 2)</span>
             <h2 class="slide-title" style="font-size: 2.6rem; margin-bottom: 1rem;">
               Do LocalStorage ao <span style="background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Backend RESTful</span> Real
             </h2>
             <p class="slide-subtitle" style="margin-bottom: 1.8rem; line-height: 1.6;">
-              Nesta aula conectaremos o frontend moderno em <strong>Bootstrap 5 e ES6 Modules</strong> a um microservidor real em <strong>Python Flask</strong>, persistindo dados em banco relacional <strong>SQLite</strong> com total resiliência offline.
+              Aula dividida em duas etapas didáticas: a <strong>Parte 1 (Fundamentos &amp; Mini-Exemplos)</strong> com a Fetch API e microbackend em Python Flask; e a <strong>Parte 2 (Tarefa Guiada)</strong> com a refatoração da Vitrine Comercial de Serviços com banco relacional <strong>SQLite</strong> e contingência offline.
             </p>
 
             <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2rem;">
-              <span class="pill-tag indigo"><i class="bi bi-arrow-left-right"></i> Fetch API & async/await</span>
+              <span class="pill-tag indigo"><i class="bi bi-file-earmark-code"></i> Parte 1: Fundamentos &amp; Mini-Exemplos</span>
+              <span class="pill-tag emerald"><i class="bi bi-rocket-takeoff-fill"></i> Parte 2: Tarefa Guiada (Vitrine REST)</span>
               <span class="pill-tag cyan"><i class="bi bi-shield-check"></i> CORS Security Policy</span>
-              <span class="pill-tag emerald"><i class="bi bi-database-fill"></i> SQLite 3 (vitrine.db)</span>
               <span class="pill-tag amber"><i class="bi bi-arrow-repeat"></i> Fallback Resiliente</span>
             </div>
 
@@ -584,7 +592,7 @@
       <!-- SLIDE 2: A GRANDE VIRADA ARQUITETURAL -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-arrow-left-right"></i> Evolução de Software</span>
+          <span class="slide-eyebrow"><i class="bi bi-book-half"></i> Roteiro 05 (Parte 1: Fundamentos)</span>
           <h2 class="slide-title">A Grande Virada: De Aplicação Isolada para a Nuvem</h2>
           <p class="slide-subtitle">Por que o LocalStorage não basta para sistemas comerciais de médio e grande porte?</p>
         </div>
@@ -623,7 +631,7 @@
       <!-- SLIDE 3: DIAGRAMA ARQUITETURAL VIVO -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-diagram-3-fill"></i> Visão Sistêmica</span>
+          <span class="slide-eyebrow"><i class="bi bi-diagram-3-fill"></i> Roteiro 05 (Parte 1: Topologia &amp; Arquitetura)</span>
           <h2 class="slide-title">Topologia da Aplicação: 3 Camadas Integradas</h2>
           <p class="slide-subtitle">Como as portas, protocolos e serviços conversam durante o ciclo de vida de uma requisição.</p>
         </div>
@@ -687,8 +695,8 @@
       <!-- SLIDE 4: VERBOS HTTP E CÓDIGOS DE STATUS -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-hdd-stack"></i> Protocolo HTTP</span>
-          <h2 class="slide-title">Os 4 Verbos REST Essenciais & Seus Status</h2>
+          <span class="slide-eyebrow"><i class="bi bi-arrow-left-right"></i> Roteiro 05 (Parte 1: Protocolo HTTP &amp; Status)</span>
+          <h2 class="slide-title">Os 4 Verbos REST Essenciais &amp; Seus Status</h2>
           <p class="slide-subtitle">Cada ação sobre o catálogo de serviços utiliza um método HTTP semântico padronizado.</p>
         </div>
 
@@ -754,7 +762,7 @@
       <!-- SLIDE 5: O ENIGMA DO CORS DESVENDADO -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-shield-lock-fill"></i> Segurança Web</span>
+          <span class="slide-eyebrow"><i class="bi bi-shield-check"></i> Roteiro 05 (Parte 1: Segurança Web &amp; CORS)</span>
           <h2 class="slide-title">Por que o Navegador Bloqueia? O Papel do CORS</h2>
           <p class="slide-subtitle">A Política de Mesma Origem (SOP) e como o Flask autoriza a comunicação entre portas.</p>
         </div>
@@ -801,9 +809,9 @@ app = Flask(__name__)
       <!-- SLIDE 6: PÍLULA 1 - FETCH GET -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-1-circle-fill"></i> Aquecimento Prático</span>
+          <span class="slide-eyebrow"><i class="bi bi-1-circle-fill"></i> Parte 1 — Mini-Exemplo 01</span>
           <h2 class="slide-title">Pílula 1: O <code>fetch()</code> Mínimo (GET com async/await)</h2>
-          <p class="slide-subtitle">Como carregar dados estruturados em JSON no cliente sem recarregar a página.</p>
+          <p class="slide-subtitle">Como carregar dados estruturados em JSON no cliente sem recarregar a página (pasta <code>mini-exemplos/01-fetch-get/</code>).</p>
         </div>
 
         <div class="grid-2">
@@ -865,7 +873,7 @@ document.<span class="token-fn">addEventListener</span>(<span class="token-str">
       <!-- SLIDE 7: O MICROFRAMEWORK FLASK - TEORIA & INSTALAÇÃO -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-cpu-fill"></i> Fundamentos de Backend</span>
+          <span class="slide-eyebrow"><i class="bi bi-cpu-fill"></i> Parte 1 — Teoria &amp; Instalação do Flask</span>
           <h2 class="slide-title">O Microframework Flask: O que é, Como Funciona e Instalação</h2>
           <p class="slide-subtitle">Arquitetura minimalista em Python para construção de APIs RESTful e integração com o Front-End.</p>
         </div>
@@ -933,8 +941,8 @@ document.<span class="token-fn">addEventListener</span>(<span class="token-str">
       <!-- SLIDE 8: DO XAMPP AO FLASK - COMPARATIVO ARQUITETURAL -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-arrow-left-right"></i> Paradigmas Web</span>
-          <h2 class="slide-title">Do XAMPP (PHP & Apache) ao Flask: O que Mudou?</h2>
+          <span class="slide-eyebrow"><i class="bi bi-layers-half"></i> Parte 1 — Comparativo: Flask vs. XAMPP</span>
+          <h2 class="slide-title">Do XAMPP (PHP &amp; Apache) ao Flask: O que Mudou?</h2>
           <p class="slide-subtitle">Comparando a pilha clássica dos laboratórios de banco de dados com a arquitetura desacoplada moderna.</p>
         </div>
 
@@ -1009,9 +1017,9 @@ document.<span class="token-fn">addEventListener</span>(<span class="token-str">
       <!-- SLIDE 9: PÍLULA 2 - MICRO FLASK -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-2-circle-fill"></i> Aquecimento Prático</span>
+          <span class="slide-eyebrow"><i class="bi bi-2-circle-fill"></i> Parte 1 — Mini-Exemplo 02</span>
           <h2 class="slide-title">Pílula 2: O Microservidor Flask em 15 Linhas</h2>
-          <p class="slide-subtitle">Construindo uma API real em Python e comprovando a liberação de CORS no navegador.</p>
+          <p class="slide-subtitle">Construindo uma API real em Python e comprovando a liberação de CORS no navegador (pasta <code>mini-exemplos/02-micro-flask-cors/</code>).</p>
         </div>
 
         <div class="grid-2">
@@ -1062,9 +1070,9 @@ app = Flask(__name__)
       <!-- SLIDE 10: PÍLULA 3 - FETCH POST -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-3-circle-fill"></i> Aquecimento Prático</span>
+          <span class="slide-eyebrow"><i class="bi bi-3-circle-fill"></i> Parte 1 — Mini-Exemplo 03</span>
           <h2 class="slide-title">Pílula 3: Enviando Dados Estruturados (POST)</h2>
-          <p class="slide-subtitle">Os 3 mandamentos do envio de dados com a Fetch API e recepção no backend.</p>
+          <p class="slide-subtitle">Os 3 mandamentos do envio de dados com a Fetch API e recepção no backend (pasta <code>mini-exemplos/03-fetch-post/</code>).</p>
         </div>
 
         <div class="grid-2">
@@ -1134,9 +1142,9 @@ formCadastro.<span class="token-fn">addEventListener</span>(<span class="token-s
       <!-- SLIDE 11: PÍLULA 4 - RESILIÊNCIA E SPINNER -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-4-circle-fill"></i> Aquecimento Prático</span>
-          <h2 class="slide-title">Pílula 4: Resiliência de Rede & Feedback com Spinner</h2>
-          <p class="slide-subtitle">Como tratar erros defensivamente no mundo real com o bloco <code>finally</code>.</p>
+          <span class="slide-eyebrow"><i class="bi bi-4-circle-fill"></i> Parte 1 — Mini-Exemplo 04</span>
+          <h2 class="slide-title">Pílula 4: Resiliência de Rede &amp; Feedback com Spinner</h2>
+          <p class="slide-subtitle">Como tratar erros defensivamente com o bloco <code>finally</code> (pasta <code>mini-exemplos/04-fetch-spinner/</code>).</p>
         </div>
 
         <div class="grid-2">
@@ -1176,15 +1184,15 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <div class="card" style="border-left: 4px solid var(--accent-emerald);">
               <div class="card-title"><i class="bi bi-shield-fill-check text-success"></i> O Poder do Bloco finally</div>
-              <p class="card-body-text">
-                Sem o bloco <code>finally</code>, se ocorresse um erro inesperado no bloco <code>try</code>, o spinner de carregamento ficaria girando na tela eternamente. O <code>finally</code> garante que a interface sempre retorne ao estado operacional!
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Sem o bloco <code>finally</code>, se ocorresse um erro inesperado no bloco <code>try</code>, o spinner ficaria girando na tela eternamente. O <code>finally</code> garante que a interface sempre retorne ao estado operacional!
               </p>
             </div>
 
-            <div class="card">
-              <div class="card-title"><i class="bi bi-plug-fill text-danger"></i> O Teste do "Cabo de Rede Desconectado"</div>
-              <p class="card-body-text">
-                No terminal, encerre o Flask com <code>Ctrl+C</code> e clique novamente no botão. Os alunos verão o spinner girar brevemente e a mensagem amigável de erro surgir sem travamentos.
+            <div class="card" style="border-left: 4px solid var(--accent-indigo); background: rgba(99, 102, 241, 0.08);">
+              <div class="card-title" style="color: var(--accent-indigo-light);"><i class="bi bi-check2-circle"></i> Fim da Parte 1 (Fundamentos)</div>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Parabéns! Você concluiu todos os mini-exemplos da <strong>Parte 1</strong>. No próximo slide avançamos para a <strong>Parte 2: Tarefa de Implementação Guiada (Vitrine de Serviços)</strong>!
               </p>
             </div>
           </div>
@@ -1194,9 +1202,9 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
       <!-- SLIDE 12: O BANCO DE DADOS SQLITE -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-database-check"></i> Persistência Relacional</span>
+          <span class="slide-eyebrow emerald"><i class="bi bi-rocket-takeoff-fill"></i> Parte 2: Tarefa Guiada (Guia tarefa-guiada.pdf)</span>
           <h2 class="slide-title">SQLite 3 em Arquivo: Sem Servidores Externos</h2>
-          <p class="slide-subtitle">A conveniência e o poder de um banco SQL completo em um único arquivo <code>vitrine.db</code>.</p>
+          <p class="slide-subtitle">Fase 1/6: O banco relacional que sustentará a Vitrine de Serviços em um único arquivo <code>vitrine.db</code>.</p>
         </div>
 
         <div class="grid-2">
@@ -1220,20 +1228,20 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="card" style="border-left: 4px solid var(--accent-emerald); background: rgba(16, 185, 129, 0.08);">
+              <div class="card-title" style="color: var(--accent-emerald);"><i class="bi bi-file-earmark-check-fill"></i> Acompanhe no PDF da Parte 2</div>
+              <p class="card-body-text" style="font-size: 0.85rem;">
+                Consulte o arquivo <strong>roteiro-5/tarefa-guiada.pdf</strong> para seguir o roteiro detalhado das <strong>Fases 1 a 6</strong> da refatoração da Vitrine Comercial de Serviços.
+              </p>
+            </div>
+
             <div class="card">
               <div class="card-title"><i class="bi bi-gem text-cyan"></i> Vantagens no Laboratório de Ensino</div>
               <ul style="margin-left: 1.2rem; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
-                <li><strong>Zero instalação:</strong> O módulo <code>sqlite3</code> já vem embutido nativamente na biblioteca padrão do Python!</li>
+                <li><strong>Zero instalação:</strong> O módulo <code>sqlite3</code> já vem embutido nativamente no Python!</li>
                 <li><strong>Portabilidade total:</strong> Basta copiar a pasta do projeto e o banco vai junto.</li>
                 <li><strong>Conformidade ACID:</strong> Transações atômicas seguras com <code>commit()</code> e <code>rollback()</code>.</li>
               </ul>
-            </div>
-
-            <div class="card" style="border-left: 4px solid var(--accent-emerald);">
-              <div class="card-title"><i class="bi bi-seedling text-success"></i> Semente Automática de Dados</div>
-              <p class="card-body-text" style="font-size: 0.85rem;">
-                Se a tabela estiver vazia, a função <code>inicializar_banco()</code> insere automaticamente 3 negócios modelo de Garopaba (Artesanatos, Studio Web e Pescado Fresco).
-              </p>
             </div>
           </div>
         </div>
@@ -1242,9 +1250,9 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
       <!-- SLIDE 13: ARQUITETURA COMPLETA & FALLBACK -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-layers-fill"></i> Engenharia Frontend</span>
-          <h2 class="slide-title">Vitrine Completa & O Padrão Fallback Resiliente</h2>
-          <p class="slide-subtitle">Como garantir que a aplicação continue funcionando perfeitamente mesmo sem a API ativa.</p>
+          <span class="slide-eyebrow emerald"><i class="bi bi-layers-fill"></i> Parte 2: Tarefa Guiada (Vitrine Resiliente)</span>
+          <h2 class="slide-title">Vitrine Completa &amp; O Padrão Fallback Resiliente</h2>
+          <p class="slide-subtitle">Fases 2 e 3: Como garantir que a aplicação continue funcionando perfeitamente mesmo sem a API ativa.</p>
         </div>
 
         <div class="grid-2">
@@ -1291,35 +1299,79 @@ btnTestar.<span class="token-fn">addEventListener</span>(<span class="token-str"
       <!-- SLIDE 14: CHECKLIST E PRÓXIMOS PASSOS -->
       <section class="slide">
         <div class="slide-header">
-          <span class="slide-eyebrow"><i class="bi bi-flag-fill"></i> Mãos à Obra</span>
-          <h2 class="slide-title">Roteiro de Voo da Aula de Hoje</h2>
+          <span class="slide-eyebrow"><i class="bi bi-check2-all"></i> Conclusão &amp; Checklist Integrado</span>
+          <h2 class="slide-title">Roteiro de Voo da Aula: Parte 1 &amp; Parte 2</h2>
           <p class="slide-subtitle">Marque cada etapa à medida que você implementar no laboratório.</p>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.8rem; max-width: 800px;">
-          <div class="checklist-item" onclick="toggleCheck(this)">
-            <i class="bi bi-check-circle-fill check-icon"></i>
-            <div><strong>Fase 0 (Aquecimento):</strong> Implementar os 4 mini-exemplos rápidos em <code>mini-exemplos/</code>.</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; max-width: 1100px;">
+          <!-- Coluna 1: Parte 1 -->
+          <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-indigo-light); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem;">
+              <i class="bi bi-file-earmark-code"></i> Parte 1: Fundamentos (main.pdf)
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Mini-Exemplo 1:</strong> <code>fetch()</code> GET com <code>functions.js</code> e <code>dados.json</code>.</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Ambiente Flask:</strong> Criar <code>venv</code>, instalar <code>flask-cors</code> e entender Flask vs XAMPP.</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Mini-Exemplo 2:</strong> Servidor Flask, rota <code>/api/status</code> e liberação de CORS.</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Mini-Exemplo 3:</strong> Envio de dados estruturados com método <code>POST</code> (JSON).</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Mini-Exemplo 4:</strong> Feedback visual com Spinner e <code>try...catch...finally</code>.</div>
+            </div>
           </div>
 
-          <div class="checklist-item" onclick="toggleCheck(this)">
-            <i class="bi bi-check-circle-fill check-icon"></i>
-            <div><strong>Fase 1 (Backend Flask):</strong> Criar o virtualenv, instalar dependências e rodar o <code>app.py</code> com SQLite.</div>
-          </div>
+          <!-- Coluna 2: Parte 2 -->
+          <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-emerald); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.4rem;">
+              <i class="bi bi-rocket-takeoff-fill"></i> Parte 2: Tarefa Guiada (tarefa-guiada.pdf)
+            </div>
 
-          <div class="checklist-item" onclick="toggleCheck(this)">
-            <i class="bi bi-check-circle-fill check-icon"></i>
-            <div><strong>Fase 2 (Frontend Service):</strong> Refatorar o <code>vitrineService.js</code> com Fetch API e Contingência Offline.</div>
-          </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Fase 1 (Backend &amp; DB):</strong> API Flask com SQLite persistente (<code>vitrine.db</code>).</div>
+            </div>
 
-          <div class="checklist-item" onclick="toggleCheck(this)">
-            <i class="bi bi-check-circle-fill check-icon"></i>
-            <div><strong>Fase 3 (Views & Toasts):</strong> Adicionar o spinner de carregamento e o badge de status na interface.</div>
-          </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Fase 2 (Service):</strong> <code>vitrineService.js</code> com Fetch e Fallback offline.</div>
+            </div>
 
-          <div class="checklist-item" onclick="toggleCheck(this)">
-            <i class="bi bi-check-circle-fill check-icon"></i>
-            <div><strong>Fase 4 (Teste e Publicação):</strong> Cadastrar novos serviços e testar o chaveamento online/offline.</div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Fase 3 (Views):</strong> Spinners reativos nos cards e badges de status da API.</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Fase 4 (Main):</strong> Orquestrador assíncrono com carregamento modular.</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Fase 5 (Modal):</strong> Formulário com envio assíncrono via <code>POST</code>.</div>
+            </div>
+
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <i class="bi bi-check-circle-fill check-icon"></i>
+              <div><strong>Fase 6 (Testes):</strong> Validação de resiliência e chaveamento online/offline.</div>
+            </div>
           </div>
         </div>
 
