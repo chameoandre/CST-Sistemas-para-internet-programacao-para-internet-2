@@ -695,14 +695,429 @@ document.addEventListener('DOMContentLoaded', async () => {
   \item Os cards continuam aparecendo normalmente a partir da cópia em cache!
 \end{itemize}
 
-\begin{boxTeste}{Critério de Conclusão do Roteiro 05}
+\begin{boxTeste}{Critério de Conclusão da Tarefa Principal}
 A aplicação demonstrou sucesso na comunicação assíncrona cliente-servidor via Fetch API, realizou persistência no SQLite e provou resiliência arquitetural ao operar em modo de contingência offline.
 \end{boxTeste}
+
+% =====================================================
+% SEÇÃO DE MINI DESAFIOS PRÁTICOS (AUTONOMIA DO ESTUDANTE)
+% =====================================================
+
+\newpage
+\subsection{Mini Desafios Práticos de Extensão \& Fixação}
+
+Agora que sua arquitetura full-stack está completamente funcional e resiliente, propomos \textbf{3 mini desafios progressivos} para você consolidar como novas funcionalidades trafegam por todas as camadas do sistema (Banco SQLite $\rightarrow$ Backend Flask $\rightarrow$ Frontend JavaScript $\rightarrow$ Interface HTML5/Bootstrap).
+
+\begin{boxDica}[Metodologia de Aprendizagem Ativa]
+Recomendamos fortemente que você tente implementar cada um dos 3 desafios por conta própria no código do projeto antes de consultar o gabarito! Observe quais arquivos precisam ser ajustados e teste os resultados no navegador.
+\end{boxDica}
+
+\subsubsection*{Mini Desafio 1: Adicionar o Campo Booleano ``Aceita PIX''}
+\textbf{Contexto:} Os comerciantes locais solicitaram que a vitrine indique claramente se o estabelecimento aceita pagamentos instantâneos via PIX.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{No Banco SQLite e Backend (\texttt{backend/app.py}):} Adicionar a coluna \texttt{aceitaPix INTEGER DEFAULT 1} na tabela \texttt{servicos}. Na rota \texttt{POST /api/servicos}, capturar o booleano enviado no JSON e salvá-lo como \texttt{1} ou \texttt{0};
+  \item \textbf{No Formulário Modal (\texttt{index.html}):} Inserir um interruptor (\textit{switch}) do Bootstrap com o identificador \texttt{id="aceitaPix"}, marcado como ativo por padrão (\texttt{checked});
+  \item \textbf{No Orquestrador (\texttt{js/main.js}):} Coletar o valor booleano com \texttt{document.getElementById('aceitaPix').checked} e incluí-lo no objeto enviado ao backend;
+  \item \textbf{Na Camada de Visão (\texttt{js/views/vitrineView.js}):} Se \texttt{s.aceitaPix} for verdadeiro, renderizar um badge verde elegante ao lado do badge de categoria no topo do card.
+\end{itemize}
+
+\subsubsection*{Mini Desafio 2: Contador Reativo de Serviços Cadastrados}
+\textbf{Contexto:} A interface atual lista os serviços, mas os usuários não conseguem visualizar imediatamente quantos estabelecimentos estão cadastrados no total.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Na Interface (\texttt{index.html}):} Adicionar um badge de contador ao lado do subtítulo ou na barra de filtros com \texttt{id="totalServicosBadge"};
+  \item \textbf{Na Camada de Visão (\texttt{js/views/vitrineView.js}):} Criar a função exportada \texttt{atualizarContadorServicos(total, elemento)} que exiba o texto no singular (\textit{"1 serviço cadastrado"}) ou no plural (\textit{"N serviços cadastrados"});
+  \item \textbf{No Orquestrador (\texttt{js/main.js}):} Invocar a atualização do contador sempre que a lista for carregada da API e também imediatamente após a exclusão de um registro.
+\end{itemize}
+
+\subsubsection*{Mini Desafio 3: Campo de Seleção ``Prazo de Atendimento''}
+\textbf{Contexto:} Diferentes serviços possuem prazos distintos (ex: pesca artesanal com entrega imediata vs estúdio de design sob agendamento prévio).
+\begin{itemize}[leftmargin=*]
+  \item \textbf{No Banco e Backend (\texttt{backend/app.py}):} Adicionar a coluna \texttt{prazoAtendimento TEXT DEFAULT 'Sob agendamento'} na tabela \texttt{servicos} e persistir o valor recebido no \texttt{POST};
+  \item \textbf{No Modal (\texttt{index.html}):} Adicionar um campo \texttt{select} com \texttt{id="prazoAtendimento"} oferecendo opções como \textit{"Atendimento Imediato"}, \textit{"Em até 24 horas"}, \textit{"2 a 5 dias úteis"} e \textit{"Sob agendamento"};
+  \item \textbf{No Orquestrador (\texttt{js/main.js}):} Coletar o valor selecionado no formulário e adicioná-lo ao payload do cadastro;
+  \item \textbf{Na Camada de Visão (\texttt{js/views/vitrineView.js}):} Exibir uma linha no corpo do card com o ícone de relógio informando o prazo de atendimento do profissional.
+\end{itemize}
+
+% =====================================================
+% GABARITO COMENTADO DOS MINI DESAFIOS
+% =====================================================
+
+\newpage
+\subsection{Gabarito Comentado dos Mini Desafios (Código Completo)}
+
+Confira a seguir as soluções completas de cada desafio, organizadas por arquivo. Todas as instruções seguem o princípio de código 100\% aplicável (*Zero-Ellipsis Rule*).
+
+\begin{boxAtividade}[{Solução do Mini Desafio 1: Campo Booleano ``Aceita PIX''}]
+\textbf{Passo 1.1: No arquivo \texttt{backend/app.py}}, ajuste a criação da tabela e o endpoint de cadastro:
+\end{boxAtividade}
+
+\begin{boxCodigoPY}[]
+# No método inicializar_banco(), adicione a coluna aceitaPix:
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS servicos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        categoria TEXT NOT NULL,
+        bairro TEXT NOT NULL,
+        precoBase REAL NOT NULL,
+        telefone TEXT NOT NULL,
+        descricao TEXT,
+        dataCadastro TEXT,
+        aceitaPix INTEGER DEFAULT 1
+    )
+''')
+
+# No endpoint cadastrar_servico(), colete o valor booleano e converta para 1 ou 0:
+@app.route('/api/servicos', methods=['POST'])
+def cadastrar_servico():
+    dados = request.get_json()
+    if not dados:
+        return jsonify({'erro': 'Payload inválido.'}), 400
+
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    data_atual = datetime.now().isoformat()
+    aceita_pix = 1 if dados.get('aceitaPix', True) else 0
+
+    cursor.execute('''
+        INSERT INTO servicos (nome, categoria, bairro, precoBase, telefone, descricao, dataCadastro, aceitaPix)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        dados['nome'].strip(),
+        dados['categoria'].strip(),
+        dados['bairro'].strip(),
+        float(dados['precoBase']),
+        dados['telefone'].strip(),
+        dados.get('descricao', '').strip(),
+        data_atual,
+        aceita_pix
+    ))
+    conn.commit()
+    novo_id = cursor.lastrowid
+    conn.close()
+
+    return jsonify({
+        'id': novo_id,
+        'mensagem': 'Serviço cadastrado com sucesso!',
+        'aceitaPix': bool(aceita_pix)
+    }), 201
+\end{boxCodigoPY}
+
+\begin{boxAtividade}[{Passo 1.2: No arquivo \texttt{index.html}, adicione o Switch no Modal de Cadastro}]
+Insira o controle logo abaixo do campo de Telefone (WhatsApp):
+\end{boxAtividade}
+
+\begin{boxCodigoHTML}[]
+<div class="mb-3">
+  <div class="form-check form-switch p-2 ps-5 bg-light rounded-3 border">
+    <input class="form-check-input" type="checkbox" role="switch" id="aceitaPix" checked>
+    <label class="form-check-label fw-semibold text-dark" for="aceitaPix">
+      <i class="bi bi-qr-code text-success me-1"></i> Aceita pagamento instantâneo via PIX
+    </label>
+  </div>
+</div>
+\end{boxCodigoHTML}
+
+\begin{boxAtividade}[{Passo 1.3: No arquivo \texttt{js/main.js}, colete o valor do checkbox}]
+Na função de submissão do formulário (\texttt{cadastrarNovoServico}), adicione a propriedade \texttt{aceitaPix}:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+const dados = {
+  nome: obterValorCampo('nome'),
+  categoria: document.getElementById('categoria').value,
+  bairro: obterValorCampo('bairro'),
+  precoBase: parseFloat(obterValorCampo('precoBase')) || 0,
+  telefone: obterValorCampo('telefone'),
+  descricao: obterValorCampo('descricao'),
+  aceitaPix: document.getElementById('aceitaPix').checked
+};
+\end{boxCodigoJS}
+
+\begin{boxAtividade}[{Passo 1.4: No arquivo \texttt{js/views/vitrineView.js}, renderize o Badge no Card}]
+Atualize a função \texttt{criarCardHtml(s)} para renderizar condicionalmente o badge do PIX:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+export function criarCardHtml(s) {
+  const corBadge = CORES_CATEGORIA[s.categoria] || 'primary';
+  const telNumeros = (s.telefone || '').replace(/\D/g, '');
+  const badgePixHtml = (s.aceitaPix === 1 || s.aceitaPix === true)
+    ? '<span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill font-outfit px-2 py-1"><i class="bi bi-qr-code me-1"></i>PIX</span>'
+    : '';
+
+  return `
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 vitrine-card rounded-4 overflow-hidden">
+        <div class="card-body p-4 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center gap-1">
+              <span class="badge bg-${corBadge} px-3 py-2 rounded-pill font-outfit">
+                <i class="bi bi-tag-fill me-1"></i>${escapeHtml(s.categoria)}
+              </span>
+              ${badgePixHtml}
+            </div>
+            <span class="fw-bold text-success font-outfit fs-5">
+              ${formatarMoeda(s.precoBase)}
+            </span>
+          </div>
+
+          <h5 class="card-title fw-bold text-dark mt-2 mb-1">${escapeHtml(s.nome)}</h5>
+          <h6 class="text-muted small mb-3">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>${escapeHtml(s.bairro)}
+          </h6>
+          <p class="card-text text-secondary small flex-grow-1" style="line-height: 1.5;">
+            ${escapeHtml(s.descricao)}
+          </p>
+
+          <hr class="my-3 text-muted opacity-25">
+
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <a href="https://wa.me/55${telNumeros}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+              <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
+            </a>
+            <div class="d-flex gap-1">
+              <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2" data-id="${s.id}" title="Remover da vitrine">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+\end{boxCodigoJS}
+
+\newpage
+\begin{boxAtividade}[{Solução do Mini Desafio 2: Contador Reativo de Serviços}]
+\textbf{Passo 2.1: No arquivo \texttt{index.html}}, adicione o elemento badge no cabeçalho da página:
+\end{boxAtividade}
+
+\begin{boxCodigoHTML}[]
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+  <div>
+    <h1 class="h3 mb-1 text-primary fw-bold">
+      <i class="bi bi-shop me-2"></i>Vitrine de Serviços de Garopaba
+    </h1>
+    <p class="text-muted small mb-0">
+      Mural comunitário de prestadores locais e comércio da região.
+    </p>
+  </div>
+  <div class="d-flex align-items-center gap-2">
+    <span id="totalServicosBadge" class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold">
+      <i class="bi bi-collection me-1"></i> Carregando...
+    </span>
+    <span id="statusConexao" class="badge bg-secondary-subtle text-secondary border px-3 py-2 rounded-pill fw-semibold">
+      <i class="bi bi-arrow-repeat me-1"></i> Verificando conexão...
+    </span>
+  </div>
+</div>
+\end{boxCodigoHTML}
+
+\begin{boxAtividade}[{Passo 2.2: No arquivo \texttt{js/views/vitrineView.js}, crie a função de contagem}]
+Exporte a nova função utilitária de renderização de contadores:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+export function atualizarContadorServicos(total, elementoBadge) {
+  if (!elementoBadge) return;
+  const texto = total === 1 ? '1 serviço ativo' : `${total} serviços ativos`;
+  elementoBadge.innerHTML = `<i class="bi bi-collection me-1"></i> ${texto}`;
+}
+\end{boxCodigoJS}
+
+\begin{boxAtividade}[{Passo 2.3: No arquivo \texttt{js/main.js}, conecte a contagem ao fluxo}]
+Importe \texttt{atualizarContadorServicos} e atualize nas rotinas de carregamento e filtragem:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+// 1. Atualize o cabeçalho de importações de ./views/vitrineView.js:
+import {
+  renderizarCards,
+  exibirSpinner,
+  atualizarStatusConexao,
+  atualizarContadorServicos,
+  exibirToast
+} from './views/vitrineView.js';
+
+// 2. Atualize a função de renderização da vitrine:
+async function atualizarInterface() {
+  exibirSpinner(container);
+  const badgeTotal = document.getElementById('totalServicosBadge');
+
+  try {
+    const todosServicos = await obterServicos();
+    const categoriaSelecionada = selectFiltro ? selectFiltro.value : 'todas';
+
+    let servicosFiltrados = todosServicos;
+    if (categoriaSelecionada !== 'todas') {
+      servicosFiltrados = todosServicos.filter(s => s.categoria === categoriaSelecionada);
+    }
+
+    renderizarCards(servicosFiltrados, container);
+    atualizarContadorServicos(servicosFiltrados.length, badgeTotal);
+  } catch (erro) {
+    exibirToast('Erro ao atualizar a vitrine de serviços.', 'danger');
+  }
+}
+\end{boxCodigoJS}
+
+\newpage
+\begin{boxAtividade}[{Solução do Mini Desafio 3: Campo de Seleção ``Prazo de Atendimento''}]
+\textbf{Passo 3.1: No arquivo \texttt{backend/app.py}}, inclua a coluna \texttt{prazoAtendimento}:
+\end{boxAtividade}
+
+\begin{boxCodigoPY}[]
+# Na criação da tabela em inicializar_banco():
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS servicos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        categoria TEXT NOT NULL,
+        bairro TEXT NOT NULL,
+        precoBase REAL NOT NULL,
+        telefone TEXT NOT NULL,
+        descricao TEXT,
+        dataCadastro TEXT,
+        aceitaPix INTEGER DEFAULT 1,
+        prazoAtendimento TEXT DEFAULT 'Sob agendamento'
+    )
+''')
+
+# No endpoint cadastrar_servico(), colete prazoAtendimento com fallback seguro:
+@app.route('/api/servicos', methods=['POST'])
+def cadastrar_servico():
+    dados = request.get_json()
+    if not dados:
+        return jsonify({'erro': 'Payload inválido.'}), 400
+
+    conn = obter_conexao()
+    cursor = conn.cursor()
+    data_atual = datetime.now().isoformat()
+    aceita_pix = 1 if dados.get('aceitaPix', True) else 0
+    prazo = dados.get('prazoAtendimento', 'Sob agendamento').strip()
+
+    cursor.execute('''
+        INSERT INTO servicos (nome, categoria, bairro, precoBase, telefone, descricao, dataCadastro, aceitaPix, prazoAtendimento)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        dados['nome'].strip(),
+        dados['categoria'].strip(),
+        dados['bairro'].strip(),
+        float(dados['precoBase']),
+        dados['telefone'].strip(),
+        dados.get('descricao', '').strip(),
+        data_atual,
+        aceita_pix,
+        prazo
+    ))
+    conn.commit()
+    novo_id = cursor.lastrowid
+    conn.close()
+
+    return jsonify({'id': novo_id, 'mensagem': 'Serviço salvo!'}), 201
+\end{boxCodigoPY}
+
+\begin{boxAtividade}[{Passo 3.2: No arquivo \texttt{index.html}, adicione o Dropdown no Modal}]
+Insira o campo de seleção de prazo no formulário de cadastro:
+\end{boxAtividade}
+
+\begin{boxCodigoHTML}[]
+<div class="mb-3">
+  <label for="prazoAtendimento" class="form-label fw-semibold text-secondary">
+    <i class="bi bi-clock-history me-1 text-primary"></i> Prazo Estimado de Atendimento
+  </label>
+  <select class="form-select" id="prazoAtendimento" required>
+    <option value="Atendimento Imediato">Atendimento Imediato</option>
+    <option value="Em até 24 horas">Em até 24 horas</option>
+    <option value="2 a 5 dias úteis">2 a 5 dias úteis</option>
+    <option value="Sob agendamento" selected>Sob agendamento</option>
+  </select>
+</div>
+\end{boxCodigoHTML}
+
+\begin{boxAtividade}[{Passo 3.3: No arquivo \texttt{js/main.js}, colete o valor do campo}]
+No manipulador de cadastro, acrescente a leitura do campo:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+const dados = {
+  nome: obterValorCampo('nome'),
+  categoria: document.getElementById('categoria').value,
+  bairro: obterValorCampo('bairro'),
+  precoBase: parseFloat(obterValorCampo('precoBase')) || 0,
+  telefone: obterValorCampo('telefone'),
+  descricao: obterValorCampo('descricao'),
+  aceitaPix: document.getElementById('aceitaPix').checked,
+  prazoAtendimento: document.getElementById('prazoAtendimento').value
+};
+\end{boxCodigoJS}
+
+\begin{boxAtividade}[{Passo 3.4: No arquivo \texttt{js/views/vitrineView.js}, exiba o Prazo no Card}]
+Atualize \texttt{criarCardHtml(s)} para exibir a linha de prazo de atendimento logo abaixo do bairro:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+export function criarCardHtml(s) {
+  const corBadge = CORES_CATEGORIA[s.categoria] || 'primary';
+  const telNumeros = (s.telefone || '').replace(/\D/g, '');
+  const badgePixHtml = (s.aceitaPix === 1 || s.aceitaPix === true)
+    ? '<span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill font-outfit px-2 py-1"><i class="bi bi-qr-code me-1"></i>PIX</span>'
+    : '';
+  const prazoTexto = escapeHtml(s.prazoAtendimento || 'Sob agendamento');
+
+  return `
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 shadow-sm border-0 vitrine-card rounded-4 overflow-hidden">
+        <div class="card-body p-4 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center gap-1">
+              <span class="badge bg-${corBadge} px-3 py-2 rounded-pill font-outfit">
+                <i class="bi bi-tag-fill me-1"></i>${escapeHtml(s.categoria)}
+              </span>
+              ${badgePixHtml}
+            </div>
+            <span class="fw-bold text-success font-outfit fs-5">
+              ${formatarMoeda(s.precoBase)}
+            </span>
+          </div>
+
+          <h5 class="card-title fw-bold text-dark mt-2 mb-1">${escapeHtml(s.nome)}</h5>
+          <h6 class="text-muted small mb-2">
+            <i class="bi bi-geo-alt-fill text-danger me-1"></i>${escapeHtml(s.bairro)}
+          </h6>
+          <div class="text-secondary small mb-2">
+            <i class="bi bi-clock-history text-primary me-1"></i><strong>Prazo:</strong> ${prazoTexto}
+          </div>
+          <p class="card-text text-secondary small flex-grow-1" style="line-height: 1.5;">
+            ${escapeHtml(s.descricao)}
+          </p>
+
+          <hr class="my-3 text-muted opacity-25">
+
+          <div class="d-flex justify-content-between align-items-center mt-auto">
+            <a href="https://wa.me/55${telNumeros}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold">
+              <i class="bi bi-whatsapp me-1"></i>${formatarTelefone(s.telefone)}
+            </a>
+            <div class="d-flex gap-1">
+              <button class="btn btn-sm btn-outline-danger btn-excluir rounded-pill px-2" data-id="${s.id}" title="Remover da vitrine">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+\end{boxCodigoJS}
 
 % =====================================================
 % RESUMO DAS TRANSFORMAÇÕES (O QUE MUDOU E POR QUE MUDOU)
 % =====================================================
 
+\newpage
 \subsection{Quadro Comparativo: Evolução do Roteiro 04 para o Roteiro 05}
 
 \begin{table}[H]
