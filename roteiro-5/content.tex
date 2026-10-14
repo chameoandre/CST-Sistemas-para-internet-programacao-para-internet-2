@@ -905,6 +905,399 @@ document.addEventListener('DOMContentLoaded', () => {
 \end{enumerate}
 \end{boxTeste}
 
+% =====================================================
+% SEÇÃO DE MINI DESAFIOS PRÁTICOS (PARTE 1: FUNDAMENTOS)
+% =====================================================
+
+\newpage
+\subsection{Mini Desafios Práticos de Fixação (Fundamentos \& Mini-Exemplos)}
+
+Para consolidar os conceitos aprendidos nas 4 pílulas práticas de aquecimento antes de avançar para a Vitrine de Serviços, propomos \textbf{3 mini desafios progressivos e focados}. Eles foram desenhados para que você pratique pequenas alterações incrementais no backend e no frontend com total clareza.
+
+\begin{boxDica}[Metodologia de Aprendizagem Ativa]
+Tente implementar cada mini desafio no código dos mini-exemplos antes de conferir o gabarito. Observe como pequenas adições fluem entre o servidor Python e a interface no navegador!
+\end{boxDica}
+
+\subsubsection*{Mini Desafio 1: Adicionar Versão e Câmpus na API (Pílula 2)}
+\textbf{Objetivo:} Praticar a extensão de um endpoint \texttt{GET} no Flask e a leitura de novos campos no frontend.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{No Servidor (\texttt{mini-exemplos/02-micro-flask-cors/server.py}):} No endpoint \texttt{/api/status}, adicione as chaves \texttt{'versao': '1.0.0'} e \texttt{'campus': 'IFSC Garopaba'} ao dicionário retornado;
+  \item \textbf{No Frontend (\texttt{mini-exemplos/02-micro-flask-cors/functions.js}):} Na função \texttt{consultarStatusApi}, exiba as informações de versão e câmpus dentro do card de alerta verde na tela.
+\end{itemize}
+
+\subsubsection*{Mini Desafio 2: Campo de Categoria no Envio com POST (Pílula 3)}
+\textbf{Objetivo:} Adicionar um novo campo de seleção ao formulário de envio e persistir a informação no servidor.
+\begin{itemize}[leftmargin=*]
+  \item \textbf{No Formulário (\texttt{mini-exemplos/03-fetch-post/index.html}):} Adicione um campo de seleção (\texttt{select}) com \texttt{id="campoCategoria"} contendo as opções: \textit{"Tecnologia"}, \textit{"Alimentação"}, \textit{"Artesanato"} e \textit{"Serviços Gerais"};
+  \item \textbf{No JavaScript (\texttt{mini-exemplos/03-fetch-post/functions.js}):} Capture o valor selecionado e adicione a propriedade \texttt{categoria} no objeto \texttt{dadosParaEnvio};
+  \item \textbf{No Servidor (\texttt{mini-exemplos/03-fetch-post/server.py}):} No endpoint \texttt{/api/cadastrar}, capture o campo com \texttt{dados.get('categoria', 'Geral')} e inclua-o no dicionário \texttt{registro}.
+\end{itemize}
+
+\subsubsection*{Mini Desafio 3: Simulação de Rota com Erro 404 e Resiliência (Pílula 4)}
+\textbf{Objetivo:} Comprovar o funcionamento do bloco defensivo \texttt{try...catch...finally} quando o servidor responde com código de erro HTTP (ex: 404 Não Encontrado).
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Na Interface (\texttt{mini-exemplos/04-fetch-spinner/index.html}):} Adicione um segundo botão com estilo de contorno vermelho: \texttt{id="btnSimularErro"} com o texto \textit{"Simular Rota Inexistente (404)"};
+  \item \textbf{No JavaScript (\texttt{mini-exemplos/04-fetch-spinner/functions.js}):} Adicione um ouvinte de clique que faça uma requisição para uma rota que não existe no Flask (\texttt{http://127.0.0.1:5000/api/rota-inexistente}). Observe o spinner girar, o erro ser capturado no \texttt{catch} e o botão ser reativado pelo \texttt{finally}!
+\end{itemize}
+
+% =====================================================
+% GABARITO COMENTADO DOS MINI DESAFIOS (PARTE 1)
+% =====================================================
+
+\newpage
+\subsection{Gabarito Comentado dos Mini Desafios (Código Completo)}
+
+Confira a seguir as soluções completas e detalhadas para cada um dos mini desafios, com código 100\% aplicável (*Zero-Ellipsis Rule*).
+
+\begin{boxAtividade}[{Solução do Mini Desafio 1: Versão e Câmpus na API (Pílula 2)}]
+\textbf{Passo 1.1: Atualizar o arquivo \texttt{mini-exemplos/02-micro-flask-cors/server.py}:}
+\end{boxAtividade}
+
+\begin{boxCodigoPY}[]
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/api/status', methods=['GET'])
+def verificar_status():
+    return jsonify({
+        "status": "online",
+        "servidor": "Flask 3.x",
+        "cidade": "Garopaba/SC",
+        "campus": "IFSC Câmpus Garopaba",
+        "versao": "1.0.0"
+    }), 200
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
+\end{boxCodigoPY}
+
+\begin{boxAtividade}[{Passo 1.2: Atualizar o arquivo \texttt{mini-exemplos/02-micro-flask-cors/functions.js}:}]
+Exiba os novos dados no alerta verde:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+async function consultarStatusApi(resultadoStatus) {
+  try {
+    const resposta = await fetch('http://127.0.0.1:5000/api/status');
+    const dados = await resposta.json();
+
+    resultadoStatus.className = 'alert alert-success mb-0';
+    resultadoStatus.innerHTML =
+      '<strong>Status:</strong> ' + dados.status + '<br>' +
+      '<strong>Servidor:</strong> ' + dados.servidor + '<br>' +
+      '<strong>Origem:</strong> ' + dados.cidade + '<br>' +
+      '<strong>Câmpus:</strong> ' + dados.campus + '<br>' +
+      '<strong>Versão:</strong> v' + dados.versao;
+
+  } catch (erro) {
+    resultadoStatus.className = 'alert alert-danger mb-0';
+    resultadoStatus.innerHTML =
+      '<strong>Erro de Conexão:</strong> Não foi possível acessar a API.<br>' +
+      '<small>Verifique se o server.py está rodando e se o CORS está liberado.</small>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnConectar = document.getElementById('btnConectar');
+  const resultadoStatus = document.getElementById('resultadoStatus');
+
+  btnConectar.addEventListener('click', () => {
+    consultarStatusApi(resultadoStatus);
+  });
+});
+\end{boxCodigoJS}
+
+\newpage
+\begin{boxAtividade}[{Solução do Mini Desafio 2: Campo Categoria no Envio POST (Pílula 3)}]
+\textbf{Passo 2.1: Atualizar o formulário em \texttt{mini-exemplos/03-fetch-post/index.html}:}
+\end{boxAtividade}
+
+\begin{boxCodigoHTML}[]
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 3: Fetch API POST com Categoria</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <script src="functions.js" defer></script>
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 500px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 3: Cadastro de Serviços</h5>
+        
+        <form id="formCadastro">
+          <div class="mb-3">
+            <label for="campoNome" class="form-label">Nome do Serviço:</label>
+            <input
+              type="text"
+              id="campoNome"
+              class="form-control"
+              placeholder="Ex: Conserto de Pranchas"
+              required>
+          </div>
+
+          <div class="mb-3">
+            <label for="campoCategoria" class="form-label">Categoria:</label>
+            <select id="campoCategoria" class="form-select" required>
+              <option value="Tecnologia">Tecnologia</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Artesanato">Artesanato</option>
+              <option value="Serviços Gerais" selected>Serviços Gerais</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="campoPreco" class="form-label">Preço Base (R$):</label>
+            <input
+              type="number"
+              id="campoPreco"
+              class="form-control"
+              step="0.01"
+              placeholder="Ex: 80.00"
+              required>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 mb-3">
+            Enviar via POST para a API
+          </button>
+        </form>
+
+        <div id="feedbackPost" class="alert alert-secondary d-none mb-0"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\begin{boxAtividade}[{Passo 2.2: Atualizar o arquivo \texttt{mini-exemplos/03-fetch-post/functions.js}:}]
+Capture a categoria e envie no payload JSON:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+async function cadastrarNovoServico(evento, formCadastro, campoNome, campoCategoria, campoPreco, feedbackPost) {
+  evento.preventDefault();
+
+  const dadosParaEnvio = {
+    nome: campoNome.value.trim(),
+    categoria: campoCategoria.value,
+    preco: parseFloat(campoPreco.value)
+  };
+
+  try {
+    const resposta = await fetch('http://127.0.0.1:5000/api/cadastrar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dadosParaEnvio)
+    });
+
+    if (resposta.ok === false) {
+      throw new Error('Erro no servidor: ' + resposta.status);
+    }
+
+    const dadosResposta = await resposta.json();
+
+    feedbackPost.className = 'alert alert-success mb-0';
+    feedbackPost.classList.remove('d-none');
+    feedbackPost.innerHTML =
+      '<strong>' + dadosResposta.mensagem + '</strong><br>' +
+      '<small>ID #' + dadosResposta.registro.id +
+      ' | Categoria: ' + dadosResposta.registro.categoria +
+      ' | Total: ' + dadosResposta.total + '</small>';
+
+    formCadastro.reset();
+
+  } catch (erro) {
+    feedbackPost.className = 'alert alert-danger mb-0';
+    feedbackPost.classList.remove('d-none');
+    feedbackPost.innerHTML = '<strong>Falha ao enviar:</strong> ' + erro.message;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const formCadastro = document.getElementById('formCadastro');
+  const campoNome = document.getElementById('campoNome');
+  const campoCategoria = document.getElementById('campoCategoria');
+  const campoPreco = document.getElementById('campoPreco');
+  const feedbackPost = document.getElementById('feedbackPost');
+
+  formCadastro.addEventListener('submit', (evento) => {
+    cadastrarNovoServico(evento, formCadastro, campoNome, campoCategoria, campoPreco, feedbackPost);
+  });
+});
+\end{boxCodigoJS}
+
+\newpage
+\begin{boxAtividade}[{Passo 2.3: Atualizar o arquivo \texttt{mini-exemplos/03-fetch-post/server.py}:}]
+Receba a categoria no endpoint \texttt{POST}:
+\end{boxAtividade}
+
+\begin{boxCodigoPY}[]
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+servicos_cadastrados = []
+
+@app.route('/api/cadastrar', methods=['POST'])
+def cadastrar_servico():
+    dados = request.get_json()
+    
+    if not dados or 'nome' not in dados or 'preco' not in dados:
+        return jsonify({"erro": "Campos obrigatórios ausentes."}), 400
+
+    novo_id = len(servicos_cadastrados) + 1
+    registro = {
+        "id": novo_id,
+        "nome": str(dados['nome']).strip(),
+        "categoria": str(dados.get('categoria', 'Serviços Gerais')).strip(),
+        "preco": float(dados['preco'])
+    }
+    servicos_cadastrados.append(registro)
+    print(f"[API FLASK] Novo serviço cadastrado: {registro}")
+
+    return jsonify({
+        "mensagem": "Serviço cadastrado com sucesso no servidor!",
+        "registro": registro,
+        "total": len(servicos_cadastrados)
+    }), 201
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
+\end{boxCodigoPY}
+
+\newpage
+\begin{boxAtividade}[{Solução do Mini Desafio 3: Simulação de Rota 404 \& Resiliência (Pílula 4)}]
+\textbf{Passo 3.1: Atualizar o arquivo \texttt{mini-exemplos/04-fetch-spinner/index.html}:}
+\end{boxAtividade}
+
+\begin{boxCodigoHTML}[]
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Exemplo 4: Resiliência & Spinner</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    rel="stylesheet">
+  <script src="functions.js" defer></script>
+</head>
+<body class="bg-light p-4">
+  <div class="container" style="max-width: 520px;">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Mini-Exemplo 4: Resiliência & Spinner</h5>
+
+        <button
+          id="btnVerificar"
+          class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2 mb-2">
+          <span id="iconeBotao"><i class="bi bi-arrow-repeat"></i></span>
+          <span id="spinnerCarregamento" class="spinner-border spinner-border-sm d-none" role="status"></span>
+          <span id="textoBotao">Testar Conexão Oficial (/api/status)</span>
+        </button>
+
+        <button
+          id="btnSimularErro"
+          class="btn btn-outline-danger w-100 d-flex justify-content-center align-items-center gap-2 mb-3">
+          <i class="bi bi-bug-fill"></i>
+          <span>Simular Rota Inexistente (404)</span>
+        </button>
+
+        <div id="caixaAlerta" class="alert d-none mb-0" role="alert"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\begin{boxAtividade}[{Passo 3.2: Atualizar o arquivo \texttt{mini-exemplos/04-fetch-spinner/functions.js}:}]
+Implemente a função genérica que testa qualquer URL com tratamento defensivo e desligamento garantido no \texttt{finally}:
+\end{boxAtividade}
+
+\begin{boxCodigoJS}[]
+function ativarEstadoCarregando(elementos) {
+  elementos.btnVerificar.disabled = true;
+  elementos.btnSimularErro.disabled = true;
+  elementos.iconeBotao.classList.add('d-none');
+  elementos.spinnerCarregamento.classList.remove('d-none');
+  elementos.textoBotao.textContent = 'Consultando Servidor...';
+  elementos.caixaAlerta.classList.add('d-none');
+}
+
+function desativarEstadoCarregando(elementos) {
+  elementos.spinnerCarregamento.classList.add('d-none');
+  elementos.iconeBotao.classList.remove('d-none');
+  elementos.textoBotao.textContent = 'Testar Conexão Oficial (/api/status)';
+  elementos.btnVerificar.disabled = false;
+  elementos.btnSimularErro.disabled = false;
+  elementos.caixaAlerta.classList.remove('d-none');
+}
+
+async function requisitarUrlComResiliencia(urlAlvo, elementos) {
+  ativarEstadoCarregando(elementos);
+
+  try {
+    const resposta = await fetch(urlAlvo);
+
+    if (resposta.ok === false) {
+      throw new Error('Código HTTP retornado pelo servidor: ' + resposta.status + ' (' + resposta.statusText + ')');
+    }
+
+    const dados = await resposta.json();
+    elementos.caixaAlerta.className = 'alert alert-success mb-0';
+    elementos.caixaAlerta.innerHTML =
+      '<i class="bi bi-check-circle-fill me-1"></i> ' +
+      '<strong>API Conectada!</strong> Servidor: ' + dados.servidor;
+
+  } catch (erro) {
+    elementos.caixaAlerta.className = 'alert alert-danger mb-0';
+    elementos.caixaAlerta.innerHTML =
+      '<i class="bi bi-exclamation-triangle-fill me-1"></i> ' +
+      '<strong>Falha de Conectividade:</strong> ' + erro.message;
+
+  } finally {
+    // Executado SEMPRE: restaura botões e desliga o spinner!
+    desativarEstadoCarregando(elementos);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const elementos = {
+    btnVerificar: document.getElementById('btnVerificar'),
+    btnSimularErro: document.getElementById('btnSimularErro'),
+    iconeBotao: document.getElementById('iconeBotao'),
+    spinnerCarregamento: document.getElementById('spinnerCarregamento'),
+    textoBotao: document.getElementById('textoBotao'),
+    caixaAlerta: document.getElementById('caixaAlerta')
+  };
+
+  elementos.btnVerificar.addEventListener('click', () => {
+    requisitarUrlComResiliencia('http://127.0.0.1:5000/api/status', elementos);
+  });
+
+  elementos.btnSimularErro.addEventListener('click', () => {
+    requisitarUrlComResiliencia('http://127.0.0.1:5000/api/rota-inexistente', elementos);
+  });
+});
+\end{boxCodigoJS}
+
 \vspace{0.4cm}
 \begin{tcolorbox}[
     enhanced, breakable, colback=white, colframe=azulObjetivos,
@@ -913,12 +1306,13 @@ document.addEventListener('DOMContentLoaded', () => {
     colbacktitle=azulObjetivos, coltitle=white, fonttitle=\bfseries\normalsize,
     title={Conclusão da Parte 1 e Continuação na Tarefa Guiada (Parte 2)}
 ]
-\textbf{Parabéns!} Você completou com sucesso todos os fundamentos conceituais e os 4 mini-exemplos de aquecimento do Roteiro 05:
+\textbf{Parabéns!} Você completou com sucesso todos os fundamentos conceituais, os 4 mini-exemplos de aquecimento e os 3 mini desafios de fixação do Roteiro 05:
 \begin{itemize}[leftmargin=*]
   \item \textbf{Pílula 1:} Fetch API consumindo endpoints públicos assíncronos com JavaScript moderno;
   \item \textbf{Pílula 2:} Microbackend em Python Flask com controle explícito de cabeçalhos CORS;
   \item \textbf{Pílula 3:} Submissão de dados via \texttt{POST} com corpo JSON (\texttt{application/json});
-  \item \textbf{Pílula 4:} Feedback de carregamento com spinners e tratamento defensivo com \texttt{try/catch/finally}.
+  \item \textbf{Pílula 4:} Feedback de carregamento com spinners e tratamento defensivo com \texttt{try/catch/finally};
+  \item \textbf{Mini Desafios:} Extensão de endpoints, novos campos de formulário e simulação de erros HTTP com recuperação resiliente.
 \end{itemize}
 
 \vspace{0.3cm}

@@ -266,6 +266,16 @@
     boxed title style={boxrule=0pt, sharp corners=downhill, arc=3pt}
 }
 
+\newtcolorbox{boxDica}[1][Dica de Engenharia de Software]{
+    breakable, enhanced,
+    colback=ifscGreen!5, colframe=ifscGreen,
+    boxrule=0pt, arc=6pt,
+    left=14pt, right=14pt, top=16pt, bottom=14pt,
+    title={{#1}}, coltitle=white, colbacktitle=ifscGreen, fonttitle=\bfseries,
+    attach boxed title to top left={yshift=-3mm, xshift=6mm},
+    boxed title style={sharp corners, boxrule=0pt}
+}
+
 % =====================================================
 % ESTILOS DE SEÇÃO
 % =====================================================
