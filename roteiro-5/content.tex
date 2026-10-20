@@ -572,6 +572,10 @@ Enquanto requisições \textbf{GET} servem para recuperar dados, o método HTTP 
 \end{itemize}
 \end{tcolorbox}
 
+\begin{boxDica}[Atenção Operacional: Troca de Servidor no Terminal]
+Como o Mini-Exemplo 2 e o Mini-Exemplo 3 utilizam a porta padrão \texttt{5000}, certifique-se de \textbf{encerrar o servidor anterior com \texttt{Ctrl + C}} no terminal antes de executar o novo \texttt{server.py}. Caso o servidor do Exemplo 2 permaneça ativo em segundo plano, ele não reconhecerá a rota \texttt{/api/cadastrar} e responderá com \textbf{Erro 404 (Not Found)} ao envio do formulário!
+\end{boxDica}
+
 \textbf{Passo 3.1: Criar o servidor com rota POST (\texttt{mini-exemplos/03-fetch-post/server.py}):}
 \begin{boxCodigoPY}
 from flask import Flask, jsonify, request
