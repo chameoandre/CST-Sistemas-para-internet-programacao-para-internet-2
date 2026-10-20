@@ -927,6 +927,38 @@
       border-left-color: var(--accent-blue);
     }
 
+    .ext-subcard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .ext-subcard {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.95rem;
+      transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .ext-subcard:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .ext-theme-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+
     /* CALCULADORA DE NOTAS */
     .sim-card {
       background: var(--bg-card-hover);
@@ -1650,17 +1682,45 @@
           <div class="ext-track-card">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <span class="badge-pill badge-pill-purple"><i class="bi bi-easel2-fill"></i> MODALIDADE 1</span>
-              <span class="badge-pill badge-pill-green">Ação Presencial</span>
+              <span class="badge-pill badge-pill-green">Ação Presencial na SNCT</span>
             </div>
-            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Minicursos / Oficinas Práticas na SNCT</h4>
+            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Minicursos &amp; Oficinas Práticas no IFSC</h4>
             <p class="text-muted small mb-3">
-              Proposição e condução de oficinas práticas de curta duração (2h a 4h) no laboratório do IFSC durante a <strong>Semana Nacional de Ciência e Tecnologia (SNCT)</strong> em outubro.
+              Proposição e condução de oficinas práticas presenciais (2h a 4h) no laboratório de informática do Câmpus Garopaba durante a <strong>Semana Nacional de Ciência e Tecnologia (SNCT)</strong>. As equipes escolhem uma das 4 opções estruturadas:
             </p>
-            <ul class="text-muted small ps-3 mb-3">
-              <li><strong>Público-alvo:</strong> Estudantes de escolas públicas da região de Garopaba e comunidade iniciante em informática.</li>
-              <li><strong>Temas sugeridos:</strong> <em>"Primeiros Passos na Criação de Páginas Web"</em>, <em>"Lógica e Programação Interativa no Navegador"</em>.</li>
-              <li><strong>Entregável:</strong> Plano de aula da oficina + Relatório com lista de presença e fotos da ação.</li>
-            </ul>
+
+            <!-- SUB-GRID DE OFICINAS -->
+            <div class="ext-subcard-grid">
+              
+              <div class="ext-subcard">
+                <span class="ext-theme-badge badge-pill-purple"><i class="bi bi-globe2"></i> Opção 1.1 — Inclusão Digital</span>
+                <h5 class="font-outfit fs-6 fw-bold text-heading mb-1">Meu Primeiro Site no Ar</h5>
+                <p class="text-muted small mb-0">Construção de página pessoal com HTML5 semântico e publicação instantânea e gratuita na web com <strong>GitHub Pages</strong> para compartilhar com a família.</p>
+              </div>
+
+              <div class="ext-subcard">
+                <span class="ext-theme-badge badge-pill-green"><i class="bi bi-shop"></i> Opção 1.2 — Economia Local</span>
+                <h5 class="font-outfit fs-6 fw-bold text-heading mb-1">Vitrine para Empreendedores</h5>
+                <p class="text-muted small mb-0">Oficina para comerciantes e feirantes locais criarem um catálogo responsivo em Bootstrap 5 com botão de pedido direto via <strong>WhatsApp</strong>.</p>
+              </div>
+
+              <div class="ext-subcard">
+                <span class="ext-theme-badge badge-pill-blue"><i class="bi bi-controller"></i> Opção 1.3 — Vocação em TI</span>
+                <h5 class="font-outfit fs-6 fw-bold text-heading mb-1">JavaScript: Quiz Interativo</h5>
+                <p class="text-muted small mb-0">Voltada a estudantes de escolas públicas, explorando lógica, manipulação do DOM e contagem de pontos dinâmica em tempo real no navegador.</p>
+              </div>
+
+              <div class="ext-subcard">
+                <span class="ext-theme-badge badge-pill-green"><i class="bi bi-recycle"></i> Opção 1.4 — Sustentabilidade</span>
+                <h5 class="font-outfit fs-6 fw-bold text-heading mb-1">Painel Verde: Coleta Seletiva</h5>
+                <p class="text-muted small mb-0">Alinhada à vocação ambiental de Garopaba e ao tema da SNCT: criação de página com filtros por resíduos (vidro, plástico) e mapa de ecopontos.</p>
+              </div>
+
+            </div>
+
+            <div class="p-2 rounded mt-2" style="background: var(--bg-card); border-left: 3px solid var(--accent-purple);">
+              <small class="text-muted"><strong><i class="bi bi-check2-circle text-success me-1"></i>Entregáveis:</strong> Plano instrucional da oficina, código de apoio, lista de presença com avaliação de satisfação e relatório fotográfico da atividade presencial.</small>
+            </div>
           </div>
 
           <!-- VIA 2 -->
@@ -1670,14 +1730,35 @@
               <span class="badge-pill badge-pill-green">Comunicação Científica</span>
             </div>
             <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Resumo Expandido de Produto Web (SNCT &amp; COTB)</h4>
-            <p class="text-muted small mb-3">
-              Elaboração de um <strong>Resumo Expandido (2 a 4 páginas)</strong> documentando o experimento prático e a arquitetura da aplicação web construída dentro da própria disciplina, resolvendo um problema real da comunidade.
+            <p class="text-muted small mb-2">
+              Elaboração e submissão de um <strong>Relato de Experiência / Resumo Expandido (2 a 4 páginas)</strong> documentando o desenvolvimento e a validação de uma aplicação web extensionista.
             </p>
+
+            <div class="p-2 rounded mb-3" style="background: rgba(14, 165, 233, 0.08); border-left: 3px solid var(--accent-blue);">
+              <small class="text-muted"><strong><i class="bi bi-lightbulb-fill text-warning me-1"></i>Diretriz de Reorientação Temática:</strong> As equipes aproveitam a <strong>arquitetura técnica consolidada no último roteiro da disciplina</strong> (SPA modular, consumo assíncrono via Fetch API, validação, modais e persistência em LocalStorage ou REST Flask/SQLite), redirecionando o domínio para uma causa comunitária de Garopaba e região.</small>
+            </div>
+
+            <h5 class="font-outfit fs-6 fw-bold text-heading mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Sugestões de Eixos Comunitários Locais:</h5>
             <ul class="text-muted small ps-3 mb-3">
-              <li><strong>Apresentação:</strong> Mostra de Trabalhos Acadêmicos e Extensionistas da <strong>SNCT no Câmpus Garopaba</strong>.</li>
-              <li><strong>Submissão Científica:</strong> Formatação e submissão na trilha do congresso <strong>Computer on the Beach (COTB)</strong>.</li>
-              <li><strong>Entregável:</strong> Artigo/Resumo Expandido em PDF com comprovação de submissão.</li>
+              <li><strong>🌊 Turismo Comunitário &amp; Pesca:</strong> Catálogo e roteiro dos ranchos de pesca tradicional da Barra e patrimônio açoriano.</li>
+              <li><strong>🐾 Causa Animal:</strong> Vitrine de acolhimento e adoção responsável de animais resgatados com formulário assíncrono.</li>
+              <li><strong>🌾 Agricultura Familiar:</strong> Divulgação direta de colheitas semanais, feiras orgânicas e produtores locais.</li>
+              <li><strong>🌿 Preservação Ambiental:</strong> Guia interativo de conservação de trilhas ecológicas, dunas e praias limpas.</li>
+              <li><strong>♿ Acessibilidade Praiana:</strong> Mapeamento de rampas, esteiras acessíveis e cadeiras anfíbias nas praias do município.</li>
             </ul>
+
+            <h5 class="font-outfit fs-6 fw-bold text-heading mb-2"><i class="bi bi-journal-bookmark-fill text-info me-1"></i>Estrutura do Artigo (COTB / Mostra SNCT):</h5>
+            <ol class="text-muted small ps-3 mb-3">
+              <li>Introdução &amp; Contexto Comunitário (Problema real em Garopaba)</li>
+              <li>Arquitetura da Solução Desenvolvida (Frontend Modular, Fetch, Persistência)</li>
+              <li>Interação Dialógica &amp; Testes com Usuários Reais da Comunidade</li>
+              <li>Resultados Obtidos &amp; Impacto Social da Aplicação</li>
+              <li>Considerações Finais e Lições Aprendidas</li>
+            </ol>
+
+            <div class="p-2 rounded" style="background: var(--bg-card); border-left: 3px solid var(--accent-blue);">
+              <small class="text-muted"><strong><i class="bi bi-check2-circle text-success me-1"></i>Entregáveis:</strong> Artigo/Resumo Expandido em PDF formatado, repositório GitHub com deploy no GitHub Pages e comprovante de apresentação na Mostra da SNCT / submissão ao congresso COTB.</small>
+            </div>
           </div>
 
         </div>
