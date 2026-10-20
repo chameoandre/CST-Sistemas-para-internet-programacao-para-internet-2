@@ -431,8 +431,40 @@ Muitos estudantes já utilizaram o pacote \textbf{XAMPP} (\textit{Apache, MySQL,
 
 \textbf{Passo 2.1: Criar o microservidor Python (\texttt{mini-exemplos/02-micro-flask-cors/server.py}):}
 \begin{boxCodigoPY}
+import os, sys, subprocess, signal, time
 from flask import Flask, jsonify
 from flask_cors import CORS
+
+def liberar_porta(porta=5000):
+    """Encerra instâncias anteriores do Python na mesma porta."""
+    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+        return
+    meu_pid, meu_pai = os.getpid(), os.getppid()
+    try:
+        if sys.platform == "win32":
+            cmd = f"netstat -ano | findstr :{porta}"
+            saida = subprocess.check_output(cmd, shell=True, text=True)
+            for linha in saida.strip().split("\n"):
+                partes = linha.split()
+                if len(partes) >= 5 and "LISTENING" in partes:
+                    pid = int(partes[-1])
+                    if pid not in (meu_pid, meu_pai, 0):
+                        subprocess.run(f"taskkill /F /PID {pid}",
+                                       shell=True, capture_output=True)
+        else:
+            cmd = ["lsof", "-ti", f":{porta}"]
+            res = subprocess.run(cmd, capture_output=True, text=True)
+            for pid_str in res.stdout.strip().split():
+                pid = int(pid_str)
+                if pid not in (meu_pid, meu_pai):
+                    cmd_ps = ["ps", "-p", str(pid), "-o", "comm="]
+                    proc = subprocess.run(cmd_ps, capture_output=True,
+                                          text=True)
+                    if "python" in proc.stdout.lower():
+                        os.kill(pid, signal.SIGTERM)
+                        time.sleep(0.5)
+    except Exception:
+        pass
 
 app = Flask(__name__)
 # Libera o acesso entre portas distintas (5500 e 5000)
@@ -447,6 +479,7 @@ def obter_status():
     })
 
 if __name__ == '__main__':
+    liberar_porta(5000)
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
@@ -572,14 +605,46 @@ Enquanto requisições \textbf{GET} servem para recuperar dados, o método HTTP 
 \end{itemize}
 \end{tcolorbox}
 
-\begin{boxDica}[Atenção Operacional: Troca de Servidor no Terminal]
-Como o Mini-Exemplo 2 e o Mini-Exemplo 3 utilizam a porta padrão \texttt{5000}, certifique-se de \textbf{encerrar o servidor anterior com \texttt{Ctrl + C}} no terminal antes de executar o novo \texttt{server.py}. Caso o servidor do Exemplo 2 permaneça ativo em segundo plano, ele não reconhecerá a rota \texttt{/api/cadastrar} e responderá com \textbf{Erro 404 (Not Found)} ao envio do formulário!
+\begin{boxDica}[Rotina Automática de Liberação de Porta]
+Para evitar que servidores anteriores fiquem rodando em segundo plano e causem conflito de porta (\texttt{Address already in use}) ou respondam com \textbf{Erro 404 (Not Found)}, implementamos a função \texttt{liberar\_porta(5000)}. Ela identifica e encerra automaticamente qualquer instância anterior do Python na porta 5000 antes de iniciar o novo servidor.
 \end{boxDica}
 
 \textbf{Passo 3.1: Criar o servidor com rota POST (\texttt{mini-exemplos/03-fetch-post/server.py}):}
 \begin{boxCodigoPY}
+import os, sys, subprocess, signal, time
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+
+def liberar_porta(porta=5000):
+    """Encerra instâncias anteriores do Python na mesma porta."""
+    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+        return
+    meu_pid, meu_pai = os.getpid(), os.getppid()
+    try:
+        if sys.platform == "win32":
+            cmd = f"netstat -ano | findstr :{porta}"
+            saida = subprocess.check_output(cmd, shell=True, text=True)
+            for linha in saida.strip().split("\n"):
+                partes = linha.split()
+                if len(partes) >= 5 and "LISTENING" in partes:
+                    pid = int(partes[-1])
+                    if pid not in (meu_pid, meu_pai, 0):
+                        subprocess.run(f"taskkill /F /PID {pid}",
+                                       shell=True, capture_output=True)
+        else:
+            cmd = ["lsof", "-ti", f":{porta}"]
+            res = subprocess.run(cmd, capture_output=True, text=True)
+            for pid_str in res.stdout.strip().split():
+                pid = int(pid_str)
+                if pid not in (meu_pid, meu_pai):
+                    cmd_ps = ["ps", "-p", str(pid), "-o", "comm="]
+                    proc = subprocess.run(cmd_ps, capture_output=True,
+                                          text=True)
+                    if "python" in proc.stdout.lower():
+                        os.kill(pid, signal.SIGTERM)
+                        time.sleep(0.5)
+    except Exception:
+        pass
 
 app = Flask(__name__)
 CORS(app)
@@ -609,6 +674,7 @@ def cadastrar_servico():
     }), 201
 
 if __name__ == '__main__':
+    liberar_porta(5000)
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
