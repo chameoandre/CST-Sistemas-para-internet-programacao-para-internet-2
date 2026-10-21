@@ -2515,25 +2515,32 @@
 
         <!-- INSTRUMENTOS OFICIAIS DE AVALIAÇÃO (PPC) -->
         <div class="row g-3 mb-4">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-rose);">
-              <span class="badge-pill" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border-color: var(--accent-rose);">INSTRUMENTO A1 (PESO 25%)</span>
+              <span class="badge-pill" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border-color: var(--accent-rose);">INSTRUMENTO A1 (PESO 20%)</span>
               <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Avaliação Teórica</h3>
               <p class="text-muted small mb-0">Avaliação conceitual individual sobre ES6 Modules, manipulação do DOM, Fetch API assíncrona, HTTP REST, CORS e arquiteturas web.</p>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-amber);">
-              <span class="badge-pill badge-pill-amber">INSTRUMENTO A2 (PESO 35%)</span>
+              <span class="badge-pill badge-pill-amber">INSTRUMENTO A2 (PESO 20%)</span>
               <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Curso Ministrado na SNCT</h3>
-              <p class="text-muted small mb-0">Curricularização da Extensão: planejamento, produção didática e ministração prática de minicurso ou oficina durante a Semana Nacional de C&amp;T.</p>
+              <p class="text-muted small mb-0">Curricularização da Extensão: planejamento, produção didática e ministração de minicurso/oficina prática durante a Semana Nacional de C&amp;T.</p>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
-              <span class="badge-pill badge-pill-green">INSTRUMENTO A3 (PESO 40%)</span>
-              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Site com Fetch API &amp; Backend Flask</h3>
-              <p class="text-muted small mb-0">Implementação completa de aplicação full-stack desacoplada (estilo Vitrine Comunitária), com banco relacional SQLite e modo de contingência offline.</p>
+              <span class="badge-pill badge-pill-green">INSTRUMENTO A3 (PESO 35%)</span>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Site com Fetch &amp; Flask</h3>
+              <p class="text-muted small mb-0">Implementação full-stack desacoplada (Vitrine Comunitária), microbackend Python Flask, SQLite e contingência offline.</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-blue);">
+              <span class="badge-pill badge-pill-blue">INSTRUMENTO A4 (PESO 25%)</span>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Demais Entregas Agrupadas</h3>
+              <p class="text-muted small mb-0">Roteiros práticos semanais de laboratório (Roteiros 1 a 8), pontualidade, engajamento e publicações no GitHub Pages.</p>
             </div>
           </div>
         </div>
@@ -3405,9 +3412,10 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             <div class="col-md-4">
               <label class="form-label small fw-bold">Instrumento Avaliativo:</label>
               <select class="form-select form-select-sm" id="inputDemandaInstrumento" required>
-                <option value="A2">A2 — Roteiros Semanais (35%)</option>
-                <option value="A3">A3 — Projeto &amp; Extensão (40%)</option>
-                <option value="A1">A1 — Avaliação Teórica (25%)</option>
+                <option value="A1">A1 — Avaliação Teórica (20%)</option>
+                <option value="A2">A2 — Curso Ministrado na SNCT (20%)</option>
+                <option value="A3">A3 — Vitrine Fetch + Flask (35%)</option>
+                <option value="A4" selected>A4 — Demais Entregas Agrupadas (25%)</option>
               </select>
             </div>
             <div class="col-md-4">
@@ -3665,7 +3673,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         id: "DEM-01",
         titulo: "Avaliação Teórica: Fundamentos Web, ES6 Modules, Fetch API & REST",
         instrumento: "A1",
-        instrumentoNome: "A1 (Avaliação Teórica • 25%)",
+        instrumentoNome: "A1 (Avaliação Teórica • 20%)",
         destinatario: "Todos",
         prazo: "2026-11-10",
         pontos: 10.0,
@@ -3682,7 +3690,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         id: "DEM-02",
         titulo: "Curso Ministrado na SNCT: Minicurso/Oficina Prática de Extensão Universitária",
         instrumento: "A2",
-        instrumentoNome: "A2 (Curso na SNCT • 35%)",
+        instrumentoNome: "A2 (Curso na SNCT • 20%)",
         destinatario: "Todos",
         prazo: "2026-11-24",
         pontos: 10.0,
@@ -3699,7 +3707,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         id: "DEM-03",
         titulo: "Implementação de Site com Fetch API e Backend Flask (Vitrine Comunitária)",
         instrumento: "A3",
-        instrumentoNome: "A3 (Vitrine Comunitária Flask • 40%)",
+        instrumentoNome: "A3 (Vitrine Comunitária Flask • 35%)",
         destinatario: "Todos",
         prazo: "2026-12-08",
         pontos: 10.0,
@@ -3710,6 +3718,23 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           "Backend RESTful em Python Flask com CORS habilitado e rotas GET/POST",
           "Persistência relacional em arquivo SQLite (vitrine.db) com sanitização de consultas",
           "Padrão profissional de contingência resiliente (fallback transparente offline)"
+        ]
+      },
+      {
+        id: "DEM-04",
+        titulo: "Demais Entregas & Roteiros Práticos de Laboratório (Agrupadas)",
+        instrumento: "A4",
+        instrumentoNome: "A4 (Demais Entregas • 25%)",
+        destinatario: "Todos",
+        prazo: "2026-12-15",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Consolidação e avaliação contínua dos roteiros práticos semanais desenvolvidos em laboratório de informática (Roteiros 1 a 8: Módulos ES6, Fetch API, LocalStorage, CRUDs, Componentes Bootstrap e SPA), pontualidade e engajamento nas entregas no GitHub.",
+        criterios: [
+          "Entrega pontual dos repositórios e branches com os roteiros práticos semanais",
+          "Execução correta dos passos de laboratório e boas práticas de codificação",
+          "Presença ativa, participação nas discussões técnicas e resolução de exercícios",
+          "Publicação dos experimentos no GitHub Pages com README explicativo"
         ]
       }
     ];
@@ -3777,8 +3802,8 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         const dSalvas = localStorage.getItem(STORAGE_KEY_DEMANDAS);
         if (dSalvas) {
           const parsed = JSON.parse(dSalvas);
-          // Migração: se contiver o modelo de teste anterior, atualiza para o oficial
-          if (parsed.length > 0 && parsed[0].titulo && parsed[0].titulo.includes("Roteiro 04")) {
+          // Migração: se tiver menos de 4 demandas ou pesos anteriores, atualiza para o conjunto oficial com A4
+          if (parsed.length < 4 || (parsed[0].titulo && parsed[0].titulo.includes("Roteiro 04")) || (parsed[0].instrumentoNome && parsed[0].instrumentoNome.includes("25%"))) {
             demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
             localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
           } else {
@@ -4261,7 +4286,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const criteriosTexto = document.getElementById('inputDemandaCriterios').value.trim();
       const criterios = criteriosTexto.split('\n').map(c => c.trim()).filter(c => c.length > 0);
 
-      const instrumentoNome = instrumento === 'A1' ? 'A1 (Teórica • 25%)' : (instrumento === 'A3' ? 'A3 (Extensão & Projeto • 40%)' : 'A2 (Roteiros • 35%)');
+      const instrumentoNome = instrumento === 'A1' ? 'A1 (Avaliação Teórica • 20%)' :
+        (instrumento === 'A2' ? 'A2 (Curso SNCT • 20%)' :
+        (instrumento === 'A3' ? 'A3 (Vitrine Flask • 35%)' :
+        'A4 (Demais Entregas • 25%)'));
 
       if (idOriginal) {
         const idx = demandasApp.findIndex(d => d.id === idOriginal);
@@ -4900,12 +4928,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // =========================================================================
     // SUBABA 3: FECHAMENTO DE NOTAS & EXPORTAÇÃO SIGAA
     // =========================================================================
-    function calcularNotaA2Equipe(equipeNome) {
+    function calcularNotaInstrumento(inst, equipeNome) {
       if (!equipeNome || equipeNome === 'Sem equipe definida') return null;
-      const avals = avaliacoesApp.filter(a => a.equipe === equipeNome);
-      if (avals.length === 0) return null;
-      const soma = avals.reduce((acc, curr) => acc + (curr.nota || 0), 0);
-      return soma / avals.length;
+      const demanda = demandasApp.find(d => d.instrumento === inst);
+      if (!demanda) return null;
+      const aval = avaliacoesApp.find(a => a.demandaId === demanda.id && a.equipe === equipeNome);
+      return aval && typeof aval.nota === 'number' ? aval.nota : null;
     }
 
     function renderizarTabelaFechamento() {
@@ -4923,13 +4951,18 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       let recuperacao = 0;
 
       const linhas = alunosApp.map(al => {
-        // Obter A2 calculado a partir das rubricas lançadas para a equipe dele
-        const notaA2Calc = calcularNotaA2Equipe(al.equipe);
-        const a1 = 7.5; // Estimativa padrão teórica (editável)
-        const a2 = notaA2Calc !== null ? notaA2Calc : 8.0;
-        const a3 = 8.5; // Estimativa padrão de projeto
+        // Notas calculadas a partir das rubricas lançadas para a equipe ou estimativas
+        const notaA1Calc = calcularNotaInstrumento('A1', al.equipe);
+        const notaA2Calc = calcularNotaInstrumento('A2', al.equipe);
+        const notaA3Calc = calcularNotaInstrumento('A3', al.equipe);
+        const notaA4Calc = calcularNotaInstrumento('A4', al.equipe);
 
-        const mf = (a1 * 0.25) + (a2 * 0.35) + (a3 * 0.40);
+        const a1 = notaA1Calc !== null ? notaA1Calc : 7.5; // Estimativa padrão teórica
+        const a2 = notaA2Calc !== null ? notaA2Calc : 8.0; // Curso SNCT
+        const a3 = notaA3Calc !== null ? notaA3Calc : 8.5; // Vitrine Flask
+        const a4 = notaA4Calc !== null ? notaA4Calc : 8.0; // Demais Entregas agrupadas
+
+        const mf = (a1 * 0.20) + (a2 * 0.20) + (a3 * 0.35) + (a4 * 0.25);
         const mfArredondada = Math.round((mf + 1e-9) * 10) / 10;
 
         somaMedias += mfArredondada;
@@ -4952,18 +4985,28 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             <td>
               <span class="font-code small text-muted">${escapeHtml(al.email)}</span>
             </td>
-            <td style="text-align: center;">${a1.toFixed(1)}</td>
+            <td style="text-align: center;">
+              <strong>${a1.toFixed(1)}</strong>
+              ${notaA1Calc !== null ? '<span class="badge bg-light text-primary border d-block mt-1" style="font-size:0.7rem;">rubrica</span>' : '<span class="badge bg-light text-muted border d-block mt-1" style="font-size:0.7rem;">estimada</span>'}
+            </td>
             <td style="text-align: center;">
               <strong>${a2.toFixed(1)}</strong>
-              ${notaA2Calc !== null ? '<span class="badge bg-light text-primary border" style="font-size:0.75rem;" title="Média das rubricas avaliadas">rubricas</span>' : '<span class="badge bg-light text-muted border" style="font-size:0.75rem;">estimada</span>'}
+              ${notaA2Calc !== null ? '<span class="badge bg-light text-primary border d-block mt-1" style="font-size:0.7rem;">rubrica</span>' : '<span class="badge bg-light text-muted border d-block mt-1" style="font-size:0.7rem;">estimada</span>'}
             </td>
-            <td style="text-align: center;">${a3.toFixed(1)}</td>
+            <td style="text-align: center;">
+              <strong>${a3.toFixed(1)}</strong>
+              ${notaA3Calc !== null ? '<span class="badge bg-light text-primary border d-block mt-1" style="font-size:0.7rem;">rubrica</span>' : '<span class="badge bg-light text-muted border d-block mt-1" style="font-size:0.7rem;">estimada</span>'}
+            </td>
+            <td style="text-align: center;">
+              <strong>${a4.toFixed(1)}</strong>
+              ${notaA4Calc !== null ? '<span class="badge bg-light text-primary border d-block mt-1" style="font-size:0.7rem;">rubrica</span>' : '<span class="badge bg-light text-muted border d-block mt-1" style="font-size:0.7rem;">estimada</span>'}
+            </td>
             <td style="text-align: center;">
               <span class="fs-6 fw-bold font-outfit text-heading">${mfArredondada.toFixed(1).replace('.', ',')}</span>
             </td>
             <td style="text-align: center;">
               <span class="badge ${isAprovado ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}">
-                ${isAprovado ? 'Aprovado (MF &ge; 6,0)' : 'Recuperação'}
+                ${isAprovado ? 'Aprovado' : 'Recuperação'}
               </span>
             </td>
           </tr>
@@ -4976,20 +5019,21 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         <div class="d-flex align-items-center gap-3 flex-wrap mb-3 p-2 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.85rem;">
           <div><span class="text-muted">Total de Alunos:</span> <strong>${alunosApp.length}</strong></div>
           <div><span class="text-muted">Média Geral da Turma:</span> <strong class="text-primary">${mediaGeralTurma}</strong></div>
-          <div><span class="text-muted">Aprovados Diretos:</span> <strong class="text-success">${aprovados}</strong></div>
+          <div><span class="text-muted">Aprovados Diretos (MF &ge; 6,0):</span> <strong class="text-success">${aprovados}</strong></div>
           <div><span class="text-muted">Em Recuperação Paralela:</span> <strong class="text-danger">${recuperacao}</strong></div>
         </div>
 
         <table class="table table-hover align-middle mb-0" id="tabelaFechamentoSigaaDados" style="font-size: 0.84rem;">
           <thead style="background: var(--bg-card-hover);">
             <tr>
-              <th style="width: 25%;">Estudante &amp; Equipe</th>
-              <th style="width: 22%;">E-mail para Notificação</th>
-              <th style="width: 10%; text-align: center;" title="Avaliação Teórica (25%)">Nota A1 (25% • Teórica)</th>
-              <th style="width: 11%; text-align: center;" title="Curso Ministrado na SNCT (35%)">Nota A2 (35% • Curso SNCT)</th>
-              <th style="width: 10%; text-align: center;" title="Vitrine Comunitária Flask (40%)">Nota A3 (40% • Vitrine Flask)</th>
-              <th style="width: 10%; text-align: center;">Média Final</th>
-              <th style="width: 12%; text-align: center;">Situação</th>
+              <th style="width: 22%;">Estudante &amp; Equipe</th>
+              <th style="width: 18%;">E-mail para Notificação</th>
+              <th style="width: 12%; text-align: center;" title="Avaliação Teórica (20%)">Nota A1 (20% • Teórica)</th>
+              <th style="width: 12%; text-align: center;" title="Curso Ministrado na SNCT (20%)">Nota A2 (20% • Curso SNCT)</th>
+              <th style="width: 12%; text-align: center;" title="Vitrine Comunitária Flask (35%)">Nota A3 (35% • Vitrine Flask)</th>
+              <th style="width: 12%; text-align: center;" title="Demais Entregas Agrupadas (25%)">Nota A4 (25% • Entregas)</th>
+              <th style="width: 6%; text-align: center;">Média Final</th>
+              <th style="width: 6%; text-align: center;">Situação</th>
             </tr>
           </thead>
           <tbody>
@@ -5005,18 +5049,24 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         return;
       }
 
-      let tsv = "Matrícula\tAluno\tEquipe\tE-mail\tNota A1 (25% - Teórica)\tNota A2 (35% - Curso SNCT)\tNota A3 (40% - Vitrine Flask)\tMédia Final\tSituação\n";
+      let tsv = "Matrícula\tAluno\tEquipe\tE-mail\tNota A1 (20% - Teórica)\tNota A2 (20% - Curso SNCT)\tNota A3 (35% - Vitrine Flask)\tNota A4 (25% - Demais Entregas)\tMédia Final\tSituação\n";
 
       alunosApp.forEach(al => {
-        const notaA2Calc = calcularNotaA2Equipe(al.equipe);
-        const a1 = 7.5;
+        const notaA1Calc = calcularNotaInstrumento('A1', al.equipe);
+        const notaA2Calc = calcularNotaInstrumento('A2', al.equipe);
+        const notaA3Calc = calcularNotaInstrumento('A3', al.equipe);
+        const notaA4Calc = calcularNotaInstrumento('A4', al.equipe);
+
+        const a1 = notaA1Calc !== null ? notaA1Calc : 7.5;
         const a2 = notaA2Calc !== null ? notaA2Calc : 8.0;
-        const a3 = 8.5;
-        const mf = (a1 * 0.25) + (a2 * 0.35) + (a3 * 0.40);
+        const a3 = notaA3Calc !== null ? notaA3Calc : 8.5;
+        const a4 = notaA4Calc !== null ? notaA4Calc : 8.0;
+
+        const mf = (a1 * 0.20) + (a2 * 0.20) + (a3 * 0.35) + (a4 * 0.25);
         const mfFmt = (Math.round((mf + 1e-9) * 10) / 10).toFixed(1).replace('.', ',');
         const sit = mf >= 6.0 ? "Aprovado" : "Recuperação";
 
-        tsv += `${al.matricula || ''}\t${al.nome}\t${al.equipe || 'Sem equipe definida'}\t${al.email}\t${a1.toFixed(1).replace('.', ',')}\t${a2.toFixed(1).replace('.', ',')}\t${a3.toFixed(1).replace('.', ',')}\t${mfFmt}\t${sit}\n`;
+        tsv += `${al.matricula || ''}\t${al.nome}\t${al.equipe || 'Sem equipe definida'}\t${al.email}\t${a1.toFixed(1).replace('.', ',')}\t${a2.toFixed(1).replace('.', ',')}\t${a3.toFixed(1).replace('.', ',')}\t${a4.toFixed(1).replace('.', ',')}\t${mfFmt}\t${sit}\n`;
       });
 
       navigator.clipboard.writeText(tsv).then(() => {
