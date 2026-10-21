@@ -2513,27 +2513,27 @@
           </div>
         </div>
 
-        <!-- INSTRUMENTOS OFICIAIS DO PPC 30/2020 -->
+        <!-- INSTRUMENTOS OFICIAIS DE AVALIAÇÃO (PPC) -->
         <div class="row g-3 mb-4">
           <div class="col-md-4">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-rose);">
               <span class="badge-pill" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border-color: var(--accent-rose);">INSTRUMENTO A1 (PESO 25%)</span>
-              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Avaliação Teórica Única</h3>
-              <p class="text-muted small mb-0">Prova individual abordando ES6 Modules, Fetch API assíncrona, HTTP REST e SPAs (Aula 11).</p>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Avaliação Teórica</h3>
+              <p class="text-muted small mb-0">Avaliação conceitual individual sobre ES6 Modules, manipulação do DOM, Fetch API assíncrona, HTTP REST, CORS e arquiteturas web.</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-amber);">
               <span class="badge-pill badge-pill-amber">INSTRUMENTO A2 (PESO 35%)</span>
-              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Avaliação Contínua de Aulas</h3>
-              <p class="text-muted small mb-0">Composta pelos roteiros práticos semanais desenvolvidos em laboratório (Roteiros 01 a 07).</p>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Curso Ministrado na SNCT</h3>
+              <p class="text-muted small mb-0">Curricularização da Extensão: planejamento, produção didática e ministração prática de minicurso ou oficina durante a Semana Nacional de C&amp;T.</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
               <span class="badge-pill badge-pill-green">INSTRUMENTO A3 (PESO 40%)</span>
-              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Projeto Integrador &amp; Extensão</h3>
-              <p class="text-muted small mb-0">Aplicação web completa, deploy no GitHub Pages, ação extensionista na SNCT e resumo expandido.</p>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Site com Fetch API &amp; Backend Flask</h3>
+              <p class="text-muted small mb-0">Implementação completa de aplicação full-stack desacoplada (estilo Vitrine Comunitária), com banco relacional SQLite e modo de contingência offline.</p>
             </div>
           </div>
         </div>
@@ -3552,14 +3552,21 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         <div class="app-modal-body">
           <input type="hidden" id="inputAlunoIdOriginal">
 
-          <div class="mb-3">
-            <label class="form-label small fw-bold">Nome Completo do Estudante:</label>
-            <input type="text" class="form-control form-control-sm" id="inputAlunoNome" placeholder="Ex: Ana Maria Silva" required>
+          <div class="row g-2 mb-3">
+            <div class="col-md-8">
+              <label class="form-label small fw-bold">Nome Completo do Estudante:</label>
+              <input type="text" class="form-control form-control-sm" id="inputAlunoNome" placeholder="Ex: Antonio Duarte de Avila Neto" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Matrícula (SIGAA):</label>
+              <input type="text" class="form-control form-control-sm" id="inputAlunoMatricula" placeholder="Ex: 202510706080">
+            </div>
           </div>
 
           <div class="mb-3">
             <label class="form-label small fw-bold">Equipe / Projeto Extensionista:</label>
             <select class="form-select form-select-sm" id="inputAlunoEquipe" required>
+              <option value="Sem equipe definida" selected>⚠️ Sem equipe definida (atribuir em aula)</option>
               <option value="Equipe 1 — Vitrine Comercial &amp; Negócios Locais">Equipe 1 — Vitrine Comercial &amp; Negócios Locais</option>
               <option value="Equipe 2 — Portal PetCare (Adoção Animal)">Equipe 2 — Portal PetCare (Adoção Animal)</option>
               <option value="Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba">Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba</option>
@@ -3627,70 +3634,82 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     ];
 
     const ESTUDANTES_PADRAO = [
-      { id: "1", nome: "Lucas Silva", equipe: "Equipe 1 — Vitrine Comercial & Negócios Locais", email: "lucas.silva@aluno.ifsc.edu.br", ativo: true },
-      { id: "2", nome: "Mariana Costa", equipe: "Equipe 1 — Vitrine Comercial & Negócios Locais", email: "mariana.costa@aluno.ifsc.edu.br", ativo: true },
-      { id: "3", nome: "Gabriel Santos", equipe: "Equipe 2 — Portal PetCare (Adoção Animal)", email: "gabriel.santos@aluno.ifsc.edu.br", ativo: true },
-      { id: "4", nome: "Beatriz Oliveira", equipe: "Equipe 2 — Portal PetCare (Adoção Animal)", email: "beatriz.oliveira@aluno.ifsc.edu.br", ativo: true },
-      { id: "5", nome: "Matheus Pereira", equipe: "Equipe 3 — Ecoturismo & Trilhas de Garopaba", email: "matheus.pereira@aluno.ifsc.edu.br", ativo: true },
-      { id: "6", nome: "Larissa Souza", equipe: "Equipe 3 — Ecoturismo & Trilhas de Garopaba", email: "larissa.souza@aluno.ifsc.edu.br", ativo: true },
-      { id: "7", nome: "Rafael Rodrigues", equipe: "Equipe 4 — Monitoramento das Praias", email: "rafael.rodrigues@aluno.ifsc.edu.br", ativo: true },
-      { id: "8", nome: "Camila Alves", equipe: "Equipe 4 — Monitoramento das Praias", email: "camila.alves@aluno.ifsc.edu.br", ativo: true },
-      { id: "9", nome: "Felipe Martins", equipe: "Equipe 5 — Feira Agroecológica Local", email: "felipe.martins@aluno.ifsc.edu.br", ativo: true },
-      { id: "10", nome: "Juliana Lima", equipe: "Equipe 5 — Feira Agroecológica Local", email: "juliana.lima@aluno.ifsc.edu.br", ativo: true },
-      { id: "11", nome: "Thiago Ribeiro", equipe: "Equipe 6 — Acessibilidade em Espaços Públicos", email: "thiago.ribeiro@aluno.ifsc.edu.br", ativo: true },
-      { id: "12", nome: "Fernanda Rocha", equipe: "Equipe 6 — Acessibilidade em Espaços Públicos", email: "fernanda.rocha@aluno.ifsc.edu.br", ativo: true }
+      { id: "1", matricula: "202510706080", nome: "Antonio Duarte de Avila Neto", equipe: "Sem equipe definida", email: "antonioduarte1991@hotmail.com", ativo: true },
+      { id: "2", matricula: "202510704356", nome: "Arthur Bressan Silva", equipe: "Sem equipe definida", email: "arthurbressan789@gmail.com", ativo: true },
+      { id: "3", matricula: "202510704359", nome: "Bernardo Luz da Silva", equipe: "Sem equipe definida", email: "bernardinholuz@gmail.com", ativo: true },
+      { id: "4", matricula: "202510704126", nome: "Caio Siega Larroque", equipe: "Sem equipe definida", email: "caio1611sl@gmail.com", ativo: true },
+      { id: "5", matricula: "202510704365", nome: "Felipe Machado da Silveira", equipe: "Sem equipe definida", email: "felipems3004@gmail.com", ativo: true },
+      { id: "6", matricula: "202510704131", nome: "Gustavo Freitas Lima", equipe: "Sem equipe definida", email: "sinarasurfvilla@hotmail.com", ativo: true },
+      { id: "7", matricula: "202510705413", nome: "Henrique de Souza Figueredo", equipe: "Sem equipe definida", email: "figueredosouzahenrique@gmail.com", ativo: true },
+      { id: "8", matricula: "202510706851", nome: "Henrique Marcondes de Medeiros", equipe: "Sem equipe definida", email: "henrique.marcondes@outlook.com", ativo: true },
+      { id: "9", matricula: "202510704132", nome: "Igor Goncalves Pinheiro", equipe: "Sem equipe definida", email: "igorgoncalvesp20@gmail.com", ativo: true },
+      { id: "10", matricula: "202510704367", nome: "Igor Strauch Perrot", equipe: "Sem equipe definida", email: "igorperrot006@gmail.com", ativo: true },
+      { id: "11", matricula: "202510704139", nome: "Jhulia Vitoria Adao dos Santos", equipe: "Sem equipe definida", email: "jhuliavitoria226@gmail.com", ativo: true },
+      { id: "12", matricula: "202510704146", nome: "Julia Melo Fonseca", equipe: "Sem equipe definida", email: "mfjulia07@gmail.com", ativo: true },
+      { id: "13", matricula: "202510704369", nome: "Kauan Souza de Oliveira", equipe: "Sem equipe definida", email: "kauansouzadeoliveira12@gmail.com", ativo: true },
+      { id: "14", matricula: "202510705417", nome: "Luana Lazzarin Toebe", equipe: "Sem equipe definida", email: "luanalazzarinrodrigues@gmail.com", ativo: true },
+      { id: "15", matricula: "202510706157", nome: "Marina Carmen Cornelius", equipe: "Sem equipe definida", email: "marina.c.cornelius@gmail.com", ativo: true },
+      { id: "16", matricula: "202510704351", nome: "Pietro Caetano Fleith", equipe: "Sem equipe definida", email: "ceco1995@gmail.com", ativo: true },
+      { id: "17", matricula: "202510704374", nome: "Rafael Bittencourt Fenianos", equipe: "Sem equipe definida", email: "fenianosrafael@gmail.com", ativo: true },
+      { id: "18", matricula: "202510704352", nome: "Renan Gomes Pinto", equipe: "Sem equipe definida", email: "rgomespinto19@gmail.com", ativo: true },
+      { id: "19", matricula: "202523204395", nome: "Sabrina Moro Villela Pacheco", equipe: "Sem equipe definida", email: "sabrinap@ifsc.edu.br", ativo: true },
+      { id: "20", matricula: "202510706162", nome: "Samuel da Silveira Dick", equipe: "Sem equipe definida", email: "samuka.silveira@gmail.com", ativo: true },
+      { id: "21", matricula: "202510704353", nome: "Valentim Aita do Nascimento", equipe: "Sem equipe definida", email: "valentim.2018307217@aluno.iffar.edu.br", ativo: true },
+      { id: "22", matricula: "202510704379", nome: "Victor Fioravante Xavier", equipe: "Sem equipe definida", email: "victor.f2006@aluno.ifsc.edu.br", ativo: true },
+      { id: "23", matricula: "202510704380", nome: "Victor Sirigu Hasegawa", equipe: "Sem equipe definida", email: "victor.sirigu@gmail.com", ativo: true },
+      { id: "24", matricula: "202510704355", nome: "Yan Martins Ody", equipe: "Sem equipe definida", email: "yanescoteiro@gmail.com", ativo: true }
     ];
 
     const DEMANDAS_INICIAIS = [
       {
         id: "DEM-01",
-        titulo: "Entrega do Roteiro 04: Vitrine Modular ES6 de Empreendedores Locais",
-        instrumento: "A2",
-        instrumentoNome: "A2 (Roteiros • 35%)",
+        titulo: "Avaliação Teórica: Fundamentos Web, ES6 Modules, Fetch API & REST",
+        instrumento: "A1",
+        instrumentoNome: "A1 (Avaliação Teórica • 25%)",
         destinatario: "Todos",
-        prazo: "2026-10-27",
+        prazo: "2026-11-10",
         pontos: 10.0,
         concluida: false,
-        descricao: "Implementação da vitrine comunitária em arquitetura modular ES6 (módulos de dados, serviços e renderização), com filtros dinâmicos de busca e deploy ativo no GitHub Pages.",
+        descricao: "Avaliação conceitual e analítica abordando modularização ES6, ciclo de vida assíncrono (Promises/async/await), requisições HTTP REST com Fetch API, políticas de CORS e arquiteturas web desacopladas.",
         criterios: [
-          "Repositório no GitHub organizado com pastas css/, js/ e raiz limpa",
-          "Separação estrita em módulos ES6 com imports e exports nomeados",
-          "Filtros de categoria e busca textual em tempo real no DOM",
-          "Deploy publicado no GitHub Pages sem erros no console DevTools"
+          "Domínio conceitual de modularização ES6 (import/export e escopos)",
+          "Compreensão do ciclo de requisições assíncronas com Fetch API e tratamento defensivo (try/catch)",
+          "Diferenciação arquitetural entre monólito SSR e API RESTful desacoplada",
+          "Conceituação de CORS, cabeçalhos HTTP e persistência relacional"
         ]
       },
       {
         id: "DEM-02",
-        titulo: "Entrega do Roteiro 05 (Parte 1): Mini-Exemplos Fetch API & Microbackend",
+        titulo: "Curso Ministrado na SNCT: Minicurso/Oficina Prática de Extensão Universitária",
         instrumento: "A2",
-        instrumentoNome: "A2 (Roteiros • 35%)",
+        instrumentoNome: "A2 (Curso na SNCT • 35%)",
         destinatario: "Todos",
-        prazo: "2026-11-03",
+        prazo: "2026-11-24",
         pontos: 10.0,
         concluida: false,
-        descricao: "Consumo de dados via Fetch API assíncrona (async/await), integração com microbackend Flask/PHP e tratamento defensivo de respostas HTTP (status 200, 404, 500) com feedback visual na interface.",
+        descricao: "Planejamento, organização pedagógica e ministração do minicurso/oficina extensionista durante a Semana Nacional de Ciência e Tecnologia (SNCT), com atendimento à comunidade externa e produção de materiais didáticos.",
         criterios: [
-          "Consumo de rota JSON do microbackend usando fetch com async/await",
-          "Tratamento defensivo com blocos try/catch e verificação de response.ok",
-          "Feedback visual de carregamento (spinner/alert) durante a requisição",
-          "Comprovação em vídeo ou captura da interação com o back-end"
+          "Plano de oficina estruturado e alinhado a uma das temáticas extensionistas",
+          "Material didático e roteiro de apoio acessível para os participantes externos",
+          "Condução presencial da oficina na SNCT com engajamento do público",
+          "Relatório reflexivo ou resumo expandido da experiência extensionista"
         ]
       },
       {
         id: "DEM-03",
-        titulo: "Ação Curricularizada de Extensão na SNCT & Resumo Expandido COTB",
+        titulo: "Implementação de Site com Fetch API e Backend Flask (Vitrine Comunitária)",
         instrumento: "A3",
-        instrumentoNome: "A3 (Extensão & Projeto • 40%)",
+        instrumentoNome: "A3 (Vitrine Comunitária Flask • 40%)",
         destinatario: "Todos",
-        prazo: "2026-11-17",
+        prazo: "2026-12-08",
         pontos: 10.0,
         concluida: false,
-        descricao: "Planejamento e execução de minicurso, oficina ou demonstração interativa da aplicação web na Semana Nacional de Ciência e Tecnologia (SNCT), com redação do Resumo Expandido para o COTB 2026.",
+        descricao: "Desenvolvimento e deploy da aplicação web full-stack desacoplada no estilo Vitrine Comunitária, consumindo backend em Python Flask com banco relacional SQLite e modo de contingência offline (fallback com LocalStorage).",
         criterios: [
-          "Definição da proposta extensionista conectada a uma das 4 temáticas comunitárias",
-          "Aplicação web completa com CRUD/Fetch API hospedada no GitHub Pages",
-          "Condução presencial da atividade extensionista com usuários externos",
-          "Envio do Resumo Expandido (LaTeX COTB) relatando a experiência extensionista"
+          "Frontend modular com Fetch API assíncrona, spinners de loading e badges dinâmicos",
+          "Backend RESTful em Python Flask com CORS habilitado e rotas GET/POST",
+          "Persistência relacional em arquivo SQLite (vitrine.db) com sanitização de consultas",
+          "Padrão profissional de contingência resiliente (fallback transparente offline)"
         ]
       }
     ];
@@ -3756,7 +3775,18 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     function carregarDados() {
       try {
         const dSalvas = localStorage.getItem(STORAGE_KEY_DEMANDAS);
-        demandasApp = dSalvas ? JSON.parse(dSalvas) : JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+        if (dSalvas) {
+          const parsed = JSON.parse(dSalvas);
+          // Migração: se contiver o modelo de teste anterior, atualiza para o oficial
+          if (parsed.length > 0 && parsed[0].titulo && parsed[0].titulo.includes("Roteiro 04")) {
+            demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+            localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
+          } else {
+            demandasApp = parsed;
+          }
+        } else {
+          demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+        }
       } catch (e) {
         console.error("Erro ao carregar demandas:", e);
         demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
@@ -3772,7 +3802,18 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
       try {
         const alSalvos = localStorage.getItem(STORAGE_KEY_ALUNOS);
-        alunosApp = alSalvos ? JSON.parse(alSalvos) : JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
+        if (alSalvos) {
+          const parsed = JSON.parse(alSalvos);
+          // Migração: se for o mock antigo (12 alunos ou Lucas Silva), atualiza para a lista real da turma
+          if (parsed.length === 12 || (parsed.length > 0 && parsed[0].nome === "Lucas Silva")) {
+            alunosApp = JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
+            localStorage.setItem(STORAGE_KEY_ALUNOS, JSON.stringify(alunosApp));
+          } else {
+            alunosApp = parsed;
+          }
+        } else {
+          alunosApp = JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
+        }
       } catch (e) {
         console.error("Erro ao carregar alunos:", e);
         alunosApp = JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
@@ -4642,6 +4683,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // =========================================================================
     // SUBABA 2: ESTUDANTES & E-MAILS PARA NOTIFICAÇÃO (ROSTER)
     // =========================================================================
+    function alterarEquipeAlunoRapido(id, novaEquipe) {
+      const al = alunosApp.find(a => a.id === id);
+      if (!al) return;
+      al.equipe = novaEquipe;
+      salvarDadosAlunos();
+      renderizarTabelaAlunos();
+      renderizarTabelaFechamento();
+      renderizarTabelaRubricas();
+      showToast("Equipe Atualizada", `${al.nome}: ${novaEquipe}`, "fa-solid fa-users text-primary");
+    }
+
     function renderizarTabelaAlunos() {
       const container = document.getElementById('tabelaAlunosContainer');
       if (!container) return;
@@ -4661,9 +4713,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         <table class="table table-hover align-middle mb-0" style="font-size: 0.84rem;">
           <thead style="background: var(--bg-card-hover);">
             <tr>
-              <th style="width: 25%;">Nome Completo</th>
-              <th style="width: 30%;">Equipe / Projeto Extensionista</th>
-              <th style="width: 25%;">E-mail Institucional (@aluno.ifsc.edu.br)</th>
+              <th style="width: 25%;">Estudante &amp; Matrícula</th>
+              <th style="width: 32%;">Equipe / Projeto Extensionista</th>
+              <th style="width: 23%;">E-mail para Notificação</th>
               <th style="width: 10%; text-align: center;">Status</th>
               <th style="width: 10%; text-align: center;">Ações</th>
             </tr>
@@ -4672,18 +4724,28 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             ${alunosApp.map(al => {
               const mailtoIndividual = `mailto:${al.email}?subject=${encodeURIComponent('[ProgWeb 2] Notificação da Disciplina')}&body=${encodeURIComponent(`Olá, ${al.nome},\n\n`)}`;
 
+              const optionsEquipes = [
+                `<option value="Sem equipe definida" ${(!al.equipe || al.equipe === 'Sem equipe definida') ? 'selected' : ''}>⚠️ Sem equipe definida</option>`,
+                ...EQUIPES_PROGWEB2.map(eq => `<option value="${escapeHtml(eq)}" ${al.equipe === eq ? 'selected' : ''}>${escapeHtml(eq)}</option>`)
+              ].join('');
+
+              const isSemEquipe = !al.equipe || al.equipe === 'Sem equipe definida';
+
               return `
                 <tr>
                   <td>
                     <strong class="font-outfit text-heading">${escapeHtml(al.nome)}</strong>
+                    ${al.matricula ? `<div class="small text-muted font-code" style="font-size: 0.75rem;"><i class="fa-solid fa-id-card me-1"></i>${escapeHtml(al.matricula)}</div>` : ''}
                   </td>
                   <td>
-                    <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-main); border: 1px solid var(--border-color);">
-                      ${escapeHtml(al.equipe)}
-                    </span>
+                    <div class="d-flex align-items-center gap-1">
+                      <select class="form-select form-select-sm" style="font-size: 0.8rem; background: var(--bg-card); color: var(--text-main); border-color: ${isSemEquipe ? 'var(--accent-amber)' : 'var(--border-color)'};" onchange="alterarEquipeAlunoRapido('${al.id}', this.value)" title="Atribua a equipe do estudante">
+                        ${optionsEquipes}
+                      </select>
+                    </div>
                   </td>
                   <td>
-                    <a href="${mailtoIndividual}" class="font-code small text-primary text-decoration-none">
+                    <a href="${mailtoIndividual}" class="font-code small text-primary text-decoration-none" title="Clique para enviar e-mail">
                       <i class="fa-solid fa-envelope me-1"></i>${escapeHtml(al.email)}
                     </a>
                   </td>
@@ -4713,6 +4775,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     function abrirModalNovoAluno() {
       document.getElementById('formAluno').reset();
       document.getElementById('inputAlunoIdOriginal').value = '';
+      if (document.getElementById('inputAlunoMatricula')) document.getElementById('inputAlunoMatricula').value = '';
       document.getElementById('modalAlunoTitulo').innerHTML = '<i class="fa-solid fa-user-plus text-primary me-2"></i> Cadastrar Estudante';
       document.getElementById('modalAlunoOverlay').classList.add('active');
     }
@@ -4723,7 +4786,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       document.getElementById('inputAlunoIdOriginal').value = al.id;
       document.getElementById('inputAlunoNome').value = al.nome;
-      document.getElementById('inputAlunoEquipe').value = al.equipe;
+      if (document.getElementById('inputAlunoMatricula')) document.getElementById('inputAlunoMatricula').value = al.matricula || '';
+      document.getElementById('inputAlunoEquipe').value = al.equipe || 'Sem equipe definida';
       document.getElementById('inputAlunoEmail').value = al.email;
       document.getElementById('inputAlunoAtivo').checked = !!al.ativo;
 
@@ -4739,6 +4803,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       event.preventDefault();
       const idOriginal = document.getElementById('inputAlunoIdOriginal').value;
       const nome = document.getElementById('inputAlunoNome').value.trim();
+      const matriculaEl = document.getElementById('inputAlunoMatricula');
+      const matricula = matriculaEl ? matriculaEl.value.trim() : '';
       const equipe = document.getElementById('inputAlunoEquipe').value;
       const email = document.getElementById('inputAlunoEmail').value.trim().toLowerCase();
       const ativo = document.getElementById('inputAlunoAtivo').checked;
@@ -4746,13 +4812,14 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       if (idOriginal) {
         const idx = alunosApp.findIndex(a => a.id === idOriginal);
         if (idx !== -1) {
-          alunosApp[idx] = { ...alunosApp[idx], nome, equipe, email, ativo };
+          alunosApp[idx] = { ...alunosApp[idx], nome, matricula, equipe, email, ativo };
           showToast("Estudante Atualizado", `${nome} foi atualizado(a) com sucesso!`);
         }
       } else {
         const novo = {
           id: String(Date.now()),
           nome,
+          matricula,
           equipe,
           email,
           ativo
@@ -4794,7 +4861,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const partes = linha.split(';').map(p => p.trim());
         if (partes.length >= 2) {
           const nome = partes[0];
-          let equipe = partes[1];
+          let equipe = partes[1] || 'Sem equipe definida';
           // Se for só número (ex: "1" ou "#1"), converter para o nome da equipe correspondente
           const numMatch = equipe.match(/\d+/);
           if (numMatch && EQUIPES_PROGWEB2[parseInt(numMatch[0]) - 1]) {
@@ -4834,6 +4901,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // SUBABA 3: FECHAMENTO DE NOTAS & EXPORTAÇÃO SIGAA
     // =========================================================================
     function calcularNotaA2Equipe(equipeNome) {
+      if (!equipeNome || equipeNome === 'Sem equipe definida') return null;
       const avals = avaliacoesApp.filter(a => a.equipe === equipeNome);
       if (avals.length === 0) return null;
       const soma = avals.reduce((acc, curr) => acc + (curr.nota || 0), 0);
@@ -4870,11 +4938,16 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const isAprovado = mfArredondada >= 6.0;
         if (isAprovado) aprovados++; else recuperacao++;
 
+        const isSemEquipe = !al.equipe || al.equipe === 'Sem equipe definida';
+
         return `
           <tr>
             <td>
               <strong class="font-outfit text-heading">${escapeHtml(al.nome)}</strong>
-              <div class="small text-muted">${escapeHtml(al.equipe)}</div>
+              ${al.matricula ? `<div class="small text-muted font-code" style="font-size:0.75rem;">Matrícula: ${escapeHtml(al.matricula)}</div>` : ''}
+              <div class="small ${isSemEquipe ? 'text-warning fw-semibold' : 'text-muted'}">
+                ${isSemEquipe ? '<i class="fa-solid fa-triangle-exclamation me-1"></i>Sem equipe definida' : escapeHtml(al.equipe)}
+              </div>
             </td>
             <td>
               <span class="font-code small text-muted">${escapeHtml(al.email)}</span>
@@ -4911,10 +4984,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           <thead style="background: var(--bg-card-hover);">
             <tr>
               <th style="width: 25%;">Estudante &amp; Equipe</th>
-              <th style="width: 22%;">E-mail Institucional</th>
-              <th style="width: 10%; text-align: center;" title="Avaliação Teórica Única (25%)">Nota A1 (25%)</th>
-              <th style="width: 11%; text-align: center;" title="Roteiros Práticos por Rubricas (35%)">Nota A2 (35%)</th>
-              <th style="width: 10%; text-align: center;" title="Projeto & Extensão SNCT (40%)">Nota A3 (40%)</th>
+              <th style="width: 22%;">E-mail para Notificação</th>
+              <th style="width: 10%; text-align: center;" title="Avaliação Teórica (25%)">Nota A1 (25% • Teórica)</th>
+              <th style="width: 11%; text-align: center;" title="Curso Ministrado na SNCT (35%)">Nota A2 (35% • Curso SNCT)</th>
+              <th style="width: 10%; text-align: center;" title="Vitrine Comunitária Flask (40%)">Nota A3 (40% • Vitrine Flask)</th>
               <th style="width: 10%; text-align: center;">Média Final</th>
               <th style="width: 12%; text-align: center;">Situação</th>
             </tr>
@@ -4932,7 +5005,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         return;
       }
 
-      let tsv = "Aluno\tEquipe\tE-mail\tNota A1 (25%)\tNota A2 (35%)\tNota A3 (40%)\tMédia Final\tSituação\n";
+      let tsv = "Matrícula\tAluno\tEquipe\tE-mail\tNota A1 (25% - Teórica)\tNota A2 (35% - Curso SNCT)\tNota A3 (40% - Vitrine Flask)\tMédia Final\tSituação\n";
 
       alunosApp.forEach(al => {
         const notaA2Calc = calcularNotaA2Equipe(al.equipe);
@@ -4943,18 +5016,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const mfFmt = (Math.round((mf + 1e-9) * 10) / 10).toFixed(1).replace('.', ',');
         const sit = mf >= 6.0 ? "Aprovado" : "Recuperação";
 
-        tsv += `${al.nome}\t${al.equipe}\t${al.email}\t${a1.toFixed(1).replace('.', ',')}\t${a2.toFixed(1).replace('.', ',')}\t${a3.toFixed(1).replace('.', ',')}\t${mfFmt}\t${sit}\n`;
+        tsv += `${al.matricula || ''}\t${al.nome}\t${al.equipe || 'Sem equipe definida'}\t${al.email}\t${a1.toFixed(1).replace('.', ',')}\t${a2.toFixed(1).replace('.', ',')}\t${a3.toFixed(1).replace('.', ',')}\t${mfFmt}\t${sit}\n`;
       });
 
       navigator.clipboard.writeText(tsv).then(() => {
         showToast(
-          "Tabela SIGAA Copiada!",
-          "Dados tabulados (TSV) copiados para a área de transferência. Basta colar no Excel ou no SIGAA!",
-          "fa-solid fa-copy text-success"
+          "Tabela Copiada para SIGAA",
+          "Dados copiados em formato TSV (tabulado). Cole direto no Excel, Sheets ou SIGAA!",
+          "fa-solid fa-clipboard-check text-success"
         );
       }).catch(err => {
         console.error("Erro ao copiar para clipboard:", err);
-        alert("Copie o texto gerado manualmente.");
       });
     }
 
