@@ -8,7 +8,7 @@
 window.PROGWEB2_CONFIG = {
   // Cole aqui a URL do seu Web App Apps Script após implantar (passo 4 do README-IMPLANTACAO.md):
   // Exemplo: 'https://script.google.com/macros/s/AKfycb.../exec'
-  apiUrl: '',
+  apiUrl: 'https://script.google.com/macros/s/AKfycbwWmS57s2Me4tG3Lgcnzi0l_RNIlRm0BzK056m1Uiw5dIsi7HnrZ2Eic7RFsp5_swtX/exec',
 
   // Client ID do Google OAuth 2.0 pré-autorizado para chameoandre.github.io e localhost
   googleClientId: '827223670130-f312ur39hg8bamvbce5noc0iaajq8b1a.apps.googleusercontent.com',
