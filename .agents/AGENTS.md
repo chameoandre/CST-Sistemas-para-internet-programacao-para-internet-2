@@ -31,4 +31,9 @@ The rules in this file are automatically loaded by the AI assistant whenever wor
 - **Base de Conhecimento:** Consultar as diretrizes em `base-de-conhecimento/` como fonte única de verdade para elaboração de materiais didáticos.
 - **Código Completo em Tutoriais:** Todo trecho de código nos roteiros destinados aos estudantes deve ser 100% completo, sem resumos, sem reticências (`...`) ou omissões de elementos (como `#toastMensagem`, opções de `<select>`, ou contêineres). Qualquer elemento manipulado no JavaScript deve estar expressamente criado no HTML dos passos anteriores.
 
-
+## 7. Tipografia e Bootstrap no Dashboard (`index.html`)
+- **Bootstrap obrigatório:** O `index.html` carrega o Bootstrap 5.3.3 (`bootstrap.min.css`). Não remova esse link: o markup depende das classes utilitárias (`text-muted`, `small`, `fw-bold`, `row`/`col-*`, `form-control` etc.).
+- **Sem tamanhos inline:** Não use `font-size` em atributos `style`. Use os tokens da "CAMADA DE LEGIBILIDADE": `--fs-label` (12px), `--fs-caption` (13px), `--fs-small` (14px), `--fs-body-sm` (15px) e `--fs-body` (16px).
+- **Piso de leitura:** Texto corrido nunca fica abaixo de 15px; somente selos e rótulos curtos podem usar 12–13px.
+- **Contraste:** Texto secundário usa `var(--text-muted)`, nunca um cinza fixo; contraste mínimo de 4,5:1 nos temas claro e escuro.
+- **Fontes:** Inter (corpo), Outfit (títulos) e Fira Code (código). Novas regras de estilo entram na camada de legibilidade, no fim do `<style>`.

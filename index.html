@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard da UC — Programação para a Internet 2 (ProgWeb 2 / PIT II) — IFSC Garopaba</title>
 
-  <!-- Google Fonts & Font Awesome & Bootstrap Icons -->
+  <!-- Google Fonts, Bootstrap 5 (utilitários), Font Awesome & Bootstrap Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -1540,6 +1541,143 @@
         align-items: flex-start;
       }
     }
+
+    /* =====================================================================
+       CAMADA DE LEGIBILIDADE (tipografia, contraste e ponte com o Bootstrap)
+       Mantida no fim do <style> para prevalecer sobre as regras anteriores.
+       ===================================================================== */
+    :root {
+      --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      --font-heading: 'Outfit', 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'Fira Code', ui-monospace, monospace;
+
+      /* Escala tipográfica: nada de texto corrido abaixo de 15px */
+      --fs-label: 0.75rem;     /* 12px: selos, pills e rótulos curtos */
+      --fs-caption: 0.8125rem; /* 13px: legendas de 1 linha */
+      --fs-small: 0.875rem;    /* 14px: metadados e botões */
+      --fs-body-sm: 0.9375rem; /* 15px: descrições em cards */
+      --fs-body: 1rem;         /* 16px: texto corrido */
+
+      /* Cinza secundário mais escuro (#475569 = 7,6:1 sobre branco) */
+      --text-muted: #475569;
+
+      /* Ponte: utilitários do Bootstrap (text-muted, small, bg-light...) usam os tokens da página */
+      --bs-body-font-family: var(--font-body);
+      --bs-body-color: var(--text-main);
+      --bs-body-bg: var(--bg-dark);
+      --bs-secondary-color: var(--text-muted);
+      --bs-emphasis-color: var(--text-heading);
+      --bs-border-color: var(--border-color);
+      --bs-heading-color: var(--text-heading);
+    }
+
+    [data-theme="dark"] {
+      --text-muted: #b4c0d3;   /* 9,4:1 sobre #131b2e */
+      --bs-body-color: var(--text-main);
+      --bs-body-bg: var(--bg-dark);
+      --bs-secondary-color: var(--text-muted);
+      --bs-emphasis-color: var(--text-heading);
+      --bs-border-color: var(--border-color);
+      --bs-heading-color: var(--text-heading);
+      color-scheme: dark;
+    }
+    [data-theme="dark"] .bg-light { background-color: var(--bg-card-hover) !important; }
+    [data-theme="dark"] .text-heading { color: var(--text-heading) !important; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--fs-body);
+      line-height: 1.6;
+      letter-spacing: 0.005em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    p, li, td { max-width: 82ch; }
+    td { max-width: none; }
+    .font-outfit { font-family: var(--font-heading); }
+    .font-code, code, pre, kbd { font-family: var(--font-mono); }
+    code { font-size: 0.9em; color: inherit; }
+    .text-heading { color: var(--text-heading); }
+    .text-muted { color: var(--text-muted) !important; }
+    .small, small { font-size: var(--fs-small); }
+
+    /* Texto corrido dentro de cards e painéis */
+    .brand-titles p,
+    .kpi-desc,
+    .timeline-content p,
+    .roteiro-card-desc,
+    .roteiro-focus-box,
+    .roteiro-learning-list,
+    .roteiro-deliverable-box,
+    .demanda-card-desc,
+    .demanda-criterios-box,
+    .pi-formula-box,
+    .sigaa-table,
+    .copy-text {
+      font-size: var(--fs-body-sm);
+      line-height: 1.6;
+    }
+    .panel-subtitle { font-size: var(--fs-body); line-height: 1.6; }
+
+    /* Metadados, botões e rótulos de formulário */
+    .sigaa-meta-strip,
+    .sigaa-table th,
+    .demanda-meta-row,
+    .calc-box label,
+    .filter-chip,
+    .copy-btn,
+    .btn-action,
+    .roteiro-card-actions .btn-action,
+    .theme-toggle-btn,
+    .badge-pill,
+    .btn-docente-badge,
+    .pi-btn-email,
+    .pi-btn-copy,
+    footer.app-footer {
+      font-size: var(--fs-small);
+    }
+    .tab-btn, .notas-subtab-btn { font-size: 0.9375rem; }
+
+    /* Selos curtos: piso de 12px e respiro nas maiúsculas */
+    .status-badge,
+    .roteiro-id-badge,
+    .quick-meta-pill,
+    .tech-tag,
+    .ext-theme-badge,
+    .pi2-tag-alvo,
+    .badge {
+      font-size: var(--fs-label);
+      letter-spacing: 0.02em;
+    }
+    .kpi-title { font-size: var(--fs-caption); letter-spacing: 0.06em; }
+
+    /* Títulos ficam com a Outfit, um pouco mais abertos */
+    h1, h2, h3, h4, h5, .panel-title, .roteiro-title, .demanda-card-title {
+      letter-spacing: -0.005em;
+      line-height: 1.3;
+    }
+
+    /* Listas dentro de cards: recuo consistente */
+    .tab-pane ul, .tab-pane ol { padding-left: 1.25rem; }
+    .tab-pane li + li { margin-top: 0.25rem; }
+
+    /* Parágrafos marcados como .small continuam confortáveis (15px) */
+    p.small, div.small, td.small, li.small { font-size: var(--fs-body-sm); }
+
+    /* Cores de texto do Bootstrap alinhadas às cores de destaque da página */
+    .text-primary { color: var(--accent-blue) !important; }
+    .text-success { color: var(--accent-emerald) !important; }
+    .text-danger  { color: var(--accent-rose) !important; }
+    .text-warning { color: var(--accent-amber) !important; }
+    .text-info    { color: var(--accent-blue) !important; }
+
+    /* Selos sobre fundo suave: usa o tom "emphasis" (contraste >= 4,5:1) */
+    .bg-primary-subtle.text-primary { color: var(--bs-primary-text-emphasis) !important; }
+    .bg-success-subtle.text-success { color: var(--bs-success-text-emphasis) !important; }
+    .bg-danger-subtle.text-danger   { color: var(--bs-danger-text-emphasis) !important; }
+    .bg-warning-subtle.text-warning { color: var(--bs-warning-text-emphasis) !important; }
+    .bg-info-subtle.text-info       { color: var(--bs-info-text-emphasis) !important; }
+    .bg-secondary-subtle.text-secondary { color: var(--bs-secondary-text-emphasis) !important; }
   </style>
 </head>
 
@@ -1754,7 +1892,7 @@
               <span class="roteiro-id-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.25);">
                 <i class="bi bi-calculator-fill"></i> Roteiro #03
               </span>
-              <span class="status-badge status-current" style="font-size: 0.73rem;">
+              <span class="status-badge status-current" style="font-size: 0.8125rem;">
                 <i class="bi bi-clock-history"></i> Ativa no SIGAA (14 envios)
               </span>
             </div>
@@ -2670,15 +2808,15 @@
                   <td>
                     <div class="small fw-semibold text-heading">de 22/09/2026 às 00h00</div>
                     <div class="small text-danger fw-bold">a 01/10/2026 às 23h59</div>
-                    <div class="text-muted" style="font-size: 0.72rem;">*Prorrogado para a próxima terça-feira em aula</div>
+                    <div class="text-muted" style="font-size: 0.8125rem;">*Prorrogado para a próxima terça-feira em aula</div>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-light text-secondary border">Não</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Formativa A2</div>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success fw-bold px-2 py-1 rounded-pill font-code fs-6">14</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">entregues</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">entregues</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -2716,15 +2854,15 @@
                   </td>
                   <td>
                     <div class="small text-muted">Abertura programada no SIGAA</div>
-                    <div class="text-muted" style="font-size: 0.72rem;">Submissão via link GitHub + GitHub Pages</div>
+                    <div class="text-muted" style="font-size: 0.8125rem;">Submissão via link GitHub + GitHub Pages</div>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-light text-secondary border">Não</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Formativa A2</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Formativa A2</div>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-light text-muted border font-code fs-6">0</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">aguardando</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">aguardando</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -2751,15 +2889,15 @@
                   </td>
                   <td>
                     <div class="small text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Realizadas Presencialmente</div>
-                    <div class="text-muted" style="font-size: 0.72rem;">Práticas guiadas em laboratório</div>
+                    <div class="text-muted" style="font-size: 0.8125rem;">Práticas guiadas em laboratório</div>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-light text-secondary border">Não</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Nivelamento</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Nivelamento</div>
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success-subtle text-success fw-bold font-code fs-6">100%</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">turma</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">turma</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -2836,7 +2974,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success-subtle text-success fw-bold">Autoria &amp; Git</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Versionamento</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Versionamento</div>
                   </td>
                 </tr>
 
@@ -2861,7 +2999,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-info-subtle text-info fw-bold">Execução Live</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Compatibilidade</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Compatibilidade</div>
                   </td>
                 </tr>
 
@@ -2886,7 +3024,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-warning-subtle text-warning fw-bold">Formativa A2</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Diário Acadêmico</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Diário Acadêmico</div>
                   </td>
                 </tr>
               </tbody>
@@ -2953,7 +3091,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Sem recarregamento</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Sem recarregamento</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -2980,7 +3118,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Tratamento || 0</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Tratamento || 0</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -3007,7 +3145,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Moeda R$</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Moeda R$</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -3034,7 +3172,7 @@
                   </td>
                   <td style="text-align: center;">
                     <span class="badge bg-success-subtle text-success fw-bold">Obrigatório</span>
-                    <div class="text-muted" style="font-size: 0.68rem; margin-top: 2px;">Rascunho salvo</div>
+                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">Rascunho salvo</div>
                   </td>
                   <td style="text-align: center;">
                     <div class="sigaa-table-actions">
@@ -3111,7 +3249,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">Bootstrap 5, Grid System 12 colunas e layout responsivo mobile-first.</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../roteiro-1/main.pdf
                     </span>
                   </td>
@@ -3130,7 +3268,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">jQuery, manipulação dinâmica do DOM e persistência com LocalStorage.</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../roteiro-2/main.pdf
                     </span>
                   </td>
@@ -3149,7 +3287,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">Calculadora de Pedidos &amp; Carrinho (Atividade 1 no SIGAA).</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../roteiro-3/main.pdf
                     </span>
                   </td>
@@ -3168,7 +3306,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">Vitrine Comunitária &amp; ES6 Modules profissional em camadas.</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../roteiro-4/main.pdf
                     </span>
                   </td>
@@ -3187,7 +3325,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">Assincronismo, Fetch API, Teoria Flask &amp; Mini-Exemplos Práticos.</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../roteiro-5/main.pdf
                     </span>
                   </td>
@@ -3206,7 +3344,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">Tarefa Guiada: Refatoração da Vitrine Comercial (Flask, SQLite &amp; Fallback).</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../roteiro-5/tarefa-guiada.pdf
                     </span>
                   </td>
@@ -3225,7 +3363,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <span class="small text-muted">Documento oficial com ementa, cronograma das 20 aulas e bibliografia PPC.</span>
                   </td>
                   <td>
-                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.74rem;">
+                    <span class="badge bg-light text-primary border font-code" style="font-size: 0.8125rem;">
                       .../plano_de_ensino.pdf
                     </span>
                   </td>
@@ -3356,7 +3494,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                 <option value="Equipe 6 — Acessibilidade em Espaços Públicos">Equipe 6 — Acessibilidade em Espaços Públicos</option>
               </select>
               <!-- E-MAILS DOS INTEGRANTES VINCULADOS -->
-              <div id="rubricaEmailsEquipeContainer" class="small text-muted mt-1" style="font-size: 0.74rem;">
+              <div id="rubricaEmailsEquipeContainer" class="small text-muted mt-1" style="font-size: 0.8125rem;">
                 <i class="fa-solid fa-envelope text-primary me-1"></i> <strong>E-mails dos Integrantes:</strong> <span id="rubricaEmailsEquipeSpan">Carregando...</span>
               </div>
             </div>
@@ -3941,7 +4079,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const criteriosHtml = (d.criterios && d.criterios.length > 0)
           ? d.criterios.map(c => `
               <div class="d-flex align-items-start gap-2 mb-1" style="font-size: 0.8rem;">
-                <i class="fa-solid fa-circle-check text-success mt-1" style="font-size: 0.72rem;"></i>
+                <i class="fa-solid fa-circle-check text-success mt-1" style="font-size: 0.8125rem;"></i>
                 <span>${escapeHtml(c)}</span>
               </div>
             `).join('')
@@ -3956,7 +4094,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   <span class="badge-pill ${d.instrumento === 'A3' ? 'badge-pill-green' : 'badge-pill-amber'} small">
                     ${d.instrumentoNome || d.instrumento}
                   </span>
-                  <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-muted); font-size: 0.72rem; border: 1px solid var(--border-color);">
+                  <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-muted); font-size: 0.8125rem; border: 1px solid var(--border-color);">
                     <i class="fa-solid fa-users me-1"></i>${escapeHtml(d.destinatario || 'Todos')}
                   </span>
                 </div>
@@ -4222,7 +4360,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           return `
             <div class="rubrica-level-btn ${selectedClass}" onclick="selecionarNivelRubrica(${dimIdx}, ${niv.valor}, this)">
               <div class="fw-bold" style="font-size: 0.85rem;">${niv.rotulo}</div>
-              <div class="level-desc text-muted" style="font-size: 0.72rem; line-height: 1.25;">${niv.desc}</div>
+              <div class="level-desc text-muted" style="font-size: 0.8125rem; line-height: 1.25;">${niv.desc}</div>
             </div>
           `;
         }).join('');
@@ -4461,8 +4599,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               ` : '';
 
               const emailsBadge = emails.length 
-                ? `<div class="text-muted small mt-1" style="font-size:0.72rem;"><i class="fa-solid fa-envelope me-1"></i> ${emails.length} e-mail(s) cadastrado(s)</div>`
-                : `<div class="text-warning small mt-1" style="font-size:0.72rem;"><i class="fa-solid fa-triangle-exclamation me-1"></i> Sem e-mail cadastrado</div>`;
+                ? `<div class="text-muted small mt-1" style="font-size:0.8125rem;"><i class="fa-solid fa-envelope me-1"></i> ${emails.length} e-mail(s) cadastrado(s)</div>`
+                : `<div class="text-warning small mt-1" style="font-size:0.8125rem;"><i class="fa-solid fa-triangle-exclamation me-1"></i> Sem e-mail cadastrado</div>`;
 
               return `
                 <tr>
@@ -4482,7 +4620,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   </td>
                   <td style="text-align: center;">
                     <div class="d-flex align-items-center justify-content-center gap-1 flex-wrap">
-                      <button onclick="abrirModalAvaliarRubrica('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.74rem;" title="Editar Notas da Rubrica">
+                      <button onclick="abrirModalAvaliarRubrica('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.8125rem;" title="Editar Notas da Rubrica">
                         <i class="fa-solid fa-pen-to-square"></i>
                       </button>
                       <button onclick="notificarEquipeEmail('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="pi-btn-email" title="Enviar e-mail para os integrantes desta equipe com a nota e feedback">
@@ -4556,10 +4694,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   </td>
                   <td style="text-align: center;">
                     <div class="d-flex align-items-center justify-content-center gap-1">
-                      <button onclick="abrirModalEditarAluno('${al.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.72rem;" title="Editar Aluno">
+                      <button onclick="abrirModalEditarAluno('${al.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.8125rem;" title="Editar Aluno">
                         <i class="fa-solid fa-pen"></i>
                       </button>
-                      <button onclick="excluirAluno('${al.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.72rem; color: var(--accent-rose);" title="Excluir Aluno">
+                      <button onclick="excluirAluno('${al.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.8125rem; color: var(--accent-rose);" title="Excluir Aluno">
                         <i class="fa-solid fa-trash"></i>
                       </button>
                     </div>
@@ -4744,7 +4882,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             <td style="text-align: center;">${a1.toFixed(1)}</td>
             <td style="text-align: center;">
               <strong>${a2.toFixed(1)}</strong>
-              ${notaA2Calc !== null ? '<span class="badge bg-light text-primary border" style="font-size:0.65rem;" title="Média das rubricas avaliadas">rubricas</span>' : '<span class="badge bg-light text-muted border" style="font-size:0.65rem;">estimada</span>'}
+              ${notaA2Calc !== null ? '<span class="badge bg-light text-primary border" style="font-size:0.75rem;" title="Média das rubricas avaliadas">rubricas</span>' : '<span class="badge bg-light text-muted border" style="font-size:0.75rem;">estimada</span>'}
             </td>
             <td style="text-align: center;">${a3.toFixed(1)}</td>
             <td style="text-align: center;">
@@ -4975,8 +5113,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const next = current === 'dark' ? 'light' : 'dark';
       if (next === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
       } else {
         document.documentElement.removeAttribute('data-theme');
+        document.documentElement.removeAttribute('data-bs-theme');
       }
       localStorage.setItem('progweb2-theme-preference', next);
       updateThemeIcon(next);
@@ -5028,9 +5168,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const saved = localStorage.getItem('progweb2-theme-preference');
       if (saved === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
         updateThemeIcon('dark');
       } else {
         document.documentElement.removeAttribute('data-theme');
+        document.documentElement.removeAttribute('data-bs-theme');
         updateThemeIcon('light');
       }
     })();
