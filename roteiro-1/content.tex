@@ -1,14 +1,16 @@
-\section{Roteiro Prático 01 — Retomada e Transição Parte 1: Bootstrap 5 \& Layout Responsivo Estático}
+% =====================================================
+% CAPA / ABERTURA
+% =====================================================
+\capaRoteiro{\faColumns}{Bootstrap 5 \& Layout Responsivo}
+  {Retomada prática: do HTML e CSS de ProgWeb 1 a uma interface responsiva completa}
+  {\chip{\faLayerGroup}{Módulo 1}\hspace{4pt}
+   \chip{\faTools}{Bootstrap 5 · Bootstrap Icons}\hspace{4pt}
+   \chip{\faLink}{Pré-requisito: ProgWeb 1}}
 
-% =====================================================
-% OBJETIVOS
-% =====================================================
+\vspace{0.4em}
+\cartoesUC{Layout estático completo da aplicação (Exemplo 5): grid, formulário em card e tabela zebrada}
 
 \begin{boxObjetivos}
-\textbf{Objetivos da Aula (Parte 1 — Bootstrap 5)}
-
-Ao final desta aula o estudante será capaz de:
-
 \begin{itemize}
 \item Conectar a base de HTML5 semântico e CSS3 de \textbf{ProgWeb 1} com a evolução prática de \textbf{ProgWeb 2};
 \item Compreender o alinhamento do semestre com o Projeto Pedagógico do Curso (\textbf{PPC} CONSUP 30/2020 — 120h);
@@ -21,9 +23,23 @@ Ao final desta aula o estudante será capaz de:
 \end{itemize}
 \end{boxObjetivos}
 
-\begin{figure}[H]
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Incluir o Bootstrap}{Site oficial, CDN e Bootstrap Icons (Seção~\ref{sec:m1a})}
+\etapaMapa{verdeVivo}{2}{Grid e componentes}{Exemplos 1 a 5 (Seção~\ref{sec:m2a})}
+\etapaMapa{ambar}{3}{Explorar mais classes}{Quadro de apoio (Seção~\ref{sec:m3a})}
+\etapaMapa{roxo}{4}{Montar o layout}{Tarefa de laboratório e checklist (Seções~\ref{sec:m4a} a~\ref{sec:m4b})}
+\end{mapaAula}
+
+% =====================================================
+% ONDE ESTE ROTEIRO SE ENCAIXA
+% =====================================================
+\section{Onde este roteiro se encaixa}\label{sec:trilha}
+
+\trilhaRoteiros{1}
+
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.88\textwidth]{roteiro1_bootstrap.jpg}
+    \includegraphics[width=0.78\textwidth]{roteiro1_bootstrap.jpg}
     \caption{Visão Geral da Aplicação: Layout responsivo completo com Bootstrap 5 (Grid de 12 colunas, Formulários, Cards e Tabelas).}
     \label{fig:preview_roteiro1}
 \end{figure}
@@ -32,7 +48,7 @@ Ao final desta aula o estudante será capaz de:
 % INTRODUÇÃO & INCLUSÃO
 % =====================================================
 
-\subsection{Introdução, Site Oficial e Inclusão do Bootstrap 5}
+\section{Introdução, Site Oficial e Inclusão do Bootstrap 5}\label{sec:m1a}
 
 Bem-vindos à primeira parte da retomada prática da disciplina de \textbf{Programação para a Internet 2 (ProgWeb 2)}!
 
@@ -41,14 +57,14 @@ Neste primeiro encontro, focamos na construção da interface visual responsiva 
 \begin{enumerate}
 \item \textbf{Bootstrap 5 (Site Oficial \& CDN):} No portal oficial \url{https://getbootstrap.com} e nas referências do W3Schools, obtemos a documentação de componentes e os links de CDN (\texttt{jsDelivr}) incluídos via tag \texttt{<link rel="stylesheet">} na seção \texttt{<head>};
 \item \textbf{Bootstrap Icons:} Inclusão do pacote de ícones vetoriais oficial do Bootstrap para ilustrar botões, cartões e alertas da aplicação;
-\item \textbf{Acompanhamento Interativo:} O trabalho é guiado pelos slides da Parte 1 (\texttt{parte-1-bootstrap/index.html}) e pela prática na pasta \texttt{exercicio-retomada/}.
+\item \textbf{Acompanhamento Interativo:} O trabalho é guiado pelos slides da Parte 1 (\path{parte-1-bootstrap/index.html}) e pela prática na pasta \path{exercicio-retomada/}.
 \end{enumerate}
 
 % =====================================================
 % PARTE 1
 % =====================================================
 
-\subsection{Detalhamento Didático dos Exemplos de Bootstrap 5 (Exemplos 1 a 5)}
+\section{Detalhamento Didático dos Exemplos de Bootstrap 5 (Exemplos 1 a 5)}\label{sec:m2a}
 
 Abaixo está o detalhamento dos componentes de layout desenvolvidos nesta etapa:
 
@@ -64,21 +80,21 @@ Abaixo está o detalhamento dos componentes de layout desenvolvidos nesta etapa:
 % TABELAS "PARA EXPLORAR MAIS"
 % =====================================================
 
-\subsection{Guia de Apoio: "Para Explorar Mais no Bootstrap 5"}
+\section{Guia de Apoio: "Para Explorar Mais no Bootstrap 5"}\label{sec:m3a}
 
 Para dar suporte aos alunos na customização do layout, o quadro abaixo resume opções adicionais de classes do Bootstrap 5:
 
 \begin{boxTabela}
 \textbf{Opções Adicionais do Bootstrap 5 (Layout, Componentes e Utilitários)}
 
-\begin{tabularx}{\linewidth}{|l|X|}
-\hline
-\textbf{Código / Classe} & \textbf{Descrição e Efeito Visual} \\ \hline
-\texttt{col-12 col-sm-6 col-lg-3} & Ocupa 100\% no celular, 50\% em tablets pequenos e 25\% em desktops wide. \\ \hline
-\texttt{form-select / form-control-lg} & Aplica o estilo de menu suspenso ou aumenta o tamanho do campo input. \\ \hline
-\texttt{btn-outline-danger} & Botão vazado vermelho que preenche ao passar o ponteiro do mouse. \\ \hline
-\texttt{shadow-sm / shadow-lg} & Aplica sombra suave ou pronunciada para destacar cartões da página. \\ \hline
-\texttt{d-flex justify-content-between} & Ativa o Flexbox e alinha itens nas extremidades da caixa. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\linewidth}{RY}
+\cabecalho \cab{Código / Classe} & \cab{Descrição e Efeito Visual} \\
+\texttt{col-12 col-sm-6 col-lg-3} & Ocupa 100\% no celular, 50\% em tablets pequenos e 25\% em desktops wide. \\
+\texttt{form-select / form-control-lg} & Aplica o estilo de menu suspenso ou aumenta o tamanho do campo input. \\
+\texttt{btn-outline-danger} & Botão vazado vermelho que preenche ao passar o ponteiro do mouse. \\
+\texttt{shadow-sm / shadow-lg} & Aplica sombra suave ou pronunciada para destacar cartões da página. \\
+\texttt{d-flex justify-content-between} & Ativa o Flexbox e alinha itens nas extremidades da caixa. \\
 \end{tabularx}
 \end{boxTabela}
 
@@ -86,11 +102,11 @@ Para dar suporte aos alunos na customização do layout, o quadro abaixo resume 
 % TAREFA PRÁTICA
 % =====================================================
 
-\subsection{Tarefa Prática de Laboratório (Construção do Layout Estático)}
+\section{Tarefa Prática de Laboratório (Construção do Layout Estático)}\label{sec:m4a}
 
 \begin{boxAtividade}[{Atividade Prática -- Layout Estático com Bootstrap 5}]
 
-Na pasta \texttt{exercicio-retomada/}, os estudantes deverão construir a estrutura estática:
+Na pasta \path{exercicio-retomada/}, os estudantes deverão construir a estrutura estática:
 
 \begin{enumerate}
 \item \textbf{Inclusão dos Links no Head:} Abrir o arquivo \texttt{index.html} e incluir os links de CDN do Bootstrap 5 CSS e Bootstrap Icons;
@@ -104,16 +120,18 @@ Na pasta \texttt{exercicio-retomada/}, os estudantes deverão construir a estrut
 % CHECKLIST
 % =====================================================
 
-\subsection{Checklist Final da Aula 1}
+\section{Checklist Final da Aula 1}\label{sec:m4b}
 
-\begin{boxAtividade}[{Verificação Técnica Parte 1}]
+\begin{checklist}
 
 Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de aceitação:
 
 \begin{itemize}
-\item [ ] As dependências do Bootstrap 5 CSS e Icons estão corretamente vinculadas no \texttt{<head>};
-\item [ ] A página ajusta seu layout de forma fluida ao alterar a largura da janela do navegador;
-\item [ ] A interface estática da aplicação (Exemplo 5) está completamente montada e legível.
+\item[\caixaMarcar] As dependências do Bootstrap 5 CSS e Icons estão corretamente vinculadas no \texttt{<head>};
+\item[\caixaMarcar] A página ajusta seu layout de forma fluida ao alterar a largura da janela do navegador;
+\item[\caixaMarcar] A interface estática da aplicação (Exemplo 5) está completamente montada e legível.
 \end{itemize}
+\end{checklist}
 
-\end{boxAtividade}
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba\par}

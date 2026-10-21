@@ -37,3 +37,9 @@ The rules in this file are automatically loaded by the AI assistant whenever wor
 - **Piso de leitura:** Texto corrido nunca fica abaixo de 15px; somente selos e rótulos curtos podem usar 12–13px.
 - **Contraste:** Texto secundário usa `var(--text-muted)`, nunca um cinza fixo; contraste mínimo de 4,5:1 nos temas claro e escuro.
 - **Fontes:** Inter (corpo), Outfit (títulos) e Fira Code (código). Novas regras de estilo entram na camada de legibilidade, no fim do `<style>`.
+
+## 8. Padrão Visual dos Roteiros em PDF (LaTeX)
+- **Preâmbulo único:** Todo roteiro carrega `base-de-conhecimento/preambulo-roteiro-moderno.tex` via `\input` no `main.tex` (definindo antes `\numeroRoteiro` e `\tituloCurto`). Não duplique pacotes, cores ou caixas no `main.tex`.
+- **Guia do padrão:** Siga `base-de-conhecimento/padrao-visual-roteiros-pdf.md` (capa `\capaRoteiro`, `\cartoesUC`, objetivos, `mapaAula`, `\trilhaRoteiros`, `\passo`, janelas de código com nome do arquivo, `boxTeste`, `checklist`). Referência: `roteiro-5/content.tex`.
+- **Código copiável:** Nenhuma linha dentro de janelas de código pode passar de 103 caracteres. Blocos curtos levam `\manterJunto{n}` antes do `\passo`; não use `\newpage` nem `\vspace` manuais para paginar.
+- **Ícones:** Apenas nomes do Font Awesome 5 (pacote `fontawesome5`).

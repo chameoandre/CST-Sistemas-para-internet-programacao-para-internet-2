@@ -40,10 +40,8 @@ Ao disponibilizar tutoriais, passos guiados e trechos de código para que os est
 
 ## 3. Tipografia e Diagramação dos Documentos (LaTeX)
 
-1. **Realce de Sintaxe Colorido:**
-   - Utilizar sempre os ambientes dedicados `boxCodigoHTML` e `boxCodigoJS` baseados em `tcolorbox` + `listings`.
-   - Manter entrelinha simples (`before upper={\singlespacing}`) e suporte a quebra entre páginas (`breakable`) nos blocos de código.
-
-2. **Compilação e Verificação:**
+1. **Padrão visual único:** Todo roteiro usa o preâmbulo compartilhado `base-de-conhecimento/preambulo-roteiro-moderno.tex` e segue `base-de-conhecimento/padrao-visual-roteiros-pdf.md` (capa, cartões, objetivos, mapa da aula, trilha, janelas de código com o nome do arquivo, checkpoints e checklist).
+2. **Código copiável:** Nenhuma linha de código passa de 103 caracteres; blocos curtos ficam inteiros na mesma página com `\manterJunto{n}`.
+3. **Compilação e Verificação:**
    - Compilador obrigatório: `tectonic`.
    - Todo documento deve ser auditado para garantir ausência de sobreposição ou overflow em relação ao rodapé das páginas.

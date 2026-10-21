@@ -1,0 +1,536 @@
+% =====================================================================
+% PREÂMBULO PADRÃO — ROTEIROS PRÁTICOS DE PROGWEB 2 (visual moderno)
+% UC Programação para a Internet 2 — IFSC Câmpus Garopaba
+% Adaptado do padrão da UC Iniciação Científica e Extensionista
+% Documentação: base-de-conhecimento/padrao-visual-roteiros-pdf.md
+%
+% Uso no main.tex de cada roteiro (o \documentclass está aqui dentro):
+%   \newcommand{\numeroRoteiro}{05}
+%   \newcommand{\tituloCurto}{Fetch API \& Flask}
+%   \input{../base-de-conhecimento/preambulo-roteiro-moderno.tex}
+%   \begin{document}
+%   \input{content.tex}
+%   \end{document}
+% Compilar com: tectonic main.tex
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+\providecommand{\numeroRoteiro}{0X}
+\providecommand{\tituloCurto}{Título curto do roteiro}
+
+% =====================================================
+% PACOTES
+% =====================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\shorthandoff{"}
+\AtBeginDocument{\shorthandoff{"}}
+\usepackage[default]{sourcesanspro}          % texto: sem serifa, leitura confortável
+\usepackage[scale=0.86]{sourcecodepro}       % código: monoespaçada moderna
+% =====================================================
+% ÍCONES (fontawesome5 com compatibilidade Tectonic no macOS)
+% Evita crash de alocação na rotina nativa \XeTeXglyphname do Tectonic
+% =====================================================
+\usepackage{expl3}
+\ExplSyntaxOn
+\cs_set:Npn \tex_XeTeXglyphname:D #1#2 { }
+\ExplSyntaxOff
+\newcommand{\faDice}{}
+\usepackage{fontawesome5}
+
+\NewDocumentCommand\definirFaIcone{m m}{%
+  \expandafter\NewDocumentCommand\csname fa#1\endcsname{O{}}{%
+    \if\relax\detokenize{##1}\relax
+      \faIcon{#2}%
+    \else
+      \faIcon[##1]{#2}%
+    \fi
+  }%
+}
+\definirFaIcone{AngleRight}{angle-right}
+\definirFaIcone{BookOpen}{book-open}
+\definirFaIcone{Bullseye}{bullseye}
+\definirFaIcone{Calculator}{calculator}
+\definirFaIcone{ChalkboardTeacher}{chalkboard-teacher}
+\definirFaIcone{CheckCircle}{check-circle}
+\definirFaIcone{ChevronRight}{chevron-right}
+\definirFaIcone{Circle}{circle}
+\definirFaIcone{ClipboardCheck}{clipboard-check}
+\definirFaIcone{Code}{code}
+\definirFaIcone{Columns}{columns}
+\definirFaIcone{Database}{database}
+\definirFaIcone{DraftingCompass}{drafting-compass}
+\definirFaIcone{ExclamationTriangle}{exclamation-triangle}
+\definirFaIcone{ExternalLinkAlt}{external-link-alt}
+\definirFaIcone{Flag}{flag}
+\definirFaIcone{FolderOpen}{folder-open}
+\definirFaIcone{Github}{github}
+\definirFaIcone{LaptopCode}{laptop-code}
+\definirFaIcone{LayerGroup}{layer-group}
+\definirFaIcone{Lightbulb}{lightbulb}
+\definirFaIcone{Link}{link}
+\definirFaIcone{Lock}{lock}
+\definirFaIcone{Map}{map}
+\definirFaIcone{MapMarkerAlt}{map-marker-alt}
+\definirFaIcone{MousePointer}{mouse-pointer}
+\definirFaIcone{Server}{server}
+\definirFaIcone{Square}{square}
+\definirFaIcone{Terminal}{terminal}
+\definirFaIcone{Tools}{tools}
+\definirFaIcone{University}{university}
+\definirFaIcone{Check}{check}
+\definirFaIcone{Times}{times}
+\definirFaIcone{InfoCircle}{info-circle}
+\definirFaIcone{QuestionCircle}{question-circle}
+\definirFaIcone{Play}{play}
+\definirFaIcone{FileCode}{file-code}
+\definirFaIcone{FileAlt}{file-alt}
+\definirFaIcone{Folder}{folder}
+\definirFaIcone{Cogs}{cogs}
+\definirFaIcone{Cog}{cog}
+\definirFaIcone{Eye}{eye}
+\definirFaIcone{Desktop}{desktop}
+\definirFaIcone{Globe}{globe}
+\definirFaIcone{Search}{search}
+\definirFaIcone{Download}{download}
+\definirFaIcone{Upload}{upload}
+\definirFaIcone{Sync}{sync}
+\definirFaIcone{ShareAlt}{share-alt}
+\definirFaIcone{Edit}{edit}
+\definirFaIcone{Trash}{trash}
+\definirFaIcone{Plus}{plus}
+\definirFaIcone{Minus}{minus}
+\usepackage{geometry}
+\usepackage{graphicx}
+\graphicspath{{../figures/}{figures/}}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{xurl}                            % URLs longas quebram em qualquer ponto
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc, babel}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{upquote}
+\usepackage{lastpage}
+\usepackage{qrcode}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage{needspace}
+\usepackage{adjustbox}
+
+\geometry{top=2.6cm, bottom=2.6cm, left=2cm, right=2cm, headsep=0.8cm}
+\linespread{1.18}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{6em}   % evita linhas estouradas com \texttt longos
+
+% =====================================================
+% PALETA (cores institucionais IFSC, em tons suaves)
+% =====================================================
+\definecolor{azul}{RGB}{30,60,90}
+\definecolor{azulMedio}{RGB}{37,99,235}
+\definecolor{verde}{RGB}{22,101,52}
+\definecolor{verdeVivo}{RGB}{22,163,74}
+\definecolor{ambar}{RGB}{217,119,6}
+\definecolor{vermelho}{RGB}{220,38,38}
+\definecolor{roxo}{RGB}{124,58,237}
+\definecolor{laranja}{RGB}{194,65,12}
+\definecolor{ciano}{RGB}{14,116,144}
+\definecolor{tinta}{RGB}{30,41,59}
+\definecolor{suave}{RGB}{100,116,139}
+\definecolor{borda}{RGB}{226,232,240}
+\definecolor{fundo}{RGB}{248,250,252}
+\definecolor{barraTitulo}{RGB}{241,245,249}
+\definecolor{terminal}{RGB}{15,23,42}
+
+% Nomes antigos dos roteiros de ProgWeb 2 (mantidos para compatibilidade)
+\colorlet{azulTitulo}{azul}
+\colorlet{azulObjetivos}{azul}
+\colorlet{ifscGreen}{verdeVivo}
+\colorlet{vermelhoCodigo}{vermelho}
+\colorlet{cinzaCodigo}{fundo}
+\colorlet{cinzaFundo}{fundo}
+\colorlet{cinzaTabela}{fundo}
+\colorlet{cinzaLinha}{fundo}
+\colorlet{cinzaCabecalho}{barraTitulo}
+\colorlet{pretoTabela}{borda}
+\colorlet{borderGray}{borda}
+\colorlet{bordaCodigo}{borda}
+\colorlet{jsKeyword}{roxo}
+\colorlet{jsString}{verde}
+\colorlet{jsComment}{suave}
+\colorlet{htmlTag}{azulMedio}
+\colorlet{htmlString}{verde}
+\colorlet{pyKeyword}{laranja}
+\colorlet{pyBuiltin}{ciano}
+
+\color{tinta}
+
+% =====================================================
+% LISTINGS — linguagens e estilos
+% Regra de cópia: nenhuma linha de código pode passar de 103 caracteres
+% (é o que cabe numa linha da janela de código; acima disso o PDF quebra a linha).
+% =====================================================
+\newcommand{\fonteCodigo}{\fontsize{8.5pt}{11.2pt}\selectfont\ttfamily}
+
+\lstdefinelanguage{JavaScriptES6}{
+  keywords={typeof, new, true, false, catch, function, return, null, switch, var, if, in, of, while, do, else, case, break, const, let, export, import, from, default, async, await, try, finally, throw, for, class, this},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`
+}
+\lstdefinelanguage{PythonCustom}{
+  keywords={def, return, import, from, as, if, elif, else, while, for, in, try, except, finally, with, class, None, True, False, and, or, not, pass},
+  ndkeywords={self, app, request, jsonify, CORS, sqlite3},
+  sensitive=true,
+  comment=[l]{\#},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[s]{'''}{'''},
+  morestring=[s]{"""}{"""}
+}
+\lstdefinelanguage{HTML5}{language=html}
+
+\lstdefinestyle{base}{
+    basicstyle=\fonteCodigo\color{tinta},
+    keywordstyle=\color{roxo}\bfseries,
+    ndkeywordstyle=\color{ciano}\bfseries,
+    commentstyle=\color{suave}\itshape,
+    stringstyle=\color{verde},
+    identifierstyle=\color{tinta},
+    breaklines=true, columns=fullflexible, keepspaces=true,
+    showstringspaces=false, upquote=true, tabsize=2,
+    frame=none, numbers=none, aboveskip=0pt, belowskip=0pt,
+    extendedchars=true,
+    literate=
+      {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+      {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+      {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+      {ã}{{\~a}}1 {õ}{{\~o}}1 {Ã}{{\~A}}1 {Õ}{{\~O}}1
+      {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+      {Â}{{\^A}}1 {Ê}{{\^E}}1 {Ô}{{\^O}}1
+      {ç}{{\c c}}1 {Ç}{{\c C}}1
+      {–}{{--}}1 {—}{{---}}1 {±}{{$\pm$}}1 {≈}{{$\approx$}}1 {÷}{{$\div$}}1
+}
+\lstdefinestyle{js}{style=base, language=JavaScriptES6}
+\lstdefinestyle{py}{style=base, language=PythonCustom, keywordstyle=\color{laranja}\bfseries, tabsize=4}
+\lstdefinestyle{html}{style=base, language=HTML5, tagstyle=\color{azulMedio}\bfseries,
+    keywordstyle=\color{azulMedio}, stringstyle=\color{verde}}
+\lstdefinestyle{txt}{style=base, language={}}
+\lstdefinestyle{saida}{style=base, language={}, basicstyle=\fonteCodigo\color{white!88!black},
+    identifierstyle=\color{white!88!black}}
+\lstset{style=base}
+
+% =====================================================
+% COMPONENTES VISUAIS
+% =====================================================
+% --- Janela de código (estilo editor) ---------------
+% \begin{codigo}[js|html|py|txt]{nome-do-arquivo} ... \end{codigo}
+\newcommand{\pontosJanela}{%
+  {\color{vermelho!70}\tiny\faCircle}\,{\color{ambar!80}\tiny\faCircle}\,{\color{verdeVivo!70}\tiny\faCircle}\hspace{0.8em}}
+\tcbset{janela/.style={
+    enhanced, listing only, breakable,
+    colback=fundo, colframe=borda, boxrule=0.6pt, arc=6pt,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+    coltitle=suave, colbacktitle=barraTitulo,
+    fonttitle=\ttfamily\footnotesize, toptitle=2pt, bottomtitle=2pt,
+    titlerule=0.6pt, titlerule style=borda,
+    before skip=6pt, after skip=10pt}}
+% Etiqueta da linguagem, à direita da barra de título
+\newcommand{\rotuloLinguagem}[2]{\hfill{\sffamily\scriptsize\bfseries\color{#1}#2}}
+\newtcblisting{codigo}[2][js]{janela, title={\pontosJanela #2}, listing options={style=#1}}
+
+% --- Janelas por linguagem (nomes usados nos roteiros) ----------------
+% O argumento opcional é o nome do arquivo mostrado na barra da janela.
+\newtcblisting{boxCodigoJS}[1][]{janela,
+    title={\pontosJanela#1\rotuloLinguagem{ambar}{JavaScript}},
+    listing options={style=js}}
+\newtcblisting{boxCodigoHTML}[1][]{janela,
+    title={\pontosJanela#1\rotuloLinguagem{vermelho}{HTML}},
+    listing options={style=html}}
+\newtcblisting{boxCodigoPY}[1][]{janela,
+    title={\pontosJanela#1\rotuloLinguagem{azulMedio}{Python}},
+    listing options={style=py}}
+\newtcblisting{boxCodigoCSS}[1][]{janela,
+    title={\pontosJanela#1\rotuloLinguagem{roxo}{CSS}},
+    listing options={style=txt}}
+% Croqui (desenho em texto da tela final)
+\newtcblisting{boxCroqui}[1][]{janela,
+    title={{\color{azulMedio}\faDraftingCompass}\hspace{0.5em}{\sffamily\bfseries #1}},
+    listing options={style=txt}}
+
+% Árvore de pastas do projeto
+\newtcblisting{arvore}[1][Estrutura de pastas do projeto]{janela,
+    title={{\color{ambar}\faFolderOpen}\hspace{0.5em}{\sffamily\bfseries #1}},
+    listing options={style=txt}}
+
+% --- Saída / terminal (fundo escuro) -------------------------------
+\newtcblisting{saida}[1][Terminal]{
+    enhanced, listing only, breakable,
+    colback=terminal, colframe=terminal, boxrule=0pt, arc=6pt,
+    left=10pt, right=10pt, top=4pt, bottom=6pt,
+    title={\faTerminal\hspace{0.5em}#1}, coltitle=white!65!black,
+    colbacktitle=terminal, fonttitle=\sffamily\footnotesize\bfseries,
+    toptitle=3pt, bottomtitle=0pt, titlerule=0pt,
+    before skip=6pt, after skip=10pt,
+    listing options={style=saida}
+}
+% Versões antigas (conteúdo LaTeX com verbatim dentro)
+\newtcolorbox{boxCodigoTerminal}{
+    enhanced, breakable,
+    colback=terminal, colframe=terminal, boxrule=0pt, arc=6pt, coltext=white!88!black,
+    left=10pt, right=10pt, top=4pt, bottom=6pt,
+    title={\faTerminal\hspace{0.5em}Terminal}, coltitle=white!65!black,
+    colbacktitle=terminal, fonttitle=\sffamily\footnotesize\bfseries,
+    toptitle=3pt, bottomtitle=0pt, titlerule=0pt,
+    before upper={\singlespacing}
+}
+\newtcolorbox{boxCodigo}{
+    enhanced, breakable,
+    colback=fundo, colframe=borda, boxrule=0.6pt, arc=6pt,
+    left=10pt, right=10pt, top=8pt, bottom=8pt,
+    before upper={\singlespacing}
+}
+
+% --- Exemplo certo/errado -----------------------------
+\newtcblisting{exemplo}[3][js]{
+    enhanced, listing only,
+    colback=#2!4, colframe=#2!45, boxrule=0.6pt, arc=6pt,
+    left=8pt, right=8pt, top=5pt, bottom=5pt,
+    title={#3}, colbacktitle=#2!12, coltitle=#2!75!black,
+    fonttitle=\sffamily\small\bfseries, toptitle=2pt, bottomtitle=2pt,
+    listing options={style=#1}
+}
+
+% --- Caixas de destaque com barra lateral -----------
+\newtcolorbox{destaque}[3]{
+    enhanced, breakable,
+    colback=#1!6, frame hidden, arc=6pt,
+    borderline west={3.5pt}{0pt}{#1},
+    left=14pt, right=12pt, top=9pt, bottom=9pt,
+    before skip=8pt, after skip=10pt,
+    before upper={{\color{#1}\large #2}\hspace{0.55em}{\color{#1!75!black}\bfseries #3}\par\vspace{0.25em}}
+}
+\newenvironment{dica}[1]{\begin{destaque}{ambar}{\faLightbulb[regular]}{#1}}{\end{destaque}}
+\newenvironment{atencao}[1]{\begin{destaque}{vermelho}{\faExclamationTriangle}{#1}}{\end{destaque}}
+\newenvironment{conceito}[1]{\begin{destaque}{azulMedio}{\faBookOpen}{#1}}{\end{destaque}}
+\newenvironment{sucesso}[1]{\begin{destaque}{verdeVivo}{\faCheckCircle[regular]}{#1}}{\end{destaque}}
+\newenvironment{avancado}[1]{\begin{destaque}{roxo}{\faCode}{#1}}{\end{destaque}}
+\newtcolorbox{repositorio}[1]{enhanced, colback=azul!5, frame hidden, arc=6pt,
+    borderline west={3.5pt}{0pt}{azul}, left=14pt, right=12pt, top=9pt, bottom=9pt,
+    before skip=8pt, after skip=10pt, fontupper=\small,
+    before upper={{\color{azul}\large\faGithub}\hspace{0.55em}{\color{azul!75!black}\bfseries #1}\par\vspace{0.25em}}}
+\newenvironment{checkpoint}[1]{\begin{destaque}{verdeVivo}{\faClipboardCheck}{#1}}{\end{destaque}}
+
+% Nomes antigos
+\newenvironment{boxDica}[1][Dica]{\begin{dica}{#1}}{\end{dica}}
+\newenvironment{boxTeste}[1][Checkpoint de validação]{\begin{checkpoint}{#1}}{\end{checkpoint}}
+
+% --- Caixa com título "aba" (objetivos, atividade) ---
+\newtcolorbox{painel}[3][]{
+    enhanced, breakable,
+    colback=white, colframe=borda, boxrule=0.6pt, arc=8pt,
+    left=14pt, right=14pt, top=14pt, bottom=10pt,
+    title={#2\hspace{0.5em}#3}, coltitle=white, colbacktitle=azul,
+    fonttitle=\bfseries, attach boxed title to top left={xshift=12pt, yshift=-8pt},
+    boxed title style={arc=4pt, boxrule=0pt},
+    before skip=12pt, after skip=10pt, #1
+}
+\newenvironment{boxObjetivos}[1][Ao final desta prática você será capaz de\ldots]
+  {\begin{painel}{\faBullseye}{#1}}{\end{painel}}
+\newenvironment{boxAtividade}[1][Atividade]
+  {\begin{painel}[colbacktitle=azulMedio]{\faLaptopCode}{#1}}{\end{painel}}
+\newtcolorbox{boxTabela}{
+    enhanced, colback=white, colframe=borda, boxrule=0.6pt, arc=6pt,
+    left=6pt, right=6pt, top=6pt, bottom=6pt}
+
+% --- Checklist de entrega (itens com \caixaMarcar) ----------------
+\newtcolorbox{checklist}[1][Antes de entregar, confira se\ldots]{enhanced, breakable,
+    colback=verdeVivo!5, colframe=verdeVivo!40, boxrule=0.6pt, arc=8pt,
+    left=14pt, right=14pt, top=10pt, bottom=10pt,
+    title={\faClipboardCheck\hspace{0.5em}#1}, colbacktitle=verdeVivo, coltitle=white, fonttitle=\bfseries,
+    before skip=10pt, after skip=10pt}
+
+% --- Navegador (prévia da tela) -----------------------
+\newtcolorbox{mockupNavegador}[1][]{
+    enhanced, breakable,
+    colback=white, colframe=borda, boxrule=0.8pt, arc=7pt,
+    left=8pt, right=8pt, top=8pt, bottom=8pt,
+    title={\pontosJanela\tcbox[on line, colback=white, colframe=borda, boxrule=0.5pt, arc=6pt,
+        left=6pt, right=6pt, top=0.5pt, bottom=0.5pt, boxsep=0.5pt]{\ttfamily\scriptsize\color{suave}\faLock\ 127.0.0.1:5500/index.html}%
+        \hfill{\sffamily\footnotesize\bfseries\color{suave}#1}},
+    colbacktitle=barraTitulo, coltitle=tinta, titlerule=0.6pt, titlerule style=borda,
+    toptitle=2pt, bottomtitle=2pt
+}
+
+% --- Cartões pequenos ---------------------------------
+\tcbset{cartao/.style={enhanced, colback=fundo, colframe=borda, boxrule=0.6pt, arc=8pt,
+    left=10pt, right=10pt, top=8pt, bottom=8pt, fontupper=\small\raggedright}}
+
+% --- Elementos em linha --------------------------------
+\newcommand{\tecla}[1]{\tcbox[on line, enhanced, colback=white, colframe=suave!50, boxrule=0.5pt,
+    arc=2.5pt, left=3pt, right=3pt, top=0.5pt, bottom=0.5pt, boxsep=0.5pt,
+    borderline south={1.2pt}{0pt}{suave!40}]{\ttfamily\footnotesize #1}}
+\newcommand{\botao}[1]{\tcbox[on line, enhanced, colback=azulMedio!8, colframe=azulMedio!35, boxrule=0.5pt,
+    arc=3pt, left=3pt, right=3pt, top=0.5pt, bottom=0.5pt, boxsep=0.5pt]{\sffamily\footnotesize\color{azul}#1}}
+\newcommand{\seta}{\,{\color{suave}\scriptsize\faChevronRight}\,}
+\newcommand{\chip}[2]{\tcbox[on line, enhanced, colback=white, opacityback=0.14, colframe=white,
+    opacityframe=0.45, boxrule=0.5pt, arc=8pt, left=5pt, right=5pt, top=1.5pt, bottom=1.5pt,
+    boxsep=0pt, coltext=white]{\footnotesize #1\hspace{0.4em}#2}}
+\newcommand{\circulo}[2][azul]{\tikz[baseline=(c.base)]\node[circle, fill=#1, text=white,
+    inner sep=0pt, minimum size=1.35em, font=\footnotesize\bfseries](c){#2};}
+\newcommand{\marca}[1]{\tikz[baseline=(c.base)]\node[circle, fill=vermelho, text=white,
+    inner sep=0pt, minimum size=1.2em, font=\scriptsize\bfseries](c){#1};}
+\newcommand{\caixaMarcar}{{\color{suave}\faSquare[regular]}}
+
+% --- Mantém um bloco de código curto inteiro na mesma página --------
+% \manterJunto{n}: n = número de linhas do código que vem a seguir
+\newcommand{\manterJunto}[1]{\needspace{\dimexpr 11.2pt*#1+5\baselineskip\relax}}
+
+% --- Passo numerado do passo a passo ------------------
+% \passo{1.2}{Criar a página HTML}  — o nome do arquivo vai na barra da janela de código
+\newcommand{\passo}[2]{%
+  \par\vspace{0.5em}\noindent
+  \tcbox[on line, colback=azul, colframe=azul, arc=4pt, boxrule=0pt,
+      left=5pt, right=5pt, top=1.5pt, bottom=1.5pt, boxsep=0pt]{\sffamily\footnotesize\bfseries\color{white}Passo #1}%
+  \hspace{0.55em}{\bfseries\color{azul}#2}%
+  \par\nopagebreak\vspace{-0.2em}}
+
+% =====================================================
+% ABERTURA PADRÃO DO ROTEIRO
+% =====================================================
+% \capaRoteiro{ícone-marca-d'água}{Título}{Subtítulo}{chips}
+\newcommand{\capaRoteiro}[4]{%
+\begin{tcolorbox}[enhanced, frame hidden, arc=12pt,
+    interior style={left color=azul, right color=verde},
+    left=20pt, right=20pt, top=18pt, bottom=16pt, colupper=white,
+    overlay={\node[anchor=east, opacity=0.13, font=\fontsize{90}{90}\selectfont, text=white] at ([xshift=-14pt]frame.east) {#1};}]
+{\footnotesize\bfseries\color{white!80!azul}ROTEIRO PRÁTICO \numeroRoteiro\hspace{0.6em}\textbullet\hspace{0.6em}PROGRAMAÇÃO PARA A INTERNET 2}\par\vspace{2pt}
+{\fontsize{24}{29}\selectfont\bfseries #2}\par\vspace{2pt}
+{\large #3}\par\vspace{10pt}
+#4
+\end{tcolorbox}}
+
+% \cartoesUC{Produto/entrega deste roteiro}
+\newcommand{\cartoesUC}[1]{%
+\begin{tcbraster}[raster columns=3, raster equal height, raster column skip=8pt]
+\begin{tcolorbox}[cartao]
+{\color{azulMedio}\faUniversity}\hspace{0.4em}\textbf{Unidade Curricular}\par\vspace{2pt}
+Programação para a Internet 2\\ {\color{suave}CST em Sistemas para a Internet}
+\end{tcolorbox}
+\begin{tcolorbox}[cartao]
+{\color{azulMedio}\faChalkboardTeacher}\hspace{0.4em}\textbf{Docente}\par\vspace{2pt}
+Prof. André Moraes\\ {\color{suave}IFSC Câmpus Garopaba}
+\end{tcolorbox}
+\begin{tcolorbox}[cartao]
+{\color{azulMedio}\faFlag}\hspace{0.4em}\textbf{Produto deste roteiro}\par\vspace{2pt}
+#1
+\end{tcolorbox}
+\end{tcbraster}}
+
+% \etapaMapa{cor}{n}{Título}{descrição}  — usar dentro de \begin{mapaAula} ... \end{mapaAula}
+\newenvironment{mapaAula}{%
+  \needspace{9\baselineskip}{\large\bfseries\color{azul}\faMap[regular]\hspace{0.5em}Mapa da aula}\par\vspace{0.2em}
+  \begin{tcbraster}[raster columns=2, raster equal height, raster column skip=8pt, raster row skip=6pt]}
+  {\end{tcbraster}}
+\newcommand{\etapaMapa}[4]{%
+\begin{tcolorbox}[cartao, colback=#1!5, colframe=#1!25]
+\circulo[#1]{#2}\hspace{0.4em}\textbf{#3}\par\vspace{2pt}
+{\color{suave}\footnotesize #4}
+\end{tcolorbox}}
+
+% \trilhaRoteiros{n} — trilha da disciplina com o roteiro atual em destaque
+\newcommand{\trilhaRoteiros}[1]{%
+\begin{center}
+\begin{tikzpicture}[node distance=0.32cm,
+    etapa/.style={rectangle, draw=borda, fill=fundo, line width=0.6pt, text width=2.55cm, align=center,
+        rounded corners=7pt, minimum height=2.0cm, font=\footnotesize},
+    atual/.style={draw=verdeVivo, fill=verdeVivo!7, line width=1.1pt},
+    linha/.style={draw=suave!70, -{Latex[length=2.2mm]}, line width=0.9pt},
+    r1/.style={}, r2/.style={}, r3/.style={}, r4/.style={}, r5/.style={}, r#1/.style={atual}]
+    \node[etapa, r1] (r1) {{\color{azulMedio}\Large\faColumns}\\[3pt]\textbf{Roteiro 01}\\{\color{suave}Bootstrap 5 e layout}};
+    \node[etapa, right=of r1, r2] (r2) {{\color{azulMedio}\Large\faMousePointer}\\[3pt]\textbf{Roteiro 02}\\{\color{suave}jQuery e DOM}};
+    \node[etapa, right=of r2, r3] (r3) {{\color{azulMedio}\Large\faCalculator}\\[3pt]\textbf{Roteiro 03}\\{\color{suave}Calculadora e LocalStorage}};
+    \node[etapa, right=of r3, r4] (r4) {{\color{azulMedio}\Large\faLayerGroup}\\[3pt]\textbf{Roteiro 04}\\{\color{suave}ES6 Modules em camadas}};
+    \node[etapa, right=of r4, r5] (r5) {{\color{azulMedio}\Large\faServer}\\[3pt]\textbf{Roteiro 05}\\{\color{suave}Fetch API e Flask}};
+    \draw[linha] (r1) -- (r2);
+    \draw[linha] (r2) -- (r3);
+    \draw[linha] (r3) -- (r4);
+    \draw[linha] (r4) -- (r5);
+\end{tikzpicture}
+\end{center}}
+
+% =====================================================
+% HIPERLINKS
+% =====================================================
+\hypersetup{colorlinks=true, linkcolor=azulMedio, urlcolor=verde, citecolor=azul}
+
+% =====================================================
+% CABEÇALHO E RODAPÉ
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+    \IfFileExists{../figures/garopaba_horizontal_marca2015_PNG.png}{%
+        \raisebox{-0.25\height}{\includegraphics[height=0.95cm]{../figures/garopaba_horizontal_marca2015_PNG.png}}%
+    }{\textbf{\color{verde} IFSC — Câmpus Garopaba}}}
+\fancyhead[R]{\footnotesize\color{suave}\textbf{\color{azul}Roteiro Prático \numeroRoteiro}\hspace{0.5em}\textbullet\hspace{0.5em}\tituloCurto}
+\fancyfoot[L]{\footnotesize\color{suave}Programação para a Internet 2\hspace{0.4em}\textbullet\hspace{0.4em}CST Sistemas para a Internet}
+\fancyfoot[R]{\tcbox[on line, colback=azul!8, colframe=azul!8, arc=6pt, boxrule=0pt, left=5pt, right=5pt, top=1pt, bottom=1pt, boxsep=0pt]{\footnotesize\color{azul}\bfseries\thepage\,/\,\pageref*{LastPage}}}
+\renewcommand{\headrule}{{\color{borda}\hrule height 0.6pt}}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{36pt}
+
+% =====================================================
+% TÍTULOS DE SEÇÃO
+% =====================================================
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{azul}}
+  {\tikz[baseline=(n.base)]\node[fill=azul, rounded corners=5pt, text=white, inner sep=5pt,
+      minimum width=1.9em, font=\large\bfseries](n){\thesection};}
+  {0.7em}{}
+\titlespacing*{\section}{0pt}{1.6em}{0.7em}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{azul!85!black}}
+  {{\color{verdeVivo}\thesubsection}}
+  {0.6em}{}
+\titlespacing*{\subsection}{0pt}{1.2em}{0.4em}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{azul!85!black}}
+  {{\color{verdeVivo}\thesubsubsection}}
+  {0.6em}{}
+\titlespacing*{\subsubsection}{0pt}{1.0em}{0.3em}
+
+% Títulos nunca ficam sozinhos no pé da página
+\pretocmd{\section}{\needspace{7\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{5\baselineskip}}{}{}
+
+\setlist[itemize]{leftmargin=1.4em, itemsep=0.25em, topsep=0.3em, label={\color{verdeVivo}\small\faAngleRight}}
+\setlist[enumerate]{leftmargin=2.2em, itemsep=0.45em, topsep=0.3em}
+
+% Tabelas: sem linhas verticais, cabeçalho colorido, zebra suave
+\newcommand{\cabecalho}{\rowcolor{azul}}
+\newcommand{\cab}[1]{\leavevmode\color{white}\bfseries #1}
+\arrayrulecolor{borda}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+% Primeira coluna em destaque (rótulo da linha)
+\newcolumntype{R}{>{\raggedright\arraybackslash\bfseries\leavevmode\color{azul}}l}
+\newcolumntype{Q}[1]{>{\raggedright\arraybackslash\bfseries\leavevmode\color{azul}}p{#1}}
+
+% Legendas de figuras e tabelas discretas
+\usepackage[font={small,color=suave}, labelfont={bf,color=azul}, skip=6pt]{caption}
+
+% \begin{document} ... (conteúdo do roteiro)

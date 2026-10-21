@@ -1,14 +1,16 @@
-\section{Roteiro Prático 02 — Retomada e Transição Parte 2: jQuery, Manipulação do DOM \& LocalStorage}
+% =====================================================
+% CAPA / ABERTURA
+% =====================================================
+\capaRoteiro{\faMousePointer}{jQuery, DOM \& LocalStorage}
+  {Interatividade no navegador: eventos, inserção dinâmica e dados que sobrevivem ao F5}
+  {\chip{\faLayerGroup}{Módulo 1}\hspace{4pt}
+   \chip{\faTools}{jQuery 3.7 · LocalStorage}\hspace{4pt}
+   \chip{\faLink}{Pré-requisito: Roteiro 01}}
 
-% =====================================================
-% OBJETIVOS
-% =====================================================
+\vspace{0.4em}
+\cartoesUC{Cadastro dinâmico em \texttt{app.js}: a tabela se atualiza sem recarregar e os dados ficam no LocalStorage}
 
 \begin{boxObjetivos}
-\textbf{Objetivos da Aula (Parte 2 — jQuery \& Dinâmica Frontend)}
-
-Ao final desta aula o estudante será capaz de:
-
 \begin{itemize}
 \item Retomar o layout estático construído no Bootstrap 5 e adicionar inteligência no lado do cliente com \textbf{jQuery};
 \item Localizar e obter a biblioteca no portal oficial do \textbf{jQuery} (\url{https://jquery.com} e \url{https://code.jquery.com});
@@ -23,9 +25,23 @@ Ao final desta aula o estudante será capaz de:
 \end{itemize}
 \end{boxObjetivos}
 
-\begin{figure}[H]
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{DOM e sintaxe do jQuery}{O que é o DOM e o \texttt{\textdollar(document).ready()} (Seções~\ref{sec:m1a} a~\ref{sec:m1b})}
+\etapaMapa{verdeVivo}{2}{Exemplos 6 a 11}{A mesma aplicação, com recursos crescentes (Seções~\ref{sec:m2a} a~\ref{sec:m2b})}
+\etapaMapa{ambar}{3}{Tarefa em \texttt{app.js}}{Programação dinâmica em arquivo externo (Seção~\ref{sec:m3a})}
+\etapaMapa{roxo}{4}{Desafio e checklist}{Filtro em tempo real e verificação final (Seções~\ref{sec:m4a} a~\ref{sec:m4b})}
+\end{mapaAula}
+
+% =====================================================
+% ONDE ESTE ROTEIRO SE ENCAIXA
+% =====================================================
+\section{Onde este roteiro se encaixa}\label{sec:trilha}
+
+\trilhaRoteiros{2}
+
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.88\textwidth]{roteiro2_jquery.jpg}
+    \includegraphics[width=0.78\textwidth]{roteiro2_jquery.jpg}
     \caption{Visão Geral da Aplicação: Interface dinâmica client-side com jQuery, manipulação do DOM e persistência via LocalStorage.}
     \label{fig:preview_roteiro2}
 \end{figure}
@@ -34,23 +50,23 @@ Ao final desta aula o estudante será capaz de:
 % INTRODUÇÃO & INCLUSÃO
 % =====================================================
 
-\subsection{Introdução, Sites Oficiais e Organização em Arquivo Externo \texttt{app.js}}
+\section{Introdução, Sites Oficiais e Organização em Arquivo Externo \texttt{app.js}}
 
 Bem-vindos à segunda parte da retomada prática da disciplina de \textbf{Programação para a Internet 2 (ProgWeb 2)}!
 
-Nesta aula, transformamos a interface estática do Bootstrap 5 em um sistema **dinâmico, interativo e funcional** utilizando a biblioteca **jQuery**.
+Nesta aula, transformamos a interface estática do Bootstrap 5 em um sistema \textbf{dinâmico, interativo e funcional} utilizando a biblioteca \textbf{jQuery}.
 
 \begin{enumerate}
 \item \textbf{jQuery (Site Oficial \& CDN):} No portal \url{https://jquery.com} e no servidor de CDN \url{https://code.jquery.com}, obtemos os links da versão minificada (\texttt{jquery-3.7.1.min.js}), incluída via tag \texttt{<script>} antes do fechamento do \texttt{</body>};
 \item \textbf{Organização Profissional em Arquivo Externo (\texttt{app.js}):} Adotamos como boa prática o desacoplamento do código JavaScript em um arquivo separado (\texttt{app.js}), inicializado com \texttt{\textdollar(document).ready()};
-\item \textbf{Acompanhamento Interativo:} O trabalho é guiado pelos slides da Parte 2 (\texttt{parte-2-jquery/index.html}) e pela prática na pasta \texttt{exercicio-retomada/}.
+\item \textbf{Acompanhamento Interativo:} O trabalho é guiado pelos slides da Parte 2 (\path{parte-2-jquery/index.html}) e pela prática na pasta \path{exercicio-retomada/}.
 \end{enumerate}
 
 % =====================================================
 % CONCEITOS DO DOM
 % =====================================================
 
-\subsection{Conceitos Fundamentais: O que é o DOM (Document Object Model)?}
+\section{Conceitos Fundamentais: O que é o DOM (Document Object Model)?}\label{sec:m1a}
 
 Antes de manipularmos os elementos da página com o jQuery, é fundamental compreender o papel do \textbf{DOM (Document Object Model)}:
 
@@ -64,7 +80,7 @@ Antes de manipularmos os elementos da página com o jQuery, é fundamental compr
 \item \textbf{Interação via JavaScript / jQuery:} O código JS consulta a árvore usando seletores como \texttt{\textdollar('\#input-nome')}. A partir daí, executa operações dinâmicas: lê dados (\texttt{.val()}), altera textos (\texttt{.html()}), modifica cores (\texttt{.css()}) e reage a eventos (\texttt{.on('submit')}).
 \end{itemize}
 
-\subsection{Sintaxe Básica do jQuery \& O Comando \texttt{\textdollar(document).ready()}}
+\section{Sintaxe Básica do jQuery \& O Comando \texttt{\textdollar(document).ready()}}\label{sec:m1b}
 
 Antes de manipularmos o formulário, precisamos compreender como as instruções são estruturadas e por que o método de inicialização é indispensável:
 
@@ -80,12 +96,12 @@ Antes de manipularmos o formulário, precisamos compreender como as instruções
 \item \textbf{Sintaxe Abreviada Equivalente:} A comunidade também utiliza a forma curta moderna: \texttt{\textdollar(function() \{ /* código seguro */ \});}.
 \end{itemize}
 
-\subsection{Metodologia Pedagógica Incremental: A Mesma Aplicação Base, Recursos Crescentes}
+\section{Metodologia Pedagógica Incremental: A Mesma Aplicação Base, Recursos Crescentes}\label{sec:m2a}
 
-Para garantir que o aprendizado seja fluido e contínuo, adotamos a **Metodologia Incremental**:
+Para garantir que o aprendizado seja fluido e contínuo, adotamos a \textbf{Metodologia Incremental}:
 
 \begin{itemize}
-\item \textbf{Estrutura Base Unificada:} Em vez de criar um código HTML novo do zero para cada exercício, mantemos a mesma página de **Cadastro de Clientes** criada na Parte 1 com Bootstrap 5;
+\item \textbf{Estrutura Base Unificada:} Em vez de criar um código HTML novo do zero para cada exercício, mantemos a mesma página de \textbf{Cadastro de Clientes} criada na Parte 1 com Bootstrap 5;
 \item \textbf{Acúmulo de Superpoderes Passo a Passo:}
   \begin{enumerate}
     \item \textbf{Exemplo 6 (Base):} Leitura de inputs com \texttt{.val()} e escrita em alerta com \texttt{.html()};
@@ -93,7 +109,7 @@ Para garantir que o aprendizado seja fluido e contínuo, adotamos a **Metodologi
     \item \textbf{Exemplo 8 (Estilos):} Troca dinâmica de cores de fundo e bordas via \texttt{.css(\{ ... \})};
     \item \textbf{Exemplo 9 (Efeitos):} Deslizamento de painel retrátil com \texttt{.slideToggle()} e \texttt{.slideDown()};
     \item \textbf{Exemplo 10 (DOM Dinâmico):} Montagem de tabela dinâmica com \texttt{.append()} e remoção de linha pai com \texttt{.closest('tr').remove()};
-    \item \textbf{Exemplo 11 (Persistência):} Armazenamento permanente no navegador com \texttt{localStorage} e conversão \texttt{JSON.stringify/parse}.
+    \item \textbf{Exemplo 11 (Persistência):} Armazenamento permanente no navegador com \texttt{localStorage} e conversão \path{JSON.stringify/parse}.
   \end{enumerate}
 \end{itemize}
 
@@ -101,15 +117,12 @@ Para garantir que o aprendizado seja fluido e contínuo, adotamos a **Metodologi
 % PARTE 1
 % =====================================================
 
-\subsection{Detalhamento Didático da Estrutura HTML Base Unificada \& Exemplos 6 a 11}
+\manterJunto{25}
+\section{Detalhamento Didático da Estrutura HTML Base Unificada \& Exemplos 6 a 11}
 
-Para manter uma linha contínua de aprendizado sem perder a conexão entre os seletores, todos os exemplos da Parte 2 utilizam a **mesma estrutura HTML base da aplicação de Cadastro de Clientes** (Exemplo 5 do Bootstrap 5), incrementando-a passo a passo:
+Para manter uma linha contínua de aprendizado sem perder a conexão entre os seletores, todos os exemplos da Parte 2 utilizam a \textbf{mesma estrutura HTML base da aplicação de Cadastro de Clientes} (Exemplo 5 do Bootstrap 5), incrementando-a passo a passo:
 
-\begin{boxCodigo}
-\textbf{Estrutura HTML Base Unificada (Formulário, Alerta e Tabela):}
-
-\small
-\begin{verbatim}
+\begin{boxCodigoHTML}[Estrutura HTML Base Unificada (Formulário, Alerta e Tabela)]
 <!-- Formulário de Cadastro (#form-cadastro) -->
 <form id="form-cadastro" class="card p-3 mb-3">
   <input type="text" id="input-nome" 
@@ -135,15 +148,14 @@ Para manter uma linha contínua de aprendizado sem perder a conexão entre os se
   </thead>
   <tbody id="tabela-corpo"></tbody>
 </table>
-\end{verbatim}
-\end{boxCodigo}
+\end{boxCodigoHTML}
 
 Abaixo está a progressão funcional realizada sobre a mesma estrutura pedagógica:
 
 \begin{itemize}
 \item \textbf{Exemplo 6 (Passo 1 — Leitura \& Escrita de Campos):} \textit{Estrutura Base Inicial:} Captura a submissão do \texttt{\#form-cadastro}, impede o recarregamento com \texttt{e.preventDefault()}, lê os valores de \texttt{\#input-nome} e \texttt{\#input-email} com \texttt{.val()} e escreve na caixa \texttt{\#caixa-mensagem} com \texttt{.html()};
 
-\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} \textit{Adicionado em relação ao Exemplo 6:} Incrementa a \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta piscar/pulsar de forma altamente visível encadeando \texttt{.fadeOut(150).fadeIn(150).fadeOut(150).fadeIn(400)};
+\item \textbf{Exemplo 7 (Passo 2 — Animações Visuais \& Classes CSS):} \textit{Adicionado em relação ao Exemplo 6:} Incrementa a \texttt{\#caixa-mensagem} removendo a classe \texttt{.d-none}, aplicando \texttt{.addClass('alert-success')} e fazendo o alerta piscar/pulsar de forma altamente visível encadeando \texttt{.fadeOut(150)\allowbreak{}.\allowbreak{}fadeIn(150)\allowbreak{}.\allowbreak{}fadeOut(150)\allowbreak{}.\allowbreak{}fadeIn(400)};
 
 \item \textbf{Exemplo 8 (Passo 3 — Troca Dinâmica de Cores e Estilos CSS):} \textit{Adicionado em relação ao Exemplo 7:} Altera o estilo diretamente via código com \texttt{.css()}, modificando a cor de fundo do formulário e as bordas/cores da caixa de mensagem de forma dinâmica;
 
@@ -154,26 +166,25 @@ Abaixo está a progressão funcional realizada sobre a mesma estrutura pedagógi
 \item \textbf{Exemplo 11 (Passo 6 — Persistência no LocalStorage com JSON):} \textit{Adicionado em relação ao Exemplo 10:} Salva o array de clientes no navegador com \texttt{localStorage.setItem('lista\_clientes', JSON.stringify(clientes))} e restaura a tabela ao recarregar a página com \texttt{JSON.parse()}.
 \end{itemize}
 
-
 % =====================================================
 % TABELAS "PARA EXPLORAR MAIS"
 % =====================================================
 
-\subsection{Guia de Apoio: "Para Explorar Mais no jQuery"}
+\section{Guia de Apoio: "Para Explorar Mais no jQuery"}\label{sec:m2b}
 
 Para dar suporte aos alunos na programação dinâmica, o quadro abaixo resume métodos essenciais do jQuery:
 
 \begin{boxTabela}
 \textbf{Opções Adicionais de jQuery (Seletores, Efeitos e Manipulação do DOM)}
 
-\begin{tabularx}{\linewidth}{|l|X|}
-\hline
-\textbf{Método / Seletor} & \textbf{Descrição e Uso no Código} \\ \hline
-\texttt{\textdollar('.minha-classe')} & Seleciona todos os elementos do DOM que possuem uma classe CSS específica. \\ \hline
-\texttt{\textdollar(el).slideDown() / .slideUp()} & Animação fluida de expandir para baixo ou recolher para cima. \\ \hline
-\texttt{\textdollar(el).attr('disabled', true)} & Lê ou altera atributos HTML de um elemento (ex: desativar botões). \\ \hline
-\texttt{\textdollar(el).prepend(html)} & Insere novo conteúdo HTML no início do elemento selecionado. \\ \hline
-\texttt{\textdollar(el).empty() / .remove()} & Limpa todo o conteúdo interno ou remove o próprio elemento da página. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\linewidth}{RY}
+\cabecalho \cab{Método / Seletor} & \cab{Descrição e Uso no Código} \\
+\texttt{\textdollar('.minha-classe')} & Seleciona todos os elementos do DOM que possuem uma classe CSS específica. \\
+\texttt{\textdollar(el).slideDown() / .slideUp()} & Animação fluida de expandir para baixo ou recolher para cima. \\
+\texttt{\textdollar(el).attr('disabled', true)} & Lê ou altera atributos HTML de um elemento (ex: desativar botões). \\
+\texttt{\textdollar(el).prepend(html)} & Insere novo conteúdo HTML no início do elemento selecionado. \\
+\texttt{\textdollar(el).empty() / .remove()} & Limpa todo o conteúdo interno ou remove o próprio elemento da página. \\
 \end{tabularx}
 \end{boxTabela}
 
@@ -181,15 +192,15 @@ Para dar suporte aos alunos na programação dinâmica, o quadro abaixo resume m
 % TAREFA PRÁTICA
 % =====================================================
 
-\subsection{Parte 2 — Tarefa Prática: Programação Dinâmica em Arquivo Externo app.js}
+\section{Parte 2 — Tarefa Prática: Programação Dinâmica em Arquivo Externo app.js}\label{sec:m3a}
 
 \begin{boxAtividade}[{Atividade Prática -- Dinâmica com jQuery e LocalStorage}]
 
-Na pasta \texttt{exercicio-retomada/}, os estudantes deverão tornar a aplicação 100\% dinâmica:
+Na pasta \path{exercicio-retomada/}, os estudantes deverão tornar a aplicação 100\% dinâmica:
 
 \begin{enumerate}
-\item \textbf{Inclusão do jQuery:} Adicionar a tag \texttt{<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>} antes do \texttt{</body>};
-\item \textbf{Seleção e Eventos em \texttt{app.js}:} No arquivo externo \texttt{app.js}, capturar a submissão do formulário com \texttt{\textdollar('\#formCadastro').on('submit')};
+\item \textbf{Inclusão do jQuery:} Adicionar a tag \texttt{<script src="https://code.\allowbreak{}jquery.\allowbreak{}com/\allowbreak{}jquery-3.\allowbreak{}7.\allowbreak{}1.\allowbreak{}min.\allowbreak{}js"></script>} antes do \texttt{</body>};
+\item \textbf{Seleção e Eventos em \texttt{app.js}:} No arquivo externo \texttt{app.js}, capturar a submissão do formulário com \texttt{\textdollar('\#formCadastro')\allowbreak{}.\allowbreak{}on('submit')};
 \item \textbf{Inserção Dinâmica no DOM:} Ler os campos com \texttt{\textdollar('\#nome').val()} e adicionar a nova linha na tabela com \texttt{\textdollar('\#tabela-body').append()};
 \item \textbf{Persistência no LocalStorage (Exemplo 9):} Salvar a lista de registros com \texttt{localStorage.setItem()} e tratar a restauração dos dados ao abrir a página (F5).
 \end{enumerate}
@@ -200,7 +211,7 @@ Na pasta \texttt{exercicio-retomada/}, os estudantes deverão tornar a aplicaç�
 % PARTE 3 — DESAFIO EXTRA
 % =====================================================
 
-\subsection{Parte 3 — Desafio Extra: Filtro Dinâmico em Tempo Real}
+\section{Parte 3 — Desafio Extra: Filtro Dinâmico em Tempo Real}\label{sec:m4a}
 
 \begin{boxAtividade}[{Desafio Extra -- Filtro por Nome com jQuery}]
 
@@ -217,16 +228,18 @@ Como atividade de aprimoramento em sala:
 % CHECKLIST
 % =====================================================
 
-\subsection{Checklist Final da Aula 2}
+\section{Checklist Final da Aula 2}\label{sec:m4b}
 
-\begin{boxAtividade}[{Verificação Técnica Parte 2}]
+\begin{checklist}
 
 Antes de finalizar o encontro, verifique se seu projeto atende aos critérios de aceitação:
 
 \begin{itemize}
-\item [ ] O script do jQuery 3.7.1 está incluído e o arquivo \texttt{app.js} inicializa com \texttt{\textdollar(document).ready()};
-\item [ ] Ao cadastrar um novo registro, a tabela é atualizada instantaneamente sem recarregar a página;
-\item [ ] Ao pressionar F5 (Recarregar), os dados salvos no \texttt{LocalStorage} permanecem visíveis na tela.
+\item[\caixaMarcar] O script do jQuery 3.7.1 está incluído e o arquivo \texttt{app.js} inicializa com \texttt{\textdollar(document).ready()};
+\item[\caixaMarcar] Ao cadastrar um novo registro, a tabela é atualizada instantaneamente sem recarregar a página;
+\item[\caixaMarcar] Ao pressionar F5 (Recarregar), os dados salvos no \texttt{LocalStorage} permanecem visíveis na tela.
 \end{itemize}
+\end{checklist}
 
-\end{boxAtividade}
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba\par}

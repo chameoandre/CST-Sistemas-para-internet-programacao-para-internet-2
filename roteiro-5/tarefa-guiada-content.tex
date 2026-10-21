@@ -1,18 +1,20 @@
-\section{Roteiro Prático 05 (Parte 2) — Tarefa Guiada: Refatoração da Vitrine de Serviços (Flask \& SQLite)}
-
 % =====================================================
-% OBJETIVOS DA ATIVIDADE GUIADA
+% CAPA / ABERTURA
 % =====================================================
+\capaRoteiro{\faDatabase}{Vitrine em Rede com Flask \& SQLite}
+  {Parte 2 — Tarefa guiada: a Vitrine Comunitária passa a usar uma API de verdade}
+  {\chip{\faLayerGroup}{Módulo 3}\hspace{4pt}
+   \chip{\faTools}{Flask · SQLite · Fetch API}\hspace{4pt}
+   \chip{\faLink}{Pré-requisito: Roteiro 05 — Parte 1}}
 
-\begin{boxObjetivos}[Objetivos de Aprendizagem — Roteiro 05 (Parte 2: Tarefa Guiada)]
-\textbf{Objetivos da Tarefa Prática (Refatoração Arquitetural da Vitrine de Serviços)}
+\vspace{0.4em}
+\cartoesUC{Vitrine de Serviços ligada a uma API Flask com SQLite e modo de contingência offline}
 
-Ao longo desta tarefa de implementação orientada passo a passo, o estudante irá:
-
-\begin{itemize}[leftmargin=*]
+\begin{boxObjetivos}
+\begin{itemize}
 \item Desenvolver e estruturar o backend RESTful em \textbf{Python Flask} com suporte a CORS para fornecer endpoints de consulta (\texttt{GET /api/servicos}) e cadastro (\texttt{POST /api/servicos});
 \item Configurar a persistência relacional com \textbf{SQLite 3} em arquivo físico (\texttt{vitrine.db}), aplicando comandos SQL de criação de tabelas e inserção parametrizada para prevenir injeção de SQL;
-\item Refatorar o módulo de serviços do frontend (\texttt{vitrineService.js}) com a moderna \textbf{Fetch API} (\texttt{async/await}), substituindo o acesso síncrono ao \texttt{localStorage};
+\item Refatorar o módulo de serviços do frontend (\texttt{vitrineService.js}) com a moderna \textbf{Fetch API} (\path{async/await}), substituindo o acesso síncrono ao \texttt{localStorage};
 \item Implementar o padrão profissional de \textbf{Contingência Resiliente (Fallback)}: se a API do Flask responder, a aplicação consome o banco de dados; caso o servidor caia ou a página rode no GitHub Pages, os dados são lidos/gravados no \texttt{localStorage} em modo de cache de segurança;
 \item Enriquecer a camada de visualização (\texttt{vitrineView.js}) com \textbf{Spinners de Carregamento} reativos e \textbf{Badges dinâmicos de conectividade} com a API (\textit{"Conectado à API (SQLite)"} vs \textit{"Modo Offline (LocalStorage)"});
 \item Adaptar o controlador orquestrador (\texttt{main.js}) para lidar com promessas assíncronas no carregamento e na submissão do formulário modal;
@@ -20,20 +22,33 @@ Ao longo desta tarefa de implementação orientada passo a passo, o estudante ir
 \end{itemize}
 \end{boxObjetivos}
 
-\begin{figure}[H]
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Conhecer o projeto}{Pastas do backend e do frontend (Seção~\ref{sec:m1a})}
+\etapaMapa{verdeVivo}{2}{Backend Flask e SQLite}{Fases 1 e 2: servidor e testes da API (Seção~\ref{sec:m2a})}
+\etapaMapa{ambar}{3}{Frontend com Fetch}{Fases 3 a 5: services, views e main.js (Seção~\ref{sec:m3a})}
+\etapaMapa{roxo}{4}{Provar a resiliência}{Fase 6 e comparativo com o Roteiro 04 (Seção~\ref{sec:m4a})}
+\end{mapaAula}
+
+% =====================================================
+% ONDE ESTE ROTEIRO SE ENCAIXA
+% =====================================================
+\section{Onde este roteiro se encaixa}\label{sec:trilha}
+
+\trilhaRoteiros{5}
+
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.88\textwidth]{roteiro5_fetch_api.jpg}
+    \includegraphics[width=0.78\textwidth]{roteiro5_fetch_api.jpg}
     \caption{Visão Geral da Aplicação Integrada: Vitrine de Serviços conectada via Fetch API com backend Flask, SQLite persistente e contingência offline.}
     \label{fig:preview_roteiro5_parte2}
 \end{figure}
 
-\subsection{Estrutura do Projeto Integrado (\texttt{exercicio-roteiro5/})}
+\manterJunto{17}
+\section{Estrutura do Projeto Integrado (\texttt{exercicio-roteiro5/})}\label{sec:m1a}
 
 Para esta tarefa de refatoração, o projeto está estruturado de forma desacoplada entre cliente (\textit{frontend}) e servidor (\textit{backend}):
 
-\begin{boxCodigoTerminal}
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\begin{arvore}[Estrutura de pastas do projeto]
 roteiro-5/
 |-- exercicio-roteiro5/
     |-- backend/
@@ -51,35 +66,30 @@ roteiro-5/
     |   |   \-- formatters.js     # Funções utilitárias puras
     |   \-- main.js               # Orquestrador assíncrono e eventos
     \-- index.html                # Interface HTML5 + Bootstrap 5 + Modal
-\end{verbatim}
-\end{boxCodigoTerminal}
+\end{arvore}
 
 % FASES DE IMPLEMENTAÇÃO GUIADAS (ZERO-ELLIPSIS RULE)
 % =====================================================
 
-\newpage
-\subsection{Implementação Passo a Passo Guiada}
+\section{Implementação Passo a Passo Guiada}\label{sec:m2a}\label{sec:m3a}
 
-Seguiremos a sequência didática em 6 fases de implementação estruturadas. Todo o código fornecido é **100\% completo, sem reticências ou omissões**.
+Seguiremos a sequência didática em 6 fases de implementação estruturadas. Todo o código fornecido é \textbf{100\% completo, sem reticências ou omissões}.
 
 % --- FASE 1 ---
 \begin{boxAtividade}[{Fase 1/6: Configuração do Backend em Flask \& SQLite (backend/)}]
 \textbf{Responsabilidade Arquitetural:} Criar o ambiente isolado Python (virtualenv), instalar o microframework Flask com suporte a CORS e implementar a API RESTful com conexão ao SQLite em arquivo (\texttt{vitrine.db}).
 \end{boxAtividade}
 
-\textbf{Passo 1.1: Criar o arquivo de dependências (\texttt{backend/requirements.txt})}
-\begin{boxCodigoTerminal}
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\manterJunto{2}
+\passo{1.1}{Criar o arquivo de dependências (\texttt{backend/requirements.txt})}
+\begin{codigo}[txt]{backend/requirements.txt}
 Flask>=3.0.0
 flask-cors>=4.0.0
-\end{verbatim}
-\end{boxCodigoTerminal}
+\end{codigo}
 
-\textbf{Passo 1.2: No terminal do VS Code, criar o ambiente virtual e instalar dependências:}
-\begin{boxCodigoTerminal}
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\manterJunto{12}
+\passo{1.2}{No terminal do VS Code, criar o ambiente virtual e instalar dependências}
+\begin{saida}[Terminal]
 # Acesse a pasta do backend
 cd roteiro-5/exercicio-roteiro5/backend
 
@@ -92,11 +102,10 @@ source venv/bin/activate
 
 # Instala o Flask e o CORS
 pip install -r requirements.txt
-\end{verbatim}
-\end{boxCodigoTerminal}
+\end{saida}
 
-\textbf{Passo 1.3: Criar o arquivo completo do servidor (\texttt{backend/app.py}):}
-\begin{boxCodigoPY}
+\passo{1.3}{Criar o arquivo completo do servidor}
+\begin{boxCodigoPY}[backend/app.py]
 import os
 import sqlite3
 from datetime import datetime
@@ -235,45 +244,38 @@ if __name__ == '__main__':
 \end{boxCodigoPY}
 
 % --- FASE 2 ---
-\newpage
 \begin{boxAtividade}[{Fase 2/6: Executando e Testando a API RESTful}]
-\textbf{Responsabilidade Arquitetural:} Iniciar o servidor Flask na porta 5000 e validar os endpoints de saúde (\texttt{/api/status}) e listagem (\texttt{/api/servicos}) diretamente no terminal e navegador antes da integração.
+\textbf{Responsabilidade Arquitetural:} Iniciar o servidor Flask na porta 5000 e validar os endpoints de saúde (\path{/api/status}) e listagem (\path{/api/servicos}) diretamente no terminal e navegador antes da integração.
 \end{boxAtividade}
 
-\textbf{Passo 2.1: Iniciar o servidor no terminal:}
-\begin{boxCodigoTerminal}
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\manterJunto{1}
+\passo{2.1}{Iniciar o servidor no terminal}
+\begin{saida}[Terminal]
 python app.py
-\end{verbatim}
-\end{boxCodigoTerminal}
+\end{saida}
 
-\textbf{Passo 2.2: Testar no navegador ou via cURL em outra aba do terminal:}
-\begin{boxCodigoTerminal}
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\manterJunto{1}
+\passo{2.2}{Testar no navegador ou via cURL em outra aba do terminal}
+\begin{saida}[Terminal]
 curl http://127.0.0.1:5000/api/status
-\end{verbatim}
-\end{boxCodigoTerminal}
+\end{saida}
 
 \textbf{Resposta esperada do servidor (JSON com status 200):}
-\begin{boxCodigoTerminal}
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\manterJunto{1}
+\begin{saida}[Resposta esperada]
 {"banco":"SQLite 3","mensagem":"API REST da Vitrine de Garopaba operacional.","status":"online"}
-\end{verbatim}
-\end{boxCodigoTerminal}
+\end{saida}
 
-\begin{boxTeste}{Checkpoint de Validação da Fase 2}
+\begin{boxTeste}[{Checkpoint de Validação da Fase 2}]
 Abra no navegador \url{http://127.0.0.1:5000/api/servicos}. Você deverá ver a lista JSON com os 3 registros semente cadastrados automaticamente no arquivo \texttt{vitrine.db}.
 \end{boxTeste}
 
 % --- FASE 3 ---
 \begin{boxAtividade}[{Fase 3/6: A Revolução Assíncrona no vitrineService.js}]
-\textbf{Responsabilidade Arquitetural:} Refatorar os métodos de leitura e escrita para utilizarem requisições HTTP assíncronas com \texttt{fetch()} e \texttt{async/await}, mantendo uma camada de contingência transparente com \texttt{localStorage}.
+\textbf{Responsabilidade Arquitetural:} Refatorar os métodos de leitura e escrita para utilizarem requisições HTTP assíncronas com \texttt{fetch()} e \path{async/await}, mantendo uma camada de contingência transparente com \texttt{localStorage}.
 \end{boxAtividade}
 
-\begin{boxCodigoJS}
+\begin{boxCodigoJS}[js/services/vitrineService.js]
 // js/services/vitrineService.js
 const API_BASE_URL = 'http://127.0.0.1:5000/api';
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
@@ -424,12 +426,11 @@ export async function removerServico(id) {
 \end{boxCodigoJS}
 
 % --- FASE 4 ---
-\newpage
 \begin{boxAtividade}[{Fase 4/6: Camada de Visão \& Feedbacks de Rede (vitrineView.js)}]
 \textbf{Responsabilidade Arquitetural:} Adicionar componentes visuais de carregamento (\texttt{exibirSpinner}) e indicador de conectividade em tempo real com a API no topo da página.
 \end{boxAtividade}
 
-\begin{boxCodigoJS}
+\begin{boxCodigoJS}[vitrineView.js]
 // js/views/vitrineView.js
 import { formatarMoeda, formatarTelefone, escapeHtml } from '../utils/formatters.js';
 
@@ -534,12 +535,11 @@ export function exibirToast(mensagem, tipo = 'success') {
 \end{boxCodigoJS}
 
 % --- FASE 5 ---
-\newpage
 \begin{boxAtividade}[{Fase 5/6: Orquestrador Assíncrono da Aplicação (main.js)}]
 \textbf{Responsabilidade Arquitetural:} Coordenar os fluxos de eventos da interface utilizando \texttt{await} para aguardar a persistência no banco remoto antes de fechar modais e atualizar a vitrine.
 \end{boxAtividade}
 
-\begin{boxCodigoJS}
+\begin{boxCodigoJS}[main.js]
 // js/main.js
 import {
   obterServicos,
@@ -674,28 +674,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 \end{boxCodigoJS}
 
 % --- FASE 6 ---
-\newpage
 \begin{boxAtividade}[{Fase 6/6: Verificação de Integração \& Prova de Contingência}]
 \textbf{Responsabilidade Arquitetural:} Executar o roteiro de testes em dois cenários: com a API online no laboratório e com o servidor desligado comprovando a resiliência offline.
 \end{boxAtividade}
 
 \textbf{1. Teste Conectado (API Online):}
-\begin{itemize}[leftmargin=*]
+\begin{itemize}
   \item Inicie o backend com \texttt{python app.py} na porta \texttt{5000};
-  \item Abra o frontend via Live Server (\texttt{http://127.0.0.1:5500/index.html});
+  \item Abra o frontend via Live Server (\path{http://127.0.0.1:5500/index.html});
   \item O badge no topo deve exibir: \textbf{\textit{Backend Online (Flask + SQLite)}};
   \item Cadastre um novo serviço e observe a requisição HTTP POST sendo logada no terminal do Flask!
 \end{itemize}
 
 \textbf{2. Teste de Resiliência (Fallback LocalStorage):}
-\begin{itemize}[leftmargin=*]
+\begin{itemize}
   \item No terminal do Flask, pressione \texttt{Ctrl + C} para desligar o servidor;
   \item Recarregue a página no navegador com \texttt{F5};
   \item O frontend detecta a indisponibilidade e muda o badge para: \textbf{\textit{Modo Offline (LocalStorage)}};
   \item Os cards continuam aparecendo normalmente a partir da cópia em cache!
 \end{itemize}
 
-\begin{boxTeste}{Critério de Conclusão da Tarefa Prática}
+\begin{boxTeste}[{Critério de Conclusão da Tarefa Prática}]
 A aplicação demonstrou sucesso na comunicação assíncrona cliente-servidor via Fetch API, realizou persistência no SQLite e provou resiliência arquitetural ao operar em modo de contingência offline.
 \end{boxTeste}
 
@@ -703,27 +702,23 @@ A aplicação demonstrou sucesso na comunicação assíncrona cliente-servidor v
 % RESUMO DAS TRANSFORMAÇÕES (O QUE MUDOU E POR QUE MUDOU)
 % =====================================================
 
-\newpage
-\subsection{Quadro Comparativo: Evolução do Roteiro 04 para o Roteiro 05}
+\section{Quadro Comparativo: Evolução do Roteiro 04 para o Roteiro 05}\label{sec:m4a}
 
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|X|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Componente} & \textbf{Roteiro 04 (Módulo 2)} & \textbf{Roteiro 05 (Módulo 3)} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Ambiente de Dados} & LocalStorage (isolado na aba do navegador). & Banco relacional SQLite (\texttt{vitrine.db}) no Flask. \\ \hline
-\textbf{Comunicação} & Chamadas de função síncronas em memória. & Chamadas assíncronas de rede com \texttt{fetch()} e \texttt{await}. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Segurança de Rede} & Inexistente (tudo no cliente). & Configuração de cabeçalhos CORS (\texttt{flask-cors}). \\ \hline
-\textbf{Experiência (UX)} & Resposta imediata sem feedback de rede. & Spinners de espera e badges de status de conectividade. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{formatters.js} & Funções puras de formatação. & \textbf{100\% idêntico!} Prova de desacoplamento limpo. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Componente} & \cab{Roteiro 04 (Módulo 2)} & \cab{Roteiro 05 (Módulo 3)} \\
+Ambiente de Dados & LocalStorage (isolado na aba do navegador). & Banco relacional SQLite (\texttt{vitrine.db}) no Flask. \\
+Comunicação & Chamadas de função síncronas em memória. & Chamadas assíncronas de rede com \texttt{fetch()} e \texttt{await}. \\
+Segurança de Rede & Inexistente (tudo no cliente). & Configuração de cabeçalhos CORS (\texttt{flask-cors}). \\
+Experiência (UX) & Resposta imediata sem feedback de rede. & Spinners de espera e badges de status de conectividade. \\
+formatters.js & Funções puras de formatação. & \textbf{100\% idêntico!} Prova de desacoplamento limpo. \\
 \end{tabularx}
 \end{table}
 
-\vspace{0.4cm}
 \noindent\textbf{Parabéns!} Você implementou uma arquitetura moderna full-stack desacoplada, apta para o ecossistema profissional e pronta para avançar rumo às Single Page Applications (SPAs) e ao projeto de extensão da SNCT!
+
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba\par}

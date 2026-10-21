@@ -1,22 +1,24 @@
-\section{Roteiro Prático 04 — Arquitetura Frontend Modular: ES6 Modules \& Padrão em Camadas}
+% =====================================================
+% CAPA / ABERTURA
+% =====================================================
+\capaRoteiro{\faLayerGroup}{Arquitetura Modular com ES6 Modules}
+  {Vitrine Comunitária em camadas: services, views e utils, com modais, toasts e validação}
+  {\chip{\faLayerGroup}{Módulo 2}\hspace{4pt}
+   \chip{\faTools}{ES6 Modules · Bootstrap 5 · Live Server}\hspace{4pt}
+   \chip{\faLink}{Pré-requisito: Roteiro 03}}
 
-% =====================================================
-% OBJETIVOS DA ATIVIDADE
-% =====================================================
+\vspace{0.4em}
+\cartoesUC{Vitrine Comunitária de Serviços modular, com cadastro em modal, edição, exclusão e filtros}
 
 \begin{boxObjetivos}
-\textbf{Objetivos da Atividade (Módulo 2 — ES6 Modules \& Padrão em Camadas)}
-
-Ao final desta prática orientada em laboratório, o estudante será capaz de:
-
 \begin{itemize}
 \item Superar a arquitetura monolítica de arquivo único (\texttt{app.js}), organizando o frontend em múltiplos módulos especializados utilizando \textbf{ES6 Modules} (\texttt{import} e \texttt{export});
 \item Declarar o ponto de entrada modular na página web através da diretiva:\\ \texttt{<script type="module" src="js/main.js"></script>};
 \item Compreender e aplicar a separação estrita de responsabilidades no cliente em três camadas:
   \begin{itemize}
-    \item \textbf{Camada de Serviços (\texttt{services/}):} Regras de negócio, cálculos e persistência pura no \texttt{localStorage} sem acoplamento ao DOM;
-    \item \textbf{Camada de Visão (\texttt{views/}):} Renderização de cards, tabelas, modais e Toasts via \textit{template literals} do Bootstrap 5;
-    \item \textbf{Camada Utilitária (\texttt{utils/}):} Funções puras reutilizáveis de formatação (moeda brasileira, telefone, máscaras);
+    \item \textbf{Camada de Serviços (\path{services/}):} Regras de negócio, cálculos e persistência pura no \texttt{localStorage} sem acoplamento ao DOM;
+    \item \textbf{Camada de Visão (\path{views/}):} Renderização de cards, tabelas, modais e Toasts via \textit{template literals} do Bootstrap 5;
+    \item \textbf{Camada Utilitária (\path{utils/}):} Funções puras reutilizáveis de formatação (moeda brasileira, telefone, máscaras);
     \item \textbf{Orquestrador Central (\texttt{main.js}):} Captura de eventos do usuário e coordenação entre camadas.
   \end{itemize}
 \item Implementar o \textbf{CRUD Completo} (\textit{Create, Read, Update, Delete}) com persistência em armazenamento local;
@@ -26,9 +28,23 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
 \end{itemize}
 \end{boxObjetivos}
 
-\begin{figure}[H]
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Estrutura e componentes}{Pastas do projeto, modais, toasts e cards (Seções~\ref{sec:m1a} a~\ref{sec:m1b})}
+\etapaMapa{verdeVivo}{2}{ES6 Modules}{\texttt{type="module"}, \texttt{export} e \texttt{import} (Seção~\ref{sec:m2a})}
+\etapaMapa{ambar}{3}{Construir em 5 fases}{HTML, utils, services, views e main.js (Seção~\ref{sec:m3a})}
+\etapaMapa{roxo}{4}{Conferir e publicar}{Checklist e critérios avaliativos (Seção~\ref{sec:m4a})}
+\end{mapaAula}
+
+% =====================================================
+% ONDE ESTE ROTEIRO SE ENCAIXA
+% =====================================================
+\section{Onde este roteiro se encaixa}\label{sec:trilha}
+
+\trilhaRoteiros{4}
+
+\begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.88\textwidth]{roteiro4_vitrine.jpg}
+    \includegraphics[width=0.78\textwidth]{roteiro4_vitrine.jpg}
     \caption{Visão Geral da Aplicação: Vitrine Comunitária de Garopaba com arquitetura modular em camadas ES6, modais e Toasts.}
     \label{fig:preview_roteiro4}
 \end{figure}
@@ -37,7 +53,7 @@ Ao final desta prática orientada em laboratório, o estudante será capaz de:
 % INTRODUÇÃO E CONTEXTUALIZAÇÃO
 % =====================================================
 
-\subsection{Introdução e Contextualização do Projeto}
+\section{Introdução e Contextualização do Projeto}
 
 Nos Roteiros 1, 2 e 3, trabalhamos com scripts JavaScript concentrados em um único arquivo (\texttt{app.js}). Embora essa abordagem seja excelente para aprender os fundamentos, ela se torna inviável em aplicações reais de médio e grande porte, onde a mistura de seletores do DOM, regras de validação e persistência gera o chamado \textit{"código espaguete"}.
 
@@ -49,15 +65,12 @@ Este projeto serve também como a \textbf{base tecnológica inicial para a Açã
 % ESTRUTURA DE DIRETÓRIOS DO PROJETO
 % =====================================================
 
-\subsection{Estrutura Arquitetural de Pastas}
+\manterJunto{11}
+\section{Estrutura Arquitetural de Pastas}\label{sec:m1a}
 
-O projeto deve ser organizado na pasta \texttt{roteiro-4/exercicio-roteiro4/} seguindo rigorosamente a estrutura modular:
+O projeto deve ser organizado na pasta \path{roteiro-4/exercicio-roteiro4/} seguindo rigorosamente a estrutura modular:
 
-\begin{boxCodigo}
-\textbf{Árvore de Diretórios Modular do Projeto:}
-
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\begin{arvore}[Árvore de Diretórios Modular do Projeto]
 roteiro-4/exercicio-roteiro4/
 |-- index.html     <-- Vitrine e forms (BS5)
 |-- styles.css     <-- Estilos e transições
@@ -69,20 +82,19 @@ roteiro-4/exercicio-roteiro4/
     |   `-- vitrineView.js    <-- HTML dinâmico
     `-- utils/
         `-- formatters.js     <-- Formatações
-\end{verbatim}
-\end{boxCodigo}
+\end{arvore}
 
 % =====================================================
 % FUNDAMENTAÇÃO TEÓRICA: COMPONENTES DE INTERFACE
 % =====================================================
 
-\subsection{Fundamentação Teórica: Componentes Modernos de Interface (Bootstrap 5)}
+\section{Fundamentação Teórica: Componentes Modernos de Interface (Bootstrap 5)}\label{sec:m1b}
 
 Antes de iniciarmos a implementação prática guiada, é fundamental compreender a finalidade, o comportamento e a anatomia dos principais componentes de interface gráfica utilizados na aplicação:
 
-\subsubsection{1. Janelas Modais (\textit{Modals}): Diálogos Sobrepostos de Alta Atenção}
+\subsection{Janelas Modais (\textit{Modals}): Diálogos Sobrepostos de Alta Atenção}
 Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge acima de todo o conteúdo da página, bloqueando temporariamente a interação com a tela de fundo por meio de uma camada escurecida semi-transparente chamada \textbf{\textit{backdrop}}.
-\begin{itemize}[leftmargin=*]
+\begin{itemize}
   \item \textbf{Finalidade de Uso:} Concentrar a atenção exclusiva do usuário em uma tarefa crítica (como preencher o formulário de cadastro ou atualizar dados de um serviço) sem sair da tela atual nem recarregar o navegador (\textit{Single Page Application}).
 \end{itemize}
 
@@ -170,9 +182,7 @@ Uma \textbf{janela modal} (ou diálogo modal) é um elemento flutuante que surge
   \end{tcolorbox}
 \end{mockupNavegador}
 
-\vspace{0.1cm}
 \noindent\textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
-\vspace{0.1cm}
 
 \noindent
 \begin{tcolorbox}[
@@ -227,16 +237,15 @@ Controle JavaScript &
 Instanciação programática (\texttt{getOrCreateInstance}) para abertura (\texttt{.show()}) e fechamento (\texttt{.hide()}).
 \end{tabularx}
 \end{tcolorbox}
-\vspace{0.15cm}
 
-\subsubsection{2. Notificações Flutuantes (\textit{Toasts}): Feedback Assíncrono Não-Intrusivo}
+\subsection{Notificações Flutuantes (\textit{Toasts}): Feedback Assíncrono Não-Intrusivo}
 O componente \textbf{Toast} é uma notificação compacta e temporária que surge sobreposta em uma posição fixa da tela (canto superior direito) para confirmar o sucesso de operações (ex: \textit{"Serviço cadastrado com sucesso!"}).
-\begin{itemize}[leftmargin=*]
+\begin{itemize}
   \item \textbf{Vantagem sobre o \texttt{alert()}:} O diálogo nativo \texttt{window.alert()} é síncrono e bloqueante: ele congela a execução de qualquer outro script JavaScript no navegador e força o usuário a clicar em "OK" para continuar. O \textbf{Toast}, por outro lado, é assíncrono, suave e desaparece automaticamente após alguns segundos (\textit{autohide}), proporcionando uma experiência de usuário profissional;
   \item \textbf{Posicionamento com \texttt{.toast-container}:} O elemento contêiner utiliza classes utilitárias de posicionamento fixo (\texttt{position-fixed top-0 end-0 p-3}) com índice z prioritário (\texttt{z-index: 1090}), garantindo visibilidade imediata sem deslocar os demais elementos do layout.
 \end{itemize}
 
-\subsubsection{3. Cartões de Conteúdo (\textit{Cards}): Unidades Modulares e Grid Uniforme}
+\subsection{Cartões de Conteúdo (\textit{Cards}): Unidades Modulares e Grid Uniforme}
 Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm}) que agrupa de forma coesa todas as informações e ações pertinentes a um único registro:
 
 \vspace{-0.15cm}
@@ -308,9 +317,7 @@ Um \textbf{Card} é um contêiner retangular flexível (\texttt{.card .shadow-sm
 \end{center}
 \vspace{-0.15cm}
 
-\vspace{0.1cm}
 \noindent\textbf{Anatomia no Bootstrap 5 (conforme ilustrado acima):}
-\vspace{0.1cm}
 
 \noindent
 \begin{tcolorbox}[
@@ -350,10 +357,9 @@ Abriga a badge de categoria, o título comercial (\texttt{.card-title}), o preç
 Fundo neutro transparente (\texttt{.bg-transparent}) agrupando os botões de ação: WhatsApp, Editar e Excluir.
 \end{tabularx}
 \end{tcolorbox}
-\vspace{0.15cm}
 
-\subsubsection{4. Validação Visual e o Campo Oculto (\texttt{type="hidden"})}
-\begin{itemize}[leftmargin=*]
+\subsection{Validação Visual e o Campo Oculto (\texttt{type="hidden"})}
+\begin{itemize}
   \item \textbf{Atributo \texttt{novalidate}:} Informa ao navegador para suprimir os balões de validação nativos, permitindo que a aplicação assuma o controle visual das mensagens de erro com o Bootstrap: ao adicionar a classe \texttt{.was-validated} ao formulário, cada campo é colorido conforme o resultado da validação nativa do HTML5 (verde para válido, vermelho para inválido) e os contêineres contextuais \texttt{.invalid-feedback} dos campos inválidos são exibidos;
   \item \textbf{Papel Arquitetural do Campo Oculto (\texttt{\#servicoId}):} O campo com \texttt{type="hidden"} não é renderizado visualmente para o usuário, mas é o elemento-chave que diferencia as operações de \textbf{Criação} (\textit{Create}) e \textbf{Atualização} (\textit{Update}) no padrão CRUD: se o campo estiver vazio, o clique em "Salvar" cria um novo serviço; se contiver um ID, atualiza o serviço correspondente mantendo o identificador original.
 \end{itemize}
@@ -362,9 +368,9 @@ Fundo neutro transparente (\texttt{.bg-transparent}) agrupando os botões de aç
 % FUNDAMENTAÇÃO TEÓRICA: ES6 MODULES
 % =====================================================
 
-\subsection{Fundamentação Teórica: Arquitetura Modular com ES6 Modules}
+\section{Fundamentação Teórica: Arquitetura Modular com ES6 Modules}\label{sec:m2a}
 
-\subsubsection{1. Declaração no HTML (\texttt{type="module"})}
+\subsection{Declaração no HTML (\texttt{type="module"})}
 Ao declarar \texttt{<script type="module" src="js/main.js"></script>}, o navegador aplica comportamentos modernos essenciais:
 \begin{itemize}
   \item \textbf{Modo Estrito Automático (\texttt{"use strict"}):} Impede o uso de variáveis não declaradas e falhas silenciosas;
@@ -372,11 +378,12 @@ Ao declarar \texttt{<script type="module" src="js/main.js"></script>}, o navegad
   \item \textbf{Carregamento Assíncrono com Adiamento (\texttt{defer}):} O script aguarda o parsing completo do DOM antes de executar.
 \end{itemize}
 
-\subsubsection{2. Exportação e Importação (\texttt{export} e \texttt{import})}
+\subsection{Exportação e Importação (\texttt{export} e \texttt{import})}
 Para compartilhar recursos entre arquivos, usamos a sintaxe explícita de módulos:
 
 \textbf{Exemplo de Exportação Nomeada e Importação:}
 
+\manterJunto{14}
 \begin{boxCodigoJS}
 // No arquivo js/utils/formatters.js
 export function formatarTelefone(telefone) {
@@ -399,7 +406,6 @@ console.log(formatarTelefone('48999998888'));
 % =====================================================
 
 \providecolor{ifscGreen}{RGB}{22,163,74}
-\vspace{0.4cm}
 \begin{figure}[H]
 \centering
 \resizebox{\linewidth}{!}{%
@@ -483,7 +489,7 @@ Caso prefira consultar, clonar ou comparar os arquivos diretamente no repositór
 % =====================================================
 
 \clearpage
-\subsection{Passo a Passo Guiado do Roteiro}
+\section{Passo a Passo Guiado do Roteiro}\label{sec:m3a}
 
 \begin{tcolorbox}[
     colback=azulTitulo!5, colframe=azulTitulo!80,
@@ -491,14 +497,14 @@ Caso prefira consultar, clonar ou comparar os arquivos diretamente no repositór
 ]
 \textbf{\color{azulTitulo}Antes de começar:}
 \begin{itemize}[leftmargin=*, nosep]
-  \item \textbf{Abra sempre pelo Live Server.} Módulos ES6 não carregam quando o \texttt{index.html} é aberto com duplo clique (endereço \texttt{file://}).
+  \item \textbf{Abra sempre pelo Live Server.} Módulos ES6 não carregam quando o \texttt{index.html} é aberto com duplo clique (endereço \path{file://}).
   \item \textbf{Ao copiar código deste PDF}, copie uma página por vez. Quando um bloco continua na página seguinte, o cabeçalho e o rodapé do documento vêm junto na seleção e precisam ser apagados.
   \item \textbf{Código no GitHub:} Os links diretos para cada arquivo no repositório estão disponíveis no quadro da página anterior.
 \end{itemize}
 \end{tcolorbox}
 
 \begin{boxAtividade}[{Fase 1.1/5: Estrutura HTML5 Base e Ponto de Entrada (index.html)}]
-\textbf{Responsabilidade Arquitetural:} Estabelecer o esqueleto visual da página, carregar as dependências de estilo (Bootstrap 5 e Icons), fornecer os pontos de ancoragem da interface (\texttt{\#vitrineContainer}, \texttt{\#toastNotificacao}, \texttt{\#totalServicosBadge} e \texttt{\#filtroCategoria}) e conectar o módulo raiz \texttt{js/main.js}.
+\textbf{Responsabilidade Arquitetural:} Estabelecer o esqueleto visual da página, carregar as dependências de estilo (Bootstrap 5 e Icons), fornecer os pontos de ancoragem da interface (\texttt{\#vitrineContainer}, \texttt{\#toastNotificacao}, \texttt{\#totalServicosBadge} e \texttt{\#filtroCategoria}) e conectar o módulo raiz \path{js/main.js}.
 \end{boxAtividade}
 
 \vspace{-0.1cm}
@@ -524,7 +530,7 @@ Caso prefira consultar, clonar ou comparar os arquivos diretamente no repositór
     \footnotesize\textbf{Filtrar por Categoria:} \hspace{4pt}
     \fboxsep=2pt\fcolorbox{gray!30}{gray!5}{\scriptsize\ttfamily Todas as Categorias $\downarrow$}
     \hfill
-    {\tiny\color{gray!70}\texttt{js/services/} \quad \texttt{js/views/} \quad \texttt{js/utils/}}
+    {\tiny\color{gray!70}\path{js/services/} \quad \path{js/views/} \quad \path{js/utils/}}
   \end{tcolorbox}
 
   \vspace{3pt}
@@ -535,7 +541,7 @@ Caso prefira consultar, clonar ou comparar os arquivos diretamente no repositór
   \end{tcolorbox}
 \end{mockupNavegador}
 
-\begin{boxCodigoHTML}
+\begin{boxCodigoHTML}[index.html]
 <!-- index.html (Parte 1: Estrutura Base e Scripts) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -660,7 +666,7 @@ Abra o \texttt{index.html} no navegador via \textbf{Live Server}:
   \item Seletor de categorias locais e badges dos módulos visíveis e funcionais;
   \item Área central vazia, pronta para receber os cards dinâmicos via JavaScript.
 \end{enumerate}
-\textit{Nota: Erros 404 no Console para \texttt{styles.css} e \texttt{js/main.js} são esperados até os Passos 1.3 e 5. O modal abrirá após estruturado no Passo 1.2.}
+\textit{Nota: Erros 404 no Console para \texttt{styles.css} e \path{js/main.js} são esperados até os Passos 1.3 e 5. O modal abrirá após estruturado no Passo 1.2.}
 \end{boxTeste}
 
 \clearpage
@@ -734,7 +740,7 @@ Abra o \texttt{index.html} no navegador via \textbf{Live Server}:
   \end{tcolorbox}
 \end{mockupNavegador}
 
-\begin{boxCodigoHTML}
+\begin{boxCodigoHTML}[index.html]
 <!-- index.html (Inserir logo após </main> e imediatamente antes de <script>) -->
 <!-- ====================================================================== -->
 <!-- PARTE 2: MODAL DE CADASTRO E EDIÇÃO (Não apaga a Parte 1!)             -->
@@ -843,7 +849,8 @@ Atualize o navegador e clique no botão amarelo \textbf{"Divulgar Serviço"}:
 \textbf{Responsabilidade Arquitetural:} Definir variáveis de cores institucionais do IFSC Garopaba, aplicar tipografia Google Fonts (\textit{Outfit} e \textit{Plus Jakarta Sans}), o gradiente no cabeçalho e a elevação suave nos cards (\texttt{transform: translateY(-5px)}).
 \end{boxAtividade}
 
-\begin{boxCodigoHTML}
+\manterJunto{38}
+\begin{boxCodigoCSS}[styles.css]
 /* styles.css */
 :root {
   --ifsc-green: #059669;
@@ -882,14 +889,14 @@ body {
   font-size: 0.85rem;
   font-weight: 700;
 }
-\end{boxCodigoHTML}
+\end{boxCodigoCSS}
 
 \begin{boxTeste}[{Checkpoint de Validação 1.3: Como Testar a Estilização}]
 Salve \texttt{styles.css} na mesma pasta do \texttt{index.html} e atualize a página:
 \begin{enumerate}[leftmargin=*, nosep]
   \item O banner superior exibe o \textbf{degradê verde} com tipografia branca;
   \item O contador surge como uma pílula translúcida ao lado de \textbf{"Divulgar Serviço"};
-  \item No Console (F12), o erro 404 de \texttt{styles.css} desaparece (o de \texttt{js/main.js} segue até o Passo 5).
+  \item No Console (F12), o erro 404 de \texttt{styles.css} desaparece (o de \path{js/main.js} segue até o Passo 5).
 \end{enumerate}
 \end{boxTeste}
 
@@ -899,13 +906,15 @@ Salve \texttt{styles.css} na mesma pasta do \texttt{index.html} e atualize a pá
 \end{boxAtividade}
 
 \vspace{-0.1cm}
+\manterJunto{3}
 \begin{boxCroqui}[{Croqui Visual 2: Fluxo Puro de Entrada e Saida}]
 [ "48999998888" ] --------> [ formatarTelefone() ] --------> "(48) 99999-8888"
 [ 35.5          ] --------> [ formatarMoeda()    ] --------> "R$ 35,50"
 [ "<script>..." ] --------> [ escapeHtml()       ] --------> "&lt;script&gt;..."
 \end{boxCroqui}
 
-\begin{boxCodigoJS}
+\manterJunto{25}
+\begin{boxCodigoJS}[js/utils/formatters.js]
 // js/utils/formatters.js
 export function formatarMoeda(valor) {
   const num = parseFloat(valor) || 0;
@@ -935,6 +944,7 @@ export function escapeHtml(texto) {
 
 \begin{boxTeste}[{Checkpoint de Validação 2: Teste via Console do Navegador (F12)}]
 No Console do navegador (\textbf{F12}), execute:
+\manterJunto{1}
 \begin{boxCodigoJS}
 import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9)));
 \end{boxCodigoJS}
@@ -947,13 +957,14 @@ import('./js/utils/formatters.js').then(m => console.log(m.formatarMoeda(149.9))
 \end{boxAtividade}
 
 \vspace{-0.1cm}
+\manterJunto{3}
 \begin{boxCroqui}[{Croqui Visual 3: Arquitetura da Camada de Servicos e Carga Inicial}]
 [ DADOS_INICIAIS ] ---> [ carregarDadosIniciais() ] ---> [ LocalStorage ]
                                                                 |
 [ Interface / main.js ] <--(obterServicos, salvar, atualizar)---+
 \end{boxCroqui}
 
-\begin{boxCodigoJS}
+\begin{boxCodigoJS}[js/services/vitrineService.js]
 // js/services/vitrineService.js
 const STORAGE_KEY = 'garopaba_vitrine_servicos';
 
@@ -1045,6 +1056,7 @@ export function removerServico(id) {
 \vspace{-0.25cm}
 \begin{boxTeste}[{Checkpoint de Validação 3: Teste de Persistência no Console (F12)}]
 No Console (\textbf{F12}), teste a carga e a persistência dos dados:
+\manterJunto{4}
 \begin{boxCodigoJS}
 import('./js/services/vitrineService.js').then(s => {
   s.carregarDadosIniciais();
@@ -1089,7 +1101,7 @@ import('./js/services/vitrineService.js').then(s => {
 \end{center}
 \vspace{-0.35cm}
 
-\begin{boxCodigoJS}
+\begin{boxCodigoJS}[js/views/vitrineView.js]
 // js/views/vitrineView.js
 import { formatarMoeda, formatarTelefone, escapeHtml }
   from '../utils/formatters.js';
@@ -1185,6 +1197,7 @@ export function exibirToast(mensagem, tipo = 'success') {
 \vspace{-0.25cm}
 \begin{boxTeste}[{Checkpoint de Validação 4: Teste do Toast no Console (F12)}]
 No Console (\textbf{F12}), teste a notificação flutuante:
+\manterJunto{1}
 \begin{boxCodigoJS}
 import('./js/views/vitrineView.js').then(v => v.exibirToast('Notificação funcionando!'));
 \end{boxCodigoJS}
@@ -1197,13 +1210,14 @@ import('./js/views/vitrineView.js').then(v => v.exibirToast('Notificação funci
 \end{boxAtividade}
 
 \vspace{-0.1cm}
+\manterJunto{3}
 \begin{boxCroqui}[{Croqui Visual 5: Ciclo de Vida da Orquestracao}]
 Usuario clica/submete ---> main.js valida ---> vitrineService (localStorage)
                                                       |
 Interface renderiza cards <--- vitrineView <----------+ (atualizarInterface)
 \end{boxCroqui}
 
-\begin{boxCodigoJS}
+\begin{boxCodigoJS}[js/main.js]
 // js/main.js
 import {
   obterServicos, salvarServico,
@@ -1365,16 +1379,21 @@ Aplicação 100\% integrada! Execute o fluxo completo no navegador:
 % =====================================================
 
 \clearpage
-\subsection{Checklist de Conclusão e Critérios Avaliativos}
+\section{Checklist de Conclusão e Critérios Avaliativos}\label{sec:m4a}
 
 Antes de realizar o commit final no repositório, certifique-se de validar todos os itens:
 
+\begin{checklist}
 \begin{itemize}
-\item[$\Box$] O projeto utiliza estritamente o padrão ES6 Modules com a tag:\\ \texttt{<script type="module" src="js/main.js"></script>};
-\item[$\Box$] A estrutura em pastas (\texttt{js/services/}, \texttt{js/views/}, \texttt{js/utils/}) foi rigorosamente respeitada;
-\item[$\Box$] O arquivo \texttt{vitrineService.js} opera puramente sobre o \texttt{localStorage} sem manipular elementos do DOM;
-\item[$\Box$] As quatro operações do CRUD (\textbf{Create, Read, Update e Delete}) foram implementadas e testadas com persistência no navegador;
-\item[$\Box$] O formulário exibe validações visuais nativas do Bootstrap 5 (\texttt{.was-validated} e \texttt{.invalid-feedback}) quando campos obrigatórios não são preenchidos;
-\item[$\Box$] A vitrine reage instantaneamente aos filtros de categoria sem recarregar a página;
-\item[$\Box$] O código está devidamente publicado e em pleno funcionamento no \textbf{GitHub Pages}.
+\item[\caixaMarcar] O projeto utiliza estritamente o padrão ES6 Modules com a tag:\\ \texttt{<script type="module" src="js/main.js"></script>};
+\item[\caixaMarcar] A estrutura em pastas (\path{js/services/}, \path{js/views/}, \path{js/utils/}) foi rigorosamente respeitada;
+\item[\caixaMarcar] O arquivo \texttt{vitrineService.js} opera puramente sobre o \texttt{localStorage} sem manipular elementos do DOM;
+\item[\caixaMarcar] As quatro operações do CRUD (\textbf{Create, Read, Update e Delete}) foram implementadas e testadas com persistência no navegador;
+\item[\caixaMarcar] O formulário exibe validações visuais nativas do Bootstrap 5 (\texttt{.was-validated} e \texttt{.invalid-feedback}) quando campos obrigatórios não são preenchidos;
+\item[\caixaMarcar] A vitrine reage instantaneamente aos filtros de categoria sem recarregar a página;
+\item[\caixaMarcar] O código está devidamente publicado e em pleno funcionamento no \textbf{GitHub Pages}.
 \end{itemize}
+\end{checklist}
+
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba\par}

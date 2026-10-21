@@ -1,55 +1,53 @@
-\section{Roteiro Prático 05 (Parte 1) — Assincronismo, Fetch API \& Microbackend Flask}
-
 % =====================================================
-% OBJETIVOS DA ATIVIDADE
+% CAPA / ABERTURA
 % =====================================================
+\capaRoteiro{\faServer}{Assincronismo, Fetch API \& Flask}
+  {Parte 1 — Fundamentos e mini-exemplos: do navegador a um servidor de verdade}
+  {\chip{\faLayerGroup}{Módulo 3}\hspace{4pt}
+   \chip{\faTools}{VS Code · Live Server · Python Flask}\hspace{4pt}
+   \chip{\faLink}{Pré-requisito: Roteiro 04}}
 
-\begin{boxObjetivos}[Objetivos de Aprendizagem — Roteiro 05 (Parte 1: Fundamentos \& Mini-Exemplos)]
-\textbf{Objetivos de Aprendizagem (Módulo 3 — Assincronismo \& Integração de Serviços Web)}
+\vspace{0.4em}
+\cartoesUC{Quatro mini-exemplos funcionando: Fetch GET, Flask com CORS, Fetch POST e spinner com tratamento de erros}
 
-Ao final desta prática orientada em laboratório, o estudante será capaz de:
-
-\begin{itemize}[leftmargin=*]
-\item Compreender a transição do armazenamento isolado no navegador (\texttt{localStorage}) para a \textbf{arquitetura Cliente-Servidor real}, onde os dados são centralizados e compartilhados em rede;
-\item Compreender o funcionamento interno e o ciclo de vida de requisições assíncronas utilizando a moderna \textbf{Fetch API} nativa com \texttt{async/await} e Promises;
-\item Instalar, configurar e executar microbackends em \textbf{Python Flask}, entendendo o papel das rotas HTTP, verbos fundamentais (\texttt{GET}, \texttt{POST}) e serialização de dados em formato JSON;
-\item Compreender a diferença arquitetural entre frameworks leves de microsserviços (como o Flask) e pilhas tradicionais completas com servidores de aplicação integrados (como o Apache/XAMPP);
-\item Identificar e resolver o mecanismo de proteção de segurança \textbf{CORS} (\textit{Cross-Origin Resource Sharing}), compreendendo por que o navegador bloqueia chamadas entre origens distintas e como liberar o acesso com \texttt{flask-cors};
-\item Implementar tratamento defensivo de erros de rede utilizando blocos \textbf{\texttt{try/catch/finally}}, garantindo resiliência quando o servidor estiver indisponível;
-\item Desenvolver interfaces reativas capazes de fornecer feedback visual imediato ao usuário através de \textbf{Spinners de Carregamento} e desativação temporária de controles.
+\begin{boxObjetivos}
+\begin{itemize}
+  \item \textbf{Explicar a passagem do \texttt{localStorage} para a arquitetura cliente-servidor}, em que os dados ficam num servidor e são compartilhados em rede;
+  \item \textbf{Fazer requisições assíncronas com a Fetch API}, usando \texttt{async/await} e Promises;
+  \item \textbf{Criar e executar um microbackend em Python Flask}, com rotas HTTP (\texttt{GET}, \texttt{POST}) que respondem em JSON;
+  \item \textbf{Comparar o Flask com pilhas tradicionais} completas, como Apache/XAMPP;
+  \item \textbf{Entender e liberar o CORS}: por que o navegador bloqueia chamadas entre origens diferentes e como o \texttt{flask-cors} resolve isso;
+  \item \textbf{Tratar falhas de rede com \texttt{try/catch/finally}}, mantendo a aplicação de pé quando o servidor está fora do ar;
+  \item \textbf{Dar feedback visual imediato}, com spinner de carregamento e botões desativados durante a requisição.
 \end{itemize}
 \end{boxObjetivos}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.88\textwidth]{roteiro5_fetch_api.jpg}
-    \caption{Visão Geral da Aplicação: Vitrine Comunitária conectada via Fetch API com backend RESTful em Flask e persistência relacional SQLite.}
-    \label{fig:preview_roteiro5}
-\end{figure}
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Ler dados com Fetch GET}{Lista preenchida a partir de um JSON, sem recarregar a página (Seção~\ref{sec:pilula1})}
+\etapaMapa{verdeVivo}{2}{Primeiro servidor Flask}{API em Python e a liberação do CORS (Seção~\ref{sec:pilula2})}
+\etapaMapa{ambar}{3}{Enviar dados com Fetch POST}{Formulário que grava no servidor (Seção~\ref{sec:pilula3})}
+\etapaMapa{roxo}{4}{Resiliência e feedback}{Spinner e \texttt{try/catch/finally} (Seções~\ref{sec:pilula4} a~\ref{sec:gabarito})}
+\end{mapaAula}
 
 % =====================================================
-% INTRODUÇÃO E EVOLUÇÃO ARQUITETURAL
+% 1. ONDE ESTE ROTEIRO SE ENCAIXA
 % =====================================================
+\section{Onde este roteiro se encaixa}\label{sec:trilha}
 
-\subsection{Introdução: Da Vitrine Isolada à Aplicação em Rede}
+\trilhaRoteiros{5}
 
-No \textbf{Roteiro Prático 04}, organizamos o frontend na arquitetura modular com ES6 Modules (\texttt{services/}, \texttt{views/}, \texttt{utils/}), porém os dados residiam unicamente no \texttt{localStorage} da máquina local. Na prática comercial, os dados precisam ser compartilhados instantaneamente entre diversos computadores e celulares através de um \textbf{servidor central com banco de dados}.
+No \textbf{Roteiro Prático 04}, organizamos o frontend na arquitetura modular com ES6 Modules (\path{services/}, \path{views/}, \path{utils/}), porém os dados residiam unicamente no \texttt{localStorage} da máquina local. Na prática comercial, os dados precisam ser compartilhados instantaneamente entre diversos computadores e celulares através de um \textbf{servidor central com banco de dados}.
 
-\vspace{0.2cm}
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|X|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Critério de Comparação} & \textbf{Roteiro 04 (Armazenamento Isolado)} & \textbf{Roteiro 05 (Aplicação em Rede)} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Onde os dados residem?} & No \texttt{localStorage} de cada navegador. & Em banco relacional SQLite (\texttt{vitrine.db}) no servidor. \\ \hline
-\textbf{Compartilhamento em rede?} & Impossível (dados presos no computador local). & Imediato (qualquer cliente na rede consulta os dados). \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Persistência e integridade} & Limpeza de histórico ou aba anônima apaga tudo. & Arquivo de banco relacional seguro e persistente no disco. \\ \hline
-\textbf{Arquitetura de software} & Monólito no cliente com funções síncronas. & Arquitetura Cliente-Servidor desacoplada com Fetch API e REST. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Critério de Comparação} & \cab{Roteiro 04 (Armazenamento Isolado)} & \cab{Roteiro 05 (Aplicação em Rede)} \\
+Onde os dados residem? & No \texttt{localStorage} de cada navegador. & Em banco relacional SQLite (\texttt{vitrine.db}) no servidor. \\
+Compartilhamento em rede? & Impossível (dados presos no computador local). & Imediato (qualquer cliente na rede consulta os dados). \\
+Persistência e integridade & Limpeza de histórico ou aba anônima apaga tudo. & Arquivo de banco relacional seguro e persistente no disco. \\
+Arquitetura de software & Monólito no cliente com funções síncronas. & Arquitetura Cliente-Servidor desacoplada com Fetch API e REST. \\
 \end{tabularx}
 \caption{Evolução arquitetural do Roteiro 04 para o Roteiro 05.}
 \end{table}
@@ -58,9 +56,17 @@ No \textbf{Roteiro Prático 04}, organizamos o frontend na arquitetura modular c
 % DIAGRAMA DA ARQUITETURA CLIENTE-SERVIDOR
 % =====================================================
 
-\subsection{Visão Geral da Arquitetura Cliente-Servidor}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.78\textwidth]{roteiro5_fetch_api.jpg}
+    \caption{Visão Geral da Aplicação: Vitrine Comunitária conectada via Fetch API com backend RESTful em Flask e persistência relacional SQLite.}
+    \label{fig:preview_roteiro5}
+\end{figure}
+
+\section{Visão Geral da Arquitetura Cliente-Servidor}
 
 \begin{center}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tikzpicture}[
     node distance=1.5cm and 2.2cm,
     caixa/.style={rectangle, draw=azulTitulo, rounded corners=5pt, fill=azulTitulo!6, line width=1pt, align=center, inner sep=8pt, font=\small},
@@ -84,21 +90,18 @@ No \textbf{Roteiro Prático 04}, organizamos o frontend na arquitetura modular c
 \draw[seta, color=pyKeyword] (banco.south west) to[bend left=15] node[midway, below, font=\footnotesize] {Cursor / Rows} (api.south east);
 
 \end{tikzpicture}
+\end{adjustbox}
 \end{center}
 
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|l|l|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Camada} & \textbf{Tecnologia} & \textbf{Porta / Endereço} & \textbf{Responsabilidade Principal} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Frontend} & HTML5, CSS3, JS ES6 & Porta \texttt{5500} (Live Server) & Renderizar a interface, capturar ações e disparar \texttt{fetch()}. \\ \hline
-\textbf{Backend} & Python Flask + CORS & Porta \texttt{5000} (Localhost) & Roteamento HTTP, validação de regras de negócio e entrega de JSON. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Banco} & SQLite 3 em Arquivo & Arquivo \texttt{vitrine.db} & Persistência relacional em disco, comandos SQL e integridade ACID. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RllY}
+\cabecalho \cab{Camada} & \cab{Tecnologia} & \cab{Porta / Endereço} & \cab{Responsabilidade Principal} \\
+Frontend & HTML5, CSS3, JS ES6 & Porta \texttt{5500} (Live Server) & Renderizar a interface, capturar ações e disparar \texttt{fetch()}. \\
+Backend & Python Flask + CORS & Porta \texttt{5000} (Localhost) & Roteamento HTTP, validação de regras de negócio e entrega de JSON. \\
+Banco & SQLite 3 em Arquivo & Arquivo \texttt{vitrine.db} & Persistência relacional em disco, comandos SQL e integridade ACID. \\
 \end{tabularx}
 \caption{Papéis e tecnologias em cada camada da arquitetura.}
 \end{table}
@@ -107,15 +110,12 @@ No \textbf{Roteiro Prático 04}, organizamos o frontend na arquitetura modular c
 % ESTRUTURA DE DIRETÓRIOS DO PROJETO
 % =====================================================
 
-\subsection{Estrutura de Pastas do Projeto Integrado}
+\manterJunto{16}
+\section{Estrutura de Pastas do Projeto Integrado}
 
-Para manter o desacoplamento saudável entre a camada de backend e a camada de frontend, organizaremos o projeto na pasta \texttt{roteiro-5/exercicio-roteiro5/} com a seguinte estrutura:
+Para manter o desacoplamento saudável entre a camada de backend e a camada de frontend, organizaremos o projeto na pasta \path{roteiro-5/exercicio-roteiro5/} com a seguinte estrutura:
 
-\begin{boxCodigo}
-\textbf{Árvore de Diretórios do Projeto Integrado (Full-Stack Didático):}
-
-\fontsize{8.5pt}{11pt}\selectfont
-\begin{verbatim}
+\begin{arvore}[Árvore de Diretórios do Projeto Integrado (Full-Stack Didático)]
 roteiro-5/exercicio-roteiro5/
 |-- backend/
 |   |-- requirements.txt   <-- Dependências Python (Flask, flask-cors)
@@ -132,39 +132,32 @@ roteiro-5/exercicio-roteiro5/
         |   `-- vitrineView.js    <-- Renderizador de cards, spinner e toasts
         `-- utils/
             `-- formatters.js     <-- Formatações (100% inalterado!)
-\end{verbatim}
-\end{boxCodigo}
+\end{arvore}
 
-\vspace{0.2cm}
-\begin{tcolorbox}[colback=ifscGreen!10, colframe=ifscGreen, title=\textbf{Princípio do Desacoplamento Arquitetural}, arc=3pt]
-Observe atentamente que a camada utilitária (\texttt{formatters.js}) e grande parte da camada de visão (\texttt{vitrineView.js}) **permanecem exatamente as mesmas do Roteiro 04**. Toda a migração de tecnologia ocorre de forma isolada no \texttt{vitrineService.js}. Este é o maior benefício do padrão arquitetural que aprendemos!
-\end{tcolorbox}
+\begin{sucesso}{Princípio do desacoplamento arquitetural}
+Observe atentamente que a camada utilitária (\texttt{formatters.js}) e grande parte da camada de visão (\texttt{vitrineView.js}) \textbf{permanecem exatamente as mesmas do Roteiro 04}. Toda a migração de tecnologia ocorre de forma isolada no \texttt{vitrineService.js}. Este é o maior benefício do padrão arquitetural que aprendemos!
+\end{sucesso}
 
 % =====================================================
 % FUNDAMENTAÇÃO TEÓRICA
 % =====================================================
 
-\subsection{Conceitos Fundamentais em Pílulas Práticas de Aquecimento}
+\section{Pílulas práticas de aquecimento}\label{sec:pilulas}
 
 Antes de iniciarmos a construção da arquitetura completa da Vitrine Comunitária (que integrará banco de dados relacional persistente, camadas modulares em ES6 e contingência offline), realizaremos \textbf{4 mini-práticas guiadas de aquecimento}. 
 
 Cada pílula introduz um conceito arquitetural isolado e fornece o código \textbf{100\% completo} para ser executado imediatamente pelos estudantes no laboratório em poucos minutos.
 
-\vspace{0.2cm}
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|X|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Aspecto} & \textbf{Diagnóstico Técnico} & \textbf{Solução Implementada no Roteiro} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Separação de Papéis} & Misturar HTML com lógica JS dificulta manutenção e reaproveitamento. & Arquivos estritamente separados: estrutura no \texttt{index.html} e lógica em \texttt{functions.js}. \\ \hline
-\textbf{Desafio: Race Condition} & Se o script rodar no \texttt{<head>} antes do HTML carregar, \texttt{document.getElementById} retorna \texttt{null}. & Gera o clássico erro fatal: \texttt{Cannot read properties of null (reading 'addEventListener')}. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Solução HTML (\texttt{defer})} & Bloqueio da renderização da página durante o download do script. & \texttt{<script src="functions.js" defer></script>}: download assíncrono em segundo plano e execução após o HTML pronto. \\ \hline
-\textbf{Solução JS (DOM Ready)} & Mapeamento de nós em momentos imprevisíveis do ciclo de vida. & \texttt{document.addEventListener('DOMContentLoaded', () => \{ ... \})}: amarra eventos apenas com os nós criados na memória. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Aspecto} & \cab{Diagnóstico Técnico} & \cab{Solução Implementada no Roteiro} \\
+Separação de Papéis & Misturar HTML com lógica JS dificulta manutenção e reaproveitamento. & Arquivos estritamente separados: estrutura no \texttt{index.html} e lógica em \texttt{functions.js}. \\
+Desafio: Race Condition & Se o script rodar no \texttt{<head>} antes do HTML carregar, \texttt{document.getElementById} retorna \texttt{null}. & Gera o clássico erro fatal: \texttt{Cannot read properties of null (reading 'addEventListener')}. \\
+Solução HTML (\texttt{defer}) & Bloqueio da renderização da página durante o download do script. & \texttt{<script src="functions.js" defer></script>}: download assíncrono em segundo plano e execução após o HTML pronto. \\
+Solução JS (DOM Ready) & Mapeamento de nós em momentos imprevisíveis do ciclo de vida. & \texttt{document.addEventListener(}\allowbreak\texttt{'DOMContentLoaded',}\allowbreak\texttt{ () => \{ ... \})}: amarra eventos apenas com os nós criados na memória. \\
 \end{tabularx}
 \caption{Ciclo de vida do DOM e estratégia de carregamento seguro de scripts.}
 \end{table}
@@ -172,29 +165,28 @@ Cada pílula introduz um conceito arquitetural isolado e fornece o código \text
 % -----------------------------------------------------------------
 % PÍLULA 1
 % -----------------------------------------------------------------
-\subsubsection{Pílula 1: Assincronismo e Leitura de Dados com Fetch API (GET)}
+\section{Pílula 1: Assincronismo e Leitura de Dados com Fetch API (GET)}\label{sec:pilula1}
 
-\textbf{Fundamentação Teórica:} Operações de rede não podem ser executadas de forma síncrona (\textit{bloqueante}), pois o navegador congelaria a tela. O JavaScript moderno utiliza \textbf{Promises} com as palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}}. A função \textbf{\texttt{fetch(url)}} dispara a requisição e \textbf{\texttt{await resposta.json()}} converte o fluxo HTTP em objetos utilizáveis.
+\begin{conceito}{Fundamentação teórica}
+Operações de rede não podem ser executadas de forma síncrona (\textit{bloqueante}), pois o navegador congelaria a tela. O JavaScript moderno utiliza \textbf{Promises} com as palavras-chave \textbf{\texttt{async}} e \textbf{\texttt{await}}. A função \textbf{\texttt{fetch(url)}} dispara a requisição e \textbf{\texttt{await resposta.json()}} converte o fluxo HTTP em objetos utilizáveis.
+\end{conceito}
 
 \begin{boxAtividade}[Mini-Exemplo 1: Leitura Assíncrona de Arquivo JSON com Fetch GET]
 \textbf{Objetivo Prático:} Ler um vetor de serviços em formato JSON e preencher dinamicamente uma lista HTML na tela sem recarregar a página, com script externo e controle do DOM.
 \end{boxAtividade}
 
-\begin{tcolorbox}[
-    enhanced, colback=azulTitulo!3, colframe=azulTitulo!40,
-    arc=3pt, boxrule=0.6pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
-    title={\small\textbf{Código-Fonte Completo no GitHub (Mini-Exemplo 1)}}
-]
-\small Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
-\begin{itemize}[leftmargin=*, nosep]
-  \item \texttt{dados.json} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/01-fetch-get/dados.json}{\underline{\textcolor{azulTitulo}{Abrir dados.json no GitHub}}}
-  \item \texttt{index.html} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/01-fetch-get/index.html}{\underline{\textcolor{azulTitulo}{Abrir index.html no GitHub}}}
-  \item \texttt{functions.js} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/01-fetch-get/functions.js}{\underline{\textcolor{azulTitulo}{Abrir functions.js no GitHub}}}
+\begin{repositorio}{Código-fonte completo no GitHub (Mini-Exemplo 1)}
+Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
+\begin{itemize}[nosep]
+  \item \texttt{dados.json} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/01-fetch-get/dados.json}{Abrir dados.json no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{index.html} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/01-fetch-get/index.html}{Abrir index.html no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{functions.js} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/01-fetch-get/functions.js}{Abrir functions.js no GitHub\,{\scriptsize\faExternalLinkAlt}}
 \end{itemize}
-\end{tcolorbox}
+\end{repositorio}
 
-\textbf{Passo 1.1: Criar o arquivo de dados (\texttt{mini-exemplos/01-fetch-get/dados.json}):}
-\begin{boxCodigoJS}[]
+\manterJunto{5}
+\passo{1.1}{Criar o arquivo de dados}
+\begin{boxCodigoJS}[mini-exemplos/01-fetch-get/dados.json]
 [
   { "id": 1, "nome": "Maré Alta Artesanatos", "preco": 35.00 },
   { "id": 2, "nome": "Garopaba Web Studio", "preco": 150.00 },
@@ -202,8 +194,9 @@ Cada pílula introduz um conceito arquitetural isolado e fornece o código \text
 ]
 \end{boxCodigoJS}
 
-\textbf{Passo 1.2: Criar a página HTML estrutural (\texttt{mini-exemplos/01-fetch-get/index.html}):}
-\begin{boxCodigoHTML}
+\manterJunto{30}
+\passo{1.2}{Criar a página HTML estrutural}
+\begin{boxCodigoHTML}[mini-exemplos/01-fetch-get/index.html]
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -236,9 +229,9 @@ Cada pílula introduz um conceito arquitetural isolado e fornece o código \text
 </html>
 \end{boxCodigoHTML}
 
-\newpage
-\textbf{Passo 1.3: Criar a lógica assíncrona desacoplada (\texttt{mini-exemplos/01-fetch-get/functions.js}):}
-\begin{boxCodigoJS}
+\manterJunto{33}
+\passo{1.3}{Criar a lógica assíncrona desacoplada}
+\begin{boxCodigoJS}[mini-exemplos/01-fetch-get/functions.js]
 // 1. Função assíncrona dedicada
 async function carregarServicos(listaServicos) {
   try {
@@ -281,32 +274,27 @@ Abra o arquivo \texttt{index.html} com a extensão \textbf{Live Server} do VS Co
 % -----------------------------------------------------------------
 % PÍLULA 2
 % -----------------------------------------------------------------
-\newpage
-\subsubsection{Pílula 2: Microbackend Flask e a Política de Mesma Origem (CORS)}
+\section{Pílula 2: Microbackend Flask e a Política de Mesma Origem (CORS)}\label{sec:pilula2}
 
-\textbf{Fundamentação Teórica: Os Três Pilares do Microframework Flask}
-
+\begin{conceito}{Fundamentação teórica: os três pilares do Flask}
 Em uma arquitetura web moderna desacoplada, os dados são entregues por uma API RESTful remota. Na linguagem Python, o \textbf{Flask} é a ferramenta de referência devido a três características essenciais sintetizadas no quadro a seguir:
+\end{conceito}
 
-\vspace{0.2cm}
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|X|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Pilar Conceitual} & \textbf{Características e Funcionamento} & \textbf{Vantagem Didática e Prática} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{1. Filosofia "Micro"} & Núcleo enxuto (\textit{lean core}) baseado no roteador \textit{Werkzeug} e no motor de templates \textit{Jinja2}. Não impõe estruturas rígidas como o Django. & Liberdade total para estruturar o código e focar exclusivamente no roteamento e no JSON. \\ \hline
-\textbf{2. Aplicações Típicas} & APIs RESTful para Single Page Applications (SPAs), microsserviços distribuídos em nuvem e APIs preditivas para modelos de IA. & É o padrão consagrado da indústria para criar serviços rápidos, robustos e leves. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{3. Ciclo de Vida WSGI} & Roteamento declarativo com decoradores Python: \texttt{@app.route('/api/...', methods=['GET', 'POST'])} associados a funções executáveis. & Respostas padronizadas em JSON puro via \texttt{jsonify()}, com controle explícito de status HTTP. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Pilar Conceitual} & \cab{Características e Funcionamento} & \cab{Vantagem Didática e Prática} \\
+1. Filosofia "Micro" & Núcleo enxuto (\textit{lean core}) baseado no roteador \textit{Werkzeug} e no motor de templates \textit{Jinja2}. Não impõe estruturas rígidas como o Django. & Liberdade total para estruturar o código e focar exclusivamente no roteamento e no JSON. \\
+2. Aplicações Típicas & APIs RESTful para Single Page Applications (SPAs), microsserviços distribuídos em nuvem e APIs preditivas para modelos de IA. & É o padrão consagrado da indústria para criar serviços rápidos, robustos e leves. \\
+3. Ciclo de Vida WSGI & Roteamento declarativo com decoradores Python: \texttt{@app.route('/api/...', methods=['GET', 'POST'])} associados a funções executáveis. & Respostas padronizadas em JSON puro via \texttt{jsonify()}, com controle explícito de status HTTP. \\
 \end{tabularx}
 \caption{Visão sintetizada dos três pilares do microframework Flask.}
 \end{table}
 
 \begin{center}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tikzpicture}[
     node distance=1.0cm and 1.8cm,
     caixaCliente/.style={rectangle, draw=azulTitulo, rounded corners=5pt, fill=azulTitulo!6, line width=1pt, align=center, inner sep=6pt, font=\footnotesize},
@@ -331,14 +319,15 @@ Em uma arquitetura web moderna desacoplada, os dados são entregues por uma API 
 \draw[seta, color=ifscGreen] (cors.north) -- node[midway, left, font=\scriptsize] {4. Resposta 200 OK} (cliente.south);
 
 \end{tikzpicture}
+\end{adjustbox}
 \end{center}
 
-\newpage
-\textbf{Comparativo Didático: Pilha Tradicional (XAMPP) vs. Microframework Moderno (Flask)}
+\subsection{Comparativo: pilha tradicional (XAMPP) × microframework (Flask)}
 
 Muitos estudantes já utilizaram o pacote \textbf{XAMPP} (\textit{Apache, MySQL, PHP}) em disciplinas introdutórias. O diagrama e a tabela a seguir mostram o contraste didático entre a arquitetura monolítica clássica e o modelo moderno desacoplado:
 
 \begin{center}
+\begin{adjustbox}{max width=\linewidth}
 \begin{tikzpicture}[
     node distance=1.0cm and 1.4cm,
     blocoX/.style={rectangle, draw=vermelhoCodigo, rounded corners=4pt, fill=vermelhoCodigo!6, line width=0.9pt, align=center, inner sep=5pt, font=\scriptsize},
@@ -371,43 +360,35 @@ Muitos estudantes já utilizaram o pacote \textbf{XAMPP} (\textit{Apache, MySQL,
 \node[left=0.2cm of f_cli, font=\bfseries\scriptsize, color=ifscGreen] {FLASK:};
 
 \end{tikzpicture}
+\end{adjustbox}
 \end{center}
 
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|X|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Aspecto} & \textbf{Pilha Tradicional (XAMPP / PHP)} & \textbf{Microframework Moderno (Flask / Python)} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Servidor Web} & Apache como serviço externo do SO (painel XAMPP, portas 80/443). & Servidor HTTP embutido no script Python (\texttt{app.run(port=5000)}). \\ \hline
-\textbf{Roteamento} & Acoplado à árvore física de arquivos no disco (\texttt{/script.php}). & Declarativo, semântico e desacoplado (\texttt{@app.route('/api/...')}). \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Formato de Saída} & Renderização no servidor misturando lógica e HTML (\textit{SSR Monolítico}). & API REST desacoplada retornando dados em JSON puro (\texttt{jsonify()}). \\ \hline
-\textbf{Banco de Dados} & MySQL em rede gerenciado via navegador no phpMyAdmin. & SQLite embutido em arquivo único (\texttt{vitrine.db}), zero configuração externa. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{Experiência do Usuário} & Recarregamento síncrono da página inteira no navegador. & Requisições assíncronas em segundo plano via Fetch API (\texttt{async/await}). \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Aspecto} & \cab{Pilha Tradicional (XAMPP / PHP)} & \cab{Microframework Moderno (Flask / Python)} \\
+Servidor Web & Apache como serviço externo do SO (painel XAMPP, portas 80/443). & Servidor HTTP embutido no script Python (\texttt{app.run(port=5000)}). \\
+Roteamento & Acoplado à árvore física de arquivos no disco (\path{/script.php}). & Declarativo, semântico e desacoplado (\texttt{@app.route('/api/...')}). \\
+Formato de Saída & Renderização no servidor misturando lógica e HTML (\textit{SSR Monolítico}). & API REST desacoplada retornando dados em JSON puro (\texttt{jsonify()}). \\
+Banco de Dados & MySQL em rede gerenciado via navegador no phpMyAdmin. & SQLite embutido em arquivo único (\texttt{vitrine.db}), zero configuração externa. \\
+Experiência do Usuário & Recarregamento síncrono da página inteira no navegador. & Requisições assíncronas em segundo plano via Fetch API (\path{async/await}). \\
 \end{tabularx}
 \caption{Quadro comparativo didático entre XAMPP e Flask.}
 \end{table}
 
-\textbf{Como verificar e instalar o Flask no computador:}
+\subsection{Como verificar e instalar o Flask no computador}
 
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Ação no Terminal} & \textbf{Comandos Executáveis (Windows, macOS e Linux)} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{1. Verificar Versão} & \texttt{python -m flask --version} (Windows) \quad/\quad \texttt{python3 -m flask --version} (macOS/Linux) \\ \hline
-\textbf{2. Instalar Pacotes} & \texttt{pip install flask flask-cors} \quad/\quad \texttt{python3 -m pip install flask flask-cors} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{3. Por que o CORS?} & O navegador bloqueia requisições entre origens com portas distintas (\texttt{5500} vs \texttt{5000}) pela Política de Mesma Origem (SOP). O \texttt{flask-cors} anexa o cabeçalho liberador: \texttt{Access-Control-Allow-Origin: *}. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RY}
+\cabecalho \cab{Ação no Terminal} & \cab{Comandos Executáveis (Windows, macOS e Linux)} \\
+1. Verificar Versão & \texttt{python -m flask --version} (Windows) \quad/\quad \texttt{python3 -m flask --version} (macOS/Linux) \\
+2. Instalar Pacotes & \texttt{pip install flask flask-cors} \quad/\quad \texttt{python3 -m pip install flask flask-cors} \\
+3. Por que o CORS? & O navegador bloqueia requisições entre origens com portas distintas (\texttt{5500} vs \texttt{5000}) pela Política de Mesma Origem (SOP). O \texttt{flask-cors} anexa o cabeçalho liberador: \texttt{Access-Control-Allow-Origin: *}. \\
 \end{tabularx}
 \caption{Guia prático de comandos de terminal para configuração do Flask.}
 \end{table}
@@ -416,21 +397,17 @@ Muitos estudantes já utilizaram o pacote \textbf{XAMPP} (\textit{Apache, MySQL,
 \textbf{Objetivo Prático:} Executar um microservidor Python em porta distinta e consumi-lo via Fetch a partir do navegador, compreendendo a atuação do CORS com script desacoplado.
 \end{boxAtividade}
 
-\begin{tcolorbox}[
-    enhanced, colback=azulTitulo!3, colframe=azulTitulo!40,
-    arc=3pt, boxrule=0.6pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
-    title={\small\textbf{Código-Fonte Completo no GitHub (Mini-Exemplo 2)}}
-]
-\small Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
-\begin{itemize}[leftmargin=*, nosep]
-  \item \texttt{server.py} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/02-micro-flask-cors/server.py}{\underline{\textcolor{azulTitulo}{Abrir server.py no GitHub}}}
-  \item \texttt{index.html} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/02-micro-flask-cors/index.html}{\underline{\textcolor{azulTitulo}{Abrir index.html no GitHub}}}
-  \item \texttt{functions.js} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/02-micro-flask-cors/functions.js}{\underline{\textcolor{azulTitulo}{Abrir functions.js no GitHub}}}
+\begin{repositorio}{Código-fonte completo no GitHub (Mini-Exemplo 2)}
+Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
+\begin{itemize}[nosep]
+  \item \texttt{server.py} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/02-micro-flask-cors/server.py}{Abrir server.py no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{index.html} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/02-micro-flask-cors/index.html}{Abrir index.html no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{functions.js} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/02-micro-flask-cors/functions.js}{Abrir functions.js no GitHub\,{\scriptsize\faExternalLinkAlt}}
 \end{itemize}
-\end{tcolorbox}
+\end{repositorio}
 
-\textbf{Passo 2.1: Criar o microservidor Python (\texttt{mini-exemplos/02-micro-flask-cors/server.py}):}
-\begin{boxCodigoPY}
+\passo{2.1}{Criar o microservidor Python}
+\begin{boxCodigoPY}[mini-exemplos/02-micro-flask-cors/server.py]
 import os, sys, subprocess, signal, time
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -483,8 +460,9 @@ if __name__ == '__main__':
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
-\textbf{Passo 2.2: Criar a página consumidora (\texttt{mini-exemplos/02-micro-flask-cors/index.html}):}
-\begin{boxCodigoHTML}
+\manterJunto{32}
+\passo{2.2}{Criar a página consumidora}
+\begin{boxCodigoHTML}[mini-exemplos/02-micro-flask-cors/index.html]
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -519,8 +497,9 @@ if __name__ == '__main__':
 </html>
 \end{boxCodigoHTML}
 
-\textbf{Passo 2.3: Criar a lógica de consumo assíncrono (\texttt{mini-exemplos/02-micro-flask-cors/functions.js}):}
-\begin{boxCodigoJS}
+\manterJunto{29}
+\passo{2.3}{Criar a lógica de consumo assíncrono}
+\begin{boxCodigoJS}[mini-exemplos/02-micro-flask-cors/functions.js]
 // 1. Função assíncrona nomeada que consulta a API Flask
 async function consultarStatusApi(resultadoStatus) {
   try {
@@ -553,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
 \end{boxCodigoJS}
 
 \begin{boxTeste}[Como testar a Pílula 2 e observar o CORS em ação]
-\begin{enumerate}[leftmargin=*]
+\begin{enumerate}
   \item No terminal do VS Code, execute: \texttt{python server.py}.
   \item Abra o \texttt{index.html} no Live Server e clique em \textbf{"Verificar Status da API"}. O card exibirá a confirmação verde da cidade de Garopaba.
   \item \textbf{Desafio Didático em Aula:} No \texttt{server.py}, comente temporariamente a linha \texttt{\# CORS(app)} e reinicie o servidor. Ao clicar no botão, abra a aba \textit{Console} do DevTools (F12) e observe o bloqueio em vermelho por violação de CORS! Em seguida, descomente a linha.
@@ -563,27 +542,21 @@ document.addEventListener('DOMContentLoaded', () => {
 % -----------------------------------------------------------------
 % PÍLULA 3
 % -----------------------------------------------------------------
-\newpage
-\subsubsection{Pílula 3: Envio de Dados com Fetch POST e JSON}
+\section{Pílula 3: Envio de Dados com Fetch POST e JSON}\label{sec:pilula3}
 
-\textbf{Fundamentação Teórica: Os Três Mandamentos do Envio de Dados com POST}
-
+\begin{conceito}{Fundamentação teórica: os três mandamentos do envio com POST}
 Enquanto requisições \textbf{GET} servem para recuperar dados, o método HTTP \textbf{POST} transfere novas informações do cliente para persistência no servidor. Para enviar objetos estruturados com a Fetch API, três etapas são mandatórias:
+\end{conceito}
 
-\vspace{0.2cm}
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|l|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Etapa Mandatória} & \textbf{Sintaxe de Código} & \textbf{Papel no Protocolo HTTP} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{1. Método Semântico} & \texttt{method: 'POST'} & Informa ao servidor que se trata de uma operação de criação/cadastro. \\ \hline
-\textbf{2. Cabeçalho de Tipo} & \texttt{headers: \{ 'Content-Type': 'application/json' \}} & Avisa ao Flask que o corpo trafega codificado no padrão MIME JSON. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{3. Serialização} & \texttt{body: JSON.stringify(dadosParaEnvio)} & Converte o objeto JavaScript em memória em texto puro JSON para a rede. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RlY}
+\cabecalho \cab{Etapa Mandatória} & \cab{Sintaxe de Código} & \cab{Papel no Protocolo HTTP} \\
+1. Método Semântico & \texttt{method: 'POST'} & Informa ao servidor que se trata de uma operação de criação/cadastro. \\
+2. Cabeçalho de Tipo & \texttt{headers: \{ 'Content-Type': 'application/json' \}} & Avisa ao Flask que o corpo trafega codificado no padrão MIME JSON. \\
+3. Serialização & \texttt{body: JSON.stringify(dadosParaEnvio)} & Converte o objeto JavaScript em memória em texto puro JSON para a rede. \\
 \end{tabularx}
 \caption{Os três mandamentos para envio de dados via Fetch API POST.}
 \end{table}
@@ -592,25 +565,21 @@ Enquanto requisições \textbf{GET} servem para recuperar dados, o método HTTP 
 \textbf{Objetivo Prático:} Submeter um formulário HTML e enviar os dados para gravação na API Flask via requisição POST, com validação e script desacoplado.
 \end{boxAtividade}
 
-\begin{tcolorbox}[
-    enhanced, colback=azulTitulo!3, colframe=azulTitulo!40,
-    arc=3pt, boxrule=0.6pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
-    title={\small\textbf{Código-Fonte Completo no GitHub (Mini-Exemplo 3)}}
-]
-\small Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
-\begin{itemize}[leftmargin=*, nosep]
-  \item \texttt{server.py} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/03-fetch-post/server.py}{\underline{\textcolor{azulTitulo}{Abrir server.py no GitHub}}}
-  \item \texttt{index.html} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/03-fetch-post/index.html}{\underline{\textcolor{azulTitulo}{Abrir index.html no GitHub}}}
-  \item \texttt{functions.js} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/03-fetch-post/functions.js}{\underline{\textcolor{azulTitulo}{Abrir functions.js no GitHub}}}
+\begin{repositorio}{Código-fonte completo no GitHub (Mini-Exemplo 3)}
+Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
+\begin{itemize}[nosep]
+  \item \texttt{server.py} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/03-fetch-post/server.py}{Abrir server.py no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{index.html} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/03-fetch-post/index.html}{Abrir index.html no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{functions.js} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/03-fetch-post/functions.js}{Abrir functions.js no GitHub\,{\scriptsize\faExternalLinkAlt}}
 \end{itemize}
-\end{tcolorbox}
+\end{repositorio}
 
 \begin{boxDica}[Rotina Automática de Liberação de Porta]
 Para evitar que servidores anteriores fiquem rodando em segundo plano e causem conflito de porta (\texttt{Address already in use}) ou respondam com \textbf{Erro 404 (Not Found)}, implementamos a função \texttt{liberar\_porta(5000)}. Ela identifica e encerra automaticamente qualquer instância anterior do Python na porta 5000 antes de iniciar o novo servidor.
 \end{boxDica}
 
-\textbf{Passo 3.1: Criar o servidor com rota POST (\texttt{mini-exemplos/03-fetch-post/server.py}):}
-\begin{boxCodigoPY}
+\passo{3.1}{Criar o servidor com rota POST}
+\begin{boxCodigoPY}[mini-exemplos/03-fetch-post/server.py]
 import os, sys, subprocess, signal, time
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -678,8 +647,8 @@ if __name__ == '__main__':
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
-\textbf{Passo 3.2: Criar o formulário frontend (\texttt{mini-exemplos/03-fetch-post/index.html}):}
-\begin{boxCodigoHTML}
+\passo{3.2}{Criar o formulário frontend}
+\begin{boxCodigoHTML}[mini-exemplos/03-fetch-post/index.html]
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -735,9 +704,8 @@ if __name__ == '__main__':
 </html>
 \end{boxCodigoHTML}
 
-\newpage
-\textbf{Passo 3.3: Criar a lógica de envio assíncrono (\texttt{mini-exemplos/03-fetch-post/functions.js}):}
-\begin{boxCodigoJS}
+\passo{3.3}{Criar a lógica de envio assíncrono}
+\begin{boxCodigoJS}[mini-exemplos/03-fetch-post/functions.js]
 // 1. Função assíncrona nomeada para processar o envio
 async function cadastrarNovoServico(
   evento,
@@ -815,28 +783,22 @@ Com o \texttt{server.py} em execução, digite um serviço e preço no formulár
 % -----------------------------------------------------------------
 % PÍLULA 4
 % -----------------------------------------------------------------
-\newpage
-\subsubsection{Pílula 4: Resiliência de Rede e Feedback Visual (try/catch/finally com Spinner)}
+\section{Pílula 4: Resiliência de Rede e Feedback Visual (try/catch/finally com Spinner)}\label{sec:pilula4}
 
-\textbf{Fundamentação Teórica: Anatomia da Resiliência de Rede}
-
+\begin{conceito}{Fundamentação teórica: anatomia da resiliência de rede}
 Falhas de conectividade (servidor offline, queda de rede, lentidão) são comuns no mundo real. Uma aplicação de qualidade profissional nunca deixa a interface congelada sem resposta.
+\end{conceito}
 
-\vspace{0.2cm}
 \begin{table}[H]
 \centering
 \small
-\arrayrulecolor{borderGray}
-\begin{tabularx}{\textwidth}{|l|l|X|}
-\hline
-\rowcolor{cinzaCabecalho}
-\textbf{Bloco / Recurso} & \textbf{Momento de Disparo} & \textbf{Papel na Experiência do Usuário (UX)} \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{1. Bloco \texttt{try}} & Tentativa inicial de requisição & Dispara o \texttt{fetch()} e processa os dados com \texttt{await}. \\ \hline
-\textbf{2. Validação \texttt{ok}} & Imediatamente após a resposta & Verifica se o código HTTP é da faixa 200–299; se for falso, lança erro. \\ \hline
-\rowcolor{cinzaLinha}
-\textbf{3. Bloco \texttt{catch}} & Quando ocorre falha de rede/servidor & Intercepta a exceção sem quebrar o app e exibe alerta amigável. \\ \hline
-\textbf{4. Bloco \texttt{finally}} & \textbf{Executado SEMPRE} & Oculta o spinner e reativa os botões para nova tentativa do usuário. \\ \hline
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RlY}
+\cabecalho \cab{Bloco / Recurso} & \cab{Momento de Disparo} & \cab{Papel na Experiência do Usuário (UX)} \\
+1. Bloco \texttt{try} & Tentativa inicial de requisição & Dispara o \texttt{fetch()} e processa os dados com \texttt{await}. \\
+2. Validação \texttt{ok} & Imediatamente após a resposta & Verifica se o código HTTP é da faixa 200–299; se for falso, lança erro. \\
+3. Bloco \texttt{catch} & Quando ocorre falha de rede/servidor & Intercepta a exceção sem quebrar o app e exibe alerta amigável. \\
+4. Bloco \texttt{finally} & \textbf{Executado SEMPRE} & Oculta o spinner e reativa os botões para nova tentativa do usuário. \\
 \end{tabularx}
 \caption{Ciclo de resiliência e tratamento defensivo com try...catch...finally.}
 \end{table}
@@ -845,20 +807,17 @@ Falhas de conectividade (servidor offline, queda de rede, lentidão) são comuns
 \textbf{Objetivo Prático:} Implementar um botão com spinner de carregamento e tratar quedas de conectividade com feedback amigável ao usuário.
 \end{boxAtividade}
 
-\begin{tcolorbox}[
-    enhanced, colback=azulTitulo!3, colframe=azulTitulo!40,
-    arc=3pt, boxrule=0.6pt, left=8pt, right=8pt, top=5pt, bottom=5pt,
-    title={\small\textbf{Código-Fonte Completo no GitHub (Mini-Exemplo 4)}}
-]
-\small Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
-\begin{itemize}[leftmargin=*, nosep]
-  \item \texttt{index.html} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/04-fetch-spinner/index.html}{\underline{\textcolor{azulTitulo}{Abrir index.html no GitHub}}}
-  \item \texttt{functions.js} $\rightarrow$ \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/04-fetch-spinner/functions.js}{\underline{\textcolor{azulTitulo}{Abrir functions.js no GitHub}}}
+\begin{repositorio}{Código-fonte completo no GitHub (Mini-Exemplo 4)}
+Para visualizar o código cru ou clonar os arquivos deste exemplo diretamente, utilize os atalhos:
+\begin{itemize}[nosep]
+  \item \texttt{index.html} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/04-fetch-spinner/index.html}{Abrir index.html no GitHub\,{\scriptsize\faExternalLinkAlt}}
+  \item \texttt{functions.js} \seta \href{https://github.com/chameoandre/CST-Sistemas-para-internet-programacao-para-internet-2/blob/main/roteiro-5/mini-exemplos/04-fetch-spinner/functions.js}{Abrir functions.js no GitHub\,{\scriptsize\faExternalLinkAlt}}
 \end{itemize}
-\end{tcolorbox}
+\end{repositorio}
 
-\textbf{Passo 4.1: Criar a interface resiliente (\texttt{mini-exemplos/04-fetch-spinner/index.html}):}
-\begin{boxCodigoHTML}
+\manterJunto{40}
+\passo{4.1}{Criar a interface resiliente}
+\begin{boxCodigoHTML}[mini-exemplos/04-fetch-spinner/index.html]
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -901,8 +860,8 @@ Falhas de conectividade (servidor offline, queda de rede, lentidão) são comuns
 </html>
 \end{boxCodigoHTML}
 
-\textbf{Passo 4.2: Criar as funções de estado e resiliência (\texttt{mini-exemplos/04-fetch-spinner/functions.js}):}
-\begin{boxCodigoJS}
+\passo{4.2}{Criar as funções de estado e resiliência}
+\begin{boxCodigoJS}[mini-exemplos/04-fetch-spinner/functions.js]
 // 1. Funções auxiliares para clareza visual de estados
 function ativarEstadoCarregando(elementos) {
   elementos.btnVerificar.disabled = true;
@@ -969,7 +928,7 @@ document.addEventListener('DOMContentLoaded', () => {
 \end{boxCodigoJS}
 
 \begin{boxTeste}[Como testar a Resiliência da Pílula 4]
-\begin{enumerate}[leftmargin=*]
+\begin{enumerate}
   \item \textbf{Cenário de Sucesso:} Com o \texttt{server.py} da Pílula 2 rodando na porta 5000, clique no botão. Observe o spinner girar rapidamente e o alerta verde confirmar o status.
   \item \textbf{Cenário de Queda de Rede (Servidor Desligado):} Pressione \texttt{Ctrl+C} no terminal para derrubar o \texttt{server.py}. Clique no botão novamente. Observe que o spinner gira e, graças ao bloco \texttt{catch}, a tela \textbf{não congela}: um alerta vermelho informa a falha de conectividade e o bloco \texttt{finally} restaura o botão para novo teste!
 \end{enumerate}
@@ -979,50 +938,49 @@ document.addEventListener('DOMContentLoaded', () => {
 % SEÇÃO DE MINI DESAFIOS PRÁTICOS (PARTE 1: FUNDAMENTOS)
 % =====================================================
 
-\newpage
-\subsection{Mini Desafios Práticos de Fixação (Fundamentos \& Mini-Exemplos)}
+\section{Mini desafios de fixação}\label{sec:desafios}
 
 Para consolidar os conceitos aprendidos nas 4 pílulas práticas de aquecimento antes de avançar para a Vitrine de Serviços, propomos \textbf{3 mini desafios progressivos e focados}. Eles foram desenhados para que você pratique pequenas alterações incrementais no backend e no frontend com total clareza.
 
-\begin{boxDica}[Metodologia de Aprendizagem Ativa]
+\begin{boxDica}[Tente antes de olhar o gabarito]
 Tente implementar cada mini desafio no código dos mini-exemplos antes de conferir o gabarito. Observe como pequenas adições fluem entre o servidor Python e a interface no navegador!
 \end{boxDica}
 
-\subsubsection*{Mini Desafio 1: Adicionar Versão e Câmpus na API (Pílula 2)}
+\subsection*{\circulo[ambar]{1}\hspace{0.4em}Mini Desafio 1: Adicionar Versão e Câmpus na API (Pílula 2)}
 \textbf{Objetivo:} Praticar a extensão de um endpoint \texttt{GET} no Flask e a leitura de novos campos no frontend.
-\begin{itemize}[leftmargin=*]
-  \item \textbf{No Servidor (\texttt{mini-exemplos/02-micro-flask-cors/server.py}):} No endpoint \texttt{/api/status}, adicione as chaves \texttt{'versao': '1.0.0'} e \texttt{'campus': 'IFSC Garopaba'} ao dicionário retornado;
-  \item \textbf{No Frontend (\texttt{mini-exemplos/02-micro-flask-cors/functions.js}):} Na função \texttt{consultarStatusApi}, exiba as informações de versão e câmpus dentro do card de alerta verde na tela.
+\begin{itemize}
+  \item \textbf{No Servidor (\path{mini-exemplos/02-micro-flask-cors/server.py}):} No endpoint \path{/api/status}, adicione as chaves \texttt{'versao': '1.0.0'} e \texttt{'campus': 'IFSC Garopaba'} ao dicionário retornado;
+  \item \textbf{No Frontend (\path{mini-exemplos/02-micro-flask-cors/functions.js}):} Na função \texttt{consultarStatusApi}, exiba as informações de versão e câmpus dentro do card de alerta verde na tela.
 \end{itemize}
 
-\subsubsection*{Mini Desafio 2: Campo de Categoria no Envio com POST (Pílula 3)}
+\subsection*{\circulo[ambar]{2}\hspace{0.4em}Mini Desafio 2: Campo de Categoria no Envio com POST (Pílula 3)}
 \textbf{Objetivo:} Adicionar um novo campo de seleção ao formulário de envio e persistir a informação no servidor.
-\begin{itemize}[leftmargin=*]
-  \item \textbf{No Formulário (\texttt{mini-exemplos/03-fetch-post/index.html}):} Adicione um campo de seleção (\texttt{select}) com \texttt{id="campoCategoria"} contendo as opções: \textit{"Tecnologia"}, \textit{"Alimentação"}, \textit{"Artesanato"} e \textit{"Serviços Gerais"};
-  \item \textbf{No JavaScript (\texttt{mini-exemplos/03-fetch-post/functions.js}):} Capture o valor selecionado e adicione a propriedade \texttt{categoria} no objeto \texttt{dadosParaEnvio};
-  \item \textbf{No Servidor (\texttt{mini-exemplos/03-fetch-post/server.py}):} No endpoint \texttt{/api/cadastrar}, capture o campo com \texttt{dados.get('categoria', 'Geral')} e inclua-o no dicionário \texttt{registro}.
+\begin{itemize}
+  \item \textbf{No Formulário (\path{mini-exemplos/03-fetch-post/index.html}):} Adicione um campo de seleção (\texttt{select}) com \texttt{id="campoCategoria"} contendo as opções: \textit{"Tecnologia"}, \textit{"Alimentação"}, \textit{"Artesanato"} e \textit{"Serviços Gerais"};
+  \item \textbf{No JavaScript (\path{mini-exemplos/03-fetch-post/functions.js}):} Capture o valor selecionado e adicione a propriedade \texttt{categoria} no objeto \texttt{dadosParaEnvio};
+  \item \textbf{No Servidor (\path{mini-exemplos/03-fetch-post/server.py}):} No endpoint \path{/api/cadastrar}, capture o campo com \texttt{dados.get('categoria', 'Geral')} e inclua-o no dicionário \texttt{registro}.
 \end{itemize}
 
-\subsubsection*{Mini Desafio 3: Simulação de Rota com Erro 404 e Resiliência (Pílula 4)}
+\subsection*{\circulo[ambar]{3}\hspace{0.4em}Mini Desafio 3: Simulação de Rota com Erro 404 e Resiliência (Pílula 4)}
 \textbf{Objetivo:} Comprovar o funcionamento do bloco defensivo \texttt{try...catch...finally} quando o servidor responde com código de erro HTTP (ex: 404 Não Encontrado).
-\begin{itemize}[leftmargin=*]
-  \item \textbf{Na Interface (\texttt{mini-exemplos/04-fetch-spinner/index.html}):} Adicione um segundo botão com estilo de contorno vermelho: \texttt{id="btnSimularErro"} com o texto \textit{"Simular Rota Inexistente (404)"};
-  \item \textbf{No JavaScript (\texttt{mini-exemplos/04-fetch-spinner/functions.js}):} Adicione um ouvinte de clique que faça uma requisição para uma rota que não existe no Flask (\texttt{http://127.0.0.1:5000/api/rota-inexistente}). Observe o spinner girar, o erro ser capturado no \texttt{catch} e o botão ser reativado pelo \texttt{finally}!
+\begin{itemize}
+  \item \textbf{Na Interface (\path{mini-exemplos/04-fetch-spinner/index.html}):} Adicione um segundo botão com estilo de contorno vermelho: \texttt{id="btnSimularErro"} com o texto \textit{"Simular Rota Inexistente (404)"};
+  \item \textbf{No JavaScript (\path{mini-exemplos/04-fetch-spinner/functions.js}):} Adicione um ouvinte de clique que faça uma requisição para uma rota que não existe no Flask (\path{http://127.0.0.1:5000/api/rota-inexistente}). Observe o spinner girar, o erro ser capturado no \texttt{catch} e o botão ser reativado pelo \texttt{finally}!
 \end{itemize}
 
 % =====================================================
 % GABARITO COMENTADO DOS MINI DESAFIOS (PARTE 1)
 % =====================================================
 
-\newpage
-\subsection{Gabarito Comentado dos Mini Desafios (Código Completo)}
+\section{Gabarito comentado dos mini desafios}\label{sec:gabarito}
 
-Confira a seguir as soluções completas e detalhadas para cada um dos mini desafios, com código 100\% aplicável (*Zero-Ellipsis Rule*).
+Confira a seguir as soluções completas e detalhadas para cada um dos mini desafios, com código 100\% aplicável (\textit{Zero-Ellipsis Rule}).
 
 \begin{boxAtividade}[{Solução do Mini Desafio 1: Versão e Câmpus na API (Pílula 2)}]
-\textbf{Passo 1.1: Atualizar o arquivo \texttt{mini-exemplos/02-micro-flask-cors/server.py}:}
+\passo{1.1}{Atualizar o arquivo \texttt{mini-exemplos/02-micro-flask-cors/server.py}}
 \end{boxAtividade}
 
+\manterJunto{18}
 \begin{boxCodigoPY}[]
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -1044,11 +1002,10 @@ if __name__ == '__main__':
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
-\begin{boxAtividade}[{Passo 1.2: Atualizar o arquivo \texttt{mini-exemplos/02-micro-flask-cors/functions.js}:}]
+\manterJunto{29}
+\passo{1.2}{Atualizar o arquivo}
 Exiba os novos dados no alerta verde:
-\end{boxAtividade}
-
-\begin{boxCodigoJS}[]
+\begin{boxCodigoJS}[mini-exemplos/02-micro-flask-cors/functions.js]
 async function consultarStatusApi(resultadoStatus) {
   try {
     const resposta = await fetch('http://127.0.0.1:5000/api/status');
@@ -1080,9 +1037,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 \end{boxCodigoJS}
 
-\newpage
 \begin{boxAtividade}[{Solução do Mini Desafio 2: Campo Categoria no Envio POST (Pílula 3)}]
-\textbf{Passo 2.1: Atualizar o formulário em \texttt{mini-exemplos/03-fetch-post/index.html}:}
+\passo{2.1}{Atualizar o formulário em \texttt{mini-exemplos/03-fetch-post/index.html}}
 \end{boxAtividade}
 
 \begin{boxCodigoHTML}[]
@@ -1148,11 +1104,9 @@ document.addEventListener('DOMContentLoaded', () => {
 </html>
 \end{boxCodigoHTML}
 
-\begin{boxAtividade}[{Passo 2.2: Atualizar o arquivo \texttt{mini-exemplos/03-fetch-post/functions.js}:}]
+\passo{2.2}{Atualizar o arquivo}
 Capture a categoria e envie no payload JSON:
-\end{boxAtividade}
-
-\begin{boxCodigoJS}[]
+\begin{boxCodigoJS}[mini-exemplos/03-fetch-post/functions.js]
 async function cadastrarNovoServico(evento, formCadastro, campoNome, campoCategoria, campoPreco, feedbackPost) {
   evento.preventDefault();
 
@@ -1207,12 +1161,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 \end{boxCodigoJS}
 
-\newpage
-\begin{boxAtividade}[{Passo 2.3: Atualizar o arquivo \texttt{mini-exemplos/03-fetch-post/server.py}:}]
+\manterJunto{33}
+\passo{2.3}{Atualizar o arquivo}
 Receba a categoria no endpoint \texttt{POST}:
-\end{boxAtividade}
-
-\begin{boxCodigoPY}[]
+\begin{boxCodigoPY}[mini-exemplos/03-fetch-post/server.py]
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -1248,11 +1200,11 @@ if __name__ == '__main__':
     app.run(port=5000, debug=True)
 \end{boxCodigoPY}
 
-\newpage
 \begin{boxAtividade}[{Solução do Mini Desafio 3: Simulação de Rota 404 \& Resiliência (Pílula 4)}]
-\textbf{Passo 3.1: Atualizar o arquivo \texttt{mini-exemplos/04-fetch-spinner/index.html}:}
+\passo{3.1}{Atualizar o arquivo \texttt{mini-exemplos/04-fetch-spinner/index.html}}
 \end{boxAtividade}
 
+\manterJunto{41}
 \begin{boxCodigoHTML}[]
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -1297,11 +1249,9 @@ if __name__ == '__main__':
 </html>
 \end{boxCodigoHTML}
 
-\begin{boxAtividade}[{Passo 3.2: Atualizar o arquivo \texttt{mini-exemplos/04-fetch-spinner/functions.js}:}]
+\passo{3.2}{Atualizar o arquivo}
 Implemente a função genérica que testa qualquer URL com tratamento defensivo e desligamento garantido no \texttt{finally}:
-\end{boxAtividade}
-
-\begin{boxCodigoJS}[]
+\begin{boxCodigoJS}[mini-exemplos/04-fetch-spinner/functions.js]
 function ativarEstadoCarregando(elementos) {
   elementos.btnVerificar.disabled = true;
   elementos.btnSimularErro.disabled = true;
@@ -1368,23 +1318,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 \end{boxCodigoJS}
 
-\vspace{0.4cm}
-\begin{tcolorbox}[
-    enhanced, breakable, colback=white, colframe=azulObjetivos,
-    boxrule=0.8pt, leftrule=4.5pt, arc=3pt,
-    left=10pt, right=10pt, top=9pt, bottom=9pt,
-    colbacktitle=azulObjetivos, coltitle=white, fonttitle=\bfseries\normalsize,
-    title={Conclusão da Parte 1 e Continuação na Tarefa Guiada (Parte 2)}
-]
-\textbf{Parabéns!} Você completou com sucesso todos os fundamentos conceituais, os 4 mini-exemplos de aquecimento e os 3 mini desafios de fixação do Roteiro 05:
-\begin{itemize}[leftmargin=*]
-  \item \textbf{Pílula 1:} Fetch API consumindo endpoints públicos assíncronos com JavaScript moderno;
-  \item \textbf{Pílula 2:} Microbackend em Python Flask com controle explícito de cabeçalhos CORS;
-  \item \textbf{Pílula 3:} Submissão de dados via \texttt{POST} com corpo JSON (\texttt{application/json});
-  \item \textbf{Pílula 4:} Feedback de carregamento com spinners e tratamento defensivo com \texttt{try/catch/finally};
-  \item \textbf{Mini Desafios:} Extensão de endpoints, novos campos de formulário e simulação de erros HTTP com recuperação resiliente.
-\end{itemize}
+\section{Checklist da Parte 1}\label{sec:checklist}
 
-\vspace{0.3cm}
-\noindent\textbf{Próximo Passo:} Abra o arquivo \textbf{Roteiro Prático 05 (Parte 2) — Tarefa Guiada} (\texttt{roteiro-5/tarefa-guiada.pdf}), no qual você aplicará todos esses recursos para refatorar o projeto completo da \textbf{Vitrine Comercial de Serviços}, integrando persistência em banco relacional SQLite e modo de contingência offline!
+\begin{tcolorbox}[enhanced, colback=verdeVivo!5, colframe=verdeVivo!40, boxrule=0.6pt, arc=8pt,
+    left=14pt, right=14pt, top=10pt, bottom=10pt,
+    title={\faClipboardCheck\hspace{0.5em}Antes de seguir para a Parte 2, confira se você consegue\ldots},
+    colbacktitle=verdeVivo, coltitle=white, fonttitle=\bfseries]
+\begin{itemize}[label={\caixaMarcar}, itemsep=0.4em]
+  \item \textbf{Pílula 1:} carregar um JSON com \texttt{fetch()} e \texttt{async/await} e montar a lista na tela;
+  \item \textbf{Pílula 2:} subir o \texttt{server.py} na porta 5000 e explicar por que o \texttt{CORS(app)} é necessário;
+  \item \textbf{Pílula 3:} enviar um formulário com \texttt{POST}, cabeçalho \texttt{Content-Type} e \texttt{JSON.stringify};
+  \item \textbf{Pílula 4:} mostrar o spinner, tratar a queda do servidor no \texttt{catch} e reativar o botão no \texttt{finally};
+  \item \textbf{Mini desafios:} resolver os três desafios e conferir com o gabarito.
+\end{itemize}
 \end{tcolorbox}
+
+\begin{dica}{Próximo passo: Roteiro 05 — Parte 2 (Tarefa Guiada)}
+Abra o \textbf{Roteiro Prático 05 (Parte 2) — Tarefa Guiada} (\texttt{roteiro-5/tarefa-guiada.pdf}). Nele você aplica esses recursos para refatorar a \textbf{Vitrine Comercial de Serviços} completa, com persistência no banco relacional SQLite e modo de contingência offline.
+\end{dica}
+
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba\par}
