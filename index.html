@@ -1061,6 +1061,348 @@
       border-color: var(--accent-emerald);
     }
 
+    /* =====================================================
+       CENTRAL DE DEMANDAS & CHECKPOINTS
+       ===================================================== */
+    .demandas-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .demanda-stat-item {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .demanda-stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .demandas-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .demandas-filter-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-chip:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .filter-chip.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    .demandas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.3rem;
+      margin-bottom: 2rem;
+    }
+
+    .demanda-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 4px solid var(--accent-blue);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+
+    .demanda-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .demanda-card.concluida {
+      border-left-color: var(--accent-emerald);
+      opacity: 0.92;
+    }
+
+    .demanda-card.urgente {
+      border-left-color: var(--accent-rose);
+    }
+
+    .demanda-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .demanda-card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 0.45rem;
+      line-height: 1.35;
+    }
+
+    .demanda-card-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .demanda-criterios-box {
+      background: var(--bg-card-hover);
+      border: 1px dashed var(--accent-blue);
+      border-radius: 8px;
+      padding: 0.75rem 0.95rem;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      color: var(--text-main);
+    }
+
+    .demanda-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      margin-top: auto;
+    }
+
+    .demanda-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.85rem;
+    }
+
+    /* =====================================================
+       MODAIS CUSTOMIZADOS (ACESSÍVEIS E RESPONSIVOS)
+       ===================================================== */
+    .app-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1050;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .app-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .app-modal-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: scale(0.95);
+      transition: transform 0.25s ease;
+      overflow: hidden;
+    }
+
+    .app-modal-overlay.active .app-modal-container {
+      transform: scale(1);
+    }
+
+    .app-modal-header {
+      padding: 1.25rem 1.6rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card-hover);
+    }
+
+    .app-modal-body {
+      padding: 1.6rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .app-modal-footer {
+      padding: 1.1rem 1.6rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      background: var(--bg-card-hover);
+    }
+
+    /* =====================================================
+       MATRIZ DE RUBRICAS FORMATIVAS
+       ===================================================== */
+    .rubrica-dim-card {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .rubrica-dim-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+    }
+
+    .rubrica-dim-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin: 0;
+    }
+
+    .rubrica-levels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.55rem;
+    }
+
+    .rubrica-level-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.65rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .rubrica-level-btn:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-1px);
+    }
+
+    .rubrica-level-btn.selected {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #ffffff !important;
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+    }
+
+    .rubrica-level-btn.selected .level-desc {
+      color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .rubrica-level-btn.selected.excelente {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+    }
+
+    .rubrica-level-btn.selected.insuficiente {
+      background: var(--accent-rose);
+      border-color: var(--accent-rose);
+      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);
+    }
+
+    .rubrica-total-card {
+      background: var(--bg-card);
+      border: 2px solid var(--accent-blue);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .btn-docente-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .btn-docente-badge.active {
+      background: rgba(217, 119, 6, 0.15);
+      border-color: var(--accent-amber);
+      color: var(--accent-amber);
+    }
+
+    body:not(.modo-docente-ativo) .docente-only {
+      display: none !important;
+    }
+
     footer.app-footer {
       background: var(--header-bg);
       border-top: 1px solid var(--border-color);
@@ -1103,6 +1445,9 @@
         <span class="badge-pill badge-pill-green"><i class="bi bi-mortarboard-fill"></i> PPC CONSUP 30/2020</span>
         <span class="badge-pill badge-pill-blue"><i class="bi bi-clock-history"></i> 60h Presencial + 40h Extensão</span>
         <span class="badge-pill badge-pill-purple"><i class="bi bi-person-badge-fill"></i> Prof. André Moraes</span>
+        <button class="theme-toggle-btn" onclick="toggleModoDocente()" id="btnModoDocente" title="Alternar entre visão do Professor e visão do Aluno" style="border-color: var(--accent-amber); color: var(--accent-amber);">
+          <i class="fa-solid fa-chalkboard-user"></i> <span id="modoDocenteText">Modo Docente (Ativo)</span>
+        </button>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Alternar entre tema claro e escuro">
           <i class="bi bi-moon-stars-fill" id="themeIcon"></i> <span id="themeText">Modo Escuro</span>
         </button>
@@ -1126,14 +1471,14 @@
         <div class="kpi-desc">Guias didáticos ilustrados, arquitetura modular ES6, protótipos e práticas de laboratório.</div>
       </div>
 
-      <!-- KPI 2 -->
-      <div class="kpi-card kpi-blue" onclick="showTab('tab-cronograma')">
+      <!-- KPI 2: DEMANDAS & CHECKPOINTS -->
+      <div class="kpi-card kpi-blue" onclick="showTab('tab-demandas')">
         <div class="kpi-header">
-          <span class="kpi-title">Carga Horária Semestral</span>
-          <i class="bi bi-calendar3 kpi-icon"></i>
+          <span class="kpi-title">Central de Demandas &amp; Checkpoints</span>
+          <i class="fa-solid fa-list-check kpi-icon"></i>
         </div>
-        <div class="kpi-value">60 h</div>
-        <div class="kpi-desc">20 Encontros semanais de 3h/aula em laboratório de informática.</div>
+        <div class="kpi-value" id="kpiDemandasCount">3 Ativas</div>
+        <div class="kpi-desc">Metas direcionadas da turma, prazos de entrega e critérios de aceite com rubrica.</div>
       </div>
 
       <!-- KPI 3 -->
@@ -1149,11 +1494,11 @@
       <!-- KPI 4 -->
       <div class="kpi-card kpi-amber" onclick="showTab('tab-avaliacao')">
         <div class="kpi-header">
-          <span class="kpi-title">Sistema Avaliativo</span>
+          <span class="kpi-title">Sistema Avaliativo &amp; Rubricas</span>
           <i class="bi bi-award-fill kpi-icon"></i>
         </div>
         <div class="kpi-value">A1 + A2 + A3</div>
-        <div class="kpi-desc">Teórica (25%) + Práticas Contínuas (35%) + Projeto Integrador (40%).</div>
+        <div class="kpi-desc">Teórica (25%) + Roteiros por Rubrica (35%) + Projeto Integrador (40%).</div>
       </div>
 
     </div>
@@ -1169,14 +1514,17 @@
       <button class="tab-btn" onclick="showTab('tab-extensao')">
         <i class="bi bi-megaphone-fill"></i> 3. Curricularização da Extensão (40h)
       </button>
+      <button class="tab-btn" onclick="showTab('tab-demandas')">
+        <i class="fa-solid fa-list-check"></i> 4. Central de Demandas &amp; Checkpoints
+      </button>
       <button class="tab-btn" onclick="showTab('tab-avaliacao')">
-        <i class="bi bi-calculator-fill"></i> 4. Sistema Avaliativo &amp; Simulador
+        <i class="bi bi-calculator-fill"></i> 5. Sistema Avaliativo &amp; Rubricas
       </button>
       <button class="tab-btn" onclick="showTab('tab-ementa')">
-        <i class="bi bi-book-half"></i> 5. Ementa &amp; Bibliografia (PPC)
+        <i class="bi bi-book-half"></i> 6. Ementa &amp; Bibliografia (PPC)
       </button>
       <button class="tab-btn" onclick="showTab('tab-sigaa')">
-        <i class="bi bi-mortarboard-fill"></i> 6. Central de Tarefas do SIGAA
+        <i class="bi bi-mortarboard-fill"></i> 7. Central de Tarefas do SIGAA
       </button>
     </div>
 
@@ -1802,7 +2150,96 @@
       </div>
     </div>
 
-    <!-- ABA 4: SISTEMA AVALIATIVO & SIMULADOR -->
+    <!-- ABA 4: CENTRAL DE DEMANDAS & CHECKPOINTS -->
+    <div class="tab-pane" id="tab-demandas">
+      <div class="panel-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="fa-solid fa-list-check text-primary"></i> Central de Demandas &amp; Checkpoints Avaliativos</h2>
+            <p class="panel-subtitle mb-0">Gestão ágil de sprints, entregas de laboratório e checkpoints com avaliação formativa por rubricas para a turma:</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button onclick="abrirModalNovaDemanda()" class="btn-action btn-primary-action docente-only">
+              <i class="fa-solid fa-plus-circle"></i> + Nova Demanda / Broadcast
+            </button>
+            <button onclick="showTab('tab-avaliacao')" class="btn-action btn-outline-action">
+              <i class="bi bi-award-fill text-warning"></i> Ver Rubricas &amp; Notas
+            </button>
+          </div>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="demandas-stats-grid">
+          <div class="demanda-stat-item">
+            <div class="demanda-stat-icon" style="background: rgba(2, 132, 199, 0.15); color: var(--accent-blue);">
+              <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+            <div>
+              <div class="fs-4 fw-bold font-outfit text-heading" id="statTotalDemandas">3</div>
+              <div class="small text-muted">Total de Demandas</div>
+            </div>
+          </div>
+          <div class="demanda-stat-item">
+            <div class="demanda-stat-icon" style="background: rgba(217, 119, 6, 0.15); color: var(--accent-amber);">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            <div>
+              <div class="fs-4 fw-bold font-outfit text-heading" id="statDemandasAtivas">3</div>
+              <div class="small text-muted">Demandas Ativas</div>
+            </div>
+          </div>
+          <div class="demanda-stat-item">
+            <div class="demanda-stat-icon" style="background: rgba(5, 150, 105, 0.15); color: var(--accent-emerald);">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+              <div class="fs-4 fw-bold font-outfit text-heading" id="statDemandasConcluidas">0</div>
+              <div class="small text-muted">Concluídas / Finalizadas</div>
+            </div>
+          </div>
+          <div class="demanda-stat-item">
+            <div class="demanda-stat-icon" style="background: rgba(147, 51, 234, 0.15); color: var(--accent-purple);">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <div>
+              <div class="fs-4 fw-bold font-outfit text-heading" id="statAvaliacoesRegistradas">0</div>
+              <div class="small text-muted">Avaliações por Rubrica</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOOLBAR -->
+        <div class="demandas-toolbar">
+          <div class="demandas-filter-group" id="filterChipsContainer">
+            <button class="filter-chip active" onclick="filtrarDemandas('todas', this)">Todas</button>
+            <button class="filter-chip" onclick="filtrarDemandas('ativas', this)">Ativas</button>
+            <button class="filter-chip" onclick="filtrarDemandas('concluidas', this)">Concluídas</button>
+            <button class="filter-chip" onclick="filtrarDemandas('A2', this)">A2 (Roteiros Práticos)</button>
+            <button class="filter-chip" onclick="filtrarDemandas('A3', this)">A3 (Extensão &amp; Projeto)</button>
+          </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap docente-only">
+            <button onclick="exportarDadosDemandas()" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem;" title="Baixar arquivo JSON com demandas e avaliações">
+              <i class="fa-solid fa-download"></i> Backup JSON
+            </button>
+            <button onclick="document.getElementById('inputImportarJson').click()" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem;" title="Restaurar backup JSON">
+              <i class="fa-solid fa-upload"></i> Importar
+            </button>
+            <input type="file" id="inputImportarJson" style="display: none;" accept=".json" onchange="importarDadosDemandas(event)">
+            <button onclick="restaurarDemandasPadrao()" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem; color: var(--accent-rose);" title="Redefinir demandas para o estado inicial">
+              <i class="fa-solid fa-rotate-left"></i> Restaurar Padrões
+            </button>
+          </div>
+        </div>
+
+        <!-- GRID DE DEMANDAS -->
+        <div class="demandas-grid" id="gridDemandas">
+          <!-- Renderizado dinamicamente via JS -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ABA 5: SISTEMA AVALIATIVO & RUBRICAS -->
     <div class="tab-pane" id="tab-avaliacao">
       <div class="panel-card">
         <h2 class="panel-title"><i class="bi bi-award text-warning"></i> Procedimentos de Avaliação da Aprendizagem</h2>
@@ -1837,7 +2274,7 @@
         </div>
 
         <!-- SIMULADOR INTERATIVO DE MÉDIA FINAL -->
-        <div class="sim-card">
+        <div class="sim-card mb-4">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <h3 class="font-outfit fs-5 fw-bold text-heading mb-0"><i class="bi bi-calculator text-success me-1"></i> Simulador Interativo da Média Final (MF)</h3>
             <span class="badge-pill badge-pill-green">Fórmula: (A1×0,25) + (A2×0,35) + (A3×0,40)</span>
@@ -1869,6 +2306,81 @@
               <div id="situacaoResultado" class="fs-5 fw-bold text-success"><i class="bi bi-check-circle-fill"></i> Aprovado por Nota (MF &ge; 6,0)</div>
               <div class="text-muted small">Exigência mínima de frequência: 75% das aulas presenciais.</div>
             </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: MATRIZ DE RUBRICAS FORMATIVAS DE PROGWEB 2 -->
+        <div class="mt-4 p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="bi bi-ui-checks-grid text-primary me-1"></i> Matriz Oficial de Rubricas de Avaliação Formativa (ProgWeb 2)</h3>
+              <p class="text-muted small mb-0">Critérios estruturados em 4 dimensões (0.0 a 2.5 pontos cada), aplicados nos checkpoints e no projeto final:</p>
+            </div>
+            <span class="badge-pill badge-pill-blue">Pontuação Total: 10,0 Pontos</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0" style="font-size: 0.82rem;">
+              <thead style="background: var(--bg-card);">
+                <tr>
+                  <th style="width: 22%;">Dimensão Técnica</th>
+                  <th style="width: 19.5%;">Insuficiente (0,5 pt)</th>
+                  <th style="width: 19.5%;">Em Desenvolvimento (1,2 pt)</th>
+                  <th style="width: 19.5%;">Conforme (2,0 pt)</th>
+                  <th style="width: 19.5%;">Excelente (2,5 pt)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold text-heading">1. Arquitetura Modular ES6 &amp; Organização</td>
+                  <td class="text-muted">Código monolítico em único script; variáveis globais sem escopo; pastas desorganizadas.</td>
+                  <td class="text-muted">Separação parcial em módulos; export/import com dependências circulares ou escopos misturados.</td>
+                  <td class="text-muted">Módulos ES6 bem estruturados em camadas (dados, serviços, renderização); raiz de arquivos limpa.</td>
+                  <td class="text-heading fw-semibold">Arquitetura modular de alto nível, desacoplada, imports nomeados limpos, comentários e manutenibilidade exemplar.</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-heading">2. Manipulação do DOM, Forms &amp; Reatividade</td>
+                  <td class="text-muted">Sem validação de formulários; erros de NaN em cálculos numéricos; DOM estático ou com bugs.</td>
+                  <td class="text-muted">Manipulação funcional do DOM, porém com cálculos inconsistentes sem proteção defensiva contra NaN.</td>
+                  <td class="text-muted">Eventos reativos (change/input), parsing numérico defensivo (parseFloat/parseInt) e cálculos em tempo real.</td>
+                  <td class="text-heading fw-semibold">Reatividade fluida com debounce/feedback dinâmico, sanitização rigorosa de inputs e formatação monetária (Intl).</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-heading">3. Assincronismo, Fetch API &amp; Microback-end</td>
+                  <td class="text-muted">Sem consumo de dados assíncronos ou falhas sistemáticas de CORS/404 não tratadas.</td>
+                  <td class="text-muted">Fetch API básica sem blocos try/catch ou sem tratamento de status HTTP (4xx / 5xx) no cliente.</td>
+                  <td class="text-muted">Consumo assíncrono correto com async/await, conversão json(), tratamento de rotas e try/catch seguro.</td>
+                  <td class="text-heading fw-semibold">Integração assíncrona robusta, tratamento refinado de erros na UI, fallbacks elegantes e rotas RESTful integradas.</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-heading">4. UX, Feedback Visual &amp; Deploy GitHub Pages</td>
+                  <td class="text-muted">Layout quebrado em mobile; ausência de feedback de carregamento; sem deploy público no GitHub Pages.</td>
+                  <td class="text-muted">Layout responsivo básico; feedback visual ausente; deploy com links quebrados ou sem .nojekyll.</td>
+                  <td class="text-muted">Bootstrap 5 responsivo, mobile-first, alerts/spinners de feedback e deploy 100% ativo no GitHub Pages.</td>
+                  <td class="text-heading fw-semibold">Design refinado, contraste acessível, modais/toasts fluidos, zero erros de console e deploy live impecável.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: QUADRO CONSOLIDADO DE AVALIAÇÕES POR RUBRICA -->
+        <div class="mt-4 p-3 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="bi bi-clipboard2-check-fill text-success me-1"></i> Quadro Consolidado de Avaliações Registradas</h3>
+              <p class="text-muted small mb-0">Notas atribuídas às equipes por demanda/checkpoint com histórico de pareceres formativos:</p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <label class="small text-muted fw-bold mb-0">Filtrar Demanda:</label>
+              <select id="selectFiltroDemandaRubrica" class="form-select form-select-sm" style="width: auto; background: var(--bg-card-hover); color: var(--text-main); border-color: var(--border-color);" onchange="renderizarTabelaRubricas(this.value)">
+                <!-- Opções preenchidas dinamicamente -->
+              </select>
+            </div>
+          </div>
+
+          <div id="tabelaAvaliacoesContainer" class="table-responsive">
+            <!-- Tabela preenchida via JS -->
           </div>
         </div>
 
@@ -2565,6 +3077,164 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     </div>
 
   </main>
+  <!-- MODAIS: CENTRAL DE DEMANDAS E RUBRICA FORMATIVA -->
+
+  <!-- MODAL: NOVA / EDITAR DEMANDA -->
+  <div class="app-modal-overlay" id="modalDemandaOverlay" onclick="if(event.target === this) fecharModalDemanda()">
+    <div class="app-modal-container">
+      <div class="app-modal-header">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0" id="modalDemandaTitulo">
+          <i class="fa-solid fa-bullhorn text-primary me-2"></i> Nova Demanda / Checkpoint Avaliativo
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalDemanda()"></button>
+      </div>
+      <form id="formDemanda" onsubmit="salvarDemanda(event)">
+        <div class="app-modal-body">
+          <input type="hidden" id="inputDemandaIdOriginal">
+          
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Código / ID:</label>
+              <input type="text" class="form-control form-control-sm" id="inputDemandaCodigo" placeholder="Ex: DEM-04" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Instrumento Avaliativo:</label>
+              <select class="form-select form-select-sm" id="inputDemandaInstrumento" required>
+                <option value="A2">A2 — Roteiros Semanais (35%)</option>
+                <option value="A3">A3 — Projeto &amp; Extensão (40%)</option>
+                <option value="A1">A1 — Avaliação Teórica (25%)</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold">Pontos Máximos:</label>
+              <input type="number" step="0.5" min="1" max="10" class="form-control form-control-sm" id="inputDemandaPontos" value="10.0" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Título da Demanda / Checkpoint:</label>
+            <input type="text" class="form-control form-control-sm" id="inputDemandaTitulo" placeholder="Ex: Entrega do Roteiro 05 — Mini-Exemplos Fetch API" required>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Destinatário:</label>
+              <select class="form-select form-select-sm" id="inputDemandaDestinatario" required>
+                <option value="Todos">Toda a Turma (Broadcast Geral)</option>
+                <option value="Equipe 1 — Vitrine Comercial &amp; Negócios Locais">Equipe 1 — Vitrine Comercial &amp; Negócios Locais</option>
+                <option value="Equipe 2 — Portal PetCare (Adoção Animal)">Equipe 2 — Portal PetCare (Adoção Animal)</option>
+                <option value="Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba">Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba</option>
+                <option value="Equipe 4 — Monitoramento das Praias">Equipe 4 — Monitoramento das Praias</option>
+                <option value="Equipe 5 — Feira Agroecológica Local">Equipe 5 — Feira Agroecológica Local</option>
+                <option value="Equipe 6 — Acessibilidade em Espaços Públicos">Equipe 6 — Acessibilidade em Espaços Públicos</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Data Limite de Entrega (Deadline):</label>
+              <input type="date" class="form-control form-control-sm" id="inputDemandaPrazo" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Descrição &amp; Orientações Técnicas:</label>
+            <textarea class="form-control form-control-sm" id="inputDemandaDescricao" rows="3" placeholder="Contextualize a demanda, objetivos pedagógicos e links de apoio..." required></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label small fw-bold">Critérios de Aceite Obrigatórios (1 por linha):</label>
+            <textarea class="form-control form-control-sm" id="inputDemandaCriterios" rows="3" placeholder="Ex:&#10;Repositório GitHub atualizado com commits em português&#10;Deploy funcional no GitHub Pages sem erros no console&#10;Consumo correto da rota JSON do microbackend" required></textarea>
+            <div class="form-text small">Cada linha digitada será exibida como um critério de verificação técnica.</div>
+          </div>
+        </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalDemanda()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i> Salvar Demanda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AVALIAR POR RUBRICA FORMATIVA -->
+  <div class="app-modal-overlay" id="modalRubricaOverlay" onclick="if(event.target === this) fecharModalRubrica()">
+    <div class="app-modal-container" style="max-width: 860px;">
+      <div class="app-modal-header">
+        <div>
+          <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+            <i class="fa-solid fa-award text-warning me-2"></i> Avaliação por Rubrica Formativa
+          </h3>
+          <p class="text-muted small mb-0" id="modalRubricaSubtitulo">Selecione os níveis para cada dimensão técnica</p>
+        </div>
+        <button type="button" class="btn-close" onclick="fecharModalRubrica()"></button>
+      </div>
+      <form id="formRubrica" onsubmit="salvarAvaliacaoRubrica(event)">
+        <div class="app-modal-body">
+          <input type="hidden" id="inputRubricaDemandaId">
+          
+          <div class="row g-3 mb-3 p-2 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold mb-1">Demanda / Checkpoint Avaliado:</label>
+              <select class="form-select form-select-sm" id="selectRubricaDemanda" onchange="aoMudarDemandaNoModalRubrica(this.value)">
+                <!-- Opções de demandas -->
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold mb-1">Equipe / Estudante Avaliado:</label>
+              <select class="form-select form-select-sm" id="selectRubricaEquipe" required onchange="aoMudarEquipeNoModalRubrica(this.value)">
+                <option value="Equipe 1 — Vitrine Comercial &amp; Negócios Locais">Equipe 1 — Vitrine Comercial &amp; Negócios Locais</option>
+                <option value="Equipe 2 — Portal PetCare (Adoção Animal)">Equipe 2 — Portal PetCare (Adoção Animal)</option>
+                <option value="Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba">Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba</option>
+                <option value="Equipe 4 — Monitoramento das Praias">Equipe 4 — Monitoramento das Praias</option>
+                <option value="Equipe 5 — Feira Agroecológica Local">Equipe 5 — Feira Agroecológica Local</option>
+                <option value="Equipe 6 — Acessibilidade em Espaços Públicos">Equipe 6 — Acessibilidade em Espaços Públicos</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- AS 4 DIMENSÕES DA RUBRICA -->
+          <div id="containerDimensoesRubrica">
+            <!-- Renderizado dinamicamente com botões interativos -->
+          </div>
+
+          <!-- RESUMO TOTAL E CONCEITO -->
+          <div class="rubrica-total-card">
+            <div>
+              <span class="small text-muted text-uppercase fw-bold">Nota Consolidada da Rubrica:</span>
+              <div class="fs-2 fw-bold font-outfit" id="rubricaNotaTotal">10.0</div>
+            </div>
+            <div class="text-end">
+              <span class="small text-muted text-uppercase fw-bold">Classificação Formativa:</span>
+              <div id="rubricaConceitoBadge" class="fs-5 fw-bold text-success">
+                <i class="bi bi-star-fill text-warning me-1"></i> Excelente (Domínio Pleno)
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label class="form-label small fw-bold">Link de Comprovação / Repositório (Opcional):</label>
+            <input type="url" class="form-control form-control-sm" id="inputRubricaLinkRepo" placeholder="https://github.com/usuario/projeto ou https://usuario.github.io/projeto/">
+          </div>
+
+          <div class="mt-3">
+            <label class="form-label small fw-bold">Parecer Formativo / Feedback Docente:</label>
+            <textarea class="form-control form-control-sm" id="inputRubricaFeedback" rows="3" placeholder="Destaques positivos da entrega, pontos de atenção para as próximas aulas e recomendações de refatoração..."></textarea>
+          </div>
+        </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalRubrica()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-success"><i class="fa-solid fa-check me-1"></i> Salvar Avaliação no Diário</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST FEEDBACK NOTIFICATION -->
+  <div id="appToast" style="position: fixed; bottom: 20px; right: 20px; z-index: 1100; min-width: 280px; max-width: 420px; background: var(--bg-card); border: 1px solid var(--accent-emerald); border-left: 5px solid var(--accent-emerald); box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 8px; padding: 0.9rem 1.2rem; transform: translateY(120%); transition: transform 0.3s ease; display: flex; align-items: center; gap: 0.75rem;">
+    <i class="fa-solid fa-circle-check text-success fs-5" id="toastIcon"></i>
+    <div style="flex: 1;">
+      <div class="fw-bold small text-heading" id="toastTitle">Sucesso</div>
+      <div class="text-muted" style="font-size: 0.8rem;" id="toastMessage">Operação realizada com sucesso!</div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="app-footer">
@@ -2576,7 +3246,934 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
   <!-- JAVASCRIPT LÓGICA DO DASHBOARD -->
   <script>
+    // =========================================================================
+    // CONSTANTES, DADOS INICIAIS E ESTRUTURAS DE SUPORTE
+    // =========================================================================
+    const STORAGE_KEY_DEMANDAS = 'progweb2_demandas_data';
+    const STORAGE_KEY_AVALIACOES = 'progweb2_rubricas_avaliacoes';
+    const STORAGE_KEY_MODO_DOCENTE = 'progweb2_modo_docente';
+
+    const EQUIPES_PROGWEB2 = [
+      "Equipe 1 — Vitrine Comercial & Negócios Locais",
+      "Equipe 2 — Portal PetCare (Adoção Animal)",
+      "Equipe 3 — Ecoturismo & Trilhas de Garopaba",
+      "Equipe 4 — Monitoramento das Praias",
+      "Equipe 5 — Feira Agroecológica Local",
+      "Equipe 6 — Acessibilidade em Espaços Públicos"
+    ];
+
+    const DEMANDAS_INICIAIS = [
+      {
+        id: "DEM-01",
+        titulo: "Entrega do Roteiro 04: Vitrine Modular ES6 de Empreendedores Locais",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Roteiros • 35%)",
+        destinatario: "Todos",
+        prazo: "2026-10-27",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Implementação da vitrine comunitária em arquitetura modular ES6 (módulos de dados, serviços e renderização), com filtros dinâmicos de busca e deploy ativo no GitHub Pages.",
+        criterios: [
+          "Repositório no GitHub organizado com pastas css/, js/ e raiz limpa",
+          "Separação estrita em módulos ES6 com imports e exports nomeados",
+          "Filtros de categoria e busca textual em tempo real no DOM",
+          "Deploy publicado no GitHub Pages sem erros no console DevTools"
+        ]
+      },
+      {
+        id: "DEM-02",
+        titulo: "Entrega do Roteiro 05 (Parte 1): Mini-Exemplos Fetch API & Microbackend",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Roteiros • 35%)",
+        destinatario: "Todos",
+        prazo: "2026-11-03",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Consumo de dados via Fetch API assíncrona (async/await), integração com microbackend Flask/PHP e tratamento defensivo de respostas HTTP (status 200, 404, 500) com feedback visual na interface.",
+        criterios: [
+          "Consumo de rota JSON do microbackend usando fetch com async/await",
+          "Tratamento defensivo com blocos try/catch e verificação de response.ok",
+          "Feedback visual de carregamento (spinner/alert) durante a requisição",
+          "Comprovação em vídeo ou captura da interação com o back-end"
+        ]
+      },
+      {
+        id: "DEM-03",
+        titulo: "Ação Curricularizada de Extensão na SNCT & Resumo Expandido COTB",
+        instrumento: "A3",
+        instrumentoNome: "A3 (Extensão & Projeto • 40%)",
+        destinatario: "Todos",
+        prazo: "2026-11-17",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Planejamento e execução de minicurso, oficina ou demonstração interativa da aplicação web na Semana Nacional de Ciência e Tecnologia (SNCT), com redação do Resumo Expandido para o COTB 2026.",
+        criterios: [
+          "Definição da proposta extensionista conectada a uma das 4 temáticas comunitárias",
+          "Aplicação web completa com CRUD/Fetch API hospedada no GitHub Pages",
+          "Condução presencial da atividade extensionista com usuários externos",
+          "Envio do Resumo Expandido (LaTeX COTB) relatando a experiência extensionista"
+        ]
+      }
+    ];
+
+    const DIMENSOES_RUBRICA = [
+      {
+        id: "dim1",
+        titulo: "1. Arquitetura Modular ES6 & Organização",
+        descricao: "Estruturação de pastas, desacoplamento em módulos ES6, imports/exports limpos e qualidade do código.",
+        niveis: [
+          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Código monolítico único, escopo global desordenado." },
+          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Módulos parciais com dependências circulares." },
+          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Estrutura modular limpa em camadas (dados/serviços/ui)." },
+          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Arquitetura impecável, modular, manutenível e extensível." }
+        ]
+      },
+      {
+        id: "dim2",
+        titulo: "2. Manipulação do DOM, Forms & Reatividade",
+        descricao: "Reatividade a eventos, sanitização de inputs, proteção defensiva contra NaN e formatação monetária.",
+        niveis: [
+          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sem validação de formulários, erros de cálculo (NaN)." },
+          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Manipulação funcional mas com cálculos frágeis." },
+          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Eventos reativos (change/input) e parsing defensivo." },
+          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Reatividade fluida, validação robusta e formatação Intl." }
+        ]
+      },
+      {
+        id: "dim3",
+        titulo: "3. Assincronismo, Fetch API & Microback-end",
+        descricao: "Consumo de dados via async/await, conversão json(), tratamento de status HTTP (4xx/5xx) e try/catch.",
+        niveis: [
+          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sem assincronismo ou falhas sistemáticas não tratadas." },
+          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Fetch simples sem try/catch ou sem checar response.ok." },
+          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "async/await correto, conversão json() e try/catch seguro." },
+          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Integração assíncrona exemplar com fallbacks e tratamento visual." }
+        ]
+      },
+      {
+        id: "dim4",
+        titulo: "4. UX, Feedback Visual & Deploy GitHub Pages",
+        descricao: "Responsividade mobile-first, modais/toasts, feedback de carregamento (spinners) e deploy ativo no Pages.",
+        niveis: [
+          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Layout quebrado, sem feedback visual, sem deploy público." },
+          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Responsivo básico com links/assets quebrados no Pages." },
+          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Bootstrap 5 responsivo, feedback visual e deploy live." },
+          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Design refinado, acessível, feedback fluido e deploy 100% perfeito." }
+        ]
+      }
+    ];
+
+    // Estado da Aplicação
+    let demandasApp = [];
+    let avaliacoesApp = [];
+    let filtroAtualDemandas = 'todas';
+    let estadoRubricaAtual = { dim0: 2.5, dim1: 2.5, dim2: 2.5, dim3: 2.5 };
+
+    // =========================================================================
+    // INICIALIZAÇÃO E PERSISTÊNCIA (LOCALSTORAGE)
+    // =========================================================================
+    function carregarDados() {
+      try {
+        const dSalvas = localStorage.getItem(STORAGE_KEY_DEMANDAS);
+        demandasApp = dSalvas ? JSON.parse(dSalvas) : JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+      } catch (e) {
+        console.error("Erro ao carregar demandas:", e);
+        demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+      }
+
+      try {
+        const aSalvas = localStorage.getItem(STORAGE_KEY_AVALIACOES);
+        avaliacoesApp = aSalvas ? JSON.parse(aSalvas) : [];
+      } catch (e) {
+        console.error("Erro ao carregar avaliações:", e);
+        avaliacoesApp = [];
+      }
+    }
+
+    function salvarDadosDemandas() {
+      localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
+    }
+
+    function salvarDadosAvaliacoes() {
+      localStorage.setItem(STORAGE_KEY_AVALIACOES, JSON.stringify(avaliacoesApp));
+    }
+
+    // =========================================================================
+    // MODO DOCENTE (VISÃO DO PROFESSOR vs VISÃO DO ESTUDANTE)
+    // =========================================================================
+    function toggleModoDocente() {
+      const body = document.body;
+      const ativo = body.classList.toggle('modo-docente-ativo');
+      localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, ativo ? 'true' : 'false');
+      atualizarUIModoDocente(ativo);
+      showToast(
+        ativo ? "Modo Docente Ativado" : "Modo Aluno Ativado",
+        ativo ? "Ferramentas de criação de demandas e avaliação por rubrica disponíveis." : "Visualização configurada no modo de consulta do estudante.",
+        ativo ? "fa-solid fa-chalkboard-user text-warning" : "fa-solid fa-user-graduate text-primary"
+      );
+    }
+
+    function atualizarUIModoDocente(ativo) {
+      const textEl = document.getElementById('modoDocenteText');
+      const btnEl = document.getElementById('btnModoDocente');
+      if (textEl) {
+        textEl.innerText = ativo ? 'Modo Docente (Ativo)' : 'Visão do Aluno';
+      }
+      if (btnEl) {
+        if (ativo) {
+          btnEl.style.borderColor = 'var(--accent-amber)';
+          btnEl.style.color = 'var(--accent-amber)';
+          btnEl.style.background = 'rgba(217, 119, 6, 0.12)';
+        } else {
+          btnEl.style.borderColor = 'var(--border-color)';
+          btnEl.style.color = 'var(--text-muted)';
+          btnEl.style.background = 'transparent';
+        }
+      }
+    }
+
+    function initModoDocente() {
+      const salvo = localStorage.getItem(STORAGE_KEY_MODO_DOCENTE);
+      // Padrão: Modo Docente Ativo (true) para conveniência pedagógica imediata
+      const ativo = salvo === null ? true : salvo === 'true';
+      if (ativo) {
+        document.body.classList.add('modo-docente-ativo');
+      } else {
+        document.body.classList.remove('modo-docente-ativo');
+      }
+      atualizarUIModoDocente(ativo);
+    }
+
+    // =========================================================================
+    // CÁLCULO DE PRAZOS E DIAS RESTANTES
+    // =========================================================================
+    function calcularStatusPrazo(prazoStr, concluida) {
+      if (concluida) {
+        return {
+          classe: 'badge-pill-green',
+          texto: '<i class="fa-solid fa-circle-check"></i> Concluída',
+          urgente: false
+        };
+      }
+      if (!prazoStr) {
+        return { classe: 'badge-pill-blue', texto: 'Sem prazo definido', urgente: false };
+      }
+
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+      const dataPrazo = new Date(prazoStr + "T23:59:59");
+      const diffMs = dataPrazo - hoje;
+      const diffDias = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      if (diffDias < 0) {
+        const diasAtras = Math.abs(diffDias);
+        return {
+          classe: 'badge-pill-red',
+          texto: `<i class="fa-solid fa-triangle-exclamation"></i> Encerrada há ${diasAtras}d`,
+          urgente: true
+        };
+      } else if (diffDias === 0) {
+        return {
+          classe: 'badge-pill-red',
+          texto: '<i class="fa-solid fa-clock"></i> Entrega Hoje!',
+          urgente: true
+        };
+      } else if (diffDias === 1) {
+        return {
+          classe: 'badge-pill-amber',
+          texto: '<i class="fa-solid fa-hourglass-start"></i> Entrega Amanhã',
+          urgente: true
+        };
+      } else if (diffDias <= 5) {
+        return {
+          classe: 'badge-pill-amber',
+          texto: `<i class="fa-solid fa-hourglass-half"></i> Faltam ${diffDias} dias`,
+          urgente: false
+        };
+      } else {
+        return {
+          classe: 'badge-pill-blue',
+          texto: `<i class="fa-solid fa-calendar-check"></i> Faltam ${diffDias} dias`,
+          urgente: false
+        };
+      }
+    }
+
+    // =========================================================================
+    // RENDERIZAÇÃO DA CENTRAL DE DEMANDAS
+    // =========================================================================
+    function filtrarDemandas(filtro, btn) {
+      filtroAtualDemandas = filtro;
+      if (btn) {
+        document.querySelectorAll('#filterChipsContainer .filter-chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      renderizarDemandas();
+    }
+
+    function renderizarDemandas() {
+      const container = document.getElementById('gridDemandas');
+      if (!container) return;
+
+      let lista = [...demandasApp];
+
+      if (filtroAtualDemandas === 'ativas') {
+        lista = lista.filter(d => !d.concluida);
+      } else if (filtroAtualDemandas === 'concluidas') {
+        lista = lista.filter(d => d.concluida);
+      } else if (filtroAtualDemandas === 'A2') {
+        lista = lista.filter(d => d.instrumento === 'A2');
+      } else if (filtroAtualDemandas === 'A3') {
+        lista = lista.filter(d => d.instrumento === 'A3');
+      }
+
+      atualizarKPIs();
+
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div class="p-5 text-center w-100" style="grid-column: 1 / -1; background: var(--bg-card); border: 1px dashed var(--border-color); border-radius: var(--radius-md);">
+            <i class="fa-solid fa-filter-circle-xmark text-muted fs-1 mb-3"></i>
+            <h4 class="font-outfit text-heading">Nenhuma demanda encontrada neste filtro</h4>
+            <p class="text-muted small mb-3">Alterne para outro filtro acima ou crie uma nova demanda pelo botão do Modo Docente.</p>
+            <button onclick="filtrarDemandas('todas', document.querySelector('#filterChipsContainer .filter-chip'))" class="btn-action btn-outline-action">
+              Ver Todas as Demandas
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = lista.map(d => {
+        const statusPrazo = calcularStatusPrazo(d.prazo, d.concluida);
+        const cardClass = d.concluida ? 'demanda-card concluida' : (statusPrazo.urgente ? 'demanda-card urgente' : 'demanda-card');
+        
+        // Contagem de equipes avaliadas para esta demanda
+        const avaliacoesDestaDemanda = avaliacoesApp.filter(a => a.demandaId === d.id);
+        const totalAvaliadas = avaliacoesDestaDemanda.length;
+
+        // Critérios formatados
+        const criteriosHtml = (d.criterios && d.criterios.length > 0)
+          ? d.criterios.map(c => `
+              <div class="d-flex align-items-start gap-2 mb-1" style="font-size: 0.8rem;">
+                <i class="fa-solid fa-circle-check text-success mt-1" style="font-size: 0.72rem;"></i>
+                <span>${escapeHtml(c)}</span>
+              </div>
+            `).join('')
+          : '<div class="text-muted small">Nenhum critério detalhado.</div>';
+
+        return `
+          <div class="${cardClass}">
+            <div>
+              <div class="demanda-card-header">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--accent-blue); border: 1px solid var(--border-color);">${d.id}</span>
+                  <span class="badge-pill ${d.instrumento === 'A3' ? 'badge-pill-green' : 'badge-pill-amber'} small">
+                    ${d.instrumentoNome || d.instrumento}
+                  </span>
+                  <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-muted); font-size: 0.72rem; border: 1px solid var(--border-color);">
+                    <i class="fa-solid fa-users me-1"></i>${escapeHtml(d.destinatario || 'Todos')}
+                  </span>
+                </div>
+                <span class="badge-pill ${statusPrazo.classe} small">
+                  ${statusPrazo.texto}
+                </span>
+              </div>
+
+              <h3 class="demanda-card-title">${escapeHtml(d.titulo)}</h3>
+              <p class="demanda-card-desc">${escapeHtml(d.descricao)}</p>
+
+              <div class="demanda-criterios-box">
+                <div class="small fw-bold text-heading mb-2">
+                  <i class="fa-solid fa-list-check text-primary me-1"></i> Critérios de Aceite Obrigatórios:
+                </div>
+                ${criteriosHtml}
+              </div>
+            </div>
+
+            <div>
+              <div class="demanda-meta-row">
+                <div>
+                  <span class="fw-bold text-heading font-outfit">Pontos:</span> ${(d.pontos || 10).toFixed(1)} pts
+                </div>
+                <div>
+                  <span class="fw-bold text-heading font-outfit">Avaliadas:</span> ${totalAvaliadas} / ${EQUIPES_PROGWEB2.length}
+                </div>
+                <div>
+                  <span class="fw-bold text-heading font-outfit">Deadline:</span> ${formatarData(d.prazo)}
+                </div>
+              </div>
+
+              <div class="demanda-actions">
+                <button onclick="abrirModalAvaliarRubrica('${d.id}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem; border-color: var(--accent-amber); color: var(--accent-amber);">
+                  <i class="fa-solid fa-award me-1"></i> Avaliar Rubrica
+                </button>
+                <button onclick="alternarConclusaoDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.78rem;" title="Marcar como concluída ou reabrir">
+                  <i class="fa-solid ${d.concluida ? 'fa-rotate-left text-primary' : 'fa-check text-success'}"></i> ${d.concluida ? 'Reabrir' : 'Concluir'}
+                </button>
+                <button onclick="abrirModalEditarDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.78rem;" title="Editar Demanda">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button onclick="excluirDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.78rem; color: var(--accent-rose);" title="Excluir Demanda">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function atualizarKPIs() {
+      const total = demandasApp.length;
+      const ativas = demandasApp.filter(d => !d.concluida).length;
+      const concluidas = demandasApp.filter(d => d.concluida).length;
+      const avaliacoesTotal = avaliacoesApp.length;
+
+      const elTotal = document.getElementById('statTotalDemandas');
+      const elAtivas = document.getElementById('statDemandasAtivas');
+      const elConcluidas = document.getElementById('statDemandasConcluidas');
+      const elAvaliacoes = document.getElementById('statAvaliacoesRegistradas');
+      const kpiDemandasHeader = document.getElementById('kpiDemandasCount');
+
+      if (elTotal) elTotal.innerText = total;
+      if (elAtivas) elAtivas.innerText = ativas;
+      if (elConcluidas) elConcluidas.innerText = concluidas;
+      if (elAvaliacoes) elAvaliacoes.innerText = avaliacoesTotal;
+      if (kpiDemandasHeader) kpiDemandasHeader.innerText = `${ativas} Ativas`;
+    }
+
+    // =========================================================================
+    // MODAL DE CRIAÇÃO / EDIÇÃO DE DEMANDA
+    // =========================================================================
+    function abrirModalNovaDemanda() {
+      document.getElementById('formDemanda').reset();
+      document.getElementById('inputDemandaIdOriginal').value = '';
+      document.getElementById('modalDemandaTitulo').innerHTML = '<i class="fa-solid fa-bullhorn text-primary me-2"></i> Nova Demanda / Broadcast';
+      
+      // Gerar ID sugerido
+      const proximoNum = demandasApp.length + 1;
+      document.getElementById('inputDemandaCodigo').value = `DEM-${proximoNum < 10 ? '0' + proximoNum : proximoNum}`;
+      document.getElementById('inputDemandaPontos').value = "10.0";
+      
+      // Prazo padrão: daqui a 7 dias
+      const d = new Date();
+      d.setDate(d.getDate() + 7);
+      document.getElementById('inputDemandaPrazo').value = d.toISOString().split('T')[0];
+
+      document.getElementById('modalDemandaOverlay').classList.add('active');
+    }
+
+    function abrirModalEditarDemanda(id) {
+      const d = demandasApp.find(item => item.id === id);
+      if (!d) return;
+
+      document.getElementById('inputDemandaIdOriginal').value = d.id;
+      document.getElementById('inputDemandaCodigo').value = d.id;
+      document.getElementById('inputDemandaInstrumento').value = d.instrumento || 'A2';
+      document.getElementById('inputDemandaPontos').value = d.pontos || 10.0;
+      document.getElementById('inputDemandaTitulo').value = d.titulo;
+      document.getElementById('inputDemandaDestinatario').value = d.destinatario || 'Todos';
+      document.getElementById('inputDemandaPrazo').value = d.prazo;
+      document.getElementById('inputDemandaDescricao').value = d.descricao;
+      document.getElementById('inputDemandaCriterios').value = (d.criterios || []).join('\n');
+
+      document.getElementById('modalDemandaTitulo').innerHTML = `<i class="fa-solid fa-pen-to-square text-primary me-2"></i> Editar Demanda: ${d.id}`;
+      document.getElementById('modalDemandaOverlay').classList.add('active');
+    }
+
+    function fecharModalDemanda() {
+      document.getElementById('modalDemandaOverlay').classList.remove('active');
+    }
+
+    function salvarDemanda(event) {
+      event.preventDefault();
+      const idOriginal = document.getElementById('inputDemandaIdOriginal').value;
+      const codigo = document.getElementById('inputDemandaCodigo').value.trim();
+      const instrumento = document.getElementById('inputDemandaInstrumento').value;
+      const pontos = parseFloat(document.getElementById('inputDemandaPontos').value) || 10.0;
+      const titulo = document.getElementById('inputDemandaTitulo').value.trim();
+      const destinatario = document.getElementById('inputDemandaDestinatario').value;
+      const prazo = document.getElementById('inputDemandaPrazo').value;
+      const descricao = document.getElementById('inputDemandaDescricao').value.trim();
+      const criteriosTexto = document.getElementById('inputDemandaCriterios').value.trim();
+      const criterios = criteriosTexto.split('\n').map(c => c.trim()).filter(c => c.length > 0);
+
+      const instrumentoNome = instrumento === 'A1' ? 'A1 (Teórica • 25%)' : (instrumento === 'A3' ? 'A3 (Extensão & Projeto • 40%)' : 'A2 (Roteiros • 35%)');
+
+      if (idOriginal) {
+        // Atualização
+        const idx = demandasApp.findIndex(d => d.id === idOriginal);
+        if (idx !== -1) {
+          demandasApp[idx] = {
+            ...demandasApp[idx],
+            id: codigo,
+            instrumento,
+            instrumentoNome,
+            pontos,
+            titulo,
+            destinatario,
+            prazo,
+            descricao,
+            criterios
+          };
+          showToast("Demanda Atualizada", `Demanda ${codigo} atualizada com sucesso!`);
+        }
+      } else {
+        // Nova
+        const nova = {
+          id: codigo,
+          titulo,
+          instrumento,
+          instrumentoNome,
+          destinatario,
+          prazo,
+          pontos,
+          concluida: false,
+          descricao,
+          criterios
+        };
+        demandasApp.unshift(nova);
+        showToast("Nova Demanda Disparada", `Demanda ${codigo} registrada com sucesso na central!`);
+      }
+
+      salvarDadosDemandas();
+      renderizarDemandas();
+      popularSelectsDeDemanda();
+      fecharModalDemanda();
+    }
+
+    function alternarConclusaoDemanda(id) {
+      const d = demandasApp.find(item => item.id === id);
+      if (!d) return;
+      d.concluida = !d.concluida;
+      salvarDadosDemandas();
+      renderizarDemandas();
+      showToast(
+        d.concluida ? "Demanda Concluída" : "Demanda Reaberta",
+        `A demanda ${d.id} agora está marcada como ${d.concluida ? 'concluída' : 'ativa'}.`
+      );
+    }
+
+    function excluirDemanda(id) {
+      if (!confirm(`Deseja realmente excluir permanentemente a demanda ${id}? As avaliações registradas permanecerão arquivadas.`)) {
+        return;
+      }
+      demandasApp = demandasApp.filter(d => d.id !== id);
+      salvarDadosDemandas();
+      renderizarDemandas();
+      popularSelectsDeDemanda();
+      showToast("Demanda Excluída", `Demanda ${id} removida com sucesso.`, "fa-solid fa-trash text-danger");
+    }
+
+    // =========================================================================
+    // MODAL E MATRIZ DE AVALIAÇÃO POR RUBRICAS
+    // =========================================================================
+    function popularSelectsDeDemanda() {
+      // 1. Select do modal de rubricas
+      const selectModal = document.getElementById('selectRubricaDemanda');
+      if (selectModal) {
+        selectModal.innerHTML = demandasApp.map(d => `
+          <option value="${d.id}">${d.id} — ${escapeHtml(d.titulo)} (${d.instrumento})</option>
+        `).join('');
+      }
+
+      // 2. Select do filtro na aba avaliações
+      const selectFiltro = document.getElementById('selectFiltroDemandaRubrica');
+      if (selectFiltro) {
+        selectFiltro.innerHTML = `
+          <option value="todas">Todas as Demandas &amp; Checkpoints</option>
+          ${demandasApp.map(d => `<option value="${d.id}">${d.id} — ${escapeHtml(d.titulo)}</option>`).join('')}
+        `;
+      }
+    }
+
+    function renderizarDimensoesNoModalRubrica() {
+      const container = document.getElementById('containerDimensoesRubrica');
+      if (!container) return;
+
+      container.innerHTML = DIMENSOES_RUBRICA.map((dim, dimIdx) => {
+        const valAtual = estadoRubricaAtual[`dim${dimIdx}`] !== undefined ? estadoRubricaAtual[`dim${dimIdx}`] : 2.5;
+
+        const niveisHtml = dim.niveis.map(niv => {
+          const isSelected = Math.abs(niv.valor - valAtual) < 0.05;
+          const selectedClass = isSelected ? `selected ${niv.classe}` : '';
+          return `
+            <div class="rubrica-level-btn ${selectedClass}" onclick="selecionarNivelRubrica(${dimIdx}, ${niv.valor}, this)">
+              <div class="fw-bold" style="font-size: 0.85rem;">${niv.rotulo}</div>
+              <div class="level-desc text-muted" style="font-size: 0.72rem; line-height: 1.25;">${niv.desc}</div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="rubrica-dim-card">
+            <div class="rubrica-dim-header">
+              <h4 class="rubrica-dim-title">${dim.titulo}</h4>
+              <span class="badge font-code" id="badgeDim${dimIdx}" style="background: var(--bg-card); color: var(--accent-blue); border: 1px solid var(--border-color);">
+                ${valAtual.toFixed(1)} / 2.5 pts
+              </span>
+            </div>
+            <p class="text-muted small mb-2" style="font-size: 0.78rem;">${dim.descricao}</p>
+            <div class="rubrica-levels-grid">
+              ${niveisHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      recalcularRubrica();
+    }
+
+    function selecionarNivelRubrica(dimIdx, valor, btn) {
+      estadoRubricaAtual[`dim${dimIdx}`] = valor;
+      
+      // Atualizar botões visuais deste container
+      const parentCard = btn.closest('.rubrica-dim-card');
+      if (parentCard) {
+        parentCard.querySelectorAll('.rubrica-level-btn').forEach(b => {
+          b.className = 'rubrica-level-btn';
+        });
+        const nivObj = DIMENSOES_RUBRICA[dimIdx].niveis.find(n => Math.abs(n.valor - valor) < 0.05);
+        const classeExtra = nivObj ? nivObj.classe : 'excelente';
+        btn.className = `rubrica-level-btn selected ${classeExtra}`;
+
+        const badge = parentCard.querySelector(`#badgeDim${dimIdx}`);
+        if (badge) badge.innerText = `${valor.toFixed(1)} / 2.5 pts`;
+      }
+
+      recalcularRubrica();
+    }
+
+    function recalcularRubrica() {
+      const soma = Object.values(estadoRubricaAtual).reduce((acc, curr) => acc + curr, 0);
+      const totalEl = document.getElementById('rubricaNotaTotal');
+      const badgeEl = document.getElementById('rubricaConceitoBadge');
+
+      if (totalEl) totalEl.innerText = soma.toFixed(1);
+
+      if (badgeEl) {
+        if (soma >= 8.0) {
+          badgeEl.className = 'fs-5 fw-bold text-success';
+          badgeEl.innerHTML = '<i class="bi bi-star-fill text-warning me-1"></i> Excelente (Domínio Pleno)';
+        } else if (soma >= 6.0) {
+          badgeEl.className = 'fs-5 fw-bold text-primary';
+          badgeEl.innerHTML = '<i class="bi bi-check-circle-fill text-primary me-1"></i> Conforme (Aprovado com Êxito)';
+        } else if (soma >= 4.0) {
+          badgeEl.className = 'fs-5 fw-bold text-warning';
+          badgeEl.innerHTML = '<i class="bi bi-exclamation-circle-fill text-warning me-1"></i> Em Desenvolvimento (Requer Ajustes)';
+        } else {
+          badgeEl.className = 'fs-5 fw-bold text-danger';
+          badgeEl.innerHTML = '<i class="bi bi-x-circle-fill text-danger me-1"></i> Insuficiente (Recuperação Paralela)';
+        }
+      }
+    }
+
+    function abrirModalAvaliarRubrica(demandaId, equipeId) {
+      popularSelectsDeDemanda();
+      const selDemanda = document.getElementById('selectRubricaDemanda');
+      const selEquipe = document.getElementById('selectRubricaEquipe');
+
+      if (demandaId && selDemanda) {
+        selDemanda.value = demandaId;
+      }
+      if (equipeId && selEquipe) {
+        selEquipe.value = equipeId;
+      }
+
+      // Buscar se já existe avaliação para esta combinação
+      carregarAvaliacaoExistenteNoModal();
+
+      document.getElementById('modalRubricaOverlay').classList.add('active');
+    }
+
+    function carregarAvaliacaoExistenteNoModal() {
+      const dId = document.getElementById('selectRubricaDemanda').value;
+      const eq = document.getElementById('selectRubricaEquipe').value;
+
+      const aval = avaliacoesApp.find(a => a.demandaId === dId && a.equipe === eq);
+
+      if (aval && aval.dimensoes) {
+        estadoRubricaAtual = { ...aval.dimensoes };
+        document.getElementById('inputRubricaFeedback').value = aval.feedback || '';
+        document.getElementById('inputRubricaLinkRepo').value = aval.linkRepo || '';
+      } else {
+        // Padrão cheio (2.5 em todas)
+        estadoRubricaAtual = { dim0: 2.5, dim1: 2.5, dim2: 2.5, dim3: 2.5 };
+        document.getElementById('inputRubricaFeedback').value = '';
+        document.getElementById('inputRubricaLinkRepo').value = '';
+      }
+
+      renderizarDimensoesNoModalRubrica();
+    }
+
+    function aoMudarDemandaNoModalRubrica(demandaId) {
+      carregarAvaliacaoExistenteNoModal();
+    }
+
+    function aoMudarEquipeNoModalRubrica(equipe) {
+      carregarAvaliacaoExistenteNoModal();
+    }
+
+    function fecharModalRubrica() {
+      document.getElementById('modalRubricaOverlay').classList.remove('active');
+    }
+
+    function salvarAvaliacaoRubrica(event) {
+      event.preventDefault();
+      const demandaId = document.getElementById('selectRubricaDemanda').value;
+      const equipe = document.getElementById('selectRubricaEquipe').value;
+      const feedback = document.getElementById('inputRubricaFeedback').value.trim();
+      const linkRepo = document.getElementById('inputRubricaLinkRepo').value.trim();
+
+      const notaFinal = Object.values(estadoRubricaAtual).reduce((a, b) => a + b, 0);
+
+      let conceito = "Excelente";
+      if (notaFinal < 4.0) conceito = "Insuficiente";
+      else if (notaFinal < 6.0) conceito = "Em Desenvolvimento";
+      else if (notaFinal < 8.0) conceito = "Conforme";
+
+      const registro = {
+        demandaId,
+        equipe,
+        nota: notaFinal,
+        conceito,
+        dimensoes: { ...estadoRubricaAtual },
+        feedback,
+        linkRepo,
+        dataAvaliacao: new Date().toISOString()
+      };
+
+      // Atualizar ou inserir
+      const idx = avaliacoesApp.findIndex(a => a.demandaId === demandaId && a.equipe === equipe);
+      if (idx !== -1) {
+        avaliacoesApp[idx] = registro;
+      } else {
+        avaliacoesApp.push(registro);
+      }
+
+      salvarDadosAvaliacoes();
+      renderizarDemandas();
+      renderizarTabelaRubricas();
+      fecharModalRubrica();
+
+      showToast(
+        "Avaliação Registrada",
+        `Nota ${notaFinal.toFixed(1)} lançada com sucesso para ${equipe}!`,
+        "fa-solid fa-award text-success"
+      );
+    }
+
+    // =========================================================================
+    // RENDERIZAÇÃO DO QUADRO CONSOLIDADO NA ABA AVALIAÇÃO
+    // =========================================================================
+    function renderizarTabelaRubricas(filtroDemanda) {
+      const container = document.getElementById('tabelaAvaliacoesContainer');
+      if (!container) return;
+
+      const filtroSel = filtroDemanda !== undefined ? filtroDemanda : (document.getElementById('selectFiltroDemandaRubrica')?.value || 'todas');
+
+      let lista = [...avaliacoesApp];
+      if (filtroSel && filtroSel !== 'todas') {
+        lista = lista.filter(a => a.demandaId === filtroSel);
+      }
+
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div class="p-4 text-center text-muted" style="background: var(--bg-card-hover); border-radius: var(--radius-md);">
+            <i class="fa-solid fa-clipboard-question fs-2 mb-2"></i>
+            <p class="mb-1 fw-bold">Nenhuma avaliação por rubrica registrada para este filtro.</p>
+            <p class="small mb-3">Abra a Central de Demandas ou clique no botão abaixo para avaliar a primeira equipe:</p>
+            <button onclick="abrirModalAvaliarRubrica('${demandasApp[0]?.id || 'DEM-01'}')" class="btn-action btn-outline-action py-1 px-3" style="font-size: 0.82rem;">
+              <i class="fa-solid fa-award me-1"></i> Lançar Nova Avaliação
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <table class="table table-hover align-middle mb-0" style="font-size: 0.84rem;">
+          <thead style="background: var(--bg-card-hover);">
+            <tr>
+              <th style="width: 25%;">Equipe / Projeto Extensionista</th>
+              <th style="width: 18%;">Demanda Vinculada</th>
+              <th style="width: 20%;">Pontuação por Dimensões</th>
+              <th style="width: 14%; text-align: center;">Nota Consolidada</th>
+              <th style="width: 15%; text-align: center;">Ações Docente</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lista.map(av => {
+              const dem = demandasApp.find(d => d.id === av.demandaId) || { titulo: av.demandaId, instrumento: 'A2' };
+              const nota = (av.nota || 0).toFixed(1);
+
+              let badgeConceito = '<span class="badge bg-success-subtle text-success">Excelente</span>';
+              if (av.nota < 4.0) badgeConceito = '<span class="badge bg-danger-subtle text-danger">Insuficiente</span>';
+              else if (av.nota < 6.0) badgeConceito = '<span class="badge bg-warning-subtle text-warning">Em Desenv.</span>';
+              else if (av.nota < 8.0) badgeConceito = '<span class="badge bg-primary-subtle text-primary">Conforme</span>';
+
+              const dims = av.dimensoes || {};
+              const dimResumo = `
+                <div class="d-flex gap-1" style="font-size: 0.7rem;">
+                  <span class="badge bg-light text-dark border" title="1. Modular ES6: ${(dims.dim0 || 0).toFixed(1)}">D1: ${(dims.dim0 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="2. DOM/Forms: ${(dims.dim1 || 0).toFixed(1)}">D2: ${(dims.dim1 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="3. Fetch/Async: ${(dims.dim2 || 0).toFixed(1)}">D3: ${(dims.dim2 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="4. UX/Pages: ${(dims.dim3 || 0).toFixed(1)}">D4: ${(dims.dim3 || 0).toFixed(1)}</span>
+                </div>
+              `;
+
+              const feedbackHtml = av.feedback ? `
+                <div class="text-muted small mt-1 text-truncate" style="max-width: 320px;" title="${escapeHtml(av.feedback)}">
+                  <i class="fa-solid fa-comment-dots text-primary me-1"></i> "${escapeHtml(av.feedback)}"
+                </div>
+              ` : '';
+
+              const linkRepoHtml = av.linkRepo ? `
+                <a href="${escapeHtml(av.linkRepo)}" target="_blank" class="small text-primary text-decoration-none d-inline-block mt-1">
+                  <i class="bi bi-github me-1"></i> Ver Repositório
+                </a>
+              ` : '';
+
+              return `
+                <tr>
+                  <td>
+                    <div class="fw-bold font-outfit text-heading">${escapeHtml(av.equipe)}</div>
+                    ${feedbackHtml}
+                    ${linkRepoHtml}
+                  </td>
+                  <td>
+                    <span class="badge font-code" style="background: var(--bg-card); color: var(--accent-blue); border: 1px solid var(--border-color);">${av.demandaId}</span>
+                    <div class="small text-muted text-truncate" style="max-width: 180px;">${escapeHtml(dem.titulo)}</div>
+                  </td>
+                  <td>${dimResumo}</td>
+                  <td style="text-align: center;">
+                    <div class="fs-5 fw-bold font-outfit text-heading">${nota} / 10.0</div>
+                    <div>${badgeConceito}</div>
+                  </td>
+                  <td style="text-align: center;">
+                    <button onclick="abrirModalAvaliarRubrica('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.75rem;">
+                      <i class="fa-solid fa-pen-to-square me-1"></i> Editar Rubrica
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // =========================================================================
+    // EXPORTAÇÃO, IMPORTAÇÃO JSON E RESTAURAÇÃO DE PADRÕES
+    // =========================================================================
+    function exportarDadosDemandas() {
+      const backup = {
+        progweb2_version: "2026-2",
+        dataExportacao: new Date().toISOString(),
+        demandas: demandasApp,
+        avaliacoes: avaliacoesApp
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `progweb2_demandas_backup_${new Date().toISOString().split('T')[0]}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      showToast("Backup Concluído", "Arquivo JSON gerado e baixado com sucesso!");
+    }
+
+    function importarDadosDemandas(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const json = JSON.parse(e.target.result);
+          if (json.demandas && Array.isArray(json.demandas)) {
+            demandasApp = json.demandas;
+            salvarDadosDemandas();
+          }
+          if (json.avaliacoes && Array.isArray(json.avaliacoes)) {
+            avaliacoesApp = json.avaliacoes;
+            salvarDadosAvaliacoes();
+          }
+          renderizarDemandas();
+          popularSelectsDeDemanda();
+          renderizarTabelaRubricas();
+          showToast("Dados Importados", "Demandas e avaliações restauradas a partir do arquivo JSON!");
+        } catch (err) {
+          alert("Arquivo JSON inválido ou corrompido.");
+          console.error(err);
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    function restaurarDemandasPadrao() {
+      if (!confirm("Deseja restaurar as demandas e rubricas para as 3 tarefas iniciais padrão do ProgWeb 2? As personalizações serão redefinidas.")) {
+        return;
+      }
+      demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+      salvarDadosDemandas();
+      renderizarDemandas();
+      popularSelectsDeDemanda();
+      showToast("Padrões Restaurados", "Demandas iniciais redefinidas com sucesso!");
+    }
+
+    // =========================================================================
+    // TOAST / FEEDBACK VISUAL
+    // =========================================================================
+    let toastTimeout = null;
+    function showToast(titulo, mensagem, iconeClass = "fa-solid fa-circle-check text-success") {
+      const toast = document.getElementById('appToast');
+      const tTitulo = document.getElementById('toastTitle');
+      const tMsg = document.getElementById('toastMessage');
+      const tIcon = document.getElementById('toastIcon');
+
+      if (!toast) return;
+
+      if (tTitulo) tTitulo.innerText = titulo;
+      if (tMsg) tMsg.innerText = mensagem;
+      if (tIcon) tIcon.className = iconeClass;
+
+      toast.style.transform = 'translateY(0)';
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.style.transform = 'translateY(120%)';
+      }, 3500);
+    }
+
+    // =========================================================================
+    // FUNÇÕES AUXILIARES DE FORMATAÇÃO E ESCAPE
+    // =========================================================================
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatarData(dataStr) {
+      if (!dataStr) return '-';
+      const partes = dataStr.split('-');
+      if (partes.length === 3) {
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+      }
+      return dataStr;
+    }
+
+    // =========================================================================
     // NAVEGAÇÃO ENTRE ABAS
+    // =========================================================================
     function showTab(tabId, shouldScroll = true) {
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -2593,9 +4190,18 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           tabsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
+
+      // Se navegou para a aba de avaliação ou demandas, atualizar tabelas
+      if (tabId === 'tab-demandas') {
+        renderizarDemandas();
+      } else if (tabId === 'tab-avaliacao') {
+        renderizarTabelaRubricas();
+      }
     }
 
-    // ALTERNÂNCIA DE TEMA CLARO (PADRÃO) / ESCURO
+    // =========================================================================
+    // TEMA CLARO / ESCURO
+    // =========================================================================
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
@@ -2621,7 +4227,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       }
     }
 
+    // =========================================================================
     // SIMULADOR DE MÉDIA FINAL
+    // =========================================================================
     function calcularMedia() {
       const a1 = parseFloat(document.getElementById('notaA1').value) || 0;
       const a2 = parseFloat(document.getElementById('notaA2').value) || 0;
@@ -2646,7 +4254,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       }
     }
 
+    // =========================================================================
     // COPIAR ENUNCIADO PARA ÁREA DE TRANSFERÊNCIA
+    // =========================================================================
     function copyToClipboard(elementId, btn) {
       const text = document.getElementById(elementId).innerText;
       navigator.clipboard.writeText(text).then(() => {
@@ -2670,7 +4280,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       });
     }
 
-    // RESTAURAR TEMA PREFERIDO (PADRÃO: CLARO INSTITUCIONAL)
+    // =========================================================================
+    // INICIALIZAÇÃO NA CARGA DA PÁGINA
+    // =========================================================================
     (function initTheme() {
       const saved = localStorage.getItem('progweb2-theme-preference');
       if (saved === 'dark') {
@@ -2682,8 +4294,22 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       }
     })();
 
-    // VERIFICAR HASH DA URL NA CARGA (PADRÃO: ABA ROTEIROS SE NÃO HOUVER HASH)
+    // Fechar modais ao teclar ESC
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        fecharModalDemanda();
+        fecharModalRubrica();
+      }
+    });
+
     window.addEventListener("DOMContentLoaded", () => {
+      carregarDados();
+      initModoDocente();
+      popularSelectsDeDemanda();
+      renderizarDemandas();
+      renderizarTabelaRubricas();
+
+      // Verificar hash da URL na carga (ex: #tab-demandas)
       const hash = window.location.hash ? window.location.hash.substring(1) : "";
       if (hash && document.getElementById(hash)) {
         showTab(hash, false);
