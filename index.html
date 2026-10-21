@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+  <!-- ProgWeb 2 Configuração e Google Identity Services (OAuth) -->
+  <script src="progweb2-config.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <style>
     :root {
       /* TEMA CLARO INSTITUCIONAL (PADRÃO) */
@@ -1769,6 +1773,22 @@
         <span class="badge-pill badge-pill-green"><i class="bi bi-mortarboard-fill"></i> PPC CONSUP 30/2020</span>
         <span class="badge-pill badge-pill-blue"><i class="bi bi-clock-history"></i> 60h Presencial + 40h Extensão</span>
         <span class="badge-pill badge-pill-purple"><i class="bi bi-person-badge-fill"></i> Prof. André Moraes</span>
+        
+        <!-- IDENTIFICAÇÃO DO ESTUDANTE COM GOOGLE IDENTITY SERVICES -->
+        <div id="authHeaderContainer" class="d-inline-flex align-items-center">
+          <button id="btnGoogleSignInHeader" class="theme-toggle-btn" onclick="iniciarLoginGoogle()" title="Fazer login institucional com Google" style="border-color: #4285F4; color: #4285F4; font-weight: 600;">
+            <i class="bi bi-google"></i> <span id="authHeaderButtonText">Login Estudante</span>
+          </button>
+          <div id="userBadgeHeader" class="d-none align-items-center gap-2 px-2 py-1 rounded-pill" style="border: 1px solid var(--border-color); background: var(--bg-card); font-size: 0.8125rem;">
+            <img id="userPictureHeader" src="" alt="Avatar" style="width: 20px; height: 20px; border-radius: 50%; display: none;" />
+            <i id="userIconHeader" class="bi bi-person-check-fill text-success"></i>
+            <span id="userDisplayNameHeader" class="fw-semibold text-heading" style="max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
+            <button onclick="efetuarLogoutGoogle()" class="btn btn-link btn-sm p-0 text-muted ms-1" title="Encerrar sessão" style="text-decoration: none; font-size: 0.75rem;">
+              <i class="bi bi-box-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
         <button class="theme-toggle-btn" onclick="toggleModoDocente()" id="btnModoDocente" title="Alternar entre visão do Professor e visão do Aluno" style="border-color: var(--accent-amber); color: var(--accent-amber);">
           <i class="fa-solid fa-chalkboard-user"></i> <span id="modoDocenteText">Modo Docente (Ativo)</span>
         </button>
@@ -2402,9 +2422,14 @@
               <div class="votacao-controle-bar mb-3">
                 <div class="row g-2 align-items-center">
                   <div class="col-md-7">
-                    <label class="form-label small fw-bold mb-1" for="selectVotanteEstudante">
-                      <i class="bi bi-person-check-fill text-primary me-1"></i> Estudante votando agora:
-                    </label>
+                    <div class="d-flex align-items-center justify-content-between mb-1">
+                      <label class="form-label small fw-bold mb-0" for="selectVotanteEstudante">
+                        <i class="bi bi-person-check-fill text-primary me-1"></i> Estudante votando agora:
+                      </label>
+                      <button id="btnGoogleLoginVotacao" onclick="iniciarLoginGoogle()" type="button" class="btn btn-sm btn-link p-0 text-decoration-none" style="font-size: 0.78rem; color: #4285F4; font-weight: 600;">
+                        <i class="bi bi-google me-1"></i> Identificar com Google
+                      </button>
+                    </div>
                     <select id="selectVotanteEstudante" class="form-select form-select-sm" onchange="aoMudarEstudanteVotante(this.value)">
                       <option value="">-- Selecione seu nome na turma (24 estudantes) --</option>
                     </select>
@@ -3829,6 +3854,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     const STORAGE_KEY_OFICINAS_VOTACAO = 'progweb2_oficinas_votacao_v1';
     const STORAGE_KEY_VOTOS_OFICINAS = 'progweb2_votos_oficinas_v1';
     const STORAGE_KEY_ULTIMO_VOTANTE = 'progweb2_ultimo_votante';
+    const STORAGE_KEY_GOOGLE_SESSION = 'progweb2_google_session_v1';
+
+    let usuarioLogadoGoogle = null;
 
     const OFICINAS_PADRAO_SNCT = [
       {
@@ -5503,10 +5531,320 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }).join('');
     }
 
+    // =========================================================================
+    // AUTENTICAÇÃO COM GOOGLE IDENTITY SERVICES & SESSÃO ESTUDANTE
+    // =========================================================================
+    function parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        console.error("Falha ao decodificar token JWT:", e);
+        return null;
+      }
+    }
+
+    function initGoogleAuth() {
+      // 1. Restaurar sessão salva do usuário
+      try {
+        const sessaoSalva = localStorage.getItem(STORAGE_KEY_GOOGLE_SESSION);
+        if (sessaoSalva) {
+          usuarioLogadoGoogle = JSON.parse(sessaoSalva);
+          atualizarInterfaceUsuarioGoogle();
+          
+          if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
+            alunoVotanteAtualId = usuarioLogadoGoogle.alunoId;
+          }
+        }
+      } catch (e) {
+        console.warn("Erro ao restaurar sessão Google:", e);
+      }
+
+      // 2. Inicializar Google Identity Services se disponível
+      const clientId = (window.PROGWEB2_CONFIG && window.PROGWEB2_CONFIG.googleClientId)
+        ? window.PROGWEB2_CONFIG.googleClientId
+        : '827223670130-f312ur39hg8bamvbce5noc0iaajq8b1a.apps.googleusercontent.com';
+
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: aoReceberCredencialGoogle,
+            auto_select: false,
+            cancel_on_tap_outside: true
+          });
+        } catch (err) {
+          console.warn("Aviso na inicialização do Google Identity Services:", err);
+        }
+      }
+    }
+
+    function iniciarLoginGoogle() {
+      const clientId = (window.PROGWEB2_CONFIG && window.PROGWEB2_CONFIG.googleClientId)
+        ? window.PROGWEB2_CONFIG.googleClientId
+        : '827223670130-f312ur39hg8bamvbce5noc0iaajq8b1a.apps.googleusercontent.com';
+
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: aoReceberCredencialGoogle
+          });
+          window.google.accounts.id.prompt((notification) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              const emailInput = prompt("Identificação rápida:\nDigite seu e-mail cadastrado no SIGAA ou institucional (@aluno.ifsc.edu.br):");
+              if (emailInput && emailInput.trim()) {
+                autenticarEstudantePorEmailManual(emailInput.trim());
+              }
+            }
+          });
+          return;
+        } catch (e) {
+          console.warn("Erro ao invocar prompt Google:", e);
+        }
+      }
+
+      const emailInput = prompt("Identificação institucional:\nDigite seu e-mail cadastrado no SIGAA ou institucional (@aluno.ifsc.edu.br):");
+      if (emailInput && emailInput.trim()) {
+        autenticarEstudantePorEmailManual(emailInput.trim());
+      }
+    }
+
+    function autenticarEstudantePorEmailManual(emailDigitado) {
+      const emailNorm = emailDigitado.toLowerCase().trim();
+      const alunoMatch = alunosApp.find(a => 
+        (a.email && a.email.toLowerCase() === emailNorm) ||
+        (a.matricula && a.matricula === emailNorm)
+      );
+
+      if (alunoMatch) {
+        usuarioLogadoGoogle = {
+          nome: alunoMatch.nome,
+          email: alunoMatch.email,
+          alunoId: alunoMatch.id,
+          matricula: alunoMatch.matricula,
+          origem: 'manual'
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
+          localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, alunoMatch.id);
+        } catch (e) {}
+        alunoVotanteAtualId = alunoMatch.id;
+        atualizarInterfaceUsuarioGoogle();
+        popularSelectEstudantesVotacao();
+        renderizarPainelVotacao();
+        showToast("Identificação Concluída!", `Bem-vindo(a), ${alunoMatch.nome.split(' ')[0]}! Seu voto agora está vinculado ao seu perfil.`, "bi bi-person-check-fill text-success");
+      } else {
+        alert(`O e-mail "${emailDigitado}" não foi encontrado na lista dos 24 estudantes matriculados no SIGAA.`);
+      }
+    }
+
+    function aoReceberCredencialGoogle(response) {
+      if (!response || !response.credential) return;
+
+      const payload = parseJwt(response.credential);
+      if (!payload || !payload.email) {
+        alert("Não foi possível extrair os dados da sua conta Google.");
+        return;
+      }
+
+      const emailGoogle = payload.email.toLowerCase().trim();
+      const userPrefix = emailGoogle.split('@')[0];
+
+      let alunoMatch = alunosApp.find(a => a.email && a.email.toLowerCase() === emailGoogle);
+
+      if (!alunoMatch) {
+        alunoMatch = alunosApp.find(a => {
+          const pref = (a.email || '').split('@')[0].toLowerCase();
+          return pref && pref === userPrefix;
+        });
+      }
+
+      usuarioLogadoGoogle = {
+        nome: payload.name || payload.given_name || 'Estudante',
+        email: payload.email,
+        picture: payload.picture || '',
+        sub: payload.sub,
+        alunoId: alunoMatch ? alunoMatch.id : '',
+        matricula: alunoMatch ? alunoMatch.matricula : '',
+        origem: 'google'
+      };
+
+      if (!alunoMatch) {
+        const matriculaInput = prompt(`Conta Google conectada: ${payload.email}\nNão localizamos este e-mail exato no SIGAA.\nDigite o número da sua matrícula para vincular seu perfil:`);
+        if (matriculaInput) {
+          const buscaMatricula = alunosApp.find(a => a.matricula === matriculaInput.trim());
+          if (buscaMatricula) {
+            alunoMatch = buscaMatricula;
+            usuarioLogadoGoogle.alunoId = alunoMatch.id;
+            usuarioLogadoGoogle.matricula = alunoMatch.matricula;
+            usuarioLogadoGoogle.nome = alunoMatch.nome;
+          }
+        }
+      }
+
+      if (alunoMatch) {
+        alunoVotanteAtualId = alunoMatch.id;
+        try {
+          localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, alunoMatch.id);
+        } catch (e) {}
+      }
+
+      try {
+        localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
+      } catch (e) {}
+
+      atualizarInterfaceUsuarioGoogle();
+      popularSelectEstudantesVotacao();
+      renderizarPainelVotacao();
+
+      showToast(
+        "Login Google Realizado!",
+        `Bem-vindo(a), ${usuarioLogadoGoogle.nome.split(' ')[0]}! Identificação ativa para votação e consultas.`,
+        "bi bi-google text-primary"
+      );
+    }
+
+    function atualizarInterfaceUsuarioGoogle() {
+      const btnHeader = document.getElementById('btnGoogleSignInHeader');
+      const badgeHeader = document.getElementById('userBadgeHeader');
+      const nameHeader = document.getElementById('userDisplayNameHeader');
+      const picHeader = document.getElementById('userPictureHeader');
+      const iconHeader = document.getElementById('userIconHeader');
+      const btnVotacao = document.getElementById('btnGoogleLoginVotacao');
+
+      if (usuarioLogadoGoogle) {
+        if (btnHeader) btnHeader.classList.add('d-none');
+        if (badgeHeader) {
+          badgeHeader.classList.remove('d-none');
+          badgeHeader.classList.add('d-inline-flex');
+        }
+        if (nameHeader) {
+          const primeiroNome = usuarioLogadoGoogle.nome.split(' ')[0];
+          nameHeader.textContent = primeiroNome;
+          nameHeader.title = `${usuarioLogadoGoogle.nome} (${usuarioLogadoGoogle.email})`;
+        }
+        if (picHeader && usuarioLogadoGoogle.picture) {
+          picHeader.src = usuarioLogadoGoogle.picture;
+          picHeader.style.display = 'inline-block';
+          if (iconHeader) iconHeader.style.display = 'none';
+        } else if (iconHeader) {
+          iconHeader.style.display = 'inline-block';
+          if (picHeader) picHeader.style.display = 'none';
+        }
+
+        if (btnVotacao) {
+          btnVotacao.innerHTML = `<i class="bi bi-shield-check text-success me-1"></i>Conectado: ${escapeHtml(usuarioLogadoGoogle.nome.split(' ')[0])}`;
+          btnVotacao.classList.add('text-success');
+        }
+      } else {
+        if (btnHeader) btnHeader.classList.remove('d-none');
+        if (badgeHeader) {
+          badgeHeader.classList.add('d-none');
+          badgeHeader.classList.remove('d-inline-flex');
+        }
+        if (btnVotacao) {
+          btnVotacao.innerHTML = `<i class="bi bi-google me-1"></i> Identificar com Google`;
+          btnVotacao.classList.remove('text-success');
+        }
+      }
+    }
+
+    function efetuarLogoutGoogle() {
+      usuarioLogadoGoogle = null;
+      alunoVotanteAtualId = '';
+      try {
+        localStorage.removeItem(STORAGE_KEY_GOOGLE_SESSION);
+        localStorage.removeItem(STORAGE_KEY_ULTIMO_VOTANTE);
+      } catch (e) {}
+
+      atualizarInterfaceUsuarioGoogle();
+      popularSelectEstudantesVotacao();
+      renderizarPainelVotacao();
+
+      showToast(
+        "Sessão Encerrada",
+        "Você desconectou sua identificação Google do dashboard.",
+        "bi bi-box-arrow-right text-muted"
+      );
+    }
+
+    // =========================================================================
+    // SINCRONIZAÇÃO COM BACKEND GOOGLE APPS SCRIPT
+    // =========================================================================
+    async function sincronizarComBackendAppsScript() {
+      const cfg = window.PROGWEB2_CONFIG;
+      if (!cfg || !cfg.apiUrl || !cfg.apiUrl.trim()) {
+        return;
+      }
+
+      const apiUrl = cfg.apiUrl.trim();
+
+      try {
+        const resp = await fetch(apiUrl, { method: 'GET', mode: 'cors' });
+        if (!resp.ok) return;
+
+        const data = await resp.json();
+        if (!data || !data.ok) return;
+
+        let mudou = false;
+
+        // Sincroniza opções de oficinas
+        if (Array.isArray(data.oficinas) && data.oficinas.length > 0) {
+          const remotasMapeadas = data.oficinas.map(o => ({
+            id: o.id || ('oficina-' + Math.random().toString(36).substring(2, 7)),
+            titulo: o.titulo || 'Oficina',
+            categoria: o.categoria || 'Geral',
+            icone: o.icone || 'bi-laptop',
+            corBadge: o.corBadge || 'badge-pill-purple',
+            descricao: o.descricao || '',
+            publico: o.publico || 'Comunidade externa',
+            criadaPorDocente: String(o.criada_por_docente) === 'true'
+          }));
+
+          OFICINAS_PADRAO_SNCT.forEach(padrao => {
+            if (!remotasMapeadas.some(r => r.id === padrao.id)) {
+              remotasMapeadas.unshift(padrao);
+            }
+          });
+
+          oficinasVotacaoApp = remotasMapeadas;
+          salvarOficinasVotacao();
+          mudou = true;
+        }
+
+        // Sincroniza votos
+        if (Array.isArray(data.votos)) {
+          votosOficinasApp = data.votos.map(v => ({
+            alunoId: String(v.aluno_id || ''),
+            alunoNome: v.aluno_nome || '',
+            matricula: v.matricula || '',
+            opcaoId: v.opcao_id || '',
+            timestamp: v.data_hora || ''
+          })).filter(v => v.alunoId && v.opcaoId);
+
+          salvarVotosOficinas();
+          mudou = true;
+        }
+
+        if (mudou) {
+          popularSelectEstudantesVotacao();
+          renderizarPainelVotacao();
+          console.log("ProgWeb 2: Sincronização com Google Apps Script concluída.");
+        }
+      } catch (err) {
+        console.warn("ProgWeb 2: Falha ao sincronizar com Apps Script (operando offline):", err);
+      }
+    }
+
     function registrarVoto(opcaoId) {
       const select = document.getElementById('selectVotanteEstudante');
       if (!alunoVotanteAtualId) {
-        alert("Por favor, selecione primeiro o seu nome no campo 'Estudante votando agora' para poder registrar o seu voto.");
+        alert("Por favor, faça login com sua conta Google institucional ou selecione seu nome no campo 'Estudante votando agora' para poder registrar o seu voto.");
         if (select) {
           select.focus();
           select.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -5539,6 +5877,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         });
       }
 
+      // Persistência local imediata
       salvarVotosOficinas();
       popularSelectEstudantesVotacao();
       renderizarPainelVotacao();
@@ -5548,6 +5887,36 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         `${alunoObj.nome.split(' ')[0]}, seu voto foi computado para "${tituloOpcao}".`,
         "bi bi-check-circle-fill text-success"
       );
+
+      // Sincronização assíncrona com backend Google Apps Script se configurado
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          const payload = {
+            acao: 'votar_oficina',
+            alunoId: alunoObj.id,
+            alunoNome: alunoObj.nome,
+            matricula: alunoObj.matricula || '',
+            email: alunoObj.email || (usuarioLogadoGoogle ? usuarioLogadoGoogle.email : ''),
+            opcaoId: opcaoId,
+            opcaoTitulo: tituloOpcao
+          };
+
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          }).then(r => r.json()).then(res => {
+            if (res && res.ok) {
+              console.log("Voto gravado na planilha Google Sheets com sucesso!");
+            }
+          }).catch(e => {
+            console.warn("Aviso ao enviar voto para Apps Script (gravado localmente):", e);
+          });
+        } catch (e) {
+          console.warn("Erro no envio do voto para Apps Script:", e);
+        }
+      }
     }
 
     function abrirModalNovaOficina() {
@@ -5597,6 +5966,32 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         `O tema "${titulo}" foi adicionado com sucesso e já está disponível para votação da turma!`,
         "bi bi-stars text-warning"
       );
+
+      // Sincroniza com backend Google Apps Script se configurado
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              acao: 'adicionar_oficina',
+              id: novaOficina.id,
+              titulo: novaOficina.titulo,
+              categoria: novaOficina.categoria,
+              icone: novaOficina.icone,
+              descricao: novaOficina.descricao,
+              publico: novaOficina.publico
+            })
+          }).then(r => r.json()).then(res => {
+            console.log("Oficina sincronizada com a planilha Google Sheets!");
+          }).catch(e => {
+            console.warn("Aviso ao sincronizar oficina com Apps Script:", e);
+          });
+        } catch (e) {
+          console.warn("Erro ao enviar oficina para Apps Script:", e);
+        }
+      }
     }
 
     function excluirOpcaoOficina(opcaoId) {
@@ -5627,6 +6022,24 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       popularSelectEstudantesVotacao();
       renderizarPainelVotacao();
       showToast("Votação Zerada", "Todos os votos foram reiniciados.", "bi bi-arrow-counterclockwise text-warning");
+
+      // Sincroniza reset no backend Google Apps Script se configurado
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ acao: 'zerar_votacao' })
+          }).then(r => r.json()).then(res => {
+            console.log("Votação zerada na planilha Google Sheets com sucesso!");
+          }).catch(e => {
+            console.warn("Aviso ao zerar votação no Apps Script:", e);
+          });
+        } catch (e) {
+          console.warn("Erro ao zerar no Apps Script:", e);
+        }
+      }
     }
 
     function abrirModalAuditoriaVotos() {
@@ -5945,6 +6358,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       trocarSubAbaNotas('entregas');
       popularSelectEstudantesVotacao();
       renderizarPainelVotacao();
+      initGoogleAuth();
+      sincronizarComBackendAppsScript();
+
+      if (window.PROGWEB2_CONFIG && window.PROGWEB2_CONFIG.syncIntervalMs) {
+        setInterval(sincronizarComBackendAppsScript, window.PROGWEB2_CONFIG.syncIntervalMs);
+      }
 
       // Verificar hash da URL na carga (ex: #tab-demandas ou #tab-avaliacao)
       const hash = window.location.hash ? window.location.hash.substring(1) : "";
