@@ -197,8 +197,8 @@ function doPost(e) {
       var opcaoTitulo = req.opcaoTitulo || '';
       var agora = new Date().toLocaleString('pt-BR');
 
-      if (!alunoId || !opcaoId) {
-        return jsonResponse({ ok: false, erro: 'alunoId e opcaoId são obrigatórios.' });
+      if (!alunoId || !opcaoId || !email) {
+        return jsonResponse({ ok: false, erro: 'Identificação por conta Google (e-mail) é obrigatória para computar o voto.' });
       }
 
       var dados = abaVotos.getDataRange().getValues();

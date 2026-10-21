@@ -2420,25 +2420,57 @@
 
               <!-- BARRA DE SELEÇÃO DO ESTUDANTE VOTANTE -->
               <div class="votacao-controle-bar mb-3">
-                <div class="row g-2 align-items-center">
-                  <div class="col-md-7">
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                      <label class="form-label small fw-bold mb-0" for="selectVotanteEstudante">
-                        <i class="bi bi-person-check-fill text-primary me-1"></i> Estudante votando agora:
-                      </label>
-                      <button id="btnGoogleLoginVotacao" onclick="iniciarLoginGoogle()" type="button" class="btn btn-sm btn-link p-0 text-decoration-none" style="font-size: 0.78rem; color: #4285F4; font-weight: 600;">
-                        <i class="bi bi-google me-1"></i> Identificar com Google
-                      </button>
+                <!-- 1. CASO NÃO AUTENTICADO: BANNER DE LOGIN OBRIGATÓRIO -->
+                <div id="bannerLoginObrigatorioVotacao" class="p-3 rounded mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: rgba(66, 133, 244, 0.08); border: 1.5px dashed #4285F4;">
+                  <div>
+                    <div class="fw-bold text-heading d-flex align-items-center gap-2 mb-1" style="font-size: 0.875rem;">
+                      <i class="bi bi-shield-lock-fill text-primary"></i> Identificação Oficial Obrigatória
                     </div>
-                    <select id="selectVotanteEstudante" class="form-select form-select-sm" onchange="aoMudarEstudanteVotante(this.value)">
-                      <option value="">-- Selecione seu nome na turma (24 estudantes) --</option>
-                    </select>
-                  </div>
-                  <div class="col-md-5">
-                    <div id="statusVotoEstudante" class="small p-2 rounded text-muted" style="background: var(--bg-card); border: 1px solid var(--border-color); font-size: 0.78rem;">
-                      Selecione seu nome para votar ou alterar seu voto.
+                    <div class="text-muted small" style="font-size: 0.8125rem;">
+                      Para garantir a auditoria nominal e segurança da votação (1 voto por estudante), conecte-se com sua conta Google institucional (<code>@aluno.ifsc.edu.br</code> ou e-mail cadastrado no SIGAA).
                     </div>
                   </div>
+                  <button type="button" onclick="iniciarLoginGoogle()" class="btn btn-sm btn-primary px-3 py-2 fw-semibold shadow-sm" style="font-size: 0.8125rem;">
+                    <i class="bi bi-google me-1"></i> Fazer Login com Google para Votar
+                  </button>
+                </div>
+
+                <!-- 2. CASO AUTENTICADO: PERFIL CONFIRMADO DO ESTUDANTE -->
+                <div id="cardEstudanteAutenticadoVotacao" class="d-none p-3 rounded mb-3 align-items-center justify-content-between flex-wrap gap-2" style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid var(--accent-emerald);">
+                  <div class="d-flex align-items-center gap-3">
+                    <img id="avatarAuthVotacao" src="" alt="Avatar" style="width: 36px; height: 36px; border-radius: 50%; display: none;" />
+                    <div id="iconeWrapperAuthVotacao" class="d-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 36px; height: 36px;">
+                      <i class="bi bi-person-check-fill fs-5"></i>
+                    </div>
+                    <div>
+                      <div class="fw-bold text-heading" id="nomeAuthVotacao">Estudante Autenticado</div>
+                      <div class="text-muted small" style="font-size: 0.76rem;" id="detalhesAuthVotacao">Matrícula: — | E-mail: —</div>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-success text-white py-1 px-2" style="font-size: 0.74rem;"><i class="bi bi-patch-check-fill me-1"></i>Identidade Verificada</span>
+                    <button type="button" onclick="efetuarLogoutGoogle()" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem;" title="Trocar conta Google">
+                      <i class="bi bi-box-arrow-right me-1"></i> Sair / Trocar
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 3. SIMULAÇÃO DOCENTE (VISÍVEL APENAS QUANDO MODO DOCENTE ATIVO) -->
+                <div class="docente-only mb-2 p-2 rounded" style="background: rgba(217, 119, 6, 0.08); border: 1px dashed var(--accent-amber);">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <label class="form-label small fw-bold text-warning mb-0" for="selectVotanteEstudante">
+                      <i class="fa-solid fa-chalkboard-user me-1"></i> Simulação Docente (Auditoria de Votos Nominais):
+                    </label>
+                    <span class="badge bg-warning text-dark" style="font-size: 0.68rem;">Visível Apenas para Professor</span>
+                  </div>
+                  <select id="selectVotanteEstudante" class="form-select form-select-sm" onchange="aoMudarEstudanteVotante(this.value)">
+                    <option value="">-- Modo Docente: Selecione um estudante da turma para inspecionar voto --</option>
+                  </select>
+                </div>
+
+                <!-- STATUS DO VOTO -->
+                <div id="statusVotoEstudante" class="small p-2 rounded text-muted mb-2" style="background: var(--bg-card); border: 1px solid var(--border-color); font-size: 0.8125rem;">
+                  Faça login com sua conta Google para votar ou alterar seu voto.
                 </div>
 
                 <!-- RESUMO GERAL DA VOTAÇÃO -->
@@ -5459,15 +5491,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const statusEl = document.getElementById('statusVotoEstudante');
       if (statusEl) {
-        if (!alunoVotanteAtualId) {
-          statusEl.innerHTML = '<span class="text-muted"><i class="bi bi-info-circle me-1"></i>Selecione seu nome para votar ou alterar seu voto.</span>';
+        if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
+          statusEl.innerHTML = '<span class="text-warning fw-semibold"><i class="bi bi-shield-lock-fill me-1"></i>Votação Bloqueada:</span> <span class="text-muted">Conecte-se com sua conta Google institucional para liberar o voto.</span>';
         } else {
-          const alunoObj = alunosApp.find(a => String(a.id) === String(alunoVotanteAtualId));
-          const nomeAluno = alunoObj ? alunoObj.nome.split(' ')[0] : 'Estudante';
+          const alunoObj = alunosApp.find(a => String(a.id) === String(usuarioLogadoGoogle.alunoId));
+          const nomeAluno = alunoObj ? alunoObj.nome.split(' ')[0] : (usuarioLogadoGoogle.nome ? usuarioLogadoGoogle.nome.split(' ')[0] : 'Estudante');
           if (votoEstudanteAtual) {
             const opcaoVotada = oficinasVotacaoApp.find(o => o.id === votoEstudanteAtual.opcaoId);
             const tituloVotado = opcaoVotada ? opcaoVotada.titulo : 'Opção';
-            statusEl.innerHTML = `<span class="text-success fw-bold"><i class="bi bi-check2-circle me-1"></i>Olá, ${escapeHtml(nomeAluno)}! Seu voto atual é:</span> <div class="text-heading fw-semibold text-truncate" title="${escapeHtml(tituloVotado)}">${escapeHtml(tituloVotado)}</div>`;
+            statusEl.innerHTML = `<span class="text-success fw-bold"><i class="bi bi-check2-circle me-1"></i>Olá, ${escapeHtml(nomeAluno)}! Seu voto computado é:</span> <div class="text-heading fw-semibold text-truncate" title="${escapeHtml(tituloVotado)}">${escapeHtml(tituloVotado)}</div>`;
           } else {
             statusEl.innerHTML = `<span class="text-primary fw-bold"><i class="bi bi-hand-index-thumb me-1"></i>Olá, ${escapeHtml(nomeAluno)}!</span> <div class="text-muted">Você ainda não votou. Escolha um tema abaixo:</div>`;
           }
@@ -5509,7 +5541,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               </div>
 
               <div class="d-flex align-items-center gap-2 mt-2">
-                ${isVotadoPeloAluno ? `
+                ${!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId ? `
+                  <button type="button" onclick="iniciarLoginGoogle()" class="btn btn-sm btn-outline-primary w-100" style="font-size: 0.8125rem;">
+                    <i class="bi bi-google me-1"></i> Fazer login para votar
+                  </button>
+                ` : isVotadoPeloAluno ? `
                   <button type="button" class="btn btn-sm btn-success w-100 disabled" style="opacity: 0.95; font-size: 0.8125rem;">
                     <i class="bi bi-check-circle-fill me-1"></i> Voto Confirmado
                   </button>
@@ -5526,7 +5562,6 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                 ` : ''}
               </div>
             </div>
-          </div>
         `;
       }).join('');
     }
@@ -5715,9 +5750,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const nameHeader = document.getElementById('userDisplayNameHeader');
       const picHeader = document.getElementById('userPictureHeader');
       const iconHeader = document.getElementById('userIconHeader');
-      const btnVotacao = document.getElementById('btnGoogleLoginVotacao');
 
-      if (usuarioLogadoGoogle) {
+      const bannerPendente = document.getElementById('bannerLoginObrigatorioVotacao');
+      const cardAutenticado = document.getElementById('cardEstudanteAutenticadoVotacao');
+      const nomeVotacao = document.getElementById('nomeAuthVotacao');
+      const detalhesVotacao = document.getElementById('detalhesAuthVotacao');
+      const avatarVotacao = document.getElementById('avatarAuthVotacao');
+      const iconeWrapperVotacao = document.getElementById('iconeWrapperAuthVotacao');
+
+      if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
         if (btnHeader) btnHeader.classList.add('d-none');
         if (badgeHeader) {
           badgeHeader.classList.remove('d-none');
@@ -5737,9 +5778,25 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           if (picHeader) picHeader.style.display = 'none';
         }
 
-        if (btnVotacao) {
-          btnVotacao.innerHTML = `<i class="bi bi-shield-check text-success me-1"></i>Conectado: ${escapeHtml(usuarioLogadoGoogle.nome.split(' ')[0])}`;
-          btnVotacao.classList.add('text-success');
+        // Painel de votação SNCT
+        if (bannerPendente) bannerPendente.classList.add('d-none');
+        if (cardAutenticado) {
+          cardAutenticado.classList.remove('d-none');
+          cardAutenticado.classList.add('d-flex');
+        }
+        if (nomeVotacao) {
+          nomeVotacao.textContent = usuarioLogadoGoogle.nome;
+        }
+        if (detalhesVotacao) {
+          detalhesVotacao.textContent = `Matrícula: ${usuarioLogadoGoogle.matricula || 'N/A'} | E-mail: ${usuarioLogadoGoogle.email}`;
+        }
+        if (avatarVotacao && usuarioLogadoGoogle.picture) {
+          avatarVotacao.src = usuarioLogadoGoogle.picture;
+          avatarVotacao.style.display = 'inline-block';
+          if (iconeWrapperVotacao) iconeWrapperVotacao.style.display = 'none';
+        } else if (iconeWrapperVotacao) {
+          iconeWrapperVotacao.style.display = 'flex';
+          if (avatarVotacao) avatarVotacao.style.display = 'none';
         }
       } else {
         if (btnHeader) btnHeader.classList.remove('d-none');
@@ -5747,9 +5804,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           badgeHeader.classList.add('d-none');
           badgeHeader.classList.remove('d-inline-flex');
         }
-        if (btnVotacao) {
-          btnVotacao.innerHTML = `<i class="bi bi-google me-1"></i> Identificar com Google`;
-          btnVotacao.classList.remove('text-success');
+
+        // Painel de votação SNCT
+        if (bannerPendente) bannerPendente.classList.remove('d-none');
+        if (cardAutenticado) {
+          cardAutenticado.classList.add('d-none');
+          cardAutenticado.classList.remove('d-flex');
         }
       }
     }
@@ -5842,26 +5902,27 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
     function registrarVoto(opcaoId) {
-      const select = document.getElementById('selectVotanteEstudante');
-      if (!alunoVotanteAtualId) {
-        alert("Por favor, faça login com sua conta Google institucional ou selecione seu nome no campo 'Estudante votando agora' para poder registrar o seu voto.");
-        if (select) {
-          select.focus();
-          select.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+      if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
+        showToast(
+          "Login Google Obrigatório",
+          "Para garantir a integridade da votação, faça login institucional com sua conta Google.",
+          "bi bi-shield-lock-fill text-warning"
+        );
+        iniciarLoginGoogle();
         return;
       }
 
-      const alunoObj = alunosApp.find(a => String(a.id) === String(alunoVotanteAtualId));
+      const alunoId = usuarioLogadoGoogle.alunoId;
+      const alunoObj = alunosApp.find(a => String(a.id) === String(alunoId));
       if (!alunoObj) {
-        alert("Estudante selecionado não encontrado na lista.");
+        alert("Estudante associado à conta Google não encontrado na lista oficial.");
         return;
       }
 
       const opcaoObj = oficinasVotacaoApp.find(o => o.id === opcaoId);
       const tituloOpcao = opcaoObj ? opcaoObj.titulo : 'a oficina selecionada';
 
-      const idx = votosOficinasApp.findIndex(v => String(v.alunoId) === String(alunoVotanteAtualId));
+      const idx = votosOficinasApp.findIndex(v => String(v.alunoId) === String(alunoId));
       const agora = new Date().toLocaleString('pt-BR');
 
       if (idx !== -1) {
