@@ -1403,6 +1403,123 @@
       display: none !important;
     }
 
+    /* =====================================================
+       SISTEMA DE NOTAS & NOTIFICAÇÕES ESTILO PI 1 & PI 2
+       ===================================================== */
+    .notas-subnav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+    }
+
+    .notas-subtab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.65rem 1.1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .notas-subtab-btn:hover {
+      color: var(--accent-blue);
+    }
+
+    .notas-subtab-btn.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+      background: var(--bg-card-hover);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .pi-formula-box {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-emerald);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .pi-btn-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.32rem 0.65rem;
+      border-radius: 6px;
+      background: rgba(2, 132, 199, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(2, 132, 199, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .pi-btn-email:hover {
+      background: var(--accent-blue);
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+
+    .pi-btn-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.32rem 0.65rem;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pi-btn-copy:hover {
+      background: var(--accent-emerald);
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+
+    .pi2-tag-alvo {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+    }
+
+    .subtab-pane {
+      display: none;
+    }
+
+    .subtab-pane.active {
+      display: block;
+    }
+
     footer.app-footer {
       background: var(--header-bg);
       border-top: 1px solid var(--border-color);
@@ -2239,84 +2356,154 @@
       </div>
     </div>
 
-    <!-- ABA 5: SISTEMA AVALIATIVO & RUBRICAS -->
+    <!-- ABA 5: SISTEMA AVALIATIVO & NOTIFICAÇÕES (ESTILO PI 1 & PI 2) -->
     <div class="tab-pane" id="tab-avaliacao">
       <div class="panel-card">
-        <h2 class="panel-title"><i class="bi bi-award text-warning"></i> Procedimentos de Avaliação da Aprendizagem</h2>
-        <p class="panel-subtitle">A avaliação é contínua e formativa, ponderada em três instrumentos avaliativos estruturados:</p>
+        
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="fa-solid fa-graduation-cap text-primary"></i> Painel de Avaliações, Notas &amp; Notificações</h2>
+            <p class="panel-subtitle mb-0">Gestão integrada de notas por rubricas, fechamento acadêmico e notificações aos estudantes por e-mail institucional (estilo Projeto Integrador):</p>
+          </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button onclick="dispararEmailTurmaCompleta()" class="btn-action btn-outline-action docente-only" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Abrir e-mail com todos os estudantes no CCO">
+              <i class="fa-solid fa-envelope-open-text me-1"></i> E-mail para Toda a Turma
+            </button>
+            <button onclick="exportarTabelaFechamentoSIGAA()" class="btn-action btn-outline-action docente-only" title="Copiar notas em formato de planilha TSV para colar direto no SIGAA">
+              <i class="fa-solid fa-copy me-1"></i> Copiar Tabela SIGAA
+            </button>
+          </div>
+        </div>
 
-        <div class="row g-4 mb-4">
-          
+        <!-- INSTRUMENTOS OFICIAIS DO PPC 30/2020 -->
+        <div class="row g-3 mb-4">
           <div class="col-md-4">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-rose);">
               <span class="badge-pill" style="background: rgba(225, 29, 72, 0.15); color: var(--accent-rose); border-color: var(--accent-rose);">INSTRUMENTO A1 (PESO 25%)</span>
-              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1">Avaliação Teórica Única</h3>
-              <p class="text-muted small mb-0">Prova individual abordando arquitetura modular ES6, assincronismo (<code>async/await</code>), protocolo HTTP, consumo de APIs REST e Single Page Applications (Aula 11).</p>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Avaliação Teórica Única</h3>
+              <p class="text-muted small mb-0">Prova individual abordando ES6 Modules, Fetch API assíncrona, HTTP REST e SPAs (Aula 11).</p>
             </div>
           </div>
-
           <div class="col-md-4">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-amber);">
               <span class="badge-pill badge-pill-amber">INSTRUMENTO A2 (PESO 35%)</span>
-              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1">Avaliação Contínua de Aulas</h3>
-              <p class="text-muted small mb-0">Composta pela pontualidade de entrega dos roteiros práticos semanais desenvolvidos em laboratório (Roteiros 01 a 07) e engajamento técnico durante as aulas.</p>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Avaliação Contínua de Aulas</h3>
+              <p class="text-muted small mb-0">Composta pelos roteiros práticos semanais desenvolvidos em laboratório (Roteiros 01 a 07).</p>
             </div>
           </div>
-
           <div class="col-md-4">
             <div class="p-3 rounded h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
               <span class="badge-pill badge-pill-green">INSTRUMENTO A3 (PESO 40%)</span>
-              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1">Projeto Integrador &amp; Extensão</h3>
-              <p class="text-muted small mb-0">Aplicação web completa com integração de todos os conteúdos, hospedada no GitHub Pages, com ação extensionista na SNCT e defesa demonstrativa (Aulas 16 a 19).</p>
+              <h3 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-1">Projeto Integrador &amp; Extensão</h3>
+              <p class="text-muted small mb-0">Aplicação web completa, deploy no GitHub Pages, ação extensionista na SNCT e resumo expandido.</p>
             </div>
           </div>
-
         </div>
 
-        <!-- SIMULADOR INTERATIVO DE MÉDIA FINAL -->
-        <div class="sim-card mb-4">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <h3 class="font-outfit fs-5 fw-bold text-heading mb-0"><i class="bi bi-calculator text-success me-1"></i> Simulador Interativo da Média Final (MF)</h3>
-            <span class="badge-pill badge-pill-green">Fórmula: (A1×0,25) + (A2×0,35) + (A3×0,40)</span>
-          </div>
-          <p class="text-muted small mb-3">Informe as notas estimadas (de 0.0 a 10.0) para calcular automaticamente a Média Final e a situação:</p>
+        <!-- SUBNAV DE ABAS (ESTILO PI 1 & PI 2) -->
+        <div class="notas-subnav" role="tablist">
+          <button class="notas-subtab-btn active" onclick="trocarSubAbaNotas('entregas', this)" role="tab">
+            <i class="fa-solid fa-list-check"></i> 1. Entregas &amp; Rubricas por Equipe
+          </button>
+          <button class="notas-subtab-btn" onclick="trocarSubAbaNotas('alunos', this)" role="tab">
+            <i class="fa-solid fa-users"></i> 2. Estudantes &amp; E-mails para Notificação
+          </button>
+          <button class="notas-subtab-btn" onclick="trocarSubAbaNotas('fechamento', this)" role="tab">
+            <i class="fa-solid fa-calculator"></i> 3. Fechamento de Notas &amp; Exportação SIGAA
+          </button>
+          <button class="notas-subtab-btn" onclick="trocarSubAbaNotas('matriz', this)" role="tab">
+            <i class="fa-solid fa-table-cells"></i> 4. Matriz Oficial de Rubricas (4 Dimensões)
+          </button>
+        </div>
 
-          <div class="calc-input-group">
-            <div class="calc-box">
-              <label>Nota A1 (Teórica • 25%):</label>
-              <input type="number" id="notaA1" min="0" max="10" step="0.1" value="7.0" oninput="calcularMedia()">
-            </div>
-            <div class="calc-box">
-              <label>Nota A2 (Roteiros • 35%):</label>
-              <input type="number" id="notaA2" min="0" max="10" step="0.1" value="8.0" oninput="calcularMedia()">
-            </div>
-            <div class="calc-box">
-              <label>Nota A3 (Projeto • 40%):</label>
-              <input type="number" id="notaA3" min="0" max="10" step="0.1" value="8.5" oninput="calcularMedia()">
-            </div>
-          </div>
-
-          <div class="calc-result-box">
+        <!-- SUBABA 1: ENTREGAS & RUBRICAS POR EQUIPE -->
+        <div class="subtab-pane active" id="subtab-entregas">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
             <div>
-              <span class="text-muted small text-uppercase fw-bold">Média Final Calculada:</span>
-              <div class="calc-score" id="mediaResultado">7.95</div>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="bi bi-clipboard2-check-fill text-success me-1"></i> Quadro Consolidado de Avaliações Registradas</h3>
+              <p class="text-muted small mb-0">Notas atribuídas às equipes por demanda com histórico de pareceres formativos e disparo de notificações:</p>
             </div>
-            <div class="text-end">
-              <span class="text-muted small text-uppercase fw-bold">Situação Acadêmica:</span>
-              <div id="situacaoResultado" class="fs-5 fw-bold text-success"><i class="bi bi-check-circle-fill"></i> Aprovado por Nota (MF &ge; 6,0)</div>
-              <div class="text-muted small">Exigência mínima de frequência: 75% das aulas presenciais.</div>
+            <div class="d-flex align-items-center gap-2">
+              <label class="small text-muted fw-bold mb-0">Filtrar Demanda:</label>
+              <select id="selectFiltroDemandaRubrica" class="form-select form-select-sm" style="width: auto; background: var(--bg-card-hover); color: var(--text-main); border-color: var(--border-color);" onchange="renderizarTabelaRubricas(this.value)">
+                <!-- Opções preenchidas dinamicamente -->
+              </select>
             </div>
+          </div>
+
+          <div id="tabelaAvaliacoesContainer" class="table-responsive">
+            <!-- Tabela preenchida via JS -->
           </div>
         </div>
 
-        <!-- SEÇÃO: MATRIZ DE RUBRICAS FORMATIVAS DE PROGWEB 2 -->
-        <div class="mt-4 p-3 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+        <!-- SUBABA 2: ESTUDANTES & E-MAILS PARA NOTIFICAÇÃO -->
+        <div class="subtab-pane" id="subtab-alunos">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="fa-solid fa-users-gear text-primary me-1"></i> Roster de Estudantes &amp; Notificações por E-mail</h3>
+              <p class="text-muted small mb-0">Gerencie a vinculação de e-mails institucionais às equipes para envio automático de devolutivas e comunicados:</p>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap docente-only">
+              <button onclick="abrirModalNovoAluno()" class="btn-action btn-primary-action py-1 px-3" style="font-size: 0.8rem;">
+                <i class="fa-solid fa-user-plus me-1"></i> + Cadastrar Estudante
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive mb-4" id="tabelaAlunosContainer">
+            <!-- Tabela de alunos preenchida via JS -->
+          </div>
+
+          <!-- IMPORTAÇÃO RÁPIDA ESTILO PI 2 -->
+          <div class="p-3 rounded docente-only" style="background: var(--bg-card-hover); border: 1px dashed var(--border-color);">
+            <h4 class="font-outfit fs-6 fw-bold text-heading mb-1"><i class="fa-solid fa-file-import text-success me-1"></i> Importação em Lote da Lista da Turma (SIGAA)</h4>
+            <p class="text-muted small mb-2">Cole uma linha por estudante no formato: <code>Nome Completo; Nome ou Número da Equipe; email@aluno.ifsc.edu.br</code></p>
+            <form onsubmit="processarImportacaoAlunos(event)">
+              <textarea class="form-control form-control-sm mb-2" id="textareaImportarAlunos" rows="3" placeholder="Ana Souza; Equipe 1 — Vitrine Comercial; ana.souza@aluno.ifsc.edu.br&#10;Bruno Lima; Equipe 2 — Portal PetCare; bruno.lima@aluno.ifsc.edu.br"></textarea>
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <span class="text-muted small">Alunos com o mesmo nome e equipe terão seus e-mails atualizados automaticamente.</span>
+                <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-check me-1"></i> Importar Roster</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- SUBABA 3: FECHAMENTO DE NOTAS & EXPORTAÇÃO SIGAA -->
+        <div class="subtab-pane" id="subtab-fechamento">
+          <div class="pi-formula-box">
+            <div>
+              <strong><i class="fa-solid fa-calculator text-success me-1"></i> Fórmula Oficial de Fechamento:</strong>
+              <span>Média Final (MF) = (Nota A1 × 0,25) + (Nota A2 × 0,35) + (Nota A3 × 0,40)</span>
+            </div>
+            <span class="badge-pill badge-pill-green">Aprovação Direta: MF &ge; 6,0</span>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="fa-solid fa-table text-primary me-1"></i> Planilha Consolidada de Notas Finais</h3>
+              <p class="text-muted small mb-0">Cálculo individualizado da média ponderada com arredondamento acadêmico oficial:</p>
+            </div>
+            <button onclick="exportarTabelaFechamentoSIGAA()" class="btn-action btn-outline-action" title="Copia o conteúdo da tabela em formato TSV para colar diretamente na planilha do SIGAA">
+              <i class="fa-solid fa-copy text-primary me-1"></i> Copiar Tabela para Planilha (SIGAA)
+            </button>
+          </div>
+
+          <div class="table-responsive mb-3" id="tabelaFechamentoContainer">
+            <!-- Tabela preenchida via JS -->
+          </div>
+          <div class="small text-muted">
+            <i class="bi bi-info-circle me-1"></i> <strong>Dica SIGAA:</strong> Ao clicar em <em>Copiar Tabela para Planilha</em>, as notas são copiadas como colunas tabuladas (TSV) prontas para serem coladas direto no Excel, Google Sheets ou no diário eletrônico do SIGAA.
+          </div>
+        </div>
+
+        <!-- SUBABA 4: MATRIZ OFICIAL DE RUBRICAS (4 DIMENSÕES) -->
+        <div class="subtab-pane" id="subtab-matriz">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
             <div>
               <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="bi bi-ui-checks-grid text-primary me-1"></i> Matriz Oficial de Rubricas de Avaliação Formativa (ProgWeb 2)</h3>
               <p class="text-muted small mb-0">Critérios estruturados em 4 dimensões (0.0 a 2.5 pontos cada), aplicados nos checkpoints e no projeto final:</p>
             </div>
-            <span class="badge-pill badge-pill-blue">Pontuação Total: 10,0 Pontos</span>
+            <span class="badge-pill badge-pill-blue">Pontuação Máxima: 10,0 Pontos</span>
           </div>
 
           <div class="table-responsive">
@@ -2361,26 +2548,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- SEÇÃO: QUADRO CONSOLIDADO DE AVALIAÇÕES POR RUBRICA -->
-        <div class="mt-4 p-3 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-            <div>
-              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1"><i class="bi bi-clipboard2-check-fill text-success me-1"></i> Quadro Consolidado de Avaliações Registradas</h3>
-              <p class="text-muted small mb-0">Notas atribuídas às equipes por demanda/checkpoint com histórico de pareceres formativos:</p>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              <label class="small text-muted fw-bold mb-0">Filtrar Demanda:</label>
-              <select id="selectFiltroDemandaRubrica" class="form-select form-select-sm" style="width: auto; background: var(--bg-card-hover); color: var(--text-main); border-color: var(--border-color);" onchange="renderizarTabelaRubricas(this.value)">
-                <!-- Opções preenchidas dinamicamente -->
-              </select>
-            </div>
-          </div>
-
-          <div id="tabelaAvaliacoesContainer" class="table-responsive">
-            <!-- Tabela preenchida via JS -->
           </div>
         </div>
 
@@ -3077,7 +3244,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     </div>
 
   </main>
-  <!-- MODAIS: CENTRAL DE DEMANDAS E RUBRICA FORMATIVA -->
+  <!-- MODAIS: CENTRAL DE DEMANDAS, RUBRICA FORMATIVA E ESTUDANTES -->
 
   <!-- MODAL: NOVA / EDITAR DEMANDA -->
   <div class="app-modal-overlay" id="modalDemandaOverlay" onclick="if(event.target === this) fecharModalDemanda()">
@@ -3148,6 +3315,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         </div>
         <div class="app-modal-footer">
           <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalDemanda()">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-outline-primary" onclick="salvarDemanda(event, true)" title="Salvar demanda e abrir rascunho de e-mail institucional para os alunos"><i class="fa-solid fa-envelope me-1"></i> Salvar &amp; Notificar por E-mail</button>
           <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i> Salvar Demanda</button>
         </div>
       </form>
@@ -3156,7 +3324,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
   <!-- MODAL: AVALIAR POR RUBRICA FORMATIVA -->
   <div class="app-modal-overlay" id="modalRubricaOverlay" onclick="if(event.target === this) fecharModalRubrica()">
-    <div class="app-modal-container" style="max-width: 860px;">
+    <div class="app-modal-container" style="max-width: 880px;">
       <div class="app-modal-header">
         <div>
           <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
@@ -3166,7 +3334,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         </div>
         <button type="button" class="btn-close" onclick="fecharModalRubrica()"></button>
       </div>
-      <form id="formRubrica" onsubmit="salvarAvaliacaoRubrica(event)">
+      <form id="formRubrica" onsubmit="salvarAvaliacaoRubrica(event, false)">
         <div class="app-modal-body">
           <input type="hidden" id="inputRubricaDemandaId">
           
@@ -3187,6 +3355,10 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                 <option value="Equipe 5 — Feira Agroecológica Local">Equipe 5 — Feira Agroecológica Local</option>
                 <option value="Equipe 6 — Acessibilidade em Espaços Públicos">Equipe 6 — Acessibilidade em Espaços Públicos</option>
               </select>
+              <!-- E-MAILS DOS INTEGRANTES VINCULADOS -->
+              <div id="rubricaEmailsEquipeContainer" class="small text-muted mt-1" style="font-size: 0.74rem;">
+                <i class="fa-solid fa-envelope text-primary me-1"></i> <strong>E-mails dos Integrantes:</strong> <span id="rubricaEmailsEquipeSpan">Carregando...</span>
+              </div>
             </div>
           </div>
 
@@ -3221,7 +3393,60 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         </div>
         <div class="app-modal-footer">
           <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalRubrica()">Cancelar</button>
-          <button type="submit" class="btn btn-sm btn-success"><i class="fa-solid fa-check me-1"></i> Salvar Avaliação no Diário</button>
+          <button type="button" class="btn btn-sm btn-outline-success" onclick="copiarDevolutivaModalRubrica()"><i class="fa-solid fa-copy me-1"></i> Copiar Devolutiva</button>
+          <button type="button" class="btn btn-sm btn-primary" onclick="salvarAvaliacaoRubrica(event, true)"><i class="fa-solid fa-envelope me-1"></i> Salvar &amp; Notificar por E-mail</button>
+          <button type="submit" class="btn btn-sm btn-success"><i class="fa-solid fa-check me-1"></i> Salvar no Diário</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CADASTRAR / EDITAR ESTUDANTE -->
+  <div class="app-modal-overlay" id="modalAlunoOverlay" onclick="if(event.target === this) fecharModalAluno()">
+    <div class="app-modal-container" style="max-width: 580px;">
+      <div class="app-modal-header">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0" id="modalAlunoTitulo">
+          <i class="fa-solid fa-user-plus text-primary me-2"></i> Cadastrar Estudante
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalAluno()"></button>
+      </div>
+      <form id="formAluno" onsubmit="salvarAluno(event)">
+        <div class="app-modal-body">
+          <input type="hidden" id="inputAlunoIdOriginal">
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Nome Completo do Estudante:</label>
+            <input type="text" class="form-control form-control-sm" id="inputAlunoNome" placeholder="Ex: Ana Maria Silva" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Equipe / Projeto Extensionista:</label>
+            <select class="form-select form-select-sm" id="inputAlunoEquipe" required>
+              <option value="Equipe 1 — Vitrine Comercial &amp; Negócios Locais">Equipe 1 — Vitrine Comercial &amp; Negócios Locais</option>
+              <option value="Equipe 2 — Portal PetCare (Adoção Animal)">Equipe 2 — Portal PetCare (Adoção Animal)</option>
+              <option value="Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba">Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba</option>
+              <option value="Equipe 4 — Monitoramento das Praias">Equipe 4 — Monitoramento das Praias</option>
+              <option value="Equipe 5 — Feira Agroecológica Local">Equipe 5 — Feira Agroecológica Local</option>
+              <option value="Equipe 6 — Acessibilidade em Espaços Públicos">Equipe 6 — Acessibilidade em Espaços Públicos</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">E-mail Institucional (@aluno.ifsc.edu.br):</label>
+            <input type="email" class="form-control form-control-sm" id="inputAlunoEmail" placeholder="estudante@aluno.ifsc.edu.br" required>
+            <div class="form-text small">Utilizado para envio de notificações formativas e chamadas mailto automáticas.</div>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="inputAlunoAtivo" checked>
+            <label class="form-check-label small" for="inputAlunoAtivo">
+              Estudante com matrícula ativa na turma
+            </label>
+          </div>
+        </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalAluno()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i> Salvar Estudante</button>
         </div>
       </form>
     </div>
@@ -3251,6 +3476,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     // =========================================================================
     const STORAGE_KEY_DEMANDAS = 'progweb2_demandas_data';
     const STORAGE_KEY_AVALIACOES = 'progweb2_rubricas_avaliacoes';
+    const STORAGE_KEY_ALUNOS = 'progweb2_alunos_data';
     const STORAGE_KEY_MODO_DOCENTE = 'progweb2_modo_docente';
 
     const EQUIPES_PROGWEB2 = [
@@ -3260,6 +3486,21 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       "Equipe 4 — Monitoramento das Praias",
       "Equipe 5 — Feira Agroecológica Local",
       "Equipe 6 — Acessibilidade em Espaços Públicos"
+    ];
+
+    const ESTUDANTES_PADRAO = [
+      { id: "1", nome: "Lucas Silva", equipe: "Equipe 1 — Vitrine Comercial & Negócios Locais", email: "lucas.silva@aluno.ifsc.edu.br", ativo: true },
+      { id: "2", nome: "Mariana Costa", equipe: "Equipe 1 — Vitrine Comercial & Negócios Locais", email: "mariana.costa@aluno.ifsc.edu.br", ativo: true },
+      { id: "3", nome: "Gabriel Santos", equipe: "Equipe 2 — Portal PetCare (Adoção Animal)", email: "gabriel.santos@aluno.ifsc.edu.br", ativo: true },
+      { id: "4", nome: "Beatriz Oliveira", equipe: "Equipe 2 — Portal PetCare (Adoção Animal)", email: "beatriz.oliveira@aluno.ifsc.edu.br", ativo: true },
+      { id: "5", nome: "Matheus Pereira", equipe: "Equipe 3 — Ecoturismo & Trilhas de Garopaba", email: "matheus.pereira@aluno.ifsc.edu.br", ativo: true },
+      { id: "6", nome: "Larissa Souza", equipe: "Equipe 3 — Ecoturismo & Trilhas de Garopaba", email: "larissa.souza@aluno.ifsc.edu.br", ativo: true },
+      { id: "7", nome: "Rafael Rodrigues", equipe: "Equipe 4 — Monitoramento das Praias", email: "rafael.rodrigues@aluno.ifsc.edu.br", ativo: true },
+      { id: "8", nome: "Camila Alves", equipe: "Equipe 4 — Monitoramento das Praias", email: "camila.alves@aluno.ifsc.edu.br", ativo: true },
+      { id: "9", nome: "Felipe Martins", equipe: "Equipe 5 — Feira Agroecológica Local", email: "felipe.martins@aluno.ifsc.edu.br", ativo: true },
+      { id: "10", nome: "Juliana Lima", equipe: "Equipe 5 — Feira Agroecológica Local", email: "juliana.lima@aluno.ifsc.edu.br", ativo: true },
+      { id: "11", nome: "Thiago Ribeiro", equipe: "Equipe 6 — Acessibilidade em Espaços Públicos", email: "thiago.ribeiro@aluno.ifsc.edu.br", ativo: true },
+      { id: "12", nome: "Fernanda Rocha", equipe: "Equipe 6 — Acessibilidade em Espaços Públicos", email: "fernanda.rocha@aluno.ifsc.edu.br", ativo: true }
     ];
 
     const DEMANDAS_INICIAIS = [
@@ -3366,7 +3607,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     // Estado da Aplicação
     let demandasApp = [];
     let avaliacoesApp = [];
+    let alunosApp = [];
     let filtroAtualDemandas = 'todas';
+    let subabaNotasAtual = 'entregas';
     let estadoRubricaAtual = { dim0: 2.5, dim1: 2.5, dim2: 2.5, dim3: 2.5 };
 
     // =========================================================================
@@ -3388,6 +3631,14 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         console.error("Erro ao carregar avaliações:", e);
         avaliacoesApp = [];
       }
+
+      try {
+        const alSalvos = localStorage.getItem(STORAGE_KEY_ALUNOS);
+        alunosApp = alSalvos ? JSON.parse(alSalvos) : JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
+      } catch (e) {
+        console.error("Erro ao carregar alunos:", e);
+        alunosApp = JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
+      }
     }
 
     function salvarDadosDemandas() {
@@ -3396,6 +3647,37 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
     function salvarDadosAvaliacoes() {
       localStorage.setItem(STORAGE_KEY_AVALIACOES, JSON.stringify(avaliacoesApp));
+    }
+
+    function salvarDadosAlunos() {
+      localStorage.setItem(STORAGE_KEY_ALUNOS, JSON.stringify(alunosApp));
+    }
+
+    // =========================================================================
+    // NAVEGAÇÃO ENTRE SUB-ABAS DE NOTAS (ESTILO PI 1 & PI 2)
+    // =========================================================================
+    function trocarSubAbaNotas(subaba, btn) {
+      subabaNotasAtual = subaba;
+      document.querySelectorAll('.notas-subtab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.subtab-pane').forEach(p => p.classList.remove('active'));
+
+      if (btn) {
+        btn.classList.add('active');
+      } else {
+        const matchingBtn = Array.from(document.querySelectorAll('.notas-subtab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(subaba));
+        if (matchingBtn) matchingBtn.classList.add('active');
+      }
+
+      const pane = document.getElementById(`subtab-${subaba}`);
+      if (pane) pane.classList.add('active');
+
+      if (subaba === 'entregas') {
+        renderizarTabelaRubricas();
+      } else if (subaba === 'alunos') {
+        renderizarTabelaAlunos();
+      } else if (subaba === 'fechamento') {
+        renderizarTabelaFechamento();
+      }
     }
 
     // =========================================================================
@@ -3408,7 +3690,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       atualizarUIModoDocente(ativo);
       showToast(
         ativo ? "Modo Docente Ativado" : "Modo Aluno Ativado",
-        ativo ? "Ferramentas de criação de demandas e avaliação por rubrica disponíveis." : "Visualização configurada no modo de consulta do estudante.",
+        ativo ? "Ferramentas de criação de demandas, avaliação e gestão de estudantes disponíveis." : "Visualização configurada no modo de consulta do estudante.",
         ativo ? "fa-solid fa-chalkboard-user text-warning" : "fa-solid fa-user-graduate text-primary"
       );
     }
@@ -3434,7 +3716,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
     function initModoDocente() {
       const salvo = localStorage.getItem(STORAGE_KEY_MODO_DOCENTE);
-      // Padrão: Modo Docente Ativo (true) para conveniência pedagógica imediata
       const ativo = salvo === null ? true : salvo === 'true';
       if (ativo) {
         document.body.classList.add('modo-docente-ativo');
@@ -3445,7 +3726,114 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     }
 
     // =========================================================================
-    // CÁLCULO DE PRAZOS E DIAS RESTANTES
+    // E-MAILS E NOTIFICAÇÕES (ESTILO PI 1 & PI 2)
+    // =========================================================================
+    function obterEmailsEquipe(equipeNome) {
+      return alunosApp
+        .filter(a => a.ativo && a.equipe === equipeNome && a.email)
+        .map(a => a.email.trim());
+    }
+
+    function gerarTextoDevolutiva(demandaId, equipeNome) {
+      const dem = demandasApp.find(d => d.id === demandaId) || { id: demandaId, titulo: demandaId, instrumento: 'A2' };
+      const aval = avaliacoesApp.find(a => a.demandaId === demandaId && a.equipe === equipeNome);
+      const alunosDaEquipe = alunosApp.filter(a => a.ativo && a.equipe === equipeNome).map(a => a.nome).join(', ');
+
+      const notaStr = aval ? (aval.nota || 0).toFixed(1) : "—";
+      const conceitoStr = aval ? aval.conceito : "Pendente";
+      const dims = aval ? (aval.dimensoes || {}) : {};
+      const feedback = aval && aval.feedback ? aval.feedback : "Trabalho avaliado em conformidade com os critérios do roteiro.";
+      const linkRepo = aval && aval.linkRepo ? aval.linkRepo : "https://github.com/";
+
+      return `Prezado(a) estudante,
+
+Sua equipe (${equipeNome}) recebeu uma devolutiva de avaliação formativa por rubricas na disciplina de Programação para a Internet 2 (ProgWeb 2 - CST em Sistemas para a Internet / IFSC Câmpus Garopaba).
+
+==================================================
+DEMANDA / CHECKPOINT AVALIADO:
+• Código: ${dem.id}
+• Título: ${dem.titulo}
+• Instrumento Avaliativo: ${dem.instrumento || 'A2'}
+• Integrantes: ${alunosDaEquipe || 'Equipe'}
+
+PONTUAÇÃO CONSOLIDADA:
+• Nota da Rubrica: ${notaStr} / 10.0 (${conceitoStr})
+
+DETALHAMENTO POR DIMENSÃO TÉCNICA:
+1. Arquitetura Modular ES6 & Organização: ${(dims.dim0 || 0).toFixed(1)} / 2.5 pts
+2. Manipulação do DOM, Forms & Reatividade: ${(dims.dim1 || 0).toFixed(1)} / 2.5 pts
+3. Assincronismo, Fetch API & Microback-end: ${(dims.dim2 || 0).toFixed(1)} / 2.5 pts
+4. UX, Feedback Visual & Deploy GitHub Pages: ${(dims.dim3 || 0).toFixed(1)} / 2.5 pts
+
+PARECER FORMATIVO DO PROFESSOR:
+"${feedback}"
+
+LINK DE COMPROVAÇÃO / REPOSITÓRIO:
+${linkRepo}
+==================================================
+
+Em caso de dúvidas conceituais ou recomendações de refatoração, procure o professor em horário de laboratório ou atendimento aos estudantes.
+
+Atenciosamente,
+Prof. André Moraes — IFSC Câmpus Garopaba`;
+    }
+
+    function notificarEquipeEmail(demandaId, equipeNome) {
+      const emails = obterEmailsEquipe(equipeNome);
+      if (emails.length === 0) {
+        alert(`Nenhum e-mail de estudante cadastrado para a ${equipeNome}. Cadastre os e-mails na sub-aba "Estudantes & E-mails".`);
+        return;
+      }
+
+      const dem = demandasApp.find(d => d.id === demandaId) || { id: demandaId, titulo: demandaId };
+      const assunto = `[ProgWeb 2] Avaliação por Rubrica - ${dem.id}: ${dem.titulo}`;
+      const corpo = gerarTextoDevolutiva(demandaId, equipeNome);
+
+      const mailtoUrl = `mailto:${emails.join(',')}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+      window.open(mailtoUrl, '_blank');
+      showToast("Cliente de E-mail Aberto", `Notificação enviada para: ${emails.join(', ')}`, "fa-solid fa-paper-plane text-primary");
+    }
+
+    function copiarDevolutivaTexto(demandaId, equipeNome) {
+      const texto = gerarTextoDevolutiva(demandaId, equipeNome);
+      navigator.clipboard.writeText(texto).then(() => {
+        showToast("Devolutiva Copiada", "Texto completo da avaliação copiado para envio no WhatsApp ou SIGAA!", "fa-solid fa-clipboard-check text-success");
+      });
+    }
+
+    function copiarDevolutivaModalRubrica() {
+      const dId = document.getElementById('selectRubricaDemanda').value;
+      const eq = document.getElementById('selectRubricaEquipe').value;
+      copiarDevolutivaTexto(dId, eq);
+    }
+
+    function dispararEmailTurmaCompleta() {
+      const emails = alunosApp.filter(a => a.ativo && a.email).map(a => a.email.trim());
+      if (emails.length === 0) {
+        alert("Nenhum e-mail de estudante ativo encontrado.");
+        return;
+      }
+
+      const assunto = "[ProgWeb 2] Comunicado Oficial da Disciplina — IFSC Garopaba";
+      const corpo = `Prezados(as) estudantes de Programação para a Internet 2 (ProgWeb 2),
+
+Escrevo para compartilhar informações e orientações sobre os andamentos dos nossos roteiros e atividades extensionistas:
+
+Acompanhem as demandas ativas, prazos e notas formativas no Portal da Disciplina:
+https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/
+
+Bons estudos e ótimo desenvolvimento!
+
+Atenciosamente,
+Prof. André Moraes — IFSC Câmpus Garopaba`;
+
+      const mailtoUrl = `mailto:andre.moraes@ifsc.edu.br?bcc=${emails.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+      window.open(mailtoUrl, '_blank');
+      showToast("E-mail em Massa Aberto", `${emails.length} estudantes incluídos em CCO no cliente de e-mail.`, "fa-solid fa-envelope-open-text text-primary");
+    }
+
+    // =========================================================================
+    // CÁLCULO DE PRAZOS E STATUS
     // =========================================================================
     function calcularStatusPrazo(prazoStr, concluida) {
       if (concluida) {
@@ -3547,11 +3935,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         const statusPrazo = calcularStatusPrazo(d.prazo, d.concluida);
         const cardClass = d.concluida ? 'demanda-card concluida' : (statusPrazo.urgente ? 'demanda-card urgente' : 'demanda-card');
         
-        // Contagem de equipes avaliadas para esta demanda
         const avaliacoesDestaDemanda = avaliacoesApp.filter(a => a.demandaId === d.id);
         const totalAvaliadas = avaliacoesDestaDemanda.length;
 
-        // Critérios formatados
         const criteriosHtml = (d.criterios && d.criterios.length > 0)
           ? d.criterios.map(c => `
               <div class="d-flex align-items-start gap-2 mb-1" style="font-size: 0.8rem;">
@@ -3650,12 +4036,10 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       document.getElementById('inputDemandaIdOriginal').value = '';
       document.getElementById('modalDemandaTitulo').innerHTML = '<i class="fa-solid fa-bullhorn text-primary me-2"></i> Nova Demanda / Broadcast';
       
-      // Gerar ID sugerido
       const proximoNum = demandasApp.length + 1;
       document.getElementById('inputDemandaCodigo').value = `DEM-${proximoNum < 10 ? '0' + proximoNum : proximoNum}`;
       document.getElementById('inputDemandaPontos').value = "10.0";
       
-      // Prazo padrão: daqui a 7 dias
       const d = new Date();
       d.setDate(d.getDate() + 7);
       document.getElementById('inputDemandaPrazo').value = d.toISOString().split('T')[0];
@@ -3685,8 +4069,8 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       document.getElementById('modalDemandaOverlay').classList.remove('active');
     }
 
-    function salvarDemanda(event) {
-      event.preventDefault();
+    function salvarDemanda(event, notificarEmail = false) {
+      if (event) event.preventDefault();
       const idOriginal = document.getElementById('inputDemandaIdOriginal').value;
       const codigo = document.getElementById('inputDemandaCodigo').value.trim();
       const instrumento = document.getElementById('inputDemandaInstrumento').value;
@@ -3701,7 +4085,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       const instrumentoNome = instrumento === 'A1' ? 'A1 (Teórica • 25%)' : (instrumento === 'A3' ? 'A3 (Extensão & Projeto • 40%)' : 'A2 (Roteiros • 35%)');
 
       if (idOriginal) {
-        // Atualização
         const idx = demandasApp.findIndex(d => d.id === idOriginal);
         if (idx !== -1) {
           demandasApp[idx] = {
@@ -3719,7 +4102,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           showToast("Demanda Atualizada", `Demanda ${codigo} atualizada com sucesso!`);
         }
       } else {
-        // Nova
         const nova = {
           id: codigo,
           titulo,
@@ -3740,6 +4122,48 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       renderizarDemandas();
       popularSelectsDeDemanda();
       fecharModalDemanda();
+
+      if (notificarEmail) {
+        // Disparar notificação por e-mail para os alunos da equipe ou turma
+        let emailsAlvo = [];
+        if (destinatario === 'Todos') {
+          emailsAlvo = alunosApp.filter(a => a.ativo && a.email).map(a => a.email.trim());
+        } else {
+          emailsAlvo = obterEmailsEquipe(destinatario);
+        }
+
+        if (emailsAlvo.length > 0) {
+          const assunto = `[ProgWeb 2] Nova Demanda: ${codigo} - ${titulo}`;
+          const corpo = `Prezados(as) estudantes,
+
+Uma nova demanda de atividade avaliativa foi publicada na disciplina de Programação para a Internet 2 (ProgWeb 2):
+
+==================================================
+DEMANDA / CHECKPOINT:
+• Código: ${codigo}
+• Título: ${titulo}
+• Instrumento: ${instrumentoNome}
+• Destinatário: ${destinatario}
+• Prazo Limite (Deadline): ${formatarData(prazo)}
+• Pontuação Máxima: ${pontos.toFixed(1)} pontos
+
+DESCRIÇÃO & ORIENTAÇÕES:
+${descricao}
+
+CRITÉRIOS DE ACEITE OBRIGATÓRIOS:
+${criterios.map(c => '• ' + c).join('\n')}
+==================================================
+
+Acesse o portal da disciplina para consultar materiais de apoio e os roteiros em PDF:
+https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/
+
+Atenciosamente,
+Prof. André Moraes — IFSC Câmpus Garopaba`;
+
+          const mailto = `mailto:andre.moraes@ifsc.edu.br?bcc=${emailsAlvo.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+          window.open(mailto, '_blank');
+        }
+      }
     }
 
     function alternarConclusaoDemanda(id) {
@@ -3769,7 +4193,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     // MODAL E MATRIZ DE AVALIAÇÃO POR RUBRICAS
     // =========================================================================
     function popularSelectsDeDemanda() {
-      // 1. Select do modal de rubricas
       const selectModal = document.getElementById('selectRubricaDemanda');
       if (selectModal) {
         selectModal.innerHTML = demandasApp.map(d => `
@@ -3777,7 +4200,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         `).join('');
       }
 
-      // 2. Select do filtro na aba avaliações
       const selectFiltro = document.getElementById('selectFiltroDemandaRubrica');
       if (selectFiltro) {
         selectFiltro.innerHTML = `
@@ -3827,7 +4249,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     function selecionarNivelRubrica(dimIdx, valor, btn) {
       estadoRubricaAtual[`dim${dimIdx}`] = valor;
       
-      // Atualizar botões visuais deste container
       const parentCard = btn.closest('.rubrica-dim-card');
       if (parentCard) {
         parentCard.querySelectorAll('.rubrica-level-btn').forEach(b => {
@@ -3880,15 +4301,20 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         selEquipe.value = equipeId;
       }
 
-      // Buscar se já existe avaliação para esta combinação
       carregarAvaliacaoExistenteNoModal();
-
       document.getElementById('modalRubricaOverlay').classList.add('active');
     }
 
     function carregarAvaliacaoExistenteNoModal() {
       const dId = document.getElementById('selectRubricaDemanda').value;
       const eq = document.getElementById('selectRubricaEquipe').value;
+
+      // Atualizar lista visual de e-mails dos alunos da equipe
+      const emails = obterEmailsEquipe(eq);
+      const emailsSpan = document.getElementById('rubricaEmailsEquipeSpan');
+      if (emailsSpan) {
+        emailsSpan.innerText = emails.length ? emails.join(', ') : 'Nenhum e-mail vinculado a esta equipe';
+      }
 
       const aval = avaliacoesApp.find(a => a.demandaId === dId && a.equipe === eq);
 
@@ -3897,7 +4323,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         document.getElementById('inputRubricaFeedback').value = aval.feedback || '';
         document.getElementById('inputRubricaLinkRepo').value = aval.linkRepo || '';
       } else {
-        // Padrão cheio (2.5 em todas)
         estadoRubricaAtual = { dim0: 2.5, dim1: 2.5, dim2: 2.5, dim3: 2.5 };
         document.getElementById('inputRubricaFeedback').value = '';
         document.getElementById('inputRubricaLinkRepo').value = '';
@@ -3918,8 +4343,8 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       document.getElementById('modalRubricaOverlay').classList.remove('active');
     }
 
-    function salvarAvaliacaoRubrica(event) {
-      event.preventDefault();
+    function salvarAvaliacaoRubrica(event, notificarEmail = false) {
+      if (event) event.preventDefault();
       const demandaId = document.getElementById('selectRubricaDemanda').value;
       const equipe = document.getElementById('selectRubricaEquipe').value;
       const feedback = document.getElementById('inputRubricaFeedback').value.trim();
@@ -3943,7 +4368,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         dataAvaliacao: new Date().toISOString()
       };
 
-      // Atualizar ou inserir
       const idx = avaliacoesApp.findIndex(a => a.demandaId === demandaId && a.equipe === equipe);
       if (idx !== -1) {
         avaliacoesApp[idx] = registro;
@@ -3954,23 +4378,29 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       salvarDadosAvaliacoes();
       renderizarDemandas();
       renderizarTabelaRubricas();
+      renderizarTabelaFechamento();
       fecharModalRubrica();
 
       showToast(
         "Avaliação Registrada",
-        `Nota ${notaFinal.toFixed(1)} lançada com sucesso para ${equipe}!`,
+        `Nota ${notaFinal.toFixed(1)} salva com sucesso para ${equipe}!`,
         "fa-solid fa-award text-success"
       );
+
+      if (notificarEmail) {
+        notificarEquipeEmail(demandaId, equipe);
+      }
     }
 
     // =========================================================================
-    // RENDERIZAÇÃO DO QUADRO CONSOLIDADO NA ABA AVALIAÇÃO
+    // SUBABA 1: RENDERIZAÇÃO DO QUADRO DE ENTREGAS & RUBRICAS
     // =========================================================================
     function renderizarTabelaRubricas(filtroDemanda) {
       const container = document.getElementById('tabelaAvaliacoesContainer');
       if (!container) return;
 
-      const filtroSel = filtroDemanda !== undefined ? filtroDemanda : (document.getElementById('selectFiltroDemandaRubrica')?.value || 'todas');
+      const elSelectFiltro = document.getElementById('selectFiltroDemandaRubrica');
+      const filtroSel = filtroDemanda !== undefined ? filtroDemanda : (elSelectFiltro ? elSelectFiltro.value : 'todas');
 
       let lista = [...avaliacoesApp];
       if (filtroSel && filtroSel !== 'todas') {
@@ -3978,12 +4408,13 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       }
 
       if (lista.length === 0) {
+        const idPrimeiraDemanda = (demandasApp && demandasApp[0]) ? demandasApp[0].id : 'DEM-01';
         container.innerHTML = `
           <div class="p-4 text-center text-muted" style="background: var(--bg-card-hover); border-radius: var(--radius-md);">
             <i class="fa-solid fa-clipboard-question fs-2 mb-2"></i>
             <p class="mb-1 fw-bold">Nenhuma avaliação por rubrica registrada para este filtro.</p>
             <p class="small mb-3">Abra a Central de Demandas ou clique no botão abaixo para avaliar a primeira equipe:</p>
-            <button onclick="abrirModalAvaliarRubrica('${demandasApp[0]?.id || 'DEM-01'}')" class="btn-action btn-outline-action py-1 px-3" style="font-size: 0.82rem;">
+            <button onclick="abrirModalAvaliarRubrica('${idPrimeiraDemanda}')" class="btn-action btn-outline-action py-1 px-3" style="font-size: 0.82rem;">
               <i class="fa-solid fa-award me-1"></i> Lançar Nova Avaliação
             </button>
           </div>
@@ -3995,17 +4426,18 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         <table class="table table-hover align-middle mb-0" style="font-size: 0.84rem;">
           <thead style="background: var(--bg-card-hover);">
             <tr>
-              <th style="width: 25%;">Equipe / Projeto Extensionista</th>
-              <th style="width: 18%;">Demanda Vinculada</th>
-              <th style="width: 20%;">Pontuação por Dimensões</th>
+              <th style="width: 26%;">Equipe &amp; Integrantes</th>
+              <th style="width: 17%;">Demanda</th>
+              <th style="width: 18%;">Dimensões Técnicas</th>
               <th style="width: 14%; text-align: center;">Nota Consolidada</th>
-              <th style="width: 15%; text-align: center;">Ações Docente</th>
+              <th style="width: 25%; text-align: center;">Ações &amp; Notificações</th>
             </tr>
           </thead>
           <tbody>
             ${lista.map(av => {
               const dem = demandasApp.find(d => d.id === av.demandaId) || { titulo: av.demandaId, instrumento: 'A2' };
               const nota = (av.nota || 0).toFixed(1);
+              const emails = obterEmailsEquipe(av.equipe);
 
               let badgeConceito = '<span class="badge bg-success-subtle text-success">Excelente</span>';
               if (av.nota < 4.0) badgeConceito = '<span class="badge bg-danger-subtle text-danger">Insuficiente</span>';
@@ -4014,7 +4446,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
               const dims = av.dimensoes || {};
               const dimResumo = `
-                <div class="d-flex gap-1" style="font-size: 0.7rem;">
+                <div class="d-flex gap-1 flex-wrap" style="font-size: 0.7rem;">
                   <span class="badge bg-light text-dark border" title="1. Modular ES6: ${(dims.dim0 || 0).toFixed(1)}">D1: ${(dims.dim0 || 0).toFixed(1)}</span>
                   <span class="badge bg-light text-dark border" title="2. DOM/Forms: ${(dims.dim1 || 0).toFixed(1)}">D2: ${(dims.dim1 || 0).toFixed(1)}</span>
                   <span class="badge bg-light text-dark border" title="3. Fetch/Async: ${(dims.dim2 || 0).toFixed(1)}">D3: ${(dims.dim2 || 0).toFixed(1)}</span>
@@ -4023,27 +4455,25 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
               `;
 
               const feedbackHtml = av.feedback ? `
-                <div class="text-muted small mt-1 text-truncate" style="max-width: 320px;" title="${escapeHtml(av.feedback)}">
+                <div class="text-muted small mt-1 text-truncate" style="max-width: 280px;" title="${escapeHtml(av.feedback)}">
                   <i class="fa-solid fa-comment-dots text-primary me-1"></i> "${escapeHtml(av.feedback)}"
                 </div>
               ` : '';
 
-              const linkRepoHtml = av.linkRepo ? `
-                <a href="${escapeHtml(av.linkRepo)}" target="_blank" class="small text-primary text-decoration-none d-inline-block mt-1">
-                  <i class="bi bi-github me-1"></i> Ver Repositório
-                </a>
-              ` : '';
+              const emailsBadge = emails.length 
+                ? `<div class="text-muted small mt-1" style="font-size:0.72rem;"><i class="fa-solid fa-envelope me-1"></i> ${emails.length} e-mail(s) cadastrado(s)</div>`
+                : `<div class="text-warning small mt-1" style="font-size:0.72rem;"><i class="fa-solid fa-triangle-exclamation me-1"></i> Sem e-mail cadastrado</div>`;
 
               return `
                 <tr>
                   <td>
                     <div class="fw-bold font-outfit text-heading">${escapeHtml(av.equipe)}</div>
+                    ${emailsBadge}
                     ${feedbackHtml}
-                    ${linkRepoHtml}
                   </td>
                   <td>
                     <span class="badge font-code" style="background: var(--bg-card); color: var(--accent-blue); border: 1px solid var(--border-color);">${av.demandaId}</span>
-                    <div class="small text-muted text-truncate" style="max-width: 180px;">${escapeHtml(dem.titulo)}</div>
+                    <div class="small text-muted text-truncate" style="max-width: 160px;">${escapeHtml(dem.titulo)}</div>
                   </td>
                   <td>${dimResumo}</td>
                   <td style="text-align: center;">
@@ -4051,9 +4481,17 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                     <div>${badgeConceito}</div>
                   </td>
                   <td style="text-align: center;">
-                    <button onclick="abrirModalAvaliarRubrica('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.75rem;">
-                      <i class="fa-solid fa-pen-to-square me-1"></i> Editar Rubrica
-                    </button>
+                    <div class="d-flex align-items-center justify-content-center gap-1 flex-wrap">
+                      <button onclick="abrirModalAvaliarRubrica('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.74rem;" title="Editar Notas da Rubrica">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      <button onclick="notificarEquipeEmail('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="pi-btn-email" title="Enviar e-mail para os integrantes desta equipe com a nota e feedback">
+                        <i class="fa-solid fa-envelope"></i> E-mail
+                      </button>
+                      <button onclick="copiarDevolutivaTexto('${av.demandaId}', '${escapeHtml(av.equipe)}')" class="pi-btn-copy" title="Copiar texto formatado da avaliação">
+                        <i class="fa-solid fa-copy"></i>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               `;
@@ -4064,6 +4502,325 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     }
 
     // =========================================================================
+    // SUBABA 2: ESTUDANTES & E-MAILS PARA NOTIFICAÇÃO (ROSTER)
+    // =========================================================================
+    function renderizarTabelaAlunos() {
+      const container = document.getElementById('tabelaAlunosContainer');
+      if (!container) return;
+
+      if (alunosApp.length === 0) {
+        container.innerHTML = `
+          <div class="p-4 text-center text-muted" style="background: var(--bg-card-hover); border-radius: var(--radius-md);">
+            <i class="fa-solid fa-users-slash fs-2 mb-2"></i>
+            <p class="mb-1 fw-bold">Nenhum estudante cadastrado no momento.</p>
+            <p class="small mb-2">Use o formulário abaixo para colar a lista da turma do SIGAA ou adicione manualmente.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <table class="table table-hover align-middle mb-0" style="font-size: 0.84rem;">
+          <thead style="background: var(--bg-card-hover);">
+            <tr>
+              <th style="width: 25%;">Nome Completo</th>
+              <th style="width: 30%;">Equipe / Projeto Extensionista</th>
+              <th style="width: 25%;">E-mail Institucional (@aluno.ifsc.edu.br)</th>
+              <th style="width: 10%; text-align: center;">Status</th>
+              <th style="width: 10%; text-align: center;">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${alunosApp.map(al => {
+              const mailtoIndividual = `mailto:${al.email}?subject=${encodeURIComponent('[ProgWeb 2] Notificação da Disciplina')}&body=${encodeURIComponent(`Olá, ${al.nome},\n\n`)}`;
+
+              return `
+                <tr>
+                  <td>
+                    <strong class="font-outfit text-heading">${escapeHtml(al.nome)}</strong>
+                  </td>
+                  <td>
+                    <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-main); border: 1px solid var(--border-color);">
+                      ${escapeHtml(al.equipe)}
+                    </span>
+                  </td>
+                  <td>
+                    <a href="${mailtoIndividual}" class="font-code small text-primary text-decoration-none">
+                      <i class="fa-solid fa-envelope me-1"></i>${escapeHtml(al.email)}
+                    </a>
+                  </td>
+                  <td style="text-align: center;">
+                    <span class="badge ${al.ativo ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}">
+                      ${al.ativo ? 'Ativo' : 'Inativo'}
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <div class="d-flex align-items-center justify-content-center gap-1">
+                      <button onclick="abrirModalEditarAluno('${al.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.72rem;" title="Editar Aluno">
+                        <i class="fa-solid fa-pen"></i>
+                      </button>
+                      <button onclick="excluirAluno('${al.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.72rem; color: var(--accent-rose);" title="Excluir Aluno">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function abrirModalNovoAluno() {
+      document.getElementById('formAluno').reset();
+      document.getElementById('inputAlunoIdOriginal').value = '';
+      document.getElementById('modalAlunoTitulo').innerHTML = '<i class="fa-solid fa-user-plus text-primary me-2"></i> Cadastrar Estudante';
+      document.getElementById('modalAlunoOverlay').classList.add('active');
+    }
+
+    function abrirModalEditarAluno(id) {
+      const al = alunosApp.find(a => a.id === id);
+      if (!al) return;
+
+      document.getElementById('inputAlunoIdOriginal').value = al.id;
+      document.getElementById('inputAlunoNome').value = al.nome;
+      document.getElementById('inputAlunoEquipe').value = al.equipe;
+      document.getElementById('inputAlunoEmail').value = al.email;
+      document.getElementById('inputAlunoAtivo').checked = !!al.ativo;
+
+      document.getElementById('modalAlunoTitulo').innerHTML = `<i class="fa-solid fa-user-pen text-primary me-2"></i> Editar: ${escapeHtml(al.nome)}`;
+      document.getElementById('modalAlunoOverlay').classList.add('active');
+    }
+
+    function fecharModalAluno() {
+      document.getElementById('modalAlunoOverlay').classList.remove('active');
+    }
+
+    function salvarAluno(event) {
+      event.preventDefault();
+      const idOriginal = document.getElementById('inputAlunoIdOriginal').value;
+      const nome = document.getElementById('inputAlunoNome').value.trim();
+      const equipe = document.getElementById('inputAlunoEquipe').value;
+      const email = document.getElementById('inputAlunoEmail').value.trim().toLowerCase();
+      const ativo = document.getElementById('inputAlunoAtivo').checked;
+
+      if (idOriginal) {
+        const idx = alunosApp.findIndex(a => a.id === idOriginal);
+        if (idx !== -1) {
+          alunosApp[idx] = { ...alunosApp[idx], nome, equipe, email, ativo };
+          showToast("Estudante Atualizado", `${nome} foi atualizado(a) com sucesso!`);
+        }
+      } else {
+        const novo = {
+          id: String(Date.now()),
+          nome,
+          equipe,
+          email,
+          ativo
+        };
+        alunosApp.push(novo);
+        showToast("Estudante Cadastrado", `${nome} adicionado(a) ao roster da turma!`);
+      }
+
+      salvarDadosAlunos();
+      renderizarTabelaAlunos();
+      renderizarTabelaRubricas();
+      renderizarTabelaFechamento();
+      fecharModalAluno();
+    }
+
+    function excluirAluno(id) {
+      const al = alunosApp.find(a => a.id === id);
+      if (!al) return;
+      if (!confirm(`Deseja remover ${al.nome} do roster de estudantes?`)) return;
+
+      alunosApp = alunosApp.filter(a => a.id !== id);
+      salvarDadosAlunos();
+      renderizarTabelaAlunos();
+      renderizarTabelaRubricas();
+      renderizarTabelaFechamento();
+      showToast("Estudante Removido", `${al.nome} foi removido(a) da lista.`);
+    }
+
+    function processarImportacaoAlunos(event) {
+      event.preventDefault();
+      const texto = document.getElementById('textareaImportarAlunos').value.trim();
+      if (!texto) return;
+
+      const linhas = texto.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      let adicionados = 0;
+      let atualizados = 0;
+
+      linhas.forEach((linha, i) => {
+        const partes = linha.split(';').map(p => p.trim());
+        if (partes.length >= 2) {
+          const nome = partes[0];
+          let equipe = partes[1];
+          // Se for só número (ex: "1" ou "#1"), converter para o nome da equipe correspondente
+          const numMatch = equipe.match(/\d+/);
+          if (numMatch && EQUIPES_PROGWEB2[parseInt(numMatch[0]) - 1]) {
+            equipe = EQUIPES_PROGWEB2[parseInt(numMatch[0]) - 1];
+          }
+          const email = partes[2] ? partes[2].toLowerCase() : `${nome.toLowerCase().replace(/\s+/g, '.')}@aluno.ifsc.edu.br`;
+
+          const existente = alunosApp.find(a => a.nome.toLowerCase() === nome.toLowerCase());
+          if (existente) {
+            existente.equipe = equipe;
+            existente.email = email;
+            existente.ativo = true;
+            atualizados++;
+          } else {
+            alunosApp.push({
+              id: String(Date.now() + i),
+              nome,
+              equipe,
+              email,
+              ativo: true
+            });
+            adicionados++;
+          }
+        }
+      });
+
+      salvarDadosAlunos();
+      renderizarTabelaAlunos();
+      renderizarTabelaRubricas();
+      renderizarTabelaFechamento();
+      document.getElementById('textareaImportarAlunos').value = '';
+
+      showToast("Roster Importado", `${adicionados} novos estudante(s) adicionados e ${atualizados} atualizados!`, "fa-solid fa-users text-success");
+    }
+
+    // =========================================================================
+    // SUBABA 3: FECHAMENTO DE NOTAS & EXPORTAÇÃO SIGAA
+    // =========================================================================
+    function calcularNotaA2Equipe(equipeNome) {
+      const avals = avaliacoesApp.filter(a => a.equipe === equipeNome);
+      if (avals.length === 0) return null;
+      const soma = avals.reduce((acc, curr) => acc + (curr.nota || 0), 0);
+      return soma / avals.length;
+    }
+
+    function renderizarTabelaFechamento() {
+      const container = document.getElementById('tabelaFechamentoContainer');
+      if (!container) return;
+
+      if (alunosApp.length === 0) {
+        container.innerHTML = '<div class="p-4 text-center text-muted">Cadastre os estudantes na sub-aba "Estudantes & E-mails" para visualizar o fechamento.</div>';
+        return;
+      }
+
+      let somaMedias = 0;
+      let qtdComNota = 0;
+      let aprovados = 0;
+      let recuperacao = 0;
+
+      const linhas = alunosApp.map(al => {
+        // Obter A2 calculado a partir das rubricas lançadas para a equipe dele
+        const notaA2Calc = calcularNotaA2Equipe(al.equipe);
+        const a1 = 7.5; // Estimativa padrão teórica (editável)
+        const a2 = notaA2Calc !== null ? notaA2Calc : 8.0;
+        const a3 = 8.5; // Estimativa padrão de projeto
+
+        const mf = (a1 * 0.25) + (a2 * 0.35) + (a3 * 0.40);
+        const mfArredondada = Math.round((mf + 1e-9) * 10) / 10;
+
+        somaMedias += mfArredondada;
+        qtdComNota++;
+
+        const isAprovado = mfArredondada >= 6.0;
+        if (isAprovado) aprovados++; else recuperacao++;
+
+        return `
+          <tr>
+            <td>
+              <strong class="font-outfit text-heading">${escapeHtml(al.nome)}</strong>
+              <div class="small text-muted">${escapeHtml(al.equipe)}</div>
+            </td>
+            <td>
+              <span class="font-code small text-muted">${escapeHtml(al.email)}</span>
+            </td>
+            <td style="text-align: center;">${a1.toFixed(1)}</td>
+            <td style="text-align: center;">
+              <strong>${a2.toFixed(1)}</strong>
+              ${notaA2Calc !== null ? '<span class="badge bg-light text-primary border" style="font-size:0.65rem;" title="Média das rubricas avaliadas">rubricas</span>' : '<span class="badge bg-light text-muted border" style="font-size:0.65rem;">estimada</span>'}
+            </td>
+            <td style="text-align: center;">${a3.toFixed(1)}</td>
+            <td style="text-align: center;">
+              <span class="fs-6 fw-bold font-outfit text-heading">${mfArredondada.toFixed(1).replace('.', ',')}</span>
+            </td>
+            <td style="text-align: center;">
+              <span class="badge ${isAprovado ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}">
+                ${isAprovado ? 'Aprovado (MF &ge; 6,0)' : 'Recuperação'}
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      const mediaGeralTurma = qtdComNota ? (somaMedias / qtdComNota).toFixed(2).replace('.', ',') : "—";
+
+      container.innerHTML = `
+        <div class="d-flex align-items-center gap-3 flex-wrap mb-3 p-2 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.85rem;">
+          <div><span class="text-muted">Total de Alunos:</span> <strong>${alunosApp.length}</strong></div>
+          <div><span class="text-muted">Média Geral da Turma:</span> <strong class="text-primary">${mediaGeralTurma}</strong></div>
+          <div><span class="text-muted">Aprovados Diretos:</span> <strong class="text-success">${aprovados}</strong></div>
+          <div><span class="text-muted">Em Recuperação Paralela:</span> <strong class="text-danger">${recuperacao}</strong></div>
+        </div>
+
+        <table class="table table-hover align-middle mb-0" id="tabelaFechamentoSigaaDados" style="font-size: 0.84rem;">
+          <thead style="background: var(--bg-card-hover);">
+            <tr>
+              <th style="width: 25%;">Estudante &amp; Equipe</th>
+              <th style="width: 22%;">E-mail Institucional</th>
+              <th style="width: 10%; text-align: center;" title="Avaliação Teórica Única (25%)">Nota A1 (25%)</th>
+              <th style="width: 11%; text-align: center;" title="Roteiros Práticos por Rubricas (35%)">Nota A2 (35%)</th>
+              <th style="width: 10%; text-align: center;" title="Projeto & Extensão SNCT (40%)">Nota A3 (40%)</th>
+              <th style="width: 10%; text-align: center;">Média Final</th>
+              <th style="width: 12%; text-align: center;">Situação</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${linhas}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function exportarTabelaFechamentoSIGAA() {
+      if (alunosApp.length === 0) {
+        alert("Nenhum estudante para exportar.");
+        return;
+      }
+
+      let tsv = "Aluno\tEquipe\tE-mail\tNota A1 (25%)\tNota A2 (35%)\tNota A3 (40%)\tMédia Final\tSituação\n";
+
+      alunosApp.forEach(al => {
+        const notaA2Calc = calcularNotaA2Equipe(al.equipe);
+        const a1 = 7.5;
+        const a2 = notaA2Calc !== null ? notaA2Calc : 8.0;
+        const a3 = 8.5;
+        const mf = (a1 * 0.25) + (a2 * 0.35) + (a3 * 0.40);
+        const mfFmt = (Math.round((mf + 1e-9) * 10) / 10).toFixed(1).replace('.', ',');
+        const sit = mf >= 6.0 ? "Aprovado" : "Recuperação";
+
+        tsv += `${al.nome}\t${al.equipe}\t${al.email}\t${a1.toFixed(1).replace('.', ',')}\t${a2.toFixed(1).replace('.', ',')}\t${a3.toFixed(1).replace('.', ',')}\t${mfFmt}\t${sit}\n`;
+      });
+
+      navigator.clipboard.writeText(tsv).then(() => {
+        showToast(
+          "Tabela SIGAA Copiada!",
+          "Dados tabulados (TSV) copiados para a área de transferência. Basta colar no Excel ou no SIGAA!",
+          "fa-solid fa-copy text-success"
+        );
+      }).catch(err => {
+        console.error("Erro ao copiar para clipboard:", err);
+        alert("Copie o texto gerado manualmente.");
+      });
+    }
+
+    // =========================================================================
     // EXPORTAÇÃO, IMPORTAÇÃO JSON E RESTAURAÇÃO DE PADRÕES
     // =========================================================================
     function exportarDadosDemandas() {
@@ -4071,18 +4828,19 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         progweb2_version: "2026-2",
         dataExportacao: new Date().toISOString(),
         demandas: demandasApp,
-        avaliacoes: avaliacoesApp
+        avaliacoes: avaliacoesApp,
+        alunos: alunosApp
       };
 
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `progweb2_demandas_backup_${new Date().toISOString().split('T')[0]}.json`);
+      downloadAnchor.setAttribute("download", `progweb2_backup_${new Date().toISOString().split('T')[0]}.json`);
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
 
-      showToast("Backup Concluído", "Arquivo JSON gerado e baixado com sucesso!");
+      showToast("Backup Concluído", "Arquivo JSON baixado com sucesso!");
     }
 
     function importarDadosDemandas(event) {
@@ -4101,10 +4859,16 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             avaliacoesApp = json.avaliacoes;
             salvarDadosAvaliacoes();
           }
+          if (json.alunos && Array.isArray(json.alunos)) {
+            alunosApp = json.alunos;
+            salvarDadosAlunos();
+          }
           renderizarDemandas();
           popularSelectsDeDemanda();
           renderizarTabelaRubricas();
-          showToast("Dados Importados", "Demandas e avaliações restauradas a partir do arquivo JSON!");
+          renderizarTabelaAlunos();
+          renderizarTabelaFechamento();
+          showToast("Dados Importados", "Demandas, avaliações e roster restaurados a partir do arquivo JSON!");
         } catch (err) {
           alert("Arquivo JSON inválido ou corrompido.");
           console.error(err);
@@ -4115,14 +4879,19 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     }
 
     function restaurarDemandasPadrao() {
-      if (!confirm("Deseja restaurar as demandas e rubricas para as 3 tarefas iniciais padrão do ProgWeb 2? As personalizações serão redefinidas.")) {
+      if (!confirm("Deseja restaurar as demandas, rubricas e lista de alunos para o padrão inicial do ProgWeb 2?")) {
         return;
       }
       demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
+      alunosApp = JSON.parse(JSON.stringify(ESTUDANTES_PADRAO));
       salvarDadosDemandas();
+      salvarDadosAlunos();
       renderizarDemandas();
       popularSelectsDeDemanda();
-      showToast("Padrões Restaurados", "Demandas iniciais redefinidas com sucesso!");
+      renderizarTabelaRubricas();
+      renderizarTabelaAlunos();
+      renderizarTabelaFechamento();
+      showToast("Padrões Restaurados", "Demandas e roster inicial redefinidos com sucesso!");
     }
 
     // =========================================================================
@@ -4191,11 +4960,10 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         }
       }
 
-      // Se navegou para a aba de avaliação ou demandas, atualizar tabelas
       if (tabId === 'tab-demandas') {
         renderizarDemandas();
       } else if (tabId === 'tab-avaliacao') {
-        renderizarTabelaRubricas();
+        trocarSubAbaNotas(subabaNotasAtual);
       }
     }
 
@@ -4224,33 +4992,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       } else {
         icon.className = 'bi bi-moon-stars-fill';
         if (text) text.innerText = 'Modo Escuro';
-      }
-    }
-
-    // =========================================================================
-    // SIMULADOR DE MÉDIA FINAL
-    // =========================================================================
-    function calcularMedia() {
-      const a1 = parseFloat(document.getElementById('notaA1').value) || 0;
-      const a2 = parseFloat(document.getElementById('notaA2').value) || 0;
-      const a3 = parseFloat(document.getElementById('notaA3').value) || 0;
-
-      const media = (a1 * 0.25) + (a2 * 0.35) + (a3 * 0.40);
-      const resultadoEl = document.getElementById('mediaResultado');
-      const situacaoEl = document.getElementById('situacaoResultado');
-
-      if (resultadoEl) {
-        resultadoEl.innerText = media.toFixed(2);
-      }
-
-      if (situacaoEl) {
-        if (media >= 6.0) {
-          situacaoEl.className = 'fs-5 fw-bold text-success';
-          situacaoEl.innerHTML = '<i class="bi bi-check-circle-fill"></i> Aprovado por Nota (MF &ge; 6,0)';
-        } else {
-          situacaoEl.className = 'fs-5 fw-bold text-danger';
-          situacaoEl.innerHTML = '<i class="bi bi-exclamation-triangle-fill"></i> Em Recuperação Paralela (MF &lt; 6,0)';
-        }
       }
     }
 
@@ -4299,6 +5040,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       if (e.key === 'Escape') {
         fecharModalDemanda();
         fecharModalRubrica();
+        fecharModalAluno();
       }
     });
 
@@ -4307,9 +5049,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       initModoDocente();
       popularSelectsDeDemanda();
       renderizarDemandas();
-      renderizarTabelaRubricas();
+      trocarSubAbaNotas('entregas');
 
-      // Verificar hash da URL na carga (ex: #tab-demandas)
+      // Verificar hash da URL na carga (ex: #tab-demandas ou #tab-avaliacao)
       const hash = window.location.hash ? window.location.hash.substring(1) : "";
       if (hash && document.getElementById(hash)) {
         showTab(hash, false);
