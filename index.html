@@ -1732,6 +1732,134 @@
     .producao-checklist-grid input { margin-top: 0.3rem; flex-shrink: 0; }
 
     /* =====================================================================
+       CARD HERO E QUADRO DE CANDIDATURAS DA SNCT
+       ===================================================================== */
+    .snct-hero-card {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    [data-theme="dark"] .snct-hero-card {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.14) 0%, rgba(16, 185, 129, 0.14) 100%);
+      border-color: rgba(2, 132, 199, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .snct-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      font-size: var(--fs-label);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: 9999px;
+      background: rgba(2, 132, 199, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(2, 132, 199, 0.3);
+      margin-bottom: 0.6rem;
+    }
+    .snct-progress-bar-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      height: 12px;
+      overflow: hidden;
+      width: 100%;
+    }
+    .snct-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-emerald) 100%);
+      border-radius: 9999px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .snct-frente-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+    }
+    .snct-frente-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      border-color: rgba(2, 132, 199, 0.4);
+    }
+    .snct-frente-card.frente-completa {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.02);
+    }
+    .snct-vaga-badge {
+      font-size: var(--fs-label);
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .snct-vaga-disponivel {
+      background: rgba(2, 132, 199, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+    .snct-vaga-lotada {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .snct-membro-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.4rem 0.6rem;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.4rem;
+      font-size: var(--fs-caption);
+    }
+    .snct-membro-nome {
+      font-weight: 600;
+      color: var(--text-heading);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .snct-membro-link {
+      font-size: var(--fs-label);
+      color: var(--accent-blue);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .snct-membro-link:hover {
+      text-decoration: underline;
+    }
+    .snct-vaga-vazia {
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.6rem;
+      margin-bottom: 0.4rem;
+      font-size: var(--fs-caption);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* =====================================================================
        CAMADA DE LEGIBILIDADE (tipografia, contraste e ponte com o Bootstrap)
        Mantida no fim do <style> para prevalecer sobre as regras anteriores.
        ===================================================================== */
@@ -2002,6 +2130,48 @@
           <button onclick="showTab('tab-sigaa')" class="btn-action btn-outline-action">
             <i class="bi bi-mortarboard-fill text-primary"></i> Central de Tarefas no SIGAA
           </button>
+        </div>
+
+        <!-- HERO BANNER INTERATIVO: MOBILIZAÇÃO DA TURMA PARA A SNCT 2026 -->
+        <div class="snct-hero-card" id="bannerHeroRoteirosSNCT">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+            <div>
+              <span class="snct-hero-badge">
+                <i class="bi bi-megaphone-fill"></i> Mobilização Curricularização da Extensão • SNCT 2026
+              </span>
+              <h3 class="font-outfit fw-bold fs-5 text-heading mb-1">
+                Frentes de Produção Cirúrgica das Oficinas Práticas (120 min)
+              </h3>
+              <p class="fs-body-sm text-muted mb-0">
+                A turma está organizada em <strong>8 frentes estratégicas de 3 estudantes</strong> (24 vagas no total). Cada vaga possui entregáveis cirúrgicos para garantir que os participantes da comunidade saiam com sites no ar sem travamentos.
+              </p>
+            </div>
+            <div class="text-md-end flex-shrink-0">
+              <button onclick="navegarParaDemandasSNCT()" class="btn-action btn-primary-action">
+                <i class="bi bi-kanban-fill me-1"></i> Ver Quadro de Candidaturas &amp; Frentes
+              </button>
+            </div>
+          </div>
+
+          <!-- BARRA DE PROGRESSO & STATUS DO ALUNO AUTENTICADO -->
+          <div class="mt-3 pt-3 border-top d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+            <div class="w-100" style="max-width: 460px;">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fs-caption fw-bold text-heading">
+                  <i class="bi bi-people-fill text-primary me-1"></i> Preenchimento das Vagas da Turma:
+                </span>
+                <span class="fs-caption fw-bold font-mono text-heading" id="heroSnctContadorVagas">0 / 24 vagas</span>
+              </div>
+              <div class="snct-progress-bar-wrap">
+                <div class="snct-progress-bar-fill" id="heroSnctProgressBar" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <!-- STATUS INDIVIDUAL DO ALUNO LOGADO -->
+            <div class="d-flex align-items-center gap-2 flex-wrap" id="heroSnctStatusUsuario">
+              <!-- Renderizado dinamicamente por JS -->
+            </div>
+          </div>
         </div>
 
         <div class="roteiros-grid">
@@ -2818,59 +2988,115 @@
               </div>
             </div>
 
-            <!-- ESTRUTURA DE UMA OFICINA DE 2H -->
+            <!-- ESTRUTURA DE UMA OFICINA DE 2H (DIMENSIONAMENTO CIRÚRGICO) -->
             <div class="producao-bloco">
-              <h4 class="producao-subtitulo"><i class="bi bi-clock-history text-info"></i> Modelo de oficina de 2 horas</h4>
+              <h4 class="producao-subtitulo"><i class="bi bi-clock-history text-info"></i> Dimensionamento Cirúrgico: Oficina de 120 Minutos</h4>
+              <p class="fs-body-sm text-muted mb-2">
+                <strong>Princípio fundamental:</strong> <em>Zero telas em branco e zero instalações complexas.</em> O participante da comunidade não perde tempo configurando ambientes; utiliza o starter kit no navegador e sai com o site ativo no smartphone.
+              </p>
               <ul class="producao-tempo">
-                <li><span>0–10 min</span> Acolhida, apresentação da equipe e do resultado final</li>
-                <li><span>10–25 min</span> Demonstração: “é isto que você vai construir”</li>
-                <li><span>25–90 min</span> Mão na massa em 3 blocos, cada um com checkpoint</li>
-                <li><span>90–105 min</span> Publicação e compartilhamento do resultado</li>
-                <li><span>105–120 min</span> Formulário de satisfação e encerramento</li>
+                <li><span>00–15 min</span> <strong>Acolhida &amp; Demonstração:</strong> recepção da turma, alinhamento e exibição do site final funcionando via QR Code no celular.</li>
+                <li><span>15–35 min</span> <strong>Bloco 1 (Desempacotamento):</strong> abertura do Starter Kit, customização de dados básicos (nome, bio, foto e cores no CSS).</li>
+                <li><span>35–70 min</span> <strong>Bloco 2 (Componente Central):</strong> estruturação da área principal (seções e botão WhatsApp no Curso 1; lógica interativa no Curso 2).</li>
+                <li><span>70–95 min</span> <strong>Bloco 3 (Deploy em Produção):</strong> criação do repositório no GitHub e ativação do GitHub Pages com URL pública.</li>
+                <li><span>95–110 min</span> <strong>Bloco 4 (Acesso Mobile &amp; QR Code):</strong> geração do QR Code do site publicado e validação prática em smartphones.</li>
+                <li><span>110–120 min</span> <strong>Avaliação &amp; Encerramento:</strong> preenchimento do formulário de satisfação de 3 perguntas e fotos oficiais da turma.</li>
               </ul>
-              <p class="text-muted small mb-0 mt-2">Ajuste os tempos no plano instrucional; mantenha os checkpoints.</p>
             </div>
           </div>
 
           <div class="producao-grid">
-            <!-- PAPÉIS -->
+            <!-- PAPÉIS NO DIA -->
             <div class="producao-bloco">
-              <h4 class="producao-subtitulo"><i class="bi bi-person-badge-fill text-success"></i> Papéis no dia da oficina</h4>
+              <h4 class="producao-subtitulo"><i class="bi bi-person-badge-fill text-success"></i> Papéis no Dia da Oficina</h4>
               <ul class="producao-papeis">
-                <li><strong>Instrutor(a):</strong> conduz a turma pelo roteiro e controla o tempo.</li>
-                <li><strong>Monitores de bancada:</strong> ajudam quem travou, sem tomar o teclado.</li>
-                <li><strong>Suporte técnico:</strong> internet, contas, projetor e máquinas.</li>
-                <li><strong>Registro:</strong> presença, fotos (com autorização) e anotações para o relatório.</li>
+                <li><strong>Instrutor(a) de Projeção:</strong> conduz a narrativa no telão, dita o ritmo dos blocos e não avança sem os checkpoints.</li>
+                <li><strong>Monitores de Bancada:</strong> circulam pelas ilhas do laboratório destravando dúvidas pontuais sem assumir o teclado do aluno.</li>
+                <li><strong>Suporte Técnico &amp; Lab:</strong> gerencia conectividade, máquinas reserva, credenciais de teste e o projetor.</li>
+                <li><strong>Registro &amp; Certificação:</strong> controle rigoroso de presenças, auxílio com autorizações de imagem e fotos para o relatório da extensão.</li>
               </ul>
             </div>
 
-            <!-- BOAS PRÁTICAS / IDEIAS -->
+            <!-- OS 4 ENTREGÁVEIS CIRÚRGICOS -->
             <div class="producao-bloco">
-              <h4 class="producao-subtitulo"><i class="bi bi-lightbulb-fill text-warning"></i> Ideias para um bom minicurso</h4>
+              <h4 class="producao-subtitulo"><i class="bi bi-box-seam-fill text-primary"></i> 4 Entregáveis Cirúrgicos Obrigatórios</h4>
               <ul class="producao-ideias">
-                <li>Explique <strong>onde clicar</strong> antes de explicar o conceito: o público é iniciante.</li>
-                <li>Todo participante sai com algo <strong>funcionando e publicado</strong>.</li>
-                <li>Use exemplos de Garopaba: comércio local, praias, pesca, natureza.</li>
-                <li>Tenha um <strong>bônus</strong> para quem terminar antes (cores, imagens, um botão a mais).</li>
-                <li>Prepare um <strong>plano B</strong> para quem não conseguir criar conta (ex.: idade mínima de 13 anos no GitHub, e-mail sem acesso).</li>
+                <li><strong>Micro-Roteiro A4 (máx. 4 páginas):</strong> impresso e em PDF, diagramado no padrão LaTeX da UC, com código 100% copiável.</li>
+                <li><strong>Starter Kit no GitHub:</strong> repositório base enxuto, testado em máquinas do laboratório, pronto para download ou fork em 1 clique.</li>
+                <li><strong>Slides-Guia (8 telas):</strong> apresentação limpa no navegador para projeção contínua com números de tela correspondentes ao roteiro.</li>
+                <li><strong>Plano B Offline:</strong> pen-drives preparados com o kit completo e navegadores portáteis caso a internet do laboratório oscile.</li>
               </ul>
             </div>
           </div>
 
           <!-- CHECKLIST DE PRONTIDÃO -->
-          <div class="producao-checklist">
-            <h4 class="producao-subtitulo mb-2"><i class="bi bi-clipboard2-check-fill text-success"></i> Checklist de prontidão (até o ensaio geral)</h4>
+          <div class="producao-checklist mb-4">
+            <h4 class="producao-subtitulo mb-2"><i class="bi bi-clipboard2-check-fill text-success"></i> Checklist de Prontidão da Equipe</h4>
             <div class="producao-checklist-grid">
-              <label><input type="checkbox" class="form-check-input me-2">Laboratório e horário confirmados com a coordenação</label>
-              <label><input type="checkbox" class="form-check-input me-2">Kit inicial testado em uma máquina do laboratório</label>
-              <label><input type="checkbox" class="form-check-input me-2">Roteiro revisado e impresso para os participantes</label>
-              <label><input type="checkbox" class="form-check-input me-2">Slides publicados e abrindo no projetor</label>
-              <label><input type="checkbox" class="form-check-input me-2">Formulários de presença e de satisfação prontos</label>
-              <label><input type="checkbox" class="form-check-input me-2">Autorização de uso de imagem (responsáveis, no caso de menores)</label>
-              <label><input type="checkbox" class="form-check-input me-2">Papéis da equipe definidos para o dia</label>
-              <label><input type="checkbox" class="form-check-input me-2">Plano B para internet ou contas que falharem</label>
+              <label><input type="checkbox" class="form-check-input me-2">Laboratório e horários confirmados com a coordenação</label>
+              <label><input type="checkbox" class="form-check-input me-2">Starter Kit testado sem internet (Plano B validado)</label>
+              <label><input type="checkbox" class="form-check-input me-2">Roteiro A4 diagramado e cópias impressas conferidas</label>
+              <label><input type="checkbox" class="form-check-input me-2">Slides-guia publicados no GitHub Pages</label>
+              <label><input type="checkbox" class="form-check-input me-2">Formulário Google Forms de presença e satisfação gerado</label>
+              <label><input type="checkbox" class="form-check-input me-2">Termos de autorização de imagem para menores impressos</label>
+              <label><input type="checkbox" class="form-check-input me-2">Escala de instrutores e monitores alinhada no ensaio</label>
+              <label><input type="checkbox" class="form-check-input me-2">Contas temporárias de contingência criadas</label>
             </div>
-            <p class="text-muted small mb-0 mt-2"><i class="bi bi-info-circle me-1"></i>As marcações servem só como apoio para a sua equipe e não ficam salvas.</p>
+            <p class="text-muted small mb-0 mt-2"><i class="bi bi-info-circle me-1"></i>As marcações servem como guia tático de ensaio para cada equipe.</p>
+          </div>
+
+          <!-- =====================================================================
+               QUADRO DE FRENTES DE TRABALHO & CANDIDATURAS DA TURMA (24 VAGAS)
+               ===================================================================== -->
+          <div id="quadroDemandasSNCT" class="mt-4 pt-3 border-top">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-3">
+              <div>
+                <h4 class="font-outfit fw-bold fs-5 text-heading mb-1">
+                  <i class="bi bi-kanban text-primary me-2"></i>Quadro de Frentes &amp; Candidaturas da Turma
+                </h4>
+                <p class="fs-body-sm text-muted mb-0">
+                  São <strong>8 frentes cirúrgicas com 3 vagas cada</strong>, totalizando as <strong>24 vagas para os 24 estudantes</strong> da turma. Conecte-se com seu login institucional do Google para assumir uma vaga ou atualizar o link de entrega da sua equipe.
+                </p>
+              </div>
+              <div class="flex-shrink-0 text-md-end">
+                <span class="badge bg-primary fs-small px-3 py-2" id="badgeVagasGeralSNCT">
+                  <i class="bi bi-person-check-fill me-1"></i> <span id="spanTotalVagasOcupadas">0</span> / 24 vagas ocupadas
+                </span>
+              </div>
+            </div>
+
+            <!-- CURSO 1: FRENTES -->
+            <div class="mb-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge bg-info text-dark font-mono px-2 py-1">CURSO 1</span>
+                <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Meu Primeiro Site no Ar (HTML, CSS &amp; GitHub Pages)</h5>
+              </div>
+              <div class="row g-3" id="containerFrentesCurso1">
+                <!-- Renderizado via JS -->
+              </div>
+            </div>
+
+            <!-- CURSO 2: FRENTES -->
+            <div class="mb-3">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge bg-warning text-dark font-mono px-2 py-1">CURSO 2</span>
+                <h5 class="font-outfit fw-bold fs-6 text-heading mb-0" id="tituloCurso2QuadroDemandas">Tema Eleito na Votação</h5>
+              </div>
+              <div class="row g-3" id="containerFrentesCurso2">
+                <!-- Renderizado via JS -->
+              </div>
+            </div>
+
+            <div class="card p-3 bg-light border-0 mt-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span class="fs-caption text-muted">
+                  <i class="bi bi-shield-lock-fill text-success me-1"></i> Candidaturas autenticadas com sua conta Google. Os dados são sincronizados no seu navegador e na planilha da extensão.
+                </span>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="restaurarDemandasPadraoSNCT()">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i> Restaurar Frentes Padrão
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -4224,8 +4450,112 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     const STORAGE_KEY_VOTOS_OFICINAS = 'progweb2_votos_oficinas_v1';
     const STORAGE_KEY_ULTIMO_VOTANTE = 'progweb2_ultimo_votante';
     const STORAGE_KEY_GOOGLE_SESSION = 'progweb2_google_session_v1';
+    const STORAGE_KEY_DEMANDAS_SNCT = 'progweb2_demandas_snct_v1';
 
     let usuarioLogadoGoogle = null;
+    let demandasSnctApp = [];
+
+    const DEMANDAS_PADRAO_SNCT = [
+      // CURSO 1: Meu Primeiro Site no Ar
+      {
+        id: "c1-frente-didatica",
+        cursoId: 1,
+        cursoNome: "Curso 1: Meu Primeiro Site no Ar",
+        titulo: "Didática & Micro-Roteiro Cirúrgico",
+        icone: "bi-journal-richtext",
+        corBadge: "badge-pill-blue",
+        descricao: "Redação e diagramação do micro-roteiro impresso de no máximo 4 páginas no padrão LaTeX da UC, com linguagem acolhedora para iniciantes e zero jargões.",
+        entregaveis: ["Micro-Roteiro LaTeX compilado em PDF", "Checklist de sucesso para impressão"],
+        vagasMax: 3,
+        membros: []
+      },
+      {
+        id: "c1-frente-starterkit",
+        cursoId: 1,
+        cursoNome: "Curso 1: Meu Primeiro Site no Ar",
+        titulo: "Starter Kit & Código Base GitHub",
+        icone: "bi-file-earmark-code",
+        corBadge: "badge-pill-blue",
+        descricao: "Estruturação do repositório template no GitHub (HTML5 semântico, CSS modular, fotos leves de Garopaba) pronto para download ou fork em 1 clique.",
+        entregaveis: ["Repositório template GitHub Pages ativo", "Pacote ZIP para contingência offline"],
+        vagasMax: 3,
+        membros: []
+      },
+      {
+        id: "c1-frente-slides",
+        cursoId: 1,
+        cursoNome: "Curso 1: Meu Primeiro Site no Ar",
+        titulo: "Slides-Guia de Projeção (8 Telas)",
+        icone: "bi-projector",
+        corBadge: "badge-pill-blue",
+        descricao: "Deck visual de 8 telas para conduzir a narrativa no projetor: do problema inicial à exibição do site funcionando no smartphone via QR Code.",
+        entregaveis: ["Slides publicados em HTML/Bootstrap ou Reveal", "Roteiro de checkpoints sincronizado"],
+        vagasMax: 3,
+        membros: []
+      },
+      {
+        id: "c1-frente-monitoria",
+        cursoId: 1,
+        cursoNome: "Curso 1: Meu Primeiro Site no Ar",
+        titulo: "Monitoria de Bancada & Logística",
+        icone: "bi-people",
+        corBadge: "badge-pill-blue",
+        descricao: "Condução das ilhas no laboratório, apoio a participantes travados, suporte ao cadastro no GitHub, controle de presença e fotos para o relatório.",
+        entregaveis: ["Guia rápido de erros frequentes para os monitores", "Formulário Google de presença e fotos"],
+        vagasMax: 3,
+        membros: []
+      },
+
+      // CURSO 2: Tema Eleito pela Turma
+      {
+        id: "c2-frente-didatica",
+        cursoId: 2,
+        cursoNome: "Curso 2: Tema Eleito na Votação",
+        titulo: "Didática & Micro-Roteiro Cirúrgico",
+        icone: "bi-journal-check",
+        corBadge: "badge-pill-green",
+        descricao: "Elaboração do roteiro passo a passo de 4 páginas no padrão LaTeX focado no componente central (ex.: catálogo WhatsApp ou Quiz dinâmico).",
+        entregaveis: ["Micro-Roteiro LaTeX compilado em PDF", "Diagrama conceitual do componente prático"],
+        vagasMax: 3,
+        membros: []
+      },
+      {
+        id: "c2-frente-starterkit",
+        cursoId: 2,
+        cursoNome: "Curso 2: Tema Eleito na Votação",
+        titulo: "Starter Kit & Componente Prático",
+        icone: "bi-code-slash",
+        corBadge: "badge-pill-green",
+        descricao: "Desenvolvimento do template de código com a funcionalidade pronta para parametrização (botão WhatsApp dinâmico ou lógica de pontuação).",
+        entregaveis: ["Repositório GitHub template homologado", "Pacote offline com dados mockados"],
+        vagasMax: 3,
+        membros: []
+      },
+      {
+        id: "c2-frente-slides",
+        cursoId: 2,
+        cursoNome: "Curso 2: Tema Eleito na Votação",
+        titulo: "Slides-Guia de Projeção (8 Telas)",
+        icone: "bi-easel",
+        corBadge: "badge-pill-green",
+        descricao: "Apresentação visual para condução da oficina no telão, destacando cada bloco prático com ilustrações dos checkpoints esperados.",
+        entregaveis: ["Deck de 8 slides responsivos", "Guia de tempo para o instrutor de projeção"],
+        vagasMax: 3,
+        membros: []
+      },
+      {
+        id: "c2-frente-monitoria",
+        cursoId: 2,
+        cursoNome: "Curso 2: Tema Eleito na Votação",
+        titulo: "Monitoria de Bancada & Logística",
+        icone: "bi-person-badge",
+        corBadge: "badge-pill-green",
+        descricao: "Validação nos navegadores do laboratório, apoio técnico aos participantes, organização do ensaio geral e coleta dos dados de avaliação.",
+        entregaveis: ["Checklist de homologação das máquinas", "Formulário de avaliação de 3 perguntas"],
+        vagasMax: 3,
+        membros: []
+      }
+    ];
 
     const OFICINAS_PADRAO_SNCT = [
       {
@@ -5782,17 +6112,386 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const titulo = document.getElementById('producaoCurso2Titulo');
       const status = document.getElementById('producaoCurso2Status');
       const publico = document.getElementById('producaoCurso2Publico');
-      if (!card || !titulo || !status || !publico) return;
+      const tituloQuadro = document.getElementById('tituloCurso2QuadroDemandas');
+
       const lider = (liderId && maxVotos > 0 && !empate) ? oficinasVotacaoApp.find(o => o.id === liderId) : null;
       if (lider) {
-        status.textContent = 'liderando a votação';
-        titulo.textContent = lider.titulo;
-        publico.innerHTML = '<i class="bi bi-people-fill"></i>' + escapeHtml(lider.publico || 'Público a definir');
+        if (status) status.textContent = 'liderando a votação';
+        if (titulo) titulo.textContent = lider.titulo;
+        if (publico) publico.innerHTML = '<i class="bi bi-people-fill"></i>' + escapeHtml(lider.publico || 'Público a definir');
+        if (tituloQuadro) tituloQuadro.textContent = `${lider.titulo} (Tema Líder na Votação)`;
       } else {
-        status.textContent = empate && maxVotos > 0 ? 'empate na votação' : 'em votação';
-        titulo.textContent = 'Definido pela votação da turma';
-        publico.innerHTML = '<i class="bi bi-people-fill"></i>Público conforme o tema escolhido';
+        if (status) status.textContent = empate && maxVotos > 0 ? 'empate na votação' : 'em votação';
+        if (titulo) titulo.textContent = 'Definido pela votação da turma';
+        if (publico) publico.innerHTML = '<i class="bi bi-people-fill"></i>Público conforme o tema escolhido';
+        if (tituloQuadro) tituloQuadro.textContent = 'Tema Eleito na Votação';
       }
+    }
+
+    // =========================================================================
+    // GESTÃO DE FRENTES CIRÚRGICAS & CANDIDATURAS DA SNCT (24 VAGAS)
+    // =========================================================================
+    function carregarDemandasSNCT() {
+      try {
+        const salvas = localStorage.getItem(STORAGE_KEY_DEMANDAS_SNCT);
+        if (salvas) {
+          const parsed = JSON.parse(salvas);
+          if (Array.isArray(parsed) && parsed.length === DEMANDAS_PADRAO_SNCT.length) {
+            demandasSnctApp = parsed;
+          } else {
+            demandasSnctApp = JSON.parse(JSON.stringify(DEMANDAS_PADRAO_SNCT));
+            salvarDemandasSNCT();
+          }
+        } else {
+          demandasSnctApp = JSON.parse(JSON.stringify(DEMANDAS_PADRAO_SNCT));
+          salvarDemandasSNCT();
+        }
+      } catch (e) {
+        console.error("Erro ao carregar demandas SNCT:", e);
+        demandasSnctApp = JSON.parse(JSON.stringify(DEMANDAS_PADRAO_SNCT));
+      }
+    }
+
+    function salvarDemandasSNCT() {
+      try {
+        localStorage.setItem(STORAGE_KEY_DEMANDAS_SNCT, JSON.stringify(demandasSnctApp));
+      } catch (e) {
+        console.error("Erro ao salvar demandas SNCT:", e);
+      }
+    }
+
+    function restaurarDemandasPadraoSNCT() {
+      if (!confirm("Deseja realmente restaurar as frentes de trabalho da SNCT para o padrão inicial? Todas as candidaturas salvas localmente serão limpas.")) {
+        return;
+      }
+      demandasSnctApp = JSON.parse(JSON.stringify(DEMANDAS_PADRAO_SNCT));
+      salvarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+      renderizarCardHeroRoteirosSNCT();
+      showToast("Frentes Restauradas", "O quadro de frentes de trabalho da SNCT foi restaurado para a estrutura padrão.", "bi bi-arrow-counterclockwise text-primary");
+    }
+
+    function navegarParaDemandasSNCT() {
+      showTab('tab-extensao');
+      setTimeout(() => {
+        const el = document.getElementById('quadroDemandasSNCT');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+    }
+
+    function renderizarCardHeroRoteirosSNCT() {
+      let totalVagas = 0;
+      let totalOcupadas = 0;
+      let minhaFrente = null;
+
+      demandasSnctApp.forEach(d => {
+        totalVagas += (d.vagasMax || 3);
+        const membros = Array.isArray(d.membros) ? d.membros : [];
+        totalOcupadas += membros.length;
+        if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
+          const achou = membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          if (achou) {
+            minhaFrente = { frente: d, membro: achou };
+          }
+        }
+      });
+
+      const totalEl = document.getElementById('heroSnctContadorVagas');
+      const progressEl = document.getElementById('heroSnctProgressBar');
+      const statusUserEl = document.getElementById('heroSnctStatusUsuario');
+
+      if (totalEl) {
+        totalEl.textContent = `${totalOcupadas} / ${totalVagas} vagas`;
+      }
+      if (progressEl) {
+        const pct = totalVagas > 0 ? Math.round((totalOcupadas / totalVagas) * 100) : 0;
+        progressEl.style.width = `${pct}%`;
+      }
+
+      if (statusUserEl) {
+        if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
+          statusUserEl.innerHTML = `
+            <span class="fs-caption text-muted">
+              <i class="bi bi-info-circle me-1"></i> Identifique-se com o Google para visualizar ou assumir sua vaga.
+            </span>
+            <button onclick="fazerLoginGoogleVotacao()" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
+              <i class="bi bi-google"></i> Login Google
+            </button>
+          `;
+        } else if (minhaFrente) {
+          statusUserEl.innerHTML = `
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fs-caption">
+                <i class="bi bi-check-circle-fill me-1"></i> Você está escalado(a): <strong>${escapeHtml(minhaFrente.frente.titulo)}</strong> (${escapeHtml(minhaFrente.frente.cursoNome)})
+              </span>
+              <button onclick="navegarParaDemandasSNCT()" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-arrow-right-short"></i> Ver Minha Frente
+              </button>
+            </div>
+          `;
+        } else {
+          const vagasRestantes = totalVagas - totalOcupadas;
+          statusUserEl.innerHTML = `
+            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1 fs-caption">
+              <i class="bi bi-exclamation-triangle-fill me-1"></i> Você ainda não assumiu uma frente. Restam ${vagasRestantes} vagas!
+            </span>
+            <button onclick="navegarParaDemandasSNCT()" class="btn btn-sm btn-primary">
+              <i class="bi bi-hand-index-thumb me-1"></i> Escolher Frente
+            </button>
+          `;
+        }
+      }
+    }
+
+    function renderizarQuadroDemandasSNCT() {
+      const containerC1 = document.getElementById('containerFrentesCurso1');
+      const containerC2 = document.getElementById('containerFrentesCurso2');
+      const spanTotalOcupadas = document.getElementById('spanTotalVagasOcupadas');
+
+      if (!containerC1 || !containerC2) return;
+
+      let totalOcupadas = 0;
+      let totalVagas = 0;
+
+      const frentesC1 = demandasSnctApp.filter(d => d.cursoId === 1);
+      const frentesC2 = demandasSnctApp.filter(d => d.cursoId === 2);
+
+      const renderFrenteCard = (frente) => {
+        const membros = Array.isArray(frente.membros) ? frente.membros : [];
+        const vagasOcupadas = membros.length;
+        const vagasMax = frente.vagasMax || 3;
+        totalOcupadas += vagasOcupadas;
+        totalVagas += vagasMax;
+        const completa = vagasOcupadas >= vagasMax;
+
+        const souMembro = usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId && membros.some(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+
+        let htmlMembros = '';
+        membros.forEach(m => {
+          const ehVoce = usuarioLogadoGoogle && (m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          htmlMembros += `
+            <div class="snct-membro-item">
+              <div class="d-flex align-items-center gap-2 overflow-hidden">
+                <i class="bi bi-person-fill ${ehVoce ? 'text-success' : 'text-primary'}"></i>
+                <div class="overflow-hidden">
+                  <div class="snct-membro-nome">${escapeHtml(m.nome)} ${ehVoce ? '<span class="badge bg-success-subtle text-success fs-label ms-1">Você</span>' : ''}</div>
+                  <div class="text-muted" style="font-size: 0.72rem;">Matrícula: ${escapeHtml(m.matricula || 'N/A')}</div>
+                </div>
+              </div>
+              <div class="text-end flex-shrink-0 d-flex align-items-center gap-1">
+                ${m.linkEntrega ? `
+                  <a href="${escapeHtml(m.linkEntrega)}" target="_blank" rel="noopener noreferrer" class="snct-membro-link" title="Abrir entregável da equipe">
+                    <i class="bi bi-box-arrow-up-right"></i> Link
+                  </a>
+                ` : '<span class="text-muted" style="font-size: 0.72rem;">Pendente link</span>'}
+                ${(ehVoce || modoDocenteAtivo) ? `
+                  <button type="button" class="btn btn-sm btn-link text-danger p-0 ms-1" title="Desvincular da vaga" onclick="desistirCandidaturaSNCT('${frente.id}', '${m.alunoId}')">
+                    <i class="bi bi-x-circle"></i>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        });
+
+        const vagasLivres = Math.max(0, vagasMax - vagasOcupadas);
+        for (let i = 0; i < vagasLivres; i++) {
+          htmlMembros += `
+            <div class="snct-vaga-vazia">
+              <i class="bi bi-dash-circle"></i> Vaga ${vagasOcupadas + i + 1} disponível
+            </div>
+          `;
+        }
+
+        let htmlAcao = '';
+        if (souMembro) {
+          const meuRegistro = membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          htmlAcao = `
+            <div class="d-flex gap-2 mt-3">
+              <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1" onclick="editarLinkEntregaSNCT('${frente.id}')">
+                <i class="bi bi-link-45deg me-1"></i> ${meuRegistro && meuRegistro.linkEntrega ? 'Alterar Link' : 'Informar Link'}
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="desistirCandidaturaSNCT('${frente.id}')" title="Liberar sua vaga para outro colega">
+                <i class="bi bi-box-arrow-left"></i> Sair
+              </button>
+            </div>
+          `;
+        } else if (!completa) {
+          if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
+            htmlAcao = `
+              <button type="button" class="btn btn-sm btn-outline-primary w-100 mt-3" onclick="candidatarEstudanteSNCT('${frente.id}')">
+                <i class="bi bi-hand-index-thumb me-1"></i> Candidatar-me (Requer Login)
+              </button>
+            `;
+          } else {
+            htmlAcao = `
+              <button type="button" class="btn btn-sm btn-primary w-100 mt-3" onclick="candidatarEstudanteSNCT('${frente.id}')">
+                <i class="bi bi-hand-index-thumb me-1"></i> Candidatar-me a esta Frente
+              </button>
+            `;
+          }
+        } else {
+          htmlAcao = `
+            <button type="button" class="btn btn-sm btn-outline-secondary w-100 mt-3" disabled>
+              <i class="bi bi-lock-fill me-1"></i> Vagas Esgotadas (3/3)
+            </button>
+          `;
+        }
+
+        let htmlEntregaveis = '';
+        if (Array.isArray(frente.entregaveis) && frente.entregaveis.length > 0) {
+          htmlEntregaveis = `
+            <div class="mt-2 pt-2 border-top">
+              <div class="fs-label fw-bold text-muted text-uppercase mb-1">Entregáveis Esperados:</div>
+              <ul class="mb-0 ps-3 fs-caption text-muted">
+                ${frente.entregaveis.map(ent => `<li>${escapeHtml(ent)}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="snct-frente-card ${completa ? 'frente-completa' : ''} h-100">
+              <div>
+                <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="fs-5 text-primary"><i class="bi ${frente.icone || 'bi-gear'}"></i></span>
+                    <h6 class="font-outfit fw-bold fs-6 text-heading mb-0">${escapeHtml(frente.titulo)}</h6>
+                  </div>
+                  <span class="snct-vaga-badge ${completa ? 'snct-vaga-lotada' : 'snct-vaga-disponivel'} flex-shrink-0">
+                    <i class="bi ${completa ? 'bi-check-circle-fill' : 'bi-person-fill'}"></i> ${vagasOcupadas}/${vagasMax}
+                  </span>
+                </div>
+                <p class="fs-caption text-muted mb-3">${escapeHtml(frente.descricao)}</p>
+                <div class="mb-2">
+                  <div class="fs-label fw-bold text-muted text-uppercase mb-1">Integrantes Escalados:</div>
+                  ${htmlMembros}
+                </div>
+                ${htmlEntregaveis}
+              </div>
+              <div>
+                ${htmlAcao}
+              </div>
+            </div>
+          </div>
+        `;
+      };
+
+      containerC1.innerHTML = frentesC1.map(renderFrenteCard).join('');
+      containerC2.innerHTML = frentesC2.map(renderFrenteCard).join('');
+
+      if (spanTotalOcupadas) {
+        spanTotalOcupadas.textContent = totalOcupadas;
+      }
+
+      renderizarCardHeroRoteirosSNCT();
+    }
+
+    function candidatarEstudanteSNCT(demandaId) {
+      if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
+        showToast(
+          "Autenticação Necessária",
+          "Conecte-se com sua conta Google para registrar sua candidatura na frente de trabalho.",
+          "bi bi-google text-primary"
+        );
+        fazerLoginGoogleVotacao();
+        return;
+      }
+
+      const frente = demandasSnctApp.find(d => d.id === demandaId);
+      if (!frente) return;
+
+      if (!Array.isArray(frente.membros)) frente.membros = [];
+
+      // Verifica se já está nesta frente
+      const jaEstaAqui = frente.membros.some(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+      if (jaEstaAqui) {
+        showToast("Você já está nesta frente", "Sua vaga já está garantida nesta equipe de trabalho.", "bi bi-info-circle text-primary");
+        return;
+      }
+
+      // Verifica se a frente está cheia
+      if (frente.membros.length >= (frente.vagasMax || 3)) {
+        showToast("Vagas Esgotadas", "Esta frente já atingiu o limite de 3 estudantes.", "bi bi-exclamation-octagon text-danger");
+        return;
+      }
+
+      // Verifica se já está em outra frente
+      let frenteAnterior = null;
+      demandasSnctApp.forEach(d => {
+        if (d.id !== demandaId && Array.isArray(d.membros)) {
+          const achou = d.membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          if (achou) frenteAnterior = d;
+        }
+      });
+
+      if (frenteAnterior) {
+        const migrar = confirm(`Você já está escalado(a) na frente "${frenteAnterior.titulo}". Deseja migrar para "${frente.titulo}"? Sua vaga anterior será liberada para um colega.`);
+        if (!migrar) return;
+
+        // Remove da anterior
+        frenteAnterior.membros = frenteAnterior.membros.filter(m => m.alunoId !== usuarioLogadoGoogle.alunoId && (!m.matricula || m.matricula !== usuarioLogadoGoogle.matricula));
+      }
+
+      // Adiciona na nova frente
+      frente.membros.push({
+        alunoId: usuarioLogadoGoogle.alunoId,
+        nome: usuarioLogadoGoogle.nome,
+        matricula: usuarioLogadoGoogle.matricula || '',
+        email: usuarioLogadoGoogle.email,
+        linkEntrega: '',
+        dataInscricao: new Date().toISOString()
+      });
+
+      salvarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+
+      showToast(
+        "Candidatura Confirmada!",
+        `Você assumiu uma vaga na frente: ${frente.titulo}!`,
+        "bi bi-check-circle-fill text-success"
+      );
+    }
+
+    function desistirCandidaturaSNCT(demandaId, alunoIdEspecifico) {
+      const frente = demandasSnctApp.find(d => d.id === demandaId);
+      if (!frente || !Array.isArray(frente.membros)) return;
+
+      const alvoId = alunoIdEspecifico || (usuarioLogadoGoogle ? usuarioLogadoGoogle.alunoId : null);
+      if (!alvoId) return;
+
+      if (!confirm("Deseja realmente liberar esta vaga na frente de trabalho?")) {
+        return;
+      }
+
+      frente.membros = frente.membros.filter(m => m.alunoId !== alvoId && (!usuarioLogadoGoogle || m.matricula !== usuarioLogadoGoogle.matricula));
+
+      salvarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+
+      showToast("Vaga Liberada", "A vaga foi disponibilizada novamente para a turma.", "bi bi-box-arrow-left text-muted");
+    }
+
+    function editarLinkEntregaSNCT(demandaId) {
+      if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) return;
+      const frente = demandasSnctApp.find(d => d.id === demandaId);
+      if (!frente || !Array.isArray(frente.membros)) return;
+
+      const membro = frente.membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+      if (!membro) return;
+
+      const linkAtual = membro.linkEntrega || '';
+      const novoLink = prompt("Informe o link do entregável da sua equipe (ex: repositório GitHub, Google Drive ou Overleaf):", linkAtual);
+      if (novoLink === null) return;
+
+      membro.linkEntrega = novoLink.trim();
+      salvarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+
+      showToast("Link Atualizado", "O link do entregável da sua frente foi salvo com sucesso!", "bi bi-link-45deg text-success");
     }
 
     function renderizarPainelVotacao() {
@@ -6170,6 +6869,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           cardAutenticado.classList.remove('d-flex');
         }
       }
+
+      renderizarCardHeroRoteirosSNCT();
+      renderizarQuadroDemandasSNCT();
     }
 
     function efetuarLogoutGoogle() {
@@ -6777,6 +7479,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       trocarSubAbaNotas('entregas');
       popularSelectEstudantesVotacao();
       renderizarPainelVotacao();
+      carregarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+      renderizarCardHeroRoteirosSNCT();
       initGoogleAuth();
       sincronizarComBackendAppsScript();
 
