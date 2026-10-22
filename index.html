@@ -1615,6 +1615,122 @@
       }
     }
 
+
+    /* CARD: PRODUÇÃO DOS MINICURSOS DA SNCT */
+    .producao-card {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-top: 4px solid var(--accent-purple);
+      border-radius: var(--radius-md);
+      padding: 1.4rem;
+    }
+    .producao-cursos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 0.85rem;
+      margin: 1.1rem 0 1.4rem;
+    }
+    .producao-curso {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-emerald);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+    }
+    .producao-curso-voto { border-left-color: var(--accent-purple); }
+    .producao-curso-voto.definido { border-left-color: var(--accent-emerald); }
+    .producao-curso-rotulo {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--accent-emerald);
+    }
+    .producao-curso-voto .producao-curso-rotulo { color: var(--accent-purple); }
+    .producao-curso-voto.definido .producao-curso-rotulo { color: var(--accent-emerald); }
+    .producao-curso-titulo {
+      font-family: var(--font-heading, 'Outfit', sans-serif);
+      font-size: 1.1rem; font-weight: 700; color: var(--text-heading); margin: 0.2rem 0 0.35rem;
+    }
+    .producao-curso-meta { font-size: 0.875rem; color: var(--text-muted); }
+    .producao-curso-meta i { margin-right: 0.35rem; }
+    .producao-subtitulo {
+      font-family: var(--font-heading, 'Outfit', sans-serif);
+      font-size: 1rem; font-weight: 700; color: var(--text-heading);
+      display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.6rem;
+    }
+
+    /* Pipeline em etapas clicáveis */
+    .producao-pipeline {
+      list-style: none; padding: 0; margin: 0 0 1.4rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 0.75rem;
+      counter-reset: etapa;
+    }
+    .producao-etapa details {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-top: 3px solid var(--etapa-cor);
+      border-radius: var(--radius-sm);
+      height: 100%;
+    }
+    .producao-etapa summary {
+      list-style: none; cursor: pointer; padding: 0.85rem 0.95rem;
+      display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 0.6rem; row-gap: 0.2rem;
+      align-items: center;
+    }
+    .producao-etapa summary::-webkit-details-marker { display: none; }
+    .producao-etapa summary:focus-visible { outline: 2px solid var(--etapa-cor); outline-offset: 2px; }
+    .producao-etapa-num {
+      grid-row: 1; grid-column: 1;
+      width: 1.6rem; height: 1.6rem; border-radius: 50%;
+      background: var(--etapa-cor); color: #fff; font-weight: 800; font-size: 0.875rem;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .producao-etapa-icone { display: none; }
+    .producao-etapa-titulo { grid-row: 1; grid-column: 2; font-weight: 700; color: var(--text-heading); }
+    .producao-etapa-resumo { grid-row: 2; grid-column: 1 / 3; font-size: 0.875rem; color: var(--text-muted); line-height: 1.45; }
+    .producao-etapa summary::after {
+      content: "Ver detalhes ▾"; grid-row: 3; grid-column: 1 / 3;
+      font-size: 0.75rem; font-weight: 700; color: var(--etapa-cor); margin-top: 0.25rem;
+    }
+    .producao-etapa details[open] summary::after { content: "Fechar ▴"; }
+    .producao-etapa-corpo { padding: 0 0.95rem 0.9rem; border-top: 1px dashed var(--border-color); }
+    .producao-etapa-corpo ul { padding-left: 1.1rem; margin: 0.6rem 0 0.5rem; font-size: 0.875rem; }
+    .producao-etapa-corpo li + li { margin-top: 0.25rem; }
+    .producao-entrega {
+      font-size: 0.8125rem; font-weight: 600; color: var(--text-heading);
+      background: var(--bg-card-hover); border-radius: 6px; padding: 0.35rem 0.55rem;
+    }
+    .producao-entrega i { color: var(--etapa-cor); margin-right: 0.3rem; }
+
+    /* Blocos informativos */
+    .producao-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;
+    }
+    .producao-bloco {
+      background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem;
+    }
+    .producao-tabela { font-size: 0.875rem; color: var(--text-main); }
+    .producao-tabela th { font-size: 0.8125rem; color: var(--text-muted); font-weight: 700; background: transparent; }
+    .producao-tabela td { background: transparent; color: var(--text-main); }
+    .producao-tabela td:first-child { font-weight: 600; color: var(--text-heading); }
+    .producao-tempo, .producao-papeis, .producao-ideias { list-style: none; padding: 0; margin: 0; font-size: 0.9375rem; }
+    .producao-tempo li { display: flex; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px dashed var(--border-color); }
+    .producao-tempo li:last-child { border-bottom: 0; }
+    .producao-tempo span {
+      flex: 0 0 5.6rem; font-weight: 700; font-size: 0.8125rem; color: var(--accent-blue);
+      font-variant-numeric: tabular-nums;
+    }
+    .producao-papeis li, .producao-ideias li { padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem; }
+    .producao-papeis li::before { content: "•"; position: absolute; left: 0.3rem; color: var(--accent-emerald); font-weight: 800; }
+    .producao-ideias li::before { content: "›"; position: absolute; left: 0.3rem; color: var(--accent-amber); font-weight: 800; }
+    .producao-checklist {
+      background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: var(--radius-sm); padding: 1rem;
+    }
+    .producao-checklist-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 0.35rem 1rem; font-size: 0.9375rem;
+    }
+    .producao-checklist-grid label { display: flex; align-items: flex-start; cursor: pointer; }
+    .producao-checklist-grid input { margin-top: 0.3rem; flex-shrink: 0; }
+
     /* =====================================================================
        CAMADA DE LEGIBILIDADE (tipografia, contraste e ponte com o Bootstrap)
        Mantida no fim do <style> para prevalecer sobre as regras anteriores.
@@ -2536,6 +2652,227 @@
           </div>
 
         </div>
+
+
+        <!-- =========================================================
+             CARD: PRODUÇÃO DOS MINICURSOS DA SNCT
+             (procedimentos, formatos, ideias e pipeline de produção)
+             ========================================================= -->
+        <section class="producao-card mt-4" id="cardProducaoMinicursos" aria-labelledby="tituloProducaoMinicursos">
+          <div class="producao-header">
+            <div>
+              <span class="badge-pill badge-pill-purple"><i class="bi bi-diagram-3-fill"></i> GUIA DE PRODUÇÃO</span>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1" id="tituloProducaoMinicursos">Produção dos Minicursos da SNCT: como vamos construir os dois cursos</h3>
+              <p class="text-muted mb-0">Procedimentos, formatos de material e o pipeline que todas as equipes seguem, do diagnóstico do público ao relatório final.</p>
+            </div>
+          </div>
+
+          <!-- OS DOIS CURSOS -->
+          <div class="producao-cursos">
+            <div class="producao-curso producao-curso-ok">
+              <div class="producao-curso-rotulo"><i class="bi bi-check-circle-fill"></i> Curso 1 · confirmado</div>
+              <div class="producao-curso-titulo">Meu Primeiro Site no Ar</div>
+              <div class="producao-curso-meta"><i class="bi bi-people-fill"></i> Comunidade e famílias, sem experiência prévia</div>
+              <div class="producao-curso-meta"><i class="bi bi-trophy-fill"></i> Ao final: página pessoal em HTML publicada no GitHub Pages</div>
+            </div>
+            <div class="producao-curso producao-curso-voto" id="producaoCurso2">
+              <div class="producao-curso-rotulo"><i class="bi bi-ui-checks-grid"></i> Curso 2 · <span id="producaoCurso2Status">em votação</span></div>
+              <div class="producao-curso-titulo" id="producaoCurso2Titulo">Definido pela votação da turma</div>
+              <div class="producao-curso-meta" id="producaoCurso2Publico"><i class="bi bi-people-fill"></i> Público conforme o tema escolhido</div>
+              <div class="producao-curso-meta"><i class="bi bi-arrow-up-circle"></i> Acompanhe o resultado no quadro de votação acima</div>
+            </div>
+          </div>
+
+          <!-- PIPELINE -->
+          <h4 class="producao-subtitulo"><i class="bi bi-signpost-split-fill text-primary"></i> Pipeline de produção (6 etapas)</h4>
+          <p class="text-muted small mb-2">Cada etapa só começa quando a anterior tem o seu entregável pronto. Clique em uma etapa para ver o que fazer e o que entregar.</p>
+          <ol class="producao-pipeline">
+            <li class="producao-etapa" style="--etapa-cor: var(--accent-blue);">
+              <details>
+                <summary>
+                  <span class="producao-etapa-num">1</span>
+                  <span class="producao-etapa-icone"><i class="bi bi-search"></i></span>
+                  <span class="producao-etapa-titulo">Conhecer o público</span>
+                  <span class="producao-etapa-resumo">Quem vem, o que já sabe e o que quer levar para casa</span>
+                </summary>
+                <div class="producao-etapa-corpo">
+                  <ul>
+                    <li>Defina o perfil: idade, se já usou computador, se tem e-mail próprio.</li>
+                    <li>Escreva <strong>uma frase de resultado</strong>: “Ao sair, a pessoa terá…”.</li>
+                    <li>Liste os pré-requisitos reais (ex.: e-mail para criar conta no GitHub).</li>
+                  </ul>
+                  <div class="producao-entrega"><i class="bi bi-box-seam"></i> Entrega: ficha do público (meia página)</div>
+                </div>
+              </details>
+            </li>
+            <li class="producao-etapa" style="--etapa-cor: var(--accent-purple);">
+              <details>
+                <summary>
+                  <span class="producao-etapa-num">2</span>
+                  <span class="producao-etapa-icone"><i class="bi bi-journal-text"></i></span>
+                  <span class="producao-etapa-titulo">Plano instrucional</span>
+                  <span class="producao-etapa-resumo">Objetivos, roteiro minuto a minuto e papéis da equipe</span>
+                </summary>
+                <div class="producao-etapa-corpo">
+                  <ul>
+                    <li>No máximo <strong>3 objetivos</strong>, todos verificáveis na tela do participante.</li>
+                    <li>Divida o tempo em blocos com um <strong>checkpoint</strong> no fim de cada um.</li>
+                    <li>Defina quem é instrutor, monitor, suporte e registro.</li>
+                  </ul>
+                  <div class="producao-entrega"><i class="bi bi-box-seam"></i> Entrega: plano instrucional aprovado pelo professor</div>
+                </div>
+              </details>
+            </li>
+            <li class="producao-etapa" style="--etapa-cor: var(--accent-amber);">
+              <details>
+                <summary>
+                  <span class="producao-etapa-num">3</span>
+                  <span class="producao-etapa-icone"><i class="bi bi-tools"></i></span>
+                  <span class="producao-etapa-titulo">Produzir os materiais</span>
+                  <span class="producao-etapa-resumo">Roteiro do participante, slides e kit inicial de código</span>
+                </summary>
+                <div class="producao-etapa-corpo">
+                  <ul>
+                    <li>Roteiro em PDF no <strong>padrão visual dos roteiros da UC</strong> (passos numerados, checkpoints, código completo).</li>
+                    <li>Slides curtos em HTML, publicados no GitHub Pages.</li>
+                    <li>Kit inicial no GitHub: pasta pronta para o participante começar sem digitar tudo do zero.</li>
+                  </ul>
+                  <div class="producao-entrega"><i class="bi bi-box-seam"></i> Entrega: links do roteiro, dos slides e do repositório</div>
+                </div>
+              </details>
+            </li>
+            <li class="producao-etapa" style="--etapa-cor: var(--accent-rose);">
+              <details>
+                <summary>
+                  <span class="producao-etapa-num">4</span>
+                  <span class="producao-etapa-icone"><i class="bi bi-stopwatch"></i></span>
+                  <span class="producao-etapa-titulo">Ensaio geral</span>
+                  <span class="producao-etapa-resumo">Uma equipe ministra para a outra, no laboratório, cronometrando</span>
+                </summary>
+                <div class="producao-etapa-corpo">
+                  <ul>
+                    <li>Rode o roteiro inteiro <strong>numa máquina do laboratório</strong>, não no seu notebook.</li>
+                    <li>Anote onde os “participantes” travaram e quanto tempo cada bloco levou.</li>
+                    <li>Corrija o material e corte o que não coube no tempo.</li>
+                  </ul>
+                  <div class="producao-entrega"><i class="bi bi-box-seam"></i> Entrega: lista de ajustes feitos depois do ensaio</div>
+                </div>
+              </details>
+            </li>
+            <li class="producao-etapa" style="--etapa-cor: var(--accent-emerald);">
+              <details>
+                <summary>
+                  <span class="producao-etapa-num">5</span>
+                  <span class="producao-etapa-icone"><i class="bi bi-easel2-fill"></i></span>
+                  <span class="producao-etapa-titulo">Ministrar na SNCT</span>
+                  <span class="producao-etapa-resumo">Oficina presencial no laboratório do Câmpus Garopaba</span>
+                </summary>
+                <div class="producao-etapa-corpo">
+                  <ul>
+                    <li>Chegue antes: máquinas ligadas, kit aberto, internet testada.</li>
+                    <li>Um monitor para cada 4 ou 5 participantes, circulando pelas bancadas.</li>
+                    <li>Siga o plano; se atrasar, pule o bônus, nunca o checkpoint.</li>
+                  </ul>
+                  <div class="producao-entrega"><i class="bi bi-box-seam"></i> Entrega: lista de presença e fotos da oficina</div>
+                </div>
+              </details>
+            </li>
+            <li class="producao-etapa" style="--etapa-cor: var(--ifsc-green);">
+              <details>
+                <summary>
+                  <span class="producao-etapa-num">6</span>
+                  <span class="producao-etapa-icone"><i class="bi bi-clipboard-data"></i></span>
+                  <span class="producao-etapa-titulo">Avaliar e relatar</span>
+                  <span class="producao-etapa-resumo">Satisfação do público, lições aprendidas e relatório extensionista</span>
+                </summary>
+                <div class="producao-etapa-corpo">
+                  <ul>
+                    <li>Aplique o formulário de satisfação antes de o público sair.</li>
+                    <li>Reúna a equipe no mesmo dia: o que funcionou, o que mudar.</li>
+                    <li>Os dados alimentam o relatório e o resumo expandido (Modalidade 2).</li>
+                  </ul>
+                  <div class="producao-entrega"><i class="bi bi-box-seam"></i> Entrega: relatório da oficina com fotos e resultados</div>
+                </div>
+              </details>
+            </li>
+          </ol>
+
+          <div class="producao-grid">
+            <!-- FORMATOS E ENTREGÁVEIS -->
+            <div class="producao-bloco">
+              <h4 class="producao-subtitulo"><i class="bi bi-collection-fill text-warning"></i> Formatos dos materiais</h4>
+              <div class="table-responsive">
+                <table class="table table-sm producao-tabela mb-0">
+                  <thead>
+                    <tr><th>Material</th><th>Formato</th><th>Onde fica</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Plano instrucional</td><td>Documento (1–2 páginas)</td><td>Pasta da equipe</td></tr>
+                    <tr><td>Roteiro do participante</td><td>PDF no padrão LaTeX da UC</td><td>Repositório + impresso</td></tr>
+                    <tr><td>Slides</td><td>HTML + Bootstrap 5</td><td>GitHub Pages</td></tr>
+                    <tr><td>Kit inicial de código</td><td>Repositório GitHub</td><td>Link/QR code no roteiro</td></tr>
+                    <tr><td>Presença e satisfação</td><td>Formulário on-line + lista impressa</td><td>Professor</td></tr>
+                    <tr><td>Relatório da oficina</td><td>PDF com fotos e resultados</td><td>SIGAA</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ESTRUTURA DE UMA OFICINA DE 2H -->
+            <div class="producao-bloco">
+              <h4 class="producao-subtitulo"><i class="bi bi-clock-history text-info"></i> Modelo de oficina de 2 horas</h4>
+              <ul class="producao-tempo">
+                <li><span>0–10 min</span> Acolhida, apresentação da equipe e do resultado final</li>
+                <li><span>10–25 min</span> Demonstração: “é isto que você vai construir”</li>
+                <li><span>25–90 min</span> Mão na massa em 3 blocos, cada um com checkpoint</li>
+                <li><span>90–105 min</span> Publicação e compartilhamento do resultado</li>
+                <li><span>105–120 min</span> Formulário de satisfação e encerramento</li>
+              </ul>
+              <p class="text-muted small mb-0 mt-2">Ajuste os tempos no plano instrucional; mantenha os checkpoints.</p>
+            </div>
+          </div>
+
+          <div class="producao-grid">
+            <!-- PAPÉIS -->
+            <div class="producao-bloco">
+              <h4 class="producao-subtitulo"><i class="bi bi-person-badge-fill text-success"></i> Papéis no dia da oficina</h4>
+              <ul class="producao-papeis">
+                <li><strong>Instrutor(a):</strong> conduz a turma pelo roteiro e controla o tempo.</li>
+                <li><strong>Monitores de bancada:</strong> ajudam quem travou, sem tomar o teclado.</li>
+                <li><strong>Suporte técnico:</strong> internet, contas, projetor e máquinas.</li>
+                <li><strong>Registro:</strong> presença, fotos (com autorização) e anotações para o relatório.</li>
+              </ul>
+            </div>
+
+            <!-- BOAS PRÁTICAS / IDEIAS -->
+            <div class="producao-bloco">
+              <h4 class="producao-subtitulo"><i class="bi bi-lightbulb-fill text-warning"></i> Ideias para um bom minicurso</h4>
+              <ul class="producao-ideias">
+                <li>Explique <strong>onde clicar</strong> antes de explicar o conceito: o público é iniciante.</li>
+                <li>Todo participante sai com algo <strong>funcionando e publicado</strong>.</li>
+                <li>Use exemplos de Garopaba: comércio local, praias, pesca, natureza.</li>
+                <li>Tenha um <strong>bônus</strong> para quem terminar antes (cores, imagens, um botão a mais).</li>
+                <li>Prepare um <strong>plano B</strong> para quem não conseguir criar conta (ex.: idade mínima de 13 anos no GitHub, e-mail sem acesso).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- CHECKLIST DE PRONTIDÃO -->
+          <div class="producao-checklist">
+            <h4 class="producao-subtitulo mb-2"><i class="bi bi-clipboard2-check-fill text-success"></i> Checklist de prontidão (até o ensaio geral)</h4>
+            <div class="producao-checklist-grid">
+              <label><input type="checkbox" class="form-check-input me-2">Laboratório e horário confirmados com a coordenação</label>
+              <label><input type="checkbox" class="form-check-input me-2">Kit inicial testado em uma máquina do laboratório</label>
+              <label><input type="checkbox" class="form-check-input me-2">Roteiro revisado e impresso para os participantes</label>
+              <label><input type="checkbox" class="form-check-input me-2">Slides publicados e abrindo no projetor</label>
+              <label><input type="checkbox" class="form-check-input me-2">Formulários de presença e de satisfação prontos</label>
+              <label><input type="checkbox" class="form-check-input me-2">Autorização de uso de imagem (responsáveis, no caso de menores)</label>
+              <label><input type="checkbox" class="form-check-input me-2">Papéis da equipe definidos para o dia</label>
+              <label><input type="checkbox" class="form-check-input me-2">Plano B para internet ou contas que falharem</label>
+            </div>
+            <p class="text-muted small mb-0 mt-2"><i class="bi bi-info-circle me-1"></i>As marcações servem só como apoio para a sua equipe e não ficam salvas.</p>
+          </div>
+        </section>
 
         <!-- TABELA DE DISTRIBUIÇÃO DAS 40 HORAS -->
         <h3 class="font-outfit fs-6 fw-bold text-uppercase text-muted mt-4 mb-3">Distribuição das 40 Horas de Extensão:</h3>
@@ -5439,6 +5776,25 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarPainelVotacao();
     }
 
+    // CARD DE PRODUÇÃO DOS MINICURSOS: o Curso 2 mostra o tema que lidera a votação
+    function atualizarCursoDoisProducao(liderId, maxVotos, empate) {
+      const card = document.getElementById('producaoCurso2');
+      const titulo = document.getElementById('producaoCurso2Titulo');
+      const status = document.getElementById('producaoCurso2Status');
+      const publico = document.getElementById('producaoCurso2Publico');
+      if (!card || !titulo || !status || !publico) return;
+      const lider = (liderId && maxVotos > 0 && !empate) ? oficinasVotacaoApp.find(o => o.id === liderId) : null;
+      if (lider) {
+        status.textContent = 'liderando a votação';
+        titulo.textContent = lider.titulo;
+        publico.innerHTML = '<i class="bi bi-people-fill"></i>' + escapeHtml(lider.publico || 'Público a definir');
+      } else {
+        status.textContent = empate && maxVotos > 0 ? 'empate na votação' : 'em votação';
+        titulo.textContent = 'Definido pela votação da turma';
+        publico.innerHTML = '<i class="bi bi-people-fill"></i>Público conforme o tema escolhido';
+      }
+    }
+
     function renderizarPainelVotacao() {
       const grid = document.getElementById('gridOpcoesVotacao');
       if (!grid) return;
@@ -5484,6 +5840,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           temaLiderEl.innerHTML = `<span class="text-muted">Tema Mais Votado:</span> <strong class="text-muted ms-1">— Votação iniciada —</strong>`;
         }
       }
+
+      atualizarCursoDoisProducao(liderId, maxVotos, empate);
 
       const votoEstudanteAtual = alunoVotanteAtualId
         ? votosOficinasApp.find(v => String(v.alunoId) === String(alunoVotanteAtualId))
