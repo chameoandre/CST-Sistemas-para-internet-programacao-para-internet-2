@@ -140,6 +140,13 @@ function instalar() {
     });
   }
 
+  // 6. Aba Candidaturas_SNCT (Frentes de Trabalho da Turma)
+  var abaCandidaturas = obterOuCriarAba(ss, 'Candidaturas_SNCT');
+  if (abaCandidaturas.getLastRow() === 0) {
+    abaCandidaturas.appendRow(['data_hora', 'frente_id', 'frente_titulo', 'aluno_id', 'aluno_nome', 'matricula', 'email', 'link_entrega']);
+    formatarCabecalho(abaCandidaturas, '#10b981');
+  }
+
   Logger.log('Instalação concluída com sucesso! Planilha: ' + ss.getUrl());
 }
 
@@ -157,6 +164,8 @@ function doGet(e) {
     var demandas = lerAbaComoObjetos(ss.getSheetByName('Demandas'));
     var avaliacoes = lerAbaComoObjetos(ss.getSheetByName('Avaliacoes'));
     var estudantes = lerAbaComoObjetos(ss.getSheetByName('Estudantes'));
+    var abaCand = ss.getSheetByName('Candidaturas_SNCT');
+    var candidaturas = abaCand ? lerAbaComoObjetos(abaCand) : [];
 
     return jsonResponse({
       ok: true,
@@ -165,6 +174,7 @@ function doGet(e) {
       demandas: demandas,
       avaliacoes: avaliacoes,
       estudantes: estudantes,
+      candidaturas: candidaturas,
       atualizado_em: new Date().toISOString()
     });
   } catch (err) {
@@ -291,6 +301,132 @@ function doPost(e) {
       }
 
       return jsonResponse({ ok: true, enviados: listaEmails.length });
+    }
+
+    // 6. AÇÃO: CANDIDATAR EM FRENTE DA SNCT (100% DINÂMICO E SINCRONIZADO)
+    if (acao === 'candidatar_frente_snct') {
+      var abaCand = obterOuCriarAba(ss, 'Candidaturas_SNCT');
+      if (abaCand.getLastRow() === 0) {
+        abaCand.appendRow(['data_hora', 'frente_id', 'frente_titulo', 'aluno_id', 'aluno_nome', 'matricula', 'email', 'link_entrega']);
+        formatarCabecalho(abaCand, '#10b981');
+      }
+
+      var frenteId = req.frenteId || '';
+      var frenteTitulo = req.frenteTitulo || '';
+      var alunoId = String(req.alunoId || '');
+      var alunoNome = req.alunoNome || '';
+      var matricula = String(req.matricula || '');
+      var email = req.email || '';
+      var agora = new Date().toLocaleString('pt-BR');
+
+      if (!frenteId || (!alunoId && !matricula)) {
+        return jsonResponse({ ok: false, erro: 'Identificação do estudante e ID da frente são obrigatórios.' });
+      }
+
+      var dados = abaCand.getDataRange().getValues();
+      var vagasOcupadas = 0;
+      var linhaExistente = -1;
+
+      for (var i = 1; i < dados.length; i++) {
+        var rowFrenteId = String(dados[i][1]);
+        var rowAlunoId = String(dados[i][3]);
+        var rowMatricula = String(dados[i][5]);
+        var rowEmail = String(dados[i][6]).toLowerCase();
+
+        // Se o estudante já tinha uma candidatura registrada (migração ou atualização)
+        if ((alunoId && rowAlunoId === alunoId) || (matricula && rowMatricula === matricula) || (email && rowEmail === email.toLowerCase())) {
+          linhaExistente = i + 1;
+        }
+
+        // Conta vagas ocupadas na frente pretendida por outros colegas
+        if (rowFrenteId === frenteId) {
+          if (!((alunoId && rowAlunoId === alunoId) || (matricula && rowMatricula === matricula))) {
+            vagasOcupadas++;
+          }
+        }
+      }
+
+      // Validação de teto de 3 vagas por frente
+      if (vagasOcupadas >= 3) {
+        return jsonResponse({ ok: false, erro: 'As 3 vagas desta frente já foram preenchidas por outros colegas.' });
+      }
+
+      if (linhaExistente !== -1) {
+        abaCand.getRange(linhaExistente, 1).setValue(agora);
+        abaCand.getRange(linhaExistente, 2).setValue(frenteId);
+        abaCand.getRange(linhaExistente, 3).setValue(frenteTitulo);
+        if (alunoNome) abaCand.getRange(linhaExistente, 5).setValue(alunoNome);
+        if (email) abaCand.getRange(linhaExistente, 7).setValue(email);
+      } else {
+        abaCand.appendRow([agora, frenteId, frenteTitulo, alunoId, alunoNome, matricula, email, '']);
+      }
+
+      return jsonResponse({ ok: true, mensagem: 'Candidatura registrada com sucesso na planilha!', frenteId: frenteId });
+    }
+
+    // 7. AÇÃO: DESISTIR / LIBERAR VAGA DE FRENTE DA SNCT
+    if (acao === 'desistir_frente_snct') {
+      var abaCand = obterOuCriarAba(ss, 'Candidaturas_SNCT');
+      var frenteId = req.frenteId || '';
+      var alunoId = String(req.alunoId || '');
+      var matricula = String(req.matricula || '');
+      var email = String(req.email || '').toLowerCase();
+
+      var dados = abaCand.getDataRange().getValues();
+      var linhaParaRemover = -1;
+
+      for (var i = 1; i < dados.length; i++) {
+        var rowFrenteId = String(dados[i][1]);
+        var rowAlunoId = String(dados[i][3]);
+        var rowMatricula = String(dados[i][5]);
+        var rowEmail = String(dados[i][6]).toLowerCase();
+
+        var matchAluno = (alunoId && rowAlunoId === alunoId) || (matricula && rowMatricula === matricula) || (email && rowEmail === email);
+        if (matchAluno && (!frenteId || rowFrenteId === frenteId)) {
+          linhaParaRemover = i + 1;
+          break;
+        }
+      }
+
+      if (linhaParaRemover !== -1) {
+        abaCand.deleteRow(linhaParaRemover);
+        return jsonResponse({ ok: true, mensagem: 'Vaga liberada com sucesso na planilha!' });
+      }
+
+      return jsonResponse({ ok: true, mensagem: 'Nenhuma candidatura ativa encontrada para remoção.' });
+    }
+
+    // 8. AÇÃO: SALVAR LINK DE ENTREGA DA FRENTE DA SNCT
+    if (acao === 'salvar_link_entrega_snct') {
+      var abaCand = obterOuCriarAba(ss, 'Candidaturas_SNCT');
+      var frenteId = req.frenteId || '';
+      var alunoId = String(req.alunoId || '');
+      var matricula = String(req.matricula || '');
+      var email = String(req.email || '').toLowerCase();
+      var linkEntrega = req.linkEntrega || '';
+
+      var dados = abaCand.getDataRange().getValues();
+      var linhaParaAtualizar = -1;
+
+      for (var i = 1; i < dados.length; i++) {
+        var rowFrenteId = String(dados[i][1]);
+        var rowAlunoId = String(dados[i][3]);
+        var rowMatricula = String(dados[i][5]);
+        var rowEmail = String(dados[i][6]).toLowerCase();
+
+        var matchAluno = (alunoId && rowAlunoId === alunoId) || (matricula && rowMatricula === matricula) || (email && rowEmail === email);
+        if (matchAluno && (!frenteId || rowFrenteId === frenteId)) {
+          linhaParaAtualizar = i + 1;
+          break;
+        }
+      }
+
+      if (linhaParaAtualizar !== -1) {
+        abaCand.getRange(linhaParaAtualizar, 8).setValue(linkEntrega);
+        return jsonResponse({ ok: true, mensagem: 'Link de entrega registrado na planilha com sucesso!' });
+      }
+
+      return jsonResponse({ ok: false, erro: 'Candidatura não localizada para atualização do link.' });
     }
 
     return jsonResponse({ ok: false, erro: 'Ação não reconhecida: ' + acao });

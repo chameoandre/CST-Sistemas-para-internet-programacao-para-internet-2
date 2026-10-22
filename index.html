@@ -6448,12 +6448,45 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       salvarDemandasSNCT();
       renderizarQuadroDemandasSNCT();
+      renderizarCardHeroRoteirosSNCT();
 
       showToast(
         "Candidatura Confirmada!",
         `Você assumiu uma vaga na frente: ${frente.titulo}!`,
         "bi bi-check-circle-fill text-success"
       );
+
+      // Sincronização assíncrona com backend Google Apps Script
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          const payload = {
+            acao: 'candidatar_frente_snct',
+            frenteId: frente.id,
+            frenteTitulo: frente.titulo,
+            alunoId: usuarioLogadoGoogle.alunoId,
+            alunoNome: usuarioLogadoGoogle.nome,
+            matricula: usuarioLogadoGoogle.matricula || '',
+            email: usuarioLogadoGoogle.email || ''
+          };
+
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          }).then(r => r.json()).then(res => {
+            if (res && res.ok) {
+              console.log("Candidatura gravada na planilha Google Sheets com sucesso!");
+            } else if (res && res.erro) {
+              console.warn("Aviso do servidor ao candidatar:", res.erro);
+            }
+          }).catch(e => {
+            console.warn("Aviso ao enviar candidatura para Apps Script (gravado localmente):", e);
+          });
+        } catch (e) {
+          console.warn("Erro no envio da candidatura para Apps Script:", e);
+        }
+      }
     }
 
     function desistirCandidaturaSNCT(demandaId, alunoIdEspecifico) {
@@ -6471,8 +6504,37 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       salvarDemandasSNCT();
       renderizarQuadroDemandasSNCT();
+      renderizarCardHeroRoteirosSNCT();
 
       showToast("Vaga Liberada", "A vaga foi disponibilizada novamente para a turma.", "bi bi-box-arrow-left text-muted");
+
+      // Sincronização assíncrona com backend Google Apps Script
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          const payload = {
+            acao: 'desistir_frente_snct',
+            frenteId: demandaId,
+            alunoId: alvoId,
+            matricula: (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId === alvoId) ? (usuarioLogadoGoogle.matricula || '') : '',
+            email: (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId === alvoId) ? (usuarioLogadoGoogle.email || '') : ''
+          };
+
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          }).then(r => r.json()).then(res => {
+            if (res && res.ok) {
+              console.log("Vaga liberada na planilha Google Sheets com sucesso!");
+            }
+          }).catch(e => {
+            console.warn("Aviso ao liberar vaga no Apps Script:", e);
+          });
+        } catch (e) {
+          console.warn("Erro no envio de desistência para Apps Script:", e);
+        }
+      }
     }
 
     function editarLinkEntregaSNCT(demandaId) {
@@ -6492,6 +6554,35 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarQuadroDemandasSNCT();
 
       showToast("Link Atualizado", "O link do entregável da sua frente foi salvo com sucesso!", "bi bi-link-45deg text-success");
+
+      // Sincronização assíncrona do link de entrega com backend Google Apps Script
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          const payload = {
+            acao: 'salvar_link_entrega_snct',
+            frenteId: demandaId,
+            alunoId: usuarioLogadoGoogle.alunoId,
+            matricula: usuarioLogadoGoogle.matricula || '',
+            email: usuarioLogadoGoogle.email || '',
+            linkEntrega: novoLink.trim()
+          };
+
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          }).then(r => r.json()).then(res => {
+            if (res && res.ok) {
+              console.log("Link de entrega gravado na planilha Google Sheets com sucesso!");
+            }
+          }).catch(e => {
+            console.warn("Aviso ao salvar link de entrega no Apps Script:", e);
+          });
+        } catch (e) {
+          console.warn("Erro no envio de link de entrega para Apps Script:", e);
+        }
+      }
     }
 
     function renderizarPainelVotacao() {
@@ -6949,6 +7040,37 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
           salvarVotosOficinas();
           mudou = true;
+        }
+
+        // Sincroniza candidaturas às frentes da SNCT
+        if (Array.isArray(data.candidaturas)) {
+          let mudouCandidaturas = false;
+          demandasSnctApp.forEach(f => {
+            const remotas = data.candidaturas
+              .filter(c => String(c.frente_id) === String(f.id))
+              .map(c => ({
+                alunoId: String(c.aluno_id || ''),
+                nome: c.aluno_nome || '',
+                matricula: c.matricula || '',
+                email: c.email || '',
+                linkEntrega: c.link_entrega || '',
+                dataInscricao: c.data_hora || ''
+              }));
+
+            const atuaisJson = JSON.stringify(f.membros || []);
+            const novasJson = JSON.stringify(remotas);
+            if (atuaisJson !== novasJson) {
+              f.membros = remotas;
+              mudouCandidaturas = true;
+            }
+          });
+
+          if (mudouCandidaturas) {
+            salvarDemandasSNCT();
+            renderizarQuadroDemandasSNCT();
+            renderizarCardHeroRoteirosSNCT();
+            mudou = true;
+          }
         }
 
         if (mudou) {

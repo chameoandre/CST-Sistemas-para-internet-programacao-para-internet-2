@@ -41,15 +41,15 @@ Com esta integração, o dashboard ganha:
    - Se surgir a tela *"O Google não verificou este app"*, clique em **Avançado** (canto inferior) e depois em **Acessar ProgWeb2 - Backend IFSC Garopaba (não seguro)**.
    - Clique em **Permitir**.
 4. Aguarde a execução terminar no *Registro de execução*.
-5. **Pronto!** Uma nova planilha chamada `ProgWeb2 — Votação SNCT, Demandas & Avaliações (IFSC Garopaba)` foi criada automaticamente na raiz do seu Google Drive com todas as abas (`Votos_SNCT`, `Oficinas_Opcoes`, `Demandas`, `Avaliacoes`, `Estudantes`) e os 24 estudantes da turma já cadastrados!
+5. **Pronto!** Uma nova planilha chamada `ProgWeb2 — Votação SNCT, Demandas & Avaliações (IFSC Garopaba)` foi criada automaticamente na raiz do seu Google Drive com todas as abas (`Votos_SNCT`, `Oficinas_Opcoes`, `Demandas`, `Avaliacoes`, `Estudantes`, `Candidaturas_SNCT`) e os 24 estudantes da turma já cadastrados!
 
 ### 4. Implantar como Aplicativo da Web (Web App)
-1. No canto superior direito da página do Apps Script, clique no botão azul **Implantar** > **Nova implantação**.
+1. No canto superior direito da página do Apps Script, clique no botão azul **Implantar** > **Nova implantação** (ou **Gerenciar implantações** > lápis ✏️ > **Nova versão** caso já tenha uma implantação ativa).
 2. Clique no ícone de engrenagem ⚙️ (*Selecionar tipo*) e escolha **Aplicativo da Web**.
 3. Preencha as opções exatamente como abaixo:
-   - **Descrição**: `Produção v1 - Votação SNCT e Avaliações`
+   - **Descrição**: `Produção v2 - Votação SNCT, Avaliações e Candidaturas em Tempo Real`
    - **Executar como**: **Eu (seu-email@...)**
-   - **Quem pode acessar**: **Qualquer pessoa** *(necessário para que os navegadores dos estudantes consigam enviar o voto via fetch)*
+   - **Quem pode acessar**: **Qualquer pessoa** *(necessário para que os navegadores dos estudantes consigam enviar o voto e a candidatura via fetch)*
 4. Clique em **Implantar**.
 5. Copie a **URL do aplicativo da Web** gerada (algo parecido com `https://script.google.com/macros/s/AKfycb.../exec`).
 
