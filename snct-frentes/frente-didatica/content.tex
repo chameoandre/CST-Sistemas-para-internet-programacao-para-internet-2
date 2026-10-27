@@ -80,45 +80,69 @@ O participante da SNCT terá apenas \textbf{120 minutos} no laboratório. Ele n�
 \small
 \renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
 \begin{tabularx}{\textwidth}{RYY}
-\cabecalho \cab{Página / Tempo} & \cab{Curso 1: Meu Primeiro Site no Ar} & \cab{Curso 2: Tema Eleito na Votação} \\
-Página 1 (00--35 min) & Boas-vindas, download do Starter Kit no Moodle e troca de nome, bio, foto e paleta CSS. & Boas-vindas, download do Starter Kit no Moodle e configuração dos dados iniciais do projeto. \\
-Página 2 (35--70 min) & Edição dos cartões de conteúdo/serviços e configuração do botão direto para WhatsApp. & Implementação guiada da função JavaScript central (filtro de ecopontos ou lógica do quiz). \\
-Página 3 (70--95 min) & Upload dos arquivos no GitHub e ativação do GitHub Pages com URL pública. & Upload dos arquivos no GitHub, ativação do GitHub Pages e teste dos eventos no navegador. \\
-Página 4 (95--120 min) & Geração do QR Code para abrir no celular, checklist de vitória e avaliação no Moodle. & Geração do QR Code para testar no celular, checklist de vitória e avaliação no Moodle. \\
+\cabecalho \cab{Página / Tempo} & \cab{Curso 1: Meu Primeiro Site no Ar} & \cab{Curso 2: Painel Verde (Coleta \& Ecopontos)} \\
+Página 1 (00--35 min) & Boas-vindas, download do \texttt{starter-kit-snct.zip} no Moodle e troca de nome, bio, foto e paleta CSS. & Boas-vindas, download do \texttt{starter-kit-painel-verde.zip} no Moodle e personalização do cabeçalho e cores. \\
+Página 2 (35--70 min) & Edição dos 3 cartões de destaques/serviços e configuração do botão direto para WhatsApp (\texttt{wa.me}). & Cadastro de novos ecopontos no array \texttt{LOCAIS\_COLETA} e teste dos botões de filtro (\texttt{filtrarEcopontos}). \\
+Página 3 (70--95 min) & Upload dos arquivos no GitHub e ativação do GitHub Pages com URL pública. & Upload dos arquivos no GitHub, ativação do GitHub Pages e teste dos filtros por resíduo no navegador. \\
+Página 4 (95--120 min) & Geração do QR Code para abrir no celular, checklist de vitória e avaliação na Seção 4 do Moodle. & Geração do QR Code para abrir o Painel Verde no celular, checklist e avaliação na Seção 4 do Moodle. \\
 \end{tabularx}
-\caption{Mapa página a página do Micro-Roteiro A4 para os dois cursos.}
+\caption{Mapa página a página separado para a Equipe do Curso 1 e para a Equipe do Curso 2.}
 \end{table}
 
-\manterJunto{42}
-\passo{2.1}{Criar o esqueleto LaTeX do Micro-Roteiro do participante}
+\manterJunto{34}
+\passo{2.1A}{Esqueleto LaTeX do Micro-Roteiro — Equipe do Curso 1 (Meu Primeiro Site no Ar)}
 
-Crie uma pasta para o micro-roteiro da sua oficina e utilize o modelo completo abaixo. Ele já respeita o limite de 4 páginas e a regra \emph{Zero-Ellipsis} (nunca use reticências \texttt{...} nos blocos de código que o participante vai copiar).
+Se a sua equipe é da \textbf{Frente 1 do Curso 1}, utilize este modelo base para o seu PDF de 4 páginas:
 
-\begin{codigo}[txt]{micro-roteiro-snct/content.tex}
+\begin{codigo}[txt]{curso1-micro-roteiro/content.tex}
 \capaRoteiro{\faGlobe}{Meu Primeiro Site no Ar em 120 Minutos}
-  {Oficina Pratica SNCT 2026 -- IFSC Campus Garopaba}
+  {Curso 1 SNCT 2026 -- IFSC Campus Garopaba}
   {\chip{\faUniversity}{Moodle IFSC}\hspace{4pt}
-   \chip{\faTools}{VS Code · Navegador · GitHub Pages}\hspace{4pt}
+   \chip{\faTools}{VS Code · HTML5 · CSS3 · GitHub Pages}\hspace{4pt}
    \chip{\faCheckCircle}{Zero instalacao}}
 
 \vspace{0.3em}
-\cartoesUC{Pagina pessoal publicada na internet com link proprio e QR Code no celular}
+\cartoesUC{Pagina pessoal publicada na internet com botao WhatsApp e QR Code no celular}
 
 \begin{mapaAula}
-\etapaMapa{azulMedio}{1}{Bloco 1 (20 min)}{Baixar o Starter Kit no Moodle e personalizar perfil}
-\etapaMapa{verdeVivo}{2}{Bloco 2 (35 min)}{Customizar os cartoes de destaque e botao WhatsApp}
+\etapaMapa{azulMedio}{1}{Bloco 1 (20 min)}{Baixar starter-kit-snct.zip no Moodle e editar cores}
+\etapaMapa{verdeVivo}{2}{Bloco 2 (35 min)}{Customizar os 3 cartoes de destaque e link WhatsApp}
 \etapaMapa{ambar}{3}{Bloco 3 (25 min)}{Publicar gratuitamente na internet via GitHub Pages}
 \etapaMapa{roxo}{4}{Bloco 4 (15 min)}{Gerar o QR Code e testar o site no smartphone}
 \end{mapaAula}
 
 \section{Bloco 1 -- Desempacotando o Starter Kit (15 a 35 min)}
+\passo{1.1}{Baixar o pacote inicial na Sala do Curso 1 no Moodle}
+Acesse a Sala do Curso 1 no Moodle do IFSC, clique em \botao{starter-kit-snct.zip},
+extraia na Area de Trabalho e abra o arquivo \texttt{index.html} no VS Code.
+\end{codigo}
 
-\passo{1.1}{Baixar o pacote inicial na sala do Moodle}
-Acesse a sala da oficina no Moodle do IFSC, clique em \botao{Starter Kit (.zip)}, extraia a
-pasta na Area de Trabalho e abra o arquivo \texttt{index.html} no editor VS Code.
+\manterJunto{34}
+\passo{2.1B}{Esqueleto LaTeX do Micro-Roteiro — Equipe do Curso 2 (Painel Verde: Coleta \& Ecopontos)}
 
-\passo{1.2}{Personalizar seu nome, minibiografia e cores}
-No arquivo \texttt{css/estilo.css}, altere a cor principal do seu tema:
+Se a sua equipe é da \textbf{Frente 1 do Curso 2}, utilize este modelo específico do Painel Verde para o seu PDF de 4 páginas:
+
+\begin{codigo}[txt]{curso2-micro-roteiro/content.tex}
+\capaRoteiro{\faMapMarkerAlt}{Painel Verde: Coleta Seletiva \& Ecopontos}
+  {Curso 2 SNCT 2026 -- IFSC Campus Garopaba}
+  {\chip{\faUniversity}{Moodle IFSC}\hspace{4pt}
+   \chip{\faTools}{HTML5 · CSS3 · Filtro JavaScript · GitHub Pages}\hspace{4pt}
+   \chip{\faCheckCircle}{Impacto Ambiental}}
+
+\vspace{0.3em}
+\cartoesUC{Mapa de cartoes de ecopontos de Garopaba com filtro por residuo e link Google Maps}
+
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Bloco 1 (20 min)}{Baixar starter-kit-painel-verde.zip no Moodle}
+\etapaMapa{verdeVivo}{2}{Bloco 2 (35 min)}{Cadastrar ecopontos em js/app.js e testar filtros}
+\etapaMapa{ambar}{3}{Bloco 3 (25 min)}{Publicar o Painel Verde no GitHub Pages}
+\etapaMapa{roxo}{4}{Bloco 4 (15 min)}{Gerar o QR Code para consulta no celular}
+\end{mapaAula}
+
+\section{Bloco 2 -- Cadastrando Ecopontos no JavaScript (35 a 70 min)}
+\passo{2.1}{Adicionar um novo ponto de coleta do seu bairro em js/app.js}
+Abra o arquivo \texttt{js/app.js} e inclua um novo objeto dentro de \texttt{LOCAIS\_COLETA}
+com as chaves \texttt{nome}, \texttt{bairro}, \texttt{categoria}, \texttt{horario} e \texttt{mapaUrl}.
 \end{codigo}
 
 \begin{boxTeste}[Validação de compilação e limite de 103 colunas]

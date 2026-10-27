@@ -221,9 +221,155 @@ body {
 }
 \end{boxCodigoCSS}
 
-\begin{dica}{E para a equipe da Frente 2 do Curso 2?}
-No \textbf{Curso 2 (Tema Eleito na Votação)}, mantenha exatamente a mesma simplicidade de pastas (\texttt{index.html}, \texttt{css/estilo.css} e \texttt{js/app.js}). Entregue o HTML e o CSS 100\% prontos no Starter Kit e deixe no \texttt{js/app.js} o array de dados inicial e a função principal claramente comentada para o participante completar no Bloco 2.
+\begin{dica}{Organização separada por curso: Curso 1 vs. Curso 2}
+As ações das duas oficinas são independentes:
+\begin{itemize}[leftmargin=1.4em, itemsep=0.2em]
+  \item \textbf{Se a sua equipe é do Curso 1 (Meu Primeiro Site no Ar):} utilize o código completo dos Passos 2.1, 2.2 e 2.3 acima (\texttt{index.html} + \texttt{css/estilo.css}).
+  \item \textbf{Se a sua equipe é do Curso 2 (Painel Verde: Coleta Seletiva \& Ecopontos):} utilize a estrutura e os códigos completos da \textbf{Seção~\ref{sec:curso2}} a seguir (\texttt{index.html} + \texttt{css/estilo.css} + \texttt{js/app.js}).
+\end{itemize}
 \end{dica}
+
+% =====================================================
+% 2B. CÓDIGO COMPLETO DO CURSO 2 (PAINEL VERDE)
+% =====================================================
+\section{Código Base Exclusivo do Curso 2 — Painel Verde (Coleta \& Ecopontos)}\label{sec:curso2}
+
+Para a equipe da \textbf{Frente 2 do Curso 2}, o projeto evita bibliotecas externas de mapas que exigiriam chaves de API. Em vez disso, utiliza a arquitetura que a turma já domina: \textbf{cartões responsivos + filtro por tipo de resíduo em JavaScript (\texttt{.filter()}) + link direto para o Google Maps}.
+
+\manterJunto{15}
+\passo{2.4}{Árvore de diretórios do Starter Kit do Curso 2 (Painel Verde)}
+
+\begin{arvore}[starter-kit-painel-verde/]
+starter-kit-painel-verde/
+├── index.html          (Cabecalho, botoes de filtro por residuo e grade de ecopontos)
+├── css/
+│   └── estilo.css      (Tema ambiental com variaveis CSS no :root)
+├── js/
+│   └── app.js          (Array LOCAIS_COLETA e filtro em 32 linhas, zero dependencias)
+└── README.md           (Instrucoes curtas para o participante da oficina)
+\end{arvore}
+
+\manterJunto{38}
+\passo{2.5}{Criar o arquivo \texttt{index.html} do Curso 2 (Painel Verde)}
+
+\begin{boxCodigoHTML}[starter-kit-painel-verde/index.html]
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Verde Garopaba — Coleta Seletiva & Ecopontos</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <main class="painel-container">
+    <!-- BLOCO 1: Personalize o titulo e o subtitulo ambiental da sua comunidade -->
+    <header class="topo-painel">
+      <span class="selo-ambiental">SNCT 2026 · Garopaba Sustentavel</span>
+      <h1>Onde Descartar em Garopaba?</h1>
+      <p>Selecione o tipo de residuo abaixo para filtrar os ecopontos e locais de coleta:</p>
+    </header>
+
+    <!-- BLOCO 1B: Botoes de filtro por categoria de residuo -->
+    <nav class="barra-filtros" aria-label="Filtro por tipo de residuo">
+      <button class="btn-filtro" onclick="filtrarEcopontos('Todos')">Todos</button>
+      <button class="btn-filtro" onclick="filtrarEcopontos('Reciclaveis')">Reciclaveis</button>
+      <button class="btn-filtro" onclick="filtrarEcopontos('Vidro')">Vidro</button>
+      <button class="btn-filtro" onclick="filtrarEcopontos('Eletronicos')">Eletronicos</button>
+      <button class="btn-filtro" onclick="filtrarEcopontos('Oleo')">Oleo de Cozinha</button>
+    </nav>
+
+    <!-- BLOCO 2: Grade onde o JavaScript desenha os cartoes automaticamente -->
+    <section id="gradeEcopontos" class="grade-ecopontos" aria-live="polite"></section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\manterJunto{42}
+\passo{2.6}{Criar o arquivo \texttt{js/app.js} do Curso 2 (Filtro em 32 linhas)}
+
+Na oficina, o participante cadastra novos pontos de coleta da cidade no array \texttt{LOCAIS\_COLETA} e compreende a função \texttt{filtrarEcopontos(categoria)}:
+
+\begin{boxCodigoJS}[starter-kit-painel-verde/js/app.js]
+// BLOCO 2: Adicione novos ecopontos ou pontos de entrega voluntaria de Garopaba
+const LOCAIS_COLETA = [
+  {
+    nome: "Ecoponto Central — Secretaria de Meio Ambiente",
+    bairro: "Centro",
+    categoria: "Eletronicos",
+    horario: "Segunda a Sexta, 08h as 17h",
+    mapaUrl: "https://maps.google.com/?q=Garopaba+Centro"
+  },
+  {
+    nome: "Ponto Verde IFSC Campus Garopaba",
+    bairro: "Campo D'Una",
+    categoria: "Reciclaveis",
+    horario: "Segunda a Sexta, 08h as 22h",
+    mapaUrl: "https://maps.google.com/?q=IFSC+Garopaba"
+  },
+  {
+    nome: "Coleta de Vidro e Oleo — Associacao Comunitaria",
+    bairro: "Ferrugem",
+    categoria: "Vidro",
+    horario: "Sabados, 09h as 13h",
+    mapaUrl: "https://maps.google.com/?q=Praia+da+Ferrugem+Garopaba"
+  }
+];
+
+function filtrarEcopontos(categoriaEscolhida) {
+  const grade = document.getElementById("gradeEcopontos");
+  const filtrados = categoriaEscolhida === "Todos"
+    ? LOCAIS_COLETA
+    : LOCAIS_COLETA.filter(item => item.categoria === categoriaEscolhida);
+
+  grade.innerHTML = filtrados.map(local => `
+    <article class="cartao-ecoponto">
+      <span class="tag-residuo">${local.categoria}</span>
+      <h2>${local.nome}</h2>
+      <p><strong>Bairro:</strong> ${local.bairro} · ${local.horario}</p>
+      <a class="link-mapa" href="${local.mapaUrl}" target="_blank" rel="noopener">
+        Abrir localizacao no Google Maps
+      </a>
+    </article>
+  `).join("");
+}
+
+filtrarEcopontos("Todos");
+\end{boxCodigoJS}
+
+\manterJunto{28}
+\passo{2.7}{Criar a folha \texttt{css/estilo.css} do Curso 2 (Painel Verde)}
+
+\begin{boxCodigoCSS}[starter-kit-painel-verde/css/estilo.css]
+:root {
+  --verde-principal: #15803d;
+  --fundo-pagina: #f0fdf4;
+  --fundo-cartao: #ffffff;
+  --texto-escuro: #1e293b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; background: var(--fundo-pagina);
+       color: var(--texto-escuro); padding: 24px; }
+.painel-container { max-width: 820px; margin: 0 auto; text-align: center; }
+.selo-ambiental { color: var(--verde-principal); font-weight: 700; font-size: 0.9rem; }
+.barra-filtros { display: flex; flex-wrap: wrap; gap: 8px;
+                 justify-content: center; margin: 20px 0; }
+.btn-filtro { background: #ffffff; border: 2px solid var(--verde-principal);
+              color: var(--verde-principal); padding: 8px 16px;
+              border-radius: 999px; font-weight: 700; cursor: pointer; }
+.btn-filtro:hover { background: var(--verde-principal); color: #ffffff; }
+.grade-ecopontos { display: grid; gap: 16px; text-align: left;
+                   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.cartao-ecoponto { background: var(--fundo-cartao); padding: 18px;
+                   border-radius: 14px; border: 1px solid #bbf7d0; }
+.tag-residuo { display: inline-block; background: #dcfce7; color: var(--verde-principal);
+               font-size: 0.8rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+.link-mapa { display: inline-block; margin-top: 10px; color: var(--verde-principal);
+             font-weight: 700; text-decoration: none; }
+\end{boxCodigoCSS}
 
 % =====================================================
 % 3. GITHUB TEMPLATE, MOODLE E PLANO B OFFLINE

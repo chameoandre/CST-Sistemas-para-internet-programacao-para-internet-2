@@ -2248,6 +2248,9 @@
           </div>
         </div>
 
+        <button class="theme-toggle-btn" onclick="abrirAreaDocenteDireto()" title="Abrir Painel Administrativo Docente e Comunicação com a Turma" style="border-color: var(--accent-emerald); color: var(--accent-emerald); font-weight: 700;">
+          <i class="fa-solid fa-sliders"></i> <span>Painel Docente</span>
+        </button>
         <button class="theme-toggle-btn" onclick="toggleModoDocente()" id="btnModoDocente" title="Alternar entre visão do Professor e visão do Aluno" style="border-color: var(--accent-amber); color: var(--accent-amber);">
           <i class="fa-solid fa-chalkboard-user"></i> <span id="modoDocenteText">Modo Docente (Ativo)</span>
         </button>
@@ -2329,12 +2332,16 @@
       <button class="tab-btn" onclick="showTab('tab-sigaa')">
         <i class="bi bi-mortarboard-fill"></i> 7. Central de Tarefas do SIGAA
       </button>
+      <button class="tab-btn" onclick="showTab('tab-docente')" style="border-color: rgba(217, 119, 6, 0.45);">
+        <i class="fa-solid fa-chalkboard-user text-warning"></i> 8. Área Docente &amp; Painel de Controle
+      </button>
     </div>
 
     <!-- CONTEÚDO DAS ABAS -->
 
     <!-- ABA 1: CENTRAL DE ROTEIROS PRÁTICOS (DESTAQUE) -->
     <div class="tab-pane active" id="tab-roteiros">
+      <div id="muralComunicadosTopoRoteiros" class="mb-3"></div>
       <div class="panel-card">
         
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
@@ -3437,11 +3444,52 @@
               </div>
             </div>
 
+            <!-- QUADRO COMPARATIVO DAS AÇÕES SEPARADAS POR CURSO (CURSO 1 vs CURSO 2) -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 h-100" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-blue);">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="badge bg-info text-dark font-mono">OFICINA / CURSO 1 (12 VAGAS · 4 FRENTES)</span>
+                    <span class="fs-caption fw-bold text-primary" id="resumoVagasCurso1">0 / 12 vagas</span>
+                  </div>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-1">Meu Primeiro Site no Ar (HTML5, CSS3 &amp; GitHub Pages)</h5>
+                  <p class="fs-caption text-muted mb-2">
+                    <strong>Escopo exclusivo das equipes do Curso 1:</strong> página pessoal/comercial com foto, bio, 3 cartões de destaques e botão direto de WhatsApp (<code>wa.me</code>).
+                  </p>
+                  <ul class="mb-0 ps-3 fs-caption text-muted">
+                    <li><strong>Sala no Moodle IFSC:</strong> <em>Curso 1 — Meu Primeiro Site no Ar</em> (chave <code>SNCT2026</code>)</li>
+                    <li><strong>Pacote da Frente 2:</strong> <code>starter-kit-snct.zip</code> (HTML + CSS com variáveis <code>:root</code>)</li>
+                    <li><strong>Frentes independentes:</strong> Didática C1, Starter Kit C1, Slides C1 e Monitoria C1</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 h-100" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="badge bg-success text-white font-mono">OFICINA / CURSO 2 (12 VAGAS · 4 FRENTES)</span>
+                    <span class="fs-caption fw-bold text-success" id="resumoVagasCurso2">0 / 12 vagas</span>
+                  </div>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-1" id="tituloCurso2QuadroDemandas">Painel Verde: Coleta Seletiva &amp; Ecopontos de Garopaba</h5>
+                  <p class="fs-caption text-muted mb-2">
+                    <strong>Escopo exclusivo das equipes do Curso 2:</strong> painel ambiental de Garopaba com botões de filtro por tipo de resíduo (<code>.filter()</code> em 32 linhas no <code>js/app.js</code>) e link direto para o Google Maps.
+                  </p>
+                  <ul class="mb-0 ps-3 fs-caption text-muted">
+                    <li><strong>Sala no Moodle IFSC:</strong> <em>Curso 2 — Painel Verde Garopaba</em> (chave <code>SNCT2026</code>)</li>
+                    <li><strong>Pacote da Frente 2:</strong> <code>starter-kit-painel-verde.zip</code> (HTML + CSS + <code>js/app.js</code>)</li>
+                    <li><strong>Frentes independentes:</strong> Didática C2, Starter Kit C2, Slides C2 e Monitoria C2</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
             <!-- CURSO 1: FRENTES -->
-            <div class="mb-4">
-              <div class="d-flex align-items-center gap-2 mb-3">
-                <span class="badge bg-info text-dark font-mono px-2 py-1">CURSO 1</span>
-                <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Meu Primeiro Site no Ar (HTML, CSS &amp; GitHub Pages)</h5>
+            <div class="mb-4 p-3 rounded-3" style="background: rgba(2, 132, 199, 0.04); border: 1px solid var(--border-color);">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-info text-dark font-mono px-2 py-1">CURSO 1 (12 VAGAS)</span>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Meu Primeiro Site no Ar — Frentes Exclusivas do Curso 1</h5>
+                </div>
+                <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-snct.zip</code> · Sala Moodle Curso 1</span>
               </div>
               <div class="row g-3" id="containerFrentesCurso1">
                 <!-- Renderizado via JS -->
@@ -3449,10 +3497,13 @@
             </div>
 
             <!-- CURSO 2: FRENTES -->
-            <div class="mb-3">
-              <div class="d-flex align-items-center gap-2 mb-3">
-                <span class="badge bg-warning text-dark font-mono px-2 py-1">CURSO 2</span>
-                <h5 class="font-outfit fw-bold fs-6 text-heading mb-0" id="tituloCurso2QuadroDemandas">Tema Eleito na Votação</h5>
+            <div class="mb-3 p-3 rounded-3" style="background: rgba(5, 150, 105, 0.04); border: 1px solid var(--border-color);">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-success text-white font-mono px-2 py-1">CURSO 2 (12 VAGAS)</span>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Painel Verde: Coleta Seletiva &amp; Ecopontos — Frentes Exclusivas do Curso 2</h5>
+                </div>
+                <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-painel-verde.zip</code> · Sala Moodle Curso 2</span>
               </div>
               <div class="row g-3" id="containerFrentesCurso2">
                 <!-- Renderizado via JS -->
@@ -3519,15 +3570,21 @@
             <h2 class="panel-title mb-1"><i class="fa-solid fa-list-check text-primary"></i> Central de Demandas &amp; Checkpoints Avaliativos</h2>
             <p class="panel-subtitle mb-0">Gestão ágil de sprints, entregas de laboratório e checkpoints com avaliação formativa por rubricas para a turma:</p>
           </div>
-          <div class="d-flex align-items-center gap-2">
-            <button onclick="abrirModalNovaDemanda()" class="btn-action btn-primary-action docente-only">
-              <i class="fa-solid fa-plus-circle"></i> + Nova Demanda / Broadcast
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button onclick="showTab('tab-docente')" class="btn-action btn-primary-action" style="background: var(--accent-amber); border-color: var(--accent-amber); color: #fff;">
+              <i class="fa-solid fa-sliders"></i> Abrir Área Docente &amp; Comunicar à Turma
+            </button>
+            <button onclick="abrirModalNovaDemanda()" class="btn-action btn-outline-action docente-only">
+              <i class="fa-solid fa-plus-circle"></i> + Modal Rápido de Demanda
             </button>
             <button onclick="showTab('tab-avaliacao')" class="btn-action btn-outline-action">
               <i class="bi bi-award-fill text-warning"></i> Ver Rubricas &amp; Notas
             </button>
           </div>
         </div>
+
+        <!-- MURAL DE COMUNICADOS & ORIENTAÇÕES DO PROFESSOR -->
+        <div id="muralComunicadosDemandas" class="mb-3"></div>
 
         <!-- STATS GRID -->
         <div class="demandas-stats-grid">
@@ -4498,6 +4555,149 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       </div>
     </div>
 
+    <!-- ABA 8: ÁREA DOCENTE — PAINEL DE CONTROLE ADMINISTRATIVO & COMUNICAÇÃO POR DEMANDAS -->
+    <div class="tab-pane" id="tab-docente">
+      <div class="panel-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 pb-3 border-bottom">
+          <div>
+            <span class="badge-pill badge-pill-amber mb-1"><i class="fa-solid fa-chalkboard-user me-1"></i> CENTRAL DE COMANDO DO PROFESSOR</span>
+            <h2 class="panel-title mb-1"><i class="fa-solid fa-sliders text-warning me-1"></i> Área Docente: Controle Administrativo &amp; Comunicação via Demandas</h2>
+            <p class="panel-subtitle mb-0">
+              Acompanhe em tempo real o andamento separado do <strong>Curso 1</strong> e do <strong>Curso 2 (Painel Verde)</strong>, gerencie alocações dos 24 estudantes e envie demandas/comunicados diretos para toda a turma, cursos, grupos ou alunos individuais.
+            </p>
+          </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button type="button" onclick="sincronizarComBackendAppsScript()" class="btn-action btn-outline-action" title="Buscar últimas candidaturas, votos e links da planilha Google">
+              <i class="bi bi-arrow-repeat me-1"></i> Sincronizar Planilha Agora
+            </button>
+            <button type="button" onclick="cobrarCandidaturasPendentesEmail()" class="btn-action btn-outline-action" style="border-color: var(--accent-rose); color: var(--accent-rose);">
+              <i class="bi bi-envelope-exclamation me-1"></i> Cobrar Sem Frente por E-mail
+            </button>
+          </div>
+        </div>
+
+        <!-- KPIS ADMINISTRATIVOS DOCENTES -->
+        <div class="row g-3 mb-4" id="docenteKpisContainer">
+          <!-- Renderizado via JS -->
+        </div>
+
+        <!-- BLOCO 1: COMUNICAÇÃO DIRETA COM A TURMA ATRAVÉS DAS DEMANDAS -->
+        <div class="p-3 rounded-3 mb-4" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-blue);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+              <i class="fa-solid fa-bullhorn text-primary me-2"></i>1. Comunicar à Turma / Disparar Demanda Direcionada
+            </h3>
+            <span class="fs-caption text-muted">Publica na Central de Demandas, fixa no Mural do Topo e dispara por e-mail (Apps Script ou Cliente de E-mail)</span>
+          </div>
+
+          <form id="formComunicadoDocente" onsubmit="publicarComunicadoDemandaDocente(event, 'painel')">
+            <div class="row g-3 mb-3">
+              <div class="col-md-3">
+                <label class="form-label fs-caption fw-bold">Público-Alvo / Destinatário:</label>
+                <select class="form-select form-select-sm" id="docenteTargetTipo" onchange="aoMudarTargetComunicadoDocente()">
+                  <option value="turma">Toda a Turma (24 estudantes)</option>
+                  <option value="curso1">Equipes do Curso 1 SNCT — Meu 1º Site no Ar</option>
+                  <option value="curso2">Equipes do Curso 2 SNCT — Painel Verde</option>
+                  <option value="pendentes_snct">Estudantes Ainda Sem Frente na SNCT</option>
+                  <option value="frente_snct">Uma Frente Específica da SNCT...</option>
+                  <option value="equipe_projeto">Um Grupo do Projeto Regular...</option>
+                  <option value="aluno_individual">Um(a) Estudante Específico(a) (Individual)...</option>
+                </select>
+              </div>
+              <div class="col-md-3 d-none" id="wrapDocenteTargetDetalhe">
+                <label class="form-label fs-caption fw-bold" id="labelDocenteTargetDetalhe">Selecione o Alvo:</label>
+                <select class="form-select form-select-sm" id="docenteTargetDetalhe"></select>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label fs-caption fw-bold">Instrumento:</label>
+                <select class="form-select form-select-sm" id="docenteInstrumento">
+                  <option value="A2" selected>A2 — Curso SNCT (20%)</option>
+                  <option value="A3">A3 — Vitrine Flask (35%)</option>
+                  <option value="A4">A4 — Roteiros (25%)</option>
+                  <option value="A1">A1 — Avaliação Teórica (20%)</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label fs-caption fw-bold">Prazo (Data):</label>
+                <input type="date" class="form-control form-control-sm" id="docentePrazoData" value="2026-10-30" required>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label fs-caption fw-bold">Horário Limite:</label>
+                <input type="time" class="form-control form-control-sm" id="docentePrazoHora" value="23:59" required>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-7">
+                <label class="form-label fs-caption fw-bold">Título da Demanda / Comunicado Docente:</label>
+                <input type="text" class="form-control form-control-sm" id="docenteTitulo" placeholder="Ex: [Orientação da Semana] Estruturação da Sala do Curso 1 e do Curso 2 no Moodle IFSC" required>
+              </div>
+              <div class="col-md-5">
+                <label class="form-label fs-caption fw-bold">Link de Apoio / Roteiro PDF / Sala do Moodle (opcional):</label>
+                <input type="text" class="form-control form-control-sm" id="docenteLinkApoio" placeholder="Ex: snct-frentes/frente-didatica/main.pdf ou https://moodle.ifsc.edu.br/...">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-7">
+                <label class="form-label fs-caption fw-bold">Mensagem / Orientações Detalhadas para os Estudantes:</label>
+                <textarea class="form-control form-control-sm" id="docenteMensagem" rows="3" placeholder="Escreva aqui o que os estudantes ou a equipe devem executar, onde entregar e como tirar dúvidas..." required></textarea>
+              </div>
+              <div class="col-md-5">
+                <label class="form-label fs-caption fw-bold">Checklist / Critérios de Entrega (1 item por linha):</label>
+                <textarea class="form-control form-control-sm" id="docenteCriterios" rows="3" placeholder="Candidatura confirmada na frente&#10;Rascunho publicado na sala do Moodle IFSC&#10;Link informado no card da frente" required></textarea>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <label class="d-flex align-items-center gap-2 fs-caption fw-bold text-heading" style="cursor: pointer;">
+                <input type="checkbox" class="form-check-input m-0" id="docenteFixarMural" checked>
+                <span>Fixar este comunicado no Mural de Avisos do Topo (Aba 1 e Aba 4)</span>
+              </label>
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-sm btn-primary">
+                  <i class="fa-solid fa-paper-plane me-1"></i> Publicar no Painel da Turma
+                </button>
+                <button type="button" class="btn btn-sm btn-success" onclick="publicarComunicadoDemandaDocente(null, 'apps_script_email')">
+                  <i class="bi bi-cloud-arrow-up-fill me-1"></i> Publicar + Disparar E-mail Automático (Apps Script)
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="publicarComunicadoDemandaDocente(null, 'mailto')">
+                  <i class="fa-solid fa-envelope me-1"></i> Publicar + Abrir Cliente de E-mail (BCC)
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- BLOCO 2: CONTROLE ADMINISTRATIVO SEPARADO DOS DOIS CURSOS DA SNCT (CURSO 1 vs CURSO 2) -->
+        <div class="mb-4">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+              <i class="bi bi-kanban-fill text-success me-2"></i>2. Controle Administrativo das 8 Frentes SNCT (Separado por Curso)
+            </h3>
+            <span class="fs-caption text-muted">Você pode alocar estudantes manualmente em qualquer frente, marcar etapas concluídas ou cobrar uma frente específica</span>
+          </div>
+          <div class="row g-3" id="docentePainelCursosSeparados">
+            <!-- Renderizado via JS (Coluna Curso 1 e Coluna Curso 2) -->
+          </div>
+        </div>
+
+        <!-- BLOCO 3: MATRIZ NOMINAL DOS 24 ESTUDANTES (STATUS SNCT + DEMANDAS + AÇÃO INDIVIDUAL) -->
+        <div>
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+              <i class="bi bi-person-lines-fill text-info me-2"></i>3. Raio-X Nominal dos 24 Estudantes (Frente SNCT, Entregas &amp; Cobrança Individual)
+            </h3>
+            <input type="search" class="form-control form-control-sm" style="max-width: 280px;" id="buscaRaioXDocente" placeholder="Filtrar estudante por nome ou matrícula..." oninput="renderizarAreaDocente()">
+          </div>
+          <div class="table-responsive" id="docenteTabelaRaioXAlunos">
+            <!-- Renderizado via JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </main>
   <!-- MODAIS: CENTRAL DE DEMANDAS, RUBRICA FORMATIVA E ESTUDANTES -->
 
@@ -5079,23 +5279,49 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         ]
       },
       {
-        id: "DEM-SNCT-02",
-        titulo: "Etapa 2 SNCT (Semana Autônoma): Rascunho do Material & Sala do Curso no Moodle IFSC",
+        id: "DEM-SNCT-C1",
+        titulo: "Etapa 2 (Exclusiva Curso 1 — Meu Primeiro Site no Ar): Material da Frente & Sala Curso 1 no Moodle",
         instrumento: "A2",
-        instrumentoNome: "A2 (Curso na SNCT • 20%)",
-        destinatario: "Todos",
+        instrumentoNome: "A2 (Curso 1 SNCT • 20%)",
+        destinatario: "Equipes do Curso 1 SNCT (Meu Primeiro Site no Ar)",
         tipoAtribuicao: "turma",
+        cursoSnctAlvo: 1,
+        fixadaMural: true,
+        linkApoio: "snct-frentes/frente-starterkit/main.pdf",
         equipesAlvo: [],
         alunosAlvo: [],
         prazo: "2026-10-30",
         horaPrazo: "23:59",
         pontos: 10.0,
         concluida: false,
-        descricao: "Execução do roteiro prático da sua frente durante a semana sem aula presencial: produzir a primeira versão do entregável (Micro-Roteiro 4 págs., Starter Kit .zip, Slides de 8 telas ou Pesquisa/Logística) e estruturar a sala do curso no Moodle institucional do IFSC (com perfil de Professor).",
+        descricao: "Ação exclusiva para os 12 estudantes escalados nas 4 frentes do CURSO 1 (Meu Primeiro Site no Ar): produzir a primeira versão do entregável da sua frente (Micro-Roteiro Curso 1, pacote starter-kit-snct.zip com botão WhatsApp, Slides de 8 telas ou Pesquisa/Logística) e publicar na Sala do Curso 1 no Moodle IFSC.",
         criterios: [
-          "Primeira versão do material da frente publicada conforme o Roteiro PDF (SNCT 01 a 04)",
-          "Recurso correspondente configurado na sala da oficina no Moodle institucional do IFSC",
-          "Link de entrega registrado no card da frente e etapas de andamento atualizadas"
+          "Seguir a seção do Curso 1 no Roteiro PDF da sua frente (SNCT 01 a SNCT 04)",
+          "Publicar o recurso na Sala do Curso 1 (Meu Primeiro Site no Ar) no Moodle IFSC",
+          "Informar o link de entrega no card da sua frente do Curso 1 e marcar a Etapa 2"
+        ]
+      },
+      {
+        id: "DEM-SNCT-C2",
+        titulo: "Etapa 2 (Exclusiva Curso 2 — Painel Verde Garopaba): Material da Frente & Sala Curso 2 no Moodle",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 2 SNCT • 20%)",
+        destinatario: "Equipes do Curso 2 SNCT (Painel Verde: Coleta & Ecopontos)",
+        tipoAtribuicao: "turma",
+        cursoSnctAlvo: 2,
+        fixadaMural: true,
+        linkApoio: "snct-frentes/frente-starterkit/main.pdf",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        prazo: "2026-10-30",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Ação exclusiva para os 12 estudantes escalados nas 4 frentes do CURSO 2 (Painel Verde: Coleta Seletiva & Ecopontos de Garopaba): produzir o entregável da sua frente (Micro-Roteiro Painel Verde, pacote starter-kit-painel-verde.zip com js/app.js de 32 linhas, Slides de 8 telas ou Pesquisa/Logística) e publicar na Sala do Curso 2 no Moodle IFSC.",
+        criterios: [
+          "Seguir a seção do Curso 2 (Painel Verde) no Roteiro PDF da sua frente (SNCT 01 a SNCT 04)",
+          "Publicar o recurso na Sala do Curso 2 (Painel Verde Garopaba) no Moodle IFSC",
+          "Informar o link de entrega no card da sua frente do Curso 2 e marcar a Etapa 2"
         ]
       },
       {
@@ -5240,13 +5466,16 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
           } else {
             demandasApp = parsed;
-            // Garante que as novas demandas da semana (DEM-SNCT-01 e DEM-SNCT-02) estejam presentes
-            ['DEM-SNCT-02', 'DEM-SNCT-01'].forEach(idNovo => {
+            // Substitui DEM-SNCT-02 genérica pelas duas demandas separadas (DEM-SNCT-C1 e DEM-SNCT-C2)
+            demandasApp = demandasApp.filter(d => d.id !== 'DEM-SNCT-02');
+            ['DEM-SNCT-C2', 'DEM-SNCT-C1', 'DEM-SNCT-01'].forEach(idNovo => {
               if (!demandasApp.some(d => d.id === idNovo)) {
                 const padrao = DEMANDAS_INICIAIS.find(d => d.id === idNovo);
                 if (padrao) demandasApp.unshift(JSON.parse(JSON.stringify(padrao)));
               }
             });
+            const dem01 = demandasApp.find(d => d.id === 'DEM-SNCT-01');
+            if (dem01) dem01.fixadaMural = true;
             localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
           }
         } else {
@@ -5614,6 +5843,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       lista.sort((a, b) => (a.concluida - b.concluida) || (obterDataPrazo(a) - obterDataPrazo(b)));
 
       atualizarKPIs();
+      renderizarMuralComunicadosDocente();
 
       if (lista.length === 0) {
         container.innerHTML = `
@@ -5947,9 +6177,20 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           emails: obterEmailsEquipe(eq)
         }));
       }
-      const alunos = at.tipoAtribuicao === 'individual'
-        ? alunosApp.filter(a => at.alunosAlvo.includes(a.id))
-        : alunosApp.filter(a => a.ativo);
+      let alunos;
+      if (d && (d.cursoSnctAlvo === 1 || d.cursoSnctAlvo === 2)) {
+        const idsCurso = new Set();
+        demandasSnctApp.filter(f => f.cursoId === d.cursoSnctAlvo).forEach(f => {
+          (f.membros || []).forEach(m => { if (m.alunoId) idsCurso.add(String(m.alunoId)); });
+        });
+        alunos = idsCurso.size > 0
+          ? alunosApp.filter(a => idsCurso.has(String(a.id)))
+          : alunosApp.filter(a => a.ativo);
+      } else {
+        alunos = at.tipoAtribuicao === 'individual'
+          ? alunosApp.filter(a => at.alunosAlvo.includes(a.id))
+          : alunosApp.filter(a => a.ativo);
+      }
       return alunos.map(a => ({
         chave: 'aluno:' + a.id,
         rotulo: a.nome,
@@ -7291,8 +7532,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       if (spanTotalOcupadas) {
         spanTotalOcupadas.textContent = totalOcupadas;
       }
+      const ocupC1 = frentesC1.reduce((acc, f) => acc + ((f.membros || []).length), 0);
+      const ocupC2 = frentesC2.reduce((acc, f) => acc + ((f.membros || []).length), 0);
+      const elResC1 = document.getElementById('resumoVagasCurso1');
+      const elResC2 = document.getElementById('resumoVagasCurso2');
+      if (elResC1) elResC1.textContent = `${ocupC1} / 12 vagas ocupadas`;
+      if (elResC2) elResC2.textContent = `${ocupC2} / 12 vagas ocupadas`;
 
       sincronizarDemandasComQuadroSNCT();
+      renderizarAreaDocente();
       renderizarPainelNominalCandidaturasSNCT();
       renderizarCardHeroRoteirosSNCT();
     }
@@ -7310,11 +7558,13 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
     function sincronizarDemandasComQuadroSNCT() {
       const demCand = demandasApp.find(d => d.id === 'DEM-SNCT-01');
-      const demMoodle = demandasApp.find(d => d.id === 'DEM-SNCT-02');
-      if (!demCand && !demMoodle) return;
+      const demC1 = demandasApp.find(d => d.id === 'DEM-SNCT-C1');
+      const demC2 = demandasApp.find(d => d.id === 'DEM-SNCT-C2');
+      if (!demCand && !demC1 && !demC2) return;
 
       if (demCand) normalizarAtribuicaoDemanda(demCand);
-      if (demMoodle) normalizarAtribuicaoDemanda(demMoodle);
+      if (demC1) normalizarAtribuicaoDemanda(demC1);
+      if (demC2) normalizarAtribuicaoDemanda(demC2);
 
       let alterou = false;
       demandasSnctApp.forEach(frente => {
@@ -7340,8 +7590,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             };
             alterou = true;
           }
-          if (demMoodle && linkFrente && (!demMoodle.entregas[chave] || demMoodle.entregas[chave].link !== linkFrente)) {
-            demMoodle.entregas[chave] = {
+          const demCurso = frente.cursoId === 1 ? demC1 : demC2;
+          if (demCurso && linkFrente && (!demCurso.entregas[chave] || demCurso.entregas[chave].link !== linkFrente)) {
+            demCurso.entregas[chave] = {
               entregue: true,
               link: linkFrente,
               dataEntrega: m.dataInscricao || new Date().toISOString(),
@@ -7356,6 +7607,479 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         salvarDadosDemandas();
         renderizarDemandas();
       }
+    }
+
+
+    // =========================================================================
+    // ÁREA DOCENTE: PAINEL DE CONTROLE ADMINISTRATIVO & COMUNICAÇÃO POR DEMANDAS
+    // =========================================================================
+    function abrirAreaDocenteDireto() {
+      if (!document.body.classList.contains('modo-docente-ativo')) {
+        toggleModoDocente();
+      }
+      showTab('tab-docente');
+    }
+
+    function renderizarMuralComunicadosDocente() {
+      const fixadas = demandasApp.filter(d => !d.concluida && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
+      const htmlMural = fixadas.length === 0 ? '' : `
+        <div class="p-3 rounded-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-warning text-dark"><i class="fa-solid fa-bullhorn me-1"></i> MURAL DO PROFESSOR — DEMANDAS &amp; ORIENTAÇÕES DA SEMANA</span>
+              <span class="fs-caption text-muted">Atividades independentes para Curso 1 e Curso 2</span>
+            </div>
+            <button type="button" onclick="showTab('tab-docente')" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-caption docente-only">
+              <i class="fa-solid fa-sliders me-1"></i> Gerenciar na Área Docente
+            </button>
+          </div>
+          <div class="row g-2">
+            ${fixadas.slice(0, 4).map(d => {
+              const st = calcularStatusPrazo(d.prazo, d.concluida, d.horaPrazo);
+              const corBorda = d.cursoSnctAlvo === 1 ? 'var(--accent-blue)' : (d.cursoSnctAlvo === 2 ? 'var(--accent-emerald)' : 'var(--accent-amber)');
+              return `
+                <div class="col-md-4">
+                  <div class="p-2 rounded h-100 d-flex flex-column justify-content-between" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid ${corBorda};">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center gap-1 mb-1">
+                        <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-main); border: 1px solid var(--border-color);">${escapeHtml(d.id)}</span>
+                        <span class="badge-pill ${st.classe} small">${st.texto}</span>
+                      </div>
+                      <div class="fw-bold text-heading fs-small mb-1">${escapeHtml(d.titulo)}</div>
+                      <p class="fs-caption text-muted mb-2">${escapeHtml(d.descricao)}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 pt-1 border-top">
+                      <span class="fs-label text-muted"><i class="bi bi-people me-1"></i>${escapeHtml(d.destinatario || rotuloAtribuicao(d))}</span>
+                      <div class="d-flex gap-1">
+                        ${d.linkApoio ? `<a href="${escapeHtml(d.linkApoio)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label"><i class="bi bi-file-earmark-pdf me-1"></i>Abrir Guia</a>` : ''}
+                        <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label">Ver entrega</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      const elDem = document.getElementById('muralComunicadosDemandas');
+      const elRot = document.getElementById('muralComunicadosTopoRoteiros');
+      if (elDem) elDem.innerHTML = htmlMural;
+      if (elRot) elRot.innerHTML = htmlMural;
+    }
+
+    function aoMudarTargetComunicadoDocente() {
+      const tipo = document.getElementById('docenteTargetTipo').value;
+      const wrap = document.getElementById('wrapDocenteTargetDetalhe');
+      const label = document.getElementById('labelDocenteTargetDetalhe');
+      const select = document.getElementById('docenteTargetDetalhe');
+      if (!wrap || !select) return;
+
+      if (tipo === 'frente_snct') {
+        wrap.classList.remove('d-none');
+        label.textContent = 'Selecione a Frente SNCT:';
+        select.innerHTML = demandasSnctApp.map(f =>
+          `<option value="${escapeHtml(f.id)}">Curso ${f.cursoId} — ${escapeHtml(f.titulo)}</option>`
+        ).join('');
+      } else if (tipo === 'equipe_projeto') {
+        wrap.classList.remove('d-none');
+        label.textContent = 'Selecione o Grupo:';
+        select.innerHTML = EQUIPES_PROGWEB2.map(eq =>
+          `<option value="${escapeHtml(eq)}">${escapeHtml(eq)}</option>`
+        ).join('');
+      } else if (tipo === 'aluno_individual') {
+        wrap.classList.remove('d-none');
+        label.textContent = 'Selecione o(a) Estudante:';
+        select.innerHTML = alunosApp.filter(a => a.ativo).sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR')).map(a =>
+          `<option value="${escapeHtml(a.id)}">${escapeHtml(a.nome)} (${escapeHtml(a.matricula || '')})</option>`
+        ).join('');
+      } else {
+        wrap.classList.add('d-none');
+      }
+    }
+
+    async function publicarComunicadoDemandaDocente(event, modoEnvio = 'painel') {
+      if (event) event.preventDefault();
+      const targetTipo = document.getElementById('docenteTargetTipo').value;
+      const targetDetalhe = document.getElementById('docenteTargetDetalhe') ? document.getElementById('docenteTargetDetalhe').value : '';
+      const instrumento = document.getElementById('docenteInstrumento').value;
+      const prazo = document.getElementById('docentePrazoData').value;
+      const horaPrazo = document.getElementById('docentePrazoHora').value || '23:59';
+      const titulo = document.getElementById('docenteTitulo').value.trim();
+      const linkApoio = document.getElementById('docenteLinkApoio').value.trim();
+      const descricao = document.getElementById('docenteMensagem').value.trim();
+      const criterios = document.getElementById('docenteCriterios').value.split('\n').map(c => c.trim()).filter(Boolean);
+      const fixadaMural = document.getElementById('docenteFixarMural').checked;
+
+      if (!titulo || !descricao || !prazo) {
+        showToast('Campos obrigatórios', 'Preencha título, prazo e mensagem para publicar a demanda.', 'fa-solid fa-circle-exclamation text-warning');
+        return;
+      }
+
+      let tipoAtribuicao = 'turma';
+      let equipesAlvo = [];
+      let alunosAlvo = [];
+      let cursoSnctAlvo = null;
+      let destinatarioRotulo = 'Todos';
+
+      if (targetTipo === 'curso1') {
+        cursoSnctAlvo = 1;
+        destinatarioRotulo = 'Equipes do Curso 1 SNCT (Meu Primeiro Site no Ar)';
+      } else if (targetTipo === 'curso2') {
+        cursoSnctAlvo = 2;
+        destinatarioRotulo = 'Equipes do Curso 2 SNCT (Painel Verde)';
+      } else if (targetTipo === 'pendentes_snct') {
+        tipoAtribuicao = 'individual';
+        const inscritos = new Set();
+        demandasSnctApp.forEach(f => (f.membros || []).forEach(m => { if (m.alunoId) inscritos.add(String(m.alunoId)); }));
+        alunosAlvo = alunosApp.filter(a => a.ativo && !inscritos.has(String(a.id))).map(a => String(a.id));
+        destinatarioRotulo = `Pendentes de Candidatura SNCT (${alunosAlvo.length} estudantes)`;
+      } else if (targetTipo === 'frente_snct') {
+        const frente = demandasSnctApp.find(f => f.id === targetDetalhe);
+        tipoAtribuicao = 'individual';
+        alunosAlvo = frente ? (frente.membros || []).map(m => String(m.alunoId)).filter(Boolean) : [];
+        destinatarioRotulo = frente ? `Curso ${frente.cursoId} · ${frente.titulo}` : 'Frente SNCT';
+      } else if (targetTipo === 'equipe_projeto') {
+        tipoAtribuicao = 'equipes';
+        equipesAlvo = [targetDetalhe];
+        destinatarioRotulo = targetDetalhe;
+      } else if (targetTipo === 'aluno_individual') {
+        tipoAtribuicao = 'individual';
+        alunosAlvo = [String(targetDetalhe)];
+        const al = alunosApp.find(a => String(a.id) === String(targetDetalhe));
+        destinatarioRotulo = al ? al.nome : '1 estudante';
+      }
+
+      const codigo = 'DEM-' + (demandasApp.length + 1).toString().padStart(2, '0');
+      const instrumentoNome = instrumento === 'A1' ? 'A1 (Avaliação Teórica • 20%)' :
+        (instrumento === 'A2' ? 'A2 (Curso SNCT • 20%)' :
+        (instrumento === 'A3' ? 'A3 (Vitrine Flask • 35%)' : 'A4 (Demais Entregas • 25%)'));
+
+      const novaDemanda = {
+        id: codigo,
+        titulo,
+        instrumento,
+        instrumentoNome,
+        destinatario: destinatarioRotulo,
+        tipoAtribuicao,
+        equipesAlvo,
+        alunosAlvo,
+        cursoSnctAlvo,
+        fixadaMural,
+        linkApoio,
+        prazo,
+        horaPrazo,
+        entregas: {},
+        pontos: 10.0,
+        concluida: false,
+        descricao,
+        criterios: criterios.length > 0 ? criterios : ['Confirmar execução e registrar link de entrega no painel']
+      };
+
+      demandasApp.unshift(novaDemanda);
+      salvarDadosDemandas();
+      renderizarDemandas();
+      renderizarAreaDocente();
+      popularSelectsDeDemanda();
+
+      const emailsAlvo = [...new Set(obterAlvosDemanda(novaDemanda).flatMap(a => a.emails))];
+      const assunto = `[ProgWeb 2] ${codigo}: ${titulo}`;
+      const corpo = `Prezados(as) estudantes (${destinatarioRotulo}),\n\nO Prof. André Moraes publicou uma nova orientação / demanda na disciplina de Programação para a Internet 2:\n\n• Demanda: ${codigo} — ${titulo}\n• Destinatário: ${destinatarioRotulo}\n• Prazo Limite: ${formatarData(prazo)} às ${horaPrazo}\n${linkApoio ? '• Material / Link de Apoio: ' + linkApoio + '\n' : ''}\nORIENTAÇÕES:\n${descricao}\n\nCHECKLIST DE ENTREGA:\n${novaDemanda.criterios.map(c => '• ' + c).join('\n')}\n\nAcesse o painel da disciplina:\nhttps://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/\n\nAtenciosamente,\nProf. André Moraes — IFSC Câmpus Garopaba`;
+
+      if (modoEnvio === 'apps_script_email') {
+        const cfg = window.PROGWEB2_CONFIG;
+        if (cfg && cfg.apiUrl && emailsAlvo.length > 0) {
+          try {
+            fetch(cfg.apiUrl.trim(), {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({
+                acao: 'disparar_email_turma',
+                assunto,
+                mensagem: corpo,
+                emails: emailsAlvo
+              })
+            });
+            showToast('Publicado & E-mail Disparado!', `Demanda ${codigo} publicada e enviada via Apps Script para ${emailsAlvo.length} e-mail(s).`);
+          } catch (e) {
+            showToast('Demanda Publicada', `Demanda ${codigo} salva no painel (falha no envio automático).`);
+          }
+        }
+      } else if (modoEnvio === 'mailto' && emailsAlvo.length > 0) {
+        const mailto = `mailto:andre.moraes@ifsc.edu.br?bcc=${emailsAlvo.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+        window.open(mailto, '_blank');
+        showToast('Demanda Publicada', `Demanda ${codigo} registrada e rascunho de e-mail aberto!`);
+      } else {
+        showToast('Publicado no Painel!', `Demanda/comunicado ${codigo} publicado com sucesso para ${destinatarioRotulo}.`);
+      }
+
+      document.getElementById('docenteTitulo').value = '';
+      document.getElementById('docenteMensagem').value = '';
+    }
+
+    function alocarAlunoEmFrenteDocente(frenteId, selectEl) {
+      const alunoId = selectEl.value;
+      if (!alunoId) return;
+      const aluno = alunosApp.find(a => String(a.id) === String(alunoId));
+      const frente = demandasSnctApp.find(f => f.id === frenteId);
+      if (!aluno || !frente) return;
+
+      if (!Array.isArray(frente.membros)) frente.membros = [];
+      if (frente.membros.length >= (frente.vagasMax || 3)) {
+        showToast('Frente completa', 'Esta frente já possui 3 integrantes.', 'bi bi-exclamation-octagon text-danger');
+        selectEl.value = '';
+        return;
+      }
+
+      // Remove de outra frente caso já estivesse inscrito
+      demandasSnctApp.forEach(d => {
+        if (Array.isArray(d.membros)) {
+          d.membros = d.membros.filter(m => String(m.alunoId) !== String(aluno.id) && (!m.matricula || String(m.matricula) !== String(aluno.matricula)));
+        }
+      });
+
+      frente.membros.push({
+        alunoId: String(aluno.id),
+        nome: aluno.nome,
+        matricula: aluno.matricula || '',
+        email: aluno.email || '',
+        linkEntrega: '',
+        dataInscricao: new Date().toISOString()
+      });
+
+      salvarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+      renderizarAreaDocente();
+
+      const cfg = window.PROGWEB2_CONFIG;
+      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
+        try {
+          fetch(cfg.apiUrl.trim(), {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              acao: 'candidatar_frente_snct',
+              frenteId: frente.id,
+              frenteTitulo: `${frente.cursoNome} - ${frente.titulo}`,
+              alunoId: String(aluno.id),
+              alunoNome: aluno.nome,
+              matricula: aluno.matricula || '',
+              email: aluno.email || ''
+            })
+          });
+        } catch (e) {}
+      }
+      showToast('Estudante Alocado', `${aluno.nome} foi alocado(a) em ${frente.titulo} (Curso ${frente.cursoId}).`);
+    }
+
+    function prepararDemandaParaAlvoDocente(tipo, valor) {
+      showTab('tab-docente', false);
+      const selTipo = document.getElementById('docenteTargetTipo');
+      if (selTipo) {
+        selTipo.value = tipo;
+        aoMudarTargetComunicadoDocente();
+        const selDet = document.getElementById('docenteTargetDetalhe');
+        if (selDet && valor) selDet.value = valor;
+      }
+      const form = document.getElementById('formComunicadoDocente');
+      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const inputTit = document.getElementById('docenteTitulo');
+      if (inputTit) inputTit.focus();
+    }
+
+    function renderizarAreaDocente() {
+      renderizarMuralComunicadosDocente();
+      const kpiContainer = document.getElementById('docenteKpisContainer');
+      const cursosContainer = document.getElementById('docentePainelCursosSeparados');
+      const tabelaContainer = document.getElementById('docenteTabelaRaioXAlunos');
+      if (!kpiContainer || !cursosContainer || !tabelaContainer) return;
+
+      const frentesC1 = demandasSnctApp.filter(f => f.cursoId === 1);
+      const frentesC2 = demandasSnctApp.filter(f => f.cursoId === 2);
+      const vagasC1 = frentesC1.reduce((acc, f) => acc + (f.membros || []).length, 0);
+      const vagasC2 = frentesC2.reduce((acc, f) => acc + (f.membros || []).length, 0);
+      const linksC1 = frentesC1.filter(f => (f.membros || []).some(m => m.linkEntrega && m.linkEntrega.trim())).length;
+      const linksC2 = frentesC2.filter(f => (f.membros || []).some(m => m.linkEntrega && m.linkEntrega.trim())).length;
+
+      const mapaAlunoFrente = new Map();
+      demandasSnctApp.forEach(f => {
+        (f.membros || []).forEach(m => {
+          const al = alunosApp.find(a =>
+            String(a.id) === String(m.alunoId) ||
+            (m.matricula && String(a.matricula) === String(m.matricula))
+          );
+          if (al) mapaAlunoFrente.set(String(al.id), f);
+        });
+      });
+
+      const ativos = alunosApp.filter(a => a.ativo);
+      const semFrente = ativos.filter(a => !mapaAlunoFrente.has(String(a.id)));
+      const demandasAtivas = demandasApp.filter(d => !d.concluida);
+
+      kpiContainer.innerHTML = `
+        <div class="col-md-3">
+          <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-blue);">
+            <div class="fs-label fw-bold text-muted text-uppercase">Curso 1 — Meu 1º Site no Ar</div>
+            <div class="fs-4 fw-bold font-outfit text-heading mt-1">${vagasC1} / 12 escalados</div>
+            <div class="fs-caption text-muted">${linksC1} / 4 frentes com link entregue</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
+            <div class="fs-label fw-bold text-muted text-uppercase">Curso 2 — Painel Verde</div>
+            <div class="fs-4 fw-bold font-outfit text-heading mt-1">${vagasC2} / 12 escalados</div>
+            <div class="fs-caption text-muted">${linksC2} / 4 frentes com link entregue</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-rose);">
+            <div class="fs-label fw-bold text-muted text-uppercase">Sem Candidatura (Prazo 27/10)</div>
+            <div class="fs-4 fw-bold font-outfit ${semFrente.length > 0 ? 'text-danger' : 'text-success'} mt-1">${semFrente.length} estudante(s)</div>
+            <div class="fs-caption text-muted">Aloque abaixo ou cobre em 1 clique</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-amber);">
+            <div class="fs-label fw-bold text-muted text-uppercase">Demandas &amp; Comunicados Ativos</div>
+            <div class="fs-4 fw-bold font-outfit text-heading mt-1">${demandasAtivas.length} ativa(s)</div>
+            <div class="fs-caption text-muted">${votosOficinasApp.length} votos registrados na enquete</div>
+          </div>
+        </div>
+      `;
+
+      const renderColunaCursoAdmin = (cursoId, tituloCurso, subtituloKit, cor) => {
+        const frentes = demandasSnctApp.filter(f => f.cursoId === cursoId);
+        return `
+          <div class="col-lg-6">
+            <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid ${cor};">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                <div>
+                  <span class="badge ${cursoId === 1 ? 'bg-info text-dark' : 'bg-success text-white'} font-mono">CURSO ${cursoId} (12 VAGAS)</span>
+                  <h4 class="font-outfit fs-6 fw-bold text-heading mt-1 mb-0">${escapeHtml(tituloCurso)}</h4>
+                  <div class="fs-caption text-muted">${escapeHtml(subtituloKit)}</div>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption"
+                        onclick="prepararDemandaParaAlvoDocente('curso${cursoId}', '')">
+                  <i class="fa-solid fa-bullhorn me-1"></i> Comunicar ao Curso ${cursoId}
+                </button>
+              </div>
+
+              <div class="d-flex flex-column gap-2 mt-2">
+                ${frentes.map(f => {
+                  const membros = f.membros || [];
+                  const link = (membros.find(m => m.linkEntrega && m.linkEntrega.trim()) || {}).linkEntrega || '';
+                  const opcoesAlunos = semFrente.map(a => `<option value="${escapeHtml(a.id)}">+ Alocar: ${escapeHtml(a.nome)}</option>`).join('');
+                  return `
+                    <div class="p-2 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                      <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mb-1">
+                        <div class="fw-bold text-heading fs-small">
+                          <i class="bi ${f.icone} text-primary me-1"></i>${escapeHtml(f.titulo)}
+                          <span class="badge bg-secondary-subtle text-secondary ms-1">${membros.length}/3</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                          <a href="${escapeHtml(f.roteiroPdf || '#')}" target="_blank" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-label">PDF</a>
+                          <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label"
+                                  onclick="prepararDemandaParaAlvoDocente('frente_snct', '${f.id}')">
+                            <i class="bi bi-send"></i> Demanda p/ Frente
+                          </button>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-wrap gap-1 mb-1">
+                        ${membros.length > 0 ? membros.map(m => `
+                          <span class="alvo-chip entregue">
+                            <i class="bi bi-person-check-fill"></i> ${escapeHtml(m.nome)}
+                            <button type="button" class="btn btn-link btn-sm text-danger p-0 ms-1" title="Remover da frente"
+                                    onclick="desistirCandidaturaSNCT('${f.id}', '${m.alunoId}')"><i class="bi bi-x"></i></button>
+                          </span>
+                        `).join('') : '<span class="fs-caption text-danger">Nenhum integrante escalado ainda.</span>'}
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-1 pt-1 border-top">
+                        <div class="fs-caption">
+                          ${link ? `<a href="${escapeHtml(link)}" target="_blank" class="text-success fw-bold"><i class="bi bi-link-45deg"></i> Abrir Entrega (GitHub/Moodle)</a>` : '<span class="text-muted">Sem link de entrega</span>'}
+                        </div>
+                        ${membros.length < 3 ? `
+                          <select class="form-select form-select-sm py-0" style="max-width: 210px; font-size: 12px;"
+                                  onchange="alocarAlunoEmFrenteDocente('${f.id}', this)">
+                            <option value="">+ Alocar estudante manualmente...</option>
+                            ${opcoesAlunos}
+                          </select>
+                        ` : '<span class="badge bg-success-subtle text-success fs-label">Trio Completo</span>'}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      };
+
+      cursosContainer.innerHTML =
+        renderColunaCursoAdmin(1, 'Meu Primeiro Site no Ar (HTML, CSS & GitHub Pages)', 'Sala Moodle Curso 1 · Pacote: starter-kit-snct.zip', 'var(--accent-blue)') +
+        renderColunaCursoAdmin(2, 'Painel Verde: Coleta Seletiva & Ecopontos de Garopaba', 'Sala Moodle Curso 2 · Pacote: starter-kit-painel-verde.zip', 'var(--accent-emerald)');
+
+      const termo = (document.getElementById('buscaRaioXDocente') ? document.getElementById('buscaRaioXDocente').value : '').toLowerCase().trim();
+      const alunosFiltrados = ativos
+        .filter(a => !termo || (a.nome + ' ' + (a.matricula || '') + ' ' + (a.email || '')).toLowerCase().includes(termo))
+        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+
+      tabelaContainer.innerHTML = `
+        <table class="table table-sm align-middle" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <thead>
+            <tr class="fs-caption text-muted">
+              <th>Estudante / Matrícula</th>
+              <th>Curso &amp; Frente na SNCT</th>
+              <th>Link SNCT / Moodle</th>
+              <th>Demandas Entregues</th>
+              <th class="text-end">Ação Direta Docente</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${alunosFiltrados.map(a => {
+              const f = mapaAlunoFrente.get(String(a.id));
+              const m = f ? (f.membros || []).find(item => String(item.alunoId) === String(a.id) || String(item.matricula) === String(a.matricula)) : null;
+              const linkFrente = f ? ((f.membros || []).find(x => x.linkEntrega && x.linkEntrega.trim()) || {}).linkEntrega : '';
+              const demandasDoAluno = demandasAtivas.filter(d => demandaAtribuidaAoAluno(d, a));
+              const entreguesAluno = demandasDoAluno.filter(d => {
+                const ch = chaveDoAlunoNaDemanda(d, a);
+                return ch && obterEntregaAlvo(d, ch).entregue;
+              }).length;
+
+              return `
+                <tr class="fs-caption">
+                  <td>
+                    <div class="fw-bold text-heading">${escapeHtml(a.nome)}</div>
+                    <div class="text-muted font-code">${escapeHtml(a.matricula || '')} · ${escapeHtml(a.email || '')}</div>
+                  </td>
+                  <td>
+                    ${f ? `
+                      <span class="badge ${f.cursoId === 1 ? 'bg-info text-dark' : 'bg-success text-white'} me-1">Curso ${f.cursoId}</span>
+                      <span class="fw-semibold text-heading">${escapeHtml(f.titulo)}</span>
+                    ` : '<span class="badge bg-danger-subtle text-danger">Pendente de candidatura</span>'}
+                  </td>
+                  <td>
+                    ${linkFrente ? `<a href="${escapeHtml(linkFrente)}" target="_blank" class="text-success fw-bold"><i class="bi bi-box-arrow-up-right me-1"></i>Abrir Link</a>` : '<span class="text-muted">Pendente</span>'}
+                  </td>
+                  <td>
+                    <span class="fw-bold ${entreguesAluno === demandasDoAluno.length && demandasDoAluno.length > 0 ? 'text-success' : 'text-warning-emphasis'}">
+                      ${entreguesAluno} / ${demandasDoAluno.length}
+                    </span>
+                  </td>
+                  <td class="text-end">
+                    <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label"
+                            onclick="prepararDemandaParaAlvoDocente('aluno_individual', '${escapeHtml(a.id)}')">
+                      <i class="fa-solid fa-paper-plane me-1"></i> Demanda / Recado Individual
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
     }
 
     function renderizarPainelNominalCandidaturasSNCT() {
@@ -8566,6 +9290,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         renderizarDemandas();
       } else if (tabId === 'tab-avaliacao') {
         trocarSubAbaNotas(subabaNotasAtual);
+      } else if (tabId === 'tab-docente') {
+        renderizarAreaDocente();
       }
     }
 
