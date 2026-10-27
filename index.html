@@ -2314,6 +2314,9 @@
           </div>
         </div>
 
+        <button class="theme-toggle-btn" onclick="sincronizarComBackendAppsScript(true)" id="btnSyncHeader" title="Sincronizar votos, candidaturas e entregas em tempo real com a planilha Google Sheets" style="border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600;">
+          <i class="bi bi-arrow-repeat" id="iconSyncHeader"></i> <span id="statusSyncHeader">Sincronizar Agora</span>
+        </button>
         <button class="theme-toggle-btn" onclick="abrirAreaDocenteDireto()" title="Abrir Painel Administrativo Docente e Comunicação com a Turma" style="border-color: var(--accent-emerald); color: var(--accent-emerald); font-weight: 700;">
           <i class="fa-solid fa-sliders"></i> <span>Painel Docente</span>
         </button>
@@ -3641,7 +3644,10 @@
                   São <strong>8 frentes cirúrgicas com 3 vagas cada</strong>, totalizando as <strong>24 vagas para os 24 estudantes</strong> da turma. Conecte-se com seu login institucional do Google para assumir uma vaga ou atualizar o link de entrega da sua equipe.
                 </p>
               </div>
-              <div class="flex-shrink-0 text-md-end">
+              <div class="flex-shrink-0 text-md-end d-flex align-items-center gap-2 flex-wrap">
+                <button type="button" class="btn btn-sm btn-outline-primary fw-semibold" onclick="sincronizarComBackendAppsScript(true)" title="Buscar novas candidaturas e links de entrega na planilha agora">
+                  <i class="bi bi-arrow-repeat me-1"></i> Atualizar Quadro
+                </button>
                 <span class="badge bg-primary fs-small px-3 py-2" id="badgeVagasGeralSNCT">
                   <i class="bi bi-person-check-fill me-1"></i> <span id="spanTotalVagasOcupadas">0</span> / 24 vagas ocupadas
                 </span>
@@ -3775,6 +3781,9 @@
             <p class="panel-subtitle mb-0">Gestão ágil de sprints, entregas de laboratório e checkpoints com avaliação formativa por rubricas para a turma:</p>
           </div>
           <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button onclick="sincronizarComBackendAppsScript(true)" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Sincronizar entregas e demandas com a planilha Google Sheets agora">
+              <i class="bi bi-arrow-repeat"></i> Atualizar Entregas
+            </button>
             <button onclick="showTab('tab-docente')" class="btn-action btn-primary-action" style="background: var(--accent-amber); border-color: var(--accent-amber); color: #fff;">
               <i class="fa-solid fa-sliders"></i> Abrir Área Docente &amp; Comunicar à Turma
             </button>
@@ -5980,16 +5989,46 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       if (!cfg || !cfg.apiUrl || !cfg.apiUrl.trim()) {
         throw new Error('URL do Google Apps Script não configurada em progweb2-config.js.');
       }
-      const resp = await fetch(cfg.apiUrl.trim(), {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ acao, ...payload })
-      });
-      const json = await resp.json();
-      if (!json || json.ok === false) {
-        throw new Error((json && json.erro) || 'Falha ao processar ação na planilha.');
+      const apiUrl = cfg.apiUrl.trim();
+      const extraDemanda = (payload && payload.demanda && typeof payload.demanda === 'object') ? payload.demanda : {};
+      const bodyStr = JSON.stringify({ acao, ...extraDemanda, ...payload });
+      try {
+        const resp = await fetch(apiUrl, {
+          method: 'POST',
+          mode: 'cors',
+          redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: bodyStr
+        });
+        const json = await resp.json();
+        if (!json || json.ok === false) {
+          throw new Error((json && json.erro) || 'Falha ao processar ação na planilha.');
+        }
+        return json;
+      } catch (postErr) {
+        // Fallback em navegadores com bloqueio de redirecionamento 302 em POST (Safari ITP / Brave Shields):
+        // se o erro for falha de rede/CORS (TypeError), tenta disparar via GET ?payload=... ou no-cors
+        if (postErr && postErr.name === 'TypeError') {
+          try {
+            const urlGet = `${apiUrl}${apiUrl.includes('?') ? '&' : '?'}payload=${encodeURIComponent(bodyStr)}&_t=${Date.now()}`;
+            const respGet = await fetch(urlGet, { method: 'GET', mode: 'cors', cache: 'no-store' });
+            const jsonGet = await respGet.json();
+            if (jsonGet && jsonGet.ok !== false && !Array.isArray(jsonGet.votos)) {
+              return jsonGet;
+            }
+          } catch (_) {}
+          try {
+            await fetch(apiUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: bodyStr
+            });
+            return { ok: true, fallbackNoCors: true };
+          } catch (_) {}
+        }
+        throw postErr;
       }
-      return json;
     }
 
     async function notificarEquipeEmail(demandaId, equipeNome) {
@@ -6714,7 +6753,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
     function obterAlunoLogado() {
       const id = (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) || alunoVotanteAtualId;
-      return id ? alunosApp.find(a => a.id === id) || null : null;
+      return id ? alunosApp.find(a => String(a.id) === String(id)) || null : null;
     }
 
     // Chave de entrega que corresponde ao estudante nesta demanda (ou null).
@@ -6722,7 +6761,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       if (!aluno) return null;
       const at = normalizarAtribuicaoDemanda(d);
       if (at.tipoAtribuicao === 'turma') return aluno.ativo ? 'aluno:' + aluno.id : null;
-      if (at.tipoAtribuicao === 'individual') return at.alunosAlvo.includes(aluno.id) ? 'aluno:' + aluno.id : null;
+      if (at.tipoAtribuicao === 'individual') return at.alunosAlvo.map(String).includes(String(aluno.id)) ? 'aluno:' + aluno.id : null;
       return at.equipesAlvo.includes(aluno.equipe) ? 'equipe:' + aluno.equipe : null;
     }
 
@@ -6744,8 +6783,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const atrasada = e.entregue && e.dataEntrega && d.prazo && new Date(e.dataEntrega) > obterDataPrazo(d);
         const estado = e.entregue ? (atrasada ? 'atrasada' : 'entregue') : (expirado ? 'pendente-vencida' : 'pendente');
         const icone = e.entregue ? (atrasada ? 'bi-clock-history' : 'bi-check-circle-fill') : (expirado ? 'bi-x-circle-fill' : 'bi-circle');
+        const dataFmt = e.dataEntrega && !isNaN(new Date(e.dataEntrega).getTime())
+          ? new Date(e.dataEntrega).toLocaleString('pt-BR')
+          : (e.data || 'Confirmada');
         const titulo = e.entregue
-          ? `Entregue em ${new Date(e.dataEntrega).toLocaleString('pt-BR')}${atrasada ? ' (com atraso)' : ''}`
+          ? `Entregue (${dataFmt})${atrasada ? ' — com atraso' : ''}`
           : (expirado ? 'Não entregue — prazo encerrado' : 'Pendente');
         const ehMeu = a.chave === minhaChave ? ' meu-alvo' : '';
         const link = e.link ? `<a href="${escapeHtml(e.link)}" target="_blank" rel="noopener" class="ms-1" title="Abrir entrega" onclick="event.stopPropagation()"><i class="bi bi-box-arrow-up-right"></i></a>` : '';
@@ -6764,7 +6806,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           <button type="button" class="btn btn-sm btn-primary" onclick="registrarMinhaEntrega('${d.id}')">
             <i class="bi bi-upload me-1"></i>${minhaEntrega.entregue ? 'Atualizar link' : 'Registrar entrega'}
           </button>` : ''}
-        </div>` : '';
+        </div>` : (!d.concluida ? `
+        <div class="minha-entrega-box">
+          <span><i class="bi bi-person-lock me-1 text-warning"></i>
+            Identifique-se com seu login de estudante para registrar sua entrega nesta demanda.
+          </span>
+          <button type="button" class="btn btn-sm btn-outline-primary" onclick="iniciarLoginGoogle()">
+            <i class="bi bi-google me-1"></i>Identificar para Entregar
+          </button>
+        </div>` : '');
 
       return `
         <div class="demanda-atribuicao-painel">
@@ -6785,18 +6835,53 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
     function alternarEntregaAlvoDocente(demandaId, chave) {
-      if (!document.body.classList.contains('modo-docente-ativo')) {
-        showToast('Somente o professor', 'Ative o Modo Docente para alterar entregas de outros estudantes.', 'fa-solid fa-lock text-warning');
-        return;
-      }
       const d = demandasApp.find(item => item.id === demandaId);
       if (!d) return;
+      if (!document.body.classList.contains('modo-docente-ativo')) {
+        const alunoLogado = obterAlunoLogado();
+        if (!alunoLogado) {
+          showToast('Identifique-se para Entregar', 'Conecte sua conta Google ou informe sua matrícula para registrar sua entrega.', 'bi bi-person-check text-primary');
+          iniciarLoginGoogle();
+          return;
+        }
+        const minhaChave = chaveDoAlunoNaDemanda(d, alunoLogado);
+        if (minhaChave && minhaChave === chave) {
+          registrarMinhaEntrega(demandaId);
+          return;
+        }
+        showToast('Somente o professor', 'Você pode registrar apenas a sua própria entrega. Para outros estudantes, ative o Modo Docente.', 'fa-solid fa-lock text-warning');
+        return;
+      }
       const atual = obterEntregaAlvo(d, chave);
-      d.entregas[chave] = atual.entregue
-        ? { entregue: false, link: '', dataEntrega: '' }
-        : { entregue: true, link: atual.link || '', dataEntrega: new Date().toISOString() };
+      const novoEstado = !atual.entregue;
+      d.entregas[chave] = novoEstado
+        ? { entregue: true, link: atual.link || '', dataEntrega: new Date().toISOString(), registradoPor: 'Prof. André Moraes' }
+        : { entregue: false, link: '', dataEntrega: '' };
       salvarDadosDemandas();
       renderizarDemandas();
+      renderizarAreaDocente();
+
+      chamarApiAppsScript('criarDemanda', {
+        id: d.id,
+        projeto: normalizarAtribuicaoDemanda(d).tipoAtribuicao === 'turma' ? '*' : rotuloAtribuicao(d),
+        titulo: d.titulo,
+        descricao: d.descricao || '',
+        prazo: d.prazo || '',
+        horaPrazo: d.horaPrazo || '23:59',
+        pontos: (d.pontos || 10).toFixed(1).replace('.', ','),
+        criterios: d.criterios || [],
+        instrumento: d.instrumento || 'A2',
+        tipoAtribuicao: d.tipoAtribuicao || 'turma',
+        equipesAlvo: d.equipesAlvo || [],
+        alunosAlvo: d.alunosAlvo || [],
+        cursoSnctAlvo: d.cursoSnctAlvo || null,
+        fixadaMural: Boolean(d.fixadaMural),
+        linkApoio: d.linkApoio || '',
+        entregas: d.entregas || {},
+        notificarEmail: false
+      }).then(() => {
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(err => console.warn('Aviso ao salvar entrega docente na planilha:', err));
     }
 
     function registrarMinhaEntrega(demandaId) {
@@ -6812,7 +6897,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         showToast('Prazo encerrado', 'O prazo desta demanda já terminou.', 'fa-solid fa-lock text-danger');
         return;
       }
-      const link = prompt('Cole o link da entrega (GitHub, GitHub Pages, Drive...):', atual.link || 'https://');
+      const link = prompt('Cole o link da entrega (GitHub, GitHub Pages, Drive, Moodle...):', atual.link || 'https://');
       if (link === null) return;
       const limpo = link.trim();
       if (!/^https?:\/\/\S+\.\S+/.test(limpo)) {
@@ -6825,16 +6910,74 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         dataEntrega: atual.entregue ? atual.dataEntrega : new Date().toISOString(),
         registradoPor: aluno.nome
       };
+
+      // Se for entrega de DEM-SNCT-C1, DEM-SNCT-C2 ou DEM-SNCT-01, espelha automaticamente na Frente SNCT do estudante
+      const frenteDoAluno = demandasSnctApp.find(f =>
+        Array.isArray(f.membros) && f.membros.some(m =>
+          String(m.alunoId) === String(aluno.id) ||
+          (m.matricula && aluno.matricula && String(m.matricula) === String(aluno.matricula)) ||
+          (m.email && aluno.email && m.email.toLowerCase() === aluno.email.toLowerCase())
+        )
+      );
+      if (frenteDoAluno) {
+        const membroFrente = frenteDoAluno.membros.find(m =>
+          String(m.alunoId) === String(aluno.id) ||
+          (m.matricula && aluno.matricula && String(m.matricula) === String(aluno.matricula)) ||
+          (m.email && aluno.email && m.email.toLowerCase() === aluno.email.toLowerCase())
+        );
+        if (membroFrente) {
+          membroFrente.linkEntrega = limpo;
+          salvarDemandasSNCT();
+          renderizarQuadroDemandasSNCT();
+          chamarApiAppsScript('salvar_link_entrega_snct', {
+            frenteId: frenteDoAluno.id,
+            alunoId: String(aluno.id),
+            alunoNome: aluno.nome,
+            matricula: aluno.matricula || '',
+            email: aluno.email || '',
+            linkEntrega: limpo
+          }).catch(() => {});
+        }
+      }
+
       salvarDadosDemandas();
       renderizarDemandas();
+      renderizarAreaDocente();
       showToast('Entrega registrada', `Entrega de ${d.id} salva e enviada para a planilha!`);
 
-      chamarApiAppsScript('concluirDemanda', {
-        demandaId: d.id,
-        chaveAlvo: chave,
-        evidencia: limpo,
-        autor: aluno.nome,
-        email: aluno.email || ''
+      // Envia tanto via criarDemanda (para garantir que a linha exista na aba Demandas com entregas_json) quanto concluirDemanda (para notificar o docente)
+      chamarApiAppsScript('criarDemanda', {
+        id: d.id,
+        projeto: normalizarAtribuicaoDemanda(d).tipoAtribuicao === 'turma' ? '*' : rotuloAtribuicao(d),
+        titulo: d.titulo,
+        descricao: d.descricao || '',
+        prazo: d.prazo || '',
+        horaPrazo: d.horaPrazo || '23:59',
+        pontos: (d.pontos || 10).toFixed(1).replace('.', ','),
+        criterios: d.criterios || [],
+        instrumento: d.instrumento || 'A2',
+        tipoAtribuicao: d.tipoAtribuicao || 'turma',
+        equipesAlvo: d.equipesAlvo || [],
+        alunosAlvo: d.alunosAlvo || [],
+        cursoSnctAlvo: d.cursoSnctAlvo || null,
+        fixadaMural: Boolean(d.fixadaMural),
+        linkApoio: d.linkApoio || '',
+        entregas: d.entregas || {},
+        notificarEmail: false
+      }).then(() => {
+        return chamarApiAppsScript('concluirDemanda', {
+          demandaId: d.id,
+          chaveAlvo: chave,
+          evidencia: limpo,
+          autor: aluno.nome,
+          email: aluno.email || '',
+          titulo: d.titulo,
+          descricao: d.descricao || '',
+          prazo: d.prazo || '',
+          horaPrazo: d.horaPrazo || '23:59'
+        });
+      }).then(() => {
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
       }).catch(err => console.warn('Aviso ao sincronizar entrega na planilha:', err));
     }
 
@@ -7755,7 +7898,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           frentesComEntrega++;
         }
         if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
-          const achou = membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          const achou = membros.find(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
           if (achou) {
             minhaFrente = { frente: d, membro: achou };
           }
@@ -7826,7 +7969,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               <span class="fs-caption text-muted">
                 <i class="bi bi-shield-lock me-1"></i> Identifique-se com Google para ver sua frente e entregáveis.
               </span>
-              <button onclick="fazerLoginGoogleVotacao()" class="btn btn-sm btn-outline-primary py-0 px-2 fs-caption" style="font-size: 11px;">
+              <button onclick="iniciarLoginGoogle()" class="btn btn-sm btn-outline-primary py-0 px-2 fs-caption" style="font-size: 11px;">
                 <i class="bi bi-google me-1"></i> Identificar
               </button>
             </div>
@@ -7893,11 +8036,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         totalVagas += vagasMax;
         const completa = vagasOcupadas >= vagasMax;
 
-        const souMembro = usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId && membros.some(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+        const souMembro = usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId && membros.some(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
 
         let htmlMembros = '';
         membros.forEach(m => {
-          const ehVoce = usuarioLogadoGoogle && (m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          const ehVoce = usuarioLogadoGoogle && (String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
           htmlMembros += `
             <div class="snct-membro-item">
               <div class="d-flex align-items-center gap-2 overflow-hidden">
@@ -7934,7 +8077,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
         let htmlAcao = '';
         if (souMembro) {
-          const meuRegistro = membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          const meuRegistro = membros.find(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
           htmlAcao = `
             <div class="d-flex gap-2 mt-3">
               <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1" onclick="editarLinkEntregaSNCT('${frente.id}')">
@@ -8385,25 +8528,18 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarQuadroDemandasSNCT();
       renderizarAreaDocente();
 
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-              acao: 'candidatar_frente_snct',
-              frenteId: frente.id,
-              frenteTitulo: `${frente.cursoNome} - ${frente.titulo}`,
-              alunoId: String(aluno.id),
-              alunoNome: aluno.nome,
-              matricula: aluno.matricula || '',
-              email: aluno.email || ''
-            })
-          });
-        } catch (e) {}
-      }
+      chamarApiAppsScript('candidatar_frente_snct', {
+        frenteId: frente.id,
+        frenteTitulo: `${frente.cursoNome} - ${frente.titulo}`,
+        alunoId: String(aluno.id),
+        alunoNome: aluno.nome,
+        matricula: aluno.matricula || '',
+        email: aluno.email || ''
+      }).then(() => {
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn('Aviso ao alocar estudante no Apps Script:', e);
+      });
       showToast('Estudante Alocado', `${aluno.nome} foi alocado(a) em ${frente.titulo} (Curso ${frente.cursoId}).`);
     }
 
@@ -8724,7 +8860,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           "Conecte-se com sua conta Google para registrar sua candidatura na frente de trabalho.",
           "bi bi-google text-primary"
         );
-        fazerLoginGoogleVotacao();
+        iniciarLoginGoogle();
         return;
       }
 
@@ -8734,7 +8870,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       if (!Array.isArray(frente.membros)) frente.membros = [];
 
       // Verifica se já está nesta frente
-      const jaEstaAqui = frente.membros.some(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+      const jaEstaAqui = frente.membros.some(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
       if (jaEstaAqui) {
         showToast("Você já está nesta frente", "Sua vaga já está garantida nesta equipe de trabalho.", "bi bi-info-circle text-primary");
         return;
@@ -8750,7 +8886,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       let frenteAnterior = null;
       demandasSnctApp.forEach(d => {
         if (d.id !== demandaId && Array.isArray(d.membros)) {
-          const achou = d.membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+          const achou = d.membros.find(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
           if (achou) frenteAnterior = d;
         }
       });
@@ -8760,12 +8896,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         if (!migrar) return;
 
         // Remove da anterior
-        frenteAnterior.membros = frenteAnterior.membros.filter(m => m.alunoId !== usuarioLogadoGoogle.alunoId && (!m.matricula || m.matricula !== usuarioLogadoGoogle.matricula));
+        frenteAnterior.membros = frenteAnterior.membros.filter(m => String(m.alunoId) !== String(usuarioLogadoGoogle.alunoId) && (!m.matricula || String(m.matricula) !== String(usuarioLogadoGoogle.matricula)));
       }
 
       // Adiciona na nova frente
       frente.membros.push({
-        alunoId: usuarioLogadoGoogle.alunoId,
+        alunoId: String(usuarioLogadoGoogle.alunoId),
         nome: usuarioLogadoGoogle.nome,
         matricula: usuarioLogadoGoogle.matricula || '',
         email: usuarioLogadoGoogle.email,
@@ -8779,42 +8915,29 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       showToast(
         "Candidatura Confirmada!",
-        `Você assumiu uma vaga na frente: ${frente.titulo}!`,
+        `Você assumiu uma vaga na frente: ${frente.titulo}! Sincronizando com a planilha...`,
         "bi bi-check-circle-fill text-success"
       );
 
       // Sincronização assíncrona com backend Google Apps Script
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          const payload = {
-            acao: 'candidatar_frente_snct',
-            frenteId: frente.id,
-            frenteTitulo: frente.titulo,
-            alunoId: usuarioLogadoGoogle.alunoId,
-            alunoNome: usuarioLogadoGoogle.nome,
-            matricula: usuarioLogadoGoogle.matricula || '',
-            email: usuarioLogadoGoogle.email || ''
-          };
-
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-          }).then(r => r.json()).then(res => {
-            if (res && res.ok) {
-              console.log("Candidatura gravada na planilha Google Sheets com sucesso!");
-            } else if (res && res.erro) {
-              console.warn("Aviso do servidor ao candidatar:", res.erro);
-            }
-          }).catch(e => {
-            console.warn("Aviso ao enviar candidatura para Apps Script (gravado localmente):", e);
-          });
-        } catch (e) {
-          console.warn("Erro no envio da candidatura para Apps Script:", e);
-        }
-      }
+      chamarApiAppsScript('candidatar_frente_snct', {
+        frenteId: frente.id,
+        frenteTitulo: `${frente.cursoNome} - ${frente.titulo}`,
+        alunoId: String(usuarioLogadoGoogle.alunoId),
+        alunoNome: usuarioLogadoGoogle.nome,
+        matricula: usuarioLogadoGoogle.matricula || '',
+        email: usuarioLogadoGoogle.email || ''
+      }).then(res => {
+        console.log("Candidatura gravada na planilha Google Sheets com sucesso!");
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn("Aviso ao enviar candidatura para Apps Script:", e);
+        showToast("Aviso na Sincronização", e.message || "Verifique sua conexão e clique em Atualizar Dados.", "bi bi-exclamation-triangle text-warning");
+        sincronizarComBackendAppsScript(false);
+      });
     }
+
+    const ultimasDesistenciasSnctMs = {};
 
     function desistirCandidaturaSNCT(demandaId, alunoIdEspecifico) {
       const frente = demandasSnctApp.find(d => d.id === demandaId);
@@ -8827,7 +8950,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         return;
       }
 
-      frente.membros = frente.membros.filter(m => m.alunoId !== alvoId && (!usuarioLogadoGoogle || m.matricula !== usuarioLogadoGoogle.matricula));
+      ultimasDesistenciasSnctMs[`${demandaId}:${String(alvoId)}`] = Date.now();
+      const membroRemovido = frente.membros.find(m => String(m.alunoId) === String(alvoId));
+      frente.membros = frente.membros.filter(m => String(m.alunoId) !== String(alvoId) && (!usuarioLogadoGoogle || String(m.matricula) !== String(usuarioLogadoGoogle.matricula)));
 
       salvarDemandasSNCT();
       renderizarQuadroDemandasSNCT();
@@ -8836,80 +8961,55 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       showToast("Vaga Liberada", "A vaga foi disponibilizada novamente para a turma.", "bi bi-box-arrow-left text-muted");
 
       // Sincronização assíncrona com backend Google Apps Script
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          const payload = {
-            acao: 'desistir_frente_snct',
-            frenteId: demandaId,
-            alunoId: alvoId,
-            matricula: (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId === alvoId) ? (usuarioLogadoGoogle.matricula || '') : '',
-            email: (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId === alvoId) ? (usuarioLogadoGoogle.email || '') : ''
-          };
-
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-          }).then(r => r.json()).then(res => {
-            if (res && res.ok) {
-              console.log("Vaga liberada na planilha Google Sheets com sucesso!");
-            }
-          }).catch(e => {
-            console.warn("Aviso ao liberar vaga no Apps Script:", e);
-          });
-        } catch (e) {
-          console.warn("Erro no envio de desistência para Apps Script:", e);
-        }
-      }
+      chamarApiAppsScript('desistir_frente_snct', {
+        frenteId: demandaId,
+        alunoId: String(alvoId),
+        matricula: (membroRemovido && membroRemovido.matricula) || ((usuarioLogadoGoogle && String(usuarioLogadoGoogle.alunoId) === String(alvoId)) ? (usuarioLogadoGoogle.matricula || '') : ''),
+        email: (membroRemovido && membroRemovido.email) || ((usuarioLogadoGoogle && String(usuarioLogadoGoogle.alunoId) === String(alvoId)) ? (usuarioLogadoGoogle.email || '') : '')
+      }).then(() => {
+        console.log("Vaga liberada na planilha Google Sheets com sucesso!");
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn("Aviso ao liberar vaga no Apps Script:", e);
+      });
     }
 
     function editarLinkEntregaSNCT(demandaId) {
-      if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) return;
+      if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
+        iniciarLoginGoogle();
+        return;
+      }
       const frente = demandasSnctApp.find(d => d.id === demandaId);
       if (!frente || !Array.isArray(frente.membros)) return;
 
-      const membro = frente.membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
+      const membro = frente.membros.find(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)));
       if (!membro) return;
 
       const linkAtual = membro.linkEntrega || '';
-      const novoLink = prompt("Informe o link do entregável da sua equipe (ex: repositório GitHub, Google Drive ou Overleaf):", linkAtual);
+      const novoLink = prompt("Informe o link do entregável da sua equipe (ex: repositório GitHub, GitHub Pages, Sala Moodle, Google Drive ou Overleaf):", linkAtual);
       if (novoLink === null) return;
 
-      membro.linkEntrega = novoLink.trim();
+      const linkLimpo = novoLink.trim();
+      membro.linkEntrega = linkLimpo;
       salvarDemandasSNCT();
       renderizarQuadroDemandasSNCT();
 
-      showToast("Link Atualizado", "O link do entregável da sua frente foi salvo com sucesso!", "bi bi-link-45deg text-success");
+      showToast("Link Atualizado", "O link do entregável da sua frente foi salvo e sincronizado com a planilha!", "bi bi-link-45deg text-success");
 
       // Sincronização assíncrona do link de entrega com backend Google Apps Script
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          const payload = {
-            acao: 'salvar_link_entrega_snct',
-            frenteId: demandaId,
-            alunoId: usuarioLogadoGoogle.alunoId,
-            matricula: usuarioLogadoGoogle.matricula || '',
-            email: usuarioLogadoGoogle.email || '',
-            linkEntrega: novoLink.trim()
-          };
-
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-          }).then(r => r.json()).then(res => {
-            if (res && res.ok) {
-              console.log("Link de entrega gravado na planilha Google Sheets com sucesso!");
-            }
-          }).catch(e => {
-            console.warn("Aviso ao salvar link de entrega no Apps Script:", e);
-          });
-        } catch (e) {
-          console.warn("Erro no envio de link de entrega para Apps Script:", e);
-        }
-      }
+      chamarApiAppsScript('salvar_link_entrega_snct', {
+        frenteId: demandaId,
+        alunoId: String(usuarioLogadoGoogle.alunoId),
+        alunoNome: usuarioLogadoGoogle.nome || membro.nome || '',
+        matricula: usuarioLogadoGoogle.matricula || membro.matricula || '',
+        email: usuarioLogadoGoogle.email || membro.email || '',
+        linkEntrega: linkLimpo
+      }).then(() => {
+        console.log("Link de entrega gravado na planilha Google Sheets com sucesso!");
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn("Aviso ao salvar link de entrega no Apps Script:", e);
+      });
     }
 
     function renderizarPainelVotacao() {
@@ -9064,10 +9164,19 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const sessaoSalva = localStorage.getItem(STORAGE_KEY_GOOGLE_SESSION);
         if (sessaoSalva) {
           usuarioLogadoGoogle = JSON.parse(sessaoSalva);
+          if (usuarioLogadoGoogle && !usuarioLogadoGoogle.alunoId) {
+            const matchReparo = localizarEstudanteNoRoster(usuarioLogadoGoogle.email || '', usuarioLogadoGoogle.nome || '');
+            if (matchReparo) {
+              usuarioLogadoGoogle.alunoId = String(matchReparo.id);
+              usuarioLogadoGoogle.matricula = String(matchReparo.matricula || '');
+              usuarioLogadoGoogle.nome = matchReparo.nome;
+              localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
+            }
+          }
           atualizarInterfaceUsuarioGoogle();
           
           if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
-            alunoVotanteAtualId = usuarioLogadoGoogle.alunoId;
+            alunoVotanteAtualId = String(usuarioLogadoGoogle.alunoId);
           }
         }
       } catch (e) {
@@ -9093,6 +9202,56 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }
     }
 
+    // Alias de compatibilidade para chamadas legadas de login Google
+    function fazerLoginGoogleVotacao() {
+      iniciarLoginGoogle();
+    }
+
+    function removerAcentos(str) {
+      return String(str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+    }
+
+    function localizarEstudanteNoRoster(termoOuEmail, nomeGoogle = '') {
+      const limpo = String(termoOuEmail || '').toLowerCase().trim();
+      const limpoSemAcento = removerAcentos(termoOuEmail);
+      const userPrefix = limpo.includes('@') ? limpo.split('@')[0] : '';
+
+      // 1. Busca exata por e-mail ou matrícula
+      let match = alunosApp.find(a =>
+        (a.email && a.email.toLowerCase().trim() === limpo) ||
+        (a.matricula && String(a.matricula).trim() === limpo)
+      );
+      if (match) return match;
+
+      // 2. Busca por prefixo do e-mail (ex: victor.f2006@... ou nome antes do @)
+      if (userPrefix && userPrefix.length >= 3) {
+        match = alunosApp.find(a => {
+          const pref = (a.email || '').split('@')[0].toLowerCase().trim();
+          return pref && pref === userPrefix;
+        });
+        if (match) return match;
+      }
+
+      // 3. Busca por nome do perfil Google (quando o aluno loga com @aluno.ifsc.edu.br mas no SIGAA estava @gmail/@hotmail)
+      const alvoNome = removerAcentos(nomeGoogle || (!limpo.includes('@') ? limpoSemAcento : ''));
+      if (alvoNome && alvoNome.length >= 4) {
+        const partesAlvo = alvoNome.split(/\s+/).filter(p => p.length > 2);
+        match = alunosApp.find(a => {
+          const nomeRoster = removerAcentos(a.nome);
+          if (nomeRoster === alvoNome || nomeRoster.includes(alvoNome) || alvoNome.includes(nomeRoster)) return true;
+          if (partesAlvo.length >= 2) {
+            const primeiro = partesAlvo[0];
+            const ultimo = partesAlvo[partesAlvo.length - 1];
+            return nomeRoster.startsWith(primeiro) && nomeRoster.includes(ultimo);
+          }
+          return false;
+        });
+        if (match) return match;
+      }
+
+      return null;
+    }
+
     function iniciarLoginGoogle() {
       const clientId = (window.PROGWEB2_CONFIG && window.PROGWEB2_CONFIG.googleClientId)
         ? window.PROGWEB2_CONFIG.googleClientId
@@ -9106,7 +9265,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           });
           window.google.accounts.id.prompt((notification) => {
             if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-              const emailInput = prompt("Identificação rápida:\nDigite seu e-mail cadastrado no SIGAA ou institucional (@aluno.ifsc.edu.br):");
+              const emailInput = prompt("Identificação do Estudante:\nDigite seu e-mail cadastrado no SIGAA, sua matrícula ou seu nome completo:");
               if (emailInput && emailInput.trim()) {
                 autenticarEstudantePorEmailManual(emailInput.trim());
               }
@@ -9118,38 +9277,34 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         }
       }
 
-      const emailInput = prompt("Identificação institucional:\nDigite seu e-mail cadastrado no SIGAA ou institucional (@aluno.ifsc.edu.br):");
+      const emailInput = prompt("Identificação do Estudante:\nDigite seu e-mail cadastrado no SIGAA, sua matrícula ou seu nome completo:");
       if (emailInput && emailInput.trim()) {
         autenticarEstudantePorEmailManual(emailInput.trim());
       }
     }
 
     function autenticarEstudantePorEmailManual(emailDigitado) {
-      const emailNorm = emailDigitado.toLowerCase().trim();
-      const alunoMatch = alunosApp.find(a => 
-        (a.email && a.email.toLowerCase() === emailNorm) ||
-        (a.matricula && a.matricula === emailNorm)
-      );
+      const alunoMatch = localizarEstudanteNoRoster(emailDigitado, emailDigitado);
 
       if (alunoMatch) {
         usuarioLogadoGoogle = {
           nome: alunoMatch.nome,
           email: alunoMatch.email,
-          alunoId: alunoMatch.id,
-          matricula: alunoMatch.matricula,
+          alunoId: String(alunoMatch.id),
+          matricula: String(alunoMatch.matricula || ''),
           origem: 'manual'
         };
         try {
           localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
-          localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, alunoMatch.id);
+          localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, String(alunoMatch.id));
         } catch (e) {}
-        alunoVotanteAtualId = alunoMatch.id;
+        alunoVotanteAtualId = String(alunoMatch.id);
         atualizarInterfaceUsuarioGoogle();
         popularSelectEstudantesVotacao();
         renderizarPainelVotacao();
-        showToast("Identificação Concluída!", `Bem-vindo(a), ${alunoMatch.nome.split(' ')[0]}! Seu voto agora está vinculado ao seu perfil.`, "bi bi-person-check-fill text-success");
+        showToast("Identificação Concluída!", `Bem-vindo(a), ${alunoMatch.nome.split(' ')[0]}! Suas candidaturas, votos e entregas estão liberados.`, "bi bi-person-check-fill text-success");
       } else {
-        alert(`O e-mail "${emailDigitado}" não foi encontrado na lista dos 24 estudantes matriculados no SIGAA.`);
+        alert(`Não localizamos "${emailDigitado}" na lista dos 24 estudantes matriculados. Tente digitar seu número de matrícula do SIGAA ou seu nome completo.`);
       }
     }
 
@@ -9163,44 +9318,37 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }
 
       const emailGoogle = payload.email.toLowerCase().trim();
-      const userPrefix = emailGoogle.split('@')[0];
+      const nomeGoogle = payload.name || payload.given_name || '';
 
-      let alunoMatch = alunosApp.find(a => a.email && a.email.toLowerCase() === emailGoogle);
-
-      if (!alunoMatch) {
-        alunoMatch = alunosApp.find(a => {
-          const pref = (a.email || '').split('@')[0].toLowerCase();
-          return pref && pref === userPrefix;
-        });
-      }
+      let alunoMatch = localizarEstudanteNoRoster(emailGoogle, nomeGoogle);
 
       usuarioLogadoGoogle = {
-        nome: payload.name || payload.given_name || 'Estudante',
+        nome: alunoMatch ? alunoMatch.nome : (nomeGoogle || 'Estudante'),
         email: payload.email,
         picture: payload.picture || '',
         sub: payload.sub,
-        alunoId: alunoMatch ? alunoMatch.id : '',
-        matricula: alunoMatch ? alunoMatch.matricula : '',
+        alunoId: alunoMatch ? String(alunoMatch.id) : '',
+        matricula: alunoMatch ? String(alunoMatch.matricula || '') : '',
         origem: 'google'
       };
 
       if (!alunoMatch) {
-        const matriculaInput = prompt(`Conta Google conectada: ${payload.email}\nNão localizamos este e-mail exato no SIGAA.\nDigite o número da sua matrícula para vincular seu perfil:`);
-        if (matriculaInput) {
-          const buscaMatricula = alunosApp.find(a => a.matricula === matriculaInput.trim());
-          if (buscaMatricula) {
-            alunoMatch = buscaMatricula;
-            usuarioLogadoGoogle.alunoId = alunoMatch.id;
-            usuarioLogadoGoogle.matricula = alunoMatch.matricula;
+        const matriculaInput = prompt(`Conta Google conectada: ${payload.email}\nDigite sua matrícula do SIGAA ou seu nome completo para vincular ao seu perfil da turma:`);
+        if (matriculaInput && matriculaInput.trim()) {
+          const buscaManual = localizarEstudanteNoRoster(matriculaInput.trim(), matriculaInput.trim());
+          if (buscaManual) {
+            alunoMatch = buscaManual;
+            usuarioLogadoGoogle.alunoId = String(alunoMatch.id);
+            usuarioLogadoGoogle.matricula = String(alunoMatch.matricula || '');
             usuarioLogadoGoogle.nome = alunoMatch.nome;
           }
         }
       }
 
       if (alunoMatch) {
-        alunoVotanteAtualId = alunoMatch.id;
+        alunoVotanteAtualId = String(alunoMatch.id);
         try {
-          localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, alunoMatch.id);
+          localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, String(alunoMatch.id));
         } catch (e) {}
       }
 
@@ -9214,7 +9362,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       showToast(
         "Login Google Realizado!",
-        `Bem-vindo(a), ${usuarioLogadoGoogle.nome.split(' ')[0]}! Identificação ativa para votação e consultas.`,
+        `Bem-vindo(a), ${usuarioLogadoGoogle.nome.split(' ')[0]}! Identificação ativa para candidaturas, entregas e votação.`,
         "bi bi-google text-primary"
       );
     }
@@ -9290,6 +9438,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       renderizarCardHeroRoteirosSNCT();
       renderizarQuadroDemandasSNCT();
+      renderizarDemandas();
     }
 
     function efetuarLogoutGoogle() {
@@ -9314,16 +9463,25 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // =========================================================================
     // SINCRONIZAÇÃO COM BACKEND GOOGLE APPS SCRIPT
     // =========================================================================
-    async function sincronizarComBackendAppsScript() {
+    let sincronizacaoEmAndamento = false;
+
+    async function sincronizarComBackendAppsScript(mostrarFeedback = false) {
       const cfg = window.PROGWEB2_CONFIG;
       if (!cfg || !cfg.apiUrl || !cfg.apiUrl.trim()) {
         return;
       }
+      if (sincronizacaoEmAndamento && !mostrarFeedback) return;
+      sincronizacaoEmAndamento = true;
 
       const apiUrl = cfg.apiUrl.trim();
+      const statusHeader = document.getElementById('statusSyncHeader');
+      const iconHeader = document.getElementById('iconSyncHeader');
+      if (iconHeader) iconHeader.classList.add('fa-spin');
+      if (mostrarFeedback && statusHeader) statusHeader.textContent = 'Sincronizando...';
 
       try {
-        const resp = await fetch(apiUrl, { method: 'GET', mode: 'cors' });
+        const urlGet = `${apiUrl}${apiUrl.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+        const resp = await fetch(urlGet, { method: 'GET', mode: 'cors', cache: 'no-store' });
         if (!resp.ok) return;
 
         const data = await resp.json();
@@ -9331,7 +9489,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
         let mudou = false;
 
-        // Sincroniza opções de oficinas
+        // 1. Sincroniza opções de oficinas
         if (Array.isArray(data.oficinas) && data.oficinas.length > 0) {
           const remotasMapeadas = data.oficinas.map(o => ({
             id: o.id || ('oficina-' + Math.random().toString(36).substring(2, 7)),
@@ -9355,21 +9513,40 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           mudou = true;
         }
 
-        // Sincroniza votos
+        // 2. Sincroniza votos (preservando e reenviando voto local pendente do estudante logado)
         if (Array.isArray(data.votos)) {
-          votosOficinasApp = data.votos.map(v => ({
+          const votosRemotos = data.votos.map(v => ({
             alunoId: String(v.aluno_id || ''),
             alunoNome: v.aluno_nome || '',
-            matricula: v.matricula || '',
+            matricula: String(v.matricula || ''),
             opcaoId: v.opcao_id || '',
             timestamp: v.data_hora || ''
           })).filter(v => v.alunoId && v.opcaoId);
 
+          if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
+            const meuId = String(usuarioLogadoGoogle.alunoId);
+            const votoLocalMeu = votosOficinasApp.find(v => String(v.alunoId) === meuId);
+            const votoRemotoMeu = votosRemotos.find(v => String(v.alunoId) === meuId);
+            if (votoLocalMeu && !votoRemotoMeu) {
+              votosRemotos.push(votoLocalMeu);
+              const opObj = oficinasVotacaoApp.find(o => o.id === votoLocalMeu.opcaoId);
+              chamarApiAppsScript('votar_oficina', {
+                alunoId: meuId,
+                alunoNome: votoLocalMeu.alunoNome || usuarioLogadoGoogle.nome || '',
+                matricula: votoLocalMeu.matricula || usuarioLogadoGoogle.matricula || '',
+                email: usuarioLogadoGoogle.email || '',
+                opcaoId: votoLocalMeu.opcaoId,
+                opcaoTitulo: opObj ? opObj.titulo : votoLocalMeu.opcaoId
+              }).catch(() => {});
+            }
+          }
+
+          votosOficinasApp = votosRemotos;
           salvarVotosOficinas();
           mudou = true;
         }
 
-        // Sincroniza candidaturas às frentes da SNCT
+        // 3. Sincroniza candidaturas às frentes da SNCT (reconciliando candidaturas/links locais pendentes)
         if (Array.isArray(data.candidaturas)) {
           let mudouCandidaturas = false;
           demandasSnctApp.forEach(f => {
@@ -9378,11 +9555,68 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               .map(c => ({
                 alunoId: String(c.aluno_id || ''),
                 nome: c.aluno_nome || '',
-                matricula: c.matricula || '',
+                matricula: String(c.matricula || ''),
                 email: c.email || '',
                 linkEntrega: c.link_entrega || '',
                 dataInscricao: c.data_hora || ''
               }));
+
+            const locaisAtuais = Array.isArray(f.membros) ? f.membros : [];
+            locaisAtuais.forEach(mLocal => {
+              const idLocal = String(mLocal.alunoId || '');
+              if (!idLocal) return;
+              const chaveDesistencia = `${f.id}:${idLocal}`;
+              if (ultimasDesistenciasSnctMs[chaveDesistencia] && (Date.now() - ultimasDesistenciasSnctMs[chaveDesistencia] < 20000)) {
+                return;
+              }
+              const idxRem = remotas.findIndex(r =>
+                String(r.alunoId) === idLocal ||
+                (r.matricula && mLocal.matricula && String(r.matricula) === String(mLocal.matricula))
+              );
+              const ehDoUsuarioLogado = usuarioLogadoGoogle && String(usuarioLogadoGoogle.alunoId) === idLocal;
+
+              if (idxRem === -1 && (ehDoUsuarioLogado || mLocal.linkEntrega)) {
+                if (remotas.length < (f.vagasMax || 3)) {
+                  remotas.push({
+                    alunoId: idLocal,
+                    nome: mLocal.nome || '',
+                    matricula: String(mLocal.matricula || ''),
+                    email: mLocal.email || '',
+                    linkEntrega: mLocal.linkEntrega || '',
+                    dataInscricao: mLocal.dataInscricao || ''
+                  });
+                  chamarApiAppsScript('candidatar_frente_snct', {
+                    frenteId: f.id,
+                    frenteTitulo: `${f.cursoNome} - ${f.titulo}`,
+                    alunoId: idLocal,
+                    alunoNome: mLocal.nome || '',
+                    matricula: String(mLocal.matricula || ''),
+                    email: mLocal.email || ''
+                  }).then(() => {
+                    if (mLocal.linkEntrega) {
+                      chamarApiAppsScript('salvar_link_entrega_snct', {
+                        frenteId: f.id,
+                        alunoId: idLocal,
+                        alunoNome: mLocal.nome || '',
+                        matricula: String(mLocal.matricula || ''),
+                        email: mLocal.email || '',
+                        linkEntrega: mLocal.linkEntrega
+                      }).catch(() => {});
+                    }
+                  }).catch(() => {});
+                }
+              } else if (idxRem !== -1 && mLocal.linkEntrega && !remotas[idxRem].linkEntrega) {
+                remotas[idxRem].linkEntrega = mLocal.linkEntrega;
+                chamarApiAppsScript('salvar_link_entrega_snct', {
+                  frenteId: f.id,
+                  alunoId: idLocal,
+                  alunoNome: remotas[idxRem].nome || mLocal.nome || '',
+                  matricula: String(remotas[idxRem].matricula || mLocal.matricula || ''),
+                  email: remotas[idxRem].email || mLocal.email || '',
+                  linkEntrega: mLocal.linkEntrega
+                }).catch(() => {});
+              }
+            });
 
             const atuaisJson = JSON.stringify(f.membros || []);
             const novasJson = JSON.stringify(remotas);
@@ -9394,17 +9628,21 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
           if (mudouCandidaturas) {
             salvarDemandasSNCT();
-            renderizarQuadroDemandasSNCT();
-            renderizarCardHeroRoteirosSNCT();
             mudou = true;
           }
+          // Sempre sincroniza entregas da DEM-SNCT-01 com o quadro de frentes
+          sincronizarDemandasComQuadroSNCT();
+          renderizarQuadroDemandasSNCT();
+          renderizarCardHeroRoteirosSNCT();
         }
 
-        // Sincroniza demandas gravadas na aba Demandas da planilha
-        if (Array.isArray(data.demandas) && data.demandas.length > 0) {
+        // 4. Sincroniza demandas gravadas na aba Demandas da planilha e reenvia entregas locais pendentes
+        if (Array.isArray(data.demandas)) {
           let mudouDemandas = false;
+          const mapaRemotas = {};
           data.demandas.forEach(rem => {
             if (!rem || !rem.id) return;
+            mapaRemotas[String(rem.id).toUpperCase()] = rem;
             const idx = demandasApp.findIndex(d => String(d.id).toUpperCase() === String(rem.id).toUpperCase());
             if (idx !== -1) {
               if (rem.prazo && demandasApp[idx].prazo !== rem.prazo) {
@@ -9416,8 +9654,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                 mudouDemandas = true;
               }
               if (rem.entregas && typeof rem.entregas === 'object' && Object.keys(rem.entregas).length > 0) {
-                demandasApp[idx].entregas = { ...(demandasApp[idx].entregas || {}), ...rem.entregas };
-                mudouDemandas = true;
+                const mescladas = { ...(demandasApp[idx].entregas || {}), ...rem.entregas };
+                if (JSON.stringify(demandasApp[idx].entregas || {}) !== JSON.stringify(mescladas)) {
+                  demandasApp[idx].entregas = mescladas;
+                  mudouDemandas = true;
+                }
               }
             } else {
               demandasApp.unshift({
@@ -9443,22 +9684,95 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               mudouDemandas = true;
             }
           });
+
+          // Reconciliação: se houver entregas locais registradas no navegador que ainda não constam na planilha remota, envia para a planilha
+          demandasApp.forEach(dLocal => {
+            if (!dLocal || !dLocal.id || !dLocal.entregas || typeof dLocal.entregas !== 'object') return;
+            const rem = mapaRemotas[String(dLocal.id).toUpperCase()];
+            const entregasRem = (rem && rem.entregas && typeof rem.entregas === 'object') ? rem.entregas : {};
+            const chavesPendentes = Object.keys(dLocal.entregas).filter(ch => {
+              const entLocal = dLocal.entregas[ch];
+              if (!entLocal || !entLocal.entregue) return false;
+              // Para DEM-SNCT-01, só envia se tiver link ou se a demanda já existir sem essa chave
+              if (dLocal.id === 'DEM-SNCT-01' && !entLocal.link && !rem) return false;
+              const entRem = entregasRem[ch];
+              return !entRem || !entRem.entregue || (entLocal.link && !entRem.link);
+            });
+
+            if (chavesPendentes.length > 0) {
+              chamarApiAppsScript('criarDemanda', {
+                demanda: dLocal,
+                notificarEmail: false,
+                destinatariosEmails: []
+              }).catch(() => {});
+            }
+          });
+
           if (mudouDemandas) {
             salvarDadosDemandas();
-            renderizarDemandas();
-            renderizarAreaDocente();
-            popularSelectsDeDemanda();
+            mudou = true;
+          }
+          renderizarDemandas();
+          popularSelectsDeDemanda();
+        }
+
+        // 5. Sincroniza avaliações por rubrica
+        if (Array.isArray(data.avaliacoes) && data.avaliacoes.length > 0) {
+          let mudouAval = false;
+          data.avaliacoes.forEach(avRem => {
+            if (!avRem || !avRem.demanda_id || !avRem.equipe) return;
+            const jaTem = avaliacoesApp.some(a => a.demandaId === avRem.demanda_id && a.equipe === avRem.equipe);
+            if (!jaTem) {
+              avaliacoesApp.push({
+                id: avRem.id || ('aval-' + Date.now()),
+                demandaId: avRem.demanda_id,
+                equipe: avRem.equipe,
+                instrumento: avRem.instrumento || 'A2',
+                dim0: Number(avRem.dim1 || 2.5),
+                dim1: Number(avRem.dim2 || 2.5),
+                dim2: Number(avRem.dim3 || 2.5),
+                dim3: Number(avRem.dim4 || 2.5),
+                nota: Number(avRem.nota_final || 10),
+                feedback: avRem.feedback || '',
+                data: avRem.data_hora || ''
+              });
+              mudouAval = true;
+            }
+          });
+          if (mudouAval) {
+            salvarDadosAvaliacoes();
+            renderizarTabelaRubricas();
+            renderizarTabelaFechamento();
+            mudou = true;
           }
         }
 
-        if (mudou) {
-          popularSelectEstudantesVotacao();
-          renderizarPainelVotacao();
-          renderizarAreaDocente();
-          console.log("ProgWeb 2: Sincronização com Google Apps Script concluída.");
+        popularSelectEstudantesVotacao();
+        renderizarPainelVotacao();
+        renderizarAreaDocente();
+
+        const horaStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        if (statusHeader) {
+          statusHeader.textContent = `Sincronizado ${horaStr}`;
+        }
+
+        if (mostrarFeedback) {
+          const totalCand = Array.isArray(data.candidaturas) ? data.candidaturas.length : 0;
+          const totalVotos = Array.isArray(data.votos) ? data.votos.length : 0;
+          showToast(
+            "Sincronizado em Tempo Real!",
+            `Planilha atualizada às ${horaStr}: ${totalCand} candidatura(s) SNCT e ${totalVotos} voto(s) carregados.`,
+            "bi bi-cloud-check-fill text-success"
+          );
         }
       } catch (err) {
         console.warn("ProgWeb 2: Falha ao sincronizar com Apps Script (operando offline):", err);
+        if (mostrarFeedback) {
+          showToast("Aviso de Conexão", "Não foi possível conectar à planilha no momento. Tentando novamente em instantes.", "bi bi-wifi-off text-warning");
+        }
+      } finally {
+        sincronizacaoEmAndamento = false;
+        if (iconHeader) iconHeader.classList.remove('fa-spin');
       }
     }
 
@@ -9473,8 +9787,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         return;
       }
 
-      const alunoId = usuarioLogadoGoogle.alunoId;
-      const alunoObj = alunosApp.find(a => String(a.id) === String(alunoId));
+      const alunoId = String(usuarioLogadoGoogle.alunoId);
+      const alunoObj = alunosApp.find(a => String(a.id) === alunoId);
       if (!alunoObj) {
         alert("Estudante associado à conta Google não encontrado na lista oficial.");
         return;
@@ -9483,7 +9797,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const opcaoObj = oficinasVotacaoApp.find(o => o.id === opcaoId);
       const tituloOpcao = opcaoObj ? opcaoObj.titulo : 'a oficina selecionada';
 
-      const idx = votosOficinasApp.findIndex(v => String(v.alunoId) === String(alunoId));
+      const idx = votosOficinasApp.findIndex(v => String(v.alunoId) === alunoId);
       const agora = new Date().toLocaleString('pt-BR');
 
       if (idx !== -1) {
@@ -9491,9 +9805,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         votosOficinasApp[idx].timestamp = agora;
       } else {
         votosOficinasApp.push({
-          alunoId: alunoObj.id,
+          alunoId: String(alunoObj.id),
           alunoNome: alunoObj.nome,
-          matricula: alunoObj.matricula || '',
+          matricula: String(alunoObj.matricula || ''),
           opcaoId: opcaoId,
           timestamp: agora
         });
@@ -9510,35 +9824,20 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         "bi bi-check-circle-fill text-success"
       );
 
-      // Sincronização assíncrona com backend Google Apps Script se configurado
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          const payload = {
-            acao: 'votar_oficina',
-            alunoId: alunoObj.id,
-            alunoNome: alunoObj.nome,
-            matricula: alunoObj.matricula || '',
-            email: alunoObj.email || (usuarioLogadoGoogle ? usuarioLogadoGoogle.email : ''),
-            opcaoId: opcaoId,
-            opcaoTitulo: tituloOpcao
-          };
-
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-          }).then(r => r.json()).then(res => {
-            if (res && res.ok) {
-              console.log("Voto gravado na planilha Google Sheets com sucesso!");
-            }
-          }).catch(e => {
-            console.warn("Aviso ao enviar voto para Apps Script (gravado localmente):", e);
-          });
-        } catch (e) {
-          console.warn("Erro no envio do voto para Apps Script:", e);
-        }
-      }
+      // Sincronização assíncrona com backend Google Apps Script
+      chamarApiAppsScript('votar_oficina', {
+        alunoId: String(alunoObj.id),
+        alunoNome: alunoObj.nome,
+        matricula: String(alunoObj.matricula || ''),
+        email: alunoObj.email || (usuarioLogadoGoogle ? usuarioLogadoGoogle.email : ''),
+        opcaoId: opcaoId,
+        opcaoTitulo: tituloOpcao
+      }).then(() => {
+        console.log("Voto gravado na planilha Google Sheets com sucesso!");
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn("Aviso ao enviar voto para Apps Script (gravado localmente):", e);
+      });
     }
 
     function abrirModalNovaOficina() {
@@ -9589,31 +9888,20 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         "bi bi-stars text-warning"
       );
 
-      // Sincroniza com backend Google Apps Script se configurado
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-              acao: 'adicionar_oficina',
-              id: novaOficina.id,
-              titulo: novaOficina.titulo,
-              categoria: novaOficina.categoria,
-              icone: novaOficina.icone,
-              descricao: novaOficina.descricao,
-              publico: novaOficina.publico
-            })
-          }).then(r => r.json()).then(res => {
-            console.log("Oficina sincronizada com a planilha Google Sheets!");
-          }).catch(e => {
-            console.warn("Aviso ao sincronizar oficina com Apps Script:", e);
-          });
-        } catch (e) {
-          console.warn("Erro ao enviar oficina para Apps Script:", e);
-        }
-      }
+      // Sincroniza com backend Google Apps Script
+      chamarApiAppsScript('adicionar_oficina', {
+        id: novaOficina.id,
+        titulo: novaOficina.titulo,
+        categoria: novaOficina.categoria,
+        icone: novaOficina.icone,
+        descricao: novaOficina.descricao,
+        publico: novaOficina.publico
+      }).then(() => {
+        console.log("Oficina sincronizada com a planilha Google Sheets!");
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn("Aviso ao sincronizar oficina com Apps Script:", e);
+      });
     }
 
     function excluirOpcaoOficina(opcaoId) {
@@ -9645,23 +9933,13 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarPainelVotacao();
       showToast("Votação Zerada", "Todos os votos foram reiniciados.", "bi bi-arrow-counterclockwise text-warning");
 
-      // Sincroniza reset no backend Google Apps Script se configurado
-      const cfg = window.PROGWEB2_CONFIG;
-      if (cfg && cfg.apiUrl && cfg.apiUrl.trim()) {
-        try {
-          fetch(cfg.apiUrl.trim(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ acao: 'zerar_votacao' })
-          }).then(r => r.json()).then(res => {
-            console.log("Votação zerada na planilha Google Sheets com sucesso!");
-          }).catch(e => {
-            console.warn("Aviso ao zerar votação no Apps Script:", e);
-          });
-        } catch (e) {
-          console.warn("Erro ao zerar no Apps Script:", e);
-        }
-      }
+      // Sincroniza reset no backend Google Apps Script
+      chamarApiAppsScript('zerar_votacao', {}).then(() => {
+        console.log("Votação zerada na planilha Google Sheets com sucesso!");
+        setTimeout(() => sincronizarComBackendAppsScript(false), 1200);
+      }).catch(e => {
+        console.warn("Aviso ao zerar votação no Apps Script:", e);
+      });
     }
 
     function abrirModalAuditoriaVotos() {
@@ -9884,10 +10162,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       if (tabId === 'tab-demandas') {
         renderizarDemandas();
+        sincronizarComBackendAppsScript(false);
+      } else if (tabId === 'tab-extensao') {
+        renderizarQuadroDemandasSNCT();
+        renderizarPainelVotacao();
+        sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-avaliacao') {
         trocarSubAbaNotas(subabaNotasAtual);
+        sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-docente') {
         renderizarAreaDocente();
+        sincronizarComBackendAppsScript(false);
       }
     }
 
@@ -10065,11 +10350,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarCardHeroRoteirosSNCT();
       initDestaqueCards();
       initGoogleAuth();
-      sincronizarComBackendAppsScript();
+      sincronizarComBackendAppsScript(false);
 
       if (window.PROGWEB2_CONFIG && window.PROGWEB2_CONFIG.syncIntervalMs) {
-        setInterval(sincronizarComBackendAppsScript, window.PROGWEB2_CONFIG.syncIntervalMs);
+        setInterval(() => sincronizarComBackendAppsScript(false), window.PROGWEB2_CONFIG.syncIntervalMs);
       }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          sincronizarComBackendAppsScript(false);
+        }
+      });
 
       // Verificar hash da URL na carga (ex: #tab-demandas ou #tab-avaliacao)
       const hash = window.location.hash ? window.location.hash.substring(1) : "";

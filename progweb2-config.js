@@ -16,6 +16,6 @@ window.PROGWEB2_CONFIG = {
   // Mantém funcionamento total em localStorage caso o backend ainda não tenha sido conectado
   modoOfflineFallback: true,
 
-  // Intervalo de sincronização periódica dos votos da SNCT (milissegundos)
-  syncIntervalMs: 60000
+  // Intervalo de sincronização periódica dos votos, candidaturas e entregas em tempo real (milissegundos)
+  syncIntervalMs: 25000
 };

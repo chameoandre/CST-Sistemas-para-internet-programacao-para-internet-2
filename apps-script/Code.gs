@@ -240,6 +240,16 @@ function doGet(e) {
       return jsonResponse({ ok: false, erro: 'Planilha não instalada. Execute instalar() no editor.' });
     }
 
+    // Caso o navegador envie um comando via GET (?payload=...) como fallback contra bloqueio de redirecionamento 302 de POST
+    if (e && e.parameter && e.parameter.payload) {
+      try {
+        var fakePost = { postData: { contents: e.parameter.payload } };
+        return doPost(fakePost);
+      } catch (postErr) {
+        return jsonResponse({ ok: false, erro: String(postErr.message || postErr) });
+      }
+    }
+
     var votos = lerAbaComoObjetos(ss.getSheetByName('Votos_SNCT'));
     var oficinas = lerAbaComoObjetos(ss.getSheetByName('Oficinas_Opcoes'));
     var demandas = lerDemandasPublicas_(ss);
@@ -531,6 +541,12 @@ function criarOuSalvarDemanda_(ss, body) {
   var aba = obterOuCriarAba(ss, 'Demandas');
   garantirColunasDemandas_(aba);
 
+  if (body && body.demanda && typeof body.demanda === 'object') {
+    for (var k in body.demanda) {
+      if (body[k] === undefined) body[k] = body.demanda[k];
+    }
+  }
+
   var id = String(body.id || body.codigo || ('DEM-' + Date.now().toString(36).toUpperCase())).trim();
   var projeto = String(body.projeto || body.destinatario || '*').trim();
   var titulo = seguro_(body.titulo || '', 200);
@@ -794,6 +810,44 @@ function concluirDemanda_(ss, body) {
       achou = true;
       break;
     }
+  }
+
+  // Se a demanda ainda não estava na aba Demandas (ex: DEM-SNCT-01, DEM-01 etc.), cria automaticamente com a entrega
+  if (!achou) {
+    var entregasNovas = {};
+    if (chaveAlvo) {
+      entregasNovas[chaveAlvo] = {
+        entregue: body.entregue !== false,
+        link: evidencia,
+        obs: seguro_(body.obs || '', 400),
+        dataEntrega: agora,
+        registradoPor: autor
+      };
+    }
+    criarOuSalvarDemanda_(ss, {
+      id: demandaId,
+      projeto: body.projeto || '*',
+      titulo: body.titulo || demandaId,
+      descricao: body.descricao || '',
+      prazo: body.prazo || '',
+      horaPrazo: body.horaPrazo || '23:59',
+      pontos: body.pontos || '10,0',
+      criterios: body.criterios || '',
+      instrumento: body.instrumento || 'A2',
+      tipoAtribuicao: body.tipoAtribuicao || 'turma',
+      equipesAlvo: body.equipesAlvo || [],
+      alunosAlvo: body.alunosAlvo || [],
+      cursoSnctAlvo: body.cursoSnctAlvo || null,
+      fixadaMural: Boolean(body.fixadaMural),
+      linkApoio: body.linkApoio || '',
+      entregas: entregasNovas,
+      concluida: Boolean(body.concluirGeral),
+      concluidaEm: agora,
+      evidencia: evidencia,
+      concluidaPor: autor,
+      notificarEmail: false
+    });
+    achou = true;
   }
 
   if (CONFIG.NOTIFICAR_EMAIL && evidencia) {
