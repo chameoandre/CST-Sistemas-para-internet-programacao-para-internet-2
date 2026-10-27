@@ -6,7 +6,7 @@ Com esta integração, o dashboard ganha:
 - 🗳️ **Votação Auditada da SNCT**: Votos registrados em tempo real em planilha do Google Sheets, impedindo votos duplicados por e-mail/matrícula.
 - 📋 **Opções Dinâmicas**: Docente pode adicionar novas oficinas que aparecem instantaneamente para toda a turma.
 - 🔐 **Login Seguro com Google**: Autenticação oficial de estudantes via Google Identity Services (`@aluno.ifsc.edu.br` ou e-mail cadastrado no SIGAA).
-- ✉️ **Disparo Automático de E-mails**: Notificações automáticas via `GmailApp` quando avaliações/rubricas forem lançadas.
+- ✉️ **Disparo Automático de E-mails em HTML Rico (Padrão PI-1 & PI-2)**: Notificações automáticas via `GmailApp` com layout institucional (verde IFSC para nova demanda, âmbar para lembrete de prazo, roxo para comunicado docente, azul oceano para prorrogação de prazo e esmeralda para devolutiva de avaliação), além de menu customizado (`🚀 ProgWeb 2 — Automação de E-mails`) diretamente dentro da planilha Google Sheets.
 - 💾 **Resiliência Offline-First**: O dashboard continua funcionando perfeitamente via `localStorage` mesmo se estiver offline ou antes de configurar a URL da API.
 
 ---

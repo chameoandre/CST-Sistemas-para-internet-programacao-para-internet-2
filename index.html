@@ -4794,7 +4794,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             <span class="fs-caption text-muted">Publica na Central de Demandas, fixa no Mural do Topo e dispara por e-mail (Apps Script ou Cliente de E-mail)</span>
           </div>
 
-          <form id="formComunicadoDocente" onsubmit="publicarComunicadoDemandaDocente(event, 'painel')">
+          <form id="formComunicadoDocente" onsubmit="publicarComunicadoDemandaDocente(event, 'apps_script_email')">
             <div class="row g-3 mb-3">
               <div class="col-md-3">
                 <label class="form-label fs-caption fw-bold">Público-Alvo / Destinatário:</label>
@@ -4859,14 +4859,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
                 <span>Fixar este comunicado no Mural de Avisos do Topo (Aba 1 e Aba 4)</span>
               </label>
               <div class="d-flex flex-wrap gap-2">
-                <button type="submit" class="btn btn-sm btn-primary">
-                  <i class="fa-solid fa-paper-plane me-1"></i> Publicar no Painel da Turma
+                <button type="submit" class="btn btn-sm btn-success" id="btnDocentePublicarNotificar">
+                  <i class="fa-solid fa-paper-plane me-1"></i> Publicar &amp; Notificar por E-mail (Automático PI-1/PI-2)
                 </button>
-                <button type="button" class="btn btn-sm btn-success" onclick="publicarComunicadoDemandaDocente(null, 'apps_script_email')">
-                  <i class="bi bi-cloud-arrow-up-fill me-1"></i> Publicar + Disparar E-mail Automático (Apps Script)
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="publicarComunicadoDemandaDocente(null, 'mailto')">
-                  <i class="fa-solid fa-envelope me-1"></i> Publicar + Abrir Cliente de E-mail (BCC)
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="publicarComunicadoDemandaDocente(null, 'painel')">
+                  <i class="fa-solid fa-floppy-disk me-1"></i> Publicar Apenas no Painel (Sem E-mail)
                 </button>
               </div>
             </div>
@@ -4997,11 +4994,18 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             <textarea class="form-control form-control-sm" id="inputDemandaCriterios" rows="3" placeholder="Ex:&#10;Repositório GitHub atualizado com commits em português&#10;Deploy funcional no GitHub Pages sem erros no console&#10;Consumo correto da rota JSON do microbackend" required></textarea>
             <div class="form-text small">Cada linha digitada será exibida como um critério de verificação técnica.</div>
           </div>
+
+          <div class="p-2 rounded mt-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+            <label class="d-flex align-items-center gap-2 fs-caption fw-bold text-heading m-0" style="cursor: pointer;">
+              <input type="checkbox" class="form-check-input m-0" id="checkDemandaNotificarEmail" checked>
+              <span><i class="fa-solid fa-paper-plane text-success me-1"></i> Disparar notificação automática por e-mail HTML via Planilha (GmailApp — Padrão PI-1 / PI-2)</span>
+            </label>
+          </div>
         </div>
         <div class="app-modal-footer">
           <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalDemanda()">Cancelar</button>
-          <button type="button" class="btn btn-sm btn-outline-primary" onclick="salvarDemanda(event, true)" title="Salvar demanda e abrir rascunho de e-mail institucional para os alunos"><i class="fa-solid fa-envelope me-1"></i> Salvar &amp; Notificar por E-mail</button>
-          <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i> Salvar Demanda</button>
+          <button type="button" class="btn btn-sm btn-outline-primary" onclick="salvarDemanda(event, false)" title="Apenas salvar na planilha sem disparar e-mail"><i class="fa-solid fa-floppy-disk me-1"></i> Salvar sem E-mail</button>
+          <button type="submit" class="btn btn-sm btn-success" id="btnSubmitDemandaModal"><i class="fa-solid fa-paper-plane me-1"></i> Publicar &amp; Notificar por E-mail</button>
         </div>
       </form>
     </div>
@@ -5222,6 +5226,88 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       <div class="app-modal-footer">
         <button type="button" class="btn btn-sm btn-secondary" onclick="fecharModalAuditoriaVotos()">Fechar</button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ALTERAR PRAZO DA DEMANDA (PADRÃO PI-2) -->
+  <div class="app-modal-overlay" id="modalAlterarPrazoOverlay" onclick="if(event.target === this) fecharModalAlterarPrazo()">
+    <div class="app-modal-container" style="max-width: 500px;">
+      <div class="app-modal-header">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+          <i class="fa-solid fa-calendar-days text-primary me-2"></i> Alterar Prazo da Demanda
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalAlterarPrazo()"></button>
+      </div>
+      <form onsubmit="confirmarAlteracaoPrazoDemanda(event)">
+        <div class="app-modal-body">
+          <input type="hidden" id="inputAltPrazoDemandaId">
+          <div class="p-2 rounded mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+            <div class="fw-bold text-heading fs-small" id="labelAltPrazoTituloDemanda">—</div>
+            <div class="fs-caption text-muted mt-1" id="labelAltPrazoEscopoDemanda">—</div>
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-md-7">
+              <label class="form-label fs-caption fw-bold">Novo Prazo / Data Limite:</label>
+              <input type="date" class="form-control form-control-sm" id="inputAltNovoPrazo" required>
+            </div>
+            <div class="col-md-5">
+              <label class="form-label fs-caption fw-bold">Horário Limite:</label>
+              <input type="time" class="form-control form-control-sm" id="inputAltNovaHora" value="23:59" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="d-flex align-items-center gap-2 fs-caption fw-bold text-heading" style="cursor: pointer;">
+              <input type="checkbox" class="form-check-input m-0" id="checkAltNotificar" checked>
+              <span>Notificar estudantes sobre o novo prazo por e-mail (Automático via Planilha)</span>
+            </label>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label fs-caption fw-bold">Mensagem explicativa / Orientação (opcional):</label>
+            <textarea class="form-control form-control-sm" id="inputAltMensagem" rows="2" placeholder="Ex: Prazo prorrogado para que as equipes finalizem os testes da sala no Moodle..."></textarea>
+          </div>
+        </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalAlterarPrazo()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-primary" id="btnSalvarNovoPrazo">
+            <i class="fa-solid fa-floppy-disk me-1"></i> Atualizar Prazo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ENVIAR COMUNICADO / ATUALIZAÇÃO VINCULADA À DEMANDA (PADRÃO PI-2) -->
+  <div class="app-modal-overlay" id="modalComunicadoDemandaOverlay" onclick="if(event.target === this) fecharModalComunicadoDemanda()">
+    <div class="app-modal-container" style="max-width: 540px;">
+      <div class="app-modal-header">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+          <i class="fa-solid fa-bullhorn me-2" style="color: var(--accent-purple);"></i> Enviar Comunicado / Atualização por E-mail
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalComunicadoDemanda()"></button>
+      </div>
+      <form onsubmit="confirmarEnvioComunicadoDemanda(event)">
+        <div class="app-modal-body">
+          <input type="hidden" id="inputComunicadoDemandaId">
+          <div class="p-2 rounded mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+            <div class="fw-bold text-heading fs-small" id="labelComunicadoTituloDemanda">—</div>
+            <div class="fs-caption text-muted mt-1" id="labelComunicadoEscopoDemanda">—</div>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label fs-caption fw-bold">Mensagem de Atualização ou Esclarecimento Docente:</label>
+            <textarea class="form-control form-control-sm" id="inputComunicadoMensagem" rows="4" placeholder="Escreva aqui a mensagem ou esclarecimento que será enviado em HTML formatado para o e-mail dos estudantes..." required></textarea>
+          </div>
+        </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalComunicadoDemanda()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-primary" id="btnEnviarComunicadoModal" style="background: var(--accent-purple); border-color: var(--accent-purple);">
+            <i class="fa-solid fa-paper-plane me-1"></i> Disparar Comunicado
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -5886,20 +5972,53 @@ Atenciosamente,
 Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
-    function notificarEquipeEmail(demandaId, equipeNome) {
-      const emails = obterEmailsEquipe(equipeNome);
-      if (emails.length === 0) {
-        alert(`Nenhum e-mail de estudante cadastrado para a ${equipeNome}. Cadastre os e-mails na sub-aba "Estudantes & E-mails".`);
-        return;
+    // =========================================================================
+    // CLIENTE UNIFICADO DA API GOOGLE APPS SCRIPT (PADRÃO PI-1 & PI-2)
+    // =========================================================================
+    async function chamarApiAppsScript(acao, payload = {}) {
+      const cfg = window.PROGWEB2_CONFIG;
+      if (!cfg || !cfg.apiUrl || !cfg.apiUrl.trim()) {
+        throw new Error('URL do Google Apps Script não configurada em progweb2-config.js.');
       }
+      const resp = await fetch(cfg.apiUrl.trim(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ acao, ...payload })
+      });
+      const json = await resp.json();
+      if (!json || json.ok === false) {
+        throw new Error((json && json.erro) || 'Falha ao processar ação na planilha.');
+      }
+      return json;
+    }
 
-      const dem = demandasApp.find(d => d.id === demandaId) || { id: demandaId, titulo: demandaId };
-      const assunto = `[ProgWeb 2] Avaliação por Rubrica - ${dem.id}: ${dem.titulo}`;
-      const corpo = gerarTextoDevolutiva(demandaId, equipeNome);
+    async function notificarEquipeEmail(demandaId, equipeNome) {
+      const emails = obterEmailsEquipe(equipeNome);
+      const aval = avaliacoesApp.find(a => a.demandaId === demandaId && a.equipe === equipeNome);
+      const dem = demandasApp.find(d => d.id === demandaId) || { id: demandaId, titulo: demandaId, instrumento: 'A2' };
 
-      const mailtoUrl = `mailto:${emails.join(',')}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-      window.open(mailtoUrl, '_blank');
-      showToast("Cliente de E-mail Aberto", `Notificação enviada para: ${emails.join(', ')}`, "fa-solid fa-paper-plane text-primary");
+      showToast("Disparando E-mail...", `Enviando devolutiva em HTML via Planilha para ${equipeNome}...`, "fa-solid fa-spinner fa-spin text-primary");
+      try {
+        const res = await chamarApiAppsScript('salvar_avaliacao', {
+          avaliacao: aval || {
+            demandaId,
+            equipe: equipeNome,
+            instrumento: dem.instrumento || 'A2',
+            nota: 10.0,
+            feedback: 'Avaliação formativa registrada no painel.'
+          },
+          notificarEmail: true,
+          destinatariosEmails: emails
+        });
+        showToast(
+          "Devolutiva Enviada por E-mail!",
+          `Notificação HTML enviada automaticamente pela planilha para ${res.totalEnviados || emails.length} integrante(s) de ${equipeNome}.`,
+          "fa-solid fa-paper-plane text-success"
+        );
+      } catch (err) {
+        console.warn("Erro ao enviar devolutiva via Apps Script:", err);
+        showToast("Aviso de Envio", `Não foi possível enviar via planilha (${err.message || err}).`, "fa-solid fa-triangle-exclamation text-warning");
+      }
     }
 
     function copiarDevolutivaTexto(demandaId, equipeNome) {
@@ -5916,28 +6035,13 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
     function dispararEmailTurmaCompleta() {
-      const emails = alunosApp.filter(a => a.ativo && a.email).map(a => a.email.trim());
-      if (emails.length === 0) {
-        alert("Nenhum e-mail de estudante ativo encontrado.");
-        return;
+      // Abre o modal de Comunicado Oficial (padrão PI-2) para envio automático via GmailApp
+      const primeiraDemanda = demandasApp.find(d => !d.concluida) || demandasApp[0];
+      if (primeiraDemanda) {
+        abrirModalComunicadoDemanda(primeiraDemanda.id);
+      } else {
+        showTab('tab-docente');
       }
-
-      const assunto = "[ProgWeb 2] Comunicado Oficial da Disciplina — IFSC Garopaba";
-      const corpo = `Prezados(as) estudantes de Programação para a Internet 2 (ProgWeb 2),
-
-Escrevo para compartilhar informações e orientações sobre os andamentos dos nossos roteiros e atividades extensionistas:
-
-Acompanhem as demandas ativas, prazos e notas formativas no Portal da Disciplina:
-https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/
-
-Bons estudos e ótimo desenvolvimento!
-
-Atenciosamente,
-Prof. André Moraes — IFSC Câmpus Garopaba`;
-
-      const mailtoUrl = `mailto:andre.moraes@ifsc.edu.br?bcc=${emails.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-      window.open(mailtoUrl, '_blank');
-      showToast("E-mail em Massa Aberto", `${emails.length} estudantes incluídos em CCO no cliente de e-mail.`, "fa-solid fa-envelope-open-text text-primary");
     }
 
     // =========================================================================
@@ -6125,16 +6229,25 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               </div>
 
               <div class="demanda-actions">
-                <button onclick="abrirModalAvaliarRubrica('${d.id}')" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem; border-color: var(--accent-amber); color: var(--accent-amber);">
+                <button onclick="abrirModalAvaliarRubrica('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label" style="border-color: var(--accent-amber); color: var(--accent-amber);">
                   <i class="fa-solid fa-award me-1"></i> Avaliar Rubrica
                 </button>
-                <button onclick="alternarConclusaoDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.78rem;" title="Marcar como concluída ou reabrir">
+                <button onclick="abrirModalAlterarPrazoDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label docente-only" style="color: var(--accent-blue); border-color: var(--accent-blue);" title="Alterar prazo / prorrogar meta e notificar por e-mail">
+                  <i class="fa-solid fa-calendar-plus me-1"></i> Prazo
+                </button>
+                <button onclick="reenviarAlertaDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label docente-only" style="color: var(--accent-amber); border-color: var(--accent-amber);" title="Reenviar alerta / lembrete automático por e-mail">
+                  <i class="fa-solid fa-bell me-1"></i> Alerta
+                </button>
+                <button onclick="abrirModalComunicadoDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label docente-only" title="Enviar comunicado / esclarecimento por e-mail">
+                  <i class="fa-solid fa-bullhorn me-1"></i> Comunicado
+                </button>
+                <button onclick="alternarConclusaoDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label docente-only" title="Marcar como concluída ou reabrir">
                   <i class="fa-solid ${d.concluida ? 'fa-rotate-left text-primary' : 'fa-check text-success'}"></i> ${d.concluida ? 'Reabrir' : 'Concluir'}
                 </button>
-                <button onclick="abrirModalEditarDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.78rem;" title="Editar Demanda">
+                <button onclick="abrirModalEditarDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label docente-only" title="Editar Demanda">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button onclick="excluirDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 docente-only" style="font-size: 0.78rem; color: var(--accent-rose);" title="Excluir Demanda">
+                <button onclick="excluirDemanda('${d.id}')" class="btn-action btn-outline-action py-1 px-2 fs-label docente-only" style="color: var(--accent-rose);" title="Excluir Demanda">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -6207,7 +6320,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       document.getElementById('modalDemandaOverlay').classList.remove('active');
     }
 
-    function salvarDemanda(event, notificarEmail = false) {
+    async function salvarDemanda(event, forcarNotificar = null) {
       if (event) event.preventDefault();
       const idOriginal = document.getElementById('inputDemandaIdOriginal').value;
       const codigo = document.getElementById('inputDemandaCodigo').value.trim();
@@ -6223,6 +6336,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const descricao = document.getElementById('inputDemandaDescricao').value.trim();
       const criteriosTexto = document.getElementById('inputDemandaCriterios').value.trim();
       const criterios = criteriosTexto.split('\n').map(c => c.trim()).filter(c => c.length > 0);
+      const checkEl = document.getElementById('checkDemandaNotificarEmail');
+      const deveNotificar = forcarNotificar !== null ? Boolean(forcarNotificar) : (checkEl ? checkEl.checked : true);
 
       const instrumentoNome = instrumento === 'A1' ? 'A1 (Avaliação Teórica • 20%)' :
         (instrumento === 'A2' ? 'A2 (Curso SNCT • 20%)' :
@@ -6248,7 +6363,6 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             descricao,
             criterios
           };
-          showToast("Demanda Atualizada", `Demanda ${codigo} atualizada com sucesso!`);
         }
       } else {
         const nova = {
@@ -6269,7 +6383,6 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           criterios
         };
         demandasApp.unshift(nova);
-        showToast("Nova Demanda Disparada", `Demanda ${codigo} registrada com sucesso na central!`);
       }
 
       salvarDadosDemandas();
@@ -6277,41 +6390,223 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       popularSelectsDeDemanda();
       fecharModalDemanda();
 
-      if (notificarEmail) {
-        // Disparar notificação por e-mail para os alunos da equipe ou turma
-        const demandaSalva = demandasApp.find(dm => dm.id === codigo);
-        const emailsAlvo = [...new Set(obterAlvosDemanda(demandaSalva).flatMap(a => a.emails))];
+      const demandaSalva = demandasApp.find(dm => dm.id === codigo);
+      const emailsAlvo = demandaSalva ? [...new Set(obterAlvosDemanda(demandaSalva).flatMap(a => a.emails))] : [];
 
-        if (emailsAlvo.length > 0) {
-          const assunto = `[ProgWeb 2] Nova Demanda: ${codigo} - ${titulo}`;
-          const corpo = `Prezados(as) estudantes,
+      showToast(
+        deveNotificar ? "Salvando & Disparando E-mail..." : "Gravando na Planilha...",
+        `Sincronizando demanda ${codigo} com a planilha do Google Sheets...`,
+        "fa-solid fa-cloud-arrow-up text-primary"
+      );
 
-Uma nova demanda de atividade avaliativa foi publicada na disciplina de Programação para a Internet 2 (ProgWeb 2):
+      try {
+        const res = await chamarApiAppsScript('criarDemanda', {
+          id: codigo,
+          projeto: tipoAtribuicao === 'turma' ? '*' : destinatario,
+          titulo,
+          descricao,
+          prazo,
+          horaPrazo,
+          pontos: pontos.toFixed(1).replace('.', ','),
+          criterios,
+          instrumento,
+          tipoAtribuicao,
+          equipesAlvo,
+          alunosAlvo,
+          entregas: demandaSalva ? demandaSalva.entregas : {},
+          notificarEmail: deveNotificar,
+          destinatariosEmails: emailsAlvo
+        });
 
-==================================================
-DEMANDA / CHECKPOINT:
-• Código: ${codigo}
-• Título: ${titulo}
-• Instrumento: ${instrumentoNome}
-• Destinatário: ${destinatario}
-• Prazo Limite (Deadline): ${formatarData(prazo)} às ${horaPrazo}
-• Pontuação Máxima: ${pontos.toFixed(1)} pontos
+        if (deveNotificar) {
+          showToast(
+            "Demanda Publicada & Notificada!",
+            `Demanda ${codigo} gravada na planilha e e-mail HTML enviado para ${res.totalEnviados || emailsAlvo.length} estudante(s)!`,
+            "fa-solid fa-paper-plane text-success"
+          );
+        } else {
+          showToast("Demanda Salva na Planilha!", `Demanda ${codigo} sincronizada com sucesso (sem disparo de e-mail).`);
+        }
+      } catch (err) {
+        console.warn("Aviso ao sincronizar demanda com Apps Script:", err);
+        showToast("Salva Localmente", `Demanda ${codigo} registrada no painel (Aviso planilha: ${err.message || err}).`, "fa-solid fa-triangle-exclamation text-warning");
+      }
+    }
 
-DESCRIÇÃO & ORIENTAÇÕES:
-${descricao}
+    // =========================================================================
+    // AÇÕES DE DEMANDA NO PADRÃO PI-2: ALTERAR PRAZO, ALERTA E COMUNICADO
+    // =========================================================================
+    function abrirModalAlterarPrazoDemanda(demandaId) {
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d) return;
 
-CRITÉRIOS DE ACEITE OBRIGATÓRIOS:
-${criterios.map(c => '• ' + c).join('\n')}
-==================================================
+      document.getElementById('inputAltPrazoDemandaId').value = d.id;
+      document.getElementById('labelAltPrazoTituloDemanda').textContent = `${d.id} — ${d.titulo}`;
+      document.getElementById('labelAltPrazoEscopoDemanda').textContent = `Escopo: ${rotuloAtribuicao(d)} • Prazo atual: ${formatarData(d.prazo)} às ${d.horaPrazo || '23:59'}`;
+      document.getElementById('inputAltNovoPrazo').value = d.prazo || '';
+      document.getElementById('inputAltNovaHora').value = d.horaPrazo || '23:59';
+      document.getElementById('checkAltNotificar').checked = true;
+      document.getElementById('inputAltMensagem').value = '';
 
-Acesse o portal da disciplina para consultar materiais de apoio e os roteiros em PDF:
-https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/
+      document.getElementById('modalAlterarPrazoOverlay').classList.add('active');
+    }
 
-Atenciosamente,
-Prof. André Moraes — IFSC Câmpus Garopaba`;
+    function fecharModalAlterarPrazo() {
+      const el = document.getElementById('modalAlterarPrazoOverlay');
+      if (el) el.classList.remove('active');
+    }
 
-          const mailto = `mailto:andre.moraes@ifsc.edu.br?bcc=${emailsAlvo.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-          window.open(mailto, '_blank');
+    async function confirmarAlteracaoPrazoDemanda(event) {
+      if (event) event.preventDefault();
+      const demandaId = document.getElementById('inputAltPrazoDemandaId').value;
+      const novoPrazo = document.getElementById('inputAltNovoPrazo').value;
+      const novaHora = document.getElementById('inputAltNovaHora').value || '23:59';
+      const notificar = document.getElementById('checkAltNotificar').checked;
+      const mensagem = document.getElementById('inputAltMensagem').value.trim();
+
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d || !novoPrazo) return;
+
+      const prazoAnterior = d.prazo;
+      d.prazo = novoPrazo;
+      d.horaPrazo = novaHora;
+      salvarDadosDemandas();
+      renderizarDemandas();
+      renderizarAreaDocente();
+
+      const btn = document.getElementById('btnSalvarNovoPrazo');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Atualizando...';
+      }
+
+      const emailsAlvo = [...new Set(obterAlvosDemanda(d).flatMap(a => a.emails))];
+      try {
+        const res = await chamarApiAppsScript('alterarPrazoDemanda', {
+          demandaId: d.id,
+          projeto: normalizarAtribuicaoDemanda(d).tipoAtribuicao === 'turma' ? '*' : rotuloAtribuicao(d),
+          titulo: d.titulo,
+          descricao: d.descricao,
+          prazoAnterior,
+          novoPrazo,
+          horaPrazo: novaHora,
+          pontos: (d.pontos || 10).toFixed(1).replace('.', ','),
+          criterios: d.criterios || [],
+          notificar,
+          mensagem,
+          destinatariosEmails: emailsAlvo
+        });
+        fecharModalAlterarPrazo();
+        showToast(
+          "Prazo Atualizado!",
+          notificar
+            ? `Novo prazo (${formatarData(novoPrazo)}) salvo e notificação HTML enviada para ${res.totalEnviados || emailsAlvo.length} estudante(s)!`
+            : `Novo prazo (${formatarData(novoPrazo)}) atualizado na planilha!`,
+          "fa-solid fa-calendar-check text-success"
+        );
+      } catch (err) {
+        fecharModalAlterarPrazo();
+        showToast("Prazo Atualizado no Painel", `Prazo alterado localmente (Aviso Apps Script: ${err.message || err}).`, "fa-solid fa-triangle-exclamation text-warning");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Atualizar Prazo';
+        }
+      }
+    }
+
+    async function reenviarAlertaDemanda(demandaId) {
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d) return;
+
+      const escopoTxt = rotuloAtribuicao(d);
+      const emailsAlvo = [...new Set(obterAlvosDemanda(d).flatMap(a => a.emails))];
+      if (!confirm(`Deseja disparar automaticamente por e-mail (via Planilha / GmailApp) o alerta de lembrete de prazo da demanda "${d.id} — ${d.titulo}" para ${escopoTxt} (${emailsAlvo.length} e-mails)?`)) {
+        return;
+      }
+
+      showToast("Disparando Lembrete...", `Enviando alerta de prazo em HTML via Planilha...`, "fa-solid fa-bell text-warning");
+      try {
+        const res = await chamarApiAppsScript('notificarDemanda', {
+          demandaId: d.id,
+          tipo: 'lembrete',
+          projeto: normalizarAtribuicaoDemanda(d).tipoAtribuicao === 'turma' ? '*' : escopoTxt,
+          titulo: d.titulo,
+          descricao: d.descricao,
+          prazo: d.prazo,
+          horaPrazo: d.horaPrazo || '23:59',
+          pontos: (d.pontos || 10).toFixed(1).replace('.', ','),
+          criterios: d.criterios || [],
+          destinatariosEmails: emailsAlvo
+        });
+        showToast(
+          "Lembrete Enviado com Sucesso!",
+          `Alerta de prazo disparado automaticamente por e-mail para ${res.totalEnviados || emailsAlvo.length} estudante(s)!`,
+          "fa-solid fa-paper-plane text-success"
+        );
+      } catch (err) {
+        showToast("Erro ao Enviar Lembrete", err.message || String(err), "fa-solid fa-triangle-exclamation text-danger");
+      }
+    }
+
+    function abrirModalComunicadoDemanda(demandaId) {
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d) return;
+
+      document.getElementById('inputComunicadoDemandaId').value = d.id;
+      document.getElementById('labelComunicadoTituloDemanda').textContent = `${d.id} — ${d.titulo}`;
+      document.getElementById('labelComunicadoEscopoDemanda').textContent = `Escopo: ${rotuloAtribuicao(d)} • Prazo: ${formatarData(d.prazo)} às ${d.horaPrazo || '23:59'}`;
+      document.getElementById('inputComunicadoMensagem').value = '';
+
+      document.getElementById('modalComunicadoDemandaOverlay').classList.add('active');
+    }
+
+    function fecharModalComunicadoDemanda() {
+      const el = document.getElementById('modalComunicadoDemandaOverlay');
+      if (el) el.classList.remove('active');
+    }
+
+    async function confirmarEnvioComunicadoDemanda(event) {
+      if (event) event.preventDefault();
+      const demandaId = document.getElementById('inputComunicadoDemandaId').value;
+      const mensagem = document.getElementById('inputComunicadoMensagem').value.trim();
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d || !mensagem) return;
+
+      const btn = document.getElementById('btnEnviarComunicadoModal');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Disparando...';
+      }
+
+      const escopoTxt = rotuloAtribuicao(d);
+      const emailsAlvo = [...new Set(obterAlvosDemanda(d).flatMap(a => a.emails))];
+      try {
+        const res = await chamarApiAppsScript('notificarDemanda', {
+          demandaId: d.id,
+          tipo: 'comunicado',
+          mensagem,
+          projeto: normalizarAtribuicaoDemanda(d).tipoAtribuicao === 'turma' ? '*' : escopoTxt,
+          titulo: d.titulo,
+          descricao: d.descricao,
+          prazo: d.prazo,
+          horaPrazo: d.horaPrazo || '23:59',
+          pontos: (d.pontos || 10).toFixed(1).replace('.', ','),
+          criterios: d.criterios || [],
+          destinatariosEmails: emailsAlvo
+        });
+        fecharModalComunicadoDemanda();
+        showToast(
+          "Comunicado Enviado!",
+          `Comunicado HTML disparado automaticamente para ${res.totalEnviados || emailsAlvo.length} estudante(s)!`,
+          "fa-solid fa-bullhorn text-success"
+        );
+      } catch (err) {
+        showToast("Erro ao Disparar Comunicado", err.message || String(err), "fa-solid fa-triangle-exclamation text-danger");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-paper-plane me-1"></i> Disparar Comunicado';
         }
       }
     }
@@ -6532,7 +6827,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       };
       salvarDadosDemandas();
       renderizarDemandas();
-      showToast('Entrega registrada', `Entrega de ${d.id} salva com sucesso.`);
+      showToast('Entrega registrada', `Entrega de ${d.id} salva e enviada para a planilha!`);
+
+      chamarApiAppsScript('concluirDemanda', {
+        demandaId: d.id,
+        chaveAlvo: chave,
+        evidencia: limpo,
+        autor: aluno.nome,
+        email: aluno.email || ''
+      }).catch(err => console.warn('Aviso ao sincronizar entrega na planilha:', err));
     }
 
     // ---- Modal: seleção de grupos / estudantes ----
@@ -6611,6 +6914,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarDemandas();
       popularSelectsDeDemanda();
       showToast("Demanda Excluída", `Demanda ${id} removida com sucesso.`, "fa-solid fa-trash text-danger");
+      chamarApiAppsScript('removerDemanda', { demandaId: id }).catch(() => {});
     }
 
     // =========================================================================
@@ -6805,15 +7109,28 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarTabelaFechamento();
       fecharModalRubrica();
 
-      showToast(
-        "Avaliação Registrada",
-        `Nota ${notaFinal.toFixed(1)} salva com sucesso para ${equipe}!`,
-        "fa-solid fa-award text-success"
-      );
-
-      if (notificarEmail) {
-        notificarEquipeEmail(demandaId, equipe);
-      }
+      const emailsEquipe = obterEmailsEquipe(equipe);
+      chamarApiAppsScript('salvar_avaliacao', {
+        avaliacao: registro,
+        notificarEmail: Boolean(notificarEmail),
+        destinatariosEmails: emailsEquipe
+      }).then(res => {
+        if (notificarEmail) {
+          showToast(
+            "Avaliação Salva & E-mail Enviado!",
+            `Nota ${notaFinal.toFixed(1)} gravada na planilha e devolutiva HTML enviada para ${res.totalEnviados || emailsEquipe.length} estudante(s)!`,
+            "fa-solid fa-paper-plane text-success"
+          );
+        } else {
+          showToast(
+            "Avaliação Salva na Planilha!",
+            `Nota ${notaFinal.toFixed(1)} registrada para ${equipe}.`,
+            "fa-solid fa-award text-success"
+          );
+        }
+      }).catch(err => {
+        showToast("Avaliação Salva Localmente", `Nota ${notaFinal.toFixed(1)} salva (${err.message || err}).`, "fa-solid fa-triangle-exclamation text-warning");
+      });
     }
 
     // =========================================================================
@@ -7988,39 +8305,50 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       popularSelectsDeDemanda();
 
       const emailsAlvo = [...new Set(obterAlvosDemanda(novaDemanda).flatMap(a => a.emails))];
-      const assunto = `[ProgWeb 2] ${codigo}: ${titulo}`;
-      const corpo = `Prezados(as) estudantes (${destinatarioRotulo}),\n\nO Prof. André Moraes publicou uma nova orientação / demanda na disciplina de Programação para a Internet 2:\n\n• Demanda: ${codigo} — ${titulo}\n• Destinatário: ${destinatarioRotulo}\n• Prazo Limite: ${formatarData(prazo)} às ${horaPrazo}\n${linkApoio ? '• Material / Link de Apoio: ' + linkApoio + '\n' : ''}\nORIENTAÇÕES:\n${descricao}\n\nCHECKLIST DE ENTREGA:\n${novaDemanda.criterios.map(c => '• ' + c).join('\n')}\n\nAcesse o painel da disciplina:\nhttps://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/\n\nAtenciosamente,\nProf. André Moraes — IFSC Câmpus Garopaba`;
-
-      if (modoEnvio === 'apps_script_email') {
-        const cfg = window.PROGWEB2_CONFIG;
-        if (cfg && cfg.apiUrl && emailsAlvo.length > 0) {
-          try {
-            fetch(cfg.apiUrl.trim(), {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify({
-                acao: 'disparar_email_turma',
-                assunto,
-                mensagem: corpo,
-                emails: emailsAlvo
-              })
-            });
-            showToast('Publicado & E-mail Disparado!', `Demanda ${codigo} publicada e enviada via Apps Script para ${emailsAlvo.length} e-mail(s).`);
-          } catch (e) {
-            showToast('Demanda Publicada', `Demanda ${codigo} salva no painel (falha no envio automático).`);
-          }
-        }
-      } else if (modoEnvio === 'mailto' && emailsAlvo.length > 0) {
-        const mailto = `mailto:andre.moraes@ifsc.edu.br?bcc=${emailsAlvo.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-        window.open(mailto, '_blank');
-        showToast('Demanda Publicada', `Demanda ${codigo} registrada e rascunho de e-mail aberto!`);
-      } else {
-        showToast('Publicado no Painel!', `Demanda/comunicado ${codigo} publicado com sucesso para ${destinatarioRotulo}.`);
-      }
+      const deveNotificar = modoEnvio === 'apps_script_email';
 
       document.getElementById('docenteTitulo').value = '';
       document.getElementById('docenteMensagem').value = '';
+
+      showToast(
+        deveNotificar ? 'Publicando & Enviando E-mail HTML...' : 'Gravando na Planilha...',
+        `Sincronizando ${codigo} (${destinatarioRotulo}) com a planilha Google Sheets...`,
+        'fa-solid fa-cloud-arrow-up text-primary'
+      );
+
+      try {
+        const res = await chamarApiAppsScript('criarDemanda', {
+          id: codigo,
+          projeto: tipoAtribuicao === 'turma' && !cursoSnctAlvo ? '*' : destinatarioRotulo,
+          titulo,
+          descricao,
+          prazo,
+          horaPrazo,
+          pontos: '10,0',
+          criterios: novaDemanda.criterios,
+          instrumento,
+          tipoAtribuicao,
+          equipesAlvo,
+          alunosAlvo,
+          cursoSnctAlvo,
+          fixadaMural,
+          linkApoio,
+          notificarEmail: deveNotificar,
+          destinatariosEmails: emailsAlvo
+        });
+
+        if (deveNotificar) {
+          showToast(
+            'Demanda Publicada & E-mail Disparado!',
+            `Demanda ${codigo} gravada na planilha e enviada em HTML (padrão PI-1/PI-2) para ${res.totalEnviados || emailsAlvo.length} estudante(s)!`,
+            'fa-solid fa-paper-plane text-success'
+          );
+        } else {
+          showToast('Publicado na Planilha!', `Demanda ${codigo} salva na aba Demandas para ${destinatarioRotulo}.`);
+        }
+      } catch (e) {
+        showToast('Demanda Publicada Localmente', `Demanda ${codigo} salva no painel (${e.message || e}).`, 'fa-solid fa-triangle-exclamation text-warning');
+      }
     }
 
     function alocarAlunoEmFrenteDocente(frenteId, selectEl) {
@@ -8349,32 +8677,44 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       `;
     }
 
-    function cobrarCandidaturasPendentesEmail() {
+    async function cobrarCandidaturasPendentesEmail() {
       const inscritosIds = new Set();
       demandasSnctApp.forEach(f => (f.membros || []).forEach(m => {
         if (m.alunoId) inscritosIds.add(String(m.alunoId));
       }));
-      const emails = alunosApp
-        .filter(a => a.ativo && !inscritosIds.has(String(a.id)) && a.email)
-        .map(a => a.email.trim());
+      const pendentes = alunosApp.filter(a => a.ativo && !inscritosIds.has(String(a.id)) && a.email);
+      const emails = pendentes.map(a => a.email.trim());
       if (emails.length === 0) {
         showToast('Todos inscritos!', 'Todos os estudantes ativos já escolheram uma frente.', 'bi bi-check-circle text-success');
         return;
       }
-      const assunto = '[ProgWeb 2] Prazo Hoje (27/10 às 23:59): Candidatura nas Frentes da SNCT & Roteiros no Moodle';
-      const corpo = `Prezados(as) estudantes,
+      if (!confirm(`Deseja disparar um lembrete automático por e-mail HTML (via Planilha / GmailApp) para os ${emails.length} estudante(s) que ainda não escolheram uma frente da SNCT?`)) {
+        return;
+      }
 
-Lembro que o prazo para escolher sua frente de trabalho da SNCT 2026 encerra AMANHÃ (terça-feira, 27/10, às 23:59).
-
-Como nesta semana não estarei presencialmente em sala, deixei no portal da disciplina o passo a passo completo e os 4 Roteiros Operacionais em PDF de cada tarefa, além das instruções para estruturarmos os cursos no Moodle institucional do IFSC (onde vocês têm permissão de Professor):
-
-1. Acesse: https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/
-2. Conecte-se com seu e-mail institucional e clique em "Candidatar-me a esta Frente" (Aba 3 — Curricularização da Extensão).
-3. Baixe o Roteiro em PDF da sua frente (SNCT 01 a SNCT 04) e registre o andamento da equipe até sexta-feira (30/10).
-
-Atenciosamente,
-Prof. André Moraes — IFSC Câmpus Garopaba`;
-      window.open(`mailto:andre.moraes@ifsc.edu.br?bcc=${emails.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`, '_blank');
+      showToast('Disparando Lembrete SNCT...', `Enviando e-mail HTML via Planilha para ${emails.length} estudante(s)...`, 'bi bi-envelope-paper text-warning');
+      try {
+        const res = await chamarApiAppsScript('enviar_comunicado_html', {
+          tipo: 'lembrete',
+          id: 'DEM-SNCT-01',
+          titulo: 'Prazo Final (27/10 às 23:59): Escolha sua Frente de Trabalho da SNCT (Curso 1 ou Curso 2)',
+          escopoTxt: `Estudantes Pendentes de Candidatura SNCT (${emails.length})`,
+          prazo: '2026-10-27',
+          horaPrazo: '23:59',
+          pontos: '10,0',
+          criterios: '1. Acessar o Portal de ProgWeb 2 e conectar-se com seu e-mail institucional\n2. Confirmar vaga em 1 das 8 frentes (4 do Curso 1 ou 4 do Curso 2)\n3. Baixar o Roteiro Operacional em PDF da sua frente e iniciar a etapa no Moodle',
+          descricao: 'Lembrete automático: como nesta semana o professor não estará presencialmente em sala, todas as orientações, divisão entre Curso 1 (Meu 1º Site no Ar) e Curso 2 (Painel Verde) e os 4 roteiros em PDF estão disponíveis no portal.',
+          mensagem: 'Ainda não identificamos sua candidatura em nenhuma das 8 frentes da SNCT 2026. Escolha sua frente até 27/10 às 23:59 para garantir sua equipe!',
+          emails
+        });
+        showToast(
+          'Cobrança Enviada por E-mail!',
+          `Lembrete HTML enviado automaticamente pela planilha para ${res.totalEnviados || emails.length} estudante(s) pendente(s)!`,
+          'fa-solid fa-paper-plane text-success'
+        );
+      } catch (err) {
+        showToast('Erro no Disparo Automático', err.message || String(err), 'fa-solid fa-triangle-exclamation text-danger');
+      }
     }
 
     function candidatarEstudanteSNCT(demandaId) {
@@ -9060,9 +9400,61 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           }
         }
 
+        // Sincroniza demandas gravadas na aba Demandas da planilha
+        if (Array.isArray(data.demandas) && data.demandas.length > 0) {
+          let mudouDemandas = false;
+          data.demandas.forEach(rem => {
+            if (!rem || !rem.id) return;
+            const idx = demandasApp.findIndex(d => String(d.id).toUpperCase() === String(rem.id).toUpperCase());
+            if (idx !== -1) {
+              if (rem.prazo && demandasApp[idx].prazo !== rem.prazo) {
+                demandasApp[idx].prazo = rem.prazo;
+                mudouDemandas = true;
+              }
+              if (rem.horaPrazo && demandasApp[idx].horaPrazo !== rem.horaPrazo) {
+                demandasApp[idx].horaPrazo = rem.horaPrazo;
+                mudouDemandas = true;
+              }
+              if (rem.entregas && typeof rem.entregas === 'object' && Object.keys(rem.entregas).length > 0) {
+                demandasApp[idx].entregas = { ...(demandasApp[idx].entregas || {}), ...rem.entregas };
+                mudouDemandas = true;
+              }
+            } else {
+              demandasApp.unshift({
+                id: rem.id,
+                titulo: rem.titulo || rem.id,
+                instrumento: rem.instrumento || 'A2',
+                instrumentoNome: rem.instrumento === 'A3' ? 'A3 (Vitrine Flask • 35%)' : 'A2 (Curso SNCT • 20%)',
+                destinatario: rem.destinatario || 'Todos',
+                tipoAtribuicao: rem.tipoAtribuicao || 'turma',
+                equipesAlvo: rem.equipesAlvo || [],
+                alunosAlvo: rem.alunosAlvo || [],
+                cursoSnctAlvo: rem.cursoSnctAlvo || null,
+                fixadaMural: Boolean(rem.fixadaMural),
+                linkApoio: rem.linkApoio || '',
+                prazo: rem.prazo || '',
+                horaPrazo: rem.horaPrazo || '23:59',
+                entregas: rem.entregas || {},
+                pontos: rem.pontos || 10.0,
+                concluida: Boolean(rem.concluida),
+                descricao: rem.descricao || '',
+                criterios: Array.isArray(rem.criterios) ? rem.criterios : []
+              });
+              mudouDemandas = true;
+            }
+          });
+          if (mudouDemandas) {
+            salvarDadosDemandas();
+            renderizarDemandas();
+            renderizarAreaDocente();
+            popularSelectsDeDemanda();
+          }
+        }
+
         if (mudou) {
           popularSelectEstudantesVotacao();
           renderizarPainelVotacao();
+          renderizarAreaDocente();
           console.log("ProgWeb 2: Sincronização com Google Apps Script concluída.");
         }
       } catch (err) {
@@ -9579,6 +9971,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         fecharModalAluno();
         fecharModalNovaOficina();
         fecharModalAuditoriaVotos();
+        fecharModalAlterarPrazo();
+        fecharModalComunicadoDemanda();
       }
     });
 
@@ -9631,7 +10025,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         localStorage.setItem(STORAGE_KEY_CARD_DESTAQUE, cardId || '');
         if (cardId) {
           const cardAlvo = document.getElementById(cardId) || document.querySelector(`[data-card-id="${cardId}"]`);
-          const tituloAlvo = cardAlvo ? (cardAlvo.querySelector('.roteiro-title')?.textContent || 'Card') : 'Card';
+          const elTit = cardAlvo ? cardAlvo.querySelector('.roteiro-title') : null;
+          const tituloAlvo = elTit ? elTit.textContent : 'Card';
           showToast("Foco Atualizado", `Card "${tituloAlvo}" marcado com destaque visual para a turma.`, "bi bi-star-fill text-warning");
         } else {
           showToast("Destaque Removido", "Nenhum card está marcado com destaque visual.", "bi bi-info-circle text-primary");
