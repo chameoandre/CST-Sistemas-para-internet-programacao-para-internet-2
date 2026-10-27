@@ -1,0 +1,209 @@
+% =====================================================
+% CAPA / ABERTURA
+% =====================================================
+\capaRoteiro{\faDesktop}{Slides-Guia de Projeção (8 Telas) \& Moodle}
+  {Guia operacional da Frente 3 para as Oficinas de 120 minutos da SNCT 2026}
+  {\chip{\faLayerGroup}{Extensão A2 (20\%)}\hspace{4pt}
+   \chip{\faTools}{HTML5 · Bootstrap 5 · GitHub Pages · Moodle}\hspace{4pt}
+   \chip{\faPlay}{Equipes de 3 estudantes}}
+
+\vspace{0.4em}
+\cartoesUC{Apresentação interativa de 8 telas em HTML/Bootstrap 5 publicada no GitHub Pages e integrada à sala do Moodle}
+
+\begin{boxObjetivos}
+\begin{itemize}
+  \item \textbf{Construir os Slides-Guia de exatamente 8 telas em HTML5 + Bootstrap 5}, projetados para leitura a 6 metros de distância no telão do laboratório;
+  \item \textbf{Sincronizar a numeração das telas com os passos do Micro-Roteiro} (Frente 1) e com os arquivos do Starter Kit (Frente 2);
+  \item \textbf{Implementar navegação fluida por teclado} (setas $\leftarrow$ / $\rightarrow$) e contador visual de progresso com cronômetro de bloco;
+  \item \textbf{Publicar os slides no GitHub Pages e incorporá-los na sala do Moodle institucional} (com papel de \textbf{Professor}), permitindo que cada aluno acompanhe também no seu monitor;
+  \item \textbf{Exportar versão PDF offline} para o pen-drive de contingência da oficina.
+\end{itemize}
+\end{boxObjetivos}
+
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Missão desta semana}{Candidatura até 27/10 e divisão das 8 telas entre os 3 integrantes (Seção~\ref{sec:semana})}
+\etapaMapa{verdeVivo}{2}{Roteiro das 8 telas}{O que entra em cada tela e como casar com os 120 minutos (Seção~\ref{sec:oito_telas})}
+\etapaMapa{ambar}{3}{Código base HTML}{Template completo com navegação por teclado e fonte de telão (Seção~\ref{sec:codigo})}
+\etapaMapa{roxo}{4}{Moodle e ensaio}{Publicação no GitHub Pages, link no Moodle e checklist (Seção~\ref{sec:marcos})}
+\end{mapaAula}
+
+% =====================================================
+% 1. ONDE ESTA FRENTE SE ENCAIXA E TAREFAS DA SEMANA
+% =====================================================
+\section{Onde esta frente se encaixa e o que fazer nesta semana}\label{sec:semana}
+
+Durante a oficina, quem está conduzindo no telão precisa ditar o ritmo da turma sem deixar ninguém para trás. Os \textbf{Slides-Guia de 8 Telas} funcionam como o painel de comando da oficina: mostram na tela grande qual arquivo abrir, qual linha editar e qual é o \emph{checkpoint} de vitória de cada bloco.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Frente de Trabalho} & \cab{Entregável Principal} & \cab{Conexão com a Frente de Slides} \\
+1. Didática \& Micro-Roteiro & PDF de até 4 páginas + Sala no Moodle IFSC. & Cada passo do PDF cita a tela correspondente (\emph{``Veja a Tela 3 no telão''}). \\
+2. Starter Kit \& GitHub & Repositório template + \texttt{starter-kit.zip}. & Fornece os trechos de código e o QR Code do projeto pronto para a Tela 1. \\
+\textbf{3. Slides-Guia (Você)} & 8 telas em HTML no GitHub Pages + PDF no Moodle. & Guia visual da projeção e link de apoio na Seção 0 do Moodle. \\
+4. Monitoria \& Logística & Escala de bancada, presença e satisfação. & Fornece o link/QR Code do questionário final para a Tela 8. \\
+\end{tabularx}
+\caption{Articulação entre a Frente 3 e as demais equipes da oficina.}
+\end{table}
+
+\begin{atencao}{Ação imediata para esta semana (ausência docente em sala)}
+\begin{enumerate}[leftmargin=1.4em, itemsep=0.25em]
+  \item \textbf{Até amanhã (terça-feira, 27/10, às 23h59):} acesse o painel da disciplina com seu login Google e candidate-se na frente \emph{Slides-Guia de Projeção (8 Telas)} do Curso 1 ou do Curso 2.
+  \item \textbf{Durante a aula desta semana:} dividam as 8 telas entre os 3 integrantes conforme a tabela abaixo, publiquem a versão inicial no GitHub Pages e registrem o link no painel.
+\end{enumerate}
+\end{atencao}
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Papel na Equipe} & \cab{Responsabilidade Técnica} & \cab{Entrega até o fim desta semana} \\
+Membro A — Estrutura \& Telas 1 a 3 & Montar o template base HTML/CSS/JS e redigir as Telas 1 (Boas-vindas), 2 (Moodle) e 3 (Bloco 1). & Navegação por setas funcionando e Telas 1--3 prontas. \\
+Membro B — Telas 4 a 6 (Mão na Massa) & Redigir as Telas 4 e 5 (Bloco 2: código central) e a Tela 6 (Bloco 3: GitHub Pages). & Blocos de código com destaque visual e alto contraste. \\
+Membro C — Telas 7 e 8, Deploy \& Moodle & Redigir as Telas 7 (QR Code mobile) e 8 (Avaliação), ativar GitHub Pages e linkar no Moodle. & URL pública ativa e inserida na Seção 0 do Moodle. \\
+\end{tabularx}
+\caption{Divisão de trabalho recomendada para os 3 estudantes da Frente 3.}
+\end{table}
+
+% =====================================================
+% 2. MAPA DAS 8 TELAS DOS SLIDES-GUIA
+% =====================================================
+\section{Mapa Cirúrgico das 8 Telas (120 Minutos)}\label{sec:oito_telas}
+
+Regra de ouro para projeção em laboratório: \textbf{nunca coloque mais de 12 linhas de código em uma tela} e use tamanho mínimo de \texttt{1.35rem} (22px) para o texto.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Tela / Tempo} & \cab{Título no Telão} & \cab{Elemento Visual Obrigatório} \\
+Tela 1 (00--10 min) & O que vamos colocar no ar hoje! & QR Code grande do projeto modelo já publicado para todos abrirem no celular. \\
+Tela 2 (10--15 min) & Acesso à Sala no Moodle IFSC & Endereço curto da sala no Moodle + chave \texttt{SNCT2026} em fonte gigante. \\
+Tela 3 (15--35 min) & Bloco 1: Baixar e Personalizar & Onde clicar em \texttt{starter-kit-snct.zip} e as 4 linhas do \texttt{:root} no CSS. \\
+Tela 4 (35--55 min) & Bloco 2 (Parte A): Conteúdo Central & Trecho exato do \texttt{index.html} (ou array JS no Curso 2) com linhas destacadas. \\
+Tela 5 (55--70 min) & Bloco 2 (Parte B): Ação Interativa & Configuração do botão WhatsApp (\texttt{wa.me}) no Curso 1 ou evento JS no Curso 2. \\
+Tela 6 (70--95 min) & Bloco 3: Publicando no GitHub Pages & Os 3 cliques no GitHub: Upload files $\rightarrow$ Settings $\rightarrow$ Pages (Branch \texttt{main}). \\
+Tela 7 (95--110 min) & Bloco 4: Seu Site no Smartphone! & Como gerar o QR Code da própria URL \texttt{.github.io} e postar no Mural do Moodle. \\
+Tela 8 (110--120 min) & Avaliação Rápida (3 perguntas) \& Foto & QR Code e link direto para a Pesquisa de Satisfação na Seção 4 do Moodle. \\
+\end{tabularx}
+\caption{Roteiro completo das 8 telas sincronizado com o Micro-Roteiro de 4 páginas.}
+\end{table}
+
+% =====================================================
+% 3. CÓDIGO BASE COMPLETO DOS SLIDES-GUIA
+% =====================================================
+\section{Código Base Completo em HTML5 + Bootstrap 5}\label{sec:codigo}
+
+\passo{3.1}{Criar o arquivo \texttt{index.html} dos Slides-Guia}
+
+O código abaixo é 100\% funcional (regra \emph{Zero-Ellipsis}): suporta setas do teclado ($\leftarrow$ / $\rightarrow$), botões na tela e barra de progresso. Basta duplicar a estrutura \texttt{<section class="slide">...} para completar as 8 telas:
+
+\begin{boxCodigoHTML}[slides-snct/index.html]
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slides-Guia — Oficina SNCT 2026 IFSC Garopaba</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+  <style>
+    body { background: #0f172a; color: #f8fafc; font-size: 1.4rem; overflow: hidden; }
+    .slide { display: none; height: calc(100vh - 76px); padding: 48px 64px; }
+    .slide.ativo { display: flex; flex-direction: column; justify-content: center; }
+    .selo-bloco { background: #16a34a; color: #fff; padding: 6px 16px;
+                  border-radius: 999px; font-weight: 700; font-size: 1rem; }
+    pre.codigo-telao { background: #1e293b; color: #38bdf8; padding: 24px;
+                       border-radius: 12px; font-size: 1.25rem; max-height: 420px; }
+    .barra-rodape { height: 76px; background: #1e293b; padding: 0 32px;
+                    display: flex; align-items: center; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <!-- TELA 1 -->
+  <section class="slide ativo">
+    <div><span class="selo-bloco">TELA 1 DE 8 · ACOLHIDA (00–10 MIN)</span></div>
+    <h1 class="display-4 fw-bold mt-3">Meu Primeiro Site no Ar em 120 Minutos</h1>
+    <p class="text-info fs-3">IFSC Campus Garopaba — Semana Nacional de Ciencia e Tecnologia</p>
+    <div class="p-4 mt-3 rounded-4 bg-dark border border-success">
+      <strong>Meta de hoje:</strong> voce vai sair deste laboratorio com seu proprio site
+      publicado na internet e abrindo no celular via QR Code!
+    </div>
+  </section>
+
+  <!-- TELA 2 -->
+  <section class="slide">
+    <div><span class="selo-bloco">TELA 2 DE 8 · SALA NO MOODLE (10–15 MIN)</span></div>
+    <h2 class="display-5 fw-bold mt-3">Passo Inicial: Abra a Sala no Moodle IFSC</h2>
+    <pre class="codigo-telao mt-3">1. Acesse a sala da Oficina SNCT no Moodle do IFSC
+2. Chave de inscricao da turma: SNCT2026
+3. Na Secao 0, abra o Micro-Roteiro PDF
+4. Na Secao 1, clique em starter-kit-snct.zip</pre>
+  </section>
+
+  <!-- TELA 3 -->
+  <section class="slide">
+    <div><span class="selo-bloco">TELA 3 DE 8 · BLOCO 1 (15–35 MIN)</span></div>
+    <h2 class="display-5 fw-bold mt-3">Personalizando Cores no arquivo css/estilo.css</h2>
+    <pre class="codigo-telao mt-3">:root {
+  --cor-primaria: #2563eb;  /* Troque pela sua cor favorita */
+  --cor-fundo:    #eff6ff;
+}</pre>
+  </section>
+
+  <footer class="barra-rodape">
+    <span id="indicadorTela" class="fw-bold">Tela 1 / 3</span>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-light btn-lg" onclick="mudarSlide(-1)">Anterior</button>
+      <button class="btn btn-success btn-lg" onclick="mudarSlide(1)">Proxima Tela</button>
+    </div>
+  </footer>
+
+  <script>
+    let indiceAtual = 0;
+    const slides = document.querySelectorAll('.slide');
+    const indicador = document.getElementById('indicadorTela');
+    function mudarSlide(delta) {
+      slides[indiceAtual].classList.remove('ativo');
+      indiceAtual = Math.max(0, Math.min(slides.length - 1, indiceAtual + delta));
+      slides[indiceAtual].classList.add('ativo');
+      indicador.textContent = `Tela ${indiceAtual + 1} / ${slides.length}`;
+    }
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowRight') mudarSlide(1);
+      if (ev.key === 'ArrowLeft') mudarSlide(-1);
+    });
+  </script>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+% =====================================================
+% 4. PUBLICAÇÃO NO MOODLE, MARCOS E CHECKLIST
+% =====================================================
+\section{Publicação no Moodle, Marcos e Checklist de Entrega}\label{sec:marcos}
+
+\passo{4.1}{Publicar no GitHub Pages e adicionar na Seção 0 do Moodle}
+\begin{enumerate}[leftmargin=1.4em, itemsep=0.25em]
+  \item Ative o GitHub Pages no repositório dos slides (\botao{Settings}\seta\botao{Pages}\seta Branch \texttt{main});
+  \item Acesse a sala do curso no Moodle institucional (com seu perfil de \textbf{Professor}), clique em \botao{Adicionar atividade ou recurso}\seta\botao{URL} na \textbf{Seção 0} e cole o link público dos slides;
+  \item Exporte também uma cópia em PDF (\tecla{Ctrl}+\tecla{P}\seta\emph{Salvar como PDF}) e anexe na Seção 0 como contingência offline.
+\end{enumerate}
+
+\begin{checklist}[Checklist de prontidão da Frente 3 (Slides-Guia \& Moodle)]
+\begin{itemize}[label={\caixaMarcar}, itemsep=0.35em]
+  \item Os 3 estudantes registraram candidatura na frente até 27/10 às 23h59 no painel da disciplina;
+  \item A apresentação possui exatamente as 8 telas mapeadas na Seção~\ref{sec:oito_telas}, com navegação por teclado;
+  \item Os números das telas e os nomes de arquivos coincidem 100\% com o Micro-Roteiro da Frente 1;
+  \item Todos os blocos de código têm fonte legível do fundo do laboratório ($\ge$ 20px) e alto contraste;
+  \item Os slides estão publicados no GitHub Pages e linkados na Seção 0 da sala do Moodle institucional;
+  \item Uma cópia em PDF dos slides foi salva nos pen-drives do Plano B e o link foi registrado no painel.
+\end{itemize}
+\end{checklist}
+
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba — Programação para a Internet 2 (Curricularização da Extensão SNCT 2026)\par}

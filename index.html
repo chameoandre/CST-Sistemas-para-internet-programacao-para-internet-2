@@ -2672,17 +2672,26 @@
             </div>
 
             <div class="roteiro-focus-box">
-              <i class="bi bi-bullseye text-success"></i>
-              <span><strong>Foco Prático:</strong> 4 entregáveis cirúrgicos (Micro-Roteiro A4 LaTeX, Starter Kit GitHub, Slides de 8 Telas e Logística de Bancada).</span>
+              <i class="bi bi-calendar-event-fill text-danger"></i>
+              <span><strong>Missão desta Semana (Ausência Docente):</strong> <strong>1)</strong> Candidatar-se em uma das 8 frentes <strong>até amanhã (Terça, 27/10 às 23:59)</strong>; <strong>2)</strong> Seguir o Roteiro PDF da sua frente e estruturar a sala do curso no <strong>Moodle Institucional do IFSC</strong> (com perfil de Professor).</span>
             </div>
 
             <div class="roteiro-card-actions">
               <button onclick="navegarParaDemandasSNCT()" class="btn-action btn-primary-action">
-                <i class="bi bi-kanban-fill"></i> Quadro de Frentes
+                <i class="bi bi-hand-index-thumb-fill"></i> Candidatar-se (Até 27/10)
               </button>
-              <button onclick="showTab('tab-extensao')" class="btn-action btn-outline-action">
-                <i class="bi bi-journal-text"></i> Diretrizes (40h)
-              </button>
+              <a href="snct-frentes/frente-didatica/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 1: Didática, Micro-Roteiro & Sala no Moodle">
+                <i class="bi bi-file-earmark-pdf text-primary"></i> PDF Frente 1 (Didática &amp; Moodle)
+              </a>
+              <a href="snct-frentes/frente-starterkit/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 2: Starter Kit, GitHub & Pacote no Moodle">
+                <i class="bi bi-file-earmark-code text-success"></i> PDF Frente 2 (Starter Kit)
+              </a>
+              <a href="snct-frentes/frente-slides/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 3: Slides-Guia de 8 Telas & Moodle">
+                <i class="bi bi-easel2 text-warning"></i> PDF Frente 3 (Slides 8 Telas)
+              </a>
+              <a href="snct-frentes/frente-monitoria/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 4: Monitoria de Bancada, Logística & Moodle">
+                <i class="bi bi-people text-info"></i> PDF Frente 4 (Monitoria)
+              </a>
             </div>
           </div>
 
@@ -3349,6 +3358,69 @@
                QUADRO DE FRENTES DE TRABALHO & CANDIDATURAS DA TURMA (24 VAGAS)
                ===================================================================== -->
           <div id="quadroDemandasSNCT" class="mt-4 pt-3 border-top">
+            <!-- BANNER DE ORIENTAÇÃO DA SEMANA (AUSÊNCIA DOCENTE) + PRAZO DE CANDIDATURA + MOODLE + ROTEIROS PDF -->
+            <div class="p-3 rounded-3 mb-4" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="badge bg-danger text-white px-2 py-1"><i class="bi bi-alarm-fill me-1"></i> PRAZO DE CANDIDATURA: AMANHÃ (TERÇA, 27/10 ÀS 23:59)</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-mortarboard-fill me-1"></i> Cursos no Moodle Institucional IFSC (Alunos como Professores)</span>
+                </div>
+                <span class="fs-caption fw-bold text-muted" id="contadorPrazoCandidaturaSNCT"></span>
+              </div>
+
+              <h5 class="font-outfit fw-bold fs-6 text-heading mb-2">
+                <i class="bi bi-compass-fill text-warning me-1"></i> Roteiro de Atividades Autônomas desta Semana (Ausência Docente em Sala)
+              </h5>
+              <p class="fs-body-sm text-muted mb-3">
+                Como nesta semana não haverá encontro presencial com o professor em sala, cada estudante e cada frente deve seguir os <strong>3 passos obrigatórios</strong> abaixo utilizando o <strong>Roteiro Operacional em PDF</strong> da sua respectiva tarefa:
+              </p>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-primary me-1">Passo 1</span> Candidatar-se até Amanhã (27/10)</div>
+                    <p class="fs-caption text-muted mb-0">Conecte-se com sua conta Google institucional e clique em <strong>Candidatar-me a esta Frente</strong> em uma das 8 frentes abaixo (3 vagas por frente).</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-success me-1">Passo 2</span> Seguir o Roteiro PDF &amp; Sala no Moodle</div>
+                    <p class="fs-caption text-muted mb-0">Baixe o <strong>Roteiro em PDF da sua frente</strong> abaixo. Os dois cursos serão disponibilizados no <strong>Moodle Institucional do IFSC</strong>, onde vocês atuarão com perfil de <strong>Professor</strong>.</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-warning text-dark me-1">Passo 3</span> Marcar Etapas &amp; Informar Link (30/10)</div>
+                    <p class="fs-caption text-muted mb-0">No card da sua frente, marque as <strong>3 etapas de andamento</strong> conforme avançarem e clique em <strong>Informar Link</strong> (repositório GitHub ou sala do Moodle).</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4 ROTEIROS EM PDF DAS FRENTES -->
+              <div class="p-2 rounded mb-2" style="background: var(--bg-card); border: 1px dashed var(--border-color);">
+                <div class="fs-caption fw-bold text-heading mb-2">
+                  <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiros Operacionais em PDF por Frente de Trabalho (Padrão LaTeX da UC + Guia do Moodle):
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="snct-frentes/frente-didatica/main.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-journal-richtext me-1"></i> Roteiro SNCT 01: Didática, Micro-Roteiro &amp; Sala Moodle
+                  </a>
+                  <a href="snct-frentes/frente-starterkit/main.pdf" target="_blank" class="btn btn-sm btn-outline-success">
+                    <i class="bi bi-file-earmark-code me-1"></i> Roteiro SNCT 02: Starter Kit, GitHub &amp; Pacote Moodle
+                  </a>
+                  <a href="snct-frentes/frente-slides/main.pdf" target="_blank" class="btn btn-sm btn-outline-warning">
+                    <i class="bi bi-easel2 me-1"></i> Roteiro SNCT 03: Slides-Guia (8 Telas) &amp; Moodle
+                  </a>
+                  <a href="snct-frentes/frente-monitoria/main.pdf" target="_blank" class="btn btn-sm btn-outline-info">
+                    <i class="bi bi-people me-1"></i> Roteiro SNCT 04: Monitoria, Logística &amp; Avaliação Moodle
+                  </a>
+                </div>
+              </div>
+
+              <!-- PAINEL DE CONTROLE NOMINAL: QUEM JÁ SE CANDIDATOU VS QUEM FALTA -->
+              <div id="painelNominalCandidaturasSNCT" class="mt-2"></div>
+            </div>
+
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-3">
               <div>
                 <h4 class="font-outfit fw-bold fs-5 text-heading mb-1">
@@ -4784,6 +4856,12 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     let usuarioLogadoGoogle = null;
     let demandasSnctApp = [];
 
+    const ETAPAS_PADRAO_FRENTE_SNCT = [
+      "1. Candidatura & divisão (27/10)",
+      "2. Rascunho & sala no Moodle (30/10)",
+      "3. Revisão cruzada & ensaio no lab"
+    ];
+
     const DEMANDAS_PADRAO_SNCT = [
       // CURSO 1: Meu Primeiro Site no Ar
       {
@@ -4793,8 +4871,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Didática & Micro-Roteiro Cirúrgico",
         icone: "bi-journal-richtext",
         corBadge: "badge-pill-blue",
-        descricao: "Redação e diagramação do micro-roteiro impresso de no máximo 4 páginas no padrão LaTeX da UC, com linguagem acolhedora para iniciantes e zero jargões.",
-        entregaveis: ["Micro-Roteiro LaTeX compilado em PDF", "Checklist de sucesso para impressão"],
+        roteiroCodigo: "Roteiro SNCT 01",
+        roteiroPdf: "snct-frentes/frente-didatica/main.pdf",
+        descricao: "Redação do micro-roteiro de até 4 páginas no padrão LaTeX da UC e organização das 5 seções da sala do curso no Moodle institucional (com papel de Professor).",
+        entregaveis: ["Micro-Roteiro LaTeX compilado em PDF (4 págs.)", "Sala do Curso 1 estruturada no Moodle IFSC"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4805,8 +4886,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Starter Kit & Código Base GitHub",
         icone: "bi-file-earmark-code",
         corBadge: "badge-pill-blue",
-        descricao: "Estruturação do repositório template no GitHub (HTML5 semântico, CSS modular, fotos leves de Garopaba) pronto para download ou fork em 1 clique.",
-        entregaveis: ["Repositório template GitHub Pages ativo", "Pacote ZIP para contingência offline"],
+        roteiroCodigo: "Roteiro SNCT 02",
+        roteiroPdf: "snct-frentes/frente-starterkit/main.pdf",
+        descricao: "Estruturação do repositório template no GitHub (HTML5, CSS com variáveis :root e botão WhatsApp), pacote .zip na Seção 1 do Moodle e pen-drive de Plano B.",
+        entregaveis: ["Repositório template GitHub ativo", "Pacote starter-kit-snct.zip publicado no Moodle"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4817,8 +4901,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Slides-Guia de Projeção (8 Telas)",
         icone: "bi-projector",
         corBadge: "badge-pill-blue",
-        descricao: "Deck visual de 8 telas para conduzir a narrativa no projetor: do problema inicial à exibição do site funcionando no smartphone via QR Code.",
-        entregaveis: ["Slides publicados em HTML/Bootstrap ou Reveal", "Roteiro de checkpoints sincronizado"],
+        roteiroCodigo: "Roteiro SNCT 03",
+        roteiroPdf: "snct-frentes/frente-slides/main.pdf",
+        descricao: "Apresentação HTML/Bootstrap 5 de 8 telas sincronizadas com o micro-roteiro, publicada no GitHub Pages e vinculada na Seção 0 da sala do Moodle.",
+        entregaveis: ["Slides de 8 telas no GitHub Pages", "Link e PDF de contingência na Seção 0 do Moodle"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4829,8 +4916,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Monitoria de Bancada & Logística",
         icone: "bi-people",
         corBadge: "badge-pill-blue",
-        descricao: "Condução das ilhas no laboratório, apoio a participantes travados, suporte ao cadastro no GitHub, controle de presença e fotos para o relatório.",
-        entregaveis: ["Guia rápido de erros frequentes para os monitores", "Formulário Google de presença e fotos"],
+        roteiroCodigo: "Roteiro SNCT 04",
+        roteiroPdf: "snct-frentes/frente-monitoria/main.pdf",
+        descricao: "Configuração da chave de inscrição (SNCT2026) e Pesquisa de Satisfação na Seção 4 do Moodle, preparação das máquinas do laboratório, presença e fotos.",
+        entregaveis: ["Autoinscrição e Pesquisa de 3 perguntas no Moodle", "Escala de bancada, presença e termos de imagem"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4843,8 +4933,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Didática & Micro-Roteiro Cirúrgico",
         icone: "bi-journal-check",
         corBadge: "badge-pill-green",
-        descricao: "Elaboração do roteiro passo a passo de 4 páginas no padrão LaTeX focado no componente central (ex.: catálogo WhatsApp ou Quiz dinâmico).",
-        entregaveis: ["Micro-Roteiro LaTeX compilado em PDF", "Diagrama conceitual do componente prático"],
+        roteiroCodigo: "Roteiro SNCT 01",
+        roteiroPdf: "snct-frentes/frente-didatica/main.pdf",
+        descricao: "Elaboração do roteiro passo a passo de 4 páginas em LaTeX focado no componente interativo e estruturação das 5 seções da sala do Curso 2 no Moodle IFSC.",
+        entregaveis: ["Micro-Roteiro LaTeX compilado em PDF (4 págs.)", "Sala do Curso 2 estruturada no Moodle IFSC"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4855,8 +4948,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Starter Kit & Componente Prático",
         icone: "bi-code-slash",
         corBadge: "badge-pill-green",
-        descricao: "Desenvolvimento do template de código com a funcionalidade pronta para parametrização (botão WhatsApp dinâmico ou lógica de pontuação).",
-        entregaveis: ["Repositório GitHub template homologado", "Pacote offline com dados mockados"],
+        roteiroCodigo: "Roteiro SNCT 02",
+        roteiroPdf: "snct-frentes/frente-starterkit/main.pdf",
+        descricao: "Desenvolvimento do template de código com HTML/CSS prontos e função JavaScript comentada, publicação no GitHub e upload do .zip na Seção 1 do Moodle.",
+        entregaveis: ["Repositório GitHub template homologado", "Pacote .zip publicado no Moodle + Plano B"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4867,8 +4963,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Slides-Guia de Projeção (8 Telas)",
         icone: "bi-easel",
         corBadge: "badge-pill-green",
-        descricao: "Apresentação visual para condução da oficina no telão, destacando cada bloco prático com ilustrações dos checkpoints esperados.",
-        entregaveis: ["Deck de 8 slides responsivos", "Guia de tempo para o instrutor de projeção"],
+        roteiroCodigo: "Roteiro SNCT 03",
+        roteiroPdf: "snct-frentes/frente-slides/main.pdf",
+        descricao: "Apresentação de 8 telas em HTML/Bootstrap 5 destacando cada bloco prático e checkpoints, publicada no GitHub Pages e inserida na sala do Moodle.",
+        entregaveis: ["Deck de 8 telas no GitHub Pages", "Link e PDF de contingência na Seção 0 do Moodle"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       },
@@ -4879,8 +4978,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         titulo: "Monitoria de Bancada & Logística",
         icone: "bi-person-badge",
         corBadge: "badge-pill-green",
-        descricao: "Validação nos navegadores do laboratório, apoio técnico aos participantes, organização do ensaio geral e coleta dos dados de avaliação.",
-        entregaveis: ["Checklist de homologação das máquinas", "Formulário de avaliação de 3 perguntas"],
+        roteiroCodigo: "Roteiro SNCT 04",
+        roteiroPdf: "snct-frentes/frente-monitoria/main.pdf",
+        descricao: "Homologação das máquinas do laboratório, chave de inscrição (SNCT2026) e Pesquisa de Satisfação na Seção 4 do Moodle, organização do ensaio e presença.",
+        entregaveis: ["Autoinscrição e Pesquisa de 3 perguntas no Moodle", "Checklist das máquinas, presença e fotos"],
+        etapas: [false, false, false],
         vagasMax: 3,
         membros: []
       }
@@ -4956,6 +5058,46 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     ];
 
     const DEMANDAS_INICIAIS = [
+      {
+        id: "DEM-SNCT-01",
+        titulo: "Etapa 1 SNCT (Prazo Amanhã): Candidatura nas 8 Frentes de Trabalho & Divisão de Papéis",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso na SNCT • 20%)",
+        destinatario: "Todos",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        prazo: "2026-10-27",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Atividade inicial obrigatória da semana: autenticar-se com a conta Google institucional no painel da disciplina, candidatar-se em uma das 8 frentes de trabalho da SNCT (3 vagas por frente) e alinhar a divisão dos Membros A, B e C conforme o Roteiro Operacional em PDF da sua frente.",
+        criterios: [
+          "Candidatura registrada até terça-feira (27/10 às 23:59) no Quadro de Frentes da SNCT",
+          "Leitura do Roteiro Operacional em PDF da respectiva frente (SNCT 01 a SNCT 04)",
+          "Divisão clara das responsabilidades (Membro A, Membro B e Membro C) entre o trio"
+        ]
+      },
+      {
+        id: "DEM-SNCT-02",
+        titulo: "Etapa 2 SNCT (Semana Autônoma): Rascunho do Material & Sala do Curso no Moodle IFSC",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso na SNCT • 20%)",
+        destinatario: "Todos",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        prazo: "2026-10-30",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Execução do roteiro prático da sua frente durante a semana sem aula presencial: produzir a primeira versão do entregável (Micro-Roteiro 4 págs., Starter Kit .zip, Slides de 8 telas ou Pesquisa/Logística) e estruturar a sala do curso no Moodle institucional do IFSC (com perfil de Professor).",
+        criterios: [
+          "Primeira versão do material da frente publicada conforme o Roteiro PDF (SNCT 01 a 04)",
+          "Recurso correspondente configurado na sala da oficina no Moodle institucional do IFSC",
+          "Link de entrega registrado no card da frente e etapas de andamento atualizadas"
+        ]
+      },
       {
         id: "DEM-01",
         titulo: "Avaliação Teórica: Fundamentos Web, ES6 Modules, Fetch API & REST",
@@ -5098,6 +5240,14 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
           } else {
             demandasApp = parsed;
+            // Garante que as novas demandas da semana (DEM-SNCT-01 e DEM-SNCT-02) estejam presentes
+            ['DEM-SNCT-02', 'DEM-SNCT-01'].forEach(idNovo => {
+              if (!demandasApp.some(d => d.id === idNovo)) {
+                const padrao = DEMANDAS_INICIAIS.find(d => d.id === idNovo);
+                if (padrao) demandasApp.unshift(JSON.parse(JSON.stringify(padrao)));
+              }
+            });
+            localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
           }
         } else {
           demandasApp = JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
@@ -6767,7 +6917,18 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         if (salvas) {
           const parsed = JSON.parse(salvas);
           if (Array.isArray(parsed) && parsed.length === DEMANDAS_PADRAO_SNCT.length) {
-            demandasSnctApp = parsed;
+            demandasSnctApp = parsed.map((item, idx) => {
+              const padrao = DEMANDAS_PADRAO_SNCT.find(p => p.id === item.id) || DEMANDAS_PADRAO_SNCT[idx];
+              return {
+                ...padrao,
+                ...item,
+                roteiroCodigo: padrao.roteiroCodigo,
+                roteiroPdf: padrao.roteiroPdf,
+                descricao: padrao.descricao,
+                entregaveis: padrao.entregaveis,
+                etapas: Array.isArray(item.etapas) && item.etapas.length === 3 ? item.etapas : [false, false, false]
+              };
+            });
           } else {
             demandasSnctApp = JSON.parse(JSON.stringify(DEMANDAS_PADRAO_SNCT));
             salvarDemandasSNCT();
@@ -7044,14 +7205,53 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           `;
         }
 
+        const etapasFrente = Array.isArray(frente.etapas) && frente.etapas.length === 3
+          ? frente.etapas
+          : [false, false, false];
+        const etapa1Auto = vagasOcupadas > 0 || etapasFrente[0];
+        const temLinkFrente = membros.some(m => m.linkEntrega && m.linkEntrega.trim().length > 0);
+        const etapa2Auto = temLinkFrente || etapasFrente[1];
+        const estadosEtapas = [etapa1Auto, etapa2Auto, Boolean(etapasFrente[2])];
+        const concluidasEtapas = estadosEtapas.filter(Boolean).length;
+        const podeMarcarEtapa = souMembro || document.body.classList.contains('modo-docente-ativo');
+
+        const htmlRoteiroPdf = frente.roteiroPdf ? `
+          <div class="mb-2">
+            <a href="${escapeHtml(frente.roteiroPdf)}" target="_blank" rel="noopener"
+               class="btn btn-sm btn-outline-secondary w-100 d-flex align-items-center justify-content-between py-1 px-2">
+              <span class="fs-caption fw-bold"><i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> ${escapeHtml(frente.roteiroCodigo || 'Roteiro PDF')} — Guia Passo a Passo</span>
+              <i class="bi bi-box-arrow-up-right fs-caption"></i>
+            </a>
+          </div>
+        ` : '';
+
         let htmlEntregaveis = '';
         if (Array.isArray(frente.entregaveis) && frente.entregaveis.length > 0) {
           htmlEntregaveis = `
             <div class="mt-2 pt-2 border-top">
-              <div class="fs-label fw-bold text-muted text-uppercase mb-1">Entregáveis Esperados:</div>
-              <ul class="mb-0 ps-3 fs-caption text-muted">
+              <div class="fs-label fw-bold text-muted text-uppercase mb-1">Entregáveis (GitHub &amp; Moodle):</div>
+              <ul class="mb-2 ps-3 fs-caption text-muted">
                 ${frente.entregaveis.map(ent => `<li>${escapeHtml(ent)}</li>`).join('')}
               </ul>
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fs-label fw-bold text-muted text-uppercase">Andamento da Frente:</span>
+                <span class="fs-label fw-bold text-primary">${concluidasEtapas}/3 etapas</span>
+              </div>
+              <div class="d-flex flex-column gap-1">
+                ${ETAPAS_PADRAO_FRENTE_SNCT.map((rotuloEtapa, idxEtapa) => {
+                  const marcada = estadosEtapas[idxEtapa];
+                  return `
+                    <label class="d-flex align-items-center gap-2 fs-caption ${marcada ? 'text-success fw-bold' : 'text-muted'}"
+                           style="cursor: ${podeMarcarEtapa ? 'pointer' : 'default'};">
+                      <input type="checkbox" class="form-check-input m-0"
+                             ${marcada ? 'checked' : ''}
+                             ${podeMarcarEtapa ? '' : 'disabled'}
+                             onchange="alternarEtapaFrenteSNCT('${frente.id}', ${idxEtapa}, this.checked)">
+                      <span>${escapeHtml(rotuloEtapa)}</span>
+                    </label>
+                  `;
+                }).join('')}
+              </div>
             </div>
           `;
         }
@@ -7069,7 +7269,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                     <i class="bi ${completa ? 'bi-check-circle-fill' : 'bi-person-fill'}"></i> ${vagasOcupadas}/${vagasMax}
                   </span>
                 </div>
-                <p class="fs-caption text-muted mb-3">${escapeHtml(frente.descricao)}</p>
+                <p class="fs-caption text-muted mb-2">${escapeHtml(frente.descricao)}</p>
+                ${htmlRoteiroPdf}
                 <div class="mb-2">
                   <div class="fs-label fw-bold text-muted text-uppercase mb-1">Integrantes Escalados:</div>
                   ${htmlMembros}
@@ -7091,7 +7292,161 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         spanTotalOcupadas.textContent = totalOcupadas;
       }
 
+      sincronizarDemandasComQuadroSNCT();
+      renderizarPainelNominalCandidaturasSNCT();
       renderizarCardHeroRoteirosSNCT();
+    }
+
+    function alternarEtapaFrenteSNCT(frenteId, idxEtapa, marcado) {
+      const frente = demandasSnctApp.find(f => f.id === frenteId);
+      if (!frente) return;
+      if (!Array.isArray(frente.etapas) || frente.etapas.length !== 3) {
+        frente.etapas = [false, false, false];
+      }
+      frente.etapas[idxEtapa] = Boolean(marcado);
+      salvarDemandasSNCT();
+      renderizarQuadroDemandasSNCT();
+    }
+
+    function sincronizarDemandasComQuadroSNCT() {
+      const demCand = demandasApp.find(d => d.id === 'DEM-SNCT-01');
+      const demMoodle = demandasApp.find(d => d.id === 'DEM-SNCT-02');
+      if (!demCand && !demMoodle) return;
+
+      if (demCand) normalizarAtribuicaoDemanda(demCand);
+      if (demMoodle) normalizarAtribuicaoDemanda(demMoodle);
+
+      let alterou = false;
+      demandasSnctApp.forEach(frente => {
+        const membros = Array.isArray(frente.membros) ? frente.membros : [];
+        const membroComLink = membros.find(m => m.linkEntrega && m.linkEntrega.trim().length > 0);
+        const linkFrente = membroComLink ? membroComLink.linkEntrega.trim() : '';
+
+        membros.forEach(m => {
+          const aluno = alunosApp.find(a =>
+            String(a.id) === String(m.alunoId) ||
+            (m.matricula && String(a.matricula) === String(m.matricula)) ||
+            (m.email && a.email && a.email.toLowerCase() === m.email.toLowerCase())
+          );
+          if (!aluno) return;
+          const chave = 'aluno:' + aluno.id;
+
+          if (demCand && (!demCand.entregas[chave] || !demCand.entregas[chave].entregue)) {
+            demCand.entregas[chave] = {
+              entregue: true,
+              link: '',
+              dataEntrega: m.dataInscricao || new Date().toISOString(),
+              registradoPor: aluno.nome
+            };
+            alterou = true;
+          }
+          if (demMoodle && linkFrente && (!demMoodle.entregas[chave] || demMoodle.entregas[chave].link !== linkFrente)) {
+            demMoodle.entregas[chave] = {
+              entregue: true,
+              link: linkFrente,
+              dataEntrega: m.dataInscricao || new Date().toISOString(),
+              registradoPor: aluno.nome
+            };
+            alterou = true;
+          }
+        });
+      });
+
+      if (alterou) {
+        salvarDadosDemandas();
+        renderizarDemandas();
+      }
+    }
+
+    function renderizarPainelNominalCandidaturasSNCT() {
+      const box = document.getElementById('painelNominalCandidaturasSNCT');
+      const contadorEl = document.getElementById('contadorPrazoCandidaturaSNCT');
+      if (contadorEl) {
+        const status = calcularStatusPrazo('2026-10-27', false, '23:59');
+        contadorEl.innerHTML = status.texto;
+      }
+      if (!box) return;
+
+      const mapaInscritos = new Map();
+      demandasSnctApp.forEach(frente => {
+        (frente.membros || []).forEach(m => {
+          const al = alunosApp.find(a =>
+            String(a.id) === String(m.alunoId) ||
+            (m.matricula && String(a.matricula) === String(m.matricula)) ||
+            (m.email && a.email && a.email.toLowerCase() === m.email.toLowerCase())
+          );
+          const idChave = al ? String(al.id) : String(m.alunoId || m.matricula || m.nome);
+          mapaInscritos.set(idChave, {
+            nome: al ? al.nome : m.nome,
+            frenteTitulo: `${frente.cursoId === 1 ? 'C1' : 'C2'} · ${frente.titulo}`
+          });
+        });
+      });
+
+      const ativos = alunosApp.filter(a => a.ativo);
+      const pendentes = ativos.filter(a => !mapaInscritos.has(String(a.id)));
+      const confirmados = ativos.filter(a => mapaInscritos.has(String(a.id)));
+
+      box.innerHTML = `
+        <details class="alvos-details">
+          <summary class="fs-caption fw-bold text-heading">
+            <i class="bi bi-clipboard2-check text-primary me-1"></i>
+            Acompanhamento Nominal de Candidaturas: <span class="text-success">${confirmados.length} confirmada(s)</span> ·
+            <span class="${pendentes.length > 0 ? 'text-danger' : 'text-success'}">${pendentes.length} pendente(s)</span>
+            (clique para expandir)
+          </summary>
+          <div class="mt-2 p-2 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+              <span class="fs-caption text-muted">Verifique se seu nome já consta como escalado em uma frente até <strong>27/10 às 23:59</strong>:</span>
+              <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2 fs-caption docente-only"
+                      onclick="cobrarCandidaturasPendentesEmail()">
+                <i class="bi bi-envelope-exclamation me-1"></i> Cobrar ${pendentes.length} Pendente(s) por E-mail
+              </button>
+            </div>
+            <div class="alvos-chips">
+              ${confirmados.map(a => {
+                const info = mapaInscritos.get(String(a.id));
+                return `<span class="alvo-chip entregue" title="${escapeHtml(info.frenteTitulo)}">
+                  <i class="bi bi-check-circle-fill"></i> ${escapeHtml(a.nome)} <strong class="ms-1">(${escapeHtml(info.frenteTitulo)})</strong>
+                </span>`;
+              }).join('')}
+              ${pendentes.map(a => `
+                <span class="alvo-chip pendente-vencida" title="Ainda não se candidatou em nenhuma frente">
+                  <i class="bi bi-exclamation-circle"></i> ${escapeHtml(a.nome)}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        </details>
+      `;
+    }
+
+    function cobrarCandidaturasPendentesEmail() {
+      const inscritosIds = new Set();
+      demandasSnctApp.forEach(f => (f.membros || []).forEach(m => {
+        if (m.alunoId) inscritosIds.add(String(m.alunoId));
+      }));
+      const emails = alunosApp
+        .filter(a => a.ativo && !inscritosIds.has(String(a.id)) && a.email)
+        .map(a => a.email.trim());
+      if (emails.length === 0) {
+        showToast('Todos inscritos!', 'Todos os estudantes ativos já escolheram uma frente.', 'bi bi-check-circle text-success');
+        return;
+      }
+      const assunto = '[ProgWeb 2] Prazo Hoje (27/10 às 23:59): Candidatura nas Frentes da SNCT & Roteiros no Moodle';
+      const corpo = `Prezados(as) estudantes,
+
+Lembro que o prazo para escolher sua frente de trabalho da SNCT 2026 encerra AMANHÃ (terça-feira, 27/10, às 23:59).
+
+Como nesta semana não estarei presencialmente em sala, deixei no portal da disciplina o passo a passo completo e os 4 Roteiros Operacionais em PDF de cada tarefa, além das instruções para estruturarmos os cursos no Moodle institucional do IFSC (onde vocês têm permissão de Professor):
+
+1. Acesse: https://chameoandre.github.io/CST-Sistemas-para-internet-programacao-para-internet-2/
+2. Conecte-se com seu e-mail institucional e clique em "Candidatar-me a esta Frente" (Aba 3 — Curricularização da Extensão).
+3. Baixe o Roteiro em PDF da sua frente (SNCT 01 a SNCT 04) e registre o andamento da equipe até sexta-feira (30/10).
+
+Atenciosamente,
+Prof. André Moraes — IFSC Câmpus Garopaba`;
+      window.open(`mailto:andre.moraes@ifsc.edu.br?bcc=${emails.join(',')}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`, '_blank');
     }
 
     function candidatarEstudanteSNCT(demandaId) {

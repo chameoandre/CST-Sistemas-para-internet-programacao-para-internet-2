@@ -1,0 +1,212 @@
+% =====================================================
+% CAPA / ABERTURA
+% =====================================================
+\capaRoteiro{\faBookOpen}{Didática, Micro-Roteiro \& Sala no Moodle}
+  {Guia operacional da Frente 1 para as Oficinas de 120 minutos da SNCT 2026}
+  {\chip{\faLayerGroup}{Extensão A2 (20\%)}\hspace{4pt}
+   \chip{\faTools}{LaTeX (Tectonic) · Moodle IFSC}\hspace{4pt}
+   \chip{\faChalkboardTeacher}{Equipes de 3 estudantes}}
+
+\vspace{0.4em}
+\cartoesUC{Micro-roteiro impresso/PDF de até 4 páginas e sala da oficina estruturada no Moodle institucional (com papel de professor)}
+
+\begin{boxObjetivos}
+\begin{itemize}
+  \item \textbf{Planejar a transposição didática da oficina de 120 minutos}, traduzindo conceitos de HTML, CSS, JavaScript e GitHub Pages para participantes iniciantes da comunidade;
+  \item \textbf{Redigir e compilar o Micro-Roteiro A4 (máximo de 4 páginas)} no padrão LaTeX da UC, com código 100\% copiável e pontos de verificação (\textit{checkpoints});
+  \item \textbf{Estruturar a sala virtual da oficina no Moodle institucional do IFSC}, atuando com perfil de \textbf{Professor} para organizar os 4 blocos práticos;
+  \item \textbf{Integrar os entregáveis das demais frentes na sala do Moodle}, centralizando o Starter Kit (\texttt{.zip}), os Slides-Guia e o formulário de avaliação;
+  \item \textbf{Conduzir a revisão cruzada e o ensaio cronometrado} em máquina de laboratório antes do evento.
+\end{itemize}
+\end{boxObjetivos}
+
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Missão desta semana}{Candidatura até 27/10 e divisão de tarefas entre os 3 integrantes (Seção~\ref{sec:semana})}
+\etapaMapa{verdeVivo}{2}{Micro-Roteiro A4}{Estrutura de 4 páginas em LaTeX com código completo e checkpoints (Seção~\ref{sec:microroteiro})}
+\etapaMapa{ambar}{3}{Curso no Moodle IFSC}{Configuração da sala com papel de professor para os estudantes (Seção~\ref{sec:moodle})}
+\etapaMapa{roxo}{4}{Marcos e entrega}{Cronograma de validação, ensaio de bancada e checklist final (Seção~\ref{sec:marcos})}
+\end{mapaAula}
+
+% =====================================================
+% 1. ONDE ESTA FRENTE SE ENCAIXA E TAREFAS DA SEMANA
+% =====================================================
+\section{Onde esta frente se encaixa e o que fazer nesta semana}\label{sec:semana}
+
+Cada oficina da SNCT 2026 (\textbf{Curso 1: Meu Primeiro Site no Ar} e \textbf{Curso 2: Tema Eleito na Votação}) é dividida em quatro frentes com 3 estudantes cada. A sua equipe (\textbf{Frente 1 — Didática \& Micro-Roteiro}) é a guardiã do ritmo pedagógico da oficina e a responsável por estruturar a sala do curso no \textbf{Moodle institucional do IFSC}, onde vocês terão permissão de \textbf{Professor}.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Frente de Trabalho} & \cab{Entregável Principal} & \cab{Conexão com a Frente de Didática} \\
+\textbf{1. Didática \& Micro-Roteiro (Você)} & PDF de até 4 páginas + Sala no Moodle IFSC. & Define a sequência dos 4 blocos que guia todas as outras frentes. \\
+2. Starter Kit \& Código GitHub & Repositório template + arquivo \texttt{.zip} offline. & Fornece a você os trechos exatos de código e o \texttt{.zip} para o Moodle. \\
+3. Slides-Guia (8 Telas) & Apresentação HTML no GitHub Pages. & Usa a mesma numeração dos passos do seu roteiro e envia o link para o Moodle. \\
+4. Monitoria \& Logística & Escala de bancada, presença e satisfação. & Usa o seu roteiro no ensaio e publica o questionário final no Moodle. \\
+\end{tabularx}
+\caption{Articulação entre as 4 frentes de cada oficina da SNCT 2026.}
+\end{table}
+
+\begin{atencao}{Ação imediata para esta semana (ausência docente em sala)}
+\begin{enumerate}[leftmargin=1.4em, itemsep=0.25em]
+  \item \textbf{Até amanhã (terça-feira, 27/10, às 23h59):} acesse o painel da disciplina com seu login Google e clique em \textbf{Candidatar-me a esta Frente} em \emph{Didática \& Micro-Roteiro Cirúrgico} (Curso 1 ou Curso 2).
+  \item \textbf{Durante o horário da aula desta semana:} reúnam os 3 integrantes, dividam os papéis abaixo e publiquem o primeiro rascunho do roteiro e da estrutura do Moodle no link de entrega do painel.
+\end{enumerate}
+\end{atencao}
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Papel na Equipe} & \cab{Responsabilidade Técnica} & \cab{Entrega até o fim desta semana} \\
+Membro A — Redator(a) dos Blocos 1 e 2 & Escrever a abertura, o desempacotamento do Starter Kit e a personalização visual. & Páginas 1 e 2 do \texttt{content.tex} compilando sem erros. \\
+Membro B — Redator(a) dos Blocos 3 e 4 & Escrever o passo a passo de publicação no GitHub Pages, QR Code e checklist do aluno. & Páginas 3 e 4 do \texttt{content.tex} com imagens/croquis. \\
+Membro C — Editor(a) do Moodle IFSC & Estruturar as seções do curso no Moodle institucional e revisar os textos do PDF. & Sala do Moodle organizada em 4 blocos com o PDF preliminar anexado. \\
+\end{tabularx}
+\caption{Divisão de trabalho recomendada para os 3 estudantes da Frente 1.}
+\end{table}
+
+% =====================================================
+% 2. ARQUITETURA DO MICRO-ROTEIRO (MÁX. 4 PÁGINAS)
+% =====================================================
+\section{Arquitetura do Micro-Roteiro de 4 Páginas}\label{sec:microroteiro}
+
+O participante da SNCT terá apenas \textbf{120 minutos} no laboratório. Ele não deve ler páginas de teoria: cada página do seu micro-roteiro corresponde a uma etapa prática com resultado visível na tela e no celular.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Página / Tempo} & \cab{Curso 1: Meu Primeiro Site no Ar} & \cab{Curso 2: Tema Eleito na Votação} \\
+Página 1 (00--35 min) & Boas-vindas, download do Starter Kit no Moodle e troca de nome, bio, foto e paleta CSS. & Boas-vindas, download do Starter Kit no Moodle e configuração dos dados iniciais do projeto. \\
+Página 2 (35--70 min) & Edição dos cartões de conteúdo/serviços e configuração do botão direto para WhatsApp. & Implementação guiada da função JavaScript central (filtro de ecopontos ou lógica do quiz). \\
+Página 3 (70--95 min) & Upload dos arquivos no GitHub e ativação do GitHub Pages com URL pública. & Upload dos arquivos no GitHub, ativação do GitHub Pages e teste dos eventos no navegador. \\
+Página 4 (95--120 min) & Geração do QR Code para abrir no celular, checklist de vitória e avaliação no Moodle. & Geração do QR Code para testar no celular, checklist de vitória e avaliação no Moodle. \\
+\end{tabularx}
+\caption{Mapa página a página do Micro-Roteiro A4 para os dois cursos.}
+\end{table}
+
+\manterJunto{42}
+\passo{2.1}{Criar o esqueleto LaTeX do Micro-Roteiro do participante}
+
+Crie uma pasta para o micro-roteiro da sua oficina e utilize o modelo completo abaixo. Ele já respeita o limite de 4 páginas e a regra \emph{Zero-Ellipsis} (nunca use reticências \texttt{...} nos blocos de código que o participante vai copiar).
+
+\begin{codigo}[txt]{micro-roteiro-snct/content.tex}
+\capaRoteiro{\faGlobe}{Meu Primeiro Site no Ar em 120 Minutos}
+  {Oficina Pratica SNCT 2026 -- IFSC Campus Garopaba}
+  {\chip{\faUniversity}{Moodle IFSC}\hspace{4pt}
+   \chip{\faTools}{VS Code · Navegador · GitHub Pages}\hspace{4pt}
+   \chip{\faCheckCircle}{Zero instalacao}}
+
+\vspace{0.3em}
+\cartoesUC{Pagina pessoal publicada na internet com link proprio e QR Code no celular}
+
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Bloco 1 (20 min)}{Baixar o Starter Kit no Moodle e personalizar perfil}
+\etapaMapa{verdeVivo}{2}{Bloco 2 (35 min)}{Customizar os cartoes de destaque e botao WhatsApp}
+\etapaMapa{ambar}{3}{Bloco 3 (25 min)}{Publicar gratuitamente na internet via GitHub Pages}
+\etapaMapa{roxo}{4}{Bloco 4 (15 min)}{Gerar o QR Code e testar o site no smartphone}
+\end{mapaAula}
+
+\section{Bloco 1 -- Desempacotando o Starter Kit (15 a 35 min)}
+
+\passo{1.1}{Baixar o pacote inicial na sala do Moodle}
+Acesse a sala da oficina no Moodle do IFSC, clique em \botao{Starter Kit (.zip)}, extraia a
+pasta na Area de Trabalho e abra o arquivo \texttt{index.html} no editor VS Code.
+
+\passo{1.2}{Personalizar seu nome, minibiografia e cores}
+No arquivo \texttt{css/estilo.css}, altere a cor principal do seu tema:
+\end{codigo}
+
+\begin{boxTeste}[Validação de compilação e limite de 103 colunas]
+Compile com \texttt{tectonic main.tex}. Verifique se o PDF final tem no máximo \textbf{4 páginas} e se nenhuma linha de código ultrapassa \textbf{103 caracteres} (acima disso, a linha quebra no PDF e estraga o copiar-e-colar do participante).
+\end{boxTeste}
+
+% =====================================================
+% 3. ESTRUTURAÇÃO DO CURSO NO MOODLE INSTITUCIONAL
+% =====================================================
+\section{Estruturação do Curso no Moodle Institucional do IFSC}\label{sec:moodle}
+
+Para facilitar o acesso aos arquivos em todas as bancadas do laboratório e permitir que o participante continue estudando em casa, os cursos serão hospedados no \textbf{Moodle institucional do IFSC}, onde os estudantes da turma atuarão com papel de \textbf{Professor Editor}.
+
+\begin{conceito}{Por que usar o Moodle institucional na oficina?}
+Em oficinas presenciais, digitar URLs longas no navegador faz a turma perder de 10 a 15 minutos. Com a sala no Moodle aberta nas máquinas do laboratório, o participante encontra em um único lugar: (1) o PDF do Micro-Roteiro, (2) o botão para baixar o \texttt{starter-kit.zip}, (3) os Slides-Guia para acompanhar no próprio monitor e (4) o questionário final de satisfação.
+\end{conceito}
+
+\passo{3.1}{Organizar as seções da sala no Moodle (Modo de Edição)}
+
+No topo direito da sala do Moodle, ative a chave \botao{Modo de edição} (ou \botao{Ativar edição}) e estruture exatamente \textbf{5 seções (tópicos)} usando o menu \botao{Adicionar uma atividade ou recurso}:
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Seção no Moodle} & \cab{Recurso / Atividade a Adicionar} & \cab{Frente Responsável pelo Conteúdo} \\
+Seção 0 — Boas-vindas \& Kit & \textbf{Arquivo:} Micro-Roteiro em PDF (\texttt{roteiro-oficina.pdf}).\newline \textbf{URL:} Slides-Guia no GitHub Pages. & Frente 1 (Didática) e Frente 3 (Slides). \\
+Seção 1 — Bloco 1: Starter Kit & \textbf{Arquivo:} Pacote \texttt{starter-kit-snct.zip} para download direto.\newline \textbf{URL:} Repositório modelo no GitHub. & Frente 2 (Starter Kit) envia para a Frente 1 publicar. \\
+Seção 2 — Bloco 2: Código Central & \textbf{Página:} Trechos de código completos para consulta rápida (caso o aluno apague algo sem querer). & Frente 1 em conjunto com a Frente 2. \\
+Seção 3 — Bloco 3 e 4: No Ar! & \textbf{Tarefa ou Fórum:} Mural onde cada participante cola o link do seu site publicado no GitHub Pages. & Frente 1 configura; Frente 4 apoia na coleta. \\
+Seção 4 — Avaliação \& Certificado & \textbf{Pesquisa (Feedback)} de 3 perguntas rápidas sobre a oficina. & Frente 4 (Monitoria) elabora; Frente 1 revisa. \\
+\end{tabularx}
+\caption{Mapa de recursos e atividades da sala da oficina no Moodle do IFSC.}
+\end{table}
+
+\manterJunto{22}
+\passo{3.2}{Texto de boas-vindas pronto para colar na Seção 0 do Moodle}
+
+Copie o HTML abaixo e cole no sumário da Seção 0 do Moodle (usando o botão de código HTML \texttt{</> } do editor do Moodle):
+
+\begin{boxCodigoHTML}[Sumario da Secao 0 no Moodle]
+<div style="padding:16px;border-left:4px solid #16a34a;background:#f8fafc;border-radius:8px;">
+  <h3 style="margin-top:0;color:#1e3c5a;">Bem-vindo(a) a Oficina Pratica SNCT 2026 — IFSC Garopaba!</h3>
+  <p>Hoje voce vai publicar um projeto web real na internet em <strong>120 minutos</strong>,
+     mesmo sem experiencia previa em programacao.</p>
+  <ol>
+    <li><strong>Passo 1:</strong> Baixe o <em>Micro-Roteiro em PDF</em> logo abaixo.</li>
+    <li><strong>Passo 2:</strong> Na Secao 1, baixe o arquivo <code>starter-kit-snct.zip</code>.</li>
+    <li><strong>Passo 3:</strong> Ao publicar seu site no Bloco 3, compartilhe o link no Mural!</li>
+  </ol>
+</div>
+\end{boxCodigoHTML}
+
+\begin{dica}{Verificação de acesso dos participantes no Moodle}
+Alinhe com a \textbf{Frente 4 (Monitoria \& Logística)} o método de inscrição na sala do Moodle: ative \botao{Participantes}\seta\botao{Métodos de inscrição}\seta\botao{Autoinscrição (Estudante)} com uma chave simples (ex.: \texttt{SNCT2026}) e deixe também o \textbf{Acesso de visitante} liberado para leitura do PDF e download do \texttt{.zip} caso algum participante externo ainda não tenha cadastro no Moodle.
+\end{dica}
+
+% =====================================================
+% 4. CRONOGRAMA DE MARCOS E CHECKLIST DE PRONTIDÃO
+% =====================================================
+\section{Cronograma de Marcos e Checklist de Entrega}\label{sec:marcos}
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Marco / Prazo} & \cab{O que deve estar pronto} & \cab{Onde registrar o andamento} \\
+Marco 1 — Até 27/10 (23h59) & Os 3 integrantes inscritos na frente pelo painel da disciplina. & Quadro de Candidaturas SNCT no painel de ProgWeb 2. \\
+Marco 2 — Semana 28 a 30/10 & Estrutura das 4 páginas em LaTeX + esqueleto das 5 seções no Moodle. & Botão \textbf{Informar Link} no card da sua frente e na Central de Demandas. \\
+Marco 3 — Revisão Cruzada & Código do roteiro idêntico ao \texttt{starter-kit.zip} da Frente 2 e telas casadas com a Frente 3. & Atualização do PDF no repositório e na Seção 0 do Moodle. \\
+Marco 4 — Ensaio Geral & Teste cronometrado de 120 min numa máquina do laboratório. & Ajustes finais no PDF e tiragem das cópias impressas. \\
+\end{tabularx}
+\caption{Marcos de controle de andamento da Frente 1.}
+\end{table}
+
+\begin{checklist}[Checklist de prontidão da Frente 1 (Didática, Micro-Roteiro \& Moodle)]
+\begin{itemize}[label={\caixaMarcar}, itemsep=0.35em]
+  \item Os 3 estudantes registraram candidatura na frente até 27/10 às 23h59 no painel da disciplina;
+  \item O Micro-Roteiro compila com \texttt{tectonic main.tex} gerando um PDF limpo de no máximo 4 páginas;
+  \item Todos os nomes de arquivos e seletores citados no PDF batem exatamente com o Starter Kit da Frente 2;
+  \item Nenhuma linha de código no PDF passa de 103 caracteres e não há uso de reticências (\texttt{...});
+  \item A sala do curso no Moodle institucional está organizada nas 5 seções com o PDF, o \texttt{.zip} e o link dos slides;
+  \item A autoinscrição com chave (\texttt{SNCT2026}) e o acesso aos arquivos foram testados em uma máquina do laboratório;
+  \item O link do repositório/Moodle foi registrado na Central de Demandas da disciplina.
+\end{itemize}
+\end{checklist}
+
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba — Programação para a Internet 2 (Curricularização da Extensão SNCT 2026)\par}

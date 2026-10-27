@@ -1,0 +1,279 @@
+% =====================================================
+% CAPA / ABERTURA
+% =====================================================
+\capaRoteiro{\faFileCode}{Starter Kit, Código Base GitHub \& Moodle}
+  {Guia operacional da Frente 2 para as Oficinas de 120 minutos da SNCT 2026}
+  {\chip{\faLayerGroup}{Extensão A2 (20\%)}\hspace{4pt}
+   \chip{\faTools}{HTML5 · CSS3 · JS · GitHub · Moodle}\hspace{4pt}
+   \chip{\faLaptopCode}{Equipes de 3 estudantes}}
+
+\vspace{0.4em}
+\cartoesUC{Repositório Template no GitHub, pacote .zip publicado no Moodle institucional e pen-drives de contingência (Plano B)}
+
+\begin{boxObjetivos}
+\begin{itemize}
+  \item \textbf{Aplicar o princípio ``Zero Tela em Branco''}: entregar ao participante um projeto base funcional que abre no navegador desde o primeiro minuto da oficina;
+  \item \textbf{Codificar o Starter Kit completo e comentado} (HTML5, CSS3 com variáveis de cores e JavaScript modularizado quando aplicável), seguindo a regra \emph{Zero-Ellipsis};
+  \item \textbf{Publicar o código como Repositório Template no GitHub} e empacotar o arquivo \texttt{starter-kit-snct.zip} sem dependências externas pesadas;
+  \item \textbf{Disponibilizar o pacote \texttt{.zip} e o link do repositório na sala do Moodle institucional} (em parceria com a Frente 1), atuando com papel de \textbf{Professor};
+  \item \textbf{Preparar o Plano B Offline} em pen-drives testados nas máquinas reais do laboratório do IFSC Câmpus Garopaba.
+\end{itemize}
+\end{boxObjetivos}
+
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Missão desta semana}{Candidatura até 27/10 e divisão dos módulos entre os 3 integrantes (Seção~\ref{sec:semana})}
+\etapaMapa{verdeVivo}{2}{Código do Starter Kit}{Estrutura de pastas e código completo pronto para customização (Seção~\ref{sec:codigo})}
+\etapaMapa{ambar}{3}{GitHub, Moodle e Plano B}{Template no GitHub, upload do \texttt{.zip} no Moodle e pen-drive offline (Seção~\ref{sec:publicacao})}
+\etapaMapa{roxo}{4}{Marcos e entrega}{Teste em máquina do laboratório, revisão com a Frente 1 e checklist (Seção~\ref{sec:marcos})}
+\end{mapaAula}
+
+% =====================================================
+% 1. ONDE ESTA FRENTE SE ENCAIXA E TAREFAS DA SEMANA
+% =====================================================
+\section{Onde esta frente se encaixa e o que fazer nesta semana}\label{sec:semana}
+
+Em uma oficina de 120 minutos para iniciantes, digitar a estrutura básica de um documento HTML do zero consome metade da aula com erros de fechamento de tags. A \textbf{Frente 2 (Starter Kit \& Código Base GitHub)} resolve esse problema: vocês constroem a base visual e funcional para que o participante vá direto ao que importa — personalizar o projeto, entender os blocos principais e colocar o site no ar.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Frente de Trabalho} & \cab{Entregável Principal} & \cab{Conexão com a Frente de Starter Kit} \\
+1. Didática \& Micro-Roteiro & PDF de até 4 páginas + Sala no Moodle IFSC. & Recebe de você os nomes exatos de arquivos/IDs e publica o seu \texttt{.zip} na Seção 1 do Moodle. \\
+\textbf{2. Starter Kit \& GitHub (Você)} & Repositório template + \texttt{starter-kit.zip} + Plano B. & Entrega a base técnica idêntica ao que está impresso no roteiro e projetado nos slides. \\
+3. Slides-Guia (8 Telas) & Apresentação HTML no GitHub Pages. & Usa capturas de tela e os mesmos trechos de código do seu Starter Kit. \\
+4. Monitoria \& Logística & Escala de bancada, presença e satisfação. & Recebe de você os pen-drives com o Plano B Offline para as bancadas do laboratório. \\
+\end{tabularx}
+\caption{Articulação entre a Frente 2 e as demais equipes da oficina.}
+\end{table}
+
+\begin{atencao}{Ação imediata para esta semana (ausência docente em sala)}
+\begin{enumerate}[leftmargin=1.4em, itemsep=0.25em]
+  \item \textbf{Até amanhã (terça-feira, 27/10, às 23h59):} acesse o painel da disciplina com seu login Google e candidate-se na frente \emph{Starter Kit \& Código Base GitHub} (Curso 1) ou \emph{Starter Kit \& Componente Prático} (Curso 2).
+  \item \textbf{Durante a aula desta semana:} dividam os três papéis abaixo, subam a primeira versão do repositório no GitHub e registrem o link no painel da disciplina.
+\end{enumerate}
+\end{atencao}
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Papel na Equipe} & \cab{Responsabilidade Técnica} & \cab{Entrega até o fim desta semana} \\
+Membro A — Estrutura HTML5 \& Comentários & Escrever o \texttt{index.html} semântico com comentários \texttt{<!-- PASSO 1 -->} indicando onde o aluno edita. & \texttt{index.html} validado e abrindo com duplo-clique. \\
+Membro B — Estilo CSS3 \& Componente JS & Criar o \texttt{css/estilo.css} com variáveis no \texttt{:root} (e o \texttt{js/app.js} no Curso 2). & Layout responsivo testado no computador e no celular. \\
+Membro C — GitHub, Moodle \& Plano B & Configurar o repositório como \emph{Template repository}, gerar o \texttt{.zip} para o Moodle e testar offline. & Repositório público no GitHub e \texttt{.zip} publicado na Seção 1 do Moodle. \\
+\end{tabularx}
+\caption{Divisão de trabalho recomendada para os 3 estudantes da Frente 2.}
+\end{table}
+
+% =====================================================
+% 2. ARQUITETURA E CÓDIGO COMPLETO DO STARTER KIT
+% =====================================================
+\section{Arquitetura e Código Base do Starter Kit}\label{sec:codigo}
+
+O pacote deve ser ultraenxuto: abrir diretamente com duplo-clique em \texttt{index.html} (protocolo \texttt{file://}) ou via Live Server, sem depender de \texttt{npm install} ou ferramentas de linha de comando.
+
+\manterJunto{14}
+\passo{2.1}{Organizar a árvore de diretórios do Starter Kit}
+
+\begin{arvore}[starter-kit-snct/]
+starter-kit-snct/
+├── index.html          (Pagina principal comentada passo a passo)
+├── css/
+│   └── estilo.css      (Variaveis de cores no :root e layout responsivo)
+├── img/
+│   └── avatar.svg      (Imagem local leve para funcionar mesmo sem internet)
+└── README.md           (Instrucoes curtas de 5 linhas para o participante)
+\end{arvore}
+
+\manterJunto{46}
+\passo{2.2}{Criar o arquivo \texttt{index.html} completo (Curso 1)}
+
+Cada trecho que o participante vai editar durante a oficina deve estar marcado com um comentário claro (\texttt{<!-- BLOCO 1 -->}, \texttt{<!-- BLOCO 2 -->}) casado com o Micro-Roteiro da Frente 1:
+
+\begin{boxCodigoHTML}[starter-kit-snct/index.html]
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Primeiro Site no Ar — SNCT IFSC Garopaba</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <main class="cartao-principal">
+    <!-- BLOCO 1: Personalize seu nome, cidade e minibiografia abaixo -->
+    <header class="cabecalho-perfil">
+      <img src="img/avatar.svg" alt="Foto de perfil" class="foto-perfil">
+      <span class="selo-local">Garopaba · Santa Catarina</span>
+      <h1 id="nomePessoa">Seu Nome ou Nome do Negocio</h1>
+      <p class="bio-texto">
+        Escreva aqui em uma frase o que voce faz, estuda ou oferece para a comunidade.
+      </p>
+    </header>
+
+    <!-- BLOCO 2: Edite seus 3 destaques ou servicos principais -->
+    <section class="grade-destaques" aria-label="Destaques">
+      <article class="item-destaque">
+        <h2>Destaque 1</h2>
+        <p>Descreva seu primeiro projeto, habilidade ou produto em destaque.</p>
+      </article>
+      <article class="item-destaque">
+        <h2>Destaque 2</h2>
+        <p>Informe horarios de atendimento, redes sociais ou diferencial.</p>
+      </article>
+      <article class="item-destaque">
+        <h2>Destaque 3</h2>
+        <p>Adicione uma conquista, curso ou novidade para quem visita seu site.</p>
+      </article>
+    </section>
+
+    <!-- BLOCO 2B: Troque 5548999999999 pelo seu numero com DDD -->
+    <footer class="rodape-acao">
+      <a class="botao-whatsapp"
+         href="https://wa.me/5548999999999?text=Ola!%20Vi%20seu%20site%20na%20SNCT!"
+         target="_blank" rel="noopener">
+        Falar comigo no WhatsApp
+      </a>
+    </footer>
+  </main>
+</body>
+</html>
+\end{boxCodigoHTML}
+
+\manterJunto{46}
+\passo{2.3}{Criar a folha de estilo \texttt{css/estilo.css} com variáveis no \texttt{:root}}
+
+Concentrar as cores nas quatro primeiras linhas do \texttt{:root} permite que o participante mude toda a identidade visual do site no Bloco 1 sem quebrar o layout:
+
+\begin{boxCodigoCSS}[starter-kit-snct/css/estilo.css]
+:root {
+  /* BLOCO 1: Altere os codigos de cor abaixo para personalizar seu tema */
+  --cor-primaria: #16a34a;
+  --cor-fundo: #f0fdf4;
+  --cor-cartao: #ffffff;
+  --cor-texto: #1e293b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.cartao-principal {
+  background: var(--cor-cartao);
+  max-width: 720px;
+  width: 100%;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.foto-perfil {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid var(--cor-primaria);
+  margin-bottom: 12px;
+}
+
+.selo-local {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  margin-bottom: 8px;
+}
+
+.grade-destaques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.item-destaque {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.botao-whatsapp {
+  display: inline-block;
+  background: var(--cor-primaria);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 999px;
+}
+\end{boxCodigoCSS}
+
+\begin{dica}{E para a equipe da Frente 2 do Curso 2?}
+No \textbf{Curso 2 (Tema Eleito na Votação)}, mantenha exatamente a mesma simplicidade de pastas (\texttt{index.html}, \texttt{css/estilo.css} e \texttt{js/app.js}). Entregue o HTML e o CSS 100\% prontos no Starter Kit e deixe no \texttt{js/app.js} o array de dados inicial e a função principal claramente comentada para o participante completar no Bloco 2.
+\end{dica}
+
+% =====================================================
+% 3. GITHUB TEMPLATE, MOODLE E PLANO B OFFLINE
+% =====================================================
+\section{Publicação no GitHub, Sala do Moodle e Plano B Offline}\label{sec:publicacao}
+
+\passo{3.1}{Ativar o modo Template Repository no GitHub}
+Suba a pasta para um repositório público no GitHub (ex.: \texttt{snct2026-starter-kit-curso1}). Na aba \botao{Settings} do repositório, marque a caixa \textbf{Template repository}. Assim, qualquer participante pode clicar no botão verde \botao{Use this template} ou baixar o \texttt{.zip}.
+
+\passo{3.2}{Publicar o pacote \texttt{starter-kit-snct.zip} no Moodle institucional}
+Com o papel de \textbf{Professor} na sala da oficina no Moodle do IFSC:
+\begin{enumerate}[leftmargin=1.4em, itemsep=0.25em]
+  \item Compacte a pasta do projeto como \texttt{starter-kit-snct.zip} (verifique se não há pasta oculta \texttt{.git} dentro do arquivo compactado);
+  \item Na \textbf{Seção 1 — Bloco 1} do Moodle, acione \botao{Adicionar atividade ou recurso}\seta\botao{Arquivo} e envie o \texttt{starter-kit-snct.zip};
+  \item Logo abaixo, adicione um recurso \botao{URL} apontando para o repositório no GitHub.
+\end{enumerate}
+
+\passo{3.3}{Preparar o Plano B Offline nos pen-drives da equipe}
+Caso a internet do laboratório oscile no momento da oficina, grave em pelo menos \textbf{2 pen-drives}: (a) a pasta \texttt{starter-kit-snct/} já descompactada, (b) o arquivo \texttt{starter-kit-snct.zip} e (c) o PDF do Micro-Roteiro e os Slides-Guia da Frente 3.
+
+% =====================================================
+% 4. CRONOGRAMA DE MARCOS E CHECKLIST DE ENTREGA
+% =====================================================
+\section{Cronograma de Marcos e Checklist de Entrega}\label{sec:marcos}
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Marco / Prazo} & \cab{O que deve estar pronto} & \cab{Onde registrar o andamento} \\
+Marco 1 — Até 27/10 (23h59) & Os 3 integrantes inscritos na frente pelo painel da disciplina. & Quadro de Candidaturas SNCT no painel de ProgWeb 2. \\
+Marco 2 — Semana 28 a 30/10 & Repositório GitHub no ar com \texttt{index.html} e \texttt{css/estilo.css} funcionais. & Botão \textbf{Informar Link} no card da frente e na Central de Demandas. \\
+Marco 3 — Integração Moodle & Arquivo \texttt{starter-kit-snct.zip} anexado na Seção 1 do Moodle e validado com a Frente 1. & Sala da oficina no Moodle institucional do IFSC. \\
+Marco 4 — Ensaio no Lab & Teste real em máquina do laboratório abrindo sem internet e publicando no GitHub Pages. & Entrega dos 2 pen-drives do Plano B para a Frente 4. \\
+\end{tabularx}
+\caption{Marcos de controle de andamento da Frente 2.}
+\end{table}
+
+\begin{checklist}[Checklist de prontidão da Frente 2 (Starter Kit, GitHub \& Moodle)]
+\begin{itemize}[label={\caixaMarcar}, itemsep=0.35em]
+  \item Os 3 estudantes registraram candidatura na frente até 27/10 às 23h59 no painel da disciplina;
+  \item O arquivo \texttt{index.html} abre com duplo-clique em qualquer navegador sem erros no Console (F12);
+  \item Todas as imagens e ícones do Starter Kit são locais (funciona 100\% mesmo com o cabo de rede desconectado);
+  \item Os comentários \texttt{<!-- BLOCO 1 -->} e \texttt{<!-- BLOCO 2 -->} batem linha por linha com o PDF da Frente 1;
+  \item O repositório está público no GitHub com a opção \textbf{Template repository} ativada;
+  \item O pacote \texttt{starter-kit-snct.zip} está disponível para download na Seção 1 da sala do Moodle;
+  \item O link do repositório foi registrado na Central de Demandas da disciplina.
+\end{itemize}
+\end{checklist}
+
+\vfill
+{\centering\footnotesize\color{suave}\faMapMarkerAlt\hspace{0.4em}IFSC Câmpus Garopaba — Programação para a Internet 2 (Curricularização da Extensão SNCT 2026)\par}
