@@ -48,6 +48,62 @@ Durante a oficina, quem está conduzindo no telão precisa ditar o ritmo da turm
 \caption{Articulação entre a Frente 3 e as demais equipes da oficina.}
 \end{table}
 
+\subsection*{Pipeline Visual: Da Produção em Equipe à Aplicação nos Dias da SNCT}
+
+O diagrama abaixo resume o fluxo completo de execução que conecta o trabalho desta semana ao dia da oficina presencial no laboratório:
+
+\begin{center}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[
+    node distance=0.45cm,
+    etapa/.style={rectangle, rounded corners=6pt, draw=#1, fill=#1!8, line width=1pt,
+                  text width=2.85cm, minimum height=2.35cm, align=center, inner sep=5pt, font=\scriptsize\sffamily},
+    seta/.style={-{Latex[length=2.6mm, width=2mm]}, line width=1.2pt, color=azul}
+]
+\node[etapa=azulMedio] (f1) {
+  {\bfseries\color{azulMedio}1. PRODUÇÃO}\\[2pt]
+  \textbf{Frentes 1 a 4}\\
+  Codificação do Starter Kit, Slides (8 telas), Roteiro A4 e Pesquisa.\\[2pt]
+  {\tiny\color{suave}(Semana 28--30/10)}
+};
+
+\node[etapa=ambar, right=of f1] (f2) {
+  {\bfseries\color{ambar!85!black}2. TESTE NO LAB}\\[2pt]
+  \textbf{Revisão Cruzada}\\
+  Teste real nas máquinas do lab, código 100\% igual ao PDF e Plano B.\\[2pt]
+  {\tiny\color{suave}(Pré-publicação)}
+};
+
+\node[etapa=verdeVivo, right=of f2] (f3) {
+  {\bfseries\color{verde}3. MOODLE IFSC}\\[2pt]
+  \textbf{Alunos = Professores}\\
+  Criação das 5 seções nas Salas do Curso 1 e do Curso 2 no Moodle.\\[2pt]
+  {\tiny\color{suave}(Chave: SNCT2026)}
+};
+
+\node[etapa=ciano, right=of f3] (f4) {
+  {\bfseries\color{ciano}4. KIT + CÓDIGOS}\\[2pt]
+  \textbf{Disponibilização}\\
+  Upload do \texttt{.zip}, PDF, link GitHub Template e Slides na sala.\\[2pt]
+  {\tiny\color{suave}(Pronto p/ público)}
+};
+
+\node[etapa=roxo, right=of f4] (f5) {
+  {\bfseries\color{roxo}5. DIAS DA SNCT}\\[2pt]
+  \textbf{Aplicação (120 min)}\\
+  Oficina nas bancadas, site no celular (QR Code) e avaliação final.\\[2pt]
+  {\tiny\color{suave}(Evento + Relatório)}
+};
+
+\draw[seta] (f1.east) -- (f2.west);
+\draw[seta] (f2.east) -- (f3.west);
+\draw[seta] (f3.east) -- (f4.west);
+\draw[seta] (f4.east) -- (f5.west);
+\end{tikzpicture}
+\end{adjustbox}
+\end{center}
+
+
 \begin{atencao}{Ação imediata para esta semana (ausência docente em sala)}
 \begin{enumerate}[leftmargin=1.4em, itemsep=0.25em]
   \item \textbf{Até amanhã (terça-feira, 27/10, às 23h59):} acesse o painel da disciplina com seu login Google e candidate-se na frente \emph{Slides-Guia de Projeção (8 Telas)} do Curso 1 ou do Curso 2.

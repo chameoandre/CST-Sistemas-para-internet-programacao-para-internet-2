@@ -2210,6 +2210,72 @@
       background: var(--bg-card);
       font-size: var(--fs-small);
     }
+    /* ---- Diagrama Visual do Pipeline de Execução SNCT (5 Fases) ---- */
+    .snct-pipeline-diagram {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.85rem;
+      position: relative;
+    }
+    @media (max-width: 1199px) {
+      .snct-pipeline-diagram {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 767px) {
+      .snct-pipeline-diagram {
+        grid-template-columns: 1fr;
+      }
+    }
+    .snct-pipe-step {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md, 10px);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .snct-pipe-step::after {
+      content: "→";
+      position: absolute;
+      right: -0.68rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-heading);
+      font-weight: 800;
+      font-size: var(--fs-label);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .snct-pipe-step:last-child::after {
+      display: none;
+    }
+    @media (max-width: 1199px) {
+      .snct-pipe-step::after {
+        display: none;
+      }
+    }
+    .snct-pipe-num {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 800;
+      font-size: var(--fs-label);
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
 </style>
 </head>
 
@@ -3399,6 +3465,144 @@
                   <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
                     <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-warning text-dark me-1">Passo 3</span> Marcar Etapas &amp; Informar Link (30/10)</div>
                     <p class="fs-caption text-muted mb-0">No card da sua frente, marque as <strong>3 etapas de andamento</strong> conforme avançarem e clique em <strong>Informar Link</strong> (repositório GitHub ou sala do Moodle).</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- DIAGRAMA VISUAL ILUSTRADO DO PIPELINE DE EXECUÇÃO (DA PRODUÇÃO AO DIA DO EVENTO) -->
+              <div id="diagramaPipelineSNCT" class="p-3 rounded-3 my-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1">
+                      <i class="bi bi-diagram-3-fill me-1"></i> VISÃO DE PONTA A PONTA DO PROJETO
+                    </span>
+                    <h6 class="font-outfit fw-bold fs-6 text-heading mb-0">
+                      Diagrama do Pipeline de Execução: Da Produção do Material à Aplicação nos Dias da SNCT
+                    </h6>
+                  </div>
+                  <span class="fs-caption text-muted">Fluxo idêntico e independente para o <strong>Curso 1</strong> e para o <strong>Curso 2 (Painel Verde)</strong></span>
+                </div>
+
+                <div class="snct-pipeline-diagram mt-3">
+                  <!-- FASE 1 -->
+                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-blue);">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-pipe-num" style="background: rgba(2, 132, 199, 0.14); color: var(--accent-blue);">
+                          <i class="bi bi-code-slash"></i> Fase 1
+                        </span>
+                        <span class="fs-label text-muted fw-bold">27 a 30/10</span>
+                      </div>
+                      <div class="fw-bold text-heading fs-small mb-1">1. Produção &amp; Codificação nas Frentes</div>
+                      <p class="fs-caption text-muted mb-2">
+                        Cada trio constrói seu artefato seguindo o Roteiro PDF (SNCT 01 a 04):
+                      </p>
+                      <ul class="ps-3 mb-2 fs-caption text-muted">
+                        <li><strong>Frente 1:</strong> Micro-Roteiro PDF (4 págs.)</li>
+                        <li><strong>Frente 2:</strong> Código do Starter Kit</li>
+                        <li><strong>Frente 3:</strong> Slides HTML (8 telas)</li>
+                        <li><strong>Frente 4:</strong> Pesquisa &amp; Logística</li>
+                      </ul>
+                    </div>
+                    <div class="pt-2 border-top fs-label text-primary fw-bold">
+                      <i class="bi bi-check2-square me-1"></i>Saída: Rascunhos no GitHub
+                    </div>
+                  </div>
+
+                  <!-- FASE 2 -->
+                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-amber);">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-pipe-num" style="background: rgba(217, 119, 6, 0.15); color: var(--accent-amber);">
+                          <i class="bi bi-bug-fill"></i> Fase 2
+                        </span>
+                        <span class="fs-label text-muted fw-bold">Homologação</span>
+                      </div>
+                      <div class="fw-bold text-heading fs-small mb-1">2. Teste do Material &amp; Revisão Cruzada</div>
+                      <p class="fs-caption text-muted mb-2">
+                        As 4 frentes do curso testam tudo juntas em uma máquina real do laboratório:
+                      </p>
+                      <ul class="ps-3 mb-2 fs-caption text-muted">
+                        <li>Nomes de arquivos e IDs 100% iguais entre PDF, Kit e Slides</li>
+                        <li>Teste sem internet (Plano B em pen-drive)</li>
+                        <li>Ensaio cronometrado (120 min)</li>
+                      </ul>
+                    </div>
+                    <div class="pt-2 border-top fs-label fw-bold" style="color: var(--accent-amber);">
+                      <i class="bi bi-shield-check me-1"></i>Saída: Kit Homologado
+                    </div>
+                  </div>
+
+                  <!-- FASE 3 -->
+                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-emerald);">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-pipe-num" style="background: rgba(5, 150, 105, 0.15); color: var(--accent-emerald);">
+                          <i class="bi bi-mortarboard-fill"></i> Fase 3
+                        </span>
+                        <span class="fs-label text-muted fw-bold">Moodle IFSC</span>
+                      </div>
+                      <div class="fw-bold text-heading fs-small mb-1">3. Publicação na Sala do Moodle</div>
+                      <p class="fs-caption text-muted mb-2">
+                        Com perfil de <strong>Professor</strong> no Moodle institucional, a equipe estrutura as 5 seções do curso:
+                      </p>
+                      <ul class="ps-3 mb-2 fs-caption text-muted">
+                        <li><strong>Seção 0:</strong> Boas-vindas + Roteiro PDF + Slides</li>
+                        <li><strong>Seções 1 e 2:</strong> Códigos e blocos guiados</li>
+                        <li><strong>Seções 3 e 4:</strong> Mural de sites + Pesquisa</li>
+                      </ul>
+                    </div>
+                    <div class="pt-2 border-top fs-label text-success fw-bold">
+                      <i class="bi bi-key-fill me-1"></i>Chave: <code>SNCT2026</code> + Visitante
+                    </div>
+                  </div>
+
+                  <!-- FASE 4 -->
+                  <div class="snct-pipe-step" style="border-top: 4px solid #0891b2;">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-pipe-num" style="background: rgba(8, 145, 178, 0.15); color: #0891b2;">
+                          <i class="bi bi-box-seam-fill"></i> Fase 4
+                        </span>
+                        <span class="fs-label text-muted fw-bold">Pacote + Código</span>
+                      </div>
+                      <div class="fw-bold text-heading fs-small mb-1">4. Disponibilização com os Códigos</div>
+                      <p class="fs-caption text-muted mb-2">
+                        Todos os arquivos ficam prontos para download em 1 clique nas bancadas:
+                      </p>
+                      <ul class="ps-3 mb-2 fs-caption text-muted">
+                        <li><strong>Curso 1:</strong> <code>starter-kit-snct.zip</code> + Template GitHub</li>
+                        <li><strong>Curso 2:</strong> <code>starter-kit-painel-verde.zip</code> + <code>js/app.js</code></li>
+                        <li>Roteiros A4 impressos + 2 pen-drives</li>
+                      </ul>
+                    </div>
+                    <div class="pt-2 border-top fs-label fw-bold" style="color: #0891b2;">
+                      <i class="bi bi-cloud-check-fill me-1"></i>Saída: Bancadas Prontas
+                    </div>
+                  </div>
+
+                  <!-- FASE 5 -->
+                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-purple);">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-pipe-num" style="background: rgba(147, 51, 234, 0.15); color: var(--accent-purple);">
+                          <i class="bi bi-rocket-takeoff-fill"></i> Fase 5
+                        </span>
+                        <span class="fs-label text-muted fw-bold">Dias da SNCT</span>
+                      </div>
+                      <div class="fw-bold text-heading fs-small mb-1">5. Aplicação do Curso no Evento (120 min)</div>
+                      <p class="fs-caption text-muted mb-2">
+                        Os estudantes conduzem a oficina presencial para a comunidade no laboratório:
+                      </p>
+                      <ul class="ps-3 mb-2 fs-caption text-muted">
+                        <li>Instrutor no telão (Slides 1 a 8) + Monitores nas ilhas (1:4)</li>
+                        <li>Participante edita o código, publica no GitHub Pages e abre via QR Code no celular</li>
+                      </ul>
+                    </div>
+                    <div class="pt-2 border-top fs-label fw-bold" style="color: var(--accent-purple);">
+                      <i class="bi bi-award-fill me-1"></i>Saída: Site no Ar + Relatório
+                    </div>
                   </div>
                 </div>
               </div>
