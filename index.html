@@ -2155,7 +2155,62 @@
     .bg-warning-subtle.text-warning { color: var(--bs-warning-text-emphasis) !important; }
     .bg-info-subtle.text-info       { color: var(--bs-info-text-emphasis) !important; }
     .bg-secondary-subtle.text-secondary { color: var(--bs-secondary-text-emphasis) !important; }
-  </style>
+      /* ---- Demandas: atribuição a grupos / estudantes e entregas ---- */
+    .demanda-alvos-lista {
+      max-height: 220px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md, 8px);
+      padding: 0.25rem;
+    }
+    .alvo-opcao {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      font-size: var(--fs-small);
+      cursor: pointer;
+    }
+    .alvo-opcao:hover { background: var(--bg-card-hover); }
+    .alvo-opcao .text-muted { font-size: var(--fs-label); }
+    .demanda-atribuicao-painel {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md, 8px);
+      background: var(--bg-card-hover);
+    }
+    .alvos-details summary { cursor: pointer; color: var(--text-muted); }
+    .alvos-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
+    .alvo-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: var(--fs-label);
+    }
+    .alvo-chip.entregue { border-color: var(--accent-emerald); color: var(--accent-emerald); }
+    .alvo-chip.atrasada { border-color: var(--accent-amber); color: var(--accent-amber); }
+    .alvo-chip.pendente-vencida { border-color: var(--accent-rose); color: var(--accent-rose); }
+    .alvo-chip.meu-alvo { box-shadow: 0 0 0 2px var(--accent-blue); }
+    .minha-entrega-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-left: 3px solid var(--accent-blue);
+      background: var(--bg-card);
+      font-size: var(--fs-small);
+    }
+</style>
 </head>
 
 <body>
@@ -3448,6 +3503,10 @@
             <button class="filter-chip active" onclick="filtrarDemandas('todas', this)">Todas</button>
             <button class="filter-chip" onclick="filtrarDemandas('ativas', this)">Ativas</button>
             <button class="filter-chip" onclick="filtrarDemandas('concluidas', this)">Concluídas</button>
+            <button class="filter-chip" onclick="filtrarDemandas('atrasadas', this)">Com Atraso</button>
+            <button class="filter-chip" onclick="filtrarDemandas('minhas', this)"><i class="bi bi-person-check me-1"></i>Minhas Demandas</button>
+            <button class="filter-chip" onclick="filtrarDemandas('equipes', this)">Por Grupo</button>
+            <button class="filter-chip" onclick="filtrarDemandas('individual', this)">Individuais</button>
             <button class="filter-chip" onclick="filtrarDemandas('A2', this)">A2 (Roteiros Práticos)</button>
             <button class="filter-chip" onclick="filtrarDemandas('A3', this)">A3 (Extensão &amp; Projeto)</button>
           </div>
@@ -4410,20 +4469,45 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
           <div class="row g-3 mb-3">
             <div class="col-md-6">
-              <label class="form-label small fw-bold">Destinatário:</label>
-              <select class="form-select form-select-sm" id="inputDemandaDestinatario" required>
-                <option value="Todos">Toda a Turma (Broadcast Geral)</option>
-                <option value="Equipe 1 — Vitrine Comercial &amp; Negócios Locais">Equipe 1 — Vitrine Comercial &amp; Negócios Locais</option>
-                <option value="Equipe 2 — Portal PetCare (Adoção Animal)">Equipe 2 — Portal PetCare (Adoção Animal)</option>
-                <option value="Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba">Equipe 3 — Ecoturismo &amp; Trilhas de Garopaba</option>
-                <option value="Equipe 4 — Monitoramento das Praias">Equipe 4 — Monitoramento das Praias</option>
-                <option value="Equipe 5 — Feira Agroecológica Local">Equipe 5 — Feira Agroecológica Local</option>
-                <option value="Equipe 6 — Acessibilidade em Espaços Públicos">Equipe 6 — Acessibilidade em Espaços Públicos</option>
-              </select>
+              <label class="form-label small fw-bold" for="inputDemandaPrazo">Data Limite (Deadline):</label>
+              <input type="date" class="form-control form-control-sm" id="inputDemandaPrazo" required>
             </div>
             <div class="col-md-6">
-              <label class="form-label small fw-bold">Data Limite de Entrega (Deadline):</label>
-              <input type="date" class="form-control form-control-sm" id="inputDemandaPrazo" required>
+              <label class="form-label small fw-bold" for="inputDemandaHora">Horário Limite:</label>
+              <input type="time" class="form-control form-control-sm" id="inputDemandaHora" value="23:59" required>
+            </div>
+          </div>
+
+          <div class="mb-3 demanda-atribuicao-box">
+            <label class="form-label small fw-bold d-block">Atribuir a:</label>
+            <div class="btn-group btn-group-sm w-100 mb-2" role="group" aria-label="Tipo de atribuição">
+              <input type="radio" class="btn-check" name="tipoAtribuicaoDemanda" id="atribTurma" value="turma" checked onchange="aoMudarTipoAtribuicao()">
+              <label class="btn btn-outline-primary" for="atribTurma"><i class="bi bi-people-fill me-1"></i> Toda a turma</label>
+              <input type="radio" class="btn-check" name="tipoAtribuicaoDemanda" id="atribEquipes" value="equipes" onchange="aoMudarTipoAtribuicao()">
+              <label class="btn btn-outline-primary" for="atribEquipes"><i class="bi bi-diagram-3-fill me-1"></i> Grupos</label>
+              <input type="radio" class="btn-check" name="tipoAtribuicaoDemanda" id="atribIndividual" value="individual" onchange="aoMudarTipoAtribuicao()">
+              <label class="btn btn-outline-primary" for="atribIndividual"><i class="bi bi-person-fill me-1"></i> Individual</label>
+            </div>
+
+            <div id="painelAtribTurma" class="small text-muted">
+              Cada estudante ativo da turma terá sua própria entrega acompanhada.
+            </div>
+
+            <div id="painelAtribEquipes" class="d-none">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="small text-muted">Selecione um ou mais grupos (entrega única por grupo):</span>
+                <button type="button" class="btn btn-link btn-sm p-0" onclick="marcarTodosAlvos('listaAlvosEquipes', true)">Marcar todos</button>
+              </div>
+              <div id="listaAlvosEquipes" class="demanda-alvos-lista"></div>
+            </div>
+
+            <div id="painelAtribIndividual" class="d-none">
+              <div class="d-flex gap-2 align-items-center mb-1">
+                <input type="search" class="form-control form-control-sm" id="buscaAlvosAlunos" placeholder="Filtrar estudante por nome ou matrícula" oninput="filtrarListaAlvosAlunos(this.value)">
+                <button type="button" class="btn btn-link btn-sm p-0 text-nowrap" onclick="marcarTodosAlvos('listaAlvosAlunos', false)">Limpar</button>
+              </div>
+              <div id="listaAlvosAlunos" class="demanda-alvos-lista"></div>
+              <div class="small text-muted mt-1"><span id="contadorAlvosAlunos">0</span> estudante(s) selecionado(s).</div>
             </div>
           </div>
 
@@ -5276,7 +5360,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // =========================================================================
     // CÁLCULO DE PRAZOS E STATUS
     // =========================================================================
-    function calcularStatusPrazo(prazoStr, concluida) {
+    function calcularStatusPrazo(prazoStr, concluida, horaPrazo) {
       if (concluida) {
         return {
           classe: 'badge-pill-green',
@@ -5290,10 +5374,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const hoje = new Date();
       hoje.setHours(0, 0, 0, 0);
-      const dataPrazo = new Date(prazoStr + "T23:59:59");
+      const dataPrazo = new Date(`${prazoStr}T${horaPrazo || '23:59'}:59`);
       const diffMs = dataPrazo - hoje;
       const diffDias = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
+      if (dataPrazo < new Date() && diffDias >= 0) {
+        return {
+          classe: 'badge-pill-red',
+          texto: '<i class="fa-solid fa-lock"></i> Prazo encerrado',
+          urgente: true
+        };
+      }
       if (diffDias < 0) {
         const diasAtras = Math.abs(diffDias);
         return {
@@ -5354,7 +5445,23 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         lista = lista.filter(d => d.instrumento === 'A2');
       } else if (filtroAtualDemandas === 'A3') {
         lista = lista.filter(d => d.instrumento === 'A3');
+      } else if (filtroAtualDemandas === 'equipes' || filtroAtualDemandas === 'individual') {
+        lista = lista.filter(d => normalizarAtribuicaoDemanda(d).tipoAtribuicao === filtroAtualDemandas);
+      } else if (filtroAtualDemandas === 'atrasadas') {
+        lista = lista.filter(d => !d.concluida && prazoExpirado(d) &&
+          obterAlvosDemanda(d).some(a => !obterEntregaAlvo(d, a.chave).entregue));
+      } else if (filtroAtualDemandas === 'minhas') {
+        const aluno = obterAlunoLogado();
+        if (!aluno) {
+          showToast('Identifique-se', 'Faça login com seu e-mail institucional para ver suas demandas.', 'fa-solid fa-user-lock text-warning');
+          lista = [];
+        } else {
+          lista = lista.filter(d => demandaAtribuidaAoAluno(d, aluno));
+        }
       }
+
+      // Ordena pelo prazo mais próximo (concluídas por último)
+      lista.sort((a, b) => (a.concluida - b.concluida) || (obterDataPrazo(a) - obterDataPrazo(b)));
 
       atualizarKPIs();
 
@@ -5373,7 +5480,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }
 
       container.innerHTML = lista.map(d => {
-        const statusPrazo = calcularStatusPrazo(d.prazo, d.concluida);
+        const statusPrazo = calcularStatusPrazo(d.prazo, d.concluida, d.horaPrazo);
+        const painelAtribuicao = renderizarPainelAtribuicao(d);
         const cardClass = d.concluida ? 'demanda-card concluida' : (statusPrazo.urgente ? 'demanda-card urgente' : 'demanda-card');
         
         const avaliacoesDestaDemanda = avaliacoesApp.filter(a => a.demandaId === d.id);
@@ -5398,7 +5506,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                     ${d.instrumentoNome || d.instrumento}
                   </span>
                   <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-muted); font-size: 0.8125rem; border: 1px solid var(--border-color);">
-                    <i class="fa-solid fa-users me-1"></i>${escapeHtml(d.destinatario || 'Todos')}
+                    <i class="fa-solid ${iconeAtribuicao(d)} me-1"></i>${escapeHtml(rotuloAtribuicao(d))}
                   </span>
                 </div>
                 <span class="badge-pill ${statusPrazo.classe} small">
@@ -5415,6 +5523,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                 </div>
                 ${criteriosHtml}
               </div>
+
+              ${painelAtribuicao}
             </div>
 
             <div>
@@ -5423,10 +5533,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   <span class="fw-bold text-heading font-outfit">Pontos:</span> ${(d.pontos || 10).toFixed(1)} pts
                 </div>
                 <div>
-                  <span class="fw-bold text-heading font-outfit">Avaliadas:</span> ${totalAvaliadas} / ${EQUIPES_PROGWEB2.length}
+                  <span class="fw-bold text-heading font-outfit">Avaliadas:</span> ${totalAvaliadas} / ${obterAlvosDemanda(d).length}
                 </div>
                 <div>
-                  <span class="fw-bold text-heading font-outfit">Deadline:</span> ${formatarData(d.prazo)}
+                  <span class="fw-bold text-heading font-outfit">Deadline:</span> ${formatarData(d.prazo)} às ${d.horaPrazo || '23:59'}
                 </div>
               </div>
 
@@ -5484,7 +5594,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const d = new Date();
       d.setDate(d.getDate() + 7);
       document.getElementById('inputDemandaPrazo').value = d.toISOString().split('T')[0];
+      document.getElementById('inputDemandaHora').value = '23:59';
 
+      preencherAtribuicaoNoModal({ tipoAtribuicao: 'turma', equipesAlvo: [], alunosAlvo: [] });
       document.getElementById('modalDemandaOverlay').classList.add('active');
     }
 
@@ -5497,8 +5609,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       document.getElementById('inputDemandaInstrumento').value = d.instrumento || 'A2';
       document.getElementById('inputDemandaPontos').value = d.pontos || 10.0;
       document.getElementById('inputDemandaTitulo').value = d.titulo;
-      document.getElementById('inputDemandaDestinatario').value = d.destinatario || 'Todos';
       document.getElementById('inputDemandaPrazo').value = d.prazo;
+      document.getElementById('inputDemandaHora').value = d.horaPrazo || '23:59';
+      preencherAtribuicaoNoModal(normalizarAtribuicaoDemanda(d));
       document.getElementById('inputDemandaDescricao').value = d.descricao;
       document.getElementById('inputDemandaCriterios').value = (d.criterios || []).join('\n');
 
@@ -5517,8 +5630,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const instrumento = document.getElementById('inputDemandaInstrumento').value;
       const pontos = parseFloat(document.getElementById('inputDemandaPontos').value) || 10.0;
       const titulo = document.getElementById('inputDemandaTitulo').value.trim();
-      const destinatario = document.getElementById('inputDemandaDestinatario').value;
       const prazo = document.getElementById('inputDemandaPrazo').value;
+      const horaPrazo = document.getElementById('inputDemandaHora').value || '23:59';
+      const atribuicao = lerAtribuicaoDoModal();
+      if (!atribuicao) return;
+      const { tipoAtribuicao, equipesAlvo, alunosAlvo } = atribuicao;
+      const destinatario = rotuloAtribuicao(atribuicao);
       const descricao = document.getElementById('inputDemandaDescricao').value.trim();
       const criteriosTexto = document.getElementById('inputDemandaCriterios').value.trim();
       const criterios = criteriosTexto.split('\n').map(c => c.trim()).filter(c => c.length > 0);
@@ -5539,7 +5656,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             pontos,
             titulo,
             destinatario,
+            tipoAtribuicao,
+            equipesAlvo,
+            alunosAlvo,
             prazo,
+            horaPrazo,
             descricao,
             criterios
           };
@@ -5552,7 +5673,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           instrumento,
           instrumentoNome,
           destinatario,
+          tipoAtribuicao,
+          equipesAlvo,
+          alunosAlvo,
           prazo,
+          horaPrazo,
+          entregas: {},
           pontos,
           concluida: false,
           descricao,
@@ -5569,12 +5695,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       if (notificarEmail) {
         // Disparar notificação por e-mail para os alunos da equipe ou turma
-        let emailsAlvo = [];
-        if (destinatario === 'Todos') {
-          emailsAlvo = alunosApp.filter(a => a.ativo && a.email).map(a => a.email.trim());
-        } else {
-          emailsAlvo = obterEmailsEquipe(destinatario);
-        }
+        const demandaSalva = demandasApp.find(dm => dm.id === codigo);
+        const emailsAlvo = [...new Set(obterAlvosDemanda(demandaSalva).flatMap(a => a.emails))];
 
         if (emailsAlvo.length > 0) {
           const assunto = `[ProgWeb 2] Nova Demanda: ${codigo} - ${titulo}`;
@@ -5588,7 +5710,7 @@ DEMANDA / CHECKPOINT:
 • Título: ${titulo}
 • Instrumento: ${instrumentoNome}
 • Destinatário: ${destinatario}
-• Prazo Limite (Deadline): ${formatarData(prazo)}
+• Prazo Limite (Deadline): ${formatarData(prazo)} às ${horaPrazo}
 • Pontuação Máxima: ${pontos.toFixed(1)} pontos
 
 DESCRIÇÃO & ORIENTAÇÕES:
@@ -5620,6 +5742,269 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         d.concluida ? "Demanda Concluída" : "Demanda Reaberta",
         `A demanda ${d.id} agora está marcada como ${d.concluida ? 'concluída' : 'ativa'}.`
       );
+    }
+
+    // =========================================================================
+    // ATRIBUIÇÃO (TURMA / GRUPOS / INDIVIDUAL), PRAZOS E ENTREGAS POR ALVO
+    // =========================================================================
+    // Converte demandas antigas (campo "destinatario") para o novo modelo.
+    function normalizarAtribuicaoDemanda(d) {
+      if (!d) return { tipoAtribuicao: 'turma', equipesAlvo: [], alunosAlvo: [] };
+      if (!d.tipoAtribuicao) {
+        if (!d.destinatario || d.destinatario === 'Todos') {
+          d.tipoAtribuicao = 'turma';
+          d.equipesAlvo = [];
+        } else {
+          d.tipoAtribuicao = 'equipes';
+          d.equipesAlvo = [d.destinatario];
+        }
+        d.alunosAlvo = [];
+      }
+      d.equipesAlvo = d.equipesAlvo || [];
+      d.alunosAlvo = d.alunosAlvo || [];
+      d.entregas = d.entregas || {};
+      return d;
+    }
+
+    function rotuloAtribuicao(d) {
+      const at = normalizarAtribuicaoDemanda(d);
+      if (at.tipoAtribuicao === 'equipes') {
+        return at.equipesAlvo.length === 1 ? at.equipesAlvo[0] : `${at.equipesAlvo.length} grupos`;
+      }
+      if (at.tipoAtribuicao === 'individual') {
+        if (at.alunosAlvo.length === 1) {
+          const al = alunosApp.find(a => a.id === at.alunosAlvo[0]);
+          return al ? al.nome : '1 estudante';
+        }
+        return `${at.alunosAlvo.length} estudantes (individual)`;
+      }
+      return 'Todos';
+    }
+
+    function iconeAtribuicao(d) {
+      const tipo = normalizarAtribuicaoDemanda(d).tipoAtribuicao;
+      return tipo === 'equipes' ? 'fa-people-group' : (tipo === 'individual' ? 'fa-user' : 'fa-users');
+    }
+
+    // Lista os "alvos" que devem entregar: um por grupo ou um por estudante.
+    function obterAlvosDemanda(d) {
+      const at = normalizarAtribuicaoDemanda(d);
+      if (at.tipoAtribuicao === 'equipes') {
+        return at.equipesAlvo.map(eq => ({
+          chave: 'equipe:' + eq,
+          rotulo: eq,
+          tipo: 'equipe',
+          emails: obterEmailsEquipe(eq)
+        }));
+      }
+      const alunos = at.tipoAtribuicao === 'individual'
+        ? alunosApp.filter(a => at.alunosAlvo.includes(a.id))
+        : alunosApp.filter(a => a.ativo);
+      return alunos.map(a => ({
+        chave: 'aluno:' + a.id,
+        rotulo: a.nome,
+        tipo: 'aluno',
+        emails: a.email ? [a.email.trim()] : []
+      }));
+    }
+
+    function obterEntregaAlvo(d, chave) {
+      normalizarAtribuicaoDemanda(d);
+      return d.entregas[chave] || { entregue: false, link: '', dataEntrega: '' };
+    }
+
+    function obterDataPrazo(d) {
+      if (!d.prazo) return new Date(8640000000000000);
+      return new Date(`${d.prazo}T${d.horaPrazo || '23:59'}:59`);
+    }
+
+    function prazoExpirado(d) {
+      return d.prazo ? obterDataPrazo(d) < new Date() : false;
+    }
+
+    function obterAlunoLogado() {
+      const id = (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) || alunoVotanteAtualId;
+      return id ? alunosApp.find(a => a.id === id) || null : null;
+    }
+
+    // Chave de entrega que corresponde ao estudante nesta demanda (ou null).
+    function chaveDoAlunoNaDemanda(d, aluno) {
+      if (!aluno) return null;
+      const at = normalizarAtribuicaoDemanda(d);
+      if (at.tipoAtribuicao === 'turma') return aluno.ativo ? 'aluno:' + aluno.id : null;
+      if (at.tipoAtribuicao === 'individual') return at.alunosAlvo.includes(aluno.id) ? 'aluno:' + aluno.id : null;
+      return at.equipesAlvo.includes(aluno.equipe) ? 'equipe:' + aluno.equipe : null;
+    }
+
+    function demandaAtribuidaAoAluno(d, aluno) {
+      return chaveDoAlunoNaDemanda(d, aluno) !== null;
+    }
+
+    function renderizarPainelAtribuicao(d) {
+      const alvos = obterAlvosDemanda(d);
+      const entregues = alvos.filter(a => obterEntregaAlvo(d, a.chave).entregue).length;
+      const pct = alvos.length ? Math.round((entregues / alvos.length) * 100) : 0;
+      const expirado = prazoExpirado(d);
+      const aluno = obterAlunoLogado();
+      const minhaChave = chaveDoAlunoNaDemanda(d, aluno);
+      const minhaEntrega = minhaChave ? obterEntregaAlvo(d, minhaChave) : null;
+
+      const chips = alvos.map(a => {
+        const e = obterEntregaAlvo(d, a.chave);
+        const atrasada = e.entregue && e.dataEntrega && d.prazo && new Date(e.dataEntrega) > obterDataPrazo(d);
+        const estado = e.entregue ? (atrasada ? 'atrasada' : 'entregue') : (expirado ? 'pendente-vencida' : 'pendente');
+        const icone = e.entregue ? (atrasada ? 'bi-clock-history' : 'bi-check-circle-fill') : (expirado ? 'bi-x-circle-fill' : 'bi-circle');
+        const titulo = e.entregue
+          ? `Entregue em ${new Date(e.dataEntrega).toLocaleString('pt-BR')}${atrasada ? ' (com atraso)' : ''}`
+          : (expirado ? 'Não entregue — prazo encerrado' : 'Pendente');
+        const ehMeu = a.chave === minhaChave ? ' meu-alvo' : '';
+        const link = e.link ? `<a href="${escapeHtml(e.link)}" target="_blank" rel="noopener" class="ms-1" title="Abrir entrega" onclick="event.stopPropagation()"><i class="bi bi-box-arrow-up-right"></i></a>` : '';
+        return `<button type="button" class="alvo-chip ${estado}${ehMeu}" title="${escapeHtml(titulo)}"
+                  onclick="alternarEntregaAlvoDocente('${d.id}', '${escapeHtml(a.chave)}')">
+                  <i class="bi ${icone}"></i> ${escapeHtml(a.rotulo)}${link}
+                </button>`;
+      }).join('');
+
+      const acaoAluno = minhaChave ? `
+        <div class="minha-entrega-box">
+          <span><i class="bi bi-person-check-fill me-1"></i>
+            ${minhaEntrega.entregue ? 'Sua entrega foi registrada.' : (expirado ? 'Prazo encerrado — fale com o professor.' : 'Esta demanda está atribuída a você.')}
+          </span>
+          ${(!d.concluida && (!expirado || minhaEntrega.entregue)) ? `
+          <button type="button" class="btn btn-sm btn-primary" onclick="registrarMinhaEntrega('${d.id}')">
+            <i class="bi bi-upload me-1"></i>${minhaEntrega.entregue ? 'Atualizar link' : 'Registrar entrega'}
+          </button>` : ''}
+        </div>` : '';
+
+      return `
+        <div class="demanda-atribuicao-painel">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="small fw-bold text-heading"><i class="fa-solid fa-inbox text-primary me-1"></i> Entregas: ${entregues} / ${alvos.length}</span>
+            <span class="small text-muted">${pct}%</span>
+          </div>
+          <div class="progress mb-2" style="height: 6px;" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar bg-success" style="width: ${pct}%"></div>
+          </div>
+          ${acaoAluno}
+          <details class="alvos-details">
+            <summary class="small">Ver ${alvos.length} ${normalizarAtribuicaoDemanda(d).tipoAtribuicao === 'equipes' ? 'grupo(s)' : 'estudante(s)'} atribuído(s)</summary>
+            <div class="alvos-chips">${chips || '<span class="small text-muted">Nenhum destinatário selecionado.</span>'}</div>
+            <div class="small text-muted mt-1 docente-only">Clique num nome para marcar/desmarcar a entrega.</div>
+          </details>
+        </div>`;
+    }
+
+    function alternarEntregaAlvoDocente(demandaId, chave) {
+      if (!document.body.classList.contains('modo-docente-ativo')) {
+        showToast('Somente o professor', 'Ative o Modo Docente para alterar entregas de outros estudantes.', 'fa-solid fa-lock text-warning');
+        return;
+      }
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d) return;
+      const atual = obterEntregaAlvo(d, chave);
+      d.entregas[chave] = atual.entregue
+        ? { entregue: false, link: '', dataEntrega: '' }
+        : { entregue: true, link: atual.link || '', dataEntrega: new Date().toISOString() };
+      salvarDadosDemandas();
+      renderizarDemandas();
+    }
+
+    function registrarMinhaEntrega(demandaId) {
+      const d = demandasApp.find(item => item.id === demandaId);
+      const aluno = obterAlunoLogado();
+      const chave = chaveDoAlunoNaDemanda(d, aluno);
+      if (!d || !chave) {
+        showToast('Demanda não atribuída', 'Esta demanda não está atribuída a você.', 'fa-solid fa-circle-exclamation text-warning');
+        return;
+      }
+      const atual = obterEntregaAlvo(d, chave);
+      if (!atual.entregue && prazoExpirado(d)) {
+        showToast('Prazo encerrado', 'O prazo desta demanda já terminou.', 'fa-solid fa-lock text-danger');
+        return;
+      }
+      const link = prompt('Cole o link da entrega (GitHub, GitHub Pages, Drive...):', atual.link || 'https://');
+      if (link === null) return;
+      const limpo = link.trim();
+      if (!/^https?:\/\/\S+\.\S+/.test(limpo)) {
+        showToast('Link inválido', 'Informe um endereço começando com http:// ou https://', 'fa-solid fa-link-slash text-danger');
+        return;
+      }
+      d.entregas[chave] = {
+        entregue: true,
+        link: limpo,
+        dataEntrega: atual.entregue ? atual.dataEntrega : new Date().toISOString(),
+        registradoPor: aluno.nome
+      };
+      salvarDadosDemandas();
+      renderizarDemandas();
+      showToast('Entrega registrada', `Entrega de ${d.id} salva com sucesso.`);
+    }
+
+    // ---- Modal: seleção de grupos / estudantes ----
+    function preencherAtribuicaoNoModal(at) {
+      const listaEq = document.getElementById('listaAlvosEquipes');
+      listaEq.innerHTML = EQUIPES_PROGWEB2.map((eq, i) => {
+        const qtd = alunosApp.filter(a => a.ativo && a.equipe === eq).length;
+        return `<label class="alvo-opcao">
+            <input type="checkbox" class="form-check-input" value="${escapeHtml(eq)}" ${at.equipesAlvo.includes(eq) ? 'checked' : ''}>
+            <span>${escapeHtml(eq)}</span><span class="text-muted ms-auto">${qtd} membro(s)</span>
+          </label>`;
+      }).join('');
+
+      const listaAl = document.getElementById('listaAlvosAlunos');
+      listaAl.innerHTML = alunosApp
+        .filter(a => a.ativo || at.alunosAlvo.includes(a.id))
+        .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+        .map(a => `<label class="alvo-opcao" data-busca="${escapeHtml((a.nome + ' ' + (a.matricula || '')).toLowerCase())}">
+            <input type="checkbox" class="form-check-input" value="${escapeHtml(a.id)}" ${at.alunosAlvo.includes(a.id) ? 'checked' : ''} onchange="atualizarContadorAlvosAlunos()">
+            <span>${escapeHtml(a.nome)}</span><span class="text-muted ms-auto font-code">${escapeHtml(a.equipe || '')}</span>
+          </label>`).join('');
+
+      document.getElementById('buscaAlvosAlunos').value = '';
+      const radio = document.querySelector(`input[name="tipoAtribuicaoDemanda"][value="${at.tipoAtribuicao}"]`);
+      if (radio) radio.checked = true;
+      aoMudarTipoAtribuicao();
+      atualizarContadorAlvosAlunos();
+    }
+
+    function aoMudarTipoAtribuicao() {
+      const tipo = document.querySelector('input[name="tipoAtribuicaoDemanda"]:checked').value;
+      document.getElementById('painelAtribTurma').classList.toggle('d-none', tipo !== 'turma');
+      document.getElementById('painelAtribEquipes').classList.toggle('d-none', tipo !== 'equipes');
+      document.getElementById('painelAtribIndividual').classList.toggle('d-none', tipo !== 'individual');
+    }
+
+    function filtrarListaAlvosAlunos(termo) {
+      const t = termo.toLowerCase().trim();
+      document.querySelectorAll('#listaAlvosAlunos .alvo-opcao').forEach(el => {
+        el.classList.toggle('d-none', t !== '' && !el.dataset.busca.includes(t));
+      });
+    }
+
+    function marcarTodosAlvos(listaId, marcar) {
+      document.querySelectorAll(`#${listaId} input[type="checkbox"]`).forEach(cb => { cb.checked = marcar; });
+      atualizarContadorAlvosAlunos();
+    }
+
+    function atualizarContadorAlvosAlunos() {
+      const el = document.getElementById('contadorAlvosAlunos');
+      if (el) el.innerText = document.querySelectorAll('#listaAlvosAlunos input:checked').length;
+    }
+
+    function lerAtribuicaoDoModal() {
+      const tipoAtribuicao = document.querySelector('input[name="tipoAtribuicaoDemanda"]:checked').value;
+      const marcados = id => [...document.querySelectorAll(`#${id} input:checked`)].map(cb => cb.value);
+      const equipesAlvo = tipoAtribuicao === 'equipes' ? marcados('listaAlvosEquipes') : [];
+      const alunosAlvo = tipoAtribuicao === 'individual' ? marcados('listaAlvosAlunos') : [];
+      if (tipoAtribuicao === 'equipes' && equipesAlvo.length === 0) {
+        showToast('Selecione um grupo', 'Marque pelo menos um grupo para esta demanda.', 'fa-solid fa-circle-exclamation text-warning');
+        return null;
+      }
+      if (tipoAtribuicao === 'individual' && alunosAlvo.length === 0) {
+        showToast('Selecione estudantes', 'Marque pelo menos um estudante para esta demanda.', 'fa-solid fa-circle-exclamation text-warning');
+        return null;
+      }
+      return { tipoAtribuicao, equipesAlvo, alunosAlvo };
     }
 
     function excluirDemanda(id) {
@@ -6605,7 +6990,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                     <i class="bi bi-box-arrow-up-right"></i> Link
                   </a>
                 ` : '<span class="text-muted" style="font-size: 0.72rem;">Pendente link</span>'}
-                ${(ehVoce || modoDocenteAtivo) ? `
+                ${(ehVoce || document.body.classList.contains('modo-docente-ativo')) ? `
                   <button type="button" class="btn btn-sm btn-link text-danger p-0 ms-1" title="Desvincular da vaga" onclick="desistirCandidaturaSNCT('${frente.id}', '${m.alunoId}')">
                     <i class="bi bi-x-circle"></i>
                   </button>
