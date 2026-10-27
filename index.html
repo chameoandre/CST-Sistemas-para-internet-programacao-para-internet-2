@@ -511,9 +511,78 @@
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     }
 
+    /* CARD EM DESTAQUE / FOCO VISUAL DA TURMA */
     .roteiro-highlight {
-      border-color: rgba(5, 150, 105, 0.45);
-      background: linear-gradient(170deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.04) 100%);
+      border: 2px solid var(--accent-emerald) !important;
+      background: linear-gradient(170deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.08) 100%) !important;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.22), 0 16px 36px rgba(16, 185, 129, 0.16) !important;
+      transform: translateY(-4px) !important;
+      position: relative;
+    }
+    [data-theme="dark"] .roteiro-highlight {
+      border-color: rgba(16, 185, 129, 0.85) !important;
+      background: linear-gradient(170deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.14) 100%) !important;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.32), 0 20px 42px rgba(0, 0, 0, 0.5) !important;
+    }
+    .roteiro-highlight::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-blue));
+      z-index: 3;
+    }
+    .destaque-ribbon-badge {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: linear-gradient(135deg, var(--accent-emerald), #059669);
+      color: #ffffff;
+      font-size: var(--fs-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
+      z-index: 2;
+      align-items: center;
+      gap: 0.35rem;
+      animation: pulseAlert 2.5s infinite;
+    }
+    .roteiro-highlight .destaque-ribbon-badge {
+      display: inline-flex;
+    }
+    .btn-destaque-card {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 0.2rem 0.55rem;
+      font-size: var(--fs-label);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+    .btn-destaque-card:hover {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: var(--accent-amber);
+      transform: scale(1.03);
+    }
+    .roteiro-highlight .btn-destaque-card {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.5);
+      color: var(--accent-amber);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
     }
 
     /* CARD ILUSTRAÇÃO MEDIA */
@@ -1778,6 +1847,97 @@
       border-radius: 9999px;
       transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* CARD DE CONTEÚDO DA SNCT EM ROTEIROS-GRID */
+    .roteiro-card-snct {
+      border-top: 4px solid var(--accent-emerald);
+    }
+    .roteiro-card-snct:hover {
+      border-color: rgba(16, 185, 129, 0.6);
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.12);
+    }
+    [data-theme="dark"] .roteiro-card-snct:hover {
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.25);
+    }
+    .snct-media-overlay-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-size: var(--fs-label);
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      letter-spacing: 0.03em;
+      z-index: 2;
+    }
+    .snct-card-dynamic-panel {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      margin-bottom: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .snct-dynamic-label {
+      font-size: var(--fs-caption);
+      font-weight: 700;
+      color: var(--text-heading);
+      display: inline-flex;
+      align-items: center;
+    }
+    .snct-dynamic-counter {
+      font-size: var(--fs-caption);
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+    .snct-metrics-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .snct-metric-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      font-size: var(--fs-label);
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .snct-metric-pill.blue {
+      background: rgba(2, 132, 199, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(2, 132, 199, 0.25);
+    }
+    .snct-metric-pill.success {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .snct-metric-pill.warning {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--accent-amber);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .snct-metric-pill.purple {
+      background: rgba(124, 58, 237, 0.1);
+      color: var(--accent-purple);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+    }
+    .snct-user-status-box {
+      border-top: 1px dashed var(--border-color);
+      padding-top: 0.55rem;
+    }
     .snct-frente-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -2127,66 +2287,51 @@
             <h2 class="panel-title mb-1"><i class="bi bi-journal-code text-success"></i> Caderno de Roteiros Práticos</h2>
             <p class="panel-subtitle mb-0">Guias didáticos estruturados com ilustrações conceituais, arquitetura em camadas e práticas de laboratório:</p>
           </div>
-          <button onclick="showTab('tab-sigaa')" class="btn-action btn-outline-action">
-            <i class="bi bi-mortarboard-fill text-primary"></i> Central de Tarefas no SIGAA
-          </button>
-        </div>
-
-        <!-- HERO BANNER INTERATIVO: MOBILIZAÇÃO DA TURMA PARA A SNCT 2026 -->
-        <div class="snct-hero-card" id="bannerHeroRoteirosSNCT">
-          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
-            <div>
-              <span class="snct-hero-badge">
-                <i class="bi bi-megaphone-fill"></i> Mobilização Curricularização da Extensão • SNCT 2026
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <!-- SELETOR RÁPIDO DE DESTAQUE VISUAL -->
+            <div class="d-flex align-items-center gap-2 px-2 py-1 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+              <span class="fs-caption fw-bold text-heading">
+                <i class="bi bi-star-fill text-warning me-1"></i> Foco da Turma:
               </span>
-              <h3 class="font-outfit fw-bold fs-5 text-heading mb-1">
-                Frentes de Produção Cirúrgica das Oficinas Práticas (120 min)
-              </h3>
-              <p class="fs-body-sm text-muted mb-0">
-                A turma está organizada em <strong>8 frentes estratégicas de 3 estudantes</strong> (24 vagas no total). Cada vaga possui entregáveis cirúrgicos para garantir que os participantes da comunidade saiam com sites no ar sem travamentos.
-              </p>
-            </div>
-            <div class="text-md-end flex-shrink-0">
-              <button onclick="navegarParaDemandasSNCT()" class="btn-action btn-primary-action">
-                <i class="bi bi-kanban-fill me-1"></i> Ver Quadro de Candidaturas &amp; Frentes
+              <select id="selectCardDestaque" onchange="selecionarCardDestaque(this.value)" class="form-select form-select-sm font-outfit" style="width: auto; min-width: 210px; font-size: var(--fs-caption); padding: 0.25rem 1.8rem 0.25rem 0.6rem; border-color: var(--border-color); background-color: var(--bg-card); color: var(--text-main);">
+                <option value="">(Nenhum card em destaque)</option>
+                <option value="card-roteiro-1">Roteiro #01 — Bootstrap 5</option>
+                <option value="card-roteiro-2">Roteiro #02 — jQuery &amp; LocalStorage</option>
+                <option value="card-roteiro-3">Roteiro #03 — Calculadora de Pedidos</option>
+                <option value="card-roteiro-4">Roteiro #04 — Vitrine Comunitária</option>
+                <option value="card-roteiro-5">Roteiro #05 — Fetch API &amp; Flask</option>
+                <option value="card-roteiro-snct">Oficinas SNCT 2026 — Frentes Cirúrgicas</option>
+              </select>
+              <button type="button" onclick="limparDestaqueCards()" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size: var(--fs-caption);" title="Limpar destaque visual de todos os cards">
+                <i class="bi bi-x-lg"></i>
               </button>
             </div>
-          </div>
 
-          <!-- BARRA DE PROGRESSO & STATUS DO ALUNO AUTENTICADO -->
-          <div class="mt-3 pt-3 border-top d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-            <div class="w-100" style="max-width: 460px;">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fs-caption fw-bold text-heading">
-                  <i class="bi bi-people-fill text-primary me-1"></i> Preenchimento das Vagas da Turma:
-                </span>
-                <span class="fs-caption fw-bold font-mono text-heading" id="heroSnctContadorVagas">0 / 24 vagas</span>
-              </div>
-              <div class="snct-progress-bar-wrap">
-                <div class="snct-progress-bar-fill" id="heroSnctProgressBar" style="width: 0%;"></div>
-              </div>
-            </div>
-
-            <!-- STATUS INDIVIDUAL DO ALUNO LOGADO -->
-            <div class="d-flex align-items-center gap-2 flex-wrap" id="heroSnctStatusUsuario">
-              <!-- Renderizado dinamicamente por JS -->
-            </div>
+            <button onclick="showTab('tab-sigaa')" class="btn-action btn-outline-action">
+              <i class="bi bi-mortarboard-fill text-primary"></i> Central de Tarefas no SIGAA
+            </button>
           </div>
         </div>
 
         <div class="roteiros-grid">
 
           <!-- CARD ROTEIRO 1 -->
-          <div class="roteiro-card">
+          <div class="roteiro-card" id="card-roteiro-1" data-card-id="card-roteiro-1">
             <div class="roteiro-card-media">
               <img src="figures/roteiro1_bootstrap.jpg" alt="Preview Roteiro 01 - Bootstrap 5 &amp; Layout Responsivo" class="roteiro-card-img" loading="lazy">
+              <div class="destaque-ribbon-badge"><i class="bi bi-pin-angle-fill me-1"></i> Foco Atual da Turma</div>
             </div>
 
             <div class="roteiro-top-meta">
-              <span class="roteiro-id-badge" style="background: rgba(2, 132, 199, 0.12); color: var(--accent-blue); border: 1px solid rgba(2, 132, 199, 0.25);">
-                <i class="bi bi-bootstrap-fill"></i> Roteiro #01
-              </span>
-              <span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="roteiro-id-badge" style="background: rgba(2, 132, 199, 0.12); color: var(--accent-blue); border: 1px solid rgba(2, 132, 199, 0.25);">
+                  <i class="bi bi-bootstrap-fill"></i> Roteiro #01
+                </span>
+                <span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+              </div>
+              <button type="button" class="btn-destaque-card" onclick="alternarDestaqueCard('card-roteiro-1')" title="Marcar este card como foco principal da turma">
+                <i class="bi bi-star"></i> <span class="destaque-btn-label">Destacar</span>
+              </button>
             </div>
 
             <h3 class="roteiro-title">Bootstrap 5 &amp; Layout Responsivo</h3>
@@ -2216,16 +2361,22 @@
           </div>
 
           <!-- CARD ROTEIRO 2 -->
-          <div class="roteiro-card">
+          <div class="roteiro-card" id="card-roteiro-2" data-card-id="card-roteiro-2">
             <div class="roteiro-card-media">
               <img src="figures/roteiro2_jquery.jpg" alt="Preview Roteiro 02 - jQuery, DOM &amp; LocalStorage" class="roteiro-card-img" loading="lazy">
+              <div class="destaque-ribbon-badge"><i class="bi bi-pin-angle-fill me-1"></i> Foco Atual da Turma</div>
             </div>
 
             <div class="roteiro-top-meta">
-              <span class="roteiro-id-badge" style="background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.25);">
-                <i class="bi bi-code-slash"></i> Roteiro #02
-              </span>
-              <span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="roteiro-id-badge" style="background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.25);">
+                  <i class="bi bi-code-slash"></i> Roteiro #02
+                </span>
+                <span class="status-badge status-done"><i class="bi bi-check-circle-fill"></i> Concluído em Aula</span>
+              </div>
+              <button type="button" class="btn-destaque-card" onclick="alternarDestaqueCard('card-roteiro-2')" title="Marcar este card como foco principal da turma">
+                <i class="bi bi-star"></i> <span class="destaque-btn-label">Destacar</span>
+              </button>
             </div>
 
             <h3 class="roteiro-title">jQuery, DOM &amp; LocalStorage</h3>
@@ -2258,18 +2409,24 @@
           </div>
 
           <!-- CARD ROTEIRO 3 (ATIVIDADE SIGAA) -->
-          <div class="roteiro-card roteiro-highlight">
+          <div class="roteiro-card" id="card-roteiro-3" data-card-id="card-roteiro-3">
             <div class="roteiro-card-media">
               <img src="figures/roteiro3_calculadora.jpg" alt="Preview Roteiro 03 - Calculadora de Pedidos &amp; Carrinho" class="roteiro-card-img" loading="lazy">
+              <div class="destaque-ribbon-badge"><i class="bi bi-pin-angle-fill me-1"></i> Foco Atual da Turma</div>
             </div>
 
             <div class="roteiro-top-meta">
-              <span class="roteiro-id-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.25);">
-                <i class="bi bi-calculator-fill"></i> Roteiro #03
-              </span>
-              <span class="status-badge status-current" style="font-size: 0.8125rem;">
-                <i class="bi bi-clock-history"></i> Ativa no SIGAA (14 envios)
-              </span>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="roteiro-id-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.25);">
+                  <i class="bi bi-calculator-fill"></i> Roteiro #03
+                </span>
+                <span class="status-badge status-current" style="font-size: 0.8125rem;">
+                  <i class="bi bi-clock-history"></i> Ativa no SIGAA (14 envios)
+                </span>
+              </div>
+              <button type="button" class="btn-destaque-card" onclick="alternarDestaqueCard('card-roteiro-3')" title="Marcar este card como foco principal da turma">
+                <i class="bi bi-star"></i> <span class="destaque-btn-label">Destacar</span>
+              </button>
             </div>
 
             <h3 class="roteiro-title">Calculadora de Pedidos &amp; Carrinho</h3>
@@ -2299,18 +2456,24 @@
           </div>
 
           <!-- CARD ROTEIRO 4 (MÓDULO ATUAL) -->
-          <div class="roteiro-card">
+          <div class="roteiro-card" id="card-roteiro-4" data-card-id="card-roteiro-4">
             <div class="roteiro-card-media">
               <img src="figures/roteiro4_vitrine.jpg" alt="Preview Roteiro 04 - Vitrine Comunitária &amp; Módulos ES6" class="roteiro-card-img" loading="lazy">
+              <div class="destaque-ribbon-badge"><i class="bi bi-pin-angle-fill me-1"></i> Foco Atual da Turma</div>
             </div>
 
             <div class="roteiro-top-meta">
-              <span class="roteiro-id-badge" style="background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); border: 1px solid rgba(124, 58, 237, 0.25);">
-                <i class="bi bi-shop"></i> Roteiro #04
-              </span>
-              <span class="status-badge" style="background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); border: 1px solid rgba(124, 58, 237, 0.3);">
-                <i class="bi bi-stars"></i> Módulo 2 (Em Aula)
-              </span>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="roteiro-id-badge" style="background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); border: 1px solid rgba(124, 58, 237, 0.25);">
+                  <i class="bi bi-shop"></i> Roteiro #04
+                </span>
+                <span class="status-badge" style="background: rgba(124, 58, 237, 0.12); color: var(--accent-purple); border: 1px solid rgba(124, 58, 237, 0.3);">
+                  <i class="bi bi-stars"></i> Módulo 2 (Em Aula)
+                </span>
+              </div>
+              <button type="button" class="btn-destaque-card" onclick="alternarDestaqueCard('card-roteiro-4')" title="Marcar este card como foco principal da turma">
+                <i class="bi bi-star"></i> <span class="destaque-btn-label">Destacar</span>
+              </button>
             </div>
 
             <h3 class="roteiro-title">Vitrine Comunitária &amp; Módulos ES6</h3>
@@ -2340,18 +2503,24 @@
           </div>
 
           <!-- CARD ROTEIRO 5 -->
-          <div class="roteiro-card">
+          <div class="roteiro-card" id="card-roteiro-5" data-card-id="card-roteiro-5">
             <div class="roteiro-card-media">
               <img src="figures/roteiro5_fetch_api.jpg" alt="Preview Roteiro 05 - Fetch API &amp; Backend Flask SQLite" class="roteiro-card-img" loading="lazy">
+              <div class="destaque-ribbon-badge"><i class="bi bi-pin-angle-fill me-1"></i> Foco Atual da Turma</div>
             </div>
 
             <div class="roteiro-top-meta">
-              <span class="roteiro-id-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
-                <i class="bi bi-hdd-network-fill"></i> Roteiro #05
-              </span>
-              <span class="status-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
-                <i class="bi bi-cloud-arrow-down-fill"></i> Módulo 3 (Próxima Etapa)
-              </span>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="roteiro-id-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
+                  <i class="bi bi-hdd-network-fill"></i> Roteiro #05
+                </span>
+                <span class="status-badge" style="background: rgba(99, 102, 241, 0.12); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
+                  <i class="bi bi-cloud-arrow-down-fill"></i> Módulo 3 (Próxima Etapa)
+                </span>
+              </div>
+              <button type="button" class="btn-destaque-card" onclick="alternarDestaqueCard('card-roteiro-5')" title="Marcar este card como foco principal da turma">
+                <i class="bi bi-star"></i> <span class="destaque-btn-label">Destacar</span>
+              </button>
             </div>
 
             <h3 class="roteiro-title">Fetch API &amp; Backend Flask (SQLite)</h3>
@@ -2383,6 +2552,82 @@
               <a href="roteiro-5/exercicio-roteiro5/frontend/index.html" target="_blank" class="btn-action btn-outline-action">
                 <i class="bi bi-cloud-check-fill text-primary"></i> Executar Vitrine Conectada
               </a>
+            </div>
+          </div>
+
+          <!-- CARD DE EXTENSÃO: FRENTES DE PRODUÇÃO CIRÚRGICA SNCT 2026 -->
+          <div class="roteiro-card roteiro-card-snct" id="card-roteiro-snct" data-card-id="card-roteiro-snct">
+            <div class="roteiro-card-media">
+              <img src="figures/roteiro_snct_oficinas.jpg" alt="Preview Frentes de Produção Cirúrgica das Oficinas Práticas SNCT 2026" class="roteiro-card-img" loading="lazy">
+              <div class="destaque-ribbon-badge"><i class="bi bi-pin-angle-fill me-1"></i> Foco Atual da Turma</div>
+              <div class="snct-media-overlay-badge">
+                <i class="bi bi-megaphone-fill"></i> SNCT 2026
+              </div>
+            </div>
+
+            <div class="roteiro-top-meta">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="roteiro-id-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.25);">
+                  <i class="bi bi-stars"></i> Curricularização (40h)
+                </span>
+                <span class="status-badge" id="cardSnctBadgeStatus" style="background: rgba(2, 132, 199, 0.12); color: var(--accent-blue); border: 1px solid rgba(2, 132, 199, 0.25);">
+                  <i class="bi bi-people-fill"></i> <span id="cardSnctBadgeTexto">0 / 24 Vagas</span>
+                </span>
+              </div>
+              <button type="button" class="btn-destaque-card" onclick="alternarDestaqueCard('card-roteiro-snct')" title="Marcar este card como foco principal da turma">
+                <i class="bi bi-star"></i> <span class="destaque-btn-label">Destacar</span>
+              </button>
+            </div>
+
+            <h3 class="roteiro-title">Frentes de Produção Cirúrgica das Oficinas Práticas (120 min)</h3>
+            <p class="roteiro-card-desc">
+              Organização da turma em 8 frentes estratégicas (24 vagas) para produção dos kits instrucionais e condução das oficinas de desenvolvimento web na SNCT 2026.
+            </p>
+
+            <div class="card-quick-meta">
+              <span class="quick-meta-pill green"><i class="bi bi-mortarboard-fill"></i> 40h Extensão</span>
+              <span class="quick-meta-pill blue"><i class="bi bi-people-fill"></i> 8 Frentes (3 Alunos)</span>
+              <span class="quick-meta-pill purple"><i class="bi bi-clock-history"></i> Oficina 120 min</span>
+            </div>
+
+            <!-- PAINEL DINÂMICO DE ANDAMENTO & PENDÊNCIAS -->
+            <div class="snct-card-dynamic-panel">
+              <!-- BARRA DE PROGRESSO & CONTADOR DE VAGAS -->
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="snct-dynamic-label">
+                    <i class="bi bi-person-check-fill text-primary me-1"></i> Preenchimento das Vagas:
+                  </span>
+                  <span class="snct-dynamic-counter font-mono" id="heroSnctContadorVagas">0 / 24 vagas</span>
+                </div>
+                <div class="snct-progress-bar-wrap">
+                  <div class="snct-progress-bar-fill" id="heroSnctProgressBar" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- INDICADORES DINÂMICOS DE ANDAMENTO & PENDÊNCIAS -->
+              <div class="snct-metrics-strip" id="cardSnctMetricasAndamento">
+                <!-- Preenchido dinamicamente via JS -->
+              </div>
+
+              <!-- STATUS DO ALUNO LOGADO & AÇÃO DIRETA -->
+              <div class="snct-user-status-box" id="heroSnctStatusUsuario">
+                <!-- Preenchido dinamicamente via JS -->
+              </div>
+            </div>
+
+            <div class="roteiro-focus-box">
+              <i class="bi bi-bullseye text-success"></i>
+              <span><strong>Foco Prático:</strong> 4 entregáveis cirúrgicos (Micro-Roteiro A4 LaTeX, Starter Kit GitHub, Slides de 8 Telas e Logística de Bancada).</span>
+            </div>
+
+            <div class="roteiro-card-actions">
+              <button onclick="navegarParaDemandasSNCT()" class="btn-action btn-primary-action">
+                <i class="bi bi-kanban-fill"></i> Quadro de Frentes
+              </button>
+              <button onclick="showTab('tab-extensao')" class="btn-action btn-outline-action">
+                <i class="bi bi-journal-text"></i> Diretrizes (40h)
+              </button>
             </div>
           </div>
 
@@ -6184,12 +6429,23 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     function renderizarCardHeroRoteirosSNCT() {
       let totalVagas = 0;
       let totalOcupadas = 0;
+      let totalFrentes = demandasSnctApp.length;
+      let frentesCompletas = 0;
+      let frentesComEntrega = 0;
       let minhaFrente = null;
 
       demandasSnctApp.forEach(d => {
-        totalVagas += (d.vagasMax || 3);
+        const vagasMax = (d.vagasMax || 3);
+        totalVagas += vagasMax;
         const membros = Array.isArray(d.membros) ? d.membros : [];
         totalOcupadas += membros.length;
+        if (membros.length >= vagasMax) {
+          frentesCompletas++;
+        }
+        const achouEntrega = membros.some(m => m.linkEntrega && m.linkEntrega.trim().length > 0);
+        if (achouEntrega) {
+          frentesComEntrega++;
+        }
         if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
           const achou = membros.find(m => m.alunoId === usuarioLogadoGoogle.alunoId || (m.matricula && m.matricula === usuarioLogadoGoogle.matricula));
           if (achou) {
@@ -6198,48 +6454,111 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         }
       });
 
+      const vagasRestantes = Math.max(0, totalVagas - totalOcupadas);
+      const frentesSemEntrega = Math.max(0, totalFrentes - frentesComEntrega);
+      const pctVagas = totalVagas > 0 ? Math.round((totalOcupadas / totalVagas) * 100) : 0;
+
+      // 1. Atualização do Badge de Status no Topo do Card
+      const badgeStatusEl = document.getElementById('cardSnctBadgeStatus');
+      const badgeTextoEl = document.getElementById('cardSnctBadgeTexto');
+      if (badgeTextoEl) {
+        if (totalOcupadas === 0) {
+          badgeTextoEl.textContent = `Mobilização (0/${totalVagas} Vagas)`;
+        } else if (vagasRestantes === 0) {
+          badgeTextoEl.textContent = `${totalVagas}/${totalVagas} Vagas Preenchidas (100%)`;
+        } else {
+          badgeTextoEl.textContent = `${totalOcupadas}/${totalVagas} Vagas (${vagasRestantes} abertas)`;
+        }
+      }
+      if (badgeStatusEl) {
+        if (vagasRestantes === 0 && frentesSemEntrega === 0) {
+          badgeStatusEl.className = 'status-badge status-done';
+        } else if (totalOcupadas > 0) {
+          badgeStatusEl.className = 'status-badge status-current';
+        } else {
+          badgeStatusEl.className = 'status-badge status-next';
+        }
+      }
+
+      // 2. Contador e Barra de Progresso de Vagas
       const totalEl = document.getElementById('heroSnctContadorVagas');
       const progressEl = document.getElementById('heroSnctProgressBar');
-      const statusUserEl = document.getElementById('heroSnctStatusUsuario');
-
       if (totalEl) {
-        totalEl.textContent = `${totalOcupadas} / ${totalVagas} vagas`;
+        totalEl.textContent = `${totalOcupadas} / ${totalVagas} vagas (${pctVagas}%)`;
       }
       if (progressEl) {
-        const pct = totalVagas > 0 ? Math.round((totalOcupadas / totalVagas) * 100) : 0;
-        progressEl.style.width = `${pct}%`;
+        progressEl.style.width = `${pctVagas}%`;
       }
 
+      // 3. Faixa de Métricas Dinâmicas (Andamento vs Pendências)
+      const metricasEl = document.getElementById('cardSnctMetricasAndamento');
+      if (metricasEl) {
+        metricasEl.innerHTML = `
+          <span class="snct-metric-pill ${totalOcupadas === totalVagas ? 'success' : 'blue'}" title="Preenchimento geral das vagas">
+            <i class="bi bi-people-fill"></i> ${totalOcupadas}/${totalVagas} vagas
+          </span>
+          <span class="snct-metric-pill ${vagasRestantes > 0 ? 'warning' : 'success'}" title="Vagas restantes para a turma">
+            <i class="bi ${vagasRestantes > 0 ? 'bi-person-exclamation' : 'bi-check-all'}"></i> ${vagasRestantes > 0 ? vagasRestantes + ' vagas abertas' : 'Equipes completas'}
+          </span>
+          <span class="snct-metric-pill ${frentesComEntrega > 0 ? 'success' : 'purple'}" title="Frentes com link de entrega cadastrado">
+            <i class="bi bi-file-earmark-check"></i> ${frentesComEntrega}/${totalFrentes} materiais vinculados
+          </span>
+          <span class="snct-metric-pill ${frentesSemEntrega > 0 ? 'warning' : 'success'}" title="Frentes com entregáveis a produzir">
+            <i class="bi bi-hourglass-split"></i> ${frentesSemEntrega > 0 ? frentesSemEntrega + ' materiais pendentes' : '100% materiais entregues'}
+          </span>
+        `;
+      }
+
+      // 4. Status Pessoal do Aluno Logado
+      const statusUserEl = document.getElementById('heroSnctStatusUsuario');
       if (statusUserEl) {
         if (!usuarioLogadoGoogle || !usuarioLogadoGoogle.alunoId) {
           statusUserEl.innerHTML = `
-            <span class="fs-caption text-muted">
-              <i class="bi bi-info-circle me-1"></i> Identifique-se com o Google para visualizar ou assumir sua vaga.
-            </span>
-            <button onclick="fazerLoginGoogleVotacao()" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1">
-              <i class="bi bi-google"></i> Login Google
-            </button>
-          `;
-        } else if (minhaFrente) {
-          statusUserEl.innerHTML = `
-            <div class="d-flex align-items-center gap-2">
-              <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fs-caption">
-                <i class="bi bi-check-circle-fill me-1"></i> Você está escalado(a): <strong>${escapeHtml(minhaFrente.frente.titulo)}</strong> (${escapeHtml(minhaFrente.frente.cursoNome)})
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <span class="fs-caption text-muted">
+                <i class="bi bi-shield-lock me-1"></i> Identifique-se com Google para ver sua frente e entregáveis.
               </span>
-              <button onclick="navegarParaDemandasSNCT()" class="btn btn-sm btn-outline-success">
-                <i class="bi bi-arrow-right-short"></i> Ver Minha Frente
+              <button onclick="fazerLoginGoogleVotacao()" class="btn btn-sm btn-outline-primary py-0 px-2 fs-caption" style="font-size: 11px;">
+                <i class="bi bi-google me-1"></i> Identificar
               </button>
             </div>
           `;
-        } else {
-          const vagasRestantes = totalVagas - totalOcupadas;
+        } else if (minhaFrente) {
+          const membrosFrente = Array.isArray(minhaFrente.frente.membros) ? minhaFrente.frente.membros : [];
+          const achouLink = membrosFrente.find(m => m.linkEntrega && m.linkEntrega.trim().length > 0);
+          const linkEntregaValido = achouLink ? achouLink.linkEntrega.trim() : '';
+
           statusUserEl.innerHTML = `
-            <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1 fs-caption">
-              <i class="bi bi-exclamation-triangle-fill me-1"></i> Você ainda não assumiu uma frente. Restam ${vagasRestantes} vagas!
-            </span>
-            <button onclick="navegarParaDemandasSNCT()" class="btn btn-sm btn-primary">
-              <i class="bi bi-hand-index-thumb me-1"></i> Escolher Frente
-            </button>
+            <div class="d-flex flex-column gap-1">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-1">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fs-caption">
+                  <i class="bi bi-check-circle-fill me-1"></i> Sua Frente: <strong>${escapeHtml(minhaFrente.frente.titulo)}</strong>
+                </span>
+                <button onclick="navegarParaDemandasSNCT()" class="btn btn-sm btn-link p-0 text-success text-decoration-none fs-caption">
+                  Ver Frente <i class="bi bi-arrow-right-short"></i>
+                </button>
+              </div>
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-1 fs-caption">
+                ${linkEntregaValido ? `
+                  <span class="text-success"><i class="bi bi-link-45deg"></i> Entregável: <a href="${escapeHtml(linkEntregaValido)}" target="_blank" rel="noopener noreferrer" class="fw-bold text-success text-decoration-underline">Abrir Link</a></span>
+                  <button onclick="editarLinkEntregaSNCT('${minhaFrente.frente.id}')" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-caption" style="font-size: 11px;">Alterar Link</button>
+                ` : `
+                  <span class="text-warning-emphasis"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Entregável de material pendente</span>
+                  <button onclick="editarLinkEntregaSNCT('${minhaFrente.frente.id}')" class="btn btn-sm btn-primary py-0 px-2 fs-caption" style="font-size: 11px;">Informar Link</button>
+                `}
+              </div>
+            </div>
+          `;
+        } else {
+          statusUserEl.innerHTML = `
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1 fs-caption">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> Você ainda não assumiu uma frente (${vagasRestantes} vagas abertas)
+              </span>
+              <button onclick="navegarParaDemandasSNCT()" class="btn btn-sm btn-primary py-0 px-2 fs-caption" style="font-size: 11px;">
+                <i class="bi bi-hand-index-thumb me-1"></i> Escolher Frente
+              </button>
+            </div>
           `;
         }
       }
@@ -7593,6 +7912,81 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }
     });
 
+    // =========================================================================
+    // GERENCIAMENTO DO CARD EM DESTAQUE VISUAL (FOCO DA TURMA)
+    // =========================================================================
+    const STORAGE_KEY_CARD_DESTAQUE = 'progweb2_card_destaque_v1';
+
+    function initDestaqueCards() {
+      const salvo = localStorage.getItem(STORAGE_KEY_CARD_DESTAQUE);
+      // Se não houver nada salvo, o card da SNCT é o foco ativo inicial
+      const cardInicial = (salvo !== null) ? salvo : 'card-roteiro-snct';
+      aplicarDestaqueCard(cardInicial, false);
+    }
+
+    function aplicarDestaqueCard(cardId, persistir = true) {
+      const todosCards = document.querySelectorAll('.roteiros-grid .roteiro-card');
+      const selectEl = document.getElementById('selectCardDestaque');
+
+      todosCards.forEach(c => {
+        const id = c.getAttribute('data-card-id') || c.id;
+        const btnDestaque = c.querySelector('.btn-destaque-card');
+        const labelDestaque = c.querySelector('.destaque-btn-label');
+        const iconDestaque = c.querySelector('.btn-destaque-card i');
+
+        if (cardId && id === cardId) {
+          c.classList.add('roteiro-highlight');
+          if (btnDestaque) {
+            btnDestaque.classList.add('active');
+            btnDestaque.title = 'Remover destaque deste card';
+          }
+          if (labelDestaque) labelDestaque.textContent = 'Em Destaque';
+          if (iconDestaque) iconDestaque.className = 'bi bi-star-fill text-warning';
+        } else {
+          c.classList.remove('roteiro-highlight');
+          if (btnDestaque) {
+            btnDestaque.classList.remove('active');
+            btnDestaque.title = 'Marcar este card como foco principal da turma';
+          }
+          if (labelDestaque) labelDestaque.textContent = 'Destacar';
+          if (iconDestaque) iconDestaque.className = 'bi bi-star';
+        }
+      });
+
+      if (selectEl) {
+        selectEl.value = cardId || '';
+      }
+
+      if (persistir) {
+        localStorage.setItem(STORAGE_KEY_CARD_DESTAQUE, cardId || '');
+        if (cardId) {
+          const cardAlvo = document.getElementById(cardId) || document.querySelector(`[data-card-id="${cardId}"]`);
+          const tituloAlvo = cardAlvo ? (cardAlvo.querySelector('.roteiro-title')?.textContent || 'Card') : 'Card';
+          showToast("Foco Atualizado", `Card "${tituloAlvo}" marcado com destaque visual para a turma.`, "bi bi-star-fill text-warning");
+        } else {
+          showToast("Destaque Removido", "Nenhum card está marcado com destaque visual.", "bi bi-info-circle text-primary");
+        }
+      }
+    }
+
+    function alternarDestaqueCard(cardId) {
+      const cardAlvo = document.getElementById(cardId) || document.querySelector(`[data-card-id="${cardId}"]`);
+      const jaDestacado = cardAlvo && cardAlvo.classList.contains('roteiro-highlight');
+      if (jaDestacado) {
+        aplicarDestaqueCard('', true);
+      } else {
+        aplicarDestaqueCard(cardId, true);
+      }
+    }
+
+    function selecionarCardDestaque(cardId) {
+      aplicarDestaqueCard(cardId, true);
+    }
+
+    function limparDestaqueCards() {
+      aplicarDestaqueCard('', true);
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
       carregarDados();
       initModoDocente();
@@ -7604,6 +7998,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       carregarDemandasSNCT();
       renderizarQuadroDemandasSNCT();
       renderizarCardHeroRoteirosSNCT();
+      initDestaqueCards();
       initGoogleAuth();
       sincronizarComBackendAppsScript();
 
