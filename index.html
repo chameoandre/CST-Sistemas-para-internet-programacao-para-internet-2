@@ -1001,6 +1001,61 @@
       border-left-color: var(--accent-blue);
     }
 
+    /* CARDS RETRÁTEIS DA EXTENSÃO */
+    .ext-card-collapsible {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .ext-card-collapsible:hover {
+      border-color: var(--accent-blue);
+    }
+    .ext-card-collapsible summary {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      user-select: none;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: var(--text-heading);
+      background: var(--bg-card-hover);
+      transition: background var(--transition-fast);
+    }
+    .ext-card-collapsible summary::-webkit-details-marker {
+      display: none;
+    }
+    .ext-card-collapsible summary:hover {
+      background: var(--bg-card);
+    }
+    .ext-card-collapsible .ext-summary-toggle-icon {
+      transition: transform 0.25s ease;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .ext-card-collapsible[open] .ext-summary-toggle-icon {
+      transform: rotate(180deg);
+    }
+    .ext-card-collapsible .ext-card-body {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* PAINEL DE VOTAÇÃO COMPACTO E EM TONS DISCRETOS DE CINZA (VOTAÇÃO CONCLUÍDA) */
+    .votacao-painel-cinza {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      opacity: 0.95;
+    }
+
     .ext-subcard-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -3155,190 +3210,379 @@
     <!-- ABA 3: CURRICULARIZAÇÃO DA EXTENSÃO -->
     <div class="tab-pane" id="tab-extensao">
       <div class="panel-card">
-        <h2 class="panel-title"><i class="bi bi-stars text-warning"></i> Curricularização da Extensão Universitária (40 Horas)</h2>
-        <p class="panel-subtitle">
-          Em conformidade com a <strong>Meta 12.7 do PNE</strong>, a <strong>Resolução CNE/CES nº 07/2018</strong>, as <strong>Resoluções CONSUP/IFSC nº 40/2016 e nº 61/2016</strong> e o <strong>PPC de Sistemas para a Internet (Resolução CONSUP nº 30/2020)</strong>, esta unidade curricular integraliza <strong>40 horas de atividades extensionistas</strong> com interação dialógica transformadora com a sociedade.
-        </p>
-
-        <!-- CARDS DAS 2 MODALIDADES FLEXÍVEIS -->
-        <h3 class="font-outfit fs-6 fw-bold text-uppercase text-muted mb-2">Estrutura Flexível em Duas Vias de Realização:</h3>
         
-        <div class="extension-cards">
-          
-          <!-- VIA 1 -->
-          <div class="ext-track-card">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="badge-pill badge-pill-purple"><i class="bi bi-easel2-fill"></i> MODALIDADE 1</span>
-              <span class="badge-pill badge-pill-green">Ação Presencial na SNCT</span>
-            </div>
-            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Minicursos &amp; Oficinas Práticas no IFSC</h4>
-            <p class="text-muted small mb-3">
-              Proposição e condução de oficinas práticas presenciais (2h a 4h) no laboratório de informática do Câmpus Garopaba durante a <strong>Semana Nacional de Ciência e Tecnologia (SNCT)</strong>. A turma ofertará <strong>duas oficinas práticas</strong> para a comunidade:
+        <!-- HEADER PRINCIPAL COM ATALHOS -->
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+          <div>
+            <h2 class="panel-title mb-1"><i class="bi bi-stars text-warning"></i> Curricularização da Extensão Universitária (40 Horas)</h2>
+            <p class="panel-subtitle mb-0">
+              Oficinas práticas presenciais na SNCT 2026 ministradas pelos estudantes para a comunidade externa no Câmpus Garopaba, integralizando 40h extensionistas (Meta 12.7 PNE, Resolução CNE/CES nº 07/2018 e PPC SPI).
             </p>
-
-            <!-- OFERTA 1: CONFIRMADA -->
-            <div class="votacao-card-confirmada mb-3">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-1">
-                <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle-fill me-1"></i> OFERTA 1 DEFINIDA &amp; CONFIRMADA</span>
-                <span class="badge-pill badge-pill-purple"><i class="bi bi-globe2 me-1"></i> Inclusão Digital</span>
-              </div>
-              <h5 class="font-outfit fs-6 fw-bold text-heading mb-1 mt-1">Meu Primeiro Site no Ar</h5>
-              <p class="text-muted small mb-0">Construção de página pessoal com HTML5 semântico e publicação instantânea e gratuita na web com <strong>GitHub Pages</strong> para compartilhar com a família e a comunidade.</p>
-              <div class="mt-2 text-muted" style="font-size: 0.76rem;">
-                <i class="bi bi-info-circle text-primary me-1"></i><strong>Status:</strong> Curso oficial pré-definido da turma para o laboratório do Câmpus Garopaba na SNCT.
-              </div>
-            </div>
-
-            <!-- OFERTA 2: VOTAÇÃO DEMOCRÁTICA DA TURMA -->
-            <div class="p-3 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid var(--accent-purple);">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                <div>
-                  <span class="badge-pill badge-pill-purple"><i class="bi bi-ui-checks-grid me-1"></i> OFERTA 2 — VOTAÇÃO DA TURMA</span>
-                  <h5 class="font-outfit fs-6 fw-bold text-heading mt-2 mb-0">Escolha do 2º Minicurso para a SNCT</h5>
-                </div>
-                <div class="d-flex align-items-center gap-1 flex-wrap docente-only">
-                  <button onclick="abrirModalNovaOficina()" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem;" title="Adicionar nova opção de minicurso">
-                    <i class="bi bi-plus-circle me-1"></i> + Nova Opção
-                  </button>
-                  <button onclick="abrirModalAuditoriaVotos()" class="btn-action btn-outline-action py-1 px-2" style="font-size: 0.78rem;" title="Ver votos nominais da turma">
-                    <i class="bi bi-list-check me-1"></i> Votos Nominais
-                  </button>
-                  <button onclick="reiniciarVotacao()" class="btn-action btn-outline-action py-1 px-2 text-danger" style="font-size: 0.78rem;" title="Zerar contagem de votos">
-                    <i class="bi bi-arrow-counterclockwise me-1"></i> Zerar
-                  </button>
-                </div>
-              </div>
-
-              <p class="text-muted small mb-3">
-                Identifique-se na lista abaixo e registre seu voto no tema de sua preferência para a segunda oficina da SNCT (1 voto por estudante, você pode alterar sua escolha a qualquer momento):
-              </p>
-
-              <!-- BARRA DE SELEÇÃO DO ESTUDANTE VOTANTE -->
-              <div class="votacao-controle-bar mb-3">
-                <!-- 1. CASO NÃO AUTENTICADO: BANNER DE LOGIN OBRIGATÓRIO -->
-                <div id="bannerLoginObrigatorioVotacao" class="p-3 rounded mb-3 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: rgba(66, 133, 244, 0.08); border: 1.5px dashed #4285F4;">
-                  <div>
-                    <div class="fw-bold text-heading d-flex align-items-center gap-2 mb-1" style="font-size: 0.875rem;">
-                      <i class="bi bi-shield-lock-fill text-primary"></i> Identificação Oficial Obrigatória
-                    </div>
-                    <div class="text-muted small" style="font-size: 0.8125rem;">
-                      Para garantir a auditoria nominal e segurança da votação (1 voto por estudante), conecte-se com sua conta Google institucional (<code>@aluno.ifsc.edu.br</code> ou e-mail cadastrado no SIGAA).
-                    </div>
-                  </div>
-                  <button type="button" onclick="iniciarLoginGoogle()" class="btn btn-sm btn-primary px-3 py-2 fw-semibold shadow-sm" style="font-size: 0.8125rem;">
-                    <i class="bi bi-google me-1"></i> Fazer Login com Google para Votar
-                  </button>
-                </div>
-
-                <!-- 2. CASO AUTENTICADO: PERFIL CONFIRMADO DO ESTUDANTE -->
-                <div id="cardEstudanteAutenticadoVotacao" class="d-none p-3 rounded mb-3 align-items-center justify-content-between flex-wrap gap-2" style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid var(--accent-emerald);">
-                  <div class="d-flex align-items-center gap-3">
-                    <img id="avatarAuthVotacao" src="" alt="Avatar" style="width: 36px; height: 36px; border-radius: 50%; display: none;" />
-                    <div id="iconeWrapperAuthVotacao" class="d-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 36px; height: 36px;">
-                      <i class="bi bi-person-check-fill fs-5"></i>
-                    </div>
-                    <div>
-                      <div class="fw-bold text-heading" id="nomeAuthVotacao">Estudante Autenticado</div>
-                      <div class="text-muted small" style="font-size: 0.76rem;" id="detalhesAuthVotacao">Matrícula: — | E-mail: —</div>
-                    </div>
-                  </div>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-success text-white py-1 px-2" style="font-size: 0.74rem;"><i class="bi bi-patch-check-fill me-1"></i>Identidade Verificada</span>
-                    <button type="button" onclick="efetuarLogoutGoogle()" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.75rem;" title="Trocar conta Google">
-                      <i class="bi bi-box-arrow-right me-1"></i> Sair / Trocar
-                    </button>
-                  </div>
-                </div>
-
-                <!-- 3. SIMULAÇÃO DOCENTE (VISÍVEL APENAS QUANDO MODO DOCENTE ATIVO) -->
-                <div class="docente-only mb-2 p-2 rounded" style="background: rgba(217, 119, 6, 0.08); border: 1px dashed var(--accent-amber);">
-                  <div class="d-flex align-items-center justify-content-between mb-1">
-                    <label class="form-label small fw-bold text-warning mb-0" for="selectVotanteEstudante">
-                      <i class="fa-solid fa-chalkboard-user me-1"></i> Simulação Docente (Auditoria de Votos Nominais):
-                    </label>
-                    <span class="badge bg-warning text-dark" style="font-size: 0.68rem;">Visível Apenas para Professor</span>
-                  </div>
-                  <select id="selectVotanteEstudante" class="form-select form-select-sm" onchange="aoMudarEstudanteVotante(this.value)">
-                    <option value="">-- Modo Docente: Selecione um estudante da turma para inspecionar voto --</option>
-                  </select>
-                </div>
-
-                <!-- STATUS DO VOTO -->
-                <div id="statusVotoEstudante" class="small p-2 rounded text-muted mb-2" style="background: var(--bg-card); border: 1px solid var(--border-color); font-size: 0.8125rem;">
-                  Faça login com sua conta Google para votar ou alterar seu voto.
-                </div>
-
-                <!-- RESUMO GERAL DA VOTAÇÃO -->
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2 pt-2 border-top" style="font-size: 0.78rem;">
-                  <div>
-                    <span class="text-muted">Participação da Turma:</span>
-                    <strong id="totalVotosContagem" class="text-primary ms-1">0 / 24 votos (0%)</strong>
-                  </div>
-                  <div id="temaLiderGeral">
-                    <span class="text-muted">Tema Mais Votado:</span>
-                    <strong class="text-warning ms-1">—</strong>
-                  </div>
-                </div>
-              </div>
-
-              <!-- GRID DINÂMICO DE OPÇÕES PARA VOTO -->
-              <div id="gridOpcoesVotacao" class="ext-subcard-grid mb-2">
-                <!-- Preenchido dinamicamente via JavaScript -->
-              </div>
-            </div>
-
-            <div class="p-2 rounded mt-3" style="background: var(--bg-card); border-left: 3px solid var(--accent-purple);">
-              <small class="text-muted"><strong><i class="bi bi-check2-circle text-success me-1"></i>Entregáveis da Modalidade 1:</strong> Plano instrucional da oficina, código de apoio, lista de presença com avaliação de satisfação e relatório fotográfico da atividade presencial.</small>
-            </div>
           </div>
-
-          <!-- VIA 2 -->
-          <div class="ext-track-card ext-track-card-alt">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="badge-pill badge-pill-blue"><i class="bi bi-file-earmark-text-fill"></i> MODALIDADE 2</span>
-              <span class="badge-pill badge-pill-green">Comunicação Científica</span>
-            </div>
-            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Resumo Expandido de Produto Web (SNCT &amp; COTB)</h4>
-            <p class="text-muted small mb-2">
-              Elaboração e submissão de um <strong>Relato de Experiência / Resumo Expandido (2 a 4 páginas)</strong> documentando o desenvolvimento e a validação de uma aplicação web extensionista.
-            </p>
-
-            <div class="p-2 rounded mb-3" style="background: rgba(14, 165, 233, 0.08); border-left: 3px solid var(--accent-blue);">
-              <small class="text-muted"><strong><i class="bi bi-lightbulb-fill text-warning me-1"></i>Diretriz de Reorientação Temática:</strong> As equipes aproveitam a <strong>arquitetura técnica consolidada no último roteiro da disciplina</strong> (SPA modular, consumo assíncrono via Fetch API, validação, modais e persistência em LocalStorage ou REST Flask/SQLite), redirecionando o domínio para uma causa comunitária de Garopaba e região.</small>
-            </div>
-
-            <h5 class="font-outfit fs-6 fw-bold text-heading mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Sugestões de Eixos Comunitários Locais:</h5>
-            <ul class="text-muted small ps-3 mb-3">
-              <li><strong>🌊 Turismo Comunitário &amp; Pesca:</strong> Catálogo e roteiro dos ranchos de pesca tradicional da Barra e patrimônio açoriano.</li>
-              <li><strong>🐾 Causa Animal:</strong> Vitrine de acolhimento e adoção responsável de animais resgatados com formulário assíncrono.</li>
-              <li><strong>🌾 Agricultura Familiar:</strong> Divulgação direta de colheitas semanais, feiras orgânicas e produtores locais.</li>
-              <li><strong>🌿 Preservação Ambiental:</strong> Guia interativo de conservação de trilhas ecológicas, dunas e praias limpas.</li>
-              <li><strong>♿ Acessibilidade Praiana:</strong> Mapeamento de rampas, esteiras acessíveis e cadeiras anfíbias nas praias do município.</li>
-            </ul>
-
-            <h5 class="font-outfit fs-6 fw-bold text-heading mb-2"><i class="bi bi-journal-bookmark-fill text-info me-1"></i>Estrutura do Artigo (COTB / Mostra SNCT):</h5>
-            <ol class="text-muted small ps-3 mb-3">
-              <li>Introdução &amp; Contexto Comunitário (Problema real em Garopaba)</li>
-              <li>Arquitetura da Solução Desenvolvida (Frontend Modular, Fetch, Persistência)</li>
-              <li>Interação Dialógica &amp; Testes com Usuários Reais da Comunidade</li>
-              <li>Resultados Obtidos &amp; Impacto Social da Aplicação</li>
-              <li>Considerações Finais e Lições Aprendidas</li>
-            </ol>
-
-            <div class="p-2 rounded" style="background: var(--bg-card); border-left: 3px solid var(--accent-blue);">
-              <small class="text-muted"><strong><i class="bi bi-check2-circle text-success me-1"></i>Entregáveis:</strong> Artigo/Resumo Expandido em PDF formatado, repositório GitHub com deploy no GitHub Pages e comprovante de apresentação na Mostra da SNCT / submissão ao congresso COTB.</small>
-            </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <a href="https://moodle.ifsc.edu.br/course/view.php?id=2663" target="_blank" rel="noopener noreferrer" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Abrir Sala Oficial do Curso 1 no Moodle IFSC">
+              <i class="bi bi-mortarboard-fill me-1"></i> Curso 1 Moodle (id=2663) <i class="bi bi-box-arrow-up-right ms-1"></i>
+            </a>
+            <a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" rel="noopener noreferrer" class="btn-action btn-outline-action" style="border-color: var(--accent-emerald); color: var(--accent-emerald);" title="Abrir Sala Oficial do Curso 2 no Moodle IFSC">
+              <i class="bi bi-mortarboard-fill me-1"></i> Curso 2 Moodle (id=2664) <i class="bi bi-box-arrow-up-right ms-1"></i>
+            </a>
+            <button onclick="showTab('tab-demandas')" class="btn-action btn-outline-action" title="Ver Central de Demandas &amp; Checkpoints">
+              <i class="fa-solid fa-list-check me-1"></i> Demandas &amp; Rubricas
+            </button>
           </div>
-
         </div>
 
+        <!-- =====================================================================
+             ROTEIRO DE ATIVIDADES E JORNADA OPERACIONAL DA SNCT (NO TOPO!)
+             ===================================================================== -->
+        <div class="snct-operacional-topo mb-4">
+          <!-- BANNER DE ORIENTAÇÃO DA SEMANA (AUSÊNCIA DOCENTE) + PRAZO DE CANDIDATURA + MOODLE + ROTEIROS PDF -->
+            <div class="p-3 rounded-3 mb-4" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i> ETAPA 1 CONCLUÍDA: CANDIDATURAS HOMOLOGADAS</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-mortarboard-fill me-1"></i> Cursos no Moodle Institucional IFSC (Alunos como Professores)</span>
+                </div>
+                <span class="badge bg-warning text-dark px-2 py-1 fw-bold"><i class="bi bi-lightning-charge-fill me-1"></i> ETAPA 2 EM ANDAMENTO: MATERIAIS NO MOODLE (ATÉ 07/11)</span><span class="fs-caption fw-bold text-muted" id="contadorPrazoCandidaturaSNCT" style="display:none;"></span>
+              </div>
 
-        <!-- =========================================================
-             CARD: PRODUÇÃO DOS MINICURSOS DA SNCT
-             (procedimentos, formatos, ideias e pipeline de produção)
-             ========================================================= -->
-        <section class="producao-card mt-4" id="cardProducaoMinicursos" aria-labelledby="tituloProducaoMinicursos">
-          <div class="producao-header">
+              <h5 class="font-outfit fw-bold fs-6 text-heading mb-2">
+                <i class="bi bi-compass-fill text-warning me-1"></i> Roteiro de Atividades Autônomas desta Semana (Ausência Docente em Sala)
+              </h5>
+              <p class="fs-body-sm text-muted mb-3">
+                Como nesta semana não haverá encontro presencial com o professor em sala, cada estudante e cada frente deve seguir os <strong>3 passos obrigatórios</strong> abaixo utilizando o <strong>Roteiro Operacional em PDF</strong> da sua respectiva tarefa:
+              </p>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-success me-1">Passo 1</span> Equipes Consolidadas</div>
+                    <p class="fs-caption text-muted mb-0">Candidaturas encerradas e trios das 8 frentes homologados. O trabalho prossegue com as equipes ativas na elaboração técnica.</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-primary me-1">Passo 2</span> Salas Oficiais no Moodle IFSC</div>
+                    <p class="fs-caption text-muted mb-0">Estruture a sala oficial da sua frente no Moodle (<a href="https://moodle.ifsc.edu.br/course/view.php?id=2663" target="_blank" class="fw-bold text-decoration-underline">Curso 1 id=2663</a> / <a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" class="fw-bold text-decoration-underline">Curso 2 id=2664</a>) com perfil de <strong>Professor</strong>.</p>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-warning text-dark me-1">Passo 3</span> Publicar Rascunhos até 07/11</div>
+                    <p class="fs-caption text-muted mb-0">No card da sua frente, registre o link de entrega (repositório GitHub ou sala Moodle) para homologação e revisão cruzada da Etapa 3.</p>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- DIAGRAMA VISUAL DAS ETAPAS DA SNCT (CARDS CLICÁVEIS DE ALTA LEGIBILIDADE) -->
+              <div id="diagramaPipelineSNCT" class="p-3 rounded-3 my-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-1">
+                  <div>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1">
+                      <i class="bi bi-diagram-3-fill me-1"></i> JORNADA DAS OFICINAS SNCT (A2 • 40H EXTENSÃO)
+                    </span>
+                    <h6 class="font-outfit fw-bold fs-6 text-heading mb-0">
+                      Trilha de Execução das Etapas: Da Candidatura às Oficinas com a Comunidade
+                    </h6>
+                  </div>
+                  <span class="fs-caption text-muted">Clique em qualquer etapa abaixo para ir diretamente à respectiva tarefa e sala:</span>
+                </div>
+
+                <div class="snct-trilha-grid">
+                  <!-- ETAPA 1 -->
+                  <div class="snct-trilha-card concluida" onclick="navegarParaEtapaSNCT(1)" title="Clique para ver o quadro de frentes">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-trilha-badge-num text-success border-success-subtle">01</span>
+                        <span class="badge bg-success-subtle text-success fs-label"><i class="bi bi-check-circle-fill me-1"></i>Concluída</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+                          <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 1: Candidatura</div>
+                          <div class="fs-caption text-muted">Frentes &amp; Papéis A/B/C</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Candidaturas encerradas. Trios das 8 frentes consolidados e ativos.
+                      </p>
+                    </div>
+                    <div class="pt-2 border-top fs-caption text-primary fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Frentes</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
+                    </div>
+                  </div>
+
+                  <!-- ETAPA 2 (FOCO ATUAL) -->
+                  <div class="snct-trilha-card ativa pulse-foco" onclick="navegarParaEtapaSNCT(2)" title="Clique para ver os materiais e salas do Moodle">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-trilha-badge-num text-warning border-warning">02</span>
+                        <span class="badge bg-warning text-dark fs-label fw-bold"><i class="bi bi-lightning-charge-fill me-1"></i>Foco Atual • 07/11</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(217, 119, 6, 0.14); color: #d97706;">
+                          <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 2: Moodle IFSC</div>
+                          <div class="fs-caption text-muted">1ª Versão dos Materiais</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Publicar rascunhos nas salas oficiais (id=2663 e 2664) e registrar links.
+                      </p>
+                    </div>
+                    <div class="pt-2 border-top fs-caption fw-semibold d-flex align-items-center justify-content-between" style="color: var(--accent-amber);">
+                      <span>Acessar Salas Moodle</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
+                    </div>
+                  </div>
+
+                  <!-- ETAPA 3 -->
+                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(3)" title="Clique para ver os critérios da revisão cruzada">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-trilha-badge-num">03</span>
+                        <span class="badge bg-light text-muted border fs-label">14/11</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
+                          <i class="bi bi-check2-all"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 3: Revisão em Par</div>
+                          <div class="fs-caption text-muted">Validação Cruzada no Lab</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Conferir código, micro-roteiro e slides em par com as outras frentes.
+                      </p>
+                    </div>
+                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Tarefa</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
+                    </div>
+                  </div>
+
+                  <!-- ETAPA 4 -->
+                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(4)" title="Clique para ver os critérios do ensaio">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-trilha-badge-num">04</span>
+                        <span class="badge bg-light text-muted border fs-label">21/11</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(147, 51, 234, 0.12); color: #9333ea;">
+                          <i class="bi bi-stopwatch-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 4: Ensaio Geral</div>
+                          <div class="fs-caption text-muted">120 min Cronometrados</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Simulação completa: Curso 1 ministra para o Curso 2 e vice-versa.
+                      </p>
+                    </div>
+                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Tarefa</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
+                    </div>
+                  </div>
+
+                  <!-- ETAPA 5 -->
+                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(5)" title="Clique para ver os critérios do evento">
+                    <div>
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="snct-trilha-badge-num">05</span>
+                        <span class="badge bg-light text-muted border fs-label">27/11</span>
+                      </div>
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(225, 29, 72, 0.12); color: #e11d48;">
+                          <i class="bi bi-rocket-takeoff-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 5: Oficinas SNCT</div>
+                          <div class="fs-caption text-muted">Comunidade &amp; Relatório</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Aplicação presencial com participantes externos, presenças e fotos.
+                      </p>
+                    </div>
+                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Tarefa</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4 ROTEIROS EM PDF DAS FRENTES -->
+              <div class="p-2 rounded mb-2" style="background: var(--bg-card); border: 1px dashed var(--border-color);">
+                <div class="fs-caption fw-bold text-heading mb-2">
+                  <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiros Operacionais em PDF por Frente de Trabalho (Padrão LaTeX da UC + Guia do Moodle):
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="snct-frentes/frente-didatica/main.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-journal-richtext me-1"></i> Roteiro SNCT 01: Didática, Micro-Roteiro &amp; Sala Moodle
+                  </a>
+                  <a href="snct-frentes/frente-starterkit/main.pdf" target="_blank" class="btn btn-sm btn-outline-success">
+                    <i class="bi bi-file-earmark-code me-1"></i> Roteiro SNCT 02: Starter Kit, GitHub &amp; Pacote Moodle
+                  </a>
+                  <a href="snct-frentes/frente-slides/main.pdf" target="_blank" class="btn btn-sm btn-outline-warning">
+                    <i class="bi bi-easel2 me-1"></i> Roteiro SNCT 03: Slides-Guia (8 Telas) &amp; Moodle
+                  </a>
+                  <a href="snct-frentes/frente-monitoria/main.pdf" target="_blank" class="btn btn-sm btn-outline-info">
+                    <i class="bi bi-people me-1"></i> Roteiro SNCT 04: Monitoria, Logística &amp; Avaliação Moodle
+                  </a>
+                </div>
+              </div>
+
+              <!-- PAINEL DE CONTROLE NOMINAL: QUEM JÁ SE CANDIDATOU VS QUEM FALTA -->
+              <div id="painelNominalCandidaturasSNCT" class="mt-2"></div>
+            </div>
+
+          <!-- QUADRO DE FRENTES & EQUIPES (CARD RETRÁTIL, ABERTO POR PADRÃO) -->
+          <details class="ext-card-collapsible mt-3" id="collapseQuadroFrentes" open>
+            <summary>
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-kanban text-primary fs-5"></i>
+                <span class="fs-6 fw-bold">Quadro de Frentes &amp; Candidaturas da Turma (24 Vagas nos 2 Cursos)</span>
+                <span class="badge bg-primary fs-label ms-1" id="badgeVagasGeralSNCT"><span id="spanTotalVagasOcupadas">0</span> / 24 vagas</span>
+              </div>
+              <i class="bi bi-chevron-down ext-summary-toggle-icon"></i>
+            </summary>
+            <div class="ext-card-body" id="quadroDemandasSNCT">
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-3">
+              <div>
+                <h4 class="font-outfit fw-bold fs-5 text-heading mb-1">
+                  <i class="bi bi-kanban text-primary me-2"></i>Quadro de Frentes &amp; Candidaturas da Turma
+                </h4>
+                <p class="fs-body-sm text-muted mb-0">
+                  São <strong>8 frentes cirúrgicas com 3 vagas cada</strong>, totalizando as <strong>24 vagas para os 24 estudantes</strong> da turma. Conecte-se com seu login institucional do Google para assumir uma vaga ou atualizar o link de entrega da sua equipe.
+                </p>
+              </div>
+              <div class="flex-shrink-0 text-md-end d-flex align-items-center gap-2 flex-wrap">
+                <button type="button" class="btn btn-sm btn-outline-primary fw-semibold" onclick="sincronizarComBackendAppsScript(true)" title="Buscar novas candidaturas e links de entrega na planilha agora">
+                  <i class="bi bi-arrow-repeat me-1"></i> Atualizar Quadro
+                </button>
+                <span class="badge bg-primary fs-small px-3 py-2" id="badgeVagasGeralSNCT">
+                  <i class="bi bi-person-check-fill me-1"></i> <span id="spanTotalVagasOcupadas">0</span> / 24 vagas ocupadas
+                </span>
+              </div>
+            </div>
+
+            <!-- QUADRO COMPARATIVO DAS AÇÕES SEPARADAS POR CURSO (CURSO 1 vs CURSO 2) -->
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 h-100" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-blue);">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="badge bg-info text-dark font-mono">OFICINA / CURSO 1 (12 VAGAS · 4 FRENTES)</span>
+                    <span class="fs-caption fw-bold text-primary" id="resumoVagasCurso1">0 / 12 vagas</span>
+                  </div>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-1">Meu Primeiro Site no Ar (HTML5, CSS3 &amp; GitHub Pages)</h5>
+                  <p class="fs-caption text-muted mb-2">
+                    <strong>Escopo exclusivo das equipes do Curso 1:</strong> página pessoal/comercial com foto, bio, 3 cartões de destaques e botão direto de WhatsApp (<code>wa.me</code>).
+                  </p>
+                  <ul class="mb-0 ps-3 fs-caption text-muted">
+                    <li><strong>Sala no Moodle IFSC:</strong> <em>Curso 1 — Meu Primeiro Site no Ar</em> (chave <code>SNCT2026</code>)</li>
+                    <li><strong>Pacote da Frente 2:</strong> <code>starter-kit-snct.zip</code> (HTML + CSS com variáveis <code>:root</code>)</li>
+                    <li><strong>Frentes independentes:</strong> Didática C1, Starter Kit C1, Slides C1 e Monitoria C1</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 h-100" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="badge bg-success text-white font-mono">OFICINA / CURSO 2 (12 VAGAS · 4 FRENTES)</span>
+                    <span class="fs-caption fw-bold text-success" id="resumoVagasCurso2">0 / 12 vagas</span>
+                  </div>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-1" id="tituloCurso2QuadroDemandas">Painel Verde: Coleta Seletiva &amp; Ecopontos de Garopaba</h5>
+                  <p class="fs-caption text-muted mb-2">
+                    <strong>Escopo exclusivo das equipes do Curso 2:</strong> painel ambiental de Garopaba com botões de filtro por tipo de resíduo (<code>.filter()</code> em 32 linhas no <code>js/app.js</code>) e link direto para o Google Maps.
+                  </p>
+                  <ul class="mb-0 ps-3 fs-caption text-muted">
+                    <li><strong>Sala no Moodle IFSC:</strong> <em>Curso 2 — Painel Verde Garopaba</em> (chave <code>SNCT2026</code>)</li>
+                    <li><strong>Pacote da Frente 2:</strong> <code>starter-kit-painel-verde.zip</code> (HTML + CSS + <code>js/app.js</code>)</li>
+                    <li><strong>Frentes independentes:</strong> Didática C2, Starter Kit C2, Slides C2 e Monitoria C2</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- CURSO 1: FRENTES -->
+            <div class="mb-4 p-3 rounded-3" style="background: rgba(2, 132, 199, 0.04); border: 1px solid var(--border-color);">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-info text-dark font-mono px-2 py-1">CURSO 1 (12 VAGAS)</span>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Meu Primeiro Site no Ar — Frentes Exclusivas do Curso 1</h5>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <a href="https://moodle.ifsc.edu.br/course/view.php?id=2663" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption fw-bold" title="Abrir Sala Oficial do Curso 1 no Moodle institucional do IFSC">
+                    <i class="bi bi-mortarboard-fill me-1"></i> Sala no Moodle (id=2663) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                  <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-snct.zip</code></span>
+                </div>
+              </div>
+              <div class="row g-3" id="containerFrentesCurso1">
+                <!-- Renderizado via JS -->
+              </div>
+            </div>
+
+            <!-- CURSO 2: FRENTES -->
+            <div class="mb-3 p-3 rounded-3" style="background: rgba(5, 150, 105, 0.04); border: 1px solid var(--border-color);">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-success text-white font-mono px-2 py-1">CURSO 2 (12 VAGAS)</span>
+                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Painel Verde: Coleta Seletiva &amp; Ecopontos — Frentes Exclusivas do Curso 2</h5>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="Abrir Sala Oficial do Curso 2 no Moodle institucional do IFSC">
+                    <i class="bi bi-mortarboard-fill me-1"></i> Sala no Moodle (id=2664) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                  <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-painel-verde.zip</code></span>
+                </div>
+              </div>
+              <div class="row g-3" id="containerFrentesCurso2">
+                <!-- Renderizado via JS -->
+              </div>
+            </div>
+
+            <div class="card p-3 bg-light border-0 mt-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <span class="fs-caption text-muted">
+                  <i class="bi bi-shield-lock-fill text-success me-1"></i> Candidaturas autenticadas com sua conta Google. Os dados são sincronizados no seu navegador e na planilha da extensão.
+                </span>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="restaurarDemandasPadraoSNCT()">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i> Restaurar Frentes Padrão
+                </button>
+              </div>
+            </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- =====================================================================
+             CARDS RETRÁTEIS DE CONTEÚDO METODOLÓGICO & INSTITUCIONAL (FECHADOS POR PADRÃO)
+             ===================================================================== -->
+
+        <!-- CARD RETRÁTIL 1: GUIA DE PRODUÇÃO DOS MINICURSOS & CHECKLISTS -->
+        <details class="ext-card-collapsible" id="cardProducaoMinicursos">
+          <summary>
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-diagram-3-fill fs-5" style="color: var(--accent-purple);"></i>
+              <span class="fs-6 fw-bold">Guia Pedagógico de Produção dos Cursos (Pipeline de 6 Etapas, Dimensionamento &amp; Checklists)</span>
+              <span class="badge bg-secondary-subtle text-secondary fs-label">Guia Metodológico</span>
+            </div>
+            <i class="bi bi-chevron-down ext-summary-toggle-icon"></i>
+          </summary>
+          <div class="ext-card-body">
+            <div class="producao-header">
             <div>
               <span class="badge-pill badge-pill-purple"><i class="bi bi-diagram-3-fill"></i> GUIA DE PRODUÇÃO</span>
               <h3 class="font-outfit fs-5 fw-bold text-heading mt-2 mb-1" id="tituloProducaoMinicursos">Produção dos Minicursos da SNCT: como vamos construir os dois cursos</h3>
@@ -3553,332 +3797,215 @@
             </div>
             <p class="text-muted small mb-0 mt-2"><i class="bi bi-info-circle me-1"></i>As marcações servem como guia tático de ensaio para cada equipe.</p>
           </div>
+          </div>
+        </details>
 
-          <!-- =====================================================================
-               QUADRO DE FRENTES DE TRABALHO & CANDIDATURAS DA TURMA (24 VAGAS)
-               ===================================================================== -->
-          <div id="quadroDemandasSNCT" class="mt-4 pt-3 border-top">
-            <!-- BANNER DE ORIENTAÇÃO DA SEMANA (AUSÊNCIA DOCENTE) + PRAZO DE CANDIDATURA + MOODLE + ROTEIROS PDF -->
-            <div class="p-3 rounded-3 mb-4" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
-              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                  <span class="badge bg-danger text-white px-2 py-1"><i class="bi bi-alarm-fill me-1"></i> PRAZO DE CANDIDATURA: AMANHÃ (TERÇA, 27/10 ÀS 23:59)</span>
-                  <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-mortarboard-fill me-1"></i> Cursos no Moodle Institucional IFSC (Alunos como Professores)</span>
-                </div>
-                <span class="fs-caption fw-bold text-muted" id="contadorPrazoCandidaturaSNCT"></span>
-              </div>
-
-              <h5 class="font-outfit fw-bold fs-6 text-heading mb-2">
-                <i class="bi bi-compass-fill text-warning me-1"></i> Roteiro de Atividades Autônomas desta Semana (Ausência Docente em Sala)
-              </h5>
-              <p class="fs-body-sm text-muted mb-3">
-                Como nesta semana não haverá encontro presencial com o professor em sala, cada estudante e cada frente deve seguir os <strong>3 passos obrigatórios</strong> abaixo utilizando o <strong>Roteiro Operacional em PDF</strong> da sua respectiva tarefa:
-              </p>
-
-              <div class="row g-3 mb-3">
-                <div class="col-md-4">
-                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-primary me-1">Passo 1</span> Candidatar-se até Amanhã (27/10)</div>
-                    <p class="fs-caption text-muted mb-0">Conecte-se com sua conta Google institucional e clique em <strong>Candidatar-me a esta Frente</strong> em uma das 8 frentes abaixo (3 vagas por frente).</p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-success me-1">Passo 2</span> Seguir o Roteiro PDF &amp; Sala no Moodle</div>
-                    <p class="fs-caption text-muted mb-0">Baixe o <strong>Roteiro em PDF da sua frente</strong> abaixo. Os dois cursos serão disponibilizados no <strong>Moodle Institucional do IFSC</strong>, onde vocês atuarão com perfil de <strong>Professor</strong>.</p>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="p-3 rounded h-100" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-                    <div class="fw-bold text-heading fs-small mb-1"><span class="badge bg-warning text-dark me-1">Passo 3</span> Marcar Etapas &amp; Informar Link (30/10)</div>
-                    <p class="fs-caption text-muted mb-0">No card da sua frente, marque as <strong>3 etapas de andamento</strong> conforme avançarem e clique em <strong>Informar Link</strong> (repositório GitHub ou sala do Moodle).</p>
-                  </div>
-                </div>
-              </div>
-
-
-              <!-- DIAGRAMA VISUAL DAS ETAPAS DA SNCT (CARDS CLICÁVEIS DE ALTA LEGIBILIDADE) -->
-              <div id="diagramaPipelineSNCT" class="p-3 rounded-3 my-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-1">
-                  <div>
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1">
-                      <i class="bi bi-diagram-3-fill me-1"></i> JORNADA DAS OFICINAS SNCT (A2 • 40H EXTENSÃO)
-                    </span>
-                    <h6 class="font-outfit fw-bold fs-6 text-heading mb-0">
-                      Trilha de Execução das Etapas: Da Candidatura às Oficinas com a Comunidade
-                    </h6>
-                  </div>
-                  <span class="fs-caption text-muted">Clique em qualquer etapa abaixo para ir diretamente à respectiva tarefa e sala:</span>
-                </div>
-
-                <div class="snct-trilha-grid">
-                  <!-- ETAPA 1 -->
-                  <div class="snct-trilha-card concluida" onclick="navegarParaEtapaSNCT(1)" title="Clique para ver o quadro de frentes">
-                    <div>
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-trilha-badge-num text-success border-success-subtle">01</span>
-                        <span class="badge bg-success-subtle text-success fs-label"><i class="bi bi-check-circle-fill me-1"></i>Concluída</span>
-                      </div>
-                      <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="snct-trilha-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
-                          <i class="bi bi-people-fill"></i>
-                        </div>
-                        <div>
-                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 1: Candidatura</div>
-                          <div class="fs-caption text-muted">Frentes &amp; Papéis A/B/C</div>
-                        </div>
-                      </div>
-                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
-                        Candidaturas encerradas. Trios das 8 frentes consolidados e ativos.
-                      </p>
-                    </div>
-                    <div class="pt-2 border-top fs-caption text-primary fw-semibold d-flex align-items-center justify-content-between">
-                      <span>Ver Frentes</span>
-                      <i class="bi bi-arrow-right-short fs-5"></i>
-                    </div>
-                  </div>
-
-                  <!-- ETAPA 2 (FOCO ATUAL) -->
-                  <div class="snct-trilha-card ativa pulse-foco" onclick="navegarParaEtapaSNCT(2)" title="Clique para ver os materiais e salas do Moodle">
-                    <div>
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-trilha-badge-num text-warning border-warning">02</span>
-                        <span class="badge bg-warning text-dark fs-label fw-bold"><i class="bi bi-lightning-charge-fill me-1"></i>Foco Atual • 07/11</span>
-                      </div>
-                      <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="snct-trilha-icon-wrap" style="background: rgba(217, 119, 6, 0.14); color: #d97706;">
-                          <i class="bi bi-mortarboard-fill"></i>
-                        </div>
-                        <div>
-                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 2: Moodle IFSC</div>
-                          <div class="fs-caption text-muted">1ª Versão dos Materiais</div>
-                        </div>
-                      </div>
-                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
-                        Publicar rascunhos nas salas oficiais (id=2663 e 2664) e registrar links.
-                      </p>
-                    </div>
-                    <div class="pt-2 border-top fs-caption fw-semibold d-flex align-items-center justify-content-between" style="color: var(--accent-amber);">
-                      <span>Acessar Salas Moodle</span>
-                      <i class="bi bi-arrow-right-short fs-5"></i>
-                    </div>
-                  </div>
-
-                  <!-- ETAPA 3 -->
-                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(3)" title="Clique para ver os critérios da revisão cruzada">
-                    <div>
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-trilha-badge-num">03</span>
-                        <span class="badge bg-light text-muted border fs-label">14/11</span>
-                      </div>
-                      <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="snct-trilha-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
-                          <i class="bi bi-check2-all"></i>
-                        </div>
-                        <div>
-                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 3: Revisão em Par</div>
-                          <div class="fs-caption text-muted">Validação Cruzada no Lab</div>
-                        </div>
-                      </div>
-                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
-                        Conferir código, micro-roteiro e slides em par com as outras frentes.
-                      </p>
-                    </div>
-                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
-                      <span>Ver Tarefa</span>
-                      <i class="bi bi-arrow-right-short fs-5"></i>
-                    </div>
-                  </div>
-
-                  <!-- ETAPA 4 -->
-                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(4)" title="Clique para ver os critérios do ensaio">
-                    <div>
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-trilha-badge-num">04</span>
-                        <span class="badge bg-light text-muted border fs-label">21/11</span>
-                      </div>
-                      <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="snct-trilha-icon-wrap" style="background: rgba(147, 51, 234, 0.12); color: #9333ea;">
-                          <i class="bi bi-stopwatch-fill"></i>
-                        </div>
-                        <div>
-                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 4: Ensaio Geral</div>
-                          <div class="fs-caption text-muted">120 min Cronometrados</div>
-                        </div>
-                      </div>
-                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
-                        Simulação completa: Curso 1 ministra para o Curso 2 e vice-versa.
-                      </p>
-                    </div>
-                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
-                      <span>Ver Tarefa</span>
-                      <i class="bi bi-arrow-right-short fs-5"></i>
-                    </div>
-                  </div>
-
-                  <!-- ETAPA 5 -->
-                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(5)" title="Clique para ver os critérios do evento">
-                    <div>
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-trilha-badge-num">05</span>
-                        <span class="badge bg-light text-muted border fs-label">27/11</span>
-                      </div>
-                      <div class="d-flex align-items-center gap-2 mb-2">
-                        <div class="snct-trilha-icon-wrap" style="background: rgba(225, 29, 72, 0.12); color: #e11d48;">
-                          <i class="bi bi-rocket-takeoff-fill"></i>
-                        </div>
-                        <div>
-                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 5: Oficinas SNCT</div>
-                          <div class="fs-caption text-muted">Comunidade &amp; Relatório</div>
-                        </div>
-                      </div>
-                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
-                        Aplicação presencial com participantes externos, presenças e fotos.
-                      </p>
-                    </div>
-                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
-                      <span>Ver Tarefa</span>
-                      <i class="bi bi-arrow-right-short fs-5"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 4 ROTEIROS EM PDF DAS FRENTES -->
-              <div class="p-2 rounded mb-2" style="background: var(--bg-card); border: 1px dashed var(--border-color);">
-                <div class="fs-caption fw-bold text-heading mb-2">
-                  <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Roteiros Operacionais em PDF por Frente de Trabalho (Padrão LaTeX da UC + Guia do Moodle):
-                </div>
-                <div class="d-flex flex-wrap gap-2">
-                  <a href="snct-frentes/frente-didatica/main.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
-                    <i class="bi bi-journal-richtext me-1"></i> Roteiro SNCT 01: Didática, Micro-Roteiro &amp; Sala Moodle
-                  </a>
-                  <a href="snct-frentes/frente-starterkit/main.pdf" target="_blank" class="btn btn-sm btn-outline-success">
-                    <i class="bi bi-file-earmark-code me-1"></i> Roteiro SNCT 02: Starter Kit, GitHub &amp; Pacote Moodle
-                  </a>
-                  <a href="snct-frentes/frente-slides/main.pdf" target="_blank" class="btn btn-sm btn-outline-warning">
-                    <i class="bi bi-easel2 me-1"></i> Roteiro SNCT 03: Slides-Guia (8 Telas) &amp; Moodle
-                  </a>
-                  <a href="snct-frentes/frente-monitoria/main.pdf" target="_blank" class="btn btn-sm btn-outline-info">
-                    <i class="bi bi-people me-1"></i> Roteiro SNCT 04: Monitoria, Logística &amp; Avaliação Moodle
-                  </a>
-                </div>
-              </div>
-
-              <!-- PAINEL DE CONTROLE NOMINAL: QUEM JÁ SE CANDIDATOU VS QUEM FALTA -->
-              <div id="painelNominalCandidaturasSNCT" class="mt-2"></div>
+        <!-- CARD RETRÁTIL 2: DIRETRIZES CURRICULARES DA EXTENSÃO (MODALIDADE 1 vs MODALIDADE 2) -->
+        <details class="ext-card-collapsible" id="cardDiretrizesExtensao">
+          <summary>
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-mortarboard-fill fs-5" style="color: var(--accent-blue);"></i>
+              <span class="fs-6 fw-bold">Diretrizes Curriculares da Extensão Universitária (Modalidades 1 e 2 • 40 Horas)</span>
+              <span class="badge bg-secondary-subtle text-secondary fs-label">Regulamento PNE</span>
             </div>
+            <i class="bi bi-chevron-down ext-summary-toggle-icon"></i>
+          </summary>
+          <div class="ext-card-body">
+            <p class="text-muted fs-body-sm mb-3">
+              Em conformidade com a <strong>Meta 12.7 do PNE</strong>, a <strong>Resolução CNE/CES nº 07/2018</strong>, as <strong>Resoluções CONSUP/IFSC nº 40/2016 e nº 61/2016</strong> e o <strong>PPC de Sistemas para a Internet (Resolução CONSUP nº 30/2020)</strong>, esta unidade curricular integraliza <strong>40 horas de atividades extensionistas</strong> com interação dialógica transformadora com a sociedade.
+            </p>
 
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 mb-3">
-              <div>
-                <h4 class="font-outfit fw-bold fs-5 text-heading mb-1">
-                  <i class="bi bi-kanban text-primary me-2"></i>Quadro de Frentes &amp; Candidaturas da Turma
-                </h4>
-                <p class="fs-body-sm text-muted mb-0">
-                  São <strong>8 frentes cirúrgicas com 3 vagas cada</strong>, totalizando as <strong>24 vagas para os 24 estudantes</strong> da turma. Conecte-se com seu login institucional do Google para assumir uma vaga ou atualizar o link de entrega da sua equipe.
-                </p>
+            <div class="extension-cards">
+              <div class="ext-track-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="badge-pill badge-pill-purple"><i class="bi bi-easel2-fill"></i> MODALIDADE 1</span>
+              <span class="badge-pill badge-pill-green">Ação Presencial na SNCT</span>
+            </div>
+            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Minicursos &amp; Oficinas Práticas no IFSC</h4>
+            <p class="text-muted small mb-3">
+              Proposição e condução de oficinas práticas presenciais (2h a 4h) no laboratório de informática do Câmpus Garopaba durante a <strong>Semana Nacional de Ciência e Tecnologia (SNCT)</strong>. A turma ofertará <strong>duas oficinas práticas</strong> para a comunidade:
+            </p>
+
+            <!-- OFERTA 1: CONFIRMADA -->
+            <div class="votacao-card-confirmada mb-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-1">
+                <span class="badge-pill badge-pill-green"><i class="bi bi-check-circle-fill me-1"></i> OFERTA 1 DEFINIDA &amp; CONFIRMADA</span>
+                <span class="badge-pill badge-pill-purple"><i class="bi bi-globe2 me-1"></i> Inclusão Digital</span>
               </div>
-              <div class="flex-shrink-0 text-md-end d-flex align-items-center gap-2 flex-wrap">
-                <button type="button" class="btn btn-sm btn-outline-primary fw-semibold" onclick="sincronizarComBackendAppsScript(true)" title="Buscar novas candidaturas e links de entrega na planilha agora">
-                  <i class="bi bi-arrow-repeat me-1"></i> Atualizar Quadro
-                </button>
-                <span class="badge bg-primary fs-small px-3 py-2" id="badgeVagasGeralSNCT">
-                  <i class="bi bi-person-check-fill me-1"></i> <span id="spanTotalVagasOcupadas">0</span> / 24 vagas ocupadas
-                </span>
+              <h5 class="font-outfit fs-6 fw-bold text-heading mb-1 mt-1">Meu Primeiro Site no Ar</h5>
+              <p class="text-muted small mb-0">Construção de página pessoal com HTML5 semântico e publicação instantânea e gratuita na web com <strong>GitHub Pages</strong> para compartilhar com a família e a comunidade.</p>
+              <div class="mt-2 text-muted fs-caption">
+                <i class="bi bi-info-circle text-primary me-1"></i><strong>Status:</strong> Curso oficial pré-definido da turma para o laboratório do Câmpus Garopaba na SNCT.
               </div>
             </div>
 
-            <!-- QUADRO COMPARATIVO DAS AÇÕES SEPARADAS POR CURSO (CURSO 1 vs CURSO 2) -->
-            <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <div class="p-3 rounded-3 h-100" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-blue);">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge bg-info text-dark font-mono">OFICINA / CURSO 1 (12 VAGAS · 4 FRENTES)</span>
-                    <span class="fs-caption fw-bold text-primary" id="resumoVagasCurso1">0 / 12 vagas</span>
-                  </div>
-                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-1">Meu Primeiro Site no Ar (HTML5, CSS3 &amp; GitHub Pages)</h5>
-                  <p class="fs-caption text-muted mb-2">
-                    <strong>Escopo exclusivo das equipes do Curso 1:</strong> página pessoal/comercial com foto, bio, 3 cartões de destaques e botão direto de WhatsApp (<code>wa.me</code>).
-                  </p>
-                  <ul class="mb-0 ps-3 fs-caption text-muted">
-                    <li><strong>Sala no Moodle IFSC:</strong> <em>Curso 1 — Meu Primeiro Site no Ar</em> (chave <code>SNCT2026</code>)</li>
-                    <li><strong>Pacote da Frente 2:</strong> <code>starter-kit-snct.zip</code> (HTML + CSS com variáveis <code>:root</code>)</li>
-                    <li><strong>Frentes independentes:</strong> Didática C1, Starter Kit C1, Slides C1 e Monitoria C1</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="p-3 rounded-3 h-100" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 4px solid var(--accent-emerald);">
-                  <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="badge bg-success text-white font-mono">OFICINA / CURSO 2 (12 VAGAS · 4 FRENTES)</span>
-                    <span class="fs-caption fw-bold text-success" id="resumoVagasCurso2">0 / 12 vagas</span>
-                  </div>
-                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-1" id="tituloCurso2QuadroDemandas">Painel Verde: Coleta Seletiva &amp; Ecopontos de Garopaba</h5>
-                  <p class="fs-caption text-muted mb-2">
-                    <strong>Escopo exclusivo das equipes do Curso 2:</strong> painel ambiental de Garopaba com botões de filtro por tipo de resíduo (<code>.filter()</code> em 32 linhas no <code>js/app.js</code>) e link direto para o Google Maps.
-                  </p>
-                  <ul class="mb-0 ps-3 fs-caption text-muted">
-                    <li><strong>Sala no Moodle IFSC:</strong> <em>Curso 2 — Painel Verde Garopaba</em> (chave <code>SNCT2026</code>)</li>
-                    <li><strong>Pacote da Frente 2:</strong> <code>starter-kit-painel-verde.zip</code> (HTML + CSS + <code>js/app.js</code>)</li>
-                    <li><strong>Frentes independentes:</strong> Didática C2, Starter Kit C2, Slides C2 e Monitoria C2</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <!-- CURSO 1: FRENTES -->
-            <div class="mb-4 p-3 rounded-3" style="background: rgba(2, 132, 199, 0.04); border: 1px solid var(--border-color);">
-              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <!-- OFERTA 2: VOTAÇÃO ENCERRADA (DISCRETA EM CINZA) -->
+            <div class="votacao-painel-cinza p-3 mb-3">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                 <div class="d-flex align-items-center gap-2">
-                  <span class="badge bg-info text-dark font-mono px-2 py-1">CURSO 1 (12 VAGAS)</span>
-                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Meu Primeiro Site no Ar — Frentes Exclusivas do Curso 1</h5>
+                  <span class="badge bg-secondary fs-label"><i class="bi bi-archive-fill me-1"></i>VOTAÇÃO ENCERRADA</span>
+                  <h5 class="font-outfit fs-6 fw-bold text-heading mb-0">Escolha do 2º Minicurso para a SNCT</h5>
                 </div>
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                  <a href="https://moodle.ifsc.edu.br/course/view.php?id=2663" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption fw-bold" title="Abrir Sala Oficial do Curso 1 no Moodle institucional do IFSC">
-                    <i class="bi bi-mortarboard-fill me-1"></i> Sala no Moodle (id=2663) <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                  <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-snct.zip</code></span>
+                <div class="d-flex align-items-center gap-1 flex-wrap docente-only">
+                  <button onclick="abrirModalNovaOficina()" class="btn-action btn-outline-action py-1 px-2 fs-caption" title="Adicionar nova opção de minicurso">
+                    <i class="bi bi-plus-circle me-1"></i> + Nova Opção
+                  </button>
+                  <button onclick="abrirModalAuditoriaVotos()" class="btn-action btn-outline-action py-1 px-2 fs-caption" title="Ver votos nominais da turma">
+                    <i class="bi bi-list-check me-1"></i> Votos Nominais
+                  </button>
+                  <button onclick="reiniciarVotacao()" class="btn-action btn-outline-action py-1 px-2 text-danger fs-caption" title="Zerar contagem de votos">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i> Zerar
+                  </button>
                 </div>
               </div>
-              <div class="row g-3" id="containerFrentesCurso1">
-                <!-- Renderizado via JS -->
+
+              <div class="p-2 rounded mb-2 bg-light border fs-caption text-muted">
+                <i class="bi bi-check-circle-fill text-success me-1"></i>
+                <strong>Tema Vencedor Eleito pela Turma:</strong> Painel Verde Garopaba (Coleta Seletiva &amp; Ecopontos com IoT/ESP32 e Dashboard Web). A sala de aula oficial já foi aberta no Moodle IFSC (<a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" class="fw-bold text-primary">Curso id=2664</a>) e as 4 frentes exclusivas do Curso 2 já estão em atividade.
               </div>
+
+              <!-- HISTÓRICO DE VOTAÇÃO COMPACTO (RETRÁTIL) -->
+              <details class="text-muted fs-caption">
+                <summary class="cursor-pointer py-1 fw-semibold text-muted">
+                  <i class="bi bi-clock-history me-1"></i> Inspecionar opções e histórico de votos nominais arquivados
+                </summary>
+                <div class="pt-2">
+                  <!-- BARRA DE SELEÇÃO DO ESTUDANTE VOTANTE -->
+                  <div class="votacao-controle-bar mb-2">
+                    <!-- 1. CASO NÃO AUTENTICADO: BANNER DE LOGIN OBRIGATÓRIO -->
+                    <div id="bannerLoginObrigatorioVotacao" class="p-2 rounded mb-2 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: rgba(100, 116, 139, 0.08); border: 1px dashed var(--border-color);">
+                      <div>
+                        <div class="fw-bold text-heading d-flex align-items-center gap-2 mb-1 fs-caption">
+                          <i class="bi bi-shield-lock-fill text-secondary"></i> Identificação Oficial Obrigatória
+                        </div>
+                        <div class="text-muted fs-caption">
+                          Votação finalizada. Login Google disponível para conferência de auditoria.
+                        </div>
+                      </div>
+                      <button type="button" onclick="iniciarLoginGoogle()" class="btn btn-sm btn-outline-secondary px-2 py-1 fs-caption">
+                        <i class="bi bi-google me-1"></i> Conectar Google
+                      </button>
+                    </div>
+
+                    <!-- 2. CASO AUTENTICADO: PERFIL CONFIRMADO DO ESTUDANTE -->
+                    <div id="cardEstudanteAutenticadoVotacao" class="d-none p-2 rounded mb-2 align-items-center justify-content-between flex-wrap gap-2" style="background: rgba(16, 185, 129, 0.08); border: 1px solid var(--accent-emerald);">
+                      <div class="d-flex align-items-center gap-2">
+                        <img id="avatarAuthVotacao" src="" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%; display: none;" />
+                        <div id="iconeWrapperAuthVotacao" class="d-flex align-items-center justify-content-center rounded-circle bg-success text-white" style="width: 28px; height: 28px;">
+                          <i class="bi bi-person-check-fill fs-6"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold text-heading fs-caption" id="nomeAuthVotacao">Estudante Autenticado</div>
+                          <div class="text-muted fs-label" id="detalhesAuthVotacao">Matrícula: — | E-mail: —</div>
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center gap-1">
+                        <span class="badge bg-success text-white py-1 px-2 fs-label"><i class="bi bi-patch-check-fill me-1"></i>Verificado</span>
+                        <button type="button" onclick="efetuarLogoutGoogle()" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-label" title="Trocar conta Google">
+                          Sair
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 3. SIMULAÇÃO DOCENTE (AUDITORIA) -->
+                    <div class="docente-only mb-2 p-2 rounded" style="background: rgba(100, 116, 139, 0.08); border: 1px dashed var(--border-color);">
+                      <div class="d-flex align-items-center justify-content-between mb-1">
+                        <label class="form-label fs-label fw-bold text-muted mb-0" for="selectVotanteEstudante">
+                          <i class="fa-solid fa-chalkboard-user me-1"></i> Simulação Docente (Auditoria de Votos Nominais):
+                        </label>
+                      </div>
+                      <select id="selectVotanteEstudante" class="form-select form-select-sm fs-caption" onchange="aoMudarEstudanteVotante(this.value)">
+                        <option value="">-- Modo Docente: Selecione um estudante da turma para inspecionar voto --</option>
+                      </select>
+                    </div>
+
+                    <!-- STATUS DO VOTO -->
+                    <div id="statusVotoEstudante" class="fs-caption p-2 rounded text-muted mb-2" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                      Votação arquivada.
+                    </div>
+
+                    <!-- RESUMO GERAL DA VOTAÇÃO -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top fs-caption">
+                      <div>
+                        <span class="text-muted">Participação da Turma:</span>
+                        <strong id="totalVotosContagem" class="text-primary ms-1">0 / 24 votos (0%)</strong>
+                      </div>
+                      <div id="temaLiderGeral">
+                        <span class="text-muted">Tema Eleito:</span>
+                        <strong class="text-success ms-1"><i class="bi bi-trophy-fill me-1"></i>Painel Verde Garopaba</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- GRID DINÂMICO DE OPÇÕES PARA VOTO -->
+                  <div id="gridOpcoesVotacao" class="ext-subcard-grid mb-2">
+                    <!-- Preenchido dinamicamente via JavaScript -->
+                  </div>
+                </div>
+              </details>
             </div>
 
-            <!-- CURSO 2: FRENTES -->
-            <div class="mb-3 p-3 rounded-3" style="background: rgba(5, 150, 105, 0.04); border: 1px solid var(--border-color);">
-              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                <div class="d-flex align-items-center gap-2">
-                  <span class="badge bg-success text-white font-mono px-2 py-1">CURSO 2 (12 VAGAS)</span>
-                  <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Painel Verde: Coleta Seletiva &amp; Ecopontos — Frentes Exclusivas do Curso 2</h5>
-                </div>
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                  <a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="Abrir Sala Oficial do Curso 2 no Moodle institucional do IFSC">
-                    <i class="bi bi-mortarboard-fill me-1"></i> Sala no Moodle (id=2664) <i class="bi bi-box-arrow-up-right ms-1"></i>
-                  </a>
-                  <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-painel-verde.zip</code></span>
-                </div>
-              </div>
-              <div class="row g-3" id="containerFrentesCurso2">
-                <!-- Renderizado via JS -->
-              </div>
-            </div>
-
-            <div class="card p-3 bg-light border-0 mt-3">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                <span class="fs-caption text-muted">
-                  <i class="bi bi-shield-lock-fill text-success me-1"></i> Candidaturas autenticadas com sua conta Google. Os dados são sincronizados no seu navegador e na planilha da extensão.
-                </span>
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="restaurarDemandasPadraoSNCT()">
-                  <i class="bi bi-arrow-counterclockwise me-1"></i> Restaurar Frentes Padrão
-                </button>
-              </div>
+            <div class="p-2 rounded mt-3" style="background: var(--bg-card); border-left: 3px solid var(--accent-purple);">
+              <small class="text-muted"><strong><i class="bi bi-check2-circle text-success me-1"></i>Entregáveis da Modalidade 1:</strong> Plano instrucional da oficina, código de apoio, lista de presença com avaliação de satisfação e relatório fotográfico da atividade presencial.</small>
             </div>
           </div>
-        </section>
 
-        <!-- TABELA DE DISTRIBUIÇÃO DAS 40 HORAS -->
-        <h3 class="font-outfit fs-6 fw-bold text-uppercase text-muted mt-4 mb-3">Distribuição das 40 Horas de Extensão:</h3>
+          <!-- VIA 2 -->
+          <div class="ext-track-card ext-track-card-alt">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="badge-pill badge-pill-blue"><i class="bi bi-file-earmark-text-fill"></i> MODALIDADE 2</span>
+              <span class="badge-pill badge-pill-green">Comunicação Científica</span>
+            </div>
+            <h4 class="font-outfit fs-5 fw-bold text-heading mb-2">Resumo Expandido de Produto Web (SNCT &amp; COTB)</h4>
+            <p class="text-muted small mb-2">
+              Elaboração e submissão de um <strong>Relato de Experiência / Resumo Expandido (2 a 4 páginas)</strong> documentando o desenvolvimento e a validação de uma aplicação web extensionista.
+            </p>
+
+            <div class="p-2 rounded mb-3" style="background: rgba(14, 165, 233, 0.08); border-left: 3px solid var(--accent-blue);">
+              <small class="text-muted"><strong><i class="bi bi-lightbulb-fill text-warning me-1"></i>Diretriz de Reorientação Temática:</strong> As equipes aproveitam a <strong>arquitetura técnica consolidada no último roteiro da disciplina</strong> (SPA modular, consumo assíncrono via Fetch API, validação, modais e persistência em LocalStorage ou REST Flask/SQLite), redirecionando o domínio para uma causa comunitária de Garopaba e região.</small>
+            </div>
+
+            <h5 class="font-outfit fs-6 fw-bold text-heading mb-2"><i class="bi bi-geo-alt-fill text-danger me-1"></i>Sugestões de Eixos Comunitários Locais:</h5>
+            <ul class="text-muted small ps-3 mb-3">
+              <li><strong>🌊 Turismo Comunitário &amp; Pesca:</strong> Catálogo e roteiro dos ranchos de pesca tradicional da Barra e patrimônio açoriano.</li>
+              <li><strong>🐾 Causa Animal:</strong> Vitrine de acolhimento e adoção responsável de animais resgatados com formulário assíncrono.</li>
+              <li><strong>🌾 Agricultura Familiar:</strong> Divulgação direta de colheitas semanais, feiras orgânicas e produtores locais.</li>
+              <li><strong>🌿 Preservação Ambiental:</strong> Guia interativo de conservação de trilhas ecológicas, dunas e praias limpas.</li>
+              <li><strong>♿ Acessibilidade Praiana:</strong> Mapeamento de rampas, esteiras acessíveis e cadeiras anfíbias nas praias do município.</li>
+            </ul>
+
+            <h5 class="font-outfit fs-6 fw-bold text-heading mb-2"><i class="bi bi-journal-bookmark-fill text-info me-1"></i>Estrutura do Artigo (COTB / Mostra SNCT):</h5>
+            <ol class="text-muted small ps-3 mb-3">
+              <li>Introdução &amp; Contexto Comunitário (Problema real em Garopaba)</li>
+              <li>Arquitetura da Solução Desenvolvida (Frontend Modular, Fetch, Persistência)</li>
+              <li>Interação Dialógica &amp; Testes com Usuários Reais da Comunidade</li>
+              <li>Resultados Obtidos &amp; Impacto Social da Aplicação</li>
+              <li>Considerações Finais e Lições Aprendidas</li>
+            </ol>
+
+            <div class="p-2 rounded" style="background: var(--bg-card); border-left: 3px solid var(--accent-blue);">
+              <small class="text-muted"><strong><i class="bi bi-check2-circle text-success me-1"></i>Entregáveis:</strong> Artigo/Resumo Expandido em PDF formatado, repositório GitHub com deploy no GitHub Pages e comprovante de apresentação na Mostra da SNCT / submissão ao congresso COTB.</small>
+            </div>
+          </div>
+
+        </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- CARD RETRÁTIL 3: TABELA DE DISTRIBUIÇÃO DAS 40 HORAS -->
+        <details class="ext-card-collapsible" id="cardDistribuicaoHoras">
+          <summary>
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-clock-history fs-5" style="color: var(--accent-emerald);"></i>
+              <span class="fs-6 fw-bold">Distribuição Detalhada da Carga Horária de Extensão (40 Horas)</span>
+              <span class="badge bg-success-subtle text-success fs-label">Integralização 40h</span>
+            </div>
+            <i class="bi bi-chevron-down ext-summary-toggle-icon"></i>
+          </summary>
+          <div class="ext-card-body">
+            <!-- TABELA DE DISTRIBUIÇÃO DAS 40 HORAS -->
+        
 
         <div class="table-responsive">
           <table class="table" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; color: var(--text-main);">
@@ -3912,6 +4039,8 @@
             </tbody>
           </table>
         </div>
+          </div>
+        </details>
 
       </div>
     </div>
@@ -6621,9 +6750,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
     function navegarParaEtapaSNCT(etapaNum) {
       if (etapaNum === 1) {
-        showTab('tab-roteiros');
+        showTab('tab-extensao');
         setTimeout(() => {
-          const el = document.getElementById('painelNominalCandidaturasSNCT') || document.getElementById('card-roteiro-snct');
+          const collapse = document.getElementById('collapseQuadroFrentes');
+          if (collapse) collapse.open = true;
+          const el = document.getElementById('painelNominalCandidaturasSNCT') || document.getElementById('quadroDemandasSNCT');
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             el.classList.add('snct-step-highlight');
@@ -6631,8 +6762,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           }
         }, 150);
       } else if (etapaNum === 2) {
-        showTab('tab-roteiros');
+        showTab('tab-extensao');
         setTimeout(() => {
+          const collapse = document.getElementById('collapseQuadroFrentes');
+          if (collapse) collapse.open = true;
           const el = document.getElementById('containerFrentesCurso1');
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -8421,6 +8554,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     function navegarParaDemandasSNCT() {
       showTab('tab-extensao');
       setTimeout(() => {
+        const collapse = document.getElementById('collapseQuadroFrentes');
+        if (collapse) collapse.open = true;
         const el = document.getElementById('quadroDemandasSNCT');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
