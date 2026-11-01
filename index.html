@@ -1407,56 +1407,74 @@
       overflow: hidden;
     }
 
+    .app-modal-container form {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
     .app-modal-overlay.active .app-modal-container {
       transform: scale(1);
     }
 
     .app-modal-header {
-      padding: 1.25rem 1.6rem;
+      padding: 1.15rem 1.4rem;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: var(--bg-card-hover);
+      flex-shrink: 0;
     }
 
     .app-modal-body {
-      padding: 1.6rem;
+      padding: 1.35rem 1.4rem;
       overflow-y: auto;
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
     }
 
     .app-modal-footer {
-      padding: 1.1rem 1.6rem;
+      padding: 0.95rem 1.4rem;
       border-top: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 0.75rem;
       background: var(--bg-card-hover);
+      flex-shrink: 0;
     }
 
     /* =====================================================
        MATRIZ DE RUBRICAS FORMATIVAS
        ===================================================== */
+    #modalRubricaOverlay .app-modal-container {
+      max-width: 900px;
+      max-height: 92vh;
+    }
+
     .rubrica-dim-card {
       background: var(--bg-card-hover);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 1rem 1.2rem;
-      margin-bottom: 1.2rem;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.85rem;
     }
 
     .rubrica-dim-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.45rem;
     }
 
     .rubrica-dim-title {
       font-family: 'Outfit', sans-serif;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--text-heading);
       margin: 0;
@@ -1465,21 +1483,21 @@
     .rubrica-levels-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 0.55rem;
+      gap: 0.5rem;
     }
 
     .rubrica-level-btn {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 0.65rem 0.5rem;
+      padding: 0.55rem 0.45rem;
       text-align: center;
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.2rem;
     }
 
     .rubrica-level-btn:hover {
@@ -1514,11 +1532,117 @@
       background: var(--bg-card);
       border: 2px solid var(--accent-blue);
       border-radius: var(--radius-md);
-      padding: 1.1rem 1.4rem;
+      padding: 0.9rem 1.2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: 1rem;
+      margin-top: 0.85rem;
+    }
+
+    /* ---- TRILHA VISUAL INTERATIVA DAS ETAPAS DA SNCT ---- */
+    .snct-trilha-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.85rem;
+    }
+    @media (max-width: 1199px) {
+      .snct-trilha-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 767px) {
+      .snct-trilha-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .snct-trilha-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+    .snct-trilha-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.12);
+      border-color: var(--accent-blue);
+      color: inherit;
+    }
+    .snct-trilha-card.ativa {
+      border-color: var(--accent-amber);
+      background: rgba(217, 119, 6, 0.04);
+      box-shadow: 0 0 0 1px var(--accent-amber);
+    }
+    .snct-trilha-card.concluida {
+      border-left: 3px solid var(--accent-emerald);
+    }
+    .snct-trilha-badge-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: var(--fs-label);
+      background: var(--bg-card-hover);
+      color: var(--text-heading);
+      border: 1px solid var(--border-color);
+    }
+    .snct-trilha-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .pulse-foco {
+      animation: pulseFocoAnim 2s infinite;
+    }
+    @keyframes pulseFocoAnim {
+      0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+    }
+    .snct-step-highlight {
+      animation: snctHighlightPulse 2s ease-in-out;
+    }
+    @keyframes snctHighlightPulse {
+      0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.6); }
+      30% { box-shadow: 0 0 0 8px rgba(2, 132, 199, 0.35); }
+      70% { box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15); }
+      100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); }
+    }
+    .demanda-card-icon-tag {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+    .demanda-criterios-details summary {
+      cursor: pointer;
+      list-style: none;
+      outline: none;
+    }
+    .demanda-criterios-details summary::-webkit-details-marker {
+      display: none;
     }
 
     .btn-docente-badge {
@@ -3473,138 +3597,148 @@
               </div>
 
 
-              <!-- DIAGRAMA VISUAL ILUSTRADO DO PIPELINE DE EXECUÇÃO (DA PRODUÇÃO AO DIA DO EVENTO) -->
+              <!-- DIAGRAMA VISUAL DAS ETAPAS DA SNCT (CARDS CLICÁVEIS DE ALTA LEGIBILIDADE) -->
               <div id="diagramaPipelineSNCT" class="p-3 rounded-3 my-3" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-1">
                   <div>
                     <span class="badge bg-primary-subtle text-primary border border-primary-subtle mb-1">
-                      <i class="bi bi-diagram-3-fill me-1"></i> VISÃO DE PONTA A PONTA DO PROJETO
+                      <i class="bi bi-diagram-3-fill me-1"></i> JORNADA DAS OFICINAS SNCT (A2 • 40H EXTENSÃO)
                     </span>
                     <h6 class="font-outfit fw-bold fs-6 text-heading mb-0">
-                      Diagrama do Pipeline de Execução: Da Produção do Material à Aplicação nos Dias da SNCT
+                      Trilha de Execução das Etapas: Da Candidatura às Oficinas com a Comunidade
                     </h6>
                   </div>
-                  <span class="fs-caption text-muted">Fluxo idêntico e independente para o <strong>Curso 1</strong> e para o <strong>Curso 2 (Painel Verde)</strong></span>
+                  <span class="fs-caption text-muted">Clique em qualquer etapa abaixo para ir diretamente à respectiva tarefa e sala:</span>
                 </div>
 
-                <div class="snct-pipeline-diagram mt-3">
-                  <!-- FASE 1 -->
-                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-blue);">
+                <div class="snct-trilha-grid">
+                  <!-- ETAPA 1 -->
+                  <div class="snct-trilha-card concluida" onclick="navegarParaEtapaSNCT(1)" title="Clique para ver o quadro de frentes">
                     <div>
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-pipe-num" style="background: rgba(2, 132, 199, 0.14); color: var(--accent-blue);">
-                          <i class="bi bi-code-slash"></i> Fase 1
-                        </span>
-                        <span class="fs-label text-muted fw-bold">27 a 30/10</span>
+                        <span class="snct-trilha-badge-num text-success border-success-subtle">01</span>
+                        <span class="badge bg-success-subtle text-success fs-label"><i class="bi bi-check-circle-fill me-1"></i>Concluída</span>
                       </div>
-                      <div class="fw-bold text-heading fs-small mb-1">1. Produção &amp; Codificação nas Frentes</div>
-                      <p class="fs-caption text-muted mb-2">
-                        Cada trio constrói seu artefato seguindo o Roteiro PDF (SNCT 01 a 04):
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
+                          <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 1: Candidatura</div>
+                          <div class="fs-caption text-muted">Frentes &amp; Papéis A/B/C</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Candidaturas encerradas. Trios das 8 frentes consolidados e ativos.
                       </p>
-                      <ul class="ps-3 mb-2 fs-caption text-muted">
-                        <li><strong>Frente 1:</strong> Micro-Roteiro PDF (4 págs.)</li>
-                        <li><strong>Frente 2:</strong> Código do Starter Kit</li>
-                        <li><strong>Frente 3:</strong> Slides HTML (8 telas)</li>
-                        <li><strong>Frente 4:</strong> Pesquisa &amp; Logística</li>
-                      </ul>
                     </div>
-                    <div class="pt-2 border-top fs-label text-primary fw-bold">
-                      <i class="bi bi-check2-square me-1"></i>Saída: Rascunhos no GitHub
+                    <div class="pt-2 border-top fs-caption text-primary fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Frentes</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
                     </div>
                   </div>
 
-                  <!-- FASE 2 -->
-                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-amber);">
+                  <!-- ETAPA 2 (FOCO ATUAL) -->
+                  <div class="snct-trilha-card ativa pulse-foco" onclick="navegarParaEtapaSNCT(2)" title="Clique para ver os materiais e salas do Moodle">
                     <div>
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-pipe-num" style="background: rgba(217, 119, 6, 0.15); color: var(--accent-amber);">
-                          <i class="bi bi-bug-fill"></i> Fase 2
-                        </span>
-                        <span class="fs-label text-muted fw-bold">Homologação</span>
+                        <span class="snct-trilha-badge-num text-warning border-warning">02</span>
+                        <span class="badge bg-warning text-dark fs-label fw-bold"><i class="bi bi-lightning-charge-fill me-1"></i>Foco Atual • 07/11</span>
                       </div>
-                      <div class="fw-bold text-heading fs-small mb-1">2. Teste do Material &amp; Revisão Cruzada</div>
-                      <p class="fs-caption text-muted mb-2">
-                        As 4 frentes do curso testam tudo juntas em uma máquina real do laboratório:
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(217, 119, 6, 0.14); color: #d97706;">
+                          <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 2: Moodle IFSC</div>
+                          <div class="fs-caption text-muted">1ª Versão dos Materiais</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Publicar rascunhos nas salas oficiais (id=2663 e 2664) e registrar links.
                       </p>
-                      <ul class="ps-3 mb-2 fs-caption text-muted">
-                        <li>Nomes de arquivos e IDs 100% iguais entre PDF, Kit e Slides</li>
-                        <li>Teste sem internet (Plano B em pen-drive)</li>
-                        <li>Ensaio cronometrado (120 min)</li>
-                      </ul>
                     </div>
-                    <div class="pt-2 border-top fs-label fw-bold" style="color: var(--accent-amber);">
-                      <i class="bi bi-shield-check me-1"></i>Saída: Kit Homologado
+                    <div class="pt-2 border-top fs-caption fw-semibold d-flex align-items-center justify-content-between" style="color: var(--accent-amber);">
+                      <span>Acessar Salas Moodle</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
                     </div>
                   </div>
 
-                  <!-- FASE 3 -->
-                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-emerald);">
+                  <!-- ETAPA 3 -->
+                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(3)" title="Clique para ver os critérios da revisão cruzada">
                     <div>
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-pipe-num" style="background: rgba(5, 150, 105, 0.15); color: var(--accent-emerald);">
-                          <i class="bi bi-mortarboard-fill"></i> Fase 3
-                        </span>
-                        <span class="fs-label text-muted fw-bold">Moodle IFSC</span>
+                        <span class="snct-trilha-badge-num">03</span>
+                        <span class="badge bg-light text-muted border fs-label">14/11</span>
                       </div>
-                      <div class="fw-bold text-heading fs-small mb-1">3. Publicação na Sala do Moodle</div>
-                      <p class="fs-caption text-muted mb-2">
-                        Com perfil de <strong>Professor</strong> no Moodle institucional, a equipe estrutura as 5 seções do curso:
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(2, 132, 199, 0.12); color: #0284c7;">
+                          <i class="bi bi-check2-all"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 3: Revisão em Par</div>
+                          <div class="fs-caption text-muted">Validação Cruzada no Lab</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Conferir código, micro-roteiro e slides em par com as outras frentes.
                       </p>
-                      <ul class="ps-3 mb-2 fs-caption text-muted">
-                        <li><strong>Seção 0:</strong> Boas-vindas + Roteiro PDF + Slides</li>
-                        <li><strong>Seções 1 e 2:</strong> Códigos e blocos guiados</li>
-                        <li><strong>Seções 3 e 4:</strong> Mural de sites + Pesquisa</li>
-                      </ul>
                     </div>
-                    <div class="pt-2 border-top fs-label text-success fw-bold">
-                      <i class="bi bi-key-fill me-1"></i>Chave: <code>SNCT2026</code> + Visitante
+                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Tarefa</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
                     </div>
                   </div>
 
-                  <!-- FASE 4 -->
-                  <div class="snct-pipe-step" style="border-top: 4px solid #0891b2;">
+                  <!-- ETAPA 4 -->
+                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(4)" title="Clique para ver os critérios do ensaio">
                     <div>
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-pipe-num" style="background: rgba(8, 145, 178, 0.15); color: #0891b2;">
-                          <i class="bi bi-box-seam-fill"></i> Fase 4
-                        </span>
-                        <span class="fs-label text-muted fw-bold">Pacote + Código</span>
+                        <span class="snct-trilha-badge-num">04</span>
+                        <span class="badge bg-light text-muted border fs-label">21/11</span>
                       </div>
-                      <div class="fw-bold text-heading fs-small mb-1">4. Disponibilização com os Códigos</div>
-                      <p class="fs-caption text-muted mb-2">
-                        Todos os arquivos ficam prontos para download em 1 clique nas bancadas:
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(147, 51, 234, 0.12); color: #9333ea;">
+                          <i class="bi bi-stopwatch-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 4: Ensaio Geral</div>
+                          <div class="fs-caption text-muted">120 min Cronometrados</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Simulação completa: Curso 1 ministra para o Curso 2 e vice-versa.
                       </p>
-                      <ul class="ps-3 mb-2 fs-caption text-muted">
-                        <li><strong>Curso 1:</strong> <code>starter-kit-snct.zip</code> + Template GitHub</li>
-                        <li><strong>Curso 2:</strong> <code>starter-kit-painel-verde.zip</code> + <code>js/app.js</code></li>
-                        <li>Roteiros A4 impressos + 2 pen-drives</li>
-                      </ul>
                     </div>
-                    <div class="pt-2 border-top fs-label fw-bold" style="color: #0891b2;">
-                      <i class="bi bi-cloud-check-fill me-1"></i>Saída: Bancadas Prontas
+                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Tarefa</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
                     </div>
                   </div>
 
-                  <!-- FASE 5 -->
-                  <div class="snct-pipe-step" style="border-top: 4px solid var(--accent-purple);">
+                  <!-- ETAPA 5 -->
+                  <div class="snct-trilha-card" onclick="navegarParaEtapaSNCT(5)" title="Clique para ver os critérios do evento">
                     <div>
                       <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="snct-pipe-num" style="background: rgba(147, 51, 234, 0.15); color: var(--accent-purple);">
-                          <i class="bi bi-rocket-takeoff-fill"></i> Fase 5
-                        </span>
-                        <span class="fs-label text-muted fw-bold">Dias da SNCT</span>
+                        <span class="snct-trilha-badge-num">05</span>
+                        <span class="badge bg-light text-muted border fs-label">27/11</span>
                       </div>
-                      <div class="fw-bold text-heading fs-small mb-1">5. Aplicação do Curso no Evento (120 min)</div>
-                      <p class="fs-caption text-muted mb-2">
-                        Os estudantes conduzem a oficina presencial para a comunidade no laboratório:
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="snct-trilha-icon-wrap" style="background: rgba(225, 29, 72, 0.12); color: #e11d48;">
+                          <i class="bi bi-rocket-takeoff-fill"></i>
+                        </div>
+                        <div>
+                          <div class="fw-bold font-outfit text-heading fs-small">Etapa 5: Oficinas SNCT</div>
+                          <div class="fs-caption text-muted">Comunidade &amp; Relatório</div>
+                        </div>
+                      </div>
+                      <p class="fs-caption text-muted mb-2" style="line-height: 1.35;">
+                        Aplicação presencial com participantes externos, presenças e fotos.
                       </p>
-                      <ul class="ps-3 mb-2 fs-caption text-muted">
-                        <li>Instrutor no telão (Slides 1 a 8) + Monitores nas ilhas (1:4)</li>
-                        <li>Participante edita o código, publica no GitHub Pages e abre via QR Code no celular</li>
-                      </ul>
                     </div>
-                    <div class="pt-2 border-top fs-label fw-bold" style="color: var(--accent-purple);">
-                      <i class="bi bi-award-fill me-1"></i>Saída: Site no Ar + Relatório
+                    <div class="pt-2 border-top fs-caption text-muted fw-semibold d-flex align-items-center justify-content-between">
+                      <span>Ver Tarefa</span>
+                      <i class="bi bi-arrow-right-short fs-5"></i>
                     </div>
                   </div>
                 </div>
@@ -6393,6 +6527,134 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarDemandas();
     }
 
+    function obterMetadadosVisuaisDemanda(d) {
+      const id = String(d.id || '').toUpperCase();
+      if (id === 'DEM-SNCT-01') {
+        return {
+          etapaBadge: 'ETAPA 1 · CANDIDATURA',
+          badgeCor: 'bg-success-subtle text-success border border-success-subtle',
+          icone: 'bi-people-fill',
+          corIcone: '#059669',
+          bgIcone: 'rgba(5, 150, 105, 0.12)'
+        };
+      }
+      if (id === 'DEM-SNCT-C1') {
+        return {
+          etapaBadge: 'ETAPA 2 · CURSO 1 (MOODLE)',
+          badgeCor: 'bg-info-subtle text-dark border border-info-subtle',
+          icone: 'bi-mortarboard-fill',
+          corIcone: 'var(--accent-blue)',
+          bgIcone: 'rgba(2, 132, 199, 0.12)'
+        };
+      }
+      if (id === 'DEM-SNCT-C2') {
+        return {
+          etapaBadge: 'ETAPA 2 · CURSO 2 (MOODLE)',
+          badgeCor: 'bg-success-subtle text-success border border-success-subtle',
+          icone: 'bi-mortarboard-fill',
+          corIcone: '#059669',
+          bgIcone: 'rgba(5, 150, 105, 0.12)'
+        };
+      }
+      if (id === 'DEM-SNCT-E3') {
+        return {
+          etapaBadge: 'ETAPA 3 · REVISÃO EM PAR',
+          badgeCor: 'bg-primary-subtle text-primary border border-primary-subtle',
+          icone: 'bi-check2-all',
+          corIcone: 'var(--accent-blue)',
+          bgIcone: 'rgba(2, 132, 199, 0.12)'
+        };
+      }
+      if (id === 'DEM-SNCT-E4') {
+        return {
+          etapaBadge: 'ETAPA 4 · ENSAIO 120M',
+          badgeCor: 'bg-secondary-subtle text-dark border',
+          icone: 'bi-stopwatch-fill',
+          corIcone: 'var(--accent-purple)',
+          bgIcone: 'rgba(147, 51, 234, 0.12)'
+        };
+      }
+      if (id === 'DEM-SNCT-E5') {
+        return {
+          etapaBadge: 'ETAPA 5 · OFICINAS SNCT',
+          badgeCor: 'bg-danger-subtle text-danger border border-danger-subtle',
+          icone: 'bi-rocket-takeoff-fill',
+          corIcone: '#e11d48',
+          bgIcone: 'rgba(225, 29, 72, 0.12)'
+        };
+      }
+      if (id === 'DEM-02') {
+        return {
+          etapaBadge: 'CONSOLIDAÇÃO A2 · EXTENSÃO',
+          badgeCor: 'bg-primary-subtle text-primary border',
+          icone: 'bi-award-fill',
+          corIcone: 'var(--accent-blue)',
+          bgIcone: 'rgba(2, 132, 199, 0.12)'
+        };
+      }
+      if (id === 'DEM-03') {
+        return {
+          etapaBadge: 'PROJETO A3 · VITRINE FLASK',
+          badgeCor: 'bg-success-subtle text-success border',
+          icone: 'bi-layers-fill',
+          corIcone: '#059669',
+          bgIcone: 'rgba(5, 150, 105, 0.12)'
+        };
+      }
+      if (id === 'DEM-01') {
+        return {
+          etapaBadge: 'AVALIAÇÃO A1 · TEÓRICA',
+          badgeCor: 'bg-warning-subtle text-warning border',
+          icone: 'bi-journal-bookmark-fill',
+          corIcone: 'var(--accent-amber)',
+          bgIcone: 'rgba(217, 119, 6, 0.12)'
+        };
+      }
+      return {
+        etapaBadge: 'ROTEIROS A4 · LABORATÓRIO',
+        badgeCor: 'bg-secondary-subtle text-secondary border',
+        icone: 'bi-code-square',
+        corIcone: '#64748b',
+        bgIcone: 'rgba(100, 116, 139, 0.12)'
+      };
+    }
+
+    function navegarParaEtapaSNCT(etapaNum) {
+      if (etapaNum === 1) {
+        showTab('tab-roteiros');
+        setTimeout(() => {
+          const el = document.getElementById('painelNominalCandidaturasSNCT') || document.getElementById('card-roteiro-snct');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('snct-step-highlight');
+            setTimeout(() => el.classList.remove('snct-step-highlight'), 2200);
+          }
+        }, 150);
+      } else if (etapaNum === 2) {
+        showTab('tab-roteiros');
+        setTimeout(() => {
+          const el = document.getElementById('containerFrentesCurso1');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('snct-step-highlight');
+            setTimeout(() => el.classList.remove('snct-step-highlight'), 2200);
+          }
+        }, 150);
+      } else {
+        showTab('tab-demandas');
+        const idMap = { 3: 'DEM-SNCT-E3', 4: 'DEM-SNCT-E4', 5: 'DEM-SNCT-E5' };
+        const dId = idMap[etapaNum];
+        setTimeout(() => {
+          const card = document.getElementById(`demanda-card-${dId}`) || document.querySelector(`.demanda-card[data-demanda-id="${dId}"]`);
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            card.classList.add('snct-step-highlight');
+            setTimeout(() => card.classList.remove('snct-step-highlight'), 2200);
+          }
+        }, 150);
+      }
+    }
+
     function renderizarDemandas() {
       const container = document.getElementById('gridDemandas');
       if (!container) return;
@@ -6446,46 +6708,69 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const statusPrazo = calcularStatusPrazo(d.prazo, d.concluida, d.horaPrazo);
         const painelAtribuicao = renderizarPainelAtribuicao(d);
         const cardClass = d.concluida ? 'demanda-card concluida' : (statusPrazo.urgente ? 'demanda-card urgente' : 'demanda-card');
+        const meta = obterMetadadosVisuaisDemanda(d);
         
         const avaliacoesDestaDemanda = avaliacoesApp.filter(a => a.demandaId === d.id);
         const totalAvaliadas = avaliacoesDestaDemanda.length;
 
         const criteriosHtml = (d.criterios && d.criterios.length > 0)
           ? d.criterios.map(c => `
-              <div class="d-flex align-items-start gap-2 mb-1" style="font-size: 0.8rem;">
-                <i class="fa-solid fa-circle-check text-success mt-1" style="font-size: 0.8125rem;"></i>
+              <div class="d-flex align-items-start gap-2 mb-1 fs-body-sm">
+                <i class="fa-solid fa-circle-check text-success mt-1 fs-small"></i>
                 <span>${escapeHtml(c)}</span>
               </div>
             `).join('')
           : '<div class="text-muted small">Nenhum critério detalhado.</div>';
 
+        const linkApoioHtml = d.linkApoio ? `
+          <a href="${escapeHtml(d.linkApoio)}" target="_blank" rel="noopener noreferrer"
+             class="btn btn-sm btn-outline-primary py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+             title="Abrir recurso ou sala no Moodle">
+            <i class="bi bi-box-arrow-up-right"></i> Abrir Sala / Recurso
+          </a>
+        ` : '';
+
         return `
-          <div class="${cardClass}">
+          <div class="${cardClass}" id="demanda-card-${d.id}" data-demanda-id="${d.id}">
             <div>
-              <div class="demanda-card-header">
+              <div class="demanda-card-header mb-2">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="badge font-outfit fs-label fw-bold ${meta.badgeCor} px-2 py-1">${meta.etapaBadge}</span>
                   <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--accent-blue); border: 1px solid var(--border-color);">${d.id}</span>
-                  <span class="badge-pill ${d.instrumento === 'A3' ? 'badge-pill-green' : 'badge-pill-amber'} small">
-                    ${d.instrumentoNome || d.instrumento}
-                  </span>
-                  <span class="badge font-outfit" style="background: var(--bg-card-hover); color: var(--text-muted); font-size: 0.8125rem; border: 1px solid var(--border-color);">
-                    <i class="fa-solid ${iconeAtribuicao(d)} me-1"></i>${escapeHtml(rotuloAtribuicao(d))}
-                  </span>
                 </div>
                 <span class="badge-pill ${statusPrazo.classe} small">
                   ${statusPrazo.texto}
                 </span>
               </div>
 
-              <h3 class="demanda-card-title">${escapeHtml(d.titulo)}</h3>
-              <p class="demanda-card-desc">${escapeHtml(d.descricao)}</p>
-
-              <div class="demanda-criterios-box">
-                <div class="small fw-bold text-heading mb-2">
-                  <i class="fa-solid fa-list-check text-primary me-1"></i> Critérios de Aceite Obrigatórios:
+              <div class="d-flex align-items-start gap-2 mb-2">
+                <div class="demanda-card-icon-tag" style="background: ${meta.bgIcone}; color: ${meta.corIcone};" title="${meta.etapaBadge}">
+                  <i class="bi ${meta.icone}"></i>
                 </div>
-                ${criteriosHtml}
+                <div class="grow overflow-hidden">
+                  <h3 class="demanda-card-title mb-1">${escapeHtml(d.titulo)}</h3>
+                  <div class="fs-caption text-muted d-flex align-items-center gap-2 flex-wrap">
+                    <span><i class="fa-solid ${iconeAtribuicao(d)} me-1"></i>${escapeHtml(rotuloAtribuicao(d))}</span>
+                    ${linkApoioHtml}
+                  </div>
+                </div>
               </div>
+
+              <p class="demanda-card-desc mb-2">${escapeHtml(d.descricao)}</p>
+
+              <!-- CRITÉRIOS DE ACEITE COLAPSÁVEIS COM VISUAL SUAVE -->
+              <details class="demanda-criterios-details mb-3 p-2 rounded" style="background: var(--bg-card-hover); border: 1px dashed var(--border-color);" ${d.id.includes('DEM-SNCT-C') ? 'open' : ''}>
+                <summary class="small fw-bold text-heading d-flex align-items-center justify-content-between py-1">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-list-check text-primary"></i>
+                    <span>Critérios de Aceite Obrigatórios (${(d.criterios || []).length})</span>
+                  </span>
+                  <span class="fs-caption text-muted"><i class="bi bi-chevron-expand"></i></span>
+                </summary>
+                <div class="pt-2 mt-1 border-top">
+                  ${criteriosHtml}
+                </div>
+              </details>
 
               ${painelAtribuicao}
             </div>
