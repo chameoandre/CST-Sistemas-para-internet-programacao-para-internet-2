@@ -1379,10 +1379,28 @@ function enviarEmailAvaliacaoHtml_(emails, aval) {
     '• Parecer Formativo: ' + feedback + '\n\n' +
     'Confira os detalhes no Dashboard:\n' + CONFIG.DASHBOARD_URL + '\n';
 
-  var criteriosTexto = '1. Arquitetura Modular & Estrutura: ' + Number(dims.dim0 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
-    '2. Manipulação do DOM, Forms & Interatividade: ' + Number(dims.dim1 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
-    '3. Integração, Dados & Regras de Negócio: ' + Number(dims.dim2 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
-    '4. UX, Responsividade & Publicação (GitHub Pages/Moodle): ' + Number(dims.dim3 || 2.5).toFixed(1) + ' / 2.5 pts';
+  var criteriosTexto = '';
+  if (Array.isArray(aval.titulosDimensoes) && aval.titulosDimensoes.length > 0) {
+    criteriosTexto = aval.titulosDimensoes.map(function(d, idx) {
+      var n = d.nota != null ? Number(d.nota) : 2.5;
+      return (d.titulo || ('Dimensão ' + (idx + 1))) + ': ' + n.toFixed(1) + ' / 2.5 pts';
+    }).join('\n');
+  } else if (String(demandaId).indexOf('SNCT') >= 0 || instrumento === 'A2') {
+    criteriosTexto = '1. Planejamento Instrucional & Didática: ' + Number(dims.dim0 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '2. Rigor Técnico do Entregável da Frente: ' + Number(dims.dim1 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '3. Estruturação na Sala do Moodle IFSC: ' + Number(dims.dim2 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '4. Alinhamento em Equipe, Revisão & Logística: ' + Number(dims.dim3 || 2.5).toFixed(1) + ' / 2.5 pts';
+  } else if (String(demandaId) === 'DEM-03' || instrumento === 'A3') {
+    criteriosTexto = '1. Backend RESTful Flask & SQLite: ' + Number(dims.dim0 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '2. Frontend Modular & Fetch API: ' + Number(dims.dim1 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '3. Contingência Offline Resiliente: ' + Number(dims.dim2 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '4. UX/UI Responsiva & Deploy: ' + Number(dims.dim3 || 2.5).toFixed(1) + ' / 2.5 pts';
+  } else {
+    criteriosTexto = '1. Arquitetura Modular ES6 & Organização: ' + Number(dims.dim0 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '2. Manipulação do DOM, Forms & Reatividade: ' + Number(dims.dim1 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '3. Assincronismo, Fetch API & Microback-end: ' + Number(dims.dim2 || 2.5).toFixed(1) + ' / 2.5 pts\n' +
+      '4. UX, Feedback Visual & Deploy GitHub Pages: ' + Number(dims.dim3 || 2.5).toFixed(1) + ' / 2.5 pts';
+  }
 
   var htmlBody = montarHtmlEmailDemanda_({
     tipo: 'nova',

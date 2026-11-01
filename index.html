@@ -3699,7 +3699,12 @@
                   <span class="badge bg-info text-dark font-mono px-2 py-1">CURSO 1 (12 VAGAS)</span>
                   <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Meu Primeiro Site no Ar — Frentes Exclusivas do Curso 1</h5>
                 </div>
-                <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-snct.zip</code> · Sala Moodle Curso 1</span>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <a href="https://moodle.ifsc.edu.br/course/view.php?id=2663" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption fw-bold" title="Abrir Sala Oficial do Curso 1 no Moodle institucional do IFSC">
+                    <i class="bi bi-mortarboard-fill me-1"></i> Sala no Moodle (id=2663) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                  <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-snct.zip</code></span>
+                </div>
               </div>
               <div class="row g-3" id="containerFrentesCurso1">
                 <!-- Renderizado via JS -->
@@ -3713,7 +3718,12 @@
                   <span class="badge bg-success text-white font-mono px-2 py-1">CURSO 2 (12 VAGAS)</span>
                   <h5 class="font-outfit fw-bold fs-6 text-heading mb-0">Painel Verde: Coleta Seletiva &amp; Ecopontos — Frentes Exclusivas do Curso 2</h5>
                 </div>
-                <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-painel-verde.zip</code> · Sala Moodle Curso 2</span>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="Abrir Sala Oficial do Curso 2 no Moodle institucional do IFSC">
+                    <i class="bi bi-mortarboard-fill me-1"></i> Sala no Moodle (id=2664) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                  <span class="fs-caption text-muted">Arquivo do Kit: <code>starter-kit-painel-verde.zip</code></span>
+                </div>
               </div>
               <div class="row g-3" id="containerFrentesCurso2">
                 <!-- Renderizado via JS -->
@@ -5025,10 +5035,15 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     <div class="app-modal-container" style="max-width: 880px;">
       <div class="app-modal-header">
         <div>
-          <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
-            <i class="fa-solid fa-award text-warning me-2"></i> Avaliação por Rubrica Formativa
-          </h3>
-          <p class="text-muted small mb-0" id="modalRubricaSubtitulo">Selecione os níveis para cada dimensão técnica</p>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+              <i class="fa-solid fa-award text-warning me-1"></i> Avaliação por Rubrica Formativa
+            </h3>
+            <span id="modalRubricaBadgeModelo" class="badge bg-primary-subtle text-primary border fs-label">
+              <i class="bi bi-mortarboard-fill me-1"></i> Rubrica SNCT (A2)
+            </span>
+          </div>
+          <p class="text-muted small mb-0 mt-1" id="modalRubricaSubtitulo">Selecione os níveis para cada dimensão técnica</p>
         </div>
         <button type="button" class="btn-close" onclick="fecharModalRubrica()"></button>
       </div>
@@ -5424,11 +5439,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         membros: []
       },
 
-      // CURSO 2: Tema Eleito pela Turma
+      // CURSO 2: Painel Verde Garopaba (Coleta Seletiva & Ecopontos)
       {
         id: "c2-frente-didatica",
         cursoId: 2,
-        cursoNome: "Curso 2: Tema Eleito na Votação",
+        cursoNome: "Curso 2: Painel Verde Garopaba (Coleta Seletiva & Ecopontos)",
         titulo: "Didática & Micro-Roteiro Cirúrgico",
         icone: "bi-journal-check",
         corBadge: "badge-pill-green",
@@ -5443,7 +5458,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       {
         id: "c2-frente-starterkit",
         cursoId: 2,
-        cursoNome: "Curso 2: Tema Eleito na Votação",
+        cursoNome: "Curso 2: Painel Verde Garopaba (Coleta Seletiva & Ecopontos)",
         titulo: "Starter Kit & Componente Prático",
         icone: "bi-code-slash",
         corBadge: "badge-pill-green",
@@ -5458,7 +5473,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       {
         id: "c2-frente-slides",
         cursoId: 2,
-        cursoNome: "Curso 2: Tema Eleito na Votação",
+        cursoNome: "Curso 2: Painel Verde Garopaba (Coleta Seletiva & Ecopontos)",
         titulo: "Slides-Guia de Projeção (8 Telas)",
         icone: "bi-easel",
         corBadge: "badge-pill-green",
@@ -5473,7 +5488,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       {
         id: "c2-frente-monitoria",
         cursoId: 2,
-        cursoNome: "Curso 2: Tema Eleito na Votação",
+        cursoNome: "Curso 2: Painel Verde Garopaba (Coleta Seletiva & Ecopontos)",
         titulo: "Monitoria de Bancada & Logística",
         icone: "bi-person-badge",
         corBadge: "badge-pill-green",
@@ -5559,7 +5574,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
     const DEMANDAS_INICIAIS = [
       {
         id: "DEM-SNCT-01",
-        titulo: "Etapa 1 SNCT (Prazo Amanhã): Candidatura nas 8 Frentes de Trabalho & Divisão de Papéis",
+        titulo: "Etapa 1 SNCT (Concluída): Candidatura nas Frentes & Divisão de Papéis",
         instrumento: "A2",
         instrumentoNome: "A2 (Curso na SNCT • 20%)",
         destinatario: "Todos",
@@ -5569,58 +5584,125 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         prazo: "2026-10-27",
         horaPrazo: "23:59",
         pontos: 10.0,
-        concluida: false,
-        descricao: "Atividade inicial obrigatória da semana: autenticar-se com a conta Google institucional no painel da disciplina, candidatar-se em uma das 8 frentes de trabalho da SNCT (3 vagas por frente) e alinhar a divisão dos Membros A, B e C conforme o Roteiro Operacional em PDF da sua frente.",
+        concluida: true,
+        descricao: "Fase de candidatura encerrada. As frentes de trabalho dos Cursos 1 e 2 estão consolidadas e ativas com os estudantes engajados para a produção instrucional e técnica das oficinas práticas.",
         criterios: [
-          "Candidatura registrada até terça-feira (27/10 às 23:59) no Quadro de Frentes da SNCT",
+          "Candidatura registrada no Quadro de Frentes da SNCT",
           "Leitura do Roteiro Operacional em PDF da respectiva frente (SNCT 01 a SNCT 04)",
-          "Divisão clara das responsabilidades (Membro A, Membro B e Membro C) entre o trio"
+          "Divisão clara das responsabilidades entre o trio/dupla de cada frente ativa"
         ]
       },
       {
         id: "DEM-SNCT-C1",
-        titulo: "Etapa 2 (Exclusiva Curso 1 — Meu Primeiro Site no Ar): Material da Frente & Sala Curso 1 no Moodle",
+        titulo: "Etapa 2 (Curso 1 — Meu Primeiro Site no Ar): 1ª Versão na Sala do Moodle (id=2663)",
         instrumento: "A2",
         instrumentoNome: "A2 (Curso 1 SNCT • 20%)",
         destinatario: "Equipes do Curso 1 SNCT (Meu Primeiro Site no Ar)",
         tipoAtribuicao: "turma",
         cursoSnctAlvo: 1,
         fixadaMural: true,
-        linkApoio: "snct-frentes/frente-starterkit/main.pdf",
+        linkApoio: "https://moodle.ifsc.edu.br/course/view.php?id=2663",
         equipesAlvo: [],
         alunosAlvo: [],
-        prazo: "2026-10-30",
+        prazo: "2026-11-07",
         horaPrazo: "23:59",
         pontos: 10.0,
         concluida: false,
-        descricao: "Ação exclusiva para os 12 estudantes escalados nas 4 frentes do CURSO 1 (Meu Primeiro Site no Ar): produzir a primeira versão do entregável da sua frente (Micro-Roteiro Curso 1, pacote starter-kit-snct.zip com botão WhatsApp, Slides de 8 telas ou Pesquisa/Logística) e publicar na Sala do Curso 1 no Moodle IFSC.",
+        descricao: "Ação dos estudantes escalados nas frentes do CURSO 1 (Meu Primeiro Site no Ar): produzir a primeira versão do entregável da sua frente e publicar na Sala Oficial do Curso 1 no Moodle IFSC (id=2663) com perfil de Professor.",
         criterios: [
-          "Seguir a seção do Curso 1 no Roteiro PDF da sua frente (SNCT 01 a SNCT 04)",
-          "Publicar o recurso na Sala do Curso 1 (Meu Primeiro Site no Ar) no Moodle IFSC",
-          "Informar o link de entrega no card da sua frente do Curso 1 e marcar a Etapa 2"
+          "Didática: sala organizada nas 5 seções e rascunho do micro-roteiro em LaTeX (4 págs.)",
+          "Starter Kit: repositório template no GitHub e pacote starter-kit-snct.zip na Seção 1 do Moodle",
+          "Slides: 8 telas sincronizadas publicadas no GitHub Pages com link na Seção 0 do Moodle",
+          "Monitoria: autoinscrição (chave SNCT2026), acesso testado e Pesquisa de Satisfação na Seção 4",
+          "Informar o link de entrega no card da sua frente no mural da SNCT"
         ]
       },
       {
         id: "DEM-SNCT-C2",
-        titulo: "Etapa 2 (Exclusiva Curso 2 — Painel Verde Garopaba): Material da Frente & Sala Curso 2 no Moodle",
+        titulo: "Etapa 2 (Curso 2 — Painel Verde Garopaba): 1ª Versão na Sala do Moodle (id=2664)",
         instrumento: "A2",
         instrumentoNome: "A2 (Curso 2 SNCT • 20%)",
         destinatario: "Equipes do Curso 2 SNCT (Painel Verde: Coleta & Ecopontos)",
         tipoAtribuicao: "turma",
         cursoSnctAlvo: 2,
         fixadaMural: true,
-        linkApoio: "snct-frentes/frente-starterkit/main.pdf",
+        linkApoio: "https://moodle.ifsc.edu.br/course/view.php?id=2664",
         equipesAlvo: [],
         alunosAlvo: [],
-        prazo: "2026-10-30",
+        prazo: "2026-11-07",
         horaPrazo: "23:59",
         pontos: 10.0,
         concluida: false,
-        descricao: "Ação exclusiva para os 12 estudantes escalados nas 4 frentes do CURSO 2 (Painel Verde: Coleta Seletiva & Ecopontos de Garopaba): produzir o entregável da sua frente (Micro-Roteiro Painel Verde, pacote starter-kit-painel-verde.zip com js/app.js de 32 linhas, Slides de 8 telas ou Pesquisa/Logística) e publicar na Sala do Curso 2 no Moodle IFSC.",
+        descricao: "Ação dos estudantes escalados nas frentes do CURSO 2 (Painel Verde Garopaba): produzir o entregável da sua frente e publicar na Sala Oficial do Curso 2 no Moodle IFSC (id=2664) com perfil de Professor.",
         criterios: [
-          "Seguir a seção do Curso 2 (Painel Verde) no Roteiro PDF da sua frente (SNCT 01 a SNCT 04)",
-          "Publicar o recurso na Sala do Curso 2 (Painel Verde Garopaba) no Moodle IFSC",
-          "Informar o link de entrega no card da sua frente do Curso 2 e marcar a Etapa 2"
+          "Didática: sala do Curso 2 organizada nas 5 seções e rascunho do micro-roteiro Painel Verde (4 págs.)",
+          "Starter Kit: repositório template no GitHub e starter-kit-painel-verde.zip na Seção 1 do Moodle",
+          "Slides: 8 telas sincronizadas publicadas no GitHub Pages com link na Seção 0 do Moodle",
+          "Monitoria: autoinscrição (chave SNCT2026), acesso testado e Pesquisa de Satisfação na Seção 4",
+          "Informar o link de entrega no card da sua frente no mural da SNCT"
+        ]
+      },
+      {
+        id: "DEM-SNCT-E3",
+        titulo: "Etapa 3 SNCT: Material Completo & Revisão Cruzada em Par",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso na SNCT • 20%)",
+        destinatario: "Todas as Frentes SNCT",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        prazo: "2026-11-14",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Cada frente finaliza seu entregável e realiza revisão em par com outra frente do mesmo curso: a Didática confere o código do Kit e a numeração dos Slides; o Starter Kit congela o código e testa offline no lab; a Monitoria valida a infraestrutura.",
+        criterios: [
+          "Didática: micro-roteiro completo de até 4 págs. no padrão LaTeX da UC com código idêntico ao Starter Kit",
+          "Starter Kit: repositório congelado, testado no laboratório e 2 pen-drives de Plano B prontos",
+          "Slides: deck de 8 telas responsivas casadas passo a passo com o micro-roteiro e PDF exportado",
+          "Monitoria: escala de bancada, termos de autorização de imagem impressos e divulgação ativa",
+          "Registro das correções realizadas em revisão cruzada informado no painel"
+        ]
+      },
+      {
+        id: "DEM-SNCT-E4",
+        titulo: "Etapa 4 SNCT: Ensaio Geral Cronometrado no Laboratório (120 min)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso na SNCT • 20%)",
+        destinatario: "Todas as Frentes SNCT",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        prazo: "2026-11-21",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Simulação completa da oficina no laboratório de informática com duração exata de 120 minutos: a equipe do Curso 1 ministra para os colegas do Curso 2 e vice-versa, identificando e corrigindo pontos de atrito antes do evento oficial.",
+        criterios: [
+          "Ensaio cronometrado de 120 minutos executado nas bancadas do laboratório de informática",
+          "Validação do tempo de cada bloco (Bloco 1: 20m, Bloco 2: 35m, Bloco 3: 25m, Bloco 4: 15m, Fechamento: 10m)",
+          "Registro de observações e correções publicadas na sala do Moodle"
+        ]
+      },
+      {
+        id: "DEM-SNCT-E5",
+        titulo: "Etapa 5 SNCT: Ministração das Oficinas com o Público Externo",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso na SNCT • 20%)",
+        destinatario: "Todas as Frentes SNCT",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        prazo: "2026-11-27",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Realização presencial das oficinas práticas com a comunidade externa durante a Semana Nacional de Ciência e Tecnologia (SNCT 2026) no IFSC Câmpus Garopaba.",
+        criterios: [
+          "Presença e atuação ativa dos membros da frente durante todo o período da oficina",
+          "Acolhimento da comunidade externa, orientação de bancada e suporte técnico paciente",
+          "Coleta de lista de presença assinada e aplicação da Pesquisa de Satisfação no Moodle",
+          "Registro fotográfico da oficina com termos de autorização de imagem coletados"
         ]
       },
       {
@@ -5646,15 +5728,15 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
         instrumento: "A2",
         instrumentoNome: "A2 (Curso na SNCT • 20%)",
         destinatario: "Todos",
-        prazo: "2026-11-24",
+        prazo: "2026-12-04",
         pontos: 10.0,
         concluida: false,
-        descricao: "Planejamento, organização pedagógica e ministração do minicurso/oficina extensionista durante a Semana Nacional de Ciência e Tecnologia (SNCT), com atendimento à comunidade externa e produção de materiais didáticos.",
+        descricao: "Consolidação dos resultados da curricularização da extensão universitária (40 horas): planejamento, organização pedagógica, ministração e relatório reflexivo com as evidências coletadas na SNCT 2026.",
         criterios: [
           "Plano de oficina estruturado e alinhado a uma das temáticas extensionistas",
           "Material didático e roteiro de apoio acessível para os participantes externos",
           "Condução presencial da oficina na SNCT com engajamento do público",
-          "Relatório reflexivo ou resumo expandido da experiência extensionista"
+          "Relatório reflexivo com evidências da monitoria (presenças, gráficos da pesquisa e fotos)"
         ]
       },
       {
@@ -5693,52 +5775,202 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       }
     ];
 
-    const DIMENSOES_RUBRICA = [
-      {
-        id: "dim1",
-        titulo: "1. Arquitetura Modular ES6 & Organização",
-        descricao: "Estruturação de pastas, desacoplamento em módulos ES6, imports/exports limpos e qualidade do código.",
-        niveis: [
-          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Código monolítico único, escopo global desordenado." },
-          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Módulos parciais com dependências circulares." },
-          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Estrutura modular limpa em camadas (dados/serviços/ui)." },
-          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Arquitetura impecável, modular, manutenível e extensível." }
+    // =========================================================================
+    // MATRIZES DE RUBRICAS FORMATIVAS CONTEXTUAIS (POR INSTRUMENTO / ATIVIDADE)
+    // =========================================================================
+    const MATRIZES_RUBRICA = {
+      // 1. INSTRUMENTO A2: MINICURSO & OFICINAS DA SNCT (Curricularização da Extensão Universitária)
+      A2_SNCT: {
+        id: "A2_SNCT",
+        rotulo: "Rubrica de Extensão & Minicurso SNCT (Instrumento A2 • 20%)",
+        badgeClasse: "bg-primary-subtle text-primary border",
+        icone: "bi-mortarboard-fill",
+        dimensoes: [
+          {
+            id: "dim0",
+            titulo: "1. Planejamento Instrucional, Transposição Didática & Linguagem",
+            descricao: "Estruturação clara da oficina nos 4 blocos de 120 min, linguagem acessível à comunidade sem tecnicismos opacos, checkpoints bem delineados e ritmo pedagógico.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Planejamento ausente ou confuso; linguagem inacessível para iniciantes e blocos desordenados." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Transposição parcial; termos técnicos não explicados e distribuição de tempo mal dimensionada." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Boa transposição didática; linguagem clara, 4 blocos bem distribuídos e objetivos alcançáveis." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Didática impecável, cativante, empática, com checkpoints visíveis e acolhimento exemplar ao participante." }
+            ]
+          },
+          {
+            id: "dim1",
+            titulo: "2. Rigor Técnico do Entregável da Frente (Roteiro / Kit / Slides / Logística)",
+            descricao: "Conformidade técnica estrita do material da frente: Micro-Roteiro LaTeX compilado de até 4 págs. sem reticências (≤103 cols); Starter Kit funcional e testado offline; Slides de 8 telas legíveis; ou Pesquisa Moodle + Checklist de bancada.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Entregável quebrado, incompleto, com erros de compilação ou dependências externas não testadas." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Material parcialmente funcional, mas com omissões no código, quebras de linha ou passos faltando." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Material funcional e completo, seguindo as diretrizes do Roteiro Operacional da frente." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Excelência técnica, zero reticências, código 100% testado no lab e plano de contingência pronto." }
+            ]
+          },
+          {
+            id: "dim2",
+            titulo: "3. Estruturação, Acessibilidade & Recursos na Sala do Moodle IFSC",
+            descricao: "Organização das 5 seções oficiais da sala do curso no Moodle (Curso 1 id=2663 / Curso 2 id=2664), publicação dos anexos (.zip, PDFs, links de slides), autoinscrição (SNCT2026) e contingência offline.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sala do Moodle desorganizada ou vazia, sem os recursos exigidos da frente." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Seções criadas no Moodle, mas com links quebrados ou falta de arquivos obrigatórios." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "As 5 seções estruturadas, entregáveis anexados corretamente e autoinscrição configurada." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Sala do Moodle impecável, intuitiva, com boas-vindas, plano B e acessibilidade comprovada." }
+            ]
+          },
+          {
+            id: "dim3",
+            titulo: "4. Trabalho em Equipe, Revisão Cruzada & Preparação para a Oficina",
+            descricao: "Engajamento dos membros da frente, cumprimento dos prazos dos marcos, validação cruzada entre frentes do mesmo curso, teste nas máquinas do laboratório e prontidão para a ministração.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Ausência de comunicação na equipe, descumprimento de prazos e material não testado." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Participação desequilibrada; teste tardio e revisão cruzada superficial entre as frentes." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Boa cooperação na equipe, prazos cumpridos e revisão realizada com outra frente do curso." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Engajamento exemplar, ensaio cronometrado de bancada validado e sinergia total na condução." }
+            ]
+          }
         ]
       },
-      {
-        id: "dim2",
-        titulo: "2. Manipulação do DOM, Forms & Reatividade",
-        descricao: "Reatividade a eventos, sanitização de inputs, proteção defensiva contra NaN e formatação monetária.",
-        niveis: [
-          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sem validação de formulários, erros de cálculo (NaN)." },
-          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Manipulação funcional mas com cálculos frágeis." },
-          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Eventos reativos (change/input) e parsing defensivo." },
-          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Reatividade fluida, validação robusta e formatação Intl." }
+
+      // 2. INSTRUMENTO A4: ROTEIROS PRÁTICOS SEMANAIS DE LABORATÓRIO (25%)
+      A4_ROTEIROS: {
+        id: "A4_ROTEIROS",
+        rotulo: "Rubrica Técnica de Roteiros Práticos (Instrumento A4 • 25%)",
+        badgeClasse: "bg-secondary-subtle text-dark border",
+        icone: "bi-code-square",
+        dimensoes: [
+          {
+            id: "dim0",
+            titulo: "1. Arquitetura Modular ES6 & Organização",
+            descricao: "Estruturação de pastas, desacoplamento em módulos ES6, imports/exports limpos e qualidade do código.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Código monolítico único, escopo global desordenado." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Módulos parciais com dependências circulares." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Estrutura modular limpa em camadas (dados/serviços/ui)." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Arquitetura impecável, modular, manutenível e extensível." }
+            ]
+          },
+          {
+            id: "dim1",
+            titulo: "2. Manipulação do DOM, Forms & Reatividade",
+            descricao: "Reatividade a eventos, sanitização de inputs, proteção defensiva contra NaN e formatação monetária.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sem validação de formulários, erros de cálculo (NaN)." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Manipulação funcional mas com cálculos frágeis." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Eventos reativos (change/input) e parsing defensivo." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Reatividade fluida, validação robusta e formatação Intl." }
+            ]
+          },
+          {
+            id: "dim2",
+            titulo: "3. Assincronismo, Fetch API & Microback-end",
+            descricao: "Consumo de dados via async/await, conversão json(), tratamento de status HTTP (4xx/5xx) e try/catch.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sem assincronismo ou falhas sistemáticas não tratadas." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Fetch simples sem try/catch ou sem checar response.ok." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "async/await correto, conversão json() e try/catch seguro." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Integração assíncrona exemplar com fallbacks e tratamento visual." }
+            ]
+          },
+          {
+            id: "dim3",
+            titulo: "4. UX, Feedback Visual & Deploy GitHub Pages",
+            descricao: "Responsividade mobile-first, modais/toasts, feedback de carregamento (spinners) e deploy ativo no Pages.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Layout quebrado, sem feedback visual, sem deploy público." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Responsivo básico com links/assets quebrados no Pages." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Bootstrap 5 responsivo, feedback visual e deploy live." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Design refinado, acessível, feedback fluido e deploy 100% perfeito." }
+            ]
+          }
         ]
       },
-      {
-        id: "dim3",
-        titulo: "3. Assincronismo, Fetch API & Microback-end",
-        descricao: "Consumo de dados via async/await, conversão json(), tratamento de status HTTP (4xx/5xx) e try/catch.",
-        niveis: [
-          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Sem assincronismo ou falhas sistemáticas não tratadas." },
-          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Fetch simples sem try/catch ou sem checar response.ok." },
-          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "async/await correto, conversão json() e try/catch seguro." },
-          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Integração assíncrona exemplar com fallbacks e tratamento visual." }
-        ]
-      },
-      {
-        id: "dim4",
-        titulo: "4. UX, Feedback Visual & Deploy GitHub Pages",
-        descricao: "Responsividade mobile-first, modais/toasts, feedback de carregamento (spinners) e deploy ativo no Pages.",
-        niveis: [
-          { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Layout quebrado, sem feedback visual, sem deploy público." },
-          { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Responsivo básico com links/assets quebrados no Pages." },
-          { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Bootstrap 5 responsivo, feedback visual e deploy live." },
-          { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Design refinado, acessível, feedback fluido e deploy 100% perfeito." }
+
+      // 3. INSTRUMENTO A3: PROJETO PRÁTICO INTEGRADOR VITRINE FLASK & SQLITE (35%)
+      A3_PROJETO: {
+        id: "A3_PROJETO",
+        rotulo: "Rubrica do Projeto Full-Stack Vitrine Flask (Instrumento A3 • 35%)",
+        badgeClasse: "bg-success-subtle text-success border",
+        icone: "bi-layers-fill",
+        dimensoes: [
+          {
+            id: "dim0",
+            titulo: "1. Backend RESTful Python Flask & Persistência SQLite",
+            descricao: "Rotas GET/POST RESTful, CORS habilitado, conexão segura ao banco SQLite (vitrine.db), sanitização contra SQL Injection e tratamento de exceções.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Backend com falhas que impedem execução, rotas sem retorno JSON ou SQL inseguro." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Rotas básicas funcionais mas sem tratamento de erros HTTP ou CORS mal configurado." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "API Flask RESTful estável, persistência SQLite funcional e CORS devidamente tratado." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "API profissional, modular, com validação de payload, códigos HTTP semânticos e banco otimizado." }
+            ]
+          },
+          {
+            id: "dim1",
+            titulo: "2. Frontend Modular ES6 & Consumo Assíncrono Fetch API",
+            descricao: "Desacoplamento em módulos JS, consumo assíncrono com async/await, renderização dinâmica de cards/tabelas e feedback de carregamento (spinners).",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Código sem modularização, requisições síncronas ou travamento da UI." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Fetch simples funcional, mas sem tratamento visual de loading ou erro." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Módulos limpos, Fetch com try/catch, spinners de loading e tratamento de status 4xx/5xx." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Integração assíncrona exemplar, reatividade instantânea e tratamento de edge cases." }
+            ]
+          },
+          {
+            id: "dim2",
+            titulo: "3. Contingência Offline Resiliente (Fallback LocalStorage)",
+            descricao: "Comportamento resiliente transparente: quando o backend Flask estiver inacessível, a aplicação chaveia para persistência offline sem quebrar a experiência do usuário.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Aplicação quebra por completo caso o backend esteja desligado." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Detecção de falha no backend, mas sem persistência offline funcional." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Fallback offline para LocalStorage funcionando com aviso visual na tela." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Resiliência impecável, sincronização transparente de estado e UX offline exemplar." }
+            ]
+          },
+          {
+            id: "dim3",
+            titulo: "4. UX/UI Responsiva, Boas Práticas & Deploy",
+            descricao: "Design responsivo Bootstrap 5, formulários acessíveis com validação, modais/toasts, documentação de execução no README e deploy.",
+            niveis: [
+              { valor: 0.5, classe: "insuficiente", rotulo: "Insuficiente (0,5 pt)", desc: "Layout quebrado em dispositivos móveis, sem README e sem deploy." },
+              { valor: 1.2, classe: "desenvolvimento", rotulo: "Em Desenv. (1,2 pt)", desc: "Layout responsivo básico com instruções parciais no README." },
+              { valor: 2.0, classe: "conforme", rotulo: "Conforme (2,0 pt)", desc: "Boa responsividade, componentes Bootstrap 5, README com passos de execução." },
+              { valor: 2.5, classe: "excelente", rotulo: "Excelente (2,5 pt)", desc: "Acabamento visual refinado, acessibilidade WCAG, deploy público e documentação completa." }
+            ]
+          }
         ]
       }
-    ];
+    };
+
+    // Aliases e Seletores de Modelo de Rubrica por Demanda
+    const DIMENSOES_RUBRICA = MATRIZES_RUBRICA.A4_ROTEIROS.dimensoes;
+
+    function obterModeloRubricaParaDemanda(demandaId) {
+      const d = (Array.isArray(demandasApp) ? demandasApp : []).find(item => item.id === demandaId) ||
+                DEMANDAS_INICIAIS.find(item => item.id === demandaId);
+      if (!d) {
+        if (demandaId && (String(demandaId).startsWith('DEM-SNCT') || String(demandaId) === 'DEM-02')) {
+          return MATRIZES_RUBRICA.A2_SNCT;
+        }
+        return MATRIZES_RUBRICA.A4_ROTEIROS;
+      }
+      
+      const idUpper = String(d.id || '').toUpperCase();
+      const instUpper = String(d.instrumento || '').toUpperCase();
+
+      if (idUpper.startsWith('DEM-SNCT') || idUpper === 'DEM-02' || instUpper.includes('A2') || instUpper.includes('SNCT') || instUpper.includes('EXTENSÃO')) {
+        return MATRIZES_RUBRICA.A2_SNCT;
+      }
+      if (idUpper === 'DEM-03' || instUpper.includes('A3') || instUpper.includes('FLASK') || instUpper.includes('VITRINE')) {
+        return MATRIZES_RUBRICA.A3_PROJETO;
+      }
+      return MATRIZES_RUBRICA.A4_ROTEIROS;
+    }
+
+    function obterDimensoesRubricaParaDemanda(demandaId) {
+      const modelo = obterModeloRubricaParaDemanda(demandaId);
+      return modelo.dimensoes;
+    }
 
     // Estado da Aplicação
     let demandasApp = [];
@@ -5948,6 +6180,12 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       const feedback = aval && aval.feedback ? aval.feedback : "Trabalho avaliado em conformidade com os critérios do roteiro.";
       const linkRepo = aval && aval.linkRepo ? aval.linkRepo : "https://github.com/";
 
+      const modelo = obterModeloRubricaParaDemanda(demandaId);
+      const detalhamentoDimensoes = modelo.dimensoes.map((dim, idx) => {
+        const val = dims[`dim${idx}`] !== undefined ? dims[`dim${idx}`] : (dims[dim.id] !== undefined ? dims[dim.id] : 0);
+        return `${dim.titulo}: ${val.toFixed(1)} / 2.5 pts`;
+      }).join('\n');
+
       return `Prezado(a) estudante,
 
 Sua equipe (${equipeNome}) recebeu uma devolutiva de avaliação formativa por rubricas na disciplina de Programação para a Internet 2 (ProgWeb 2 - CST em Sistemas para a Internet / IFSC Câmpus Garopaba).
@@ -5957,16 +6195,14 @@ DEMANDA / CHECKPOINT AVALIADO:
 • Código: ${dem.id}
 • Título: ${dem.titulo}
 • Instrumento Avaliativo: ${dem.instrumento || 'A2'}
+• Matriz de Rubrica: ${modelo.rotulo}
 • Integrantes: ${alunosDaEquipe || 'Equipe'}
 
 PONTUAÇÃO CONSOLIDADA:
 • Nota da Rubrica: ${notaStr} / 10.0 (${conceitoStr})
 
-DETALHAMENTO POR DIMENSÃO TÉCNICA:
-1. Arquitetura Modular ES6 & Organização: ${(dims.dim0 || 0).toFixed(1)} / 2.5 pts
-2. Manipulação do DOM, Forms & Reatividade: ${(dims.dim1 || 0).toFixed(1)} / 2.5 pts
-3. Assincronismo, Fetch API & Microback-end: ${(dims.dim2 || 0).toFixed(1)} / 2.5 pts
-4. UX, Feedback Visual & Deploy GitHub Pages: ${(dims.dim3 || 0).toFixed(1)} / 2.5 pts
+DETALHAMENTO POR DIMENSÃO:
+${detalhamentoDimensoes}
 
 PARECER FORMATIVO DO PROFESSOR:
 "${feedback}"
@@ -7084,7 +7320,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const container = document.getElementById('containerDimensoesRubrica');
       if (!container) return;
 
-      container.innerHTML = DIMENSOES_RUBRICA.map((dim, dimIdx) => {
+      const selDemanda = document.getElementById('selectRubricaDemanda');
+      const demandaId = selDemanda ? selDemanda.value : 'DEM-01';
+      const modelo = obterModeloRubricaParaDemanda(demandaId);
+
+      const badgeModelo = document.getElementById('modalRubricaBadgeModelo');
+      if (badgeModelo) {
+        badgeModelo.className = `badge ${modelo.badgeClasse} fs-label`;
+        badgeModelo.innerHTML = `<i class="bi ${modelo.icone} me-1"></i> ${escapeHtml(modelo.rotulo)}`;
+      }
+
+      container.innerHTML = modelo.dimensoes.map((dim, dimIdx) => {
         const valAtual = estadoRubricaAtual[`dim${dimIdx}`] !== undefined ? estadoRubricaAtual[`dim${dimIdx}`] : 2.5;
 
         const niveisHtml = dim.niveis.map(niv => {
@@ -7125,7 +7371,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         parentCard.querySelectorAll('.rubrica-level-btn').forEach(b => {
           b.className = 'rubrica-level-btn';
         });
-        const nivObj = DIMENSOES_RUBRICA[dimIdx].niveis.find(n => Math.abs(n.valor - valor) < 0.05);
+        const selDemanda = document.getElementById('selectRubricaDemanda');
+        const demandaId = selDemanda ? selDemanda.value : 'DEM-01';
+        const dimensoes = obterDimensoesRubricaParaDemanda(demandaId);
+        const nivObj = dimensoes[dimIdx] && dimensoes[dimIdx].niveis ? dimensoes[dimIdx].niveis.find(n => Math.abs(n.valor - valor) < 0.05) : null;
         const classeExtra = nivObj ? nivObj.classe : 'excelente';
         btn.className = `rubrica-level-btn selected ${classeExtra}`;
 
@@ -7228,12 +7477,21 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       else if (notaFinal < 6.0) conceito = "Em Desenvolvimento";
       else if (notaFinal < 8.0) conceito = "Conforme";
 
+      const modelo = obterModeloRubricaParaDemanda(demandaId);
+      const titulosDimensoes = modelo.dimensoes.map((d, i) => ({
+        id: `dim${i}`,
+        titulo: d.titulo,
+        nota: estadoRubricaAtual[`dim${i}`] !== undefined ? estadoRubricaAtual[`dim${i}`] : 2.5
+      }));
+
       const registro = {
         demandaId,
         equipe,
         nota: notaFinal,
         conceito,
+        modeloRubrica: modelo.id,
         dimensoes: { ...estadoRubricaAtual },
+        titulosDimensoes,
         feedback,
         linkRepo,
         dataAvaliacao: new Date().toISOString()
@@ -7261,7 +7519,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         if (notificarEmail) {
           showToast(
             "Avaliação Salva & E-mail Enviado!",
-            `Nota ${notaFinal.toFixed(1)} gravada na planilha e devolutiva HTML enviada para ${res.totalEnviados || emailsEquipe.length} estudante(s)!`,
+            `Nota ${notaFinal.toFixed(1)} gravada na planilha e devolutiva enviada para ${res.totalEnviados || emailsEquipe.length} estudante(s)!`,
             "fa-solid fa-paper-plane text-success"
           );
         } else {
@@ -7312,7 +7570,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             <tr>
               <th style="width: 26%;">Equipe &amp; Integrantes</th>
               <th style="width: 17%;">Demanda</th>
-              <th style="width: 18%;">Dimensões Técnicas</th>
+              <th style="width: 18%;">Dimensões da Rubrica</th>
               <th style="width: 14%; text-align: center;">Nota Consolidada</th>
               <th style="width: 25%; text-align: center;">Ações &amp; Notificações</th>
             </tr>
@@ -7329,12 +7587,20 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               else if (av.nota < 8.0) badgeConceito = '<span class="badge bg-primary-subtle text-primary">Conforme</span>';
 
               const dims = av.dimensoes || {};
+              const modelo = obterModeloRubricaParaDemanda(av.demandaId);
+              const dimsRef = modelo.dimensoes;
+
+              const d1Tit = (dimsRef[0] && dimsRef[0].titulo) || 'Dimensão 1';
+              const d2Tit = (dimsRef[1] && dimsRef[1].titulo) || 'Dimensão 2';
+              const d3Tit = (dimsRef[2] && dimsRef[2].titulo) || 'Dimensão 3';
+              const d4Tit = (dimsRef[3] && dimsRef[3].titulo) || 'Dimensão 4';
+
               const dimResumo = `
                 <div class="d-flex gap-1 flex-wrap" style="font-size: 0.7rem;">
-                  <span class="badge bg-light text-dark border" title="1. Modular ES6: ${(dims.dim0 || 0).toFixed(1)}">D1: ${(dims.dim0 || 0).toFixed(1)}</span>
-                  <span class="badge bg-light text-dark border" title="2. DOM/Forms: ${(dims.dim1 || 0).toFixed(1)}">D2: ${(dims.dim1 || 0).toFixed(1)}</span>
-                  <span class="badge bg-light text-dark border" title="3. Fetch/Async: ${(dims.dim2 || 0).toFixed(1)}">D3: ${(dims.dim2 || 0).toFixed(1)}</span>
-                  <span class="badge bg-light text-dark border" title="4. UX/Pages: ${(dims.dim3 || 0).toFixed(1)}">D4: ${(dims.dim3 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="${escapeHtml(d1Tit)}: ${(dims.dim0 || 0).toFixed(1)}">D1: ${(dims.dim0 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="${escapeHtml(d2Tit)}: ${(dims.dim1 || 0).toFixed(1)}">D2: ${(dims.dim1 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="${escapeHtml(d3Tit)}: ${(dims.dim2 || 0).toFixed(1)}">D3: ${(dims.dim2 || 0).toFixed(1)}</span>
+                  <span class="badge bg-light text-dark border" title="${escapeHtml(d4Tit)}: ${(dims.dim3 || 0).toFixed(1)}">D4: ${(dims.dim3 || 0).toFixed(1)}</span>
                 </div>
               `;
 
@@ -8620,6 +8886,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const renderColunaCursoAdmin = (cursoId, tituloCurso, subtituloKit, cor) => {
         const frentes = demandasSnctApp.filter(f => f.cursoId === cursoId);
+        const moodleUrl = cursoId === 1 ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : 'https://moodle.ifsc.edu.br/course/view.php?id=2664';
         return `
           <div class="col-lg-6">
             <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-top: 4px solid ${cor};">
@@ -8629,10 +8896,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   <h4 class="font-outfit fs-6 fw-bold text-heading mt-1 mb-0">${escapeHtml(tituloCurso)}</h4>
                   <div class="fs-caption text-muted">${escapeHtml(subtituloKit)}</div>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption"
-                        onclick="prepararDemandaParaAlvoDocente('curso${cursoId}', '')">
-                  <i class="fa-solid fa-bullhorn me-1"></i> Comunicar ao Curso ${cursoId}
-                </button>
+                <div class="d-flex align-items-center gap-1 flex-wrap">
+                  <a href="${moodleUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="Abrir Sala do Moodle">
+                    <i class="bi bi-mortarboard-fill me-1"></i> Moodle (id=${cursoId === 1 ? '2663' : '2664'}) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                  <button type="button" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption"
+                          onclick="prepararDemandaParaAlvoDocente('curso${cursoId}', '')">
+                    <i class="fa-solid fa-bullhorn me-1"></i> Comunicar ao Curso ${cursoId}
+                  </button>
+                </div>
               </div>
 
               <div class="d-flex flex-column gap-2 mt-2">

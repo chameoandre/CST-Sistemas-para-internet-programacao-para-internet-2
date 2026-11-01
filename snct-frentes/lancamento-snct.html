@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lançamento SNCT</title>
+<script src="../progweb2-config.js"></script>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1d2433; --muted: #5d6677; --line: #dfe3ea;
+    --accent: #15803d; --accent-soft: #e7f5ec; --warn: #b45309; --warn-soft: #fdf3e2;
+    --bad: #b91c1c; --bad-soft: #fdecec; --info: #1d4ed8; --info-soft: #e8efff;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --card: #1a1f27; --ink: #e6e9ef; --muted: #9aa3b2; --line: #2c333f;
+      --accent: #4ade80; --accent-soft: #15301f; --warn: #fbbf24; --warn-soft: #33270f;
+      --bad: #f87171; --bad-soft: #3a1717; --info: #93b4ff; --info-soft: #1a2440;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 16px 80px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 17px; margin: 32px 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 12px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px; margin: 12px 0; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .grow { flex: 1 1 auto; }
+  .badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px;
+    background: var(--info-soft); color: var(--info); white-space: nowrap; }
+  .badge.ok { background: var(--accent-soft); color: var(--accent); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .badge.bad { background: var(--bad-soft); color: var(--bad); }
+  button { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--ink);
+    padding: 7px 14px; border-radius: 8px; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  @media (prefers-color-scheme: dark) { button.primary { color: #0b1a10; } }
+  button:disabled { opacity: .5; cursor: default; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 10px 0 3px; }
+  input[type=text], input[type=date], input[type=time], textarea, select {
+    width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; }
+  textarea { min-height: 70px; resize: vertical; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .grid3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0 12px; }
+  @media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+  .check { display: inline-flex; gap: 6px; align-items: center; color: var(--ink); font-size: 14px; margin: 10px 16px 0 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+  .vagas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (max-width: 640px) { .vagas { grid-template-columns: repeat(2, 1fr); } }
+  .vaga { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+  .vaga b { display: block; font-size: 13px; }
+  .vaga .n { font-size: 20px; font-weight: 700; }
+  pre { font: 12px/1.45 var(--mono); background: var(--bg); border: 1px solid var(--line);
+    border-radius: 6px; padding: 10px; overflow: auto; max-height: 260px; white-space: pre-wrap; }
+  #log { font: 12px/1.5 var(--mono); max-height: 220px; overflow: auto; }
+  #log div { padding: 2px 0; border-bottom: 1px dashed var(--line); }
+  .sticky { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0;
+    border-bottom: 1px solid var(--line); }
+  a { color: var(--info); }
+  .muted { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="sticky">
+    <div class="row">
+      <div class="grow">
+        <h1>Lançamento SNCT 2026</h1>
+        <div class="muted" id="conexao">Conectando à planilha…</div>
+      </div>
+      <label class="check"><input type="checkbox" id="simular" checked> Modo simulação (não grava)</label>
+      <button id="recarregar">Recarregar dados</button>
+      <button class="primary" id="tudo">Publicar tudo na ordem</button>
+    </div>
+  </div>
+
+  <h2>1. Vagas por frente</h2>
+  <p class="sub">Situação atual da aba Candidaturas_SNCT.</p>
+  <div class="card"><div id="vagas"></div></div>
+
+  <h2>2. Alocação dos estudantes sem frente</h2>
+  <p class="sub">Registra a frente do estudante no painel, como faz a Área Docente. Faça isso antes das demandas:
+    os e-mails dos Cursos 1 e 2 só chegam a quem está alocado.</p>
+  <div class="card">
+    <table>
+      <thead><tr><th>Estudante</th><th>Frente</th><th>Situação</th><th></th></tr></thead>
+      <tbody id="alocacoes"></tbody>
+    </table>
+  </div>
+
+  <h2>3. Demandas</h2>
+  <p class="sub">Revise e edite antes de publicar. Em demandas que já existem, as entregas registradas são preservadas.</p>
+  <div id="demandas"></div>
+
+  <h2>Registro</h2>
+  <div class="card"><div id="log"></div></div>
+</main>
+
+<script>
+const MOODLE_C1 = 'https://moodle.ifsc.edu.br/course/view.php?id=2663';
+const MOODLE_C2 = 'https://moodle.ifsc.edu.br/course/view.php?id=2664';
+
+const FRENTES = [
+  { id: 'c1-frente-didatica', curso: 1, nome: 'Didática & Micro-Roteiro Cirúrgico' },
+  { id: 'c1-frente-starterkit', curso: 1, nome: 'Starter Kit & Código Base GitHub' },
+  { id: 'c1-frente-slides', curso: 1, nome: 'Slides-Guia de Projeção (8 Telas)' },
+  { id: 'c1-frente-monitoria', curso: 1, nome: 'Monitoria de Bancada & Logística' },
+  { id: 'c2-frente-didatica', curso: 2, nome: 'Didática & Micro-Roteiro Cirúrgico' },
+  { id: 'c2-frente-starterkit', curso: 2, nome: 'Starter Kit & Componente Prático' },
+  { id: 'c2-frente-slides', curso: 2, nome: 'Slides-Guia de Projeção (8 Telas)' },
+  { id: 'c2-frente-monitoria', curso: 2, nome: 'Monitoria de Bancada & Logística' }
+];
+const CURSO_NOME = { 1: 'Curso 1: Meu Primeiro Site no Ar', 2: 'Curso 2: Tema Eleito na Votação' };
+const CURSO_CURTO = { 1: 'Curso 1', 2: 'Curso 2' };
+
+// Decisão de 01/11: sem alocação automática; os estudantes sem frente se candidatam pelo painel.
+// Para alocar alguém manualmente, acrescente { alunoId: 'N', frente: 'cX-frente-...' }.
+const ALOCACOES = [];
+const SEM_FRENTE = ['1', '2', '3', '4', '6', '7', '9', '18', '21', '22', '24'];
+
+const criteriosEtapa2 = (zip) => [
+  'Didática: sala com as 5 seções e texto de boas-vindas; esboço do micro-roteiro com os 4 blocos',
+  `Starter Kit: repositório template funcionando e ${zip} na Seção 1 do Moodle`,
+  'Slides: navegação por setas e Telas 1 a 3 no GitHub Pages, com link na Seção 0',
+  'Monitoria: chave de inscrição testada, acesso de externos verificado com a TI e pesquisa de 3 perguntas na Seção 4',
+  'Link do recurso registrado no card da frente no painel'
+];
+
+const DEMANDAS = [
+  {
+    id: 'DEM-SNCT-C1', modo: 'atualizar', alvo: 'Curso 1 (alocados)',
+    titulo: 'Etapa 2 (Curso 1 — Meu Primeiro Site no Ar): primeira versão publicada na sala do Moodle',
+    descricao: 'A sala do Curso 1 já está no Moodle IFSC e todos vocês têm papel de Professor. ' +
+      'Cada frente publica a primeira versão do seu entregável na seção indicada no roteiro PDF da frente.',
+    prazo: '2026-11-07', horaPrazo: '23:59', criterios: criteriosEtapa2('starter-kit-snct.zip'),
+    tipoAtribuicao: 'turma', cursoSnctAlvo: 1, alunosAlvo: [], fixadaMural: true, linkApoio: MOODLE_C1,
+    notificarEmail: true
+  },
+  {
+    id: 'DEM-SNCT-C2', modo: 'atualizar', alvo: 'Curso 2 (alocados)',
+    titulo: 'Etapa 2 (Curso 2 — Painel Verde Garopaba): primeira versão publicada na sala do Moodle',
+    descricao: 'A sala do Curso 2 já está no Moodle IFSC e todos vocês têm papel de Professor. ' +
+      'Cada frente publica a primeira versão do seu entregável na seção indicada no roteiro PDF da frente. ' +
+      'O Starter Kit já tem repositório: falta publicá-lo na Seção 1.',
+    prazo: '2026-11-07', horaPrazo: '23:59', criterios: criteriosEtapa2('starter-kit-painel-verde.zip'),
+    tipoAtribuicao: 'turma', cursoSnctAlvo: 2, alunosAlvo: [], fixadaMural: true, linkApoio: MOODLE_C2,
+    notificarEmail: true
+  },
+  {
+    id: 'DEM-SNCT-CHAMADA', modo: 'nova', alvo: 'Os 11 estudantes sem frente',
+    projeto: 'Estudantes sem frente', instrumento: 'A2', pontos: '10',
+    titulo: 'Etapa 1 (fora do prazo): candidatura às vagas restantes das frentes da SNCT',
+    descricao: 'O prazo de candidatura terminou em 31/10. Quem ainda não tem frente deve se candidatar no ' +
+      'Quadro de Frentes do painel às vagas restantes. Curso 1: Didática (2), Starter Kit (2), Slides (1) e ' +
+      'Monitoria (1). Curso 2: Didática (3), Slides (1) e Monitoria (1). As entregas da A2 feitas após os ' +
+      'prazos serão avaliadas com desconto proporcional ao atraso.',
+    prazo: '2026-11-03', horaPrazo: '23:59',
+    criterios: ['Candidatura registrada no Quadro de Frentes da SNCT',
+      'Leitura do roteiro PDF da frente escolhida', 'Divisão de papéis (Membro A, B e C) combinada com o trio',
+      'Desconto proporcional ao atraso nas entregas da A2'],
+    tipoAtribuicao: 'individual', cursoSnctAlvo: null, alunosAlvo: SEM_FRENTE,
+    fixadaMural: true, linkApoio: '', notificarEmail: true
+  },
+  {
+    id: 'DEM-SNCT-E3', modo: 'nova', alvo: 'Turma toda', projeto: '*', instrumento: 'A2', pontos: '10',
+    titulo: 'Etapa 3 SNCT: material completo e revisão cruzada entre frentes',
+    descricao: 'Cada frente finaliza seu entregável e confere o de outra frente do mesmo curso, garantindo que ' +
+      'roteiro, código e slides usem os mesmos nomes de arquivos e a mesma numeração de passos.',
+    prazo: '2026-11-14', horaPrazo: '23:59',
+    criterios: ['Didática: micro-roteiro completo (até 4 páginas) com o código exato do starter kit',
+      'Starter Kit: código congelado, testado em máquina do laboratório e pen-drive do Plano B pronto',
+      'Slides: 8 telas com numeração igual à do roteiro e PDF offline',
+      'Monitoria: escala de monitores, lista de presença, termo de imagem e divulgação das inscrições',
+      'Revisão feita na entrega de outra frente registrada no card'],
+    tipoAtribuicao: 'turma', cursoSnctAlvo: null, alunosAlvo: [], fixadaMural: false, linkApoio: '',
+    notificarEmail: true
+  },
+  {
+    id: 'DEM-SNCT-E4', modo: 'nova', alvo: 'Turma toda', projeto: '*', instrumento: 'A2', pontos: '10',
+    titulo: 'Etapa 4 SNCT: ensaio geral cronometrado no laboratório',
+    descricao: 'A equipe do Curso 1 ministra a oficina completa para a do Curso 2 e vice-versa, em 120 minutos, ' +
+      'nas máquinas do laboratório. As falhas encontradas são corrigidas até 26/11.',
+    prazo: '2026-11-21', horaPrazo: '23:59',
+    criterios: ['Ensaio realizado dentro dos 120 minutos', 'Lista de correções registrada no card da frente',
+      'Correções publicadas na sala do Moodle'],
+    tipoAtribuicao: 'turma', cursoSnctAlvo: null, alunosAlvo: [], fixadaMural: false, linkApoio: '',
+    notificarEmail: true
+  },
+  {
+    id: 'DEM-SNCT-E5', modo: 'nova', alvo: 'Turma toda', projeto: '*', instrumento: 'A2', pontos: '10',
+    titulo: 'Etapa 5 SNCT: oficinas com o público (sexta-feira, 27/11)',
+    descricao: 'Cada equipe conduz sua oficina na SNCT conforme o plano de 120 minutos.',
+    prazo: '2026-11-27', horaPrazo: '23:59',
+    criterios: ['Presença de todo o trio no horário da oficina', 'Lista de presença e pesquisa de satisfação aplicadas',
+      'Fotos registradas com termo de autorização de imagem'],
+    tipoAtribuicao: 'turma', cursoSnctAlvo: null, alunosAlvo: [], fixadaMural: false, linkApoio: '',
+    notificarEmail: true
+  },
+  {
+    id: 'DEM-02', modo: 'atualizar', alvo: 'Turma toda (mantém a atribuição atual)',
+    prazo: '2026-12-04', horaPrazo: '23:59',
+    criteriosExtra: ['Evidências da Monitoria (presenças, gráficos da pesquisa e fotos) anexadas ao relatório'],
+    notificarEmail: false, somenteAjuste: true
+  }
+];
+
+let dados = { demandas: [], estudantes: [], candidaturas: [] };
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function log(msg, tipo = '') {
+  const d = document.createElement('div');
+  const hora = new Date().toLocaleTimeString('pt-BR');
+  d.innerHTML = `<span class="badge ${tipo}">${hora}</span> ${esc(msg)}`;
+  $('#log').prepend(d);
+}
+
+function apiUrl() {
+  const cfg = window.PROGWEB2_CONFIG;
+  if (!cfg || !cfg.apiUrl) throw new Error('progweb2-config.js não encontrado ou sem apiUrl.');
+  return cfg.apiUrl.trim();
+}
+
+async function chamar(acao, payload) {
+  const body = JSON.stringify({ acao, ...payload });
+  if ($('#simular').checked) {
+    log(`[simulação] ${acao}: ${body.slice(0, 300)}${body.length > 300 ? '…' : ''}`, 'warn');
+    return { ok: true, simulado: true };
+  }
+  const url = apiUrl();
+  try {
+    const r = await fetch(url, { method: 'POST', redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
+    const j = await r.json();
+    if (!j || j.ok === false) throw new Error((j && j.erro) || 'Falha na planilha.');
+    return j;
+  } catch (e) {
+    if (e && e.name === 'TypeError') {
+      const urlGet = `${url}?payload=${encodeURIComponent(body)}&_t=${Date.now()}`;
+      const r2 = await fetch(urlGet, { cache: 'no-store' });
+      const j2 = await r2.json();
+      if (j2 && j2.ok !== false && !Array.isArray(j2.votos)) return j2;
+      throw new Error((j2 && j2.erro) || 'Falha no envio por GET.');
+    }
+    throw e;
+  }
+}
+
+async function carregar() {
+  $('#conexao').textContent = 'Lendo a planilha…';
+  try {
+    const r = await fetch(`${apiUrl()}?_t=${Date.now()}`, { cache: 'no-store' });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.erro || 'Resposta inválida');
+    dados = { demandas: j.demandas || [], estudantes: j.estudantes || [], candidaturas: j.candidaturas || [] };
+    $('#conexao').textContent = `Planilha lida às ${new Date().toLocaleTimeString('pt-BR')} · ` +
+      `${dados.estudantes.length} estudantes · ${dados.candidaturas.length} candidaturas · ${dados.demandas.length} demandas`;
+  } catch (e) {
+    $('#conexao').innerHTML = `<span class="badge bad">sem conexão</span> ${esc(e.message)} — ` +
+      'abra esta página pelo GitHub Pages ou por um servidor local se o navegador bloquear o acesso.';
+  }
+  renderVagas(); renderAlocacoes(); renderDemandas();
+}
+
+const estudante = (id) => dados.estudantes.find(e => String(e.id).replace(/\.0$/, '') === String(id));
+const candidaturaDe = (id) => dados.candidaturas.find(c => String(c.aluno_id).replace(/\.0$/, '') === String(id));
+const frente = (id) => FRENTES.find(f => f.id === id);
+
+function renderVagas() {
+  const html = [1, 2].map(curso => {
+    const cards = FRENTES.filter(f => f.curso === curso).map(f => {
+      const ocup = dados.candidaturas.filter(c => c.frente_id === f.id);
+      const n = ocup.length;
+      const cls = n >= 3 ? 'ok' : n === 0 ? 'bad' : 'warn';
+      const nomes = ocup.map(c => esc(String(c.aluno_nome).split(' ')[0])).join(', ') || '—';
+      return `<div class="vaga"><b>${esc(f.nome)}</b><span class="n">${n}/3</span>
+        <span class="badge ${cls}">${n >= 3 ? 'completa' : `${3 - n} vaga(s)`}</span>
+        <div class="muted">${nomes}</div></div>`;
+    }).join('');
+    return `<p class="muted" style="margin:8px 0 6px"><b>${CURSO_NOME[curso]}</b></p><div class="vagas">${cards}</div>`;
+  }).join('');
+  const semFrente = dados.estudantes.filter(e => !candidaturaDe(String(e.id).replace(/\.0$/, '')));
+  $('#vagas').innerHTML = html + `<p class="muted" style="margin-top:12px">Sem frente (${semFrente.length}): ` +
+    (semFrente.map(e => esc(e.nome)).join(' · ') || 'nenhum') + '</p>';
+}
+
+function renderAlocacoes() {
+  if (!ALOCACOES.length) {
+    $('#alocacoes').innerHTML = '<tr><td colspan="4" class="muted">Nenhuma alocação manual: os estudantes ' +
+      'sem frente se candidatam pelo painel (decisão de 01/11).</td></tr>';
+    return;
+  }
+  $('#alocacoes').innerHTML = ALOCACOES.map((a, i) => {
+    const est = estudante(a.alunoId);
+    const cand = candidaturaDe(a.alunoId);
+    const opts = FRENTES.map(f =>
+      `<option value="${f.id}" ${f.id === a.frente ? 'selected' : ''}>${CURSO_CURTO[f.curso]} · ${esc(f.nome)}</option>`).join('');
+    const sit = cand
+      ? `<span class="badge ok">já em ${esc(cand.frente_id)}</span>`
+      : '<span class="badge warn">sem frente</span>';
+    return `<tr><td>${esc(est ? est.nome : 'ID ' + a.alunoId)}</td>
+      <td><select data-aloc="${i}">${opts}</select></td><td>${sit}</td>
+      <td><button data-alocar="${i}">Alocar</button></td></tr>`;
+  }).join('');
+  document.querySelectorAll('[data-aloc]').forEach(s =>
+    s.addEventListener('change', e => { ALOCACOES[+e.target.dataset.aloc].frente = e.target.value; }));
+  document.querySelectorAll('[data-alocar]').forEach(b =>
+    b.addEventListener('click', () => alocar(+b.dataset.alocar)));
+}
+
+async function alocar(i) {
+  const a = ALOCACOES[i];
+  const est = estudante(a.alunoId);
+  const f = frente(a.frente);
+  if (!est) { log(`Estudante ${a.alunoId} não encontrado na planilha`, 'bad'); return false; }
+  try {
+    await chamar('candidatar_frente_snct', {
+      frenteId: f.id, frenteTitulo: `${CURSO_NOME[f.curso]} - ${f.nome}`,
+      alunoId: String(a.alunoId), alunoNome: est.nome,
+      matricula: String(est.matricula || '').replace(/\.0$/, ''), email: est.email || ''
+    });
+    log(`${est.nome} → ${f.id}`, 'ok');
+    return true;
+  } catch (e) { log(`Erro ao alocar ${est.nome}: ${e.message}`, 'bad'); return false; }
+}
+
+function existente(id) { return dados.demandas.find(d => String(d.id).toUpperCase() === id.toUpperCase()); }
+
+function contarEntregas(d) {
+  const e = d && d.entregas ? d.entregas : {};
+  return Object.values(e).filter(x => x && x.entregue).length;
+}
+
+function renderDemandas() {
+  $('#demandas').innerHTML = DEMANDAS.map((d, i) => {
+    const ex = existente(d.id);
+    const estado = ex
+      ? `<span class="badge info">existe · prazo atual ${esc(ex.prazo)} · ${contarEntregas(ex)} entrega(s) preservada(s)</span>`
+      : (d.modo === 'atualizar'
+        ? '<span class="badge bad">não encontrada na planilha</span>'
+        : '<span class="badge">nova</span>');
+    if (d.somenteAjuste) {
+      const crit = ex ? ex.criterios.concat(d.criteriosExtra.filter(c => !ex.criterios.includes(c))) : d.criteriosExtra;
+      return `<div class="card" data-dem="${i}">
+        <div class="row"><b class="grow">${esc(d.id)} — ${esc(ex ? ex.titulo : '')}</b>${estado}</div>
+        <p class="muted">Só muda o prazo e acrescenta um critério; título, descrição e atribuição ficam como estão.</p>
+        <div class="grid3">
+          <div><label>Critérios (um por linha)</label><textarea data-f="criterios">${esc(crit.join('\n'))}</textarea></div>
+          <div><label>Novo prazo</label><input type="date" data-f="prazo" value="${d.prazo}"></div>
+          <div><label>Hora</label><input type="time" data-f="horaPrazo" value="${d.horaPrazo}"></div>
+        </div>
+        ${rodape(i, d)}</div>`;
+    }
+    return `<div class="card" data-dem="${i}">
+      <div class="row"><b class="grow">${esc(d.id)}</b>${estado}<span class="badge">${esc(d.alvo)}</span></div>
+      <label>Título</label><input type="text" data-f="titulo" value="${esc(d.titulo)}">
+      <label>Descrição</label><textarea data-f="descricao">${esc(d.descricao)}</textarea>
+      <label>Critérios (um por linha)</label><textarea data-f="criterios" style="min-height:110px">${esc(d.criterios.join('\n'))}</textarea>
+      <div class="grid3">
+        <div><label>Link de apoio</label><input type="text" data-f="linkApoio" value="${esc(d.linkApoio)}"></div>
+        <div><label>Prazo</label><input type="date" data-f="prazo" value="${d.prazo}"></div>
+        <div><label>Hora</label><input type="time" data-f="horaPrazo" value="${d.horaPrazo}"></div>
+      </div>
+      <label class="check"><input type="checkbox" data-f="fixadaMural" ${d.fixadaMural ? 'checked' : ''}> Fixar no mural</label>
+      ${rodape(i, d)}</div>`;
+  }).join('');
+  document.querySelectorAll('[data-pub]').forEach(b => b.addEventListener('click', () => publicar(+b.dataset.pub)));
+  document.querySelectorAll('[data-json]').forEach(b => b.addEventListener('click', () => {
+    const pre = document.getElementById('json-' + b.dataset.json);
+    pre.hidden = !pre.hidden;
+    if (!pre.hidden) pre.textContent = JSON.stringify(montar(+b.dataset.json), null, 2);
+  }));
+}
+
+function rodape(i, d) {
+  return `<div class="row" style="margin-top:10px">
+      <label class="check grow"><input type="checkbox" data-f="notificarEmail" ${d.notificarEmail ? 'checked' : ''}>
+        Enviar e-mail aos estudantes</label>
+      <button data-json="${i}">Ver dados</button>
+      <button class="primary" data-pub="${i}">Publicar</button></div>
+    <pre id="json-${i}" hidden></pre>`;
+}
+
+function lerCampos(i) {
+  const card = document.querySelector(`[data-dem="${i}"]`);
+  const v = {};
+  card.querySelectorAll('[data-f]').forEach(el => {
+    v[el.dataset.f] = el.type === 'checkbox' ? el.checked : el.value;
+  });
+  if (typeof v.criterios === 'string') v.criterios = v.criterios.split('\n').map(s => s.trim()).filter(Boolean);
+  return v;
+}
+
+function montar(i) {
+  const d = DEMANDAS[i];
+  const v = lerCampos(i);
+  const ex = existente(d.id);
+  const base = ex ? {
+    projeto: ex.projeto, titulo: ex.titulo, descricao: ex.descricao, pontos: String(ex.pontos),
+    criterios: ex.criterios, instrumento: ex.instrumento, autor: ex.criadoPor,
+    tipoAtribuicao: (ex.atribuicao && ex.atribuicao.tipoAtribuicao) || 'turma',
+    equipesAlvo: (ex.atribuicao && ex.atribuicao.equipesAlvo) || [],
+    alunosAlvo: (ex.atribuicao && ex.atribuicao.alunosAlvo) || [],
+    cursoSnctAlvo: (ex.atribuicao && ex.atribuicao.cursoSnctAlvo) || null,
+    fixadaMural: !!(ex.atribuicao && ex.atribuicao.fixadaMural),
+    linkApoio: (ex.atribuicao && ex.atribuicao.linkApoio) || '',
+    entregas: ex.entregas || {}, concluida: !!ex.concluida
+  } : {
+    projeto: d.projeto || '*', pontos: d.pontos || '10', instrumento: d.instrumento || 'A2',
+    autor: 'Prof. André Moraes', equipesAlvo: [], entregas: {}, concluida: false
+  };
+  const proprio = d.somenteAjuste ? {} : {
+    titulo: d.titulo, descricao: d.descricao, tipoAtribuicao: d.tipoAtribuicao,
+    cursoSnctAlvo: d.cursoSnctAlvo, alunosAlvo: d.alunosAlvo
+  };
+  return { id: d.id, ...base, ...proprio, ...v };
+}
+
+async function publicar(i) {
+  const d = DEMANDAS[i];
+  if (d.modo === 'atualizar' && !existente(d.id) && !$('#simular').checked) {
+    log(`${d.id}: não encontrada na planilha. Recarregue os dados antes de atualizar.`, 'bad');
+    return false;
+  }
+  try {
+    const r = await chamar('criarDemanda', montar(i));
+    log(`${d.id} publicada${r.totalEnviados != null ? ` · ${r.totalEnviados} e-mail(s)` : ''}`, 'ok');
+    return true;
+  } catch (e) { log(`Erro em ${d.id}: ${e.message}`, 'bad'); return false; }
+}
+
+async function publicarTudo() {
+  const simul = $('#simular').checked;
+  if (!simul && !confirm('Gravar as alocações e as demandas na planilha e enviar os e-mails marcados?')) return;
+  $('#tudo').disabled = true;
+  for (let i = 0; i < ALOCACOES.length; i++) {
+    if (!candidaturaDe(ALOCACOES[i].alunoId)) await alocar(i);
+  }
+  if (!simul) await carregar();
+  for (let i = 0; i < DEMANDAS.length; i++) await publicar(i);
+  if (!simul) await carregar();
+  $('#tudo').disabled = false;
+  log(simul ? 'Simulação concluída. Desmarque o modo simulação para gravar.' : 'Lançamento concluído.', 'ok');
+}
+
+$('#recarregar').addEventListener('click', carregar);
+$('#tudo').addEventListener('click', publicarTudo);
+carregar();
+</script>
+</body>
+</html>
