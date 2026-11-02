@@ -681,6 +681,37 @@ window.ProgWeb2 = {
                 if (padrao) demandasApp.unshift(JSON.parse(JSON.stringify(padrao)));
               }
             });
+
+            // Saneamento mandatória de prazos e salas oficiais do Moodle
+            demandasApp.forEach(d => {
+              if (d.prazo) {
+                const norm = normalizarPrazo(d.prazo);
+                if (norm) d.prazo = norm;
+              }
+              if (!d.horaPrazo) d.horaPrazo = "23:59";
+
+              if (d.id === 'DEM-SNCT-C1') {
+                d.linkApoio = 'https://moodle.ifsc.edu.br/course/view.php?id=2663';
+                if (!d.prazo || d.prazo === '2026-10-30' || String(d.prazo).includes('NaN')) {
+                  d.prazo = '2026-11-07';
+                }
+                if (d.titulo && d.titulo.includes('Exclusiva Curso 1')) {
+                  d.titulo = 'Etapa 2 (Curso 1 — Meu Primeiro Site no Ar): 1ª Versão na Sala do Moodle (id=2663)';
+                }
+                d.fixadaMural = true;
+              }
+              if (d.id === 'DEM-SNCT-C2') {
+                d.linkApoio = 'https://moodle.ifsc.edu.br/course/view.php?id=2664';
+                if (!d.prazo || d.prazo === '2026-10-30' || String(d.prazo).includes('NaN')) {
+                  d.prazo = '2026-11-07';
+                }
+                if (d.titulo && d.titulo.includes('Exclusiva Curso 2')) {
+                  d.titulo = 'Etapa 2 (Curso 2 — Painel Verde Garopaba): 1ª Versão na Sala do Moodle (id=2664)';
+                }
+                d.fixadaMural = true;
+              }
+            });
+
             const dem01 = demandasApp.find(d => d.id === 'DEM-SNCT-01');
             if (dem01) dem01.fixadaMural = true;
             localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
@@ -998,6 +1029,50 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // =========================================================================
     // CÁLCULO DE PRAZOS E STATUS
     // =========================================================================
+    function normalizarPrazo(prazo) {
+      if (!prazo) return '';
+      if (prazo instanceof Date) {
+        if (isNaN(prazo.getTime())) return '';
+        return prazo.toISOString().slice(0, 10);
+      }
+      const str = String(prazo).trim();
+      if (!str || str === 'undefined' || str === 'null' || str === 'NaN') return '';
+
+      if (str.includes('T')) {
+        const parteData = str.split('T')[0];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(parteData)) return parteData;
+      }
+      if (str.includes(' ')) {
+        const parteData = str.split(' ')[0];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(parteData)) return parteData;
+        const matchPtBrEspaco = parteData.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+        if (matchPtBrEspaco) {
+          return `${matchPtBrEspaco[3]}-${matchPtBrEspaco[2].padStart(2, '0')}-${matchPtBrEspaco[1].padStart(2, '0')}`;
+        }
+      }
+
+      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+        return str;
+      }
+
+      const matchPtBr = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      if (matchPtBr) {
+        const dia = matchPtBr[1].padStart(2, '0');
+        const mes = matchPtBr[2].padStart(2, '0');
+        const ano = matchPtBr[3];
+        return `${ano}-${mes}-${dia}`;
+      }
+
+      const d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        const ano = d.getFullYear();
+        const mes = String(d.getMonth() + 1).padStart(2, '0');
+        const dia = String(d.getDate()).padStart(2, '0');
+        return `${ano}-${mes}-${dia}`;
+      }
+      return '';
+    }
+
     function calcularStatusPrazo(prazoStr, concluida, horaPrazo) {
       if (concluida) {
         return {
@@ -1006,15 +1081,26 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           urgente: false
         };
       }
-      if (!prazoStr) {
+
+      const prazoNormalizado = normalizarPrazo(prazoStr);
+      if (!prazoNormalizado) {
         return { classe: 'badge-pill-blue', texto: 'Sem prazo definido', urgente: false };
       }
 
       const hoje = new Date();
       hoje.setHours(0, 0, 0, 0);
-      const dataPrazo = new Date(`${prazoStr}T${horaPrazo || '23:59'}:59`);
+      const dataPrazo = new Date(`${prazoNormalizado}T${horaPrazo || '23:59'}:59`);
+
+      if (isNaN(dataPrazo.getTime())) {
+        return { classe: 'badge-pill-blue', texto: 'Sem prazo definido', urgente: false };
+      }
+
       const diffMs = dataPrazo - hoje;
       const diffDias = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      if (isNaN(diffDias)) {
+        return { classe: 'badge-pill-blue', texto: 'Sem prazo definido', urgente: false };
+      }
 
       if (dataPrazo < new Date() && diffDias >= 0) {
         return {
@@ -1055,6 +1141,78 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           urgente: false
         };
       }
+    }
+
+    function gerarBotaoRecursoDemanda(d) {
+      let link = (d.linkApoio || '').trim();
+
+      if (d.id === 'DEM-SNCT-C1' && (!link || link.includes('main.pdf'))) {
+        link = 'https://moodle.ifsc.edu.br/course/view.php?id=2663';
+      } else if (d.id === 'DEM-SNCT-C2' && (!link || link.includes('main.pdf'))) {
+        link = 'https://moodle.ifsc.edu.br/course/view.php?id=2664';
+      }
+
+      if (!link) return '';
+
+      const linkEsc = escapeHtml(link);
+
+      if (d.id === 'DEM-SNCT-C1' || link.includes('id=2663')) {
+        return `
+          <a href="${linkEsc}" target="_blank" rel="noopener noreferrer"
+             class="btn btn-sm btn-outline-primary py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+             title="Abrir Sala Oficial do Curso 1 no Moodle IFSC (id=2663)">
+            <i class="bi bi-mortarboard-fill"></i> Sala Curso 1 no Moodle <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        `;
+      }
+
+      if (d.id === 'DEM-SNCT-C2' || link.includes('id=2664')) {
+        return `
+          <a href="${linkEsc}" target="_blank" rel="noopener noreferrer"
+             class="btn btn-sm btn-outline-success py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+             title="Abrir Sala Oficial do Curso 2 no Moodle IFSC (id=2664)">
+            <i class="bi bi-mortarboard-fill"></i> Sala Curso 2 no Moodle <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        `;
+      }
+
+      if (link.includes('moodle.ifsc.edu.br')) {
+        return `
+          <a href="${linkEsc}" target="_blank" rel="noopener noreferrer"
+             class="btn btn-sm btn-outline-primary py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+             title="Abrir Sala no Moodle IFSC">
+            <i class="bi bi-mortarboard-fill"></i> Abrir Sala no Moodle <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        `;
+      }
+
+      if (link.toLowerCase().endsWith('.pdf') || link.includes('.pdf?')) {
+        return `
+          <a href="${linkEsc}" target="_blank" rel="noopener noreferrer"
+             class="btn btn-sm btn-outline-secondary py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+             title="Abrir Documento ou Roteiro em PDF">
+            <i class="bi bi-file-earmark-pdf"></i> Abrir Roteiro PDF <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        `;
+      }
+
+      if (link.includes('github.com')) {
+        return `
+          <a href="${linkEsc}" target="_blank" rel="noopener noreferrer"
+             class="btn btn-sm btn-outline-dark py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+             title="Abrir Repositório no GitHub">
+            <i class="bi bi-github"></i> Abrir no GitHub <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        `;
+      }
+
+      return `
+        <a href="${linkEsc}" target="_blank" rel="noopener noreferrer"
+           class="btn btn-sm btn-outline-primary py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
+           title="Abrir recurso ou sala de apoio">
+          <i class="bi bi-box-arrow-up-right"></i> Abrir Recurso
+        </a>
+      `;
     }
 
     // =========================================================================
@@ -1268,13 +1426,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             `).join('')
           : '<div class="text-muted small">Nenhum critério detalhado.</div>';
 
-        const linkApoioHtml = d.linkApoio ? `
-          <a href="${escapeHtml(d.linkApoio)}" target="_blank" rel="noopener noreferrer"
-             class="btn btn-sm btn-outline-primary py-0 px-2 fs-label ms-auto d-inline-flex align-items-center gap-1"
-             title="Abrir recurso ou sala no Moodle">
-            <i class="bi bi-box-arrow-up-right"></i> Abrir Sala / Recurso
-          </a>
-        ` : '';
+        const linkApoioHtml = gerarBotaoRecursoDemanda(d);
 
         return `
           <div class="${cardClass}" id="demanda-card-${d.id}" data-demanda-id="${d.id}">
@@ -1810,8 +1962,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
     function obterDataPrazo(d) {
-      if (!d.prazo) return new Date(8640000000000000);
-      return new Date(`${d.prazo}T${d.horaPrazo || '23:59'}:59`);
+      const norm = normalizarPrazo(d.prazo);
+      if (!norm) return new Date(8640000000000000);
+      const dt = new Date(`${norm}T${d.horaPrazo || '23:59'}:59`);
+      return isNaN(dt.getTime()) ? new Date(8640000000000000) : dt;
     }
 
     function prazoExpirado(d) {
@@ -3414,7 +3568,11 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 pt-1 border-top">
                       <span class="fs-label text-muted"><i class="bi bi-people me-1"></i>${escapeHtml(d.destinatario || rotuloAtribuicao(d))}</span>
                       <div class="d-flex gap-1">
-                        ${d.linkApoio ? `<a href="${escapeHtml(d.linkApoio)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label"><i class="bi bi-file-earmark-pdf me-1"></i>Abrir Guia</a>` : ''}
+                        ${d.linkApoio ? `
+                          <a href="${escapeHtml(d.id === 'DEM-SNCT-C1' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : (d.id === 'DEM-SNCT-C2' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2664' : d.linkApoio))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label">
+                            <i class="bi ${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'bi-mortarboard-fill' : (d.linkApoio.endsWith('.pdf') ? 'bi-file-earmark-pdf' : 'bi-box-arrow-up-right')} me-1"></i>${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'Moodle' : (d.linkApoio.endsWith('.pdf') ? 'Guia PDF' : 'Recurso')}
+                          </a>
+                        ` : ''}
                         <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label">Ver entrega</button>
                       </div>
                     </div>
@@ -4750,9 +4908,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             mapaRemotas[String(rem.id).toUpperCase()] = rem;
             const idx = demandasApp.findIndex(d => String(d.id).toUpperCase() === String(rem.id).toUpperCase());
             if (idx !== -1) {
-              if (rem.prazo && demandasApp[idx].prazo !== rem.prazo) {
-                demandasApp[idx].prazo = rem.prazo;
-                mudouDemandas = true;
+              if (rem.prazo) {
+                const normRemPrazo = normalizarPrazo(rem.prazo);
+                if (normRemPrazo && demandasApp[idx].prazo !== normRemPrazo) {
+                  demandasApp[idx].prazo = normRemPrazo;
+                  mudouDemandas = true;
+                }
               }
               if (rem.horaPrazo && demandasApp[idx].horaPrazo !== rem.horaPrazo) {
                 demandasApp[idx].horaPrazo = rem.horaPrazo;
@@ -4777,8 +4938,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                 alunosAlvo: rem.alunosAlvo || [],
                 cursoSnctAlvo: rem.cursoSnctAlvo || null,
                 fixadaMural: Boolean(rem.fixadaMural),
-                linkApoio: rem.linkApoio || '',
-                prazo: rem.prazo || '',
+                linkApoio: rem.id === 'DEM-SNCT-C1' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : (rem.id === 'DEM-SNCT-C2' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2664' : (rem.linkApoio || '')),
+                prazo: normalizarPrazo(rem.prazo) || '',
                 horaPrazo: rem.horaPrazo || '23:59',
                 entregas: rem.entregas || {},
                 pontos: rem.pontos || 10.0,
@@ -5237,8 +5398,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
     function formatarData(dataStr) {
-      if (!dataStr) return '-';
-      const partes = dataStr.split('-');
+      const norm = normalizarPrazo(dataStr);
+      if (!norm) return '-';
+      const partes = norm.split('-');
       if (partes.length === 3) {
         return `${partes[2]}/${partes[1]}/${partes[0]}`;
       }

@@ -17,6 +17,7 @@ import {
   OFICINAS_PADRAO_SNCT,
   DEMANDAS_PADRAO_SNCT
 } from "../config/constants.js";
+import { normalizarPrazo } from "../utils/formatters.js";
 
 // --- DEMANDAS GERAIS & CHECKPOINTS ---
 
@@ -41,8 +42,67 @@ export function carregarDemandas() {
       }
     });
 
+    // Saneamento e autocorreção de links das salas do Moodle e prazos
+    let precisaSalvar = false;
+    lista.forEach(d => {
+      // Normalização de prazo para evitar NaN em datas
+      if (d.prazo) {
+        const norm = normalizarPrazo(d.prazo);
+        if (norm && norm !== d.prazo) {
+          d.prazo = norm;
+          precisaSalvar = true;
+        }
+      }
+      if (!d.horaPrazo) {
+        d.horaPrazo = "23:59";
+      }
+
+      // Demanda Curso 1: sala oficial no Moodle (id=2663)
+      if (d.id === 'DEM-SNCT-C1') {
+        const linkEsperado = 'https://moodle.ifsc.edu.br/course/view.php?id=2663';
+        if (!d.linkApoio || d.linkApoio !== linkEsperado || d.linkApoio.includes('main.pdf')) {
+          d.linkApoio = linkEsperado;
+          precisaSalvar = true;
+        }
+        if (!d.prazo || d.prazo === '2026-10-30' || String(d.prazo).includes('NaN')) {
+          d.prazo = '2026-11-07';
+          precisaSalvar = true;
+        }
+        if (d.titulo && d.titulo.includes('Exclusiva Curso 1')) {
+          d.titulo = 'Etapa 2 (Curso 1 — Meu Primeiro Site no Ar): 1ª Versão na Sala do Moodle (id=2663)';
+          precisaSalvar = true;
+        }
+        d.fixadaMural = true;
+      }
+
+      // Demanda Curso 2: sala oficial no Moodle (id=2664)
+      if (d.id === 'DEM-SNCT-C2') {
+        const linkEsperado = 'https://moodle.ifsc.edu.br/course/view.php?id=2664';
+        if (!d.linkApoio || d.linkApoio !== linkEsperado || d.linkApoio.includes('main.pdf')) {
+          d.linkApoio = linkEsperado;
+          precisaSalvar = true;
+        }
+        if (!d.prazo || d.prazo === '2026-10-30' || String(d.prazo).includes('NaN')) {
+          d.prazo = '2026-11-07';
+          precisaSalvar = true;
+        }
+        if (d.titulo && d.titulo.includes('Exclusiva Curso 2')) {
+          d.titulo = 'Etapa 2 (Curso 2 — Painel Verde Garopaba): 1ª Versão na Sala do Moodle (id=2664)';
+          precisaSalvar = true;
+        }
+        d.fixadaMural = true;
+      }
+    });
+
     const dem01 = lista.find(d => d.id === 'DEM-SNCT-01');
-    if (dem01) dem01.fixadaMural = true;
+    if (dem01 && !dem01.fixadaMural) {
+      dem01.fixadaMural = true;
+      precisaSalvar = true;
+    }
+
+    if (precisaSalvar) {
+      salvarDemandas(lista);
+    }
 
     return lista;
   } catch (e) {
