@@ -5584,8 +5584,13 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           </div>
 
           <div class="mb-2">
-            <label class="form-label fs-caption fw-bold">Mensagem de Atualização ou Esclarecimento Docente:</label>
-            <textarea class="form-control form-control-sm" id="inputComunicadoMensagem" rows="4" placeholder="Escreva aqui a mensagem ou esclarecimento que será enviado em HTML formatado para o e-mail dos estudantes..." required></textarea>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-1">
+              <label class="form-label fs-caption fw-bold mb-0">Mensagem de Atualização ou Esclarecimento Docente:</label>
+              <button type="button" class="btn btn-sm btn-outline-warning py-0 px-2 fs-label fw-bold" onclick="inserirModeloChecklistMoodleComunicado()" title="Preenche a mensagem com o checklist completo da Etapa 2 para envio por e-mail">
+                <i class="fa-solid fa-list-check me-1"></i> Inserir Checklist Moodle (Etapa 2)
+              </button>
+            </div>
+            <textarea class="form-control form-control-sm" id="inputComunicadoMensagem" rows="6" placeholder="Escreva aqui a mensagem ou esclarecimento que será enviado em HTML formatado para o e-mail dos estudantes..." required></textarea>
           </div>
         </div>
         <div class="app-modal-footer">
