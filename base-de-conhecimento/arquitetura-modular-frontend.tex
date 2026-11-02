@@ -1,0 +1,325 @@
+% =====================================================================
+% DOCUMENTAÇÃO TÉCNICA E ARQUITETURAL — PORTAL PROGWEB 2
+% Estilo visual institucional: preambulo-roteiro-moderno.tex
+% Compilação: tectonic arquitetura-modular-frontend.tex
+% =====================================================================
+\newcommand{\numeroRoteiro}{DOC}
+\newcommand{\tituloCurto}{Arquitetura Modular \& Estrutura do Portal}
+\input{preambulo-roteiro-moderno.tex}
+
+\begin{document}
+
+% =====================================================
+% CAPA / ABERTURA INSTITUCIONAL
+% =====================================================
+\capaRoteiro{\faCogs}{Arquitetura Modular do Frontend}
+  {Documentação técnica da estrutura em camadas com ES6 Modules e desacoplamento do DOM}
+  {\chip{\faLayerGroup}{Arquitetura Web}\hspace{4pt}%
+   \chip{\faCode}{ES6 Modules}\hspace{4pt}%
+   \chip{\faDatabase}{Storage \& API}\hspace{4pt}%
+   \chip{\faUniversity}{IFSC Garopaba}}
+
+\vspace{0.4em}
+\cartoesUC{Registro da arquitetura modular do portal, guia de manutenção e referência pedagógica viva}
+
+\begin{boxObjetivos}
+\begin{itemize}
+  \item \textbf{Registrar formalmente a arquitetura modular} adotada no portal didático da disciplina de Programação para a Internet 2;
+  \item \textbf{Descrever a divisão em quatro camadas coesas} (\texttt{config/}, \texttt{utils/}, \texttt{services/} e \texttt{views/}), alinhadas aos conteúdos ensinados no Roteiro 04;
+  \item \textbf{Documentar a eliminação do monólito de 5.445 linhas de script inline} do \texttt{index.html}, demonstrando ganho de performance e manutenibilidade;
+  \item \textbf{Explicar a ponte de retrocompatibilidade global} estabelecida via \texttt{app.js} para elementos declarativos do DOM legados;
+  \item \textbf{Fornecer um guia cirúrgico para novas funcionalidades}, permitindo adicionar demandas, serviços e rotas com isolamento e segurança;
+  \item \textbf{Apresentar a matriz de métricas e testes de regressão} que asseguram a estabilidade do portal no GitHub Pages.
+\end{itemize}
+\end{boxObjetivos}
+
+\begin{mapaAula}
+\etapaMapa{azulMedio}{1}{Contexto \& Motivação}{Gargalos do monólito e alinhamento pedagógico (Seção~\ref{sec:contexto})}
+\etapaMapa{verdeVivo}{2}{Visão Geral das Camadas}{Diagrama de fluxo, contratos e responsabilidades (Seção~\ref{sec:camadas})}
+\etapaMapa{ambar}{3}{Estrutura de Arquivos}{Módulos em \texttt{js/}, serviços e ponte com o DOM (Seção~\ref{sec:estrutura})}
+\etapaMapa{roxo}{4}{Guia de Extensão \& Métricas}{Como estender o portal e matriz de impacto (Seção~\ref{sec:extensao})}
+\end{mapaAula}
+
+% =====================================================
+% 1. CONTEXTO E MOTIVAÇÃO DA REFATORAÇÃO
+% =====================================================
+\section{Contexto e Motivação da Refatoração}\label{sec:contexto}
+
+Durante o desenvolvimento inicial do portal unificado da disciplina de Programação para a Internet 2, o arquivo \path{index.html} concentrava tanto a marcação semântica e os modais Bootstrap 5 quanto a totalidade da lógica em JavaScript da aplicação. Tratava-se de um monólito com \textbf{mais de 5.445 linhas de código inline} contidas em uma única tag \texttt{<script>}, elevando o tamanho do documento para impressionantes 11.070 linhas.
+
+\begin{conceito}{A Importância do Desacoplamento Pedagógico}
+Em sala de aula, ensina-se aos futuros tecnólogos a separação estrita de interesses (\textit{Separation of Concerns}). A prática pedagógica é consolidada no \textbf{Roteiro Prático 04 — Arquitetura Modular com ES6 Modules}, no qual os estudantes estruturam aplicações web separando utilitários, serviços de persistência e camadas de visualização. Manter o portal da própria unidade curricular em formato monolítico criava uma contradição didática que a presente refatoração eliminou integralmente.
+\end{conceito}
+
+Esse cenário anterior gerava três ordens de desafios críticos:
+\begin{enumerate}
+  \item \textbf{Sobrecarga de Contexto e Degradação de Manutenção:} A adição ou correção de qualquer elemento visual (como filtros da Central de Demandas ou cartões da SNCT) exigia a inspeção de milhares de linhas, aumentando a latência das intervenções e o risco de colisões;
+  \item \textbf{Acoplamento Severo com o DOM e Armazenamento:} Constantes globais, manipulação direta de \texttt{localStorage}, rotinas de OAuth2 com Google Identity Services e geradores de templates HTML compartilhavam o mesmo escopo global sem limites arquiteturais;
+  \item \textbf{Dificuldade na Adição de Testes e Evolução:} Funções utilitárias como sanitização de strings contra XSS (\texttt{escapeHtml}) e formatação temporal ficavam inacessíveis para reuso isolado.
+\end{enumerate}
+
+Com a refatoração concluída em 4 fases cirúrgicas, o \path{index.html} foi reduzido em \textbf{5.448 linhas (corte de 49,2\%)}, tornando-se um arquivo estritamente declarativo, enquanto toda a inteligência da aplicação passou a operar via módulos nativos do ES6 (\path{<script type="module" src="js/app.js">}).
+
+% =====================================================
+% 2. VISÃO GERAL DA ARQUITETURA EM CAMADAS
+% =====================================================
+\section{Visão Geral da Arquitetura em Camadas}\label{sec:camadas}
+
+A aplicação foi estruturada seguindo o padrão de camadas unidirecionais, onde a apresentação depende dos serviços e configurações, mas as camadas inferiores jamais conhecem detalhes de interface:
+
+\begin{center}
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[
+    node distance=1.1cm and 1.8cm,
+    caixaDOM/.style={rectangle, draw=azulTitulo, rounded corners=6pt, fill=azulTitulo!8, line width=1.1pt, align=center, inner sep=7pt, font=\small},
+    caixaApp/.style={rectangle, draw=ambar, rounded corners=6pt, fill=ambar!10, line width=1.1pt, align=center, inner sep=7pt, font=\small\bfseries},
+    caixaView/.style={rectangle, draw=ifscGreen, rounded corners=6pt, fill=ifscGreen!8, line width=1.1pt, align=center, inner sep=6pt, font=\small},
+    caixaService/.style={rectangle, draw=roxo, rounded corners=6pt, fill=roxo!8, line width=1.1pt, align=center, inner sep=6pt, font=\small},
+    caixaBase/.style={rectangle, draw=suave, rounded corners=6pt, fill=fundo, line width=1pt, align=center, inner sep=6pt, font=\footnotesize},
+    seta/.style={-{Latex[length=2.8mm]}, line width=1.1pt}
+]
+
+% Linha 1: DOM e App
+\node[caixaDOM] (dom) {\textbf{index.html (DOM)}\\Marcação Bootstrap 5 e Modais};
+\node[caixaApp, right=of dom] (app) {js/app.js (Orquestrador)\\Estado Reativo e Ponte Global};
+
+% Linha 2: Camada de Views
+\node[caixaView, below left=1.2cm and -0.8cm of app] (vDem) {\textbf{views/demandasView.js}\\Cards, Prazos e Badges};
+\node[caixaView, right=0.4cm of vDem] (vSnct) {\textbf{views/snctView.js}\\5 Etapas SNCT e Vagas};
+\node[caixaView, right=0.4cm of vSnct] (vRub) {\textbf{views/rubricasView.js}\\Modal de Rubricas (A2/A3/A4)};
+\node[caixaView, right=0.4cm of vRub] (vNav) {\textbf{views/navigationView.js}\\Abas e Temas};
+
+% Linha 3: Camada de Services
+\node[caixaService, below=1.2cm of vSnct] (sStore) {\textbf{services/storageService.js}\\LocalStorage com Fallback};
+\node[caixaService, left=0.6cm of sStore] (sApi) {\textbf{services/apiService.js}\\Fetch API e Google Apps Script};
+\node[caixaService, right=0.6cm of sStore] (sAuth) {\textbf{services/authService.js}\\Google Identity Services};
+
+% Linha 4: Config e Utils
+\node[caixaBase, below=1.0cm of sStore] (conf) {\textbf{js/config/} (\texttt{constants.js}, \texttt{rubricasData.js}) \quad | \quad \textbf{js/utils/} (\texttt{formatters.js}, \texttt{toast.js})};
+
+% Conexões
+\draw[seta, color=azulTitulo] (dom) -- node[midway, above, font=\footnotesize] {Eventos / DOM} (app);
+\draw[seta, color=ambar] (app.south) -- (vDem.north);
+\draw[seta, color=ambar] (app.south) -- (vSnct.north);
+\draw[seta, color=ambar] (app.south) -- (vRub.north);
+\draw[seta, color=ambar] (app.south) -- (vNav.north);
+
+\draw[seta, color=ifscGreen] (vDem.south) -- (sStore.north);
+\draw[seta, color=ifscGreen] (vSnct.south) -- (sStore.north);
+\draw[seta, color=ifscGreen] (vRub.south) -- (sStore.north);
+
+\draw[seta, color=roxo] (sStore.south) -- (conf.north);
+\draw[seta, color=roxo] (sApi.south) -- (conf.north);
+\draw[seta, color=roxo] (sAuth.south) -- (conf.north);
+
+\end{tikzpicture}
+\end{adjustbox}
+\end{center}
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Camada} & \cab{Responsabilidade Arquitetural} & \cab{Principais Módulos} \\
+\textbf{Apresentação (\texttt{views/})} & Geração declarativa de HTML dinâmico, atualização de badges, gerenciamento de modais e captura de ações do usuário. & \path{demandasView.js}, \path{snctView.js}, \path{rubricasView.js}, \path{navigationView.js} \\
+\textbf{Serviços (\texttt{services/})} & Isolamento de operações de entrada e saída (I/O), persistência local, chamadas HTTP remotas e autenticação OAuth2. & \path{storageService.js}, \path{apiService.js}, \path{authService.js} \\
+\textbf{Utilitários (\texttt{utils/})} & Funções puras sem efeitos colaterais para sanitização contra XSS, conversão de datas e toasts flutuantes. & \path{formatters.js}, \path{toast.js} \\
+\textbf{Configuração (\texttt{config/})} & Centralização de chaves de storage, roster dos 24 alunos, frentes da SNCT e matrizes pedagógicas formativas. & \path{constants.js}, \path{rubricasData.js} \\
+\textbf{Orquestrador (\texttt{app.js})} & Ponto de entrada modular, gerenciador do estado em memória e ponte de retrocompatibilidade global para o HTML. & \path{app.js}, \path{main.js} \\
+\end{tabularx}
+\caption{Matriz de responsabilidades das camadas da aplicação.}
+\end{table}
+
+% =====================================================
+% 3. ESTRUTURA DE DIRETÓRIOS E CONTRATOS
+% =====================================================
+\section{Estrutura de Diretórios e Contratos de Módulos}\label{sec:estrutura}
+
+A árvore de arquivos do portal reflete de forma fidedigna as diretrizes de engenharia de software frontend modernas:
+
+\begin{arvore}[Estrutura Modular do Portal da UC ProgWeb 2]
+uc-programacao-para-a-internet-2/
+|-- index.html                 # Dashboard da disciplina (sem blocos <script> inline)
+|-- progweb2-config.js         # Parametrização global de ambiente (URLs e Client ID)
+`-- js/
+    |-- app.js                 # Ponto de entrada carregado via <script type="module">
+    |-- main.js                # Arquivo de barramento e re-exportação de contratos
+    |-- config/
+    |   |-- constants.js       # Chaves de armazenamento, roster de 24 alunos e frentes SNCT
+    |   `-- rubricasData.js    # Matrizes contextuais de rubricas formativas (A2, A3 e A4)
+    |-- services/
+    |   |-- apiService.js      # Integração assíncrona com backend Google Apps Script
+    |   |-- authService.js     # Autenticação Google GIS, decodificação JWT e vinculação
+    |   `-- storageService.js  # Operações de CRUD com LocalStorage e fallback tolerante
+    |-- utils/
+    |   |-- formatters.js      # Sanitização XSS, formatação de datas e cálculo de prazos
+    |   `-- toast.js           # Notificações visuais flutuantes com Bootstrap Toasts
+    `-- views/
+        |-- demandasView.js    # Renderização da Central de Demandas, cards e filtros
+        |-- navigationView.js  # Chaveamento de abas, tema claro/escuro e foco de card
+        |-- rubricasView.js    # Painel interativo de rubricas e gerador de parecer
+        `-- snctView.js        # Diagrama das 5 etapas da SNCT e quadro de vagas
+\end{arvore}
+
+\subsection{Camada de Configuração (\texttt{js/config/})}
+
+O módulo \path{constants.js} concentra todos os literais imutáveis do portal. Nenhuma chave de armazenamento é escrita como texto solto no código-fonte:
+
+\begin{boxCodigoJS}[js/config/constants.js]
+export const STORAGE_KEY_DEMANDAS = "progweb2_demandas_v1";
+export const STORAGE_KEY_AVALIACOES = "progweb2_avaliacoes_v1";
+export const STORAGE_KEY_ALUNOS = "progweb2_alunos_v1";
+export const STORAGE_KEY_SNCT_DEMANDAS = "progweb2_snct_demandas_v1";
+export const STORAGE_KEY_GOOGLE_SESSION = "progweb2_google_session_v1";
+
+// Roster oficial completo com os 24 estudantes da turma 2026/2
+export const ESTUDANTES_PADRAO = [
+  { id: "aluno_1", nome: "Alexandre Silva", matricula: "2024101001", email: "alexandre@aluno.ifsc.edu.br" },
+  { id: "aluno_2", nome: "Beatriz Oliveira", matricula: "2024101002", email: "beatriz@aluno.ifsc.edu.br" },
+  // ... 22 demais discentes devidamente catalogados
+];
+\end{boxCodigoJS}
+
+Já o arquivo \path{rubricasData.js} formaliza as três matrizes pedagógicas adotadas nas avaliações formativas da unidade curricular:
+\begin{itemize}
+  \item \textbf{Matriz A2 (SNCT):} Focada em planejamento didático, rigor conceitual da oficina, ambientação na sala Moodle e trabalho em equipe;
+  \item \textbf{Matriz A3 (Projeto Integrador):} Focada em backend RESTful com Flask/SQLite, integração com Fetch API, contingência offline e ergonomia visual;
+  \item \textbf{Matriz A4 (Roteiros Práticos):} Focada em domínio de ES6 Modules, manipulação do DOM sem bibliotecas pesadas, formulários e responsividade.
+\end{itemize}
+
+\subsection{Camada de Serviços e I/O (\texttt{services/})}
+
+A persistência no navegador é completamente intermediada por \path{storageService.js}. Caso o navegador esteja em modo anônimo estrito ou com cotas esgotadas, o serviço captura as exceções e mantém a operação estável em memória:
+
+\begin{boxCodigoJS}[js/services/storageService.js]
+import { STORAGE_KEY_DEMANDAS, DEMANDAS_INICIAIS } from "../config/constants.js";
+
+export function carregarDemandas() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_DEMANDAS);
+    if (!raw) return DEMANDAS_INICIAIS;
+    const lista = JSON.parse(raw);
+    return Array.isArray(lista) && lista.length > 0 ? lista : DEMANDAS_INICIAIS;
+  } catch (erro) {
+    console.warn("Falha ao acessar LocalStorage; utilizando dados de contingência:", erro);
+    return DEMANDAS_INICIAIS;
+  }
+}
+
+export function salvarDemandas(demandas) {
+  try {
+    localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandas));
+    return true;
+  } catch (erro) {
+    console.error("Erro crítico ao gravar demandas no LocalStorage:", erro);
+    return false;
+  }
+}
+\end{boxCodigoJS}
+
+A comunicação externa com a planilha Google Sheets via Google Apps Script é centralizada em \path{apiService.js}. O método utiliza cabeçalho \texttt{text/plain;charset=utf-8} para evitar bloqueios de pré-voo CORS (\textit{CORS preflight}):
+
+\begin{boxCodigoJS}[js/services/apiService.js]
+export async function chamarApiAppsScript(acao, payload = {}) {
+  const url = window.PROGWEB2_CONFIG?.appsScriptUrl;
+  if (!url) throw new Error("URL da API do Google Apps Script não configurada.");
+
+  const corpoRequisicao = JSON.stringify({ acao, ...payload, timestamp: new Date().toISOString() });
+
+  const resposta = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: corpoRequisicao
+  });
+
+  if (!resposta.ok) throw new Error(`Falha na requisição HTTP: status ${resposta.status}`);
+  return await resposta.json();
+}
+\end{boxCodigoJS}
+
+\subsection{A Ponte de Retrocompatibilidade no \texttt{js/app.js}}
+
+Uma das maiores inovações arquiteturais desta refatoração foi garantir que o \path{index.html} continuasse funcionando sem a necessidade de reescrever centenas de atributos de manipuladores declarativos legados (\texttt{onclick="..."} e \texttt{onchange="..."}).
+
+\begin{conceito}{Escopo de Módulos vs. Escopo Global (\texttt{window})}
+Ao carregar um script com \texttt{type="module"}, o navegador executa o código em escopo fechado. As funções definidas dentro do módulo \textbf{não existem no objeto global \texttt{window}}. Para viabilizar a transição sem quebras no HTML existente, o \path{js/app.js} expõe explicitamente as 79 funções manipuladoras ao escopo global.
+\end{conceito}
+
+\begin{boxCodigoJS}[js/app.js]
+// Vinculação controlada das rotinas públicas ao objeto global window
+const manipuladoresGlobais = {
+  showTab, toggleTheme, alternarDestaqueCard,
+  filtrarDemandas, abrirModalNovaDemanda, salvarDemandaFormulario,
+  navegarParaEtapaSNCT, abrirModalInscricaoSNCT, confirmarInscricaoSNCT,
+  abrirModalAvaliacaoRubrica, salvarAvaliacaoRubrica,
+  iniciarLoginGoogle, efetuarLogoutGoogle, sincronizarComBackendAppsScript
+  // ... mapeamento das 79 rotinas públicas necessárias
+};
+
+Object.entries(manipuladoresGlobais).forEach(([nome, funcao]) => {
+  if (typeof funcao === "function") {
+    window[nome] = funcao;
+  }
+});
+\end{boxCodigoJS}
+
+% =====================================================
+% 4. GUIA DE MANUTENÇÃO E IMPACTO
+% =====================================================
+\section{Guia de Manutenção \& Métricas de Impacto}\label{sec:extensao}
+
+\subsection{Como Adicionar uma Nova Funcionalidade ao Portal}
+
+Para manter a integridade da arquitetura em camadas nas próximas manutenções, siga rigorosamente o fluxo de desenvolvimento abaixo:
+
+\begin{enumerate}
+  \item \textbf{Novas Constantes ou Roster:} Caso surjam novas turmas, novas chaves de cache ou novos instrumentos avaliativos, registre-os em \path{js/config/constants.js} ou \path{js/config/rubricasData.js};
+  \item \textbf{Acesso a Dados:} Qualquer necessidade de consulta ou escrita em \texttt{localStorage} ou chamadas remotas de rede deve receber um método correspondente em \path{js/services/};
+  \item \textbf{Renderização de Componentes:} A construção de strings HTML de cards ou tabelas pertence exclusivamente aos módulos da pasta \path{js/views/}. Use sempre \texttt{escapeHtml()} para qualquer dado digitado por usuário ou estudante;
+  \item \textbf{Ponto de Conexão no DOM:} Se o novo componente demandar interação direta via atributo HTML (\texttt{onclick}), inclua a função correspondente no mapa de vinculação em \path{js/app.js}.
+\end{enumerate}
+
+\begin{atencao}{Regra de Ouro da Camada de Visualização}
+Nenhum módulo da pasta \path{js/views/} deve executar diretamente comandos como \texttt{localStorage.setItem()} ou invocar \texttt{fetch()} para serviços externos. Toda a persistência deve obrigatoriamente transitar por \path{js/services/storageService.js} ou \path{js/services/apiService.js}.
+\end{atencao}
+
+\subsection{Matriz Comparativa de Métricas}
+
+A tabela a seguir demonstra quantitativamente o ganho obtido com a refatoração modular:
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.45}\rowcolors{2}{fundo}{white}
+\begin{tabularx}{\textwidth}{RYY}
+\cabecalho \cab{Métrica de Qualidade} & \cab{Antes da Refatoração (Monólito)} & \cab{Após a Refatoração (ES6 Modules)} \\
+Linhas totais no \texttt{index.html} & 11.070 linhas & 5.622 linhas (Redução de 49,2\%) \\
+Linhas de JavaScript inline no HTML & 5.445 linhas em bloco único & 0 linhas (100\% desacoplado em módulos) \\
+Organização do código & Escopo global desprotegido & 11 arquivos coesos distribuídos em 4 camadas \\
+Localização e isolamento de bugs & Varredura longa e propensa a erros & Diagnóstico pontual no módulo responsável \\
+Aderência pedagógica & Divergente da ementa lecionada & Idêntica à arquitetura ensinada no Roteiro 04 \\
+Testabilidade de rotinas & Impossível isolar regras de negócio & Funções puras exportáveis e testáveis individualmente \\
+\end{tabularx}
+\caption{Comparativo das métricas de engenharia de software antes e após a modularização.}
+\end{table}
+
+\section{Checklist de Verificação Arquitetural}\label{sec:checklist}
+
+\begin{checklist}[Checklist para validação de novas contribuições no portal]
+\begin{itemize}
+  \item[\caixaMarcar] \textbf{Zero scripts inline no HTML:} Nenhuma nova tag \texttt{<script>} com lógica de negócio foi adicionada ao \path{index.html}.
+  \item[\caixaMarcar] \textbf{Desacoplamento do storage:} Nenhuma view executa leitura ou escrita direta no \texttt{localStorage}.
+  \item[\caixaMarcar] \textbf{Sanitização contra XSS:} Todo dado dinâmico renderizado em template literals utiliza a função \texttt{escapeHtml()}.
+  \item[\caixaMarcar] \textbf{Importações explícitas:} Todas as dependências entre arquivos utilizam caminhos relativos com extensão \path{.js}.
+  \item[\caixaMarcar] \textbf{Ponte global registrada:} Funções chamadas por manipuladores declarativos no HTML foram exportadas em \path{js/app.js}.
+  \item[\caixaMarcar] \textbf{Validação no GitHub Pages:} O portal carrega sem erros de sintaxe ou de CORS no console do navegador em produção.
+\end{itemize}
+\end{checklist}
+
+\vspace{1.0em}
+\begin{dica}{Referência nos Roteiros da Disciplina}
+Para entender os fundamentos de importação e exportação de módulos, consulte o material de apoio em \path{roteiro-4/} (\textit{Arquitetura Modular com ES6 Modules}), e para os detalhes da integração com APIs remotas, consulte \path{roteiro-5/} (\textit{Fetch API \& Flask}).
+\end{dica}
+
+\end{document}
