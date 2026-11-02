@@ -6,15 +6,20 @@
 import * as Constants from "./config/constants.js";
 import * as Rubricas from "./config/rubricasData.js";
 import * as Formatters from "./utils/formatters.js";
-import { showToast } from "./utils/toast.js";
+import * as Toast from "./utils/toast.js";
+import * as StorageService from "./services/storageService.js";
+import * as ApiService from "./services/apiService.js";
+import * as AuthService from "./services/authService.js";
 
-// Compatibilidade transitória durante a migração por fases:
-// Expõe módulos no namespace global window.ProgWeb2
+// Exportação consolidada no namespace global para suporte à transição suave por fases:
 window.ProgWeb2 = {
   Constants,
   Rubricas,
   Formatters,
-  showToast
+  Toast,
+  StorageService,
+  ApiService,
+  AuthService
 };
 
-console.info("⚡ [ProgWeb 2] Arquitetura Modular ES6 ativa:", Object.keys(window.ProgWeb2));
+console.info("⚡ [ProgWeb 2] Camada de Serviços & APIs carregada com sucesso:", Object.keys(window.ProgWeb2));
