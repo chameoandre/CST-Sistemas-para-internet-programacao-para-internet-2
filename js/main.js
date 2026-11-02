@@ -10,8 +10,12 @@ import * as Toast from "./utils/toast.js";
 import * as StorageService from "./services/storageService.js";
 import * as ApiService from "./services/apiService.js";
 import * as AuthService from "./services/authService.js";
+import * as NavigationView from "./views/navigationView.js";
+import * as SnctView from "./views/snctView.js";
+import * as RubricasView from "./views/rubricasView.js";
+import * as DemandasView from "./views/demandasView.js";
 
-// Exportação consolidada no namespace global para suporte à transição suave por fases:
+// Integração unificada no namespace global:
 window.ProgWeb2 = {
   Constants,
   Rubricas,
@@ -19,7 +23,11 @@ window.ProgWeb2 = {
   Toast,
   StorageService,
   ApiService,
-  AuthService
+  AuthService,
+  NavigationView,
+  SnctView,
+  RubricasView,
+  DemandasView
 };
 
-console.info("⚡ [ProgWeb 2] Camada de Serviços & APIs carregada com sucesso:", Object.keys(window.ProgWeb2));
+console.info("⚡ [ProgWeb 2] Camada de Visualização & Views carregada com sucesso:", Object.keys(window.ProgWeb2));

@@ -227,3 +227,4 @@ export function efetuarLogoutGoogle(callbackAtualizacao = null) {
     "bi bi-box-arrow-right text-muted"
   );
 }
+

@@ -89,3 +89,4 @@ export async function notificarEquipeEmail({ demandaId, equipeNome, avaliacao, e
     throw err;
   }
 }
+

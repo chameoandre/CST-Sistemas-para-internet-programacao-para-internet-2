@@ -224,3 +224,4 @@ export function exportarBackupJSON(dadosCompletos) {
   };
   return JSON.stringify(payload, null, 2);
 }
+
