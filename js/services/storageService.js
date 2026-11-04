@@ -92,6 +92,26 @@ export function carregarDemandas() {
         }
         d.fixadaMural = true;
       }
+
+      // Demanda Etapa 4: Teste da Aula (Semana 3)
+      if (d.id === 'DEM-SNCT-E4') {
+        if (!d.titulo || d.titulo.includes('Ensaio Geral Cronometrado')) {
+          d.titulo = 'Etapa 4 SNCT: Teste da Aula & Ensaio Geral no Laboratório (Semana 3)';
+          precisaSalvar = true;
+        }
+      }
+
+      // Demanda Etapa 5: Ministração dos Cursos em 26/11 (SNCT de 25 a 27/11)
+      if (d.id === 'DEM-SNCT-E5') {
+        if (d.prazo === '2026-11-27' || !d.prazo) {
+          d.prazo = '2026-11-26';
+          precisaSalvar = true;
+        }
+        if (!d.titulo || d.titulo.includes('com o Público Externo')) {
+          d.titulo = 'Etapa 5 SNCT: Ministração dos Dois Cursos na SNCT (Dia 26/11)';
+          precisaSalvar = true;
+        }
+      }
     });
 
     const dem01 = lista.find(d => d.id === 'DEM-SNCT-01');

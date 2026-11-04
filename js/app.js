@@ -342,7 +342,7 @@ window.ProgWeb2 = {
       },
       {
         id: "DEM-SNCT-E4",
-        titulo: "Etapa 4 SNCT: Ensaio Geral Cronometrado no Laboratório (120 min)",
+        titulo: "Etapa 4 SNCT: Teste da Aula & Ensaio Geral no Laboratório (Semana 3)",
         instrumento: "A2",
         instrumentoNome: "A2 (Curso na SNCT • 20%)",
         destinatario: "Todas as Frentes SNCT",
@@ -353,7 +353,7 @@ window.ProgWeb2 = {
         horaPrazo: "23:59",
         pontos: 10.0,
         concluida: false,
-        descricao: "Simulação completa da oficina no laboratório de informática com duração exata de 120 minutos: a equipe do Curso 1 ministra para os colegas do Curso 2 e vice-versa, identificando e corrigindo pontos de atrito antes do evento oficial.",
+        descricao: "Semana 3 de preparação: teste prático completo da aula no laboratório de informática (120 min). As equipes simulam a condução do minicurso para os colegas e verificam se todos os materiais, cronômetro e laboratórios estão adequados para ministrar.",
         criterios: [
           "Ensaio cronometrado de 120 minutos executado nas bancadas do laboratório de informática",
           "Validação do tempo de cada bloco (Bloco 1: 20m, Bloco 2: 35m, Bloco 3: 25m, Bloco 4: 15m, Fechamento: 10m)",
@@ -362,18 +362,18 @@ window.ProgWeb2 = {
       },
       {
         id: "DEM-SNCT-E5",
-        titulo: "Etapa 5 SNCT: Ministração das Oficinas com o Público Externo",
+        titulo: "Etapa 5 SNCT: Ministração dos Dois Cursos na SNCT (Dia 26/11)",
         instrumento: "A2",
         instrumentoNome: "A2 (Curso na SNCT • 20%)",
         destinatario: "Todas as Frentes SNCT",
         tipoAtribuicao: "turma",
         equipesAlvo: [],
         alunosAlvo: [],
-        prazo: "2026-11-27",
+        prazo: "2026-11-26",
         horaPrazo: "23:59",
         pontos: 10.0,
         concluida: false,
-        descricao: "Realização presencial das oficinas práticas com a comunidade externa durante a Semana Nacional de Ciência e Tecnologia (SNCT 2026) no IFSC Câmpus Garopaba.",
+        descricao: "Ministração presencial dos dois minicursos (Meu Primeiro Site no Ar e Painel Verde Garopaba) na quinta-feira, 26/11, durante a Semana Nacional de Ciência e Tecnologia (período de 25/11 a 27/11) no IFSC Câmpus Garopaba.",
         criterios: [
           "Presença e atuação ativa dos membros da frente durante todo o período da oficina",
           "Acolhimento da comunidade externa, orientação de bancada e suporte técnico paciente",
@@ -709,6 +709,13 @@ window.ProgWeb2 = {
                   d.titulo = 'Etapa 2 (Curso 2 — Painel Verde Garopaba): 1ª Versão na Sala do Moodle (id=2664)';
                 }
                 d.fixadaMural = true;
+              }
+              if (d.id === 'DEM-SNCT-E4') {
+                d.titulo = 'Etapa 4 SNCT: Teste da Aula & Ensaio Geral no Laboratório (Semana 3)';
+              }
+              if (d.id === 'DEM-SNCT-E5') {
+                d.prazo = '2026-11-26';
+                d.titulo = 'Etapa 5 SNCT: Ministração dos Dois Cursos na SNCT (Dia 26/11)';
               }
             });
 
@@ -1536,7 +1543,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const textoModelo = `Prezados(as) estudantes de Programação para a Internet 2,
 
-Como alinhado, estamos em plena Etapa 2 da Jornada da SNCT (Materiais nas Salas Oficiais do Moodle • Prazo: Sábado, 07/11 às 23:59).
+Conforme alinhado com a turma, segue o cronograma operacional das nossas próximas 3 semanas até a Semana Nacional de Ciência e Tecnologia (SNCT 2026, de 25/11 a 27/11):
+
+📅 CRONOGRAMA INTEGRADO:
+• Semanas 1 e 2 (Produção): Trabalho intensivo nas salas oficiais do Moodle para estruturar e publicar os entregáveis.
+• Semana 3 (Testar a Aula): Ensaio geral cronometrado no laboratório (120 min) para simular a aula e validar se tudo está adequado para ministrar.
+• Dia 26/11 (Quinta-feira): Ministração presencial dos nossos 2 cursos para a comunidade externa na SNCT!
 
 Todos vocês possuem papel de Professor na sala do respectivo curso:
 • Sala do ${cursoNome} no Moodle IFSC: https://moodle.ifsc.edu.br/course/view.php?id=${moodleId}
@@ -1561,7 +1573,7 @@ Abaixo segue o CHECKLIST OPERACIONAL com a missão de cada uma das 4 frentes:
 
 Assim que publicarem na sala, lembrem-se de registrar o link de entrega no painel da disciplina para validação e avaliação formativa (A2).
 
-Bons trabalhos!
+Bons trabalhos e foco na produção!
 Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const inputMsg = document.getElementById('inputComunicadoMensagem');
