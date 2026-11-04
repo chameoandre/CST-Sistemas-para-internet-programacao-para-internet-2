@@ -12,6 +12,82 @@ export const STORAGE_KEY_VOTOS_OFICINAS = 'progweb2_votos_oficinas_v1';
 export const STORAGE_KEY_ULTIMO_VOTANTE = 'progweb2_ultimo_votante';
 export const STORAGE_KEY_GOOGLE_SESSION = 'progweb2_google_session_v1';
 export const STORAGE_KEY_DEMANDAS_SNCT = 'progweb2_demandas_snct_v1';
+export const STORAGE_KEY_DOCENTE_AUTH = 'progweb2_docente_autenticado_v1';
+
+export const DETALHES_FRENTES_SNCT = {
+  'c1-frente-didatica': {
+    entregavelEtapa2: 'Micro-Roteiro Cirúrgico de 4 págs (PDF) & 5 Seções da Sala no Moodle',
+    orientacao: 'Elaborar o micro-roteiro em LaTeX no padrão visual da UC e estruturar as 5 seções da sala do Curso 1 no Moodle institucional (papel de Professor).',
+    checklist: [
+      'Micro-roteiro em LaTeX compilado em PDF de até 4 páginas',
+      'Configuração das 5 seções da Sala 2663 do Moodle IFSC',
+      'Revisão dos passos didáticos com os trios das outras frentes'
+    ]
+  },
+  'c1-frente-starterkit': {
+    entregavelEtapa2: 'Repositório Template GitHub & Pacote starter-kit-snct.zip no Moodle',
+    orientacao: 'Disponibilizar o repositório template (HTML5, CSS com :root e botão WhatsApp flutuante), fazer upload do zip na Seção 1 do Moodle e testar no pen-drive.',
+    checklist: [
+      'Repositório template no GitHub com código limpo e comentado',
+      'Arquivo starter-kit-snct.zip publicado na Seção 1 do Moodle (id=2663)',
+      'Pen-drive de Plano B para contingência offline no laboratório'
+    ]
+  },
+  'c1-frente-slides': {
+    entregavelEtapa2: 'Slides-Guia de 8 Telas no GitHub Pages & Link na Seção 0 do Moodle',
+    orientacao: 'Apresentação em HTML/Bootstrap 5 de 8 telas para projeção na TV/telão do laboratório, sincronizada com o roteiro e vinculada na Seção 0 do Moodle.',
+    checklist: [
+      'Slides interativos de 8 telas responsivas com Bootstrap 5',
+      'Deploy publicado e acessível no GitHub Pages',
+      'Link da apresentação inserido na Seção 0 do Moodle (id=2663)'
+    ]
+  },
+  'c1-frente-monitoria': {
+    entregavelEtapa2: 'Chave de Inscrição SNCT2026, Pesquisa na Seção 4 & Escala de Bancada',
+    orientacao: 'Configurar a autoinscrição (chave SNCT2026) e formulário de avaliação de 3 perguntas na Seção 4 do Moodle, escala de bancada dos 2 labs e fotos.',
+    checklist: [
+      'Autoinscrição com chave SNCT2026 validada na Sala 2663 do Moodle',
+      'Pesquisa de satisfação de 3 perguntas na Seção 4 do Moodle',
+      'Escala presencial de bancada e lista de presença impressa'
+    ]
+  },
+  'c2-frente-didatica': {
+    entregavelEtapa2: 'Micro-Roteiro Cirúrgico Painel Verde & 5 Seções da Sala no Moodle',
+    orientacao: 'Redigir micro-roteiro cirúrgico em LaTeX (4 págs.) focado no componente interativo de coleta seletiva e organizar as 5 seções da sala do Curso 2 no Moodle.',
+    checklist: [
+      'Micro-roteiro em LaTeX compilado em PDF (máx. 4 páginas)',
+      'Estruturação das 5 seções da Sala 2664 no Moodle IFSC',
+      'Alinhamento do fluxo prático com os trios do Curso 2'
+    ]
+  },
+  'c2-frente-starterkit': {
+    entregavelEtapa2: 'Repositório GitHub de Ecopontos & starter-kit-painel-verde.zip',
+    orientacao: 'Código base com filtro dinâmico de bairros e ecopontos, upload do starter-kit-painel-verde.zip na Seção 1 do Moodle e pen-drive de contingência.',
+    checklist: [
+      'Código base com tabela e filtro de ecopontos funcional',
+      'Pacote starter-kit-painel-verde.zip publicado na Seção 1 do Moodle (id=2664)',
+      'Cópia em pen-drive para execução offline de contingência'
+    ]
+  },
+  'c2-frente-slides': {
+    entregavelEtapa2: 'Slides-Guia Painel Verde no GitHub Pages & Link na Seção 0 do Moodle',
+    orientacao: 'Apresentação de 8 telas com passo a passo ilustrado do painel interativo no GitHub Pages e link/PDF na Seção 0 do Moodle.',
+    checklist: [
+      'Apresentação de slides de 8 telas no GitHub Pages',
+      'Link da apresentação inserido na Seção 0 do Moodle (id=2664)',
+      'Versão em PDF para backup no computador do laboratório'
+    ]
+  },
+  'c2-frente-monitoria': {
+    entregavelEtapa2: 'Chave SNCT2026, Pesquisa na Seção 4 & Escala do Lab de Informática',
+    orientacao: 'Chave de acesso institucional no Moodle Curso 2, pesquisa de 3 perguntas na Seção 4, organização das máquinas do lab e registro fotográfico.',
+    checklist: [
+      'Chave de autoinscrição SNCT2026 testada na Sala 2664 do Moodle',
+      'Pesquisa de satisfação configurada na Seção 4 do Moodle',
+      'Escala presencial de monitores para auxílio de bancada'
+    ]
+  }
+};
 
 export const ETAPAS_PADRAO_FRENTE_SNCT = [
       "1. Candidatura & divisão (27/10)",

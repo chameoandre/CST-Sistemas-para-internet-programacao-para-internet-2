@@ -42,6 +42,8 @@ window.ProgWeb2 = {
     const STORAGE_KEY_ULTIMO_VOTANTE = 'progweb2_ultimo_votante';
     const STORAGE_KEY_GOOGLE_SESSION = 'progweb2_google_session_v1';
     const STORAGE_KEY_DEMANDAS_SNCT = 'progweb2_demandas_snct_v1';
+    const STORAGE_KEY_DOCENTE_AUTH = 'progweb2_docente_autenticado_v1';
+    const DETALHES_FRENTES_SNCT = Constants.DETALHES_FRENTES_SNCT || {};
 
     let usuarioLogadoGoogle = null;
     let demandasSnctApp = [];
@@ -830,48 +832,138 @@ window.ProgWeb2 = {
     }
 
     // =========================================================================
-    // MODO DOCENTE (VISÃO DO PROFESSOR vs VISÃO DO ESTUDANTE)
+    // CONTROLE DE ACESSO DOCENTE & VISÃO TRANSPARENTE DAS FRENTES
     // =========================================================================
-    function toggleModoDocente() {
-      const body = document.body;
-      const ativo = body.classList.toggle('modo-docente-ativo');
-      localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, ativo ? 'true' : 'false');
-      atualizarUIModoDocente(ativo);
-      showToast(
-        ativo ? "Modo Docente Ativado" : "Modo Aluno Ativado",
-        ativo ? "Ferramentas de criação de demandas, avaliação e gestão de estudantes disponíveis." : "Visualização configurada no modo de consulta do estudante.",
-        ativo ? "fa-solid fa-chalkboard-user text-warning" : "fa-solid fa-user-graduate text-primary"
-      );
+    function ehProfessor(usuarioOuEmail) {
+      if (!usuarioOuEmail) return false;
+      const email = (typeof usuarioOuEmail === 'string' ? usuarioOuEmail : (usuarioOuEmail.email || '')).toLowerCase().trim();
+      return email === 'chameoandre@gmail.com' ||
+             email === 'andre.moraes@ifsc.edu.br' ||
+             email.includes('chameoandre') ||
+             email.startsWith('andre.moraes');
+    }
+
+    function ehModoDocenteAutorizado() {
+      if (usuarioLogadoGoogle && ehProfessor(usuarioLogadoGoogle)) {
+        return true;
+      }
+      return localStorage.getItem(STORAGE_KEY_DOCENTE_AUTH) === 'true';
     }
 
     function atualizarUIModoDocente(ativo) {
       const textEl = document.getElementById('modoDocenteText');
       const btnEl = document.getElementById('btnModoDocente');
+      const btnAbaEl = document.getElementById('btnDesbloquearDocenteAba');
+      const txtBtnAbaEl = document.getElementById('txtBtnDesbloquearDocenteAba');
+      const tabBtnTitulo = document.getElementById('tabBtnDocenteTitulo');
+
       if (textEl) {
-        textEl.innerText = ativo ? 'Modo Docente (Ativo)' : 'Visão do Aluno';
+        textEl.innerText = ativo ? 'Modo Docente (Ativo)' : 'Acesso Docente';
+      }
+      if (tabBtnTitulo) {
+        tabBtnTitulo.innerHTML = ativo ? '8. Painel de Frentes &amp; Área Docente' : '8. Painel de Frentes &amp; Gestão SNCT';
       }
       if (btnEl) {
         if (ativo) {
           btnEl.style.borderColor = 'var(--accent-amber)';
           btnEl.style.color = 'var(--accent-amber)';
           btnEl.style.background = 'rgba(217, 119, 6, 0.12)';
+          btnEl.title = 'Modo Docente administrativo ativo. Clique para alternar para visão de estudante.';
         } else {
           btnEl.style.borderColor = 'var(--border-color)';
           btnEl.style.color = 'var(--text-muted)';
           btnEl.style.background = 'transparent';
+          btnEl.title = 'Acesso restrito ao Professor André Moraes';
+        }
+      }
+      if (btnAbaEl) {
+        if (ativo) {
+          btnAbaEl.innerHTML = '<i class="fa-solid fa-chalkboard-user text-warning me-1"></i> Modo Docente Ativo (Alternar)';
+          btnAbaEl.className = 'btn-action btn-outline-action text-warning border-warning';
+        } else {
+          btnAbaEl.innerHTML = '<i class="fa-solid fa-lock me-1"></i> Desbloquear Acesso Docente';
+          btnAbaEl.className = 'btn-action btn-outline-action';
         }
       }
     }
 
     function initModoDocente() {
+      const autorizado = ehModoDocenteAutorizado();
       const salvo = localStorage.getItem(STORAGE_KEY_MODO_DOCENTE);
-      const ativo = salvo === null ? true : salvo === 'true';
+      // Padrão de segurança: visitantes e estudantes entram SEMPRE em modo estudante (false)
+      const ativo = autorizado && salvo === 'true';
       if (ativo) {
         document.body.classList.add('modo-docente-ativo');
       } else {
         document.body.classList.remove('modo-docente-ativo');
       }
       atualizarUIModoDocente(ativo);
+    }
+
+    function solicitarAcessoDocente() {
+      const jaAtivo = document.body.classList.contains('modo-docente-ativo');
+      if (jaAtivo) {
+        const querSair = confirm("Você está no Modo Docente Administrativo.\nDeseja alternar para a Visão de Leitura do Estudante?");
+        if (querSair) {
+          document.body.classList.remove('modo-docente-ativo');
+          localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'false');
+          localStorage.removeItem(STORAGE_KEY_DOCENTE_AUTH);
+          atualizarUIModoDocente(false);
+          renderizarAreaDocente();
+          renderizarCardMinhaFrenteEstudante();
+          showToast("Visão do Estudante Ativada", "Visualização configurada no modo de consulta do estudante.", "fa-solid fa-user-graduate text-primary");
+        }
+        return;
+      }
+
+      // 1. Usuário logado com conta Google docente
+      if (usuarioLogadoGoogle && ehProfessor(usuarioLogadoGoogle)) {
+        document.body.classList.add('modo-docente-ativo');
+        localStorage.setItem(STORAGE_KEY_DOCENTE_AUTH, 'true');
+        localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'true');
+        atualizarUIModoDocente(true);
+        renderizarAreaDocente();
+        renderizarCardMinhaFrenteEstudante();
+        showToast("Modo Docente Ativado", "Olá, Prof. André Moraes! Controles administrativos liberados.", "fa-solid fa-chalkboard-user text-warning");
+        showTab('tab-docente');
+        return;
+      }
+
+      // 2. Estudante identificado tentando acionar modo docente
+      if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
+        alert(`Acesso Administrativo Restrito:\nVocê está autenticado como estudante (${usuarioLogadoGoogle.nome}).\n\nO painel administrativo completo de criação/edição de demandas, envio de comunicados em massa e cobranças é restrito ao professor André Moraes.\n\nVocê pode consultar a distribuição de todas as frentes nesta aba.`);
+        return;
+      }
+
+      // 3. Visitante ou professor sem login Google: solicitar chave de acesso
+      const chave = prompt("Área Administrativa Docente (Prof. André Moraes)\nDigite a chave de acesso docente ou autentique-se com sua conta Google de professor:");
+      if (chave === null) return;
+
+      const chaveLimpa = chave.trim().toLowerCase();
+      if (chaveLimpa === 'ifsc2026' || chaveLimpa === 'docente2026' || chaveLimpa === 'chameoandre@gmail.com' || chaveLimpa === 'andre.moraes@ifsc.edu.br') {
+        document.body.classList.add('modo-docente-ativo');
+        localStorage.setItem(STORAGE_KEY_DOCENTE_AUTH, 'true');
+        localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'true');
+        atualizarUIModoDocente(true);
+        renderizarAreaDocente();
+        renderizarCardMinhaFrenteEstudante();
+        showToast("Modo Docente Liberado", "Chave administrativa validada com sucesso!", "fa-solid fa-chalkboard-user text-warning");
+        showTab('tab-docente');
+      } else {
+        alert("Chave de acesso incorreta. O painel administrativo completo é restrito ao professor da disciplina.");
+      }
+    }
+
+    function toggleModoDocente() {
+      solicitarAcessoDocente();
+    }
+
+    function abrirPainelFrentesGestao() {
+      showTab('tab-docente');
+    }
+
+    function abrirAreaDocenteDireto() {
+      abrirPainelFrentesGestao();
     }
 
     // =========================================================================
@@ -3758,13 +3850,277 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
 
     // =========================================================================
-    // ÁREA DOCENTE: PAINEL DE CONTROLE ADMINISTRATIVO & COMUNICAÇÃO POR DEMANDAS
+    // ÁREA DOCENTE & PAINEL DE FRENTES SNCT
     // =========================================================================
-    function abrirAreaDocenteDireto() {
-      if (!document.body.classList.contains('modo-docente-ativo')) {
-        toggleModoDocente();
+    function renderizarCardMinhaFrenteEstudante() {
+      const containers = [
+        document.getElementById('cardMinhaFrenteContainerDocente'),
+        document.getElementById('cardMinhaFrenteContainerDemandas'),
+        document.getElementById('cardMinhaFrenteContainerExtensao')
+      ].filter(Boolean);
+
+      if (containers.length === 0) return;
+
+      const usuario = usuarioLogadoGoogle;
+      const ehDocenteAtivo = document.body.classList.contains('modo-docente-ativo');
+
+      // Caso 1: Usuário é o Docente André Moraes autenticado
+      if (ehDocenteAtivo && (ehProfessor(usuario) || localStorage.getItem(STORAGE_KEY_DOCENTE_AUTH) === 'true')) {
+        const frentesC1 = demandasSnctApp.filter(f => f.cursoId === 1);
+        const frentesC2 = demandasSnctApp.filter(f => f.cursoId === 2);
+        const escaladosC1 = frentesC1.reduce((acc, f) => acc + (f.membros || []).length, 0);
+        const escaladosC2 = frentesC2.reduce((acc, f) => acc + (f.membros || []).length, 0);
+        const linksC1 = frentesC1.filter(f => (f.membros || []).some(m => m.linkEntrega && m.linkEntrega.trim())).length;
+        const linksC2 = frentesC2.filter(f => (f.membros || []).some(m => m.linkEntrega && m.linkEntrega.trim())).length;
+
+        const htmlDocente = `
+          <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card); border: 1px solid var(--accent-amber); border-left: 5px solid var(--accent-amber); box-shadow: var(--shadow-sm);">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-2 border-bottom">
+              <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning text-dark px-2 py-1"><i class="fa-solid fa-chalkboard-user me-1"></i> PAINEL DO PROFESSOR</span>
+                <span class="fw-bold text-heading fs-6">Prof. André Moraes — Visão de Gestão Operacional SNCT 2026</span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <a href="https://moodle.ifsc.edu.br/course/view.php?id=2663" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-0 px-2 fs-caption">
+                  <i class="bi bi-mortarboard-fill me-1"></i> Moodle C1 (2663) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+                <a href="https://moodle.ifsc.edu.br/course/view.php?id=2664" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-0 px-2 fs-caption">
+                  <i class="bi bi-mortarboard-fill me-1"></i> Moodle C2 (2664) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+                <button type="button" onclick="solicitarAcessoDocente()" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-caption" title="Alternar para visão do estudante">
+                  <i class="fa-solid fa-eye me-1"></i> Ver como Aluno
+                </button>
+              </div>
+            </div>
+            <div class="row g-2 align-items-center">
+              <div class="col-md-3">
+                <div class="fs-caption text-muted">Curso 1 (Site no Ar):</div>
+                <div class="fw-bold text-heading fs-small"><i class="bi bi-people-fill text-primary me-1"></i>${escaladosC1}/12 escalados · ${linksC1}/4 frentes entregues</div>
+              </div>
+              <div class="col-md-3">
+                <div class="fs-caption text-muted">Curso 2 (Painel Verde):</div>
+                <div class="fw-bold text-heading fs-small"><i class="bi bi-people-fill text-success me-1"></i>${escaladosC2}/12 escalados · ${linksC2}/4 frentes entregues</div>
+              </div>
+              <div class="col-md-6 text-md-end">
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 fs-caption">
+                  <i class="bi bi-calendar-event me-1"></i> Semanas 1 e 2: Moodle · Semana 3: Ensaio Lab · Ministração: 26/11
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+        containers.forEach(c => { c.innerHTML = htmlDocente; });
+        return;
       }
-      showTab('tab-docente');
+
+      // Caso 2: Usuário identificado como estudante
+      const alunoId = (usuario && usuario.alunoId) ? String(usuario.alunoId) : (typeof alunoVotanteAtualId !== 'undefined' && alunoVotanteAtualId ? String(alunoVotanteAtualId) : null);
+      let frenteEncontrada = null;
+
+      if (alunoId || (usuario && (usuario.matricula || usuario.email))) {
+        frenteEncontrada = demandasSnctApp.find(f => {
+          const membros = Array.isArray(f.membros) ? f.membros : [];
+          return membros.some(m =>
+            (alunoId && String(m.alunoId) === String(alunoId)) ||
+            (usuario && usuario.matricula && String(m.matricula) === String(usuario.matricula)) ||
+            (usuario && usuario.email && m.email && m.email.toLowerCase().trim() === usuario.email.toLowerCase().trim())
+          );
+        });
+      }
+
+      // Caso 2A: Estudante está em uma frente
+      if (frenteEncontrada) {
+        const cursoId = frenteEncontrada.cursoId;
+        const moodleId = cursoId === 1 ? '2663' : '2664';
+        const moodleUrl = `https://moodle.ifsc.edu.br/course/view.php?id=${moodleId}`;
+        const corBorda = cursoId === 1 ? 'var(--accent-blue)' : 'var(--accent-emerald)';
+        const membros = Array.isArray(frenteEncontrada.membros) ? frenteEncontrada.membros : [];
+        const membroComLink = membros.find(m => m.linkEntrega && m.linkEntrega.trim().length > 0);
+        const linkEntrega = membroComLink ? membroComLink.linkEntrega.trim() : '';
+        const temEntrega = Boolean(linkEntrega);
+        const nomeEstudante = usuario && usuario.nome ? usuario.nome.split(' ')[0] : 'Estudante';
+
+        // Detalhes pedagógicos específicos da frente
+        const detalhes = DETALHES_FRENTES_SNCT[frenteEncontrada.id] || {
+          entregavelEtapa2: frenteEncontrada.entregaveis ? frenteEncontrada.entregaveis.join(' · ') : 'Material Didático e Sala do Moodle',
+          orientacao: frenteEncontrada.descricao || 'Produza a primeira versão do material da sua frente e publique na sala do curso.',
+          checklist: frenteEncontrada.entregaveis || ['Elaborar material da frente', 'Publicar no Moodle institucional', 'Informar o link']
+        };
+
+        const htmlMembrosTrio = membros.map(m => {
+          const ehVoce = (alunoId && String(m.alunoId) === String(alunoId)) || (usuario && usuario.matricula && String(m.matricula) === String(usuario.matricula));
+          return `
+            <div class="d-flex align-items-center justify-content-between py-1 border-bottom border-light-subtle">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-person-fill ${ehVoce ? 'text-success' : 'text-primary'}"></i>
+                <div>
+                  <span class="fw-semibold text-heading fs-caption">${escapeHtml(m.nome)}</span>
+                  ${ehVoce ? '<span class="badge bg-success-subtle text-success fs-label ms-1">Você</span>' : ''}
+                  ${m.email ? `<div class="fs-label text-muted"><a href="mailto:${escapeHtml(m.email)}" class="text-muted text-decoration-none"><i class="bi bi-envelope me-1"></i>${escapeHtml(m.email)}</a></div>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const htmlChecklist = detalhes.checklist.map(item => `
+          <li class="d-flex align-items-start gap-2 mb-1">
+            <i class="bi bi-check2-square text-primary mt-1"></i>
+            <span>${escapeHtml(item)}</span>
+          </li>
+        `).join('');
+
+        const cardHtml = `
+          <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card); border: 1px solid var(--border-color); border-left: 6px solid ${corBorda}; box-shadow: var(--shadow-sm);">
+            
+            <!-- CABEÇALHO DO CARD -->
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3 pb-2 border-bottom">
+              <div>
+                <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                  <span class="badge ${cursoId === 1 ? 'bg-primary' : 'bg-success'} px-2 py-1 font-mono">
+                    <i class="bi bi-mortarboard-fill me-1"></i> CURSO ${cursoId} — ${cursoId === 1 ? 'MEU 1º SITE NO AR' : 'PAINEL VERDE GAROPABA'}
+                  </span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fs-caption">
+                    <i class="bi bi-patch-check-fill me-1"></i> Alocação Homologada (A2 · 20%)
+                  </span>
+                </div>
+                <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+                  <i class="bi ${frenteEncontrada.icone || 'bi-kanban'} text-primary me-2"></i>Sua Frente: ${escapeHtml(frenteEncontrada.titulo)}
+                </h3>
+                <p class="fs-caption text-muted mb-0 mt-1">
+                  Olá, <strong>${escapeHtml(nomeEstudante)}</strong>! Confira abaixo sua equipe, o que seu trio precisa produzir na Etapa 2 e o link direto para a sala do seu curso no Moodle.
+                </p>
+              </div>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <a href="${moodleUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary fw-bold" title="Abrir sala no Moodle IFSC">
+                  <i class="bi bi-mortarboard-fill me-1"></i> Sala Moodle C${cursoId} (id=${moodleId}) <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+                ${frenteEncontrada.roteiroPdf ? `
+                  <a href="${escapeHtml(frenteEncontrada.roteiroPdf)}" target="_blank" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-caption" title="Guia Operacional PDF da Frente">
+                    <i class="bi bi-file-earmark-pdf text-danger me-1"></i> Roteiro da Frente
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+
+            <!-- CORPO: 3 COLUNAS INTEGRATÓRIAS -->
+            <div class="row g-3">
+              
+              <!-- COLUNA 1: TRIO ESCALADO -->
+              <div class="col-lg-4">
+                <div class="p-3 rounded-2 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="fs-caption fw-bold text-heading text-uppercase">
+                      <i class="bi bi-people-fill text-primary me-1"></i> Seu Trio Escalado (${membros.length}/3)
+                    </div>
+                    <span class="badge ${membros.length === 3 ? 'bg-success' : 'bg-warning text-dark'} fs-label">
+                      ${membros.length === 3 ? 'Completo' : 'Vaga Aberta'}
+                    </span>
+                  </div>
+                  <div class="d-flex flex-column mb-2">
+                    ${htmlMembrosTrio}
+                  </div>
+                  <div class="fs-label text-muted fst-italic">
+                    <i class="bi bi-info-circle me-1"></i> Combine a divisão de tarefas com seus colegas de trio via e-mail ou WhatsApp.
+                  </div>
+                </div>
+              </div>
+
+              <!-- COLUNA 2: ENTREGÁVEL DA FRENTE (ETAPA 2) -->
+              <div class="col-lg-5">
+                <div class="p-3 rounded-2 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+                  <div class="fs-caption fw-bold text-heading text-uppercase mb-1">
+                    <i class="fa-solid fa-list-check text-primary me-1"></i> O que sua Frente Deve Entregar (Etapa 2)
+                  </div>
+                  <div class="fw-bold text-primary fs-small mb-2">${escapeHtml(detalhes.entregavelEtapa2)}</div>
+                  <ul class="list-unstyled fs-caption text-muted mb-2">
+                    ${htmlChecklist}
+                  </ul>
+                  <div class="p-2 rounded mt-2" style="background: var(--bg-card); border-left: 3px solid var(--accent-amber);">
+                    <div class="fs-label fw-bold text-heading"><i class="bi bi-calendar-check text-warning me-1"></i> Cronograma de Execução:</div>
+                    <div class="fs-label text-muted">Semanas 1 e 2: Moodle | Semana 3: Ensaio no Lab | Ministração: <strong>26/11/2026</strong></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- COLUNA 3: STATUS DA ENTREGA & BOTÃO DE REGISTRO -->
+              <div class="col-lg-3">
+                <div class="p-3 rounded-2 h-100 d-flex flex-column justify-content-between" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);">
+                  <div>
+                    <div class="fs-caption fw-bold text-heading text-uppercase mb-2">
+                      <i class="bi bi-award-fill text-warning me-1"></i> Status da Frente
+                    </div>
+                    ${temEntrega ? `
+                      <div class="mb-2">
+                        <span class="badge bg-success px-2 py-1 w-100 mb-2">
+                          <i class="bi bi-check-circle-fill me-1"></i> Material da Frente Entregue!
+                        </span>
+                        <a href="${escapeHtml(linkEntrega)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success w-100 fw-bold mb-2">
+                          <i class="bi bi-box-arrow-up-right me-1"></i> Abrir Material Entregue
+                        </a>
+                      </div>
+                    ` : `
+                      <div class="mb-2">
+                        <span class="badge bg-warning text-dark px-2 py-1 w-100 mb-2">
+                          <i class="bi bi-clock-history me-1"></i> Entrega Pendente (Etapa 2)
+                        </span>
+                        <p class="fs-label text-muted mb-2">
+                          Após publicar o material na sala do Moodle (ou GitHub), informe o link abaixo:
+                        </p>
+                      </div>
+                    `}
+                  </div>
+                  <div>
+                    <button type="button" onclick="editarLinkEntregaSNCT('${frenteEncontrada.id}')" class="btn btn-sm ${temEntrega ? 'btn-outline-secondary' : 'btn-success'} w-100 fw-bold py-2 shadow-sm">
+                      <i class="bi bi-link-45deg me-1"></i> ${temEntrega ? 'Atualizar Link do Material' : 'Entregar Link do Material'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+        containers.forEach(c => { c.innerHTML = cardHtml; });
+        return;
+      }
+
+      // Caso 2B: Estudante está logado, mas NÃO está em nenhuma frente
+      if (alunoId || usuario) {
+        const nomeEstudante = usuario && usuario.nome ? usuario.nome.split(' ')[0] : 'Estudante';
+        const htmlSemFrente = `
+          <div class="p-3 rounded-3 mb-3" style="background: rgba(245, 158, 11, 0.08); border: 1px solid var(--accent-amber); border-left: 5px solid var(--accent-amber); box-shadow: var(--shadow-sm);">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <div>
+                <div class="fw-bold text-heading fs-6"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Atenção, ${escapeHtml(nomeEstudante)}: você ainda não escolheu sua frente na SNCT 2026!</div>
+                <p class="fs-caption text-muted mb-0">Cada estudante deve integrar um trio em uma das 4 frentes do <strong>Curso 1</strong> ou <strong>Curso 2</strong> para a ministração da oficina presencial em <strong>26/11</strong> (Instrumento A2 — 20%).</p>
+              </div>
+              <button type="button" onclick="showTab('tab-extensao')" class="btn btn-sm btn-warning fw-bold text-dark">
+                <i class="bi bi-hand-index-thumb me-1"></i> Escolher Minha Frente Agora
+              </button>
+            </div>
+          </div>
+        `;
+        containers.forEach(c => { c.innerHTML = htmlSemFrente; });
+        return;
+      }
+
+      // Caso 3: Visitante / Estudante não identificado
+      const htmlDeslogado = `
+        <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-blue); box-shadow: var(--shadow-sm);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <div class="fw-bold text-heading fs-small"><i class="bi bi-person-badge text-primary me-2"></i>Área do Estudante: Veja sua Frente, Trio e Entregáveis da SNCT 2026</div>
+              <p class="fs-caption text-muted mb-0">Identifique-se com sua conta Google institucional para visualizar em qual curso e frente você está escalado(a), quem são seus colegas de equipe e o link direto para a sua sala no Moodle.</p>
+            </div>
+            <button type="button" onclick="iniciarLoginGoogle()" class="btn btn-sm btn-outline-primary fw-bold">
+              <i class="bi bi-google me-1"></i> Identificar-me como Estudante
+            </button>
+          </div>
+        </div>
+      `;
+      containers.forEach(c => { c.innerHTML = htmlDeslogado; });
     }
 
     function renderizarMuralComunicadosDocente() {
@@ -4105,6 +4461,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         </div>
       `;
 
+      const ehDocente = document.body.classList.contains('modo-docente-ativo');
+
       const renderColunaCursoAdmin = (cursoId, tituloCurso, subtituloKit, cor) => {
         const frentes = demandasSnctApp.filter(f => f.cursoId === cursoId);
         const moodleUrl = cursoId === 1 ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : 'https://moodle.ifsc.edu.br/course/view.php?id=2664';
@@ -4121,7 +4479,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   <a href="${moodleUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="Abrir Sala do Moodle">
                     <i class="bi bi-mortarboard-fill me-1"></i> Moodle (id=${cursoId === 1 ? '2663' : '2664'}) <i class="bi bi-box-arrow-up-right ms-1"></i>
                   </a>
-                  <button type="button" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption"
+                  <button type="button" class="btn btn-sm btn-outline-primary py-1 px-2 fs-caption docente-only"
                           onclick="prepararDemandaParaAlvoDocente('curso${cursoId}', '')">
                     <i class="fa-solid fa-bullhorn me-1"></i> Comunicar ao Curso ${cursoId}
                   </button>
@@ -4133,6 +4491,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                   const membros = f.membros || [];
                   const link = (membros.find(m => m.linkEntrega && m.linkEntrega.trim()) || {}).linkEntrega || '';
                   const opcoesAlunos = semFrente.map(a => `<option value="${escapeHtml(a.id)}">+ Alocar: ${escapeHtml(a.nome)}</option>`).join('');
+                  const souMembro = usuarioLogadoGoogle && (
+                    (usuarioLogadoGoogle.alunoId && membros.some(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId))) ||
+                    (usuarioLogadoGoogle.matricula && membros.some(m => String(m.matricula) === String(usuarioLogadoGoogle.matricula)))
+                  );
                   return `
                     <div class="p-2 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color);">
                       <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mb-1">
@@ -4142,7 +4504,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                         </div>
                         <div class="d-flex align-items-center gap-1">
                           <a href="${escapeHtml(f.roteiroPdf || '#')}" target="_blank" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-label">PDF</a>
-                          <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label"
+                          <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label docente-only"
                                   onclick="prepararDemandaParaAlvoDocente('frente_snct', '${f.id}')">
                             <i class="bi bi-send"></i> Demanda p/ Frente
                           </button>
@@ -4152,22 +4514,34 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                         ${membros.length > 0 ? membros.map(m => `
                           <span class="alvo-chip entregue">
                             <i class="bi bi-person-check-fill"></i> ${escapeHtml(m.nome)}
-                            <button type="button" class="btn btn-link btn-sm text-danger p-0 ms-1" title="Remover da frente"
-                                    onclick="desistirCandidaturaSNCT('${f.id}', '${m.alunoId}')"><i class="bi bi-x"></i></button>
+                            ${ehDocente ? `
+                              <button type="button" class="btn btn-link btn-sm text-danger p-0 ms-1" title="Remover da frente"
+                                      onclick="desistirCandidaturaSNCT('${f.id}', '${m.alunoId}')"><i class="bi bi-x"></i></button>
+                            ` : ''}
                           </span>
                         `).join('') : '<span class="fs-caption text-danger">Nenhum integrante escalado ainda.</span>'}
                       </div>
                       <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-1 pt-1 border-top">
-                        <div class="fs-caption">
-                          ${link ? `<a href="${escapeHtml(link)}" target="_blank" class="text-success fw-bold"><i class="bi bi-link-45deg"></i> Abrir Entrega (GitHub/Moodle)</a>` : '<span class="text-muted">Sem link de entrega</span>'}
+                        <div class="fs-caption d-flex align-items-center gap-2 flex-wrap">
+                          ${link ? `<a href="${escapeHtml(link)}" target="_blank" class="text-success fw-bold"><i class="bi bi-link-45deg"></i> Abrir Entrega</a>` : '<span class="text-muted">Sem link de entrega</span>'}
+                          ${souMembro ? `
+                            <button type="button" class="btn btn-sm btn-outline-success py-0 px-2 fs-label"
+                                    onclick="editarLinkEntregaSNCT('${f.id}')">
+                              <i class="bi bi-pencil-square me-1"></i> ${link ? 'Alterar Link da Frente' : 'Entregar Link'}
+                            </button>
+                          ` : ''}
                         </div>
-                        ${membros.length < 3 ? `
-                          <select class="form-select form-select-sm py-0" style="max-width: 210px; font-size: 12px;"
-                                  onchange="alocarAlunoEmFrenteDocente('${f.id}', this)">
-                            <option value="">+ Alocar estudante manualmente...</option>
-                            ${opcoesAlunos}
-                          </select>
-                        ` : '<span class="badge bg-success-subtle text-success fs-label">Trio Completo</span>'}
+                        ${ehDocente ? (
+                          membros.length < 3 ? `
+                            <select class="form-select form-select-sm py-0 docente-only" style="max-width: 210px; font-size: 12px;"
+                                    onchange="alocarAlunoEmFrenteDocente('${f.id}', this)">
+                              <option value="">+ Alocar estudante manualmente...</option>
+                              ${opcoesAlunos}
+                            </select>
+                          ` : '<span class="badge bg-success-subtle text-success fs-label">Trio Completo</span>'
+                        ) : (
+                          membros.length >= 3 ? '<span class="badge bg-success-subtle text-success fs-label">Trio Completo</span>' : '<span class="badge bg-secondary-subtle text-muted fs-label">Vaga(s) Disponível(is)</span>'
+                        )}
                       </div>
                     </div>
                   `;
@@ -4195,7 +4569,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               <th>Curso &amp; Frente na SNCT</th>
               <th>Link SNCT / Moodle</th>
               <th>Demandas Entregues</th>
-              <th class="text-end">Ação Direta Docente</th>
+              <th class="text-end docente-only">Ação Direta Docente</th>
             </tr>
           </thead>
           <tbody>
@@ -4229,7 +4603,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                       ${entreguesAluno} / ${demandasDoAluno.length}
                     </span>
                   </td>
-                  <td class="text-end">
+                  <td class="text-end docente-only">
                     <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label"
                             onclick="prepararDemandaParaAlvoDocente('aluno_individual', '${escapeHtml(a.id)}')">
                       <i class="fa-solid fa-paper-plane me-1"></i> Demanda / Recado Individual
@@ -4657,13 +5031,28 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         const sessaoSalva = localStorage.getItem(STORAGE_KEY_GOOGLE_SESSION);
         if (sessaoSalva) {
           usuarioLogadoGoogle = JSON.parse(sessaoSalva);
-          if (usuarioLogadoGoogle && !usuarioLogadoGoogle.alunoId) {
-            const matchReparo = localizarEstudanteNoRoster(usuarioLogadoGoogle.email || '', usuarioLogadoGoogle.nome || '');
-            if (matchReparo) {
-              usuarioLogadoGoogle.alunoId = String(matchReparo.id);
-              usuarioLogadoGoogle.matricula = String(matchReparo.matricula || '');
-              usuarioLogadoGoogle.nome = matchReparo.nome;
-              localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
+          if (usuarioLogadoGoogle) {
+            const isDocente = ehProfessor(usuarioLogadoGoogle);
+            usuarioLogadoGoogle.ehDocente = isDocente;
+            if (!usuarioLogadoGoogle.alunoId && !isDocente) {
+              const matchReparo = localizarEstudanteNoRoster(usuarioLogadoGoogle.email || '', usuarioLogadoGoogle.nome || '');
+              if (matchReparo) {
+                usuarioLogadoGoogle.alunoId = String(matchReparo.id);
+                usuarioLogadoGoogle.matricula = String(matchReparo.matricula || '');
+                usuarioLogadoGoogle.nome = matchReparo.nome;
+                localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
+              }
+            }
+            if (isDocente) {
+              if (localStorage.getItem(STORAGE_KEY_MODO_DOCENTE) === 'true') {
+                document.body.classList.add('modo-docente-ativo');
+                atualizarUIModoDocente(true);
+              }
+            } else {
+              // Estudante nunca entra no modo docente
+              document.body.classList.remove('modo-docente-ativo');
+              localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'false');
+              atualizarUIModoDocente(false);
             }
           }
           atualizarInterfaceUsuarioGoogle();
@@ -4777,6 +5166,27 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     }
 
     function autenticarEstudantePorEmailManual(emailDigitado) {
+      if (ehProfessor(emailDigitado)) {
+        usuarioLogadoGoogle = {
+          nome: 'Prof. André Moraes',
+          email: emailDigitado,
+          ehDocente: true,
+          origem: 'manual'
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
+          localStorage.setItem(STORAGE_KEY_DOCENTE_AUTH, 'true');
+          localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'true');
+        } catch (e) {}
+        document.body.classList.add('modo-docente-ativo');
+        atualizarUIModoDocente(true);
+        atualizarInterfaceUsuarioGoogle();
+        renderizarAreaDocente();
+        renderizarCardMinhaFrenteEstudante();
+        showToast("Identificação Docente", "Bem-vindo(a), Prof. André Moraes! Controles liberados.", "fa-solid fa-chalkboard-user text-warning");
+        return;
+      }
+
       const alunoMatch = localizarEstudanteNoRoster(emailDigitado, emailDigitado);
 
       if (alunoMatch) {
@@ -4785,16 +5195,23 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           email: alunoMatch.email,
           alunoId: String(alunoMatch.id),
           matricula: String(alunoMatch.matricula || ''),
+          ehDocente: false,
           origem: 'manual'
         };
         try {
           localStorage.setItem(STORAGE_KEY_GOOGLE_SESSION, JSON.stringify(usuarioLogadoGoogle));
           localStorage.setItem(STORAGE_KEY_ULTIMO_VOTANTE, String(alunoMatch.id));
+          localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'false');
+          localStorage.removeItem(STORAGE_KEY_DOCENTE_AUTH);
         } catch (e) {}
+        document.body.classList.remove('modo-docente-ativo');
         alunoVotanteAtualId = String(alunoMatch.id);
+        atualizarUIModoDocente(false);
         atualizarInterfaceUsuarioGoogle();
         popularSelectEstudantesVotacao();
         renderizarPainelVotacao();
+        renderizarAreaDocente();
+        renderizarCardMinhaFrenteEstudante();
         showToast("Identificação Concluída!", `Bem-vindo(a), ${alunoMatch.nome.split(' ')[0]}! Suas candidaturas, votos e entregas estão liberados.`, "bi bi-person-check-fill text-success");
       } else {
         alert(`Não localizamos "${emailDigitado}" na lista dos 24 estudantes matriculados. Tente digitar seu número de matrícula do SIGAA ou seu nome completo.`);
@@ -4812,20 +5229,22 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const emailGoogle = payload.email.toLowerCase().trim();
       const nomeGoogle = payload.name || payload.given_name || '';
+      const isProf = ehProfessor(emailGoogle);
 
-      let alunoMatch = localizarEstudanteNoRoster(emailGoogle, nomeGoogle);
+      let alunoMatch = !isProf ? localizarEstudanteNoRoster(emailGoogle, nomeGoogle) : null;
 
       usuarioLogadoGoogle = {
-        nome: alunoMatch ? alunoMatch.nome : (nomeGoogle || 'Estudante'),
+        nome: isProf ? 'Prof. André Moraes' : (alunoMatch ? alunoMatch.nome : (nomeGoogle || 'Estudante')),
         email: payload.email,
         picture: payload.picture || '',
         sub: payload.sub,
         alunoId: alunoMatch ? String(alunoMatch.id) : '',
         matricula: alunoMatch ? String(alunoMatch.matricula || '') : '',
+        ehDocente: isProf,
         origem: 'google'
       };
 
-      if (!alunoMatch) {
+      if (!alunoMatch && !isProf) {
         const matriculaInput = prompt(`Conta Google conectada: ${payload.email}\nDigite sua matrícula do SIGAA ou seu nome completo para vincular ao seu perfil da turma:`);
         if (matriculaInput && matriculaInput.trim()) {
           const buscaManual = localizarEstudanteNoRoster(matriculaInput.trim(), matriculaInput.trim());
@@ -4836,6 +5255,22 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             usuarioLogadoGoogle.nome = alunoMatch.nome;
           }
         }
+      }
+
+      if (isProf) {
+        document.body.classList.add('modo-docente-ativo');
+        try {
+          localStorage.setItem(STORAGE_KEY_DOCENTE_AUTH, 'true');
+          localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'true');
+        } catch (e) {}
+        atualizarUIModoDocente(true);
+      } else {
+        document.body.classList.remove('modo-docente-ativo');
+        try {
+          localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'false');
+          localStorage.removeItem(STORAGE_KEY_DOCENTE_AUTH);
+        } catch (e) {}
+        atualizarUIModoDocente(false);
       }
 
       if (alunoMatch) {
@@ -4852,11 +5287,13 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       atualizarInterfaceUsuarioGoogle();
       popularSelectEstudantesVotacao();
       renderizarPainelVotacao();
+      renderizarAreaDocente();
+      renderizarCardMinhaFrenteEstudante();
 
       showToast(
-        "Login Google Realizado!",
-        `Bem-vindo(a), ${usuarioLogadoGoogle.nome.split(' ')[0]}! Identificação ativa para candidaturas, entregas e votação.`,
-        "bi bi-google text-primary"
+        isProf ? "Login Docente Realizado!" : "Login Google Realizado!",
+        isProf ? "Bem-vindo, Prof. André Moraes! Painel administrativo disponível." : `Bem-vindo(a), ${usuarioLogadoGoogle.nome.split(' ')[0]}! Identificação ativa para candidaturas, entregas e votação.`,
+        isProf ? "fa-solid fa-chalkboard-user text-warning" : "bi bi-google text-primary"
       );
     }
 
@@ -4874,14 +5311,14 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const avatarVotacao = document.getElementById('avatarAuthVotacao');
       const iconeWrapperVotacao = document.getElementById('iconeWrapperAuthVotacao');
 
-      if (usuarioLogadoGoogle && usuarioLogadoGoogle.alunoId) {
+      if (usuarioLogadoGoogle && (usuarioLogadoGoogle.alunoId || usuarioLogadoGoogle.ehDocente)) {
         if (btnHeader) btnHeader.classList.add('d-none');
         if (badgeHeader) {
           badgeHeader.classList.remove('d-none');
           badgeHeader.classList.add('d-inline-flex');
         }
         if (nameHeader) {
-          const primeiroNome = usuarioLogadoGoogle.nome.split(' ')[0];
+          const primeiroNome = usuarioLogadoGoogle.ehDocente ? 'Prof. André' : usuarioLogadoGoogle.nome.split(' ')[0];
           nameHeader.textContent = primeiroNome;
           nameHeader.title = `${usuarioLogadoGoogle.nome} (${usuarioLogadoGoogle.email})`;
         }
@@ -4891,6 +5328,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           if (iconHeader) iconHeader.style.display = 'none';
         } else if (iconHeader) {
           iconHeader.style.display = 'inline-block';
+          iconHeader.className = usuarioLogadoGoogle.ehDocente ? 'fa-solid fa-chalkboard-user text-warning' : 'bi bi-person-check-fill text-success';
           if (picHeader) picHeader.style.display = 'none';
         }
 
@@ -4904,7 +5342,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           nomeVotacao.textContent = usuarioLogadoGoogle.nome;
         }
         if (detalhesVotacao) {
-          detalhesVotacao.textContent = `Matrícula: ${usuarioLogadoGoogle.matricula || 'N/A'} | E-mail: ${usuarioLogadoGoogle.email}`;
+          detalhesVotacao.textContent = usuarioLogadoGoogle.ehDocente
+            ? `Professor da Disciplina | E-mail: ${usuarioLogadoGoogle.email}`
+            : `Matrícula: ${usuarioLogadoGoogle.matricula || 'N/A'} | E-mail: ${usuarioLogadoGoogle.email}`;
         }
         if (avatarVotacao && usuarioLogadoGoogle.picture) {
           avatarVotacao.src = usuarioLogadoGoogle.picture;
@@ -4932,6 +5372,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarCardHeroRoteirosSNCT();
       renderizarQuadroDemandasSNCT();
       renderizarDemandas();
+      renderizarCardMinhaFrenteEstudante();
     }
 
     function efetuarLogoutGoogle() {
@@ -4940,11 +5381,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       try {
         localStorage.removeItem(STORAGE_KEY_GOOGLE_SESSION);
         localStorage.removeItem(STORAGE_KEY_ULTIMO_VOTANTE);
+        localStorage.removeItem(STORAGE_KEY_DOCENTE_AUTH);
+        localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'false');
       } catch (e) {}
 
+      document.body.classList.remove('modo-docente-ativo');
+      atualizarUIModoDocente(false);
       atualizarInterfaceUsuarioGoogle();
       popularSelectEstudantesVotacao();
       renderizarPainelVotacao();
+      renderizarAreaDocente();
+      renderizarCardMinhaFrenteEstudante();
 
       showToast(
         "Sessão Encerrada",
@@ -5659,16 +6106,19 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       if (tabId === 'tab-demandas') {
         renderizarDemandas();
+        renderizarCardMinhaFrenteEstudante();
         sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-extensao') {
         renderizarQuadroDemandasSNCT();
         renderizarPainelVotacao();
+        renderizarCardMinhaFrenteEstudante();
         sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-avaliacao') {
         trocarSubAbaNotas(subabaNotasAtual);
         sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-docente') {
         renderizarAreaDocente();
+        renderizarCardMinhaFrenteEstudante();
         sincronizarComBackendAppsScript(false);
       }
     }
@@ -5847,6 +6297,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarCardHeroRoteirosSNCT();
       initDestaqueCards();
       initGoogleAuth();
+      renderizarCardMinhaFrenteEstudante();
       sincronizarComBackendAppsScript(false);
 
       if (window.PROGWEB2_CONFIG && window.PROGWEB2_CONFIG.syncIntervalMs) {
@@ -5872,6 +6323,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 // =========================================================================
 const funcoesGlobais = {
   abrirAreaDocenteDireto,
+  abrirPainelFrentesGestao,
   abrirModalAlterarPrazoDemanda,
   abrirModalAuditoriaVotos,
   abrirModalAvaliarRubrica,
@@ -5936,6 +6388,7 @@ const funcoesGlobais = {
   registrarVoto,
   reiniciarVotacao,
   renderizarAreaDocente,
+  renderizarCardMinhaFrenteEstudante,
   renderizarTabelaRubricas,
   restaurarDemandasPadrao,
   restaurarDemandasPadraoSNCT,
@@ -5947,6 +6400,7 @@ const funcoesGlobais = {
   selecionarNivelRubrica,
   showTab,
   sincronizarComBackendAppsScript,
+  solicitarAcessoDocente,
   toggleModoDocente,
   toggleTheme,
   trocarSubAbaNotas

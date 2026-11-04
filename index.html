@@ -2496,11 +2496,11 @@
         <button class="theme-toggle-btn" onclick="sincronizarComBackendAppsScript(true)" id="btnSyncHeader" title="Sincronizar votos, candidaturas e entregas em tempo real com a planilha Google Sheets" style="border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600;">
           <i class="bi bi-arrow-repeat" id="iconSyncHeader"></i> <span id="statusSyncHeader">Sincronizar Agora</span>
         </button>
-        <button class="theme-toggle-btn" onclick="abrirAreaDocenteDireto()" title="Abrir Painel Administrativo Docente e Comunicação com a Turma" style="border-color: var(--accent-emerald); color: var(--accent-emerald); font-weight: 700;">
-          <i class="fa-solid fa-sliders"></i> <span>Painel Docente</span>
+        <button class="theme-toggle-btn" onclick="abrirPainelFrentesGestao()" id="btnHeaderFrentes" title="Acompanhar distribuição das frentes, trios e entregáveis da SNCT" style="border-color: var(--accent-emerald); color: var(--accent-emerald); font-weight: 600;">
+          <i class="bi bi-kanban"></i> <span>Painel de Frentes</span>
         </button>
-        <button class="theme-toggle-btn" onclick="toggleModoDocente()" id="btnModoDocente" title="Alternar entre visão do Professor e visão do Aluno" style="border-color: var(--accent-amber); color: var(--accent-amber);">
-          <i class="fa-solid fa-chalkboard-user"></i> <span id="modoDocenteText">Modo Docente (Ativo)</span>
+        <button class="theme-toggle-btn" onclick="solicitarAcessoDocente()" id="btnModoDocente" title="Acesso restrito ao Professor André Moraes" style="border-color: var(--border-color); color: var(--text-muted);">
+          <i class="fa-solid fa-chalkboard-user"></i> <span id="modoDocenteText">Acesso Docente</span>
         </button>
         <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Alternar entre tema claro e escuro">
           <i class="bi bi-moon-stars-fill" id="themeIcon"></i> <span id="themeText">Modo Escuro</span>
@@ -2580,8 +2580,8 @@
       <button class="tab-btn" onclick="showTab('tab-sigaa')">
         <i class="bi bi-mortarboard-fill"></i> 7. Central de Tarefas do SIGAA
       </button>
-      <button class="tab-btn" onclick="showTab('tab-docente')" style="border-color: rgba(217, 119, 6, 0.45);">
-        <i class="fa-solid fa-chalkboard-user text-warning"></i> 8. Área Docente &amp; Painel de Controle
+      <button class="tab-btn" onclick="showTab('tab-docente')" id="tabBtnDocente" style="border-color: rgba(217, 119, 6, 0.45);">
+        <i class="fa-solid fa-chalkboard-user text-warning"></i> <span id="tabBtnDocenteTitulo">8. Painel de Frentes &amp; Gestão SNCT</span>
       </button>
     </div>
 
@@ -3231,6 +3231,9 @@
             </button>
           </div>
         </div>
+
+        <!-- CARD PERSONALIZADO: MINHA FRENTE & MEU ENTREGÁVEL SNCT -->
+        <div id="cardMinhaFrenteContainerExtensao" class="mb-3"></div>
 
         <!-- =====================================================================
              ROTEIRO DE ATIVIDADES E JORNADA OPERACIONAL DA SNCT (NO TOPO!)
@@ -4057,8 +4060,11 @@
             <button onclick="sincronizarComBackendAppsScript(true)" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Sincronizar entregas e demandas com a planilha Google Sheets agora">
               <i class="bi bi-arrow-repeat"></i> Atualizar Entregas
             </button>
-            <button onclick="showTab('tab-docente')" class="btn-action btn-primary-action" style="background: var(--accent-amber); border-color: var(--accent-amber); color: #fff;">
-              <i class="fa-solid fa-sliders"></i> Abrir Área Docente &amp; Comunicar à Turma
+            <button onclick="showTab('tab-docente')" class="btn-action btn-outline-action" title="Acompanhar distribuição das frentes, trios e entregáveis da SNCT">
+              <i class="bi bi-kanban me-1"></i> Painel de Frentes SNCT
+            </button>
+            <button onclick="showTab('tab-docente')" class="btn-action btn-primary-action docente-only" style="background: var(--accent-amber); border-color: var(--accent-amber); color: #fff;">
+              <i class="fa-solid fa-sliders me-1"></i> Painel Docente &amp; Comunicados
             </button>
             <button onclick="abrirModalNovaDemanda()" class="btn-action btn-outline-action docente-only">
               <i class="fa-solid fa-plus-circle"></i> + Modal Rápido de Demanda
@@ -4071,6 +4077,9 @@
 
         <!-- MURAL DE COMUNICADOS & ORIENTAÇÕES DO PROFESSOR -->
         <div id="muralComunicadosDemandas" class="mb-3"></div>
+
+        <!-- CARD PERSONALIZADO: MINHA FRENTE & MEU ENTREGÁVEL SNCT -->
+        <div id="cardMinhaFrenteContainerDemandas" class="mb-3"></div>
 
         <!-- STATS GRID -->
         <div class="demandas-stats-grid">
@@ -5041,22 +5050,28 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
       </div>
     </div>
 
-    <!-- ABA 8: ÁREA DOCENTE — PAINEL DE CONTROLE ADMINISTRATIVO & COMUNICAÇÃO POR DEMANDAS -->
+    <!-- ABA 8: PAINEL DE FRENTES & GESTÃO SNCT (VISÃO DA TURMA + ÁREA DOCENTE) -->
     <div class="tab-pane" id="tab-docente">
       <div class="panel-card">
+        <!-- CARD PERSONALIZADO: MINHA FRENTE & MEU ENTREGÁVEL SNCT -->
+        <div id="cardMinhaFrenteContainerDocente" class="mb-3"></div>
+
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3 pb-3 border-bottom">
           <div>
-            <span class="badge-pill badge-pill-amber mb-1"><i class="fa-solid fa-chalkboard-user me-1"></i> CENTRAL DE COMANDO DO PROFESSOR</span>
-            <h2 class="panel-title mb-1"><i class="fa-solid fa-sliders text-warning me-1"></i> Área Docente: Controle Administrativo &amp; Comunicação via Demandas</h2>
+            <span class="badge-pill badge-pill-amber mb-1"><i class="fa-solid fa-chalkboard-user me-1"></i> PAINEL DE FRENTES &amp; GESTÃO SNCT</span>
+            <h2 class="panel-title mb-1"><i class="fa-solid fa-kanban text-warning me-1"></i> Acompanhamento Geral das Frentes &amp; Equipes da SNCT 2026</h2>
             <p class="panel-subtitle mb-0">
-              Acompanhe em tempo real o andamento separado do <strong>Curso 1</strong> e do <strong>Curso 2 (Painel Verde)</strong>, gerencie alocações dos 24 estudantes e envie demandas/comunicados diretos para toda a turma, cursos, grupos ou alunos individuais.
+              Visão transparente para a turma: acompanhe a distribuição dos 24 estudantes nas 8 frentes do <strong>Curso 1</strong> e <strong>Curso 2</strong>, links de entrega e salas do Moodle. Ações administrativas completas são exclusivas do professor.
             </p>
           </div>
           <div class="d-flex align-items-center gap-2 flex-wrap">
-            <button type="button" onclick="sincronizarComBackendAppsScript()" class="btn-action btn-outline-action" title="Buscar últimas candidaturas, votos e links da planilha Google">
+            <button type="button" onclick="solicitarAcessoDocente()" class="btn-action btn-outline-action" id="btnDesbloquearDocenteAba" title="Alternar entre visão do estudante e modo administrativo docente">
+              <i class="fa-solid fa-lock me-1"></i> <span id="txtBtnDesbloquearDocenteAba">Acesso Docente</span>
+            </button>
+            <button type="button" onclick="sincronizarComBackendAppsScript()" class="btn-action btn-outline-action docente-only" title="Buscar últimas candidaturas, votos e links da planilha Google">
               <i class="bi bi-arrow-repeat me-1"></i> Sincronizar Planilha Agora
             </button>
-            <button type="button" onclick="cobrarCandidaturasPendentesEmail()" class="btn-action btn-outline-action" style="border-color: var(--accent-rose); color: var(--accent-rose);">
+            <button type="button" onclick="cobrarCandidaturasPendentesEmail()" class="btn-action btn-outline-action docente-only" style="border-color: var(--accent-rose); color: var(--accent-rose);">
               <i class="bi bi-envelope-exclamation me-1"></i> Cobrar Sem Frente por E-mail
             </button>
           </div>
@@ -5067,8 +5082,8 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           <!-- Renderizado via JS -->
         </div>
 
-        <!-- BLOCO 1: COMUNICAÇÃO DIRETA COM A TURMA ATRAVÉS DAS DEMANDAS -->
-        <div class="p-3 rounded-3 mb-4" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-blue);">
+        <!-- BLOCO 1: COMUNICAÇÃO DIRETA COM A TURMA ATRAVÉS DAS DEMANDAS (EXCLUSIVO DOCENTE) -->
+        <div class="p-3 rounded-3 mb-4 docente-only" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-blue);">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
             <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
               <i class="fa-solid fa-bullhorn text-primary me-2"></i>1. Comunicar à Turma / Disparar Demanda Direcionada
