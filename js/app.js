@@ -4123,25 +4123,231 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       containers.forEach(c => { c.innerHTML = htmlDeslogado; });
     }
 
+    // =========================================================================
+    // MURAL INTEGRADO: DEMANDAS DO PROFESSOR vs RECADOS DAS EQUIPES (ESTUDANTES)
+    // =========================================================================
+    let filtroCursoRecadosMural = 'todos';
+
+    function ehRecadoEquipe(d) {
+      if (!d) return false;
+      if (d.tipo === 'recado_equipe') return true;
+      if (d.id && d.id.startsWith('REC-')) return true;
+      if (['DEM-08', 'DEM-09', 'DEM-10', 'DEM-11'].includes(d.id)) return true;
+      if (d.origem === 'estudante') return true;
+      // Demanda com link de forms/pages compartilhado sem critérios de nota formal
+      if (d.linkApoio && (d.linkApoio.includes('forms.gle') || d.linkApoio.includes('github.io') || d.linkApoio.includes('feedback'))) return true;
+      return false;
+    }
+
+    function normalizarRecadoEquipe(d) {
+      if (d.id === 'DEM-08' || d.id === 'DEM-09') {
+        d.cursoSnctAlvo = 1;
+        d.autorNome = d.autorNome || 'Frente 4 (Monitoria & Logística)';
+        d.destinatario = d.destinatario || 'Curso 1 · Slides-Guia de Projeção (8 Telas)';
+      } else if (d.id === 'DEM-10') {
+        d.cursoSnctAlvo = 2;
+        d.autorNome = d.autorNome || 'Frente 2 (Starter Kit & GitHub)';
+        d.destinatario = d.destinatario || 'Equipes do Curso 2 SNCT (Painel Verde)';
+      } else if (d.id === 'DEM-11') {
+        d.cursoSnctAlvo = 2;
+        d.autorNome = d.autorNome || 'Pietro Caetano Fleith';
+        d.destinatario = d.destinatario || 'Equipes do Curso 2 SNCT (Painel Verde)';
+      }
+      return d;
+    }
+
+    function filtrarRecadosMural(filtro) {
+      filtroCursoRecadosMural = filtro;
+      renderizarMuralComunicadosDocente();
+    }
+
+    function abrirModalNovoRecadoEquipe() {
+      const modal = document.getElementById('modalRecadoEquipeOverlay');
+      if (!modal) return;
+      modal.classList.add('active');
+
+      const infoAutor = document.getElementById('infoAutorRecadoModal');
+      if (infoAutor) {
+        if (usuarioLogadoGoogle) {
+          infoAutor.innerHTML = `<i class="bi bi-person-check-fill text-success me-1"></i> Publicando como: <strong>${escapeHtml(usuarioLogadoGoogle.nome)}</strong> (${escapeHtml(usuarioLogadoGoogle.email)})`;
+        } else {
+          infoAutor.innerHTML = `<i class="bi bi-info-circle text-warning me-1"></i> Você não está identificado. <button type="button" class="btn btn-link btn-sm p-0" onclick="iniciarLoginGoogle()">Identificar-se agora</button> para assinar seu recado.`;
+        }
+      }
+
+      if (usuarioLogadoGoogle) {
+        const frenteAluno = demandasSnctApp.find(f =>
+          (f.membros || []).some(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)))
+        );
+        if (frenteAluno) {
+          const selCurso = document.getElementById('recadoCursoId');
+          if (selCurso) {
+            selCurso.value = String(frenteAluno.cursoId);
+            aoMudarCursoModalRecado();
+          }
+        }
+      }
+    }
+
+    function fecharModalRecadoEquipe() {
+      const modal = document.getElementById('modalRecadoEquipeOverlay');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function aoMudarCursoModalRecado() {
+      const cursoId = document.getElementById('recadoCursoId').value;
+      const selDest = document.getElementById('recadoDestinatario');
+      if (!selDest) return;
+
+      if (cursoId === '1') {
+        selDest.innerHTML = `
+          <option value="Todas as equipes do Curso 1">Todas as equipes do Curso 1</option>
+          <option value="Curso 1 · Frente 3 (Slides-Guia)">Frente 3 · Slides-Guia (8 Telas)</option>
+          <option value="Curso 1 · Frente 2 (Starter Kit)">Frente 2 · Starter Kit &amp; Código Base</option>
+          <option value="Curso 1 · Frente 1 (Didática)">Frente 1 · Didática &amp; Roteiro Cirúrgico</option>
+          <option value="Curso 1 · Frente 4 (Monitoria)">Frente 4 · Monitoria &amp; Logística</option>
+          <option value="Toda a Turma (24 estudantes)">Toda a Turma (24 estudantes)</option>
+        `;
+      } else if (cursoId === '2') {
+        selDest.innerHTML = `
+          <option value="Todas as equipes do Curso 2">Todas as equipes do Curso 2</option>
+          <option value="Curso 2 · Frente 3 (Slides-Guia)">Frente 3 · Slides-Guia Painel Verde</option>
+          <option value="Curso 2 · Frente 2 (Starter Kit)">Frente 2 · Starter Kit &amp; Ecopontos</option>
+          <option value="Curso 2 · Frente 1 (Didática)">Frente 1 · Didática &amp; Roteiro</option>
+          <option value="Curso 2 · Frente 4 (Monitoria)">Frente 4 · Monitoria &amp; Logística</option>
+          <option value="Toda a Turma (24 estudantes)">Toda a Turma (24 estudantes)</option>
+        `;
+      } else {
+        selDest.innerHTML = `
+          <option value="Toda a Turma (24 estudantes)">Toda a Turma (24 estudantes)</option>
+          <option value="Equipes do Curso 1">Equipes do Curso 1</option>
+          <option value="Equipes do Curso 2">Equipes do Curso 2</option>
+        `;
+      }
+    }
+
+    async function salvarRecadoEquipe(event) {
+      if (event) event.preventDefault();
+      const cursoId = parseInt(document.getElementById('recadoCursoId').value, 10);
+      const destinatario = document.getElementById('recadoDestinatario').value;
+      const titulo = document.getElementById('recadoTitulo').value.trim();
+      const linkApoio = document.getElementById('recadoLink').value.trim();
+      const descricao = document.getElementById('recadoMensagem').value.trim();
+
+      if (!titulo || !descricao) {
+        showToast('Campos Obrigatórios', 'Preencha o título e a mensagem do recado.', 'bi bi-exclamation-triangle text-warning');
+        return;
+      }
+
+      const autorNome = usuarioLogadoGoogle ? usuarioLogadoGoogle.nome : 'Estudante da Turma';
+      const autorEmail = usuarioLogadoGoogle ? usuarioLogadoGoogle.email : '';
+      const autorMatricula = usuarioLogadoGoogle ? (usuarioLogadoGoogle.matricula || '') : '';
+      const autorEhDocente = Boolean(usuarioLogadoGoogle && usuarioLogadoGoogle.ehDocente);
+
+      const codigo = 'REC-' + (demandasApp.filter(d => d.tipo === 'recado_equipe' || d.id.startsWith('REC-')).length + 1).toString().padStart(2, '0');
+
+      const novoRecado = {
+        id: codigo,
+        titulo,
+        descricao,
+        linkApoio,
+        destinatario,
+        cursoSnctAlvo: cursoId > 0 ? cursoId : null,
+        tipo: 'recado_equipe',
+        origem: autorEhDocente ? 'docente' : 'estudante',
+        autorNome,
+        autorEmail,
+        autorMatricula,
+        dataEnvio: new Date().toLocaleDateString('pt-BR') + ' às ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        fixadaMural: true,
+        concluida: false
+      };
+
+      demandasApp.unshift(novoRecado);
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      fecharModalRecadoEquipe();
+
+      document.getElementById('recadoTitulo').value = '';
+      document.getElementById('recadoLink').value = '';
+      document.getElementById('recadoMensagem').value = '';
+
+      showToast('Recado Publicado!', 'Seu recado foi adicionado ao Mural de Articulação das Equipes.', 'bi bi-chat-quote-fill text-success');
+
+      chamarApiAppsScript('publicar_demanda', {
+        demandaId: codigo,
+        titulo: `[Recado Equipe] ${titulo}`,
+        instrumento: 'A2',
+        destinatario,
+        prazo: '2026-11-26',
+        descricao: `Recado postado por ${autorNome}:\n${descricao}${linkApoio ? `\nLink: ${linkApoio}` : ''}`,
+        linkApoio,
+        notificarEmail: false
+      }).catch(() => {});
+    }
+
+    function excluirRecadoEquipe(recadoId) {
+      const recado = demandasApp.find(d => d.id === recadoId);
+      if (!recado) return;
+
+      const ehDocente = document.body.classList.contains('modo-docente-ativo');
+      const ehMeu = usuarioLogadoGoogle && (
+        (usuarioLogadoGoogle.email && recado.autorEmail && usuarioLogadoGoogle.email.toLowerCase() === recado.autorEmail.toLowerCase()) ||
+        (usuarioLogadoGoogle.nome && recado.autorNome && usuarioLogadoGoogle.nome === recado.autorNome) ||
+        (recado.id.includes('DEM-11') && usuarioLogadoGoogle.nome.includes('Pietro'))
+      );
+
+      if (!ehDocente && !ehMeu) {
+        alert("Você só pode excluir recados criados por você mesmo ou pelo professor.");
+        return;
+      }
+
+      const confirma = confirm(`Deseja remover este recado ("${recado.titulo}") do mural?`);
+      if (!confirma) return;
+
+      demandasApp = demandasApp.filter(d => d.id !== recadoId);
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      showToast('Recado Removido', 'O recado foi removido do mural.', 'bi bi-trash text-muted');
+    }
+
     function renderizarMuralComunicadosDocente() {
-      const fixadas = demandasApp.filter(d => !d.concluida && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
-      const htmlMural = fixadas.length === 0 ? '' : `
-        <div class="p-3 rounded-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
+      // 1. Demandas Oficiais do Professor
+      const demandasOficiais = demandasApp.filter(d => !d.concluida && !ehRecadoEquipe(d) && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
+
+      // 2. Recados das Equipes / Estudantes
+      const recadosEquipes = demandasApp
+        .filter(d => !d.concluida && ehRecadoEquipe(d))
+        .map(normalizarRecadoEquipe);
+
+      const recadosC1 = recadosEquipes.filter(r => r.cursoSnctAlvo === 1 || (r.destinatario && r.destinatario.includes('Curso 1')));
+      const recadosC2 = recadosEquipes.filter(r => r.cursoSnctAlvo === 2 || (r.destinatario && (r.destinatario.includes('Curso 2') || r.destinatario.includes('Painel Verde'))));
+
+      let recadosFiltrados = recadosEquipes;
+      if (filtroCursoRecadosMural === 'curso1') {
+        recadosFiltrados = recadosC1;
+      } else if (filtroCursoRecadosMural === 'curso2') {
+        recadosFiltrados = recadosC2;
+      }
+
+      // Bloco do Professor
+      const htmlDocente = demandasOficiais.length === 0 ? '' : `
+        <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
             <div class="d-flex align-items-center gap-2">
               <span class="badge bg-warning text-dark"><i class="fa-solid fa-bullhorn me-1"></i> MURAL DO PROFESSOR — DEMANDAS &amp; ORIENTAÇÕES DA SEMANA</span>
-              <span class="fs-caption text-muted">Atividades independentes para Curso 1 e Curso 2</span>
+              <span class="fs-caption text-muted">Orientações didáticas oficiais de execução</span>
             </div>
             <button type="button" onclick="showTab('tab-docente')" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-caption docente-only">
               <i class="fa-solid fa-sliders me-1"></i> Gerenciar na Área Docente
             </button>
           </div>
           <div class="row g-2">
-            ${fixadas.slice(0, 4).map(d => {
+            ${demandasOficiais.map(d => {
               const st = calcularStatusPrazo(d.prazo, d.concluida, d.horaPrazo);
               const corBorda = d.cursoSnctAlvo === 1 ? 'var(--accent-blue)' : (d.cursoSnctAlvo === 2 ? 'var(--accent-emerald)' : 'var(--accent-amber)');
               return `
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-6">
                   <div class="p-2 rounded h-100 d-flex flex-column justify-content-between" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid ${corBorda};">
                     <div>
                       <div class="d-flex justify-content-between align-items-center gap-1 mb-1">
@@ -4159,7 +4365,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                             <i class="bi ${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'bi-mortarboard-fill' : (d.linkApoio.endsWith('.pdf') ? 'bi-file-earmark-pdf' : 'bi-box-arrow-up-right')} me-1"></i>${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'Moodle' : (d.linkApoio.endsWith('.pdf') ? 'Guia PDF' : 'Recurso')}
                           </a>
                         ` : ''}
-                        <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label">Ver entrega</button>
+                        <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label">Ver detalhes</button>
                       </div>
                     </div>
                   </div>
@@ -4170,11 +4376,117 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         </div>
       `;
 
+      // Bloco das Equipes (Estudantes)
+      const htmlEquipes = `
+        <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-emerald);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-2 border-bottom">
+            <div>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-chat-quote-fill me-1"></i> MURAL DE RECADOS DAS EQUIPES (ESTUDANTES)</span>
+                <span class="fs-caption text-muted">Articulação, links de formulários e avisos entre as frentes</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'todos' ? 'btn-primary' : 'btn-outline-secondary'}" onclick="filtrarRecadosMural('todos')">
+                  Todos (${recadosEquipes.length})
+                </button>
+                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso1' ? 'btn-primary' : 'btn-outline-primary'}" onclick="filtrarRecadosMural('curso1')">
+                  🟦 Curso 1 (${recadosC1.length})
+                </button>
+                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso2' ? 'btn-success' : 'btn-outline-success'}" onclick="filtrarRecadosMural('curso2')">
+                  🟩 Curso 2 (${recadosC2.length})
+                </button>
+              </div>
+              <button type="button" onclick="abrirModalNovoRecadoEquipe()" class="btn btn-sm btn-success fw-bold">
+                <i class="bi bi-plus-circle me-1"></i> + Publicar Recado da Equipe
+              </button>
+            </div>
+          </div>
+
+          ${recadosFiltrados.length === 0 ? `
+            <div class="text-center py-3 text-muted fs-caption">
+              <i class="bi bi-chat-square-dots me-1"></i> Nenhum recado postado para este filtro ainda. Clique em <strong>+ Publicar Recado da Equipe</strong> para compartilhar links ou orientações com outros trios.
+            </div>
+          ` : `
+            <div class="row g-2">
+              ${recadosFiltrados.map(r => {
+                const corBadge = r.cursoSnctAlvo === 1 ? 'badge-pill-blue' : (r.cursoSnctAlvo === 2 ? 'badge-pill-green' : 'badge-pill-purple');
+                const rotuloCurso = r.cursoSnctAlvo === 1 ? 'Curso 1: Meu 1º Site no Ar' : (r.cursoSnctAlvo === 2 ? 'Curso 2: Painel Verde' : 'Turma Geral');
+                const corBorda = r.cursoSnctAlvo === 1 ? 'var(--accent-blue)' : (r.cursoSnctAlvo === 2 ? 'var(--accent-emerald)' : 'var(--accent-purple)');
+
+                let rotuloBotaoLink = 'Abrir Recurso';
+                let iconeLink = 'bi-box-arrow-up-right';
+                if (r.linkApoio) {
+                  if (r.linkApoio.includes('forms.gle') || r.linkApoio.includes('docs.google.com/forms')) {
+                    rotuloBotaoLink = 'Abrir Google Forms da Pesquisa';
+                    iconeLink = 'bi-ui-checks';
+                  } else if (r.linkApoio.includes('github.io')) {
+                    rotuloBotaoLink = 'Abrir Deploy GitHub Pages';
+                    iconeLink = 'bi-globe';
+                  } else if (r.linkApoio.includes('github.com')) {
+                    rotuloBotaoLink = 'Abrir Repositório GitHub';
+                    iconeLink = 'bi-github';
+                  } else if (r.linkApoio.includes('moodle.ifsc.edu.br')) {
+                    rotuloBotaoLink = 'Abrir Sala do Moodle';
+                    iconeLink = 'bi-mortarboard-fill';
+                  }
+                }
+
+                return `
+                  <div class="col-md-6 col-lg-6">
+                    <div class="p-2 rounded h-100 d-flex flex-column justify-content-between" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid ${corBorda};">
+                      <div>
+                        <div class="d-flex justify-content-between align-items-center gap-1 mb-1">
+                          <span class="badge-pill ${corBadge} fs-label">${escapeHtml(rotuloCurso)}</span>
+                          <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted);">${escapeHtml(r.id)}</span>
+                        </div>
+                        <div class="fw-bold text-heading fs-small mb-1">${escapeHtml(r.titulo)}</div>
+                        <p class="fs-caption text-muted mb-2" style="white-space: pre-line;">${escapeHtml(r.descricao)}</p>
+                      </div>
+
+                      <div class="pt-2 border-top">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mb-2">
+                          <div class="fs-label text-muted">
+                            <i class="bi bi-person-circle text-primary me-1"></i><strong>${escapeHtml(r.autorNome || 'Estudante')}</strong>
+                            &rarr; <span class="badge bg-secondary-subtle text-secondary">${escapeHtml(r.destinatario || 'Turma')}</span>
+                          </div>
+                          ${r.dataEnvio ? `<span class="fs-label text-muted">${escapeHtml(r.dataEnvio)}</span>` : ''}
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                          <div>
+                            ${r.linkApoio ? `
+                              <a href="${escapeHtml(r.linkApoio)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="${escapeHtml(r.linkApoio)}">
+                                <i class="bi ${iconeLink} me-1"></i> ${rotuloBotaoLink} <i class="bi bi-box-arrow-up-right ms-1"></i>
+                              </a>
+                            ` : '<span class="fs-label text-muted">Mensagem informativa</span>'}
+                          </div>
+                          <button type="button" onclick="excluirRecadoEquipe('${r.id}')" class="btn btn-link btn-sm text-muted p-0 fs-label" title="Excluir recado">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </div>
+      `;
+
+      const muralCompleto = htmlDocente + htmlEquipes;
+
       const elDem = document.getElementById('muralComunicadosDemandas');
       const elRot = document.getElementById('muralComunicadosTopoRoteiros');
-      if (elDem) elDem.innerHTML = htmlMural;
-      if (elRot) elRot.innerHTML = htmlMural;
+      const elFrentes = document.getElementById('muralRecadosEquipesPainelFrentes');
+
+      if (elDem) elDem.innerHTML = muralCompleto;
+      if (elRot) elRot.innerHTML = muralCompleto;
+      if (elFrentes) elFrentes.innerHTML = htmlEquipes;
     }
+
 
     function aoMudarTargetComunicadoDocente() {
       const tipo = document.getElementById('docenteTargetTipo').value;
@@ -6333,12 +6645,14 @@ const funcoesGlobais = {
   abrirModalNovaDemanda,
   abrirModalNovaOficina,
   abrirModalNovoAluno,
+  abrirModalNovoRecadoEquipe,
   alocarAlunoEmFrenteDocente,
   alterarEquipeAlunoRapido,
   alternarConclusaoDemanda,
   alternarDestaqueCard,
   alternarEntregaAlvoDocente,
   alternarEtapaFrenteSNCT,
+  aoMudarCursoModalRecado,
   aoMudarDemandaNoModalRubrica,
   aoMudarEquipeNoModalRubrica,
   aoMudarEstudanteVotante,
@@ -6360,6 +6674,7 @@ const funcoesGlobais = {
   excluirAluno,
   excluirDemanda,
   excluirOpcaoOficina,
+  excluirRecadoEquipe,
   exportarAuditoriaVotosTSV,
   exportarDadosDemandas,
   exportarTabelaFechamentoSIGAA,
@@ -6369,9 +6684,11 @@ const funcoesGlobais = {
   fecharModalComunicadoDemanda,
   fecharModalDemanda,
   fecharModalNovaOficina,
+  fecharModalRecadoEquipe,
   fecharModalRubrica,
   filtrarDemandas,
   filtrarListaAlvosAlunos,
+  filtrarRecadosMural,
   importarDadosDemandas,
   iniciarLoginGoogle,
   inserirModeloChecklistMoodleComunicado,
@@ -6396,6 +6713,7 @@ const funcoesGlobais = {
   salvarAvaliacaoRubrica,
   salvarDemanda,
   salvarNovaOficina,
+  salvarRecadoEquipe,
   selecionarCardDestaque,
   selecionarNivelRubrica,
   showTab,

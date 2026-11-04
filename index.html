@@ -2499,6 +2499,9 @@
         <button class="theme-toggle-btn" onclick="abrirPainelFrentesGestao()" id="btnHeaderFrentes" title="Acompanhar distribuição das frentes, trios e entregáveis da SNCT" style="border-color: var(--accent-emerald); color: var(--accent-emerald); font-weight: 600;">
           <i class="bi bi-kanban"></i> <span>Painel de Frentes</span>
         </button>
+        <button class="theme-toggle-btn" onclick="abrirModalNovoRecadoEquipe()" id="btnHeaderNovoRecado" title="Publicar aviso, link de formulário ou recado para outros trios e frentes" style="border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600;">
+          <i class="bi bi-chat-quote-fill"></i> <span>Mural de Recados</span>
+        </button>
         <button class="theme-toggle-btn" onclick="solicitarAcessoDocente()" id="btnModoDocente" title="Acesso restrito ao Professor André Moraes" style="border-color: var(--border-color); color: var(--text-muted);">
           <i class="fa-solid fa-chalkboard-user"></i> <span id="modoDocenteText">Acesso Docente</span>
         </button>
@@ -4060,6 +4063,9 @@
             <button onclick="sincronizarComBackendAppsScript(true)" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Sincronizar entregas e demandas com a planilha Google Sheets agora">
               <i class="bi bi-arrow-repeat"></i> Atualizar Entregas
             </button>
+            <button onclick="abrirModalNovoRecadoEquipe()" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Publicar recado, link de formulário ou aviso entre frentes">
+              <i class="bi bi-chat-quote-fill me-1"></i> + Recado da Equipe
+            </button>
             <button onclick="showTab('tab-docente')" class="btn-action btn-outline-action" title="Acompanhar distribuição das frentes, trios e entregáveis da SNCT">
               <i class="bi bi-kanban me-1"></i> Painel de Frentes SNCT
             </button>
@@ -5082,6 +5088,9 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           <!-- Renderizado via JS -->
         </div>
 
+        <!-- MURAL DE ARTICULAÇÃO & RECADOS DAS EQUIPES SNCT (VISÃO COLABORATIVA) -->
+        <div id="muralRecadosEquipesPainelFrentes" class="mb-4"></div>
+
         <!-- BLOCO 1: COMUNICAÇÃO DIRETA COM A TURMA ATRAVÉS DAS DEMANDAS (EXCLUSIVO DOCENTE) -->
         <div class="p-3 rounded-3 mb-4 docente-only" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-blue);">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
@@ -5198,6 +5207,73 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
   </main>
   <!-- MODAIS: CENTRAL DE DEMANDAS, RUBRICA FORMATIVA E ESTUDANTES -->
+
+  <!-- MODAL: NOVO RECADO / ARTICULAÇÃO DE EQUIPE (ESTUDANTES & TURMA) -->
+  <div class="app-modal-overlay" id="modalRecadoEquipeOverlay" onclick="if(event.target === this) fecharModalRecadoEquipe()">
+    <div class="app-modal-container" style="max-width: 620px;">
+      <div class="app-modal-header">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+          <i class="bi bi-chat-quote-fill text-success me-2"></i> Novo Recado &amp; Articulação entre Equipes
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalRecadoEquipe()"></button>
+      </div>
+      <form id="formRecadoEquipe" onsubmit="salvarRecadoEquipe(event)">
+        <div class="app-modal-body">
+          <div class="p-2 rounded mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); font-size: 0.8125rem;">
+            <i class="bi bi-info-circle text-primary me-1"></i>
+            Use este espaço para compartilhar links de formulários (Google Forms), repositórios GitHub, deploys ou recados com outros trios e frentes do seu curso.
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Curso / Contexto:</label>
+              <select class="form-select form-select-sm" id="recadoCursoId" onchange="aoMudarCursoModalRecado()">
+                <option value="1">Curso 1 — Meu 1º Site no Ar</option>
+                <option value="2">Curso 2 — Painel Verde (Ecopontos)</option>
+                <option value="0">Toda a Turma (Ambos os Cursos)</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Para quem se destina:</label>
+              <select class="form-select form-select-sm" id="recadoDestinatario">
+                <option value="Todas as equipes do curso">Todas as equipes do curso</option>
+                <option value="Curso 1 · Frente 3 (Slides-Guia)">Frente 3 · Slides-Guia (8 Telas)</option>
+                <option value="Curso 1 · Frente 2 (Starter Kit)">Frente 2 · Starter Kit &amp; Código Base</option>
+                <option value="Curso 1 · Frente 1 (Didática)">Frente 1 · Didática &amp; Roteiro Cirúrgico</option>
+                <option value="Curso 1 · Frente 4 (Monitoria)">Frente 4 · Monitoria &amp; Logística</option>
+                <option value="Toda a Turma (24 estudantes)">Toda a Turma (24 estudantes)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Título do Recado:</label>
+            <input type="text" class="form-control form-control-sm" id="recadoTitulo" placeholder="Ex: Link do Google Forms da pesquisa para colocar no QR Code dos slides" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Link Compartilhado (Forms, GitHub, Moodle, Drive - opcional):</label>
+            <input type="url" class="form-control form-control-sm" id="recadoLink" placeholder="https://forms.gle/... ou https://github.com/...">
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label small fw-bold">Mensagem / Detalhes para os colegas:</label>
+            <textarea class="form-control form-control-sm" id="recadoMensagem" rows="4" placeholder="Escreva o recado para os colegas da frente ou do curso..." required></textarea>
+          </div>
+
+          <div class="fs-caption text-muted" id="infoAutorRecadoModal">
+            <!-- Preenchido via JS com nome do aluno logado -->
+          </div>
+        </div>
+        <div class="app-modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalRecadoEquipe()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-success fw-bold">
+            <i class="bi bi-send-fill me-1"></i> Publicar Recado no Mural
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL: NOVA / EDITAR DEMANDA -->
   <div class="app-modal-overlay" id="modalDemandaOverlay" onclick="if(event.target === this) fecharModalDemanda()">
