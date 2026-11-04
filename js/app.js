@@ -6432,8 +6432,105 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         renderizarAreaDocente();
         renderizarCardMinhaFrenteEstudante();
         sincronizarComBackendAppsScript(false);
+      } else if (tabId === 'tab-raio-x') {
+        renderizarDemandas();
+        sincronizarComBackendAppsScript(false);
       }
     }
+
+    // =========================================================================
+    // MENU NAVEGAÇÃO ESTILO BANCO DO BRASIL (MEGA-MENU FLYOUT)
+    // =========================================================================
+    function toggleMenuBB() {
+      const overlay = document.getElementById('bbMenuOverlay');
+      if (!overlay) return;
+      if (overlay.classList.contains('active')) {
+        fecharMenuBB();
+      } else {
+        abrirMenuBB();
+      }
+    }
+
+    function abrirMenuBB(categoriaPadrao = null) {
+      const overlay = document.getElementById('bbMenuOverlay');
+      if (!overlay) return;
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      if (categoriaPadrao) {
+        selecionarCategoriaMenuBB(categoriaPadrao);
+      } else {
+        const activePane = document.querySelector('.tab-pane.active');
+        if (activePane) {
+          const mapAbaParaCat = {
+            'tab-raio-x': 'raio-x',
+            'tab-roteiros': 'roteiros',
+            'tab-extensao': 'extensao',
+            'tab-demandas': 'demandas',
+            'tab-avaliacao': 'avaliacao',
+            'tab-cronograma': 'plano',
+            'tab-ementa': 'plano',
+            'tab-sigaa': 'plano',
+            'tab-docente': 'gestao'
+          };
+          const cat = mapAbaParaCat[activePane.id] || 'roteiros';
+          selecionarCategoriaMenuBB(cat);
+        }
+      }
+    }
+
+    function fecharMenuBB() {
+      const overlay = document.getElementById('bbMenuOverlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+    }
+
+    function selecionarCategoriaMenuBB(catId) {
+      document.querySelectorAll('.bb-cat-btn').forEach(btn => {
+        if (btn.getAttribute('data-cat') === catId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      document.querySelectorAll('.bb-subpanel').forEach(pane => pane.classList.remove('active'));
+      const targetSub = document.getElementById(`bbPane_${catId}`);
+      if (targetSub) {
+        targetSub.classList.add('active');
+      }
+    }
+
+    function navegarViaMenuBB(tabId, anchorId = null) {
+      fecharMenuBB();
+      showTab(tabId);
+
+      if (anchorId) {
+        setTimeout(() => {
+          const alvo = document.getElementById(anchorId);
+          if (alvo) {
+            alvo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            alvo.classList.remove('alvo-menu-destaque');
+            void alvo.offsetWidth;
+            alvo.classList.add('alvo-menu-destaque');
+            setTimeout(() => {
+              alvo.classList.remove('alvo-menu-destaque');
+            }, 2500);
+          }
+        }, 220);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const overlay = document.getElementById('bbMenuOverlay');
+        if (overlay && overlay.classList.contains('active')) {
+          fecharMenuBB();
+        }
+      }
+    });
 
     // =========================================================================
     // TEMA CLARO / ESCURO
@@ -6637,6 +6734,7 @@ const funcoesGlobais = {
   abrirAreaDocenteDireto,
   abrirPainelFrentesGestao,
   abrirModalAlterarPrazoDemanda,
+  abrirMenuBB,
   abrirModalAuditoriaVotos,
   abrirModalAvaliarRubrica,
   abrirModalComunicadoDemanda,
@@ -6686,6 +6784,7 @@ const funcoesGlobais = {
   fecharModalNovaOficina,
   fecharModalRecadoEquipe,
   fecharModalRubrica,
+  fecharMenuBB,
   filtrarDemandas,
   filtrarListaAlvosAlunos,
   filtrarRecadosMural,
@@ -6696,6 +6795,7 @@ const funcoesGlobais = {
   marcarTodosAlvos,
   navegarParaDemandasSNCT,
   navegarParaEtapaSNCT,
+  navegarViaMenuBB,
   notificarEquipeEmail,
   prepararDemandaParaAlvoDocente,
   processarImportacaoAlunos,
@@ -6715,10 +6815,12 @@ const funcoesGlobais = {
   salvarNovaOficina,
   salvarRecadoEquipe,
   selecionarCardDestaque,
+  selecionarCategoriaMenuBB,
   selecionarNivelRubrica,
   showTab,
   sincronizarComBackendAppsScript,
   solicitarAcessoDocente,
+  toggleMenuBB,
   toggleModoDocente,
   toggleTheme,
   trocarSubAbaNotas

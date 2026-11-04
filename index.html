@@ -2455,6 +2455,314 @@
       text-transform: uppercase;
       letter-spacing: 0.02em;
     }
+
+    /* =====================================================
+       MENU NAVEGAÇÃO ESTILO BANCO DO BRASIL (MEGA-MENU FLYOUT)
+       ===================================================== */
+    .btn-bb-menu-toggle {
+      background: var(--ifsc-dark-green);
+      color: #ffffff;
+      border: 1px solid var(--accent-emerald);
+      border-radius: var(--radius-md);
+      padding: 0.45rem 0.85rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: var(--fs-small);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-bb-menu-toggle:hover {
+      background: var(--accent-emerald);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.45);
+      color: #ffffff;
+    }
+
+    .bb-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 1060;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .bb-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .bb-menu-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      width: 980px;
+      max-width: 96vw;
+      height: 600px;
+      max-height: 88vh;
+      display: flex;
+      overflow: hidden;
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .bb-menu-overlay.active .bb-menu-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Coluna Esquerda: Categorias */
+    .bb-sidebar-cats {
+      width: 290px;
+      min-width: 260px;
+      background: var(--bg-card-hover);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .bb-sidebar-header {
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bb-sidebar-header h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 0;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .bb-cat-list {
+      list-style: none;
+      padding: 0.5rem 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bb-cat-item {
+      width: 100%;
+    }
+
+    .bb-cat-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.25rem;
+      background: transparent;
+      border: none;
+      border-left: 4px solid transparent;
+      text-align: left;
+      font-family: 'Outfit', sans-serif;
+      font-size: var(--fs-body-sm);
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .bb-cat-btn:hover {
+      background: var(--bg-card);
+      color: var(--text-heading);
+    }
+
+    /* Destaque Estilo Banco do Brasil */
+    .bb-cat-btn.active {
+      background: rgba(234, 179, 8, 0.15);
+      border-left-color: #eab308;
+      color: var(--text-heading);
+      font-weight: 700;
+    }
+
+    [data-theme="dark"] .bb-cat-btn.active {
+      background: rgba(234, 179, 8, 0.22);
+      border-left-color: #facc15;
+      color: #fef08a;
+    }
+
+    .bb-cat-btn .bb-cat-icon {
+      font-size: 1.15rem;
+      width: 24px;
+      text-align: center;
+      color: var(--accent-emerald);
+    }
+
+    .bb-cat-btn.active .bb-cat-icon {
+      color: #ca8a04;
+    }
+    [data-theme="dark"] .bb-cat-btn.active .bb-cat-icon {
+      color: #facc15;
+    }
+
+    .bb-cat-btn .bb-cat-chevron {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: transform 0.15s ease;
+    }
+
+    .bb-cat-btn.active .bb-cat-chevron {
+      color: #ca8a04;
+      transform: translateX(3px);
+    }
+    [data-theme="dark"] .bb-cat-btn.active .bb-cat-chevron {
+      color: #facc15;
+    }
+
+    /* Coluna Direita: Sub-Painel com colunas de links */
+    .bb-content-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .bb-pane-header {
+      padding: 1.1rem 1.8rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+    }
+
+    .bb-pane-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 0;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .bb-pane-body {
+      flex: 1;
+      padding: 1.5rem 1.8rem;
+      overflow-y: auto;
+    }
+
+    .bb-subpanel {
+      display: none;
+    }
+
+    .bb-subpanel.active {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .bb-columns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .bb-col-group h5 {
+      font-family: 'Outfit', sans-serif;
+      font-size: var(--fs-label);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .bb-sublink-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bb-sublink {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      padding: 0.4rem 0.45rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: var(--fs-body-sm);
+      line-height: 1.35;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .bb-sublink:hover {
+      background: var(--bg-card-hover);
+      color: var(--accent-blue);
+      transform: translateX(4px);
+    }
+
+    .bb-sublink .bb-bullet {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-right: 2px;
+    }
+
+    .bb-sublink:hover .bb-bullet {
+      color: var(--accent-blue);
+    }
+
+    @keyframes pulseAlvoMenu {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .alvo-menu-destaque {
+      animation: pulseAlvoMenu 2s ease-in-out;
+      border-color: var(--accent-emerald) !important;
+    }
+
+    @media (max-width: 768px) {
+      .bb-menu-modal {
+        flex-direction: column;
+        height: 90vh;
+      }
+      .bb-sidebar-cats {
+        width: 100%;
+        min-width: 100%;
+        max-height: 40%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .bb-content-pane {
+        max-height: 60%;
+      }
+    }
 </style>
 </head>
 
@@ -2464,6 +2772,10 @@
   <header class="app-header">
     <div class="header-container">
       <div class="brand-area">
+        <button type="button" class="btn-bb-menu-toggle" onclick="toggleMenuBB()" id="btnMenuBBHeader" title="Abrir menu de navegação estilo Banco do Brasil" aria-label="Abrir menu principal">
+          <i class="bi bi-grid-fill"></i>
+          <span class="d-none d-sm-inline font-outfit fw-bold ms-1">Menu</span>
+        </button>
         <div class="brand-logo-bg">
           <img src="figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
         </div>
@@ -2515,53 +2827,11 @@
   <!-- MAIN -->
   <main class="main-container">
 
-    <!-- TOP KPI CARDS (INTERATIVOS) -->
-    <div class="kpi-grid">
-      
-      <!-- KPI 1 (DESTAQUE: CENTRAL DE ROTEIROS PRÁTICOS) -->
-      <div class="kpi-card kpi-green" onclick="showTab('tab-roteiros')">
-        <div class="kpi-header">
-          <span class="kpi-title">Caderno de Roteiros Práticos</span>
-          <i class="bi bi-code-square kpi-icon"></i>
-        </div>
-        <div class="kpi-value">5 Roteiros Ativos</div>
-        <div class="kpi-desc">Guias didáticos ilustrados, arquitetura modular ES6, protótipos e práticas de laboratório.</div>
-      </div>
-
-      <!-- KPI 2: DEMANDAS & CHECKPOINTS -->
-      <div class="kpi-card kpi-blue" onclick="showTab('tab-demandas')">
-        <div class="kpi-header">
-          <span class="kpi-title">Central de Demandas &amp; Checkpoints</span>
-          <i class="fa-solid fa-list-check kpi-icon"></i>
-        </div>
-        <div class="kpi-value" id="kpiDemandasCount">3 Ativas</div>
-        <div class="kpi-desc">Metas direcionadas da turma, prazos de entrega e critérios de aceite com rubrica.</div>
-      </div>
-
-      <!-- KPI 3 -->
-      <div class="kpi-card kpi-purple" onclick="showTab('tab-extensao')">
-        <div class="kpi-header">
-          <span class="kpi-title">Curricularização da Extensão</span>
-          <i class="bi bi-stars kpi-icon"></i>
-        </div>
-        <div class="kpi-value">40 h</div>
-        <div class="kpi-desc">SNCT 2026 (Minicursos / Resumo Expandido) e submissão ao COTB.</div>
-      </div>
-
-      <!-- KPI 4 -->
-      <div class="kpi-card kpi-amber" onclick="showTab('tab-avaliacao')">
-        <div class="kpi-header">
-          <span class="kpi-title">Sistema Avaliativo &amp; Rubricas</span>
-          <i class="bi bi-award-fill kpi-icon"></i>
-        </div>
-        <div class="kpi-value">A1 + A2 + A3</div>
-        <div class="kpi-desc">Teórica (25%) + Roteiros por Rubrica (35%) + Projeto Integrador (40%).</div>
-      </div>
-
-    </div>
-
     <!-- ABAS DO DASHBOARD -->
     <div class="dashboard-tabs">
+      <button class="tab-btn" onclick="showTab('tab-raio-x')" id="tabBtnRaioX">
+        <i class="bi bi-speedometer2 text-primary"></i> 0. Raio-X &amp; Panorama
+      </button>
       <button class="tab-btn active" onclick="showTab('tab-roteiros')">
         <i class="bi bi-code-square"></i> 1. Central de Roteiros Práticos
       </button>
@@ -2586,9 +2856,151 @@
       <button class="tab-btn" onclick="showTab('tab-docente')" id="tabBtnDocente" style="border-color: rgba(217, 119, 6, 0.45);">
         <i class="fa-solid fa-chalkboard-user text-warning"></i> <span id="tabBtnDocenteTitulo">8. Painel de Frentes &amp; Gestão SNCT</span>
       </button>
+      <button class="tab-btn btn-menu-bb-tab ms-auto" onclick="toggleMenuBB()" title="Explorar todo o conteúdo no Menu Completo estilo Banco do Brasil" style="background: var(--ifsc-dark-green); color: #ffffff; border-color: var(--accent-emerald);">
+        <i class="bi bi-grid-fill"></i> <span>Menu Banco do Brasil</span>
+      </button>
     </div>
 
     <!-- CONTEÚDO DAS ABAS -->
+
+    <!-- ABA 0: RAIO-X & PANORAMA GERAL DAS ATIVIDADES -->
+    <div class="tab-pane" id="tab-raio-x">
+      <div class="panel-card mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+          <div>
+            <h2 class="panel-title mb-1">
+              <i class="bi bi-speedometer2 text-primary me-2"></i> Raio-X da Unidade Curricular — Panorama das Atividades &amp; Metodologia
+            </h2>
+            <p class="panel-subtitle mb-0">Visão geral executiva com a estrutura completa da disciplina, carga horária, roteiros ativos e checkpoints integrados:</p>
+          </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button onclick="navegarViaMenuBB('tab-roteiros')" class="btn-action btn-outline-action">
+              <i class="bi bi-code-square text-success"></i> Caderno de Roteiros
+            </button>
+            <button onclick="navegarViaMenuBB('tab-demandas')" class="btn-action btn-outline-action">
+              <i class="fa-solid fa-list-check text-primary"></i> Central de Demandas
+            </button>
+            <button onclick="toggleMenuBB()" class="btn-action btn-primary-action">
+              <i class="bi bi-grid-fill"></i> Abrir Menu BB
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI CARDS (ORIGINAIS PRESERVADOS COM IDS E CONTADORES) -->
+        <div class="kpi-grid">
+          
+          <!-- KPI 1 (DESTAQUE: CENTRAL DE ROTEIROS PRÁTICOS) -->
+          <div class="kpi-card kpi-green" onclick="showTab('tab-roteiros')">
+            <div class="kpi-header">
+              <span class="kpi-title">Caderno de Roteiros Práticos</span>
+              <i class="bi bi-code-square kpi-icon"></i>
+            </div>
+            <div class="kpi-value">5 Roteiros Ativos</div>
+            <div class="kpi-desc">Guias didáticos ilustrados, arquitetura modular ES6, protótipos e práticas de laboratório.</div>
+          </div>
+
+          <!-- KPI 2: DEMANDAS & CHECKPOINTS -->
+          <div class="kpi-card kpi-blue" onclick="showTab('tab-demandas')">
+            <div class="kpi-header">
+              <span class="kpi-title">Central de Demandas &amp; Checkpoints</span>
+              <i class="fa-solid fa-list-check kpi-icon"></i>
+            </div>
+            <div class="kpi-value" id="kpiDemandasCount">3 Ativas</div>
+            <div class="kpi-desc">Metas direcionadas da turma, prazos de entrega e critérios de aceite com rubrica.</div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="kpi-card kpi-purple" onclick="showTab('tab-extensao')">
+            <div class="kpi-header">
+              <span class="kpi-title">Curricularização da Extensão</span>
+              <i class="bi bi-stars kpi-icon"></i>
+            </div>
+            <div class="kpi-value">40 h</div>
+            <div class="kpi-desc">SNCT 2026 (Minicursos / Resumo Expandido) e submissão ao COTB.</div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="kpi-card kpi-amber" onclick="showTab('tab-avaliacao')">
+            <div class="kpi-header">
+              <span class="kpi-title">Sistema Avaliativo &amp; Rubricas</span>
+              <i class="bi bi-award-fill kpi-icon"></i>
+            </div>
+            <div class="kpi-value">A1 + A2 + A3</div>
+            <div class="kpi-desc">Teórica (25%) + Roteiros por Rubrica (35%) + Projeto Integrador (40%).</div>
+          </div>
+
+        </div>
+
+        <!-- PAINÉIS DE DIAGNÓSTICO E PANORAMA DO RAIO-X -->
+        <div class="row g-3 mt-2">
+          <div class="col-lg-4">
+            <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-emerald);">
+              <h4 class="font-outfit fs-6 fw-bold text-heading mb-2">
+                <i class="bi bi-clock-history text-success me-1"></i> 1. Carga Horária &amp; Metodologia
+              </h4>
+              <p class="fs-body-sm text-muted mb-2">
+                A disciplina totaliza <strong>100 horas-aula</strong> combinando teoria, prática em laboratório de informática e impacto comunitário real:
+              </p>
+              <ul class="list-unstyled mb-0 fs-body-sm">
+                <li class="mb-1"><i class="bi bi-check-circle-fill text-success me-1"></i> <strong>60h Presenciais:</strong> Desenvolvimento Front-End responsivo, DOM, assincronismo e consumo de APIs.</li>
+                <li class="mb-1"><i class="bi bi-check-circle-fill text-primary me-1"></i> <strong>40h de Extensão:</strong> Preparação didática e realização de 2 oficinas práticas na SNCT 2026.</li>
+                <li><i class="bi bi-check-circle-fill text-warning me-1"></i> <strong>20 Encontros Síncronos:</strong> Cronograma com entregas contínuas e rubricas formativas.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-blue);">
+              <h4 class="font-outfit fs-6 fw-bold text-heading mb-2">
+                <i class="bi bi-layers-fill text-primary me-1"></i> 2. Trilha dos Roteiros de Aula
+              </h4>
+              <p class="fs-body-sm text-muted mb-2">
+                Progressão pedagógica estruturada em 5 roteiros didáticos com PDFs e códigos comentados:
+              </p>
+              <div class="d-flex flex-column gap-1 fs-caption">
+                <div class="d-flex justify-content-between align-items-center p-1 px-2 rounded bg-body-tertiary">
+                  <span><strong>#01</strong> Bootstrap 5 &amp; Grid</span>
+                  <span class="badge bg-success-subtle text-success">Concluído</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center p-1 px-2 rounded bg-body-tertiary">
+                  <span><strong>#02</strong> jQuery &amp; LocalStorage</span>
+                  <span class="badge bg-success-subtle text-success">Concluído</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center p-1 px-2 rounded bg-body-tertiary">
+                  <span><strong>#03</strong> POO &amp; Calculadora</span>
+                  <span class="badge bg-success-subtle text-success">Concluído</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center p-1 px-2 rounded bg-body-tertiary">
+                  <span><strong>#04</strong> Vitrine Comunitária</span>
+                  <span class="badge bg-success-subtle text-success">Concluído</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center p-1 px-2 rounded bg-body-tertiary">
+                  <span><strong>#05</strong> Fetch API &amp; Flask</span>
+                  <span class="badge bg-primary-subtle text-primary">Em Foco</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="p-3 rounded-3 h-100" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-purple);">
+              <h4 class="font-outfit fs-6 fw-bold text-heading mb-2">
+                <i class="bi bi-stars text-purple me-1"></i> 3. Curricularização SNCT 2026
+              </h4>
+              <p class="fs-body-sm text-muted mb-2">
+                Ação de extensão dividida em 2 cursos independentes ministrados pelos 24 estudantes da turma:
+              </p>
+              <ul class="list-unstyled mb-0 fs-body-sm">
+                <li class="mb-1"><i class="bi bi-laptop text-primary me-1"></i> <strong>Curso 1 (12 alunos):</strong> <em>Meu 1º Site no Ar</em> (Iniciantes, Bootstrap 5 e WhatsApp).</li>
+                <li class="mb-1"><i class="bi bi-recycle text-success me-1"></i> <strong>Curso 2 (12 alunos):</strong> <em>Painel Verde / Ecopontos</em> (Intermediário, jQuery e LocalStorage).</li>
+                <li><i class="bi bi-calendar-event text-danger me-1"></i> <strong>Dia da Aplicação:</strong> 26/11 (SNCT de 25 a 27/11).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- ABA 1: CENTRAL DE ROTEIROS PRÁTICOS (DESTAQUE) -->
     <div class="tab-pane active" id="tab-roteiros">
@@ -5207,6 +5619,302 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
   </main>
   <!-- MODAIS: CENTRAL DE DEMANDAS, RUBRICA FORMATIVA E ESTUDANTES -->
+
+  <!-- =====================================================
+       MEGA-MENU NAVEGAÇÃO ESTILO BANCO DO BRASIL (FLYOUT / DRAWER)
+       ===================================================== -->
+  <div class="bb-menu-overlay" id="bbMenuOverlay" onclick="if(event.target === this) fecharMenuBB()">
+    <div class="bb-menu-modal" role="dialog" aria-modal="true" aria-labelledby="bbMenuTitle">
+      
+      <!-- COLUNA ESQUERDA: LISTA DE CATEGORIAS -->
+      <nav class="bb-sidebar-cats" aria-label="Menu Principal da Disciplina">
+        <div class="bb-sidebar-header">
+          <h4 id="bbMenuTitle">
+            <i class="bi bi-grid-fill text-success"></i> Menu
+          </h4>
+          <span class="fs-label badge bg-success-subtle text-success border border-success-subtle">ProgWeb 2</span>
+        </div>
+        
+        <ul class="bb-cat-list">
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="raio-x" onclick="selecionarCategoriaMenuBB('raio-x')">
+              <i class="bi bi-speedometer2 bb-cat-icon"></i>
+              <span>Raio-X &amp; Panorama</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn active" data-cat="roteiros" onclick="selecionarCategoriaMenuBB('roteiros')">
+              <i class="bi bi-code-square bb-cat-icon"></i>
+              <span>Caderno de Roteiros</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="extensao" onclick="selecionarCategoriaMenuBB('extensao')">
+              <i class="bi bi-megaphone-fill bb-cat-icon"></i>
+              <span>Extensão SNCT 2026</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="demandas" onclick="selecionarCategoriaMenuBB('demandas')">
+              <i class="fa-solid fa-list-check bb-cat-icon"></i>
+              <span>Central de Demandas</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="avaliacao" onclick="selecionarCategoriaMenuBB('avaliacao')">
+              <i class="bi bi-calculator-fill bb-cat-icon"></i>
+              <span>Sistema Avaliativo</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="plano" onclick="selecionarCategoriaMenuBB('plano')">
+              <i class="bi bi-book-half bb-cat-icon"></i>
+              <span>Cronograma &amp; SIGAA</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="gestao" onclick="selecionarCategoriaMenuBB('gestao')">
+              <i class="fa-solid fa-chalkboard-user bb-cat-icon"></i>
+              <span>Painel de Frentes &amp; Docente</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+        </ul>
+
+        <div class="mt-auto p-3 border-top" style="border-color: var(--border-color) !important; background: var(--bg-card);">
+          <div class="d-flex align-items-center justify-content-between">
+            <span class="fs-caption text-muted">IFSC Câmpus Garopaba</span>
+            <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-caption" onclick="fecharMenuBB()">Fechar (ESC)</button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- COLUNA DIREITA: SUB-PAINEL DESDOBRÁVEL (ESTILO BANCO DO BRASIL) -->
+      <div class="bb-content-pane">
+        
+        <!-- SUB-PAINEL: RAIO-X & PANORAMA -->
+        <div class="bb-subpanel" id="bbPane_raio-x">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="bi bi-speedometer2 text-primary"></i> Raio-X &amp; Panorama das Atividades
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>MÉTRICAS &amp; VISÃO EXECUTIVA</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-raio-x')" class="bb-sublink"><span class="bb-bullet">›</span> Visão Geral da Unidade Curricular</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-raio-x')" class="bb-sublink"><span class="bb-bullet">›</span> 4 Pilares da Disciplina (Roteiros, Extensão, Demandas, Notas)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-raio-x')" class="bb-sublink"><span class="bb-bullet">›</span> Carga Horária: 60h Presencial + 40h Extensão</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>ATALHOS DO SEMESTRE</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros')" class="bb-sublink"><span class="bb-bullet">›</span> Ir para o Foco Atual da Turma</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-cronograma')" class="bb-sublink"><span class="bb-bullet">›</span> Calendário Oficial dos 20 Encontros</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas')" class="bb-sublink"><span class="bb-bullet">›</span> Próximos Checkpoints com Rubrica</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: CADERNO DE ROTEIROS -->
+        <div class="bb-subpanel active" id="bbPane_roteiros">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="bi bi-code-square text-success"></i> Caderno de Roteiros Práticos
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>GUIAS DE LABORATÓRIO (PASSO A PASSO)</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros', 'card-roteiro-1')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiro #01 — Bootstrap 5 &amp; Layout Responsivo</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros', 'card-roteiro-2')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiro #02 — jQuery, DOM &amp; LocalStorage</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros', 'card-roteiro-3')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiro #03 — POO &amp; Calculadora de Pedidos</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros', 'card-roteiro-4')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiro #04 — Vitrine Comunitária &amp; Catálogo</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros', 'card-roteiro-5')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiro #05 — Fetch API, JSON &amp; Backend Flask</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>OFICINAS SNCT &amp; RECURSOS</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-roteiros', 'card-roteiro-snct')" class="bb-sublink"><span class="bb-bullet">›</span> Oficinas SNCT 2026 — Frentes Cirúrgicas</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-sigaa')" class="bb-sublink"><span class="bb-bullet">›</span> Central de Tarefas no SIGAA</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao')" class="bb-sublink"><span class="bb-bullet">›</span> Baixar Roteiros Cirúrgicos em PDF</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: EXTENSÃO SNCT 2026 -->
+        <div class="bb-subpanel" id="bbPane_extensao">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="bi bi-megaphone-fill text-purple"></i> Curricularização da Extensão (40h) — SNCT 2026
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>MINICURSOS NA SNCT (26/11)</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao')" class="bb-sublink"><span class="bb-bullet">›</span> Panorama da Curricularização (40 Horas)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao', 'oficina-curso-1')" class="bb-sublink"><span class="bb-bullet">›</span> Curso 1 — Meu 1º Site no Ar (Iniciantes / 12 alunos)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao', 'oficina-curso-2')" class="bb-sublink"><span class="bb-bullet">›</span> Curso 2 — Painel Verde / Ecopontos (Intermediário / 12 alunos)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiros Cirúrgicos em PDF das 8 Frentes</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>EQUIPES, VOTAÇÃO &amp; ARTICULAÇÃO</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas', 'muralComunicadosDemandas')" class="bb-sublink"><span class="bb-bullet">›</span> Mural de Recados &amp; Links das Equipes</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Distribuição das 8 Frentes de Trabalho</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao', 'painelVotacaoOficinas')" class="bb-sublink"><span class="bb-bullet">›</span> Painel de Escolha / Votação de Oficinas</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao')" class="bb-sublink"><span class="bb-bullet">›</span> Submissão de Resumo Expandido ao COTB</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: CENTRAL DE DEMANDAS -->
+        <div class="bb-subpanel" id="bbPane_demandas">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="fa-solid fa-list-check text-primary"></i> Central de Demandas &amp; Checkpoints
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>MURAIS DA SEMANA</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas', 'muralComunicadosDemandas')" class="bb-sublink"><span class="bb-bullet">›</span> Mural do Professor (Demandas Oficiais)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas', 'muralComunicadosDemandas')" class="bb-sublink"><span class="bb-bullet">›</span> Mural de Articulação das Equipes SNCT</a></li>
+                  <li><a href="javascript:void(0)" onclick="fecharMenuBB(); abrirModalNovoRecadoEquipe();" class="bb-sublink"><span class="bb-bullet">›</span> + Publicar Novo Recado de Equipe</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>CHECKPOINTS &amp; ENTREGAS</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas')" class="bb-sublink"><span class="bb-bullet">›</span> Lista de Demandas Ativas</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas')" class="bb-sublink"><span class="bb-bullet">›</span> Registrar Minha Entrega (Link Moodle/GitHub)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Rubrica Formativa &amp; Critérios de Aceite</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: SISTEMA AVALIATIVO -->
+        <div class="bb-subpanel" id="bbPane_avaliacao">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="bi bi-calculator-fill text-warning"></i> Sistema Avaliativo &amp; Rubricas Formativas
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>COMPOSIÇÃO DE MÉDIAS</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Calculadora Interativa de Médias (A1, A2 e A3)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Avaliação Teórica A1 (25% da nota)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Roteiros Práticos A2 (35% com rubrica)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Projeto Integrador A3 (40% da nota)</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>CRITÉRIOS &amp; RUBRICAS</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Matriz de Rubricas Formativas Detalhada</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-avaliacao')" class="bb-sublink"><span class="bb-bullet">›</span> Diretrizes de Recuperação Paralela</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: PLANO DE ENSINO & SIGAA -->
+        <div class="bb-subpanel" id="bbPane_plano">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="bi bi-book-half text-info"></i> Plano de Ensino, Cronograma &amp; SIGAA
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>PLANO PEDAGÓGICO &amp; AULAS</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-cronograma')" class="bb-sublink"><span class="bb-bullet">›</span> Cronograma Detalhado (20 Aulas / Semestre)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-ementa')" class="bb-sublink"><span class="bb-bullet">›</span> Ementa Oficial do PPC (CONSUP 30/2020)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-ementa')" class="bb-sublink"><span class="bb-bullet">›</span> Bibliografia Básica &amp; Complementar</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>SISTEMAS ACADÊMICOS IFSC</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-sigaa')" class="bb-sublink"><span class="bb-bullet">›</span> Central de Tarefas do SIGAA</a></li>
+                  <li><a href="https://moodle.ifsc.edu.br" target="_blank" rel="noopener noreferrer" class="bb-sublink"><span class="bb-bullet">›</span> Abrir Sala Virtual no Moodle IFSC <i class="bi bi-box-arrow-up-right fs-caption ms-1 text-muted"></i></a></li>
+                  <li><a href="https://sigaa.ifsc.edu.br" target="_blank" rel="noopener noreferrer" class="bb-sublink"><span class="bb-bullet">›</span> Portal do Discente SIGAA <i class="bi bi-box-arrow-up-right fs-caption ms-1 text-muted"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: PAINEL DE FRENTES & GESTÃO DOCENTE -->
+        <div class="bb-subpanel" id="bbPane_gestao">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="fa-solid fa-chalkboard-user text-warning"></i> Painel de Frentes &amp; Gestão Docente
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>FRENTES SNCT (VISÃO ESTUDANTE &amp; TURMA)</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Visão Geral da Distribuição das 8 Frentes</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente', 'cardMinhaFrenteTrabalhoEstudante')" class="bb-sublink"><span class="bb-bullet">›</span> Minha Frente de Trabalho &amp; Colegas de Trio</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>ADMINISTRAÇÃO DOCENTE (PROF. ANDRÉ)</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Alocação Manual de Estudantes em Frentes</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente', 'docenteTabelaRaioXAlunos')" class="bb-sublink"><span class="bb-bullet">›</span> Raio-X Nominal dos 24 Estudantes</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Disparo de Cobrança Automática por E-mail</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Fechamento de Médias e Exportação SIGAA</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- MODAL: NOVO RECADO / ARTICULAÇÃO DE EQUIPE (ESTUDANTES & TURMA) -->
   <div class="app-modal-overlay" id="modalRecadoEquipeOverlay" onclick="if(event.target === this) fecharModalRecadoEquipe()">
