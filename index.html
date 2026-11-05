@@ -1384,10 +1384,10 @@
     }
 
     .demanda-card-desc {
-      font-size: 0.86rem;
-      color: var(--text-muted);
+      font-size: var(--fs-body-sm);
+      color: var(--text-main);
       margin-bottom: 0.85rem;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .demanda-criterios-box {
@@ -2762,6 +2762,62 @@
       .bb-content-pane {
         max-height: 60%;
       }
+    }
+
+    /* =====================================================
+       ESTILIZAÇÃO DOS BLOCOS E CARDS DE MENSAGENS (MURAIS)
+       ===================================================== */
+    .mural-bloco {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.15rem;
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .mural-bloco-docente {
+      border-left: 5px solid var(--accent-amber);
+    }
+
+    .mural-bloco-equipes {
+      border-left: 5px solid var(--accent-emerald);
+    }
+
+    .mural-msg-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mural-msg-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .mural-msg-titulo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.35;
+      margin-bottom: 0.45rem;
+    }
+
+    .mural-msg-corpo {
+      font-size: var(--fs-body-sm);
+      color: var(--text-main);
+      line-height: 1.6;
+      margin-bottom: 0.85rem;
+      white-space: pre-line;
+      word-break: break-word;
     }
 </style>
 </head>

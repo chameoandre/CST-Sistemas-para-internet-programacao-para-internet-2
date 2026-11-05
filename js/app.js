@@ -4332,8 +4332,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       // Bloco do Professor
       const htmlDocente = demandasOficiais.length === 0 ? '' : `
-        <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-amber);">
-          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+        <div class="mural-bloco mural-bloco-docente">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-1">
             <div class="d-flex align-items-center gap-2">
               <span class="badge bg-warning text-dark"><i class="fa-solid fa-bullhorn me-1"></i> MURAL DO PROFESSOR — DEMANDAS &amp; ORIENTAÇÕES DA SEMANA</span>
               <span class="fs-caption text-muted">Orientações didáticas oficiais de execução</span>
@@ -4348,20 +4348,20 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               const corBorda = d.cursoSnctAlvo === 1 ? 'var(--accent-blue)' : (d.cursoSnctAlvo === 2 ? 'var(--accent-emerald)' : 'var(--accent-amber)');
               return `
                 <div class="col-md-6 col-lg-6">
-                  <div class="p-2 rounded h-100 d-flex flex-column justify-content-between" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid ${corBorda};">
+                  <div class="mural-msg-card" style="border-top: 3px solid ${corBorda};">
                     <div>
-                      <div class="d-flex justify-content-between align-items-center gap-1 mb-1">
+                      <div class="d-flex justify-content-between align-items-center gap-1 mb-2">
                         <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-main); border: 1px solid var(--border-color);">${escapeHtml(d.id)}</span>
                         <span class="badge-pill ${st.classe} small">${st.texto}</span>
                       </div>
-                      <div class="fw-bold text-heading fs-small mb-1">${escapeHtml(d.titulo)}</div>
-                      <p class="fs-caption text-muted mb-2">${escapeHtml(d.descricao)}</p>
+                      <h4 class="mural-msg-titulo">${escapeHtml(d.titulo)}</h4>
+                      <div class="mural-msg-corpo">${escapeHtml(d.descricao)}</div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 pt-1 border-top">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 pt-2 border-top">
                       <span class="fs-label text-muted"><i class="bi bi-people me-1"></i>${escapeHtml(d.destinatario || rotuloAtribuicao(d))}</span>
                       <div class="d-flex gap-1">
                         ${d.linkApoio ? `
-                          <a href="${escapeHtml(d.id === 'DEM-SNCT-C1' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : (d.id === 'DEM-SNCT-C2' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2664' : d.linkApoio))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-0 px-2 fs-label">
+                          <a href="${escapeHtml(d.id === 'DEM-SNCT-C1' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : (d.id === 'DEM-SNCT-C2' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2664' : d.linkApoio))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-1 px-2 fs-label">
                             <i class="bi ${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'bi-mortarboard-fill' : (d.linkApoio.endsWith('.pdf') ? 'bi-file-earmark-pdf' : 'bi-box-arrow-up-right')} me-1"></i>${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'Moodle' : (d.linkApoio.endsWith('.pdf') ? 'Guia PDF' : 'Recurso')}
                           </a>
                         ` : ''}
@@ -4378,7 +4378,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       // Bloco das Equipes (Estudantes)
       const htmlEquipes = `
-        <div class="p-3 rounded-3 mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-emerald);">
+        <div class="mural-bloco mural-bloco-equipes">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-2 border-bottom">
             <div>
               <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -4435,14 +4435,14 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
                 return `
                   <div class="col-md-6 col-lg-6">
-                    <div class="p-2 rounded h-100 d-flex flex-column justify-content-between" style="background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid ${corBorda};">
+                    <div class="mural-msg-card" style="border-top: 3px solid ${corBorda};">
                       <div>
-                        <div class="d-flex justify-content-between align-items-center gap-1 mb-1">
+                        <div class="d-flex justify-content-between align-items-center gap-1 mb-2">
                           <span class="badge-pill ${corBadge} fs-label">${escapeHtml(rotuloCurso)}</span>
                           <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted);">${escapeHtml(r.id)}</span>
                         </div>
-                        <div class="fw-bold text-heading fs-small mb-1">${escapeHtml(r.titulo)}</div>
-                        <p class="fs-caption text-muted mb-2" style="white-space: pre-line;">${escapeHtml(r.descricao)}</p>
+                        <h4 class="mural-msg-titulo">${escapeHtml(r.titulo)}</h4>
+                        <div class="mural-msg-corpo">${escapeHtml(r.descricao)}</div>
                       </div>
 
                       <div class="pt-2 border-top">
