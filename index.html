@@ -480,8 +480,8 @@
     /* ROTEIROS GRID & CARDS SUAVIZADOS (INSPIRAÇÃO PROJETO INTEGRADOR II) */
     .roteiros-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.15rem;
       align-items: stretch;
     }
 
@@ -490,7 +490,7 @@
       backdrop-filter: blur(14px);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 1.25rem;
+      padding: 1rem 1.05rem;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -509,6 +509,72 @@
     [data-theme="dark"] .roteiro-card:hover {
       border-color: rgba(16, 185, 129, 0.5);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    /* CARD ILUSTRAÇÃO MEDIA */
+    .roteiro-card-media {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    /* CONTEÚDO RETRÁTIL DOS CARDS DE ROTEIRO */
+    .roteiro-card-detalhes {
+      display: none;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 0.65rem;
+      padding-top: 0.65rem;
+      border-top: 1px dashed var(--border-color);
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .roteiro-card.expandido .roteiro-card-detalhes {
+      display: flex;
+    }
+
+    .btn-toggle-roteiro-detalhes {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.6rem;
+      font-size: var(--fs-caption);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      width: 100%;
+      margin-top: auto;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .btn-toggle-roteiro-detalhes:hover {
+      background: var(--bg-card);
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+    }
+
+    .roteiro-card.expandido .btn-toggle-roteiro-detalhes {
+      background: rgba(5, 150, 105, 0.1);
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+    }
+
+    .roteiro-card.expandido .btn-toggle-roteiro-detalhes .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .toggle-icon {
+      transition: transform 0.2s ease;
     }
 
     /* CARD EM DESTAQUE / FOCO VISUAL DA TURMA */
@@ -583,18 +649,6 @@
       color: var(--accent-amber);
       font-weight: 700;
       box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-    }
-
-    /* CARD ILUSTRAÇÃO MEDIA */
-    .roteiro-card-media {
-      position: relative;
-      width: 100%;
-      height: 172px;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 0.95rem;
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid var(--border-color);
     }
 
     .roteiro-card-img {
@@ -2976,14 +3030,10 @@
   <header class="app-header">
     <div class="header-container">
       <div class="brand-area">
-        <button type="button" class="btn-bb-menu-toggle" onclick="toggleMenuBB()" id="btnMenuBBHeader" title="Abrir menu de navegação estilo Banco do Brasil" aria-label="Abrir menu principal">
-          <i class="bi bi-grid-fill"></i>
-          <span class="d-none d-sm-inline font-outfit fw-bold ms-1">Menu</span>
-        </button>
-        <div class="brand-logo-bg">
+        <div class="brand-logo-bg" onclick="showTab('tab-roteiros')" style="cursor: pointer;" title="Retornar à página inicial (Caderno de Roteiros Práticos)">
           <img src="figures/garopaba_horizontal_marca2015_PNG.png" alt="IFSC Garopaba">
         </div>
-        <div class="brand-titles">
+        <div class="brand-titles" onclick="showTab('tab-roteiros')" style="cursor: pointer;" title="Retornar à página inicial (Caderno de Roteiros Práticos)">
           <h1>Programação para a Internet 2 (ProgWeb 2 / PIT II)</h1>
           <p>CST em Sistemas para a Internet — Instituto Federal de Santa Catarina (Câmpus Garopaba)</p>
         </div>
@@ -3037,9 +3087,14 @@
       <aside class="app-sidebar" id="appSidebarNav" aria-label="Navegação da Unidade Curricular">
         <div class="nav-sidebar-card">
           
-          <div class="sidebar-brand-header d-flex align-items-center justify-content-between">
-            <span class="sidebar-title"><i class="bi bi-compass-fill text-success me-1"></i> Navegação da UC</span>
-            <span class="badge bg-success-subtle text-success fs-label">IFSC</span>
+          <div class="sidebar-brand-header d-flex align-items-center justify-content-between" onclick="toggleMenuBB()" style="cursor: pointer;" title="Abrir menu completo / mapa da UC (Estilo Banco do Brasil)">
+            <span class="sidebar-title d-flex align-items-center gap-2">
+              <i class="bi bi-compass-fill text-success"></i>
+              <span>Navegação da UC</span>
+            </span>
+            <button type="button" class="btn btn-sm btn-outline-success py-0 px-2 fs-label fw-bold d-flex align-items-center gap-1" title="Abrir mapa do site completo">
+              <i class="bi bi-grid-fill"></i> Menu
+            </button>
           </div>
 
           <!-- GRUPO 1: VISÃO GERAL -->
@@ -3295,6 +3350,10 @@
               </button>
             </div>
 
+            <button type="button" id="btnToggleTodosCards" onclick="alternarTodosCardsRoteiros()" class="btn btn-sm btn-outline-success font-outfit fw-bold d-flex align-items-center gap-1" title="Expandir ou recolher todos os cards de roteiro" style="font-size: var(--fs-caption); padding: 0.25rem 0.6rem;">
+              <i class="bi bi-arrows-expand" id="iconToggleTodosCards"></i> <span id="labelToggleTodosCards">Expandir Todos</span>
+            </button>
+
             <button onclick="showTab('tab-sigaa')" class="btn-action btn-outline-action">
               <i class="bi bi-mortarboard-fill text-primary"></i> Central de Tarefas no SIGAA
             </button>
@@ -3327,24 +3386,30 @@
               Fundamentos de design mobile-first e sistema de grid de 12 colunas para criação de interfaces fluidas, cards modulares e formulários estruturados.
             </p>
 
-            <div class="card-quick-meta">
-              <span class="quick-meta-pill blue"><i class="bi bi-grid-3x3"></i> Grid 12 Col</span>
-              <span class="quick-meta-pill blue"><i class="bi bi-phone"></i> Mobile-First</span>
-              <span class="quick-meta-pill blue"><i class="bi bi-ui-radios"></i> Formulários</span>
-            </div>
+            <button type="button" class="btn-toggle-roteiro-detalhes" onclick="alternarDetalhesCardRoteiro('card-roteiro-1')" aria-label="Expandir ou recolher recursos e ações do Roteiro 1">
+              <span class="txt-toggle">Recursos e Ações</span> <i class="bi bi-chevron-down toggle-icon ms-1"></i>
+            </button>
 
-            <div class="roteiro-focus-box">
-              <i class="bi bi-box-seam text-primary"></i>
-              <span><strong>Foco Prático:</strong> Prototipagem de layout estático moderno com classes utilitárias e formulários adaptáveis.</span>
-            </div>
+            <div class="roteiro-card-detalhes">
+              <div class="card-quick-meta">
+                <span class="quick-meta-pill blue"><i class="bi bi-grid-3x3"></i> Grid 12 Col</span>
+                <span class="quick-meta-pill blue"><i class="bi bi-phone"></i> Mobile-First</span>
+                <span class="quick-meta-pill blue"><i class="bi bi-ui-radios"></i> Formulários</span>
+              </div>
 
-            <div class="roteiro-card-actions">
-              <a href="roteiro-1/main.pdf" target="_blank" class="btn-action btn-primary-action">
-                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
-              </a>
-              <a href="retomada-de-atividades-pi2/parte-1-bootstrap/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-easel"></i> Slides (Parte 1)
-              </a>
+              <div class="roteiro-focus-box">
+                <i class="bi bi-box-seam text-primary"></i>
+                <span><strong>Foco Prático:</strong> Prototipagem de layout estático moderno com classes utilitárias e formulários adaptáveis.</span>
+              </div>
+
+              <div class="roteiro-card-actions">
+                <a href="roteiro-1/main.pdf" target="_blank" class="btn-action btn-primary-action">
+                  <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
+                </a>
+                <a href="retomada-de-atividades-pi2/parte-1-bootstrap/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-easel"></i> Slides (Parte 1)
+                </a>
+              </div>
             </div>
           </div>
 
@@ -3372,27 +3437,33 @@
               Interatividade dinâmica no navegador, manipulação direta de elementos do DOM, escuta de eventos e persistência duradoura com Web Storage API.
             </p>
 
-            <div class="card-quick-meta">
-              <span class="quick-meta-pill amber"><i class="bi bi-cursor-fill"></i> Seletores $( )</span>
-              <span class="quick-meta-pill amber"><i class="bi bi-lightning-fill"></i> Eventos .on()</span>
-              <span class="quick-meta-pill amber"><i class="bi bi-database-fill"></i> localStorage (JSON)</span>
-            </div>
+            <button type="button" class="btn-toggle-roteiro-detalhes" onclick="alternarDetalhesCardRoteiro('card-roteiro-2')" aria-label="Expandir ou recolher recursos e ações do Roteiro 2">
+              <span class="txt-toggle">Recursos e Ações</span> <i class="bi bi-chevron-down toggle-icon ms-1"></i>
+            </button>
 
-            <div class="roteiro-focus-box">
-              <i class="bi bi-box-seam text-warning"></i>
-              <span><strong>Foco Prático:</strong> Sistema de cadastro de clientes com renderização reativa e persistência offline.</span>
-            </div>
+            <div class="roteiro-card-detalhes">
+              <div class="card-quick-meta">
+                <span class="quick-meta-pill amber"><i class="bi bi-cursor-fill"></i> Seletores $( )</span>
+                <span class="quick-meta-pill amber"><i class="bi bi-lightning-fill"></i> Eventos .on()</span>
+                <span class="quick-meta-pill amber"><i class="bi bi-database-fill"></i> localStorage (JSON)</span>
+              </div>
 
-            <div class="roteiro-card-actions">
-              <a href="roteiro-2/main.pdf" target="_blank" class="btn-action btn-primary-action">
-                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
-              </a>
-              <a href="retomada-de-atividades-pi2/exercicio-retomada/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-window-stack"></i> Demo Cadastro
-              </a>
-              <a href="retomada-de-atividades-pi2/parte-2-jquery/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-easel"></i> Slides (Parte 2)
-              </a>
+              <div class="roteiro-focus-box">
+                <i class="bi bi-box-seam text-warning"></i>
+                <span><strong>Foco Prático:</strong> Sistema de cadastro de clientes com renderização reativa e persistência offline.</span>
+              </div>
+
+              <div class="roteiro-card-actions">
+                <a href="roteiro-2/main.pdf" target="_blank" class="btn-action btn-primary-action">
+                  <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
+                </a>
+                <a href="retomada-de-atividades-pi2/exercicio-retomada/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-window-stack"></i> Demo Cadastro
+                </a>
+                <a href="retomada-de-atividades-pi2/parte-2-jquery/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-easel"></i> Slides (Parte 2)
+                </a>
+              </div>
             </div>
           </div>
 
@@ -3422,24 +3493,30 @@
               Processamento aritmético em tempo real, formatação de moeda brasileira (R$) e controle do estado de compras com armazenamento seguro de rascunhos.
             </p>
 
-            <div class="card-quick-meta">
-              <span class="quick-meta-pill green"><i class="bi bi-123"></i> Tempo Real</span>
-              <span class="quick-meta-pill green"><i class="bi bi-currency-dollar"></i> Moeda BRL (R$)</span>
-              <span class="quick-meta-pill green"><i class="bi bi-cart3"></i> Carrinho Persistido</span>
-            </div>
+            <button type="button" class="btn-toggle-roteiro-detalhes" onclick="alternarDetalhesCardRoteiro('card-roteiro-3')" aria-label="Expandir ou recolher recursos e ações do Roteiro 3">
+              <span class="txt-toggle">Recursos e Ações</span> <i class="bi bi-chevron-down toggle-icon ms-1"></i>
+            </button>
 
-            <div class="roteiro-focus-box">
-              <i class="bi bi-pin-angle-fill text-success"></i>
-              <span><strong>Atividade 1 (SIGAA):</strong> Calculadora de lanches com adicionais e apresentação presencial na próxima aula.</span>
-            </div>
+            <div class="roteiro-card-detalhes">
+              <div class="card-quick-meta">
+                <span class="quick-meta-pill green"><i class="bi bi-123"></i> Tempo Real</span>
+                <span class="quick-meta-pill green"><i class="bi bi-currency-dollar"></i> Moeda BRL (R$)</span>
+                <span class="quick-meta-pill green"><i class="bi bi-cart3"></i> Carrinho Persistido</span>
+              </div>
 
-            <div class="roteiro-card-actions">
-              <a href="roteiro-3/main.pdf" target="_blank" class="btn-action btn-primary-action">
-                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
-              </a>
-              <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-play-circle-fill"></i> Executar App Demo
-              </a>
+              <div class="roteiro-focus-box">
+                <i class="bi bi-pin-angle-fill text-success"></i>
+                <span><strong>Atividade 1 (SIGAA):</strong> Calculadora de lanches com adicionais e apresentação presencial na próxima aula.</span>
+              </div>
+
+              <div class="roteiro-card-actions">
+                <a href="roteiro-3/main.pdf" target="_blank" class="btn-action btn-primary-action">
+                  <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
+                </a>
+                <a href="roteiro-3/exercicio-roteiro3/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-play-circle-fill"></i> Executar App Demo
+                </a>
+              </div>
             </div>
           </div>
 
@@ -3469,24 +3546,30 @@
               Arquitetura modular em camadas separadas (<code>services</code>, <code>views</code>, <code>utils</code>), componentes modais Bootstrap 5 e fluxo CRUD com feedback por toast.
             </p>
 
-            <div class="card-quick-meta">
-              <span class="quick-meta-pill purple"><i class="bi bi-boxes"></i> ES6 Modules</span>
-              <span class="quick-meta-pill purple"><i class="bi bi-layers"></i> Camadas MVC</span>
-              <span class="quick-meta-pill purple"><i class="bi bi-window"></i> Modais &amp; Toasts</span>
-            </div>
+            <button type="button" class="btn-toggle-roteiro-detalhes" onclick="alternarDetalhesCardRoteiro('card-roteiro-4')" aria-label="Expandir ou recolher recursos e ações do Roteiro 4">
+              <span class="txt-toggle">Recursos e Ações</span> <i class="bi bi-chevron-down toggle-icon ms-1"></i>
+            </button>
 
-            <div class="roteiro-focus-box">
-              <i class="bi bi-box-seam text-purple" style="color: var(--accent-purple);"></i>
-              <span><strong>Foco Prático:</strong> Catálogo de serviços comunitários com filtros de categorias e cadastro interativo via modal.</span>
-            </div>
+            <div class="roteiro-card-detalhes">
+              <div class="card-quick-meta">
+                <span class="quick-meta-pill purple"><i class="bi bi-boxes"></i> ES6 Modules</span>
+                <span class="quick-meta-pill purple"><i class="bi bi-layers"></i> Camadas MVC</span>
+                <span class="quick-meta-pill purple"><i class="bi bi-window"></i> Modais &amp; Toasts</span>
+              </div>
 
-            <div class="roteiro-card-actions">
-              <a href="roteiro-4/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: var(--accent-purple); border-color: var(--accent-purple);">
-                <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
-              </a>
-              <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-shop"></i> Executar Vitrine Demo
-              </a>
+              <div class="roteiro-focus-box">
+                <i class="bi bi-box-seam text-purple" style="color: var(--accent-purple);"></i>
+                <span><strong>Foco Prático:</strong> Catálogo de serviços comunitários com filtros de categorias e cadastro interativo via modal.</span>
+              </div>
+
+              <div class="roteiro-card-actions">
+                <a href="roteiro-4/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: var(--accent-purple); border-color: var(--accent-purple);">
+                  <i class="bi bi-file-earmark-pdf"></i> Guia em PDF
+                </a>
+                <a href="roteiro-4/exercicio-roteiro4/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-shop"></i> Executar Vitrine Demo
+                </a>
+              </div>
             </div>
           </div>
 
@@ -3516,30 +3599,36 @@
               Comunicação assíncrona cliente-servidor via APIs RESTful, envio e recebimento de JSON, persistência em banco relacional SQLite e fallback offline resiliente.
             </p>
 
-            <div class="card-quick-meta">
-              <span class="quick-meta-pill indigo"><i class="bi bi-arrow-left-right"></i> Fetch &amp; async/await</span>
-              <span class="quick-meta-pill indigo"><i class="bi bi-cpu"></i> Python Flask API</span>
-              <span class="quick-meta-pill indigo"><i class="bi bi-database-fill"></i> SQLite (vitrine.db)</span>
-            </div>
+            <button type="button" class="btn-toggle-roteiro-detalhes" onclick="alternarDetalhesCardRoteiro('card-roteiro-5')" aria-label="Expandir ou recolher recursos e ações do Roteiro 5">
+              <span class="txt-toggle">Recursos e Ações</span> <i class="bi bi-chevron-down toggle-icon ms-1"></i>
+            </button>
 
-            <div class="roteiro-focus-box">
-              <i class="bi bi-box-seam" style="color: #6366f1;"></i>
-              <span><strong>Foco Prático:</strong> Integração completa da vitrine com endpoints RESTful em Python e persistência relacional SQLite.</span>
-            </div>
+            <div class="roteiro-card-detalhes">
+              <div class="card-quick-meta">
+                <span class="quick-meta-pill indigo"><i class="bi bi-arrow-left-right"></i> Fetch &amp; async/await</span>
+                <span class="quick-meta-pill indigo"><i class="bi bi-cpu"></i> Python Flask API</span>
+                <span class="quick-meta-pill indigo"><i class="bi bi-database-fill"></i> SQLite (vitrine.db)</span>
+              </div>
 
-            <div class="roteiro-card-actions">
-              <a href="roteiro-5/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: #4f46e5; border-color: #4f46e5;">
-                <i class="bi bi-file-earmark-pdf"></i> Parte 1: Fundamentos
-              </a>
-              <a href="roteiro-5/tarefa-guiada.pdf" target="_blank" class="btn-action btn-primary-action" style="background: #059669; border-color: #059669;">
-                <i class="bi bi-file-earmark-check"></i> Parte 2: Tarefa Guiada
-              </a>
-              <a href="roteiro-5/slides/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-easel-fill" style="color: #6366f1;"></i> Slides Interativos
-              </a>
-              <a href="roteiro-5/exercicio-roteiro5/frontend/index.html" target="_blank" class="btn-action btn-outline-action">
-                <i class="bi bi-cloud-check-fill text-primary"></i> Executar Vitrine Conectada
-              </a>
+              <div class="roteiro-focus-box">
+                <i class="bi bi-box-seam" style="color: #6366f1;"></i>
+                <span><strong>Foco Prático:</strong> Integração completa da vitrine com endpoints RESTful em Python e persistência relacional SQLite.</span>
+              </div>
+
+              <div class="roteiro-card-actions">
+                <a href="roteiro-5/main.pdf" target="_blank" class="btn-action btn-primary-action" style="background: #4f46e5; border-color: #4f46e5;">
+                  <i class="bi bi-file-earmark-pdf"></i> Parte 1: Fundamentos
+                </a>
+                <a href="roteiro-5/tarefa-guiada.pdf" target="_blank" class="btn-action btn-primary-action" style="background: #059669; border-color: #059669;">
+                  <i class="bi bi-file-earmark-check"></i> Parte 2: Tarefa Guiada
+                </a>
+                <a href="roteiro-5/slides/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-easel-fill" style="color: #6366f1;"></i> Slides Interativos
+                </a>
+                <a href="roteiro-5/exercicio-roteiro5/frontend/index.html" target="_blank" class="btn-action btn-outline-action">
+                  <i class="bi bi-cloud-check-fill text-primary"></i> Executar Vitrine Conectada
+                </a>
+              </div>
             </div>
           </div>
 
@@ -3572,59 +3661,65 @@
               Organização da turma em 8 frentes estratégicas (24 vagas) para produção dos kits instrucionais e condução das oficinas de desenvolvimento web na SNCT 2026.
             </p>
 
-            <div class="card-quick-meta">
-              <span class="quick-meta-pill green"><i class="bi bi-mortarboard-fill"></i> 40h Extensão</span>
-              <span class="quick-meta-pill blue"><i class="bi bi-people-fill"></i> 8 Frentes (3 Alunos)</span>
-              <span class="quick-meta-pill purple"><i class="bi bi-clock-history"></i> Oficina 120 min</span>
-            </div>
+            <button type="button" class="btn-toggle-roteiro-detalhes" onclick="alternarDetalhesCardRoteiro('card-roteiro-snct')" aria-label="Expandir ou recolher recursos e ações do card SNCT">
+              <span class="txt-toggle">Recursos e Ações</span> <i class="bi bi-chevron-down toggle-icon ms-1"></i>
+            </button>
 
-            <!-- PAINEL DINÂMICO DE ANDAMENTO & PENDÊNCIAS -->
-            <div class="snct-card-dynamic-panel">
-              <!-- BARRA DE PROGRESSO & CONTADOR DE VAGAS -->
-              <div>
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                  <span class="snct-dynamic-label">
-                    <i class="bi bi-person-check-fill text-primary me-1"></i> Preenchimento das Vagas:
-                  </span>
-                  <span class="snct-dynamic-counter font-mono" id="heroSnctContadorVagas">0 / 24 vagas</span>
+            <div class="roteiro-card-detalhes">
+              <div class="card-quick-meta">
+                <span class="quick-meta-pill green"><i class="bi bi-mortarboard-fill"></i> 40h Extensão</span>
+                <span class="quick-meta-pill blue"><i class="bi bi-people-fill"></i> 8 Frentes (3 Alunos)</span>
+                <span class="quick-meta-pill purple"><i class="bi bi-clock-history"></i> Oficina 120 min</span>
+              </div>
+
+              <!-- PAINEL DINÂMICO DE ANDAMENTO & PENDÊNCIAS -->
+              <div class="snct-card-dynamic-panel">
+                <!-- BARRA DE PROGRESSO & CONTADOR DE VAGAS -->
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="snct-dynamic-label">
+                      <i class="bi bi-person-check-fill text-primary me-1"></i> Preenchimento das Vagas:
+                    </span>
+                    <span class="snct-dynamic-counter font-mono" id="heroSnctContadorVagas">0 / 24 vagas</span>
+                  </div>
+                  <div class="snct-progress-bar-wrap">
+                    <div class="snct-progress-bar-fill" id="heroSnctProgressBar" style="width: 0%;"></div>
+                  </div>
                 </div>
-                <div class="snct-progress-bar-wrap">
-                  <div class="snct-progress-bar-fill" id="heroSnctProgressBar" style="width: 0%;"></div>
+
+                <!-- INDICADORES DINÂMICOS DE ANDAMENTO & PENDÊNCIAS -->
+                <div class="snct-metrics-strip" id="cardSnctMetricasAndamento">
+                  <!-- Preenchido dinamicamente via JS -->
+                </div>
+
+                <!-- STATUS DO ALUNO LOGADO & AÇÃO DIRETA -->
+                <div class="snct-user-status-box" id="heroSnctStatusUsuario">
+                  <!-- Preenchido dinamicamente via JS -->
                 </div>
               </div>
 
-              <!-- INDICADORES DINÂMICOS DE ANDAMENTO & PENDÊNCIAS -->
-              <div class="snct-metrics-strip" id="cardSnctMetricasAndamento">
-                <!-- Preenchido dinamicamente via JS -->
+              <div class="roteiro-focus-box">
+                <i class="bi bi-calendar-event-fill text-danger"></i>
+                <span><strong>Missão desta Semana (Ausência Docente):</strong> <strong>1)</strong> Candidatar-se em uma das 8 frentes <strong>até amanhã (Terça, 27/10 às 23:59)</strong>; <strong>2)</strong> Seguir o Roteiro PDF da sua frente e estruturar a sala do curso no <strong>Moodle Institucional do IFSC</strong> (com perfil de Professor).</span>
               </div>
 
-              <!-- STATUS DO ALUNO LOGADO & AÇÃO DIRETA -->
-              <div class="snct-user-status-box" id="heroSnctStatusUsuario">
-                <!-- Preenchido dinamicamente via JS -->
+              <div class="roteiro-card-actions">
+                <button onclick="navegarParaDemandasSNCT()" class="btn-action btn-primary-action">
+                  <i class="bi bi-hand-index-thumb-fill"></i> Candidatar-se (Até 27/10)
+                </button>
+                <a href="snct-frentes/frente-didatica/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 1: Didática, Micro-Roteiro & Sala no Moodle">
+                  <i class="bi bi-file-earmark-pdf text-primary"></i> PDF Frente 1 (Didática &amp; Moodle)
+                </a>
+                <a href="snct-frentes/frente-starterkit/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 2: Starter Kit, GitHub & Pacote no Moodle">
+                  <i class="bi bi-file-earmark-code text-success"></i> PDF Frente 2 (Starter Kit)
+                </a>
+                <a href="snct-frentes/frente-slides/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 3: Slides-Guia de 8 Telas & Moodle">
+                  <i class="bi bi-easel2 text-warning"></i> PDF Frente 3 (Slides 8 Telas)
+                </a>
+                <a href="snct-frentes/frente-monitoria/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 4: Monitoria de Bancada, Logística & Moodle">
+                  <i class="bi bi-people text-info"></i> PDF Frente 4 (Monitoria)
+                </a>
               </div>
-            </div>
-
-            <div class="roteiro-focus-box">
-              <i class="bi bi-calendar-event-fill text-danger"></i>
-              <span><strong>Missão desta Semana (Ausência Docente):</strong> <strong>1)</strong> Candidatar-se em uma das 8 frentes <strong>até amanhã (Terça, 27/10 às 23:59)</strong>; <strong>2)</strong> Seguir o Roteiro PDF da sua frente e estruturar a sala do curso no <strong>Moodle Institucional do IFSC</strong> (com perfil de Professor).</span>
-            </div>
-
-            <div class="roteiro-card-actions">
-              <button onclick="navegarParaDemandasSNCT()" class="btn-action btn-primary-action">
-                <i class="bi bi-hand-index-thumb-fill"></i> Candidatar-se (Até 27/10)
-              </button>
-              <a href="snct-frentes/frente-didatica/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 1: Didática, Micro-Roteiro & Sala no Moodle">
-                <i class="bi bi-file-earmark-pdf text-primary"></i> PDF Frente 1 (Didática &amp; Moodle)
-              </a>
-              <a href="snct-frentes/frente-starterkit/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 2: Starter Kit, GitHub & Pacote no Moodle">
-                <i class="bi bi-file-earmark-code text-success"></i> PDF Frente 2 (Starter Kit)
-              </a>
-              <a href="snct-frentes/frente-slides/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 3: Slides-Guia de 8 Telas & Moodle">
-                <i class="bi bi-easel2 text-warning"></i> PDF Frente 3 (Slides 8 Telas)
-              </a>
-              <a href="snct-frentes/frente-monitoria/main.pdf" target="_blank" class="btn-action btn-outline-action" title="Roteiro PDF da Frente 4: Monitoria de Bancada, Logística & Moodle">
-                <i class="bi bi-people text-info"></i> PDF Frente 4 (Monitoria)
-              </a>
             </div>
           </div>
 

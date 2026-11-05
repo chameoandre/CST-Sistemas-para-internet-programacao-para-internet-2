@@ -6630,6 +6630,48 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       // Se não houver nada salvo, o card da SNCT é o foco ativo inicial
       const cardInicial = (salvo !== null) ? salvo : 'card-roteiro-snct';
       aplicarDestaqueCard(cardInicial, false);
+      if (cardInicial) {
+        const cAlvo = document.getElementById(cardInicial);
+        if (cAlvo) cAlvo.classList.add('expandido');
+      }
+      atualizarBotaoToggleTodosCards();
+    }
+
+    function alternarDetalhesCardRoteiro(cardId) {
+      const cardAlvo = document.getElementById(cardId) || document.querySelector(`[data-card-id="${cardId}"]`);
+      if (!cardAlvo) return;
+      cardAlvo.classList.toggle('expandido');
+      atualizarBotaoToggleTodosCards();
+    }
+
+    function alternarTodosCardsRoteiros() {
+      const todosCards = document.querySelectorAll('.roteiros-grid .roteiro-card');
+      if (!todosCards.length) return;
+      const algumRecolhido = Array.from(todosCards).some(c => !c.classList.contains('expandido'));
+      todosCards.forEach(c => {
+        if (algumRecolhido) {
+          c.classList.add('expandido');
+        } else {
+          c.classList.remove('expandido');
+        }
+      });
+      atualizarBotaoToggleTodosCards();
+    }
+
+    function atualizarBotaoToggleTodosCards() {
+      const btn = document.getElementById('btnToggleTodosCards');
+      const icon = document.getElementById('iconToggleTodosCards');
+      const label = document.getElementById('labelToggleTodosCards');
+      if (!btn) return;
+      const todosCards = document.querySelectorAll('.roteiros-grid .roteiro-card');
+      const todosExpandidos = todosCards.length > 0 && Array.from(todosCards).every(c => c.classList.contains('expandido'));
+      if (todosExpandidos) {
+        if (icon) icon.className = 'bi bi-arrows-collapse';
+        if (label) label.textContent = 'Recolher Todos';
+      } else {
+        if (icon) icon.className = 'bi bi-arrows-expand';
+        if (label) label.textContent = 'Expandir Todos';
+      }
     }
 
     function aplicarDestaqueCard(cardId, persistir = true) {
@@ -6644,6 +6686,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
         if (cardId && id === cardId) {
           c.classList.add('roteiro-highlight');
+          c.classList.add('expandido');
           if (btnDestaque) {
             btnDestaque.classList.add('active');
             btnDestaque.title = 'Remover destaque deste card';
@@ -6676,6 +6719,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           showToast("Destaque Removido", "Nenhum card está marcado com destaque visual.", "bi bi-info-circle text-primary");
         }
       }
+      atualizarBotaoToggleTodosCards();
     }
 
     function alternarDestaqueCard(cardId) {
@@ -6751,6 +6795,9 @@ const funcoesGlobais = {
   alterarEquipeAlunoRapido,
   alternarConclusaoDemanda,
   alternarDestaqueCard,
+  alternarDetalhesCardRoteiro,
+  alternarTodosCardsRoteiros,
+  atualizarBotaoToggleTodosCards,
   alternarEntregaAlvoDocente,
   alternarEtapaFrenteSNCT,
   aoMudarCursoModalRecado,
