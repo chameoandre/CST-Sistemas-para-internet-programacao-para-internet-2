@@ -92,7 +92,7 @@
     }
 
     .header-container {
-      max-width: 1320px;
+      max-width: 1600px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -228,8 +228,8 @@
 
     /* MAIN CONTAINER */
     main.main-container {
-      max-width: 1320px;
-      margin: 1.8rem auto;
+      max-width: 1600px;
+      margin: 1.5rem auto;
       padding: 0 1.5rem;
       width: 100%;
       flex: 1;
@@ -480,8 +480,8 @@
     /* ROTEIROS GRID & CARDS SUAVIZADOS (INSPIRAÇÃO PROJETO INTEGRADOR II) */
     .roteiros-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.15rem;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.25rem;
       align-items: stretch;
     }
 
@@ -2878,8 +2878,16 @@
        LAYOUT COM SIDEBAR CARD LATERAL (OPÇÃO 3: STRIPE/MDN)
        ===================================================== */
     @media (min-width: 1400px) {
+      .header-container,
       main.main-container {
-        max-width: 1440px;
+        max-width: 1560px;
+      }
+    }
+
+    @media (min-width: 1600px) {
+      .header-container,
+      main.main-container {
+        max-width: 1680px;
       }
     }
 
@@ -2891,8 +2899,8 @@
     }
 
     .app-sidebar {
-      width: 280px;
-      min-width: 260px;
+      width: 260px;
+      min-width: 245px;
       flex-shrink: 0;
       position: sticky;
       top: 1.5rem;
@@ -3019,6 +3027,25 @@
       }
       .sidebar-group-title {
         grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 767px) {
+      header.app-header {
+        padding: 0.85rem 1rem;
+      }
+      main.main-container {
+        margin: 1rem auto;
+        padding: 0 0.85rem;
+      }
+      .panel-card {
+        padding: 1.1rem 0.95rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .roteiros-grid {
+        grid-template-columns: 1fr;
       }
     }
 </style>
