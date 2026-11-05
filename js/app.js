@@ -6401,18 +6401,21 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // =========================================================================
     function showTab(tabId, shouldScroll = true) {
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn, .sidebar-nav-btn').forEach(el => el.classList.remove('active'));
 
       const targetPane = document.getElementById(tabId);
       if (targetPane) targetPane.classList.add('active');
 
-      const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId));
-      if (activeBtn) activeBtn.classList.add('active');
+      document.querySelectorAll('.tab-btn, .sidebar-nav-btn').forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+          btn.classList.add('active');
+        }
+      });
 
       if (shouldScroll) {
-        const tabsContainer = document.querySelector('.dashboard-tabs');
-        if (tabsContainer) {
-          tabsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const contentArea = document.querySelector('.app-content-area') || targetPane;
+        if (contentArea) {
+          contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
 
