@@ -13,6 +13,18 @@ export const STORAGE_KEY_ULTIMO_VOTANTE = 'progweb2_ultimo_votante';
 export const STORAGE_KEY_GOOGLE_SESSION = 'progweb2_google_session_v1';
 export const STORAGE_KEY_DEMANDAS_SNCT = 'progweb2_demandas_snct_v1';
 export const STORAGE_KEY_DOCENTE_AUTH = 'progweb2_docente_autenticado_v1';
+export const STORAGE_KEY_VISIBILIDADE_MODULOS = 'progweb2_visibilidade_modulos_estudantes';
+
+export const MODULOS_SISTEMA_PADRAO = [
+  { id: 'tab-roteiros', nome: '1. Roteiros Práticos', icone: 'bi bi-code-square', cor: 'text-success', grupo: 'Laboratório & Aulas', descricao: 'Caderno de roteiros práticos, guias em PDF e tarefas guiadas', padraoVisivel: true, fixo: true },
+  { id: 'tab-cronograma', nome: '2. Cronograma Semestral', icone: 'bi bi-calendar-range-fill', cor: 'text-info', grupo: 'Laboratório & Aulas', descricao: 'Planejamento das 20 aulas semanais e marcos da disciplina', padraoVisivel: true, fixo: false },
+  { id: 'tab-extensao', nome: '3. Extensão SNCT (40h)', icone: 'bi bi-megaphone-fill', cor: 'text-purple', grupo: 'Extensão & Entregas', descricao: 'Curricularização, 8 frentes de produção e oficinas de 120 min', padraoVisivel: true, fixo: false },
+  { id: 'tab-demandas', nome: '4. Demandas & Checkpoints', icone: 'fa-solid fa-list-check', cor: 'text-warning', grupo: 'Extensão & Entregas', descricao: 'Mural de demandas da semana, prazos e recados das equipes', padraoVisivel: true, fixo: false },
+  { id: 'tab-raio-x', nome: '0. Raio-X & Panorama Geral', icone: 'bi bi-speedometer2', cor: 'text-primary', grupo: 'Visão Geral', descricao: 'Panorama conceitual, arquitetura em camadas e objetivos da UC', padraoVisivel: false, fixo: false },
+  { id: 'tab-avaliacao', nome: '5. Sistema Avaliativo & Rubricas', icone: 'bi bi-calculator-fill', cor: 'text-warning', grupo: 'Avaliação & PPC', descricao: 'Critérios das avaliações A1, A2 e A3 e simulador de notas', padraoVisivel: false, fixo: false },
+  { id: 'tab-ementa', nome: '6. Ementa Oficial & PPC', icone: 'bi bi-book-half', cor: 'text-secondary', grupo: 'Avaliação & PPC', descricao: 'Conteúdo programático formal e bibliografia básica/complementar', padraoVisivel: false, fixo: false },
+  { id: 'tab-sigaa', nome: '7. Central de Tarefas no SIGAA', icone: 'bi bi-mortarboard-fill', cor: 'text-primary', grupo: 'Avaliação & PPC', descricao: 'Controle de prazos e sincronização de envios no SIGAA', padraoVisivel: false, fixo: false }
+];
 
 export const DETALHES_FRENTES_SNCT = {
   'c1-frente-didatica': {

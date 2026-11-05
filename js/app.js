@@ -898,6 +898,7 @@ window.ProgWeb2 = {
         document.body.classList.remove('modo-docente-ativo');
       }
       atualizarUIModoDocente(ativo);
+      aplicarVisibilidadeModulos();
     }
 
     function solicitarAcessoDocente() {
@@ -909,7 +910,9 @@ window.ProgWeb2 = {
           localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'false');
           localStorage.removeItem(STORAGE_KEY_DOCENTE_AUTH);
           atualizarUIModoDocente(false);
+          aplicarVisibilidadeModulos();
           renderizarAreaDocente();
+          renderizarPainelVisibilidadeModulosDocente();
           renderizarCardMinhaFrenteEstudante();
           showToast("Visão do Estudante Ativada", "Visualização configurada no modo de consulta do estudante.", "fa-solid fa-user-graduate text-primary");
         }
@@ -922,7 +925,9 @@ window.ProgWeb2 = {
         localStorage.setItem(STORAGE_KEY_DOCENTE_AUTH, 'true');
         localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'true');
         atualizarUIModoDocente(true);
+        aplicarVisibilidadeModulos();
         renderizarAreaDocente();
+        renderizarPainelVisibilidadeModulosDocente();
         renderizarCardMinhaFrenteEstudante();
         showToast("Modo Docente Ativado", "Olá, Prof. André Moraes! Controles administrativos liberados.", "fa-solid fa-chalkboard-user text-warning");
         showTab('tab-docente');
@@ -945,7 +950,9 @@ window.ProgWeb2 = {
         localStorage.setItem(STORAGE_KEY_DOCENTE_AUTH, 'true');
         localStorage.setItem(STORAGE_KEY_MODO_DOCENTE, 'true');
         atualizarUIModoDocente(true);
+        aplicarVisibilidadeModulos();
         renderizarAreaDocente();
+        renderizarPainelVisibilidadeModulosDocente();
         renderizarCardMinhaFrenteEstudante();
         showToast("Modo Docente Liberado", "Chave administrativa validada com sucesso!", "fa-solid fa-chalkboard-user text-warning");
         showTab('tab-docente');
@@ -964,6 +971,221 @@ window.ProgWeb2 = {
 
     function abrirAreaDocenteDireto() {
       abrirPainelFrentesGestao();
+    }
+
+    // =========================================================================
+    // GESTÃO DE VISIBILIDADE DOS MÓDULOS PARA OS ESTUDANTES
+    // =========================================================================
+    const STORAGE_KEY_VISIBILIDADE_MODULOS = 'progweb2_visibilidade_modulos_estudantes';
+
+    const MODULOS_SISTEMA = [
+      { id: 'tab-roteiros', nome: '1. Roteiros Práticos', icone: 'bi bi-code-square', cor: 'text-success', grupo: 'Laboratório & Aulas', descricao: 'Caderno de roteiros práticos, guias em PDF e tarefas guiadas', padrao: true, fixo: true },
+      { id: 'tab-cronograma', nome: '2. Cronograma Semestral', icone: 'bi bi-calendar-range-fill', cor: 'text-info', grupo: 'Laboratório & Aulas', descricao: 'Planejamento das 20 aulas semanais e marcos da disciplina', padrao: true, fixo: false },
+      { id: 'tab-extensao', nome: '3. Extensão SNCT (40h)', icone: 'bi bi-megaphone-fill', cor: 'text-purple', grupo: 'Extensão & Entregas', descricao: 'Curricularização, 8 frentes de produção e oficinas de 120 min', padrao: true, fixo: false },
+      { id: 'tab-demandas', nome: '4. Demandas & Checkpoints', icone: 'fa-solid fa-list-check', cor: 'text-warning', grupo: 'Extensão & Entregas', descricao: 'Mural de demandas da semana, prazos e recados das equipes', padrao: true, fixo: false },
+      { id: 'tab-raio-x', nome: '0. Raio-X & Panorama Geral', icone: 'bi bi-speedometer2', cor: 'text-primary', grupo: 'Visão Geral', descricao: 'Panorama conceitual, arquitetura em camadas e objetivos da UC', padrao: false, fixo: false },
+      { id: 'tab-avaliacao', nome: '5. Sistema Avaliativo & Rubricas', icone: 'bi bi-calculator-fill', cor: 'text-warning', grupo: 'Avaliação & PPC', descricao: 'Critérios das avaliações A1, A2 e A3 e simulador de notas', padrao: false, fixo: false },
+      { id: 'tab-ementa', nome: '6. Ementa Oficial & PPC', icone: 'bi bi-book-half', cor: 'text-secondary', grupo: 'Avaliação & PPC', descricao: 'Conteúdo programático formal e bibliografia básica/complementar', padrao: false, fixo: false },
+      { id: 'tab-sigaa', nome: '7. Central de Tarefas no SIGAA', icone: 'bi bi-mortarboard-fill', cor: 'text-primary', grupo: 'Avaliação & PPC', descricao: 'Controle de prazos e sincronização de envios no SIGAA', padrao: false, fixo: false }
+    ];
+
+    function obterConfigVisibilidadeModulos() {
+      try {
+        const salvo = localStorage.getItem(STORAGE_KEY_VISIBILIDADE_MODULOS);
+        if (salvo) {
+          const parsed = JSON.parse(salvo);
+          parsed['tab-roteiros'] = true; // Sempre ativo como página padrão inicial
+          return parsed;
+        }
+      } catch (e) {
+        console.warn("Erro ao ler visibilidade dos módulos:", e);
+      }
+      return {
+        'tab-roteiros': true,
+        'tab-cronograma': true,
+        'tab-extensao': true,
+        'tab-demandas': true,
+        'tab-raio-x': false,
+        'tab-avaliacao': false,
+        'tab-ementa': false,
+        'tab-sigaa': false
+      };
+    }
+
+    function salvarConfigVisibilidadeModulos(config) {
+      config['tab-roteiros'] = true;
+      localStorage.setItem(STORAGE_KEY_VISIBILIDADE_MODULOS, JSON.stringify(config));
+      aplicarVisibilidadeModulos();
+      renderizarPainelVisibilidadeModulosDocente();
+    }
+
+    function alternarVisibilidadeModulo(tabId, visivel) {
+      if (tabId === 'tab-roteiros') return;
+      const config = obterConfigVisibilidadeModulos();
+      config[tabId] = !!visivel;
+      salvarConfigVisibilidadeModulos(config);
+      const mod = MODULOS_SISTEMA.find(m => m.id === tabId);
+      const nome = mod ? mod.nome : tabId;
+      if (config[tabId]) {
+        showToast("Módulo Liberado", `O módulo "${nome}" agora está visível para os estudantes.`, "bi bi-eye text-success");
+      } else {
+        showToast("Módulo Ocultado", `O módulo "${nome}" foi ocultado para os estudantes.`, "bi bi-eye-slash text-secondary");
+      }
+    }
+
+    function definirModoVisibilidadePredefinido(tipo) {
+      let config;
+      if (tipo === 'essencial') {
+        config = {
+          'tab-roteiros': true,
+          'tab-cronograma': true,
+          'tab-extensao': true,
+          'tab-demandas': true,
+          'tab-raio-x': false,
+          'tab-avaliacao': false,
+          'tab-ementa': false,
+          'tab-sigaa': false
+        };
+        showToast("Foco Essencial Ativado", "Apenas Roteiros, Cronograma, Extensão e Demandas estão visíveis para os estudantes.", "bi bi-check2-circle text-success");
+      } else {
+        config = {
+          'tab-roteiros': true,
+          'tab-cronograma': true,
+          'tab-extensao': true,
+          'tab-demandas': true,
+          'tab-raio-x': true,
+          'tab-avaliacao': true,
+          'tab-ementa': true,
+          'tab-sigaa': true
+        };
+        showToast("Todos os Módulos Liberados", "Todas as abas da UC estão disponíveis para os estudantes.", "bi bi-eye text-primary");
+      }
+      salvarConfigVisibilidadeModulos(config);
+    }
+
+    function aplicarVisibilidadeModulos() {
+      const isDocente = document.body.classList.contains('modo-docente-ativo');
+      const config = obterConfigVisibilidadeModulos();
+
+      // 1. Sidebar lateral: botões individuais
+      const botoesSidebar = document.querySelectorAll('.app-sidebar .sidebar-nav-btn[data-tab-id]');
+      botoesSidebar.forEach(btn => {
+        const tabId = btn.getAttribute('data-tab-id');
+        if (tabId === 'tab-docente') return;
+
+        const badgeAntiga = btn.querySelector('.badge-oculto-estudante');
+        if (badgeAntiga) badgeAntiga.remove();
+
+        if (isDocente) {
+          btn.style.display = '';
+          if (config[tabId] === false) {
+            const badgeOculto = document.createElement('span');
+            badgeOculto.className = 'badge bg-secondary-subtle text-secondary fs-label badge-oculto-estudante ms-1';
+            badgeOculto.title = 'Este módulo está oculto para os estudantes';
+            badgeOculto.innerHTML = '<i class="bi bi-eye-slash"></i> Oculto';
+            btn.appendChild(badgeOculto);
+          }
+        } else {
+          if (config[tabId] === false) {
+            btn.style.display = 'none';
+          } else {
+            btn.style.display = '';
+          }
+        }
+      });
+
+      // 2. Sidebar lateral: grupos de categoria
+      const gruposSidebar = document.querySelectorAll('.app-sidebar .sidebar-group');
+      gruposSidebar.forEach(grupo => {
+        if (isDocente) {
+          grupo.style.display = '';
+        } else {
+          const botoesVisiveis = Array.from(grupo.querySelectorAll('.sidebar-nav-btn')).filter(b => b.style.display !== 'none');
+          if (botoesVisiveis.length === 0) {
+            grupo.style.display = 'none';
+          } else {
+            grupo.style.display = '';
+          }
+        }
+      });
+
+      // 3. Menu Banco do Brasil (Categorias e Sublinks)
+      const catItemsBB = document.querySelectorAll('.bb-sidebar-cats .bb-cat-item');
+      catItemsBB.forEach(item => {
+        const btnCat = item.querySelector('.bb-cat-btn');
+        if (!btnCat) return;
+        const cat = btnCat.getAttribute('data-cat');
+        let visivel = true;
+
+        if (cat === 'raio-x') visivel = !!config['tab-raio-x'];
+        else if (cat === 'roteiros') visivel = !!config['tab-roteiros'];
+        else if (cat === 'extensao') visivel = !!config['tab-extensao'];
+        else if (cat === 'demandas') visivel = !!config['tab-demandas'];
+        else if (cat === 'avaliacao') visivel = !!config['tab-avaliacao'];
+        else if (cat === 'plano') visivel = !!config['tab-cronograma'] || !!config['tab-ementa'] || !!config['tab-sigaa'];
+        else if (cat === 'gestao') visivel = isDocente;
+
+        if (isDocente) {
+          item.style.display = '';
+        } else {
+          item.style.display = visivel ? '' : 'none';
+        }
+      });
+
+      // 4. Redirecionamento de segurança se estudante estiver visualizando aba oculta
+      if (!isDocente) {
+        const paneAtiva = document.querySelector('.tab-pane.active');
+        if (paneAtiva) {
+          const idAtivo = paneAtiva.id;
+          if (idAtivo !== 'tab-docente' && config[idAtivo] === false) {
+            showTab('tab-roteiros', false);
+          }
+        }
+      }
+    }
+
+    function renderizarPainelVisibilidadeModulosDocente() {
+      const container = document.getElementById('containerSwitchesVisibilidadeModulos');
+      const badgeTotal = document.getElementById('badgeTotalModulosVisiveis');
+      if (!container) return;
+
+      const config = obterConfigVisibilidadeModulos();
+      let totalAtivos = 0;
+
+      const htmlCards = MODULOS_SISTEMA.map(mod => {
+        const ativo = mod.fixo ? true : !!config[mod.id];
+        if (ativo) totalAtivos++;
+
+        return `
+          <div class="col-md-6 col-lg-3">
+            <div class="card h-100 p-3" style="background: var(--bg-card); border: 1px solid ${ativo ? 'var(--accent-emerald)' : 'var(--border-color)'}; border-radius: var(--radius-md); box-shadow: var(--card-shadow); transition: all 0.2s ease;">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="${mod.icone} ${mod.cor} fs-5"></i>
+                  <span class="font-outfit fw-bold text-heading fs-body-sm">${mod.nome}</span>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input" type="checkbox" id="switchVisib_${mod.id}" ${ativo ? 'checked' : ''} ${mod.fixo ? 'disabled title="Módulo obrigatório padrão do sistema"' : ''} onchange="alternarVisibilidadeModulo('${mod.id}', this.checked)" style="cursor: pointer;">
+                </div>
+              </div>
+              <p class="fs-caption text-muted mb-2" style="min-height: 38px;">${mod.descricao}</p>
+              <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center" style="border-color: var(--border-color) !important;">
+                <span class="fs-label ${ativo ? 'text-success fw-bold' : 'text-muted'}">
+                  <i class="bi ${ativo ? 'bi-eye-fill' : 'bi-eye-slash-fill'} me-1"></i>
+                  ${ativo ? (mod.fixo ? 'Fixo (Página Inicial)' : 'Visível p/ Estudantes') : 'Oculto p/ Estudantes'}
+                </span>
+                <span class="badge bg-body-secondary text-muted fs-label">${mod.grupo}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = htmlCards;
+      if (badgeTotal) {
+        badgeTotal.textContent = `${totalAtivos} de ${MODULOS_SISTEMA.length} Ativos`;
+        badgeTotal.className = `badge ${totalAtivos === 4 ? 'bg-success-subtle text-success' : 'bg-primary-subtle text-primary'} fs-label fw-bold`;
+      }
     }
 
     // =========================================================================
@@ -6400,6 +6622,15 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // NAVEGAÇÃO ENTRE ABAS
     // =========================================================================
     function showTab(tabId, shouldScroll = true) {
+      const isDocente = document.body.classList.contains('modo-docente-ativo');
+      const config = obterConfigVisibilidadeModulos();
+
+      // Se estudante tentar abrir uma aba oculta (via hash ou chamada direta), redireciona suavemente
+      if (!isDocente && tabId !== 'tab-docente' && config[tabId] === false) {
+        showToast("Módulo Restrito", "Este módulo não está ativo para visualização discente no momento.", "bi bi-info-circle text-primary");
+        tabId = 'tab-roteiros';
+      }
+
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn, .sidebar-nav-btn').forEach(el => el.classList.remove('active'));
 
@@ -6433,6 +6664,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-docente') {
         renderizarAreaDocente();
+        renderizarPainelVisibilidadeModulosDocente();
         renderizarCardMinhaFrenteEstudante();
         sincronizarComBackendAppsScript(false);
       } else if (tabId === 'tab-raio-x') {
@@ -6743,6 +6975,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     window.addEventListener("DOMContentLoaded", () => {
       carregarDados();
       initModoDocente();
+      aplicarVisibilidadeModulos();
+      renderizarPainelVisibilidadeModulosDocente();
       popularSelectsDeDemanda();
       renderizarDemandas();
       trocarSubAbaNotas('entregas');
@@ -6797,6 +7031,10 @@ const funcoesGlobais = {
   alternarDestaqueCard,
   alternarDetalhesCardRoteiro,
   alternarTodosCardsRoteiros,
+  alternarVisibilidadeModulo,
+  definirModoVisibilidadePredefinido,
+  aplicarVisibilidadeModulos,
+  renderizarPainelVisibilidadeModulosDocente,
   atualizarBotaoToggleTodosCards,
   alternarEntregaAlvoDocente,
   alternarEtapaFrenteSNCT,

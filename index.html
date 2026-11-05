@@ -3125,9 +3125,9 @@
           </div>
 
           <!-- GRUPO 1: VISÃO GERAL -->
-          <div class="sidebar-group">
+          <div class="sidebar-group" data-sidebar-group="visao-geral">
             <div class="sidebar-group-title">VISÃO GERAL</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-raio-x')" id="tabBtnRaioX" title="0. Raio-X & Panorama">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-raio-x')" id="tabBtnRaioX" data-tab-id="tab-raio-x" title="0. Raio-X & Panorama">
               <i class="bi bi-speedometer2 text-primary"></i>
               <span class="nav-label">0. Raio-X &amp; Panorama</span>
               <span class="nav-badge badge bg-primary-subtle text-primary">Geral</span>
@@ -3135,14 +3135,14 @@
           </div>
 
           <!-- GRUPO 2: LABORATÓRIO & AULAS -->
-          <div class="sidebar-group">
+          <div class="sidebar-group" data-sidebar-group="laboratorio-aulas">
             <div class="sidebar-group-title">LABORATÓRIO &amp; AULAS</div>
-            <button class="sidebar-nav-btn tab-btn active" onclick="showTab('tab-roteiros')" id="tabBtnRoteiros" title="1. Central de Roteiros Práticos">
+            <button class="sidebar-nav-btn tab-btn active" onclick="showTab('tab-roteiros')" id="tabBtnRoteiros" data-tab-id="tab-roteiros" title="1. Central de Roteiros Práticos">
               <i class="bi bi-code-square text-success"></i>
               <span class="nav-label">1. Roteiros Práticos</span>
               <span class="nav-badge badge bg-success-subtle text-success">5 Guias</span>
             </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-cronograma')" id="tabBtnCronograma" title="2. Cronograma & Encontros (20 Aulas)">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-cronograma')" id="tabBtnCronograma" data-tab-id="tab-cronograma" title="2. Cronograma & Encontros (20 Aulas)">
               <i class="bi bi-calendar-range-fill text-info"></i>
               <span class="nav-label">2. Cronograma</span>
               <span class="nav-badge text-muted fs-label">20 Aulas</span>
@@ -3150,14 +3150,14 @@
           </div>
 
           <!-- GRUPO 3: EXTENSÃO & ENTREGAS -->
-          <div class="sidebar-group">
+          <div class="sidebar-group" data-sidebar-group="extensao-entregas">
             <div class="sidebar-group-title">EXTENSÃO &amp; ENTREGAS</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-extensao')" id="tabBtnExtensao" title="3. Curricularização da Extensão (40h)">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-extensao')" id="tabBtnExtensao" data-tab-id="tab-extensao" title="3. Curricularização da Extensão (40h)">
               <i class="bi bi-megaphone-fill text-purple"></i>
               <span class="nav-label">3. Extensão SNCT</span>
               <span class="nav-badge badge bg-purple-subtle text-purple">40h</span>
             </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-demandas')" id="tabBtnDemandas" title="4. Central de Demandas & Checkpoints">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-demandas')" id="tabBtnDemandas" data-tab-id="tab-demandas" title="4. Central de Demandas & Checkpoints">
               <i class="fa-solid fa-list-check text-warning"></i>
               <span class="nav-label">4. Demandas &amp; Checkpoints</span>
               <span class="nav-badge badge bg-warning-subtle text-warning">Ativas</span>
@@ -3165,28 +3165,28 @@
           </div>
 
           <!-- GRUPO 4: SISTEMA AVALIATIVO & PPC -->
-          <div class="sidebar-group">
+          <div class="sidebar-group" data-sidebar-group="avaliacao-ppc">
             <div class="sidebar-group-title">AVALIAÇÃO &amp; PPC</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-avaliacao')" id="tabBtnAvaliacao" title="5. Sistema Avaliativo & Rubricas">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-avaliacao')" id="tabBtnAvaliacao" data-tab-id="tab-avaliacao" title="5. Sistema Avaliativo & Rubricas">
               <i class="bi bi-calculator-fill text-warning"></i>
               <span class="nav-label">5. Sistema Avaliativo</span>
               <span class="nav-badge text-muted fs-label">A1+A2+A3</span>
             </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-ementa')" id="tabBtnEmenta" title="6. Ementa & Bibliografia (PPC)">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-ementa')" id="tabBtnEmenta" data-tab-id="tab-ementa" title="6. Ementa & Bibliografia (PPC)">
               <i class="bi bi-book-half text-secondary"></i>
               <span class="nav-label">6. Ementa Oficial</span>
               <span class="nav-badge text-muted fs-label">PPC</span>
             </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-sigaa')" id="tabBtnSigaa" title="7. Central de Tarefas do SIGAA">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-sigaa')" id="tabBtnSigaa" data-tab-id="tab-sigaa" title="7. Central de Tarefas do SIGAA">
               <i class="bi bi-mortarboard-fill text-primary"></i>
               <span class="nav-label">7. Central SIGAA</span>
             </button>
           </div>
 
           <!-- GRUPO 5: GESTÃO DOCENTE -->
-          <div class="sidebar-group">
+          <div class="sidebar-group" data-sidebar-group="gestao-docente">
             <div class="sidebar-group-title">GESTÃO &amp; FRENTES</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-docente')" id="tabBtnDocente" title="8. Painel de Frentes & Gestão SNCT" style="border-color: rgba(217, 119, 6, 0.45);">
+            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-docente')" id="tabBtnDocente" data-tab-id="tab-docente" title="8. Painel de Frentes & Gestão SNCT" style="border-color: rgba(217, 119, 6, 0.45);">
               <i class="fa-solid fa-chalkboard-user text-warning"></i>
               <span class="nav-label" id="tabBtnDocenteTitulo">8. Painel de Frentes &amp; Gestão</span>
               <span class="nav-badge badge bg-danger-subtle text-danger">Docente</span>
@@ -5887,6 +5887,36 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
         <!-- MURAL DE ARTICULAÇÃO & RECADOS DAS EQUIPES SNCT (VISÃO COLABORATIVA) -->
         <div id="muralRecadosEquipesPainelFrentes" class="mb-4"></div>
+
+        <!-- BLOCO 0: GESTÃO DE VISIBILIDADE DOS MÓDULOS PARA OS ESTUDANTES (EXCLUSIVO DOCENTE) -->
+        <div class="p-3 rounded-3 mb-4 docente-only" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-emerald);">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="badge bg-success-subtle text-success fs-label fw-bold"><i class="bi bi-shield-check me-1"></i> PAINEL ADMINISTRATIVO</span>
+                <span class="badge bg-primary-subtle text-primary fs-label fw-bold" id="badgeTotalModulosVisiveis">4 de 8 Ativos</span>
+              </div>
+              <h3 class="font-outfit fs-5 fw-bold text-heading mb-1">
+                <i class="bi bi-sliders text-success me-2"></i>Gestão de Visibilidade dos Módulos para os Estudantes
+              </h3>
+              <p class="fs-caption text-muted mb-0">
+                Ligue ou desligue as abas do dashboard para a turma. O professor continua com acesso irrestrito a todas as 8 abas no Modo Docente.
+              </p>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <button type="button" class="btn btn-sm btn-outline-success font-outfit fw-bold d-flex align-items-center gap-1" onclick="definirModoVisibilidadePredefinido('essencial')">
+                <i class="bi bi-check2-circle"></i> Foco Essencial (Roteiros + Cronograma + Extensão + Demandas)
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary font-outfit d-flex align-items-center gap-1" onclick="definirModoVisibilidadePredefinido('todos')">
+                <i class="bi bi-eye"></i> Liberar Todos
+              </button>
+            </div>
+          </div>
+
+          <div class="row g-3" id="containerSwitchesVisibilidadeModulos">
+            <!-- Gerado dinamicamente via JS -->
+          </div>
+        </div>
 
         <!-- BLOCO 1: COMUNICAÇÃO DIRETA COM A TURMA ATRAVÉS DAS DEMANDAS (EXCLUSIVO DOCENTE) -->
         <div class="p-3 rounded-3 mb-4 docente-only" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-blue);">
