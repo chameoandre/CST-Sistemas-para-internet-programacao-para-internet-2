@@ -1680,6 +1680,61 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }
     }
 
+    function filtrarVisualizacaoCursosSNCT(modo) {
+      const secaoC1 = document.getElementById('secaoFrentesCurso1');
+      const secaoC2 = document.getElementById('secaoFrentesCurso2');
+      const secaoPdfs = document.getElementById('secaoPdfsFrentes');
+      const quadroComp = document.getElementById('quadroComparativoCursos');
+
+      const btns = document.querySelectorAll('.btn-filtro-snct-curso');
+      btns.forEach(b => {
+        b.classList.remove('active', 'btn-dark', 'btn-primary', 'btn-success');
+        b.classList.add('btn-outline-secondary');
+      });
+
+      if (modo === 'todos') {
+        if (secaoC1) secaoC1.style.display = '';
+        if (secaoC2) secaoC2.style.display = '';
+        if (secaoPdfs) secaoPdfs.style.display = '';
+        if (quadroComp) quadroComp.style.display = '';
+        const b = document.getElementById('btnFiltroSnctTodos');
+        if (b) {
+          b.classList.remove('btn-outline-secondary');
+          b.classList.add('active', 'btn-dark');
+        }
+      } else if (modo === 'curso1') {
+        if (secaoC1) secaoC1.style.display = '';
+        if (secaoC2) secaoC2.style.display = 'none';
+        if (secaoPdfs) secaoPdfs.style.display = 'none';
+        if (quadroComp) quadroComp.style.display = 'none';
+        const b = document.getElementById('btnFiltroSnctC1');
+        if (b) {
+          b.classList.remove('btn-outline-secondary');
+          b.classList.add('active', 'btn-primary');
+        }
+      } else if (modo === 'curso2') {
+        if (secaoC1) secaoC1.style.display = 'none';
+        if (secaoC2) secaoC2.style.display = '';
+        if (secaoPdfs) secaoPdfs.style.display = 'none';
+        if (quadroComp) quadroComp.style.display = 'none';
+        const b = document.getElementById('btnFiltroSnctC2');
+        if (b) {
+          b.classList.remove('btn-outline-secondary');
+          b.classList.add('active', 'btn-success');
+        }
+      } else if (modo === 'pdfs') {
+        if (secaoC1) secaoC1.style.display = 'none';
+        if (secaoC2) secaoC2.style.display = 'none';
+        if (secaoPdfs) secaoPdfs.style.display = '';
+        if (quadroComp) quadroComp.style.display = 'none';
+        const b = document.getElementById('btnFiltroSnctPdfs');
+        if (b) {
+          b.classList.remove('btn-outline-secondary');
+          b.classList.add('active', 'btn-dark');
+        }
+      }
+    }
+
     function renderizarTabelaChecklistFrentesDemanda(demandaId, cursoId, demandasSnct = []) {
       if (demandaId !== 'DEM-SNCT-C1' && demandaId !== 'DEM-SNCT-C2') return '';
 
@@ -7076,6 +7131,7 @@ const funcoesGlobais = {
   filtrarDemandas,
   filtrarListaAlvosAlunos,
   filtrarRecadosMural,
+  filtrarVisualizacaoCursosSNCT,
   importarDadosDemandas,
   iniciarLoginGoogle,
   inserirModeloChecklistMoodleComunicado,

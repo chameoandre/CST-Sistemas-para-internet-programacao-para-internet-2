@@ -231,4 +231,31 @@ Para adotar esse padrão em outras unidades curriculares:
    - Conectar as chamadas no ciclo de vida `DOMContentLoaded` e ao alternar o Modo Docente.
 
 ---
+
+## 7. Despoluição Visual e Filtros da Extensão Curricular (SNCT 2026)
+
+### 7.1 Diagnóstico de Ruído e Sobrecarga Cognitiva Discente
+Durante a execução das oficinas de extensão, os estudantes relataram sobrecarga de informações na aba `#tab-extensao`, decorrente da exibição simultânea de 8 frentes operacionais, trilha linear de 5 etapas com 400px de altura vertical, cards de chamadas de ausência já superadas e dúvidas metodológicas sobre a estrutura das aulas (ex.: por que o Curso 1 e o Curso 2 começam com os mesmos 4 passos nos slides).
+
+### 7.2 Arquitetura de Filtros por Oficina (`filtrarVisualizacaoCursosSNCT`)
+Para manter a interface cirúrgica e orientada à ação:
+1. **Filtro em Tempo Real (Pills):**
+   - **Todas as Frentes:** Exibe o panorama completo para consulta ou coordenação geral.
+   - **Curso 1 (Site Pessoal):** Isola as Frentes 1 a 4 (3 turmas de alunos focados no Curso 1).
+   - **Curso 2 (Painel Verde):** Isola as Frentes 5 a 8 (3 turmas de alunos focados no Curso 2).
+   - **Apenas PDFs & Roteiros:** Foco direto no download dos kits instrucionais e slides.
+2. **Trilha Compactada:** A linha do tempo das 5 etapas da SNCT foi colocada dentro de um `<details class="ext-card-collapsible">`, desobstruindo a visualização imediata da Etapa Atual (Etapa 2 - Produção & Moodle).
+3. **Limpeza de Avisos Obsoletos:** Remoção de avisos de ausência docente e cobranças de candidaturas de etapas anteriores que causavam confusão nos alunos já alocados.
+
+### 7.3 Esclarecimento Metodológico dos 4 Blocos (Páginas 1 a 4)
+Inclusão do card de esclarecimento metodológico (`#cardEsclarecimentoMetodologiaSNCT`) com comparação direta entre Curso 1 e Curso 2:
+- **Página 1 (Bloco 1 - 00–35 min):** Acolhida, download do starter zip no Moodle e customização básica (`:root`, títulos). *Idêntico nos dois cursos para garantir nivelamento de quem nunca programou.*
+- **Página 2 (Bloco 2 - 35–70 min):** Coração prático do curso (*Onde os cursos divergem totalmente*):
+  - *Curso 1:* 3 cartões de portfólio, botão flutuante de WhatsApp e layout responsivo.
+  - *Curso 2:* 4 cards de ecopontos com badges, barra de busca e função JS `filtrarEcopontos()`.
+- **Página 3 (Bloco 3 - 70–95 min):** Publicação no GitHub Pages via web interface. *Idêntico para gerar a URL pública.*
+- **Página 4 (Bloco 4 - 95–120 min):** Gerador de QR Code, teste no smartphone e pesquisa de avaliação na Seção 4 do Moodle. *Idêntico para fechamento institucional da extensão.*
+
+---
 *Documento homologado e registrado no repositório oficial da Unidade Curricular.*
+
