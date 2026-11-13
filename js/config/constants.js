@@ -503,5 +503,105 @@ export const DEMANDAS_INICIAIS = [
           "Presença ativa, participação nas discussões técnicas e resolução de exercícios",
           "Publicação dos experimentos no GitHub Pages com README explicativo"
         ]
+      },
+      {
+        id: "DEM-08",
+        titulo: "Link da Pesquisa de Satisfação nos Slides (Moodle)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 1 SNCT • 20%)",
+        destinatario: "Curso 1 · Slides-Guia de Projeção (8 Telas)",
+        tipoAtribuicao: "individual",
+        equipesAlvo: [],
+        alunosAlvo: ["11", "12"],
+        cursoSnctAlvo: 1,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Frente 4 (Monitoria & Logística)",
+        dataEnvio: "02/11/2026 às 19:25",
+        linkApoio: "https://moodle.ifsc.edu.br/mod/feedback/view.php?id=140483",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Colegas dos Slides, este é o link da pesquisa de satisfação oficial na Seção 4 da Sala do Moodle que deve ser inserido no QR Code da última tela dos slides:\nhttps://moodle.ifsc.edu.br/mod/feedback/view.php?id=140483",
+        criterios: [
+          "Link informado para a pesquisa de satisfação do curso 1."
+        ]
+      },
+      {
+        id: "DEM-09",
+        titulo: "Link da Pesquisa de Satisfação nos Slides (Google Forms)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 1 SNCT • 20%)",
+        destinatario: "Curso 1 · Slides-Guia de Projeção (8 Telas)",
+        tipoAtribuicao: "individual",
+        equipesAlvo: [],
+        alunosAlvo: ["11", "12"],
+        cursoSnctAlvo: 1,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Frente 4 (Monitoria & Logística)",
+        dataEnvio: "02/11/2026 às 19:37",
+        linkApoio: "https://forms.gle/xX2viYmcD5phm1xz7",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Olá, pessoal! Sou da Frente 4 (Monitoria e Logística) do Curso 1 — Meu Primeiro Site no Ar. Já preparei a pesquisa de satisfação no Moodle e também no Google Forms, para permitir a participação do público externo. Segue o link do formulário para inclusão do QR Code na última tela dos slides:\nhttps://forms.gle/xX2viYmcD5phm1xz7\nObrigada!",
+        criterios: [
+          "Link informado para a pesquisa de satisfação do curso 1 - Google Forms"
+        ]
+      },
+      {
+        id: "DEM-10",
+        titulo: "Starter Kit & Repositório Base no GitHub (Painel Verde)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 2 SNCT • 20%)",
+        destinatario: "Equipes do Curso 2 SNCT (Painel Verde)",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        cursoSnctAlvo: 2,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Frente 2 (Starter Kit & GitHub)",
+        dataEnvio: "04/11/2026 às 09:31",
+        linkApoio: "https://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Link do GitHub Pages com acesso ao Starter Kit do Curso 2 pronto para download e consulta das outras frentes:\nhttps://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        criterios: [
+          "Publicação no github"
+        ]
+      },
+      {
+        id: "DEM-11",
+        titulo: "Deploy do Starter Kit do Curso 2 no GitHub Pages",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 2 SNCT • 20%)",
+        destinatario: "Equipes do Curso 2 SNCT (Painel Verde)",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: ["16"],
+        cursoSnctAlvo: 2,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Pietro Caetano Fleith",
+        dataEnvio: "04/11/2026 às 09:32",
+        linkApoio: "https://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Deploy do código base e ecopontos do Curso 2 funcionando no GitHub Pages para teste imediato no navegador ou celular:\nhttps://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        criterios: [
+          "Publicação no github"
+        ]
       }
     ];

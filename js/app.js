@@ -450,6 +450,106 @@ window.ProgWeb2 = {
           "Presença ativa, participação nas discussões técnicas e resolução de exercícios",
           "Publicação dos experimentos no GitHub Pages com README explicativo"
         ]
+      },
+      {
+        id: "DEM-08",
+        titulo: "Link da Pesquisa de Satisfação nos Slides (Moodle)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 1 SNCT • 20%)",
+        destinatario: "Curso 1 · Slides-Guia de Projeção (8 Telas)",
+        tipoAtribuicao: "individual",
+        equipesAlvo: [],
+        alunosAlvo: ["11", "12"],
+        cursoSnctAlvo: 1,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Frente 4 (Monitoria & Logística)",
+        dataEnvio: "02/11/2026 às 19:25",
+        linkApoio: "https://moodle.ifsc.edu.br/mod/feedback/view.php?id=140483",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Colegas dos Slides, este é o link da pesquisa de satisfação oficial na Seção 4 da Sala do Moodle que deve ser inserido no QR Code da última tela dos slides:\nhttps://moodle.ifsc.edu.br/mod/feedback/view.php?id=140483",
+        criterios: [
+          "Link informado para a pesquisa de satisfação do curso 1."
+        ]
+      },
+      {
+        id: "DEM-09",
+        titulo: "Link da Pesquisa de Satisfação nos Slides (Google Forms)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 1 SNCT • 20%)",
+        destinatario: "Curso 1 · Slides-Guia de Projeção (8 Telas)",
+        tipoAtribuicao: "individual",
+        equipesAlvo: [],
+        alunosAlvo: ["11", "12"],
+        cursoSnctAlvo: 1,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Frente 4 (Monitoria & Logística)",
+        dataEnvio: "02/11/2026 às 19:37",
+        linkApoio: "https://forms.gle/xX2viYmcD5phm1xz7",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Olá, pessoal! Sou da Frente 4 (Monitoria e Logística) do Curso 1 — Meu Primeiro Site no Ar. Já preparei a pesquisa de satisfação no Moodle e também no Google Forms, para permitir a participação do público externo. Segue o link do formulário para inclusão do QR Code na última tela dos slides:\nhttps://forms.gle/xX2viYmcD5phm1xz7\nObrigada!",
+        criterios: [
+          "Link informado para a pesquisa de satisfação do curso 1 - Google Forms"
+        ]
+      },
+      {
+        id: "DEM-10",
+        titulo: "Starter Kit & Repositório Base no GitHub (Painel Verde)",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 2 SNCT • 20%)",
+        destinatario: "Equipes do Curso 2 SNCT (Painel Verde)",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: [],
+        cursoSnctAlvo: 2,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Frente 2 (Starter Kit & GitHub)",
+        dataEnvio: "04/11/2026 às 09:31",
+        linkApoio: "https://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Link do GitHub Pages com acesso ao Starter Kit do Curso 2 pronto para download e consulta das outras frentes:\nhttps://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        criterios: [
+          "Publicação no github"
+        ]
+      },
+      {
+        id: "DEM-11",
+        titulo: "Deploy do Starter Kit do Curso 2 no GitHub Pages",
+        instrumento: "A2",
+        instrumentoNome: "A2 (Curso 2 SNCT • 20%)",
+        destinatario: "Equipes do Curso 2 SNCT (Painel Verde)",
+        tipoAtribuicao: "turma",
+        equipesAlvo: [],
+        alunosAlvo: ["16"],
+        cursoSnctAlvo: 2,
+        fixadaMural: true,
+        tipo: "recado_equipe",
+        origem: "estudante",
+        autorNome: "Pietro Caetano Fleith",
+        dataEnvio: "04/11/2026 às 09:32",
+        linkApoio: "https://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        prazo: "2026-11-26",
+        horaPrazo: "23:59",
+        pontos: 10.0,
+        concluida: false,
+        descricao: "Deploy do código base e ecopontos do Curso 2 funcionando no GitHub Pages para teste imediato no navegador ou celular:\nhttps://fleithpi.github.io/sntc2026-starter-kit-curso2/",
+        criterios: [
+          "Publicação no github"
+        ]
       }
     ];
 
@@ -677,7 +777,7 @@ window.ProgWeb2 = {
             demandasApp = parsed;
             // Substitui DEM-SNCT-02 genérica pelas duas demandas separadas (DEM-SNCT-C1 e DEM-SNCT-C2)
             demandasApp = demandasApp.filter(d => d.id !== 'DEM-SNCT-02');
-            ['DEM-SNCT-C2', 'DEM-SNCT-C1', 'DEM-SNCT-01'].forEach(idNovo => {
+            ['DEM-11', 'DEM-10', 'DEM-09', 'DEM-08', 'DEM-SNCT-E5', 'DEM-SNCT-E4', 'DEM-SNCT-E3', 'DEM-SNCT-C2', 'DEM-SNCT-C1', 'DEM-SNCT-01'].forEach(idNovo => {
               if (!demandasApp.some(d => d.id === idNovo)) {
                 const padrao = DEMANDAS_INICIAIS.find(d => d.id === idNovo);
                 if (padrao) demandasApp.unshift(JSON.parse(JSON.stringify(padrao)));
@@ -691,6 +791,12 @@ window.ProgWeb2 = {
                 if (norm) d.prazo = norm;
               }
               if (!d.horaPrazo) d.horaPrazo = "23:59";
+
+              if (['DEM-08', 'DEM-09', 'DEM-10', 'DEM-11'].includes(d.id)) {
+                d.fixadaMural = true;
+                if (!d.tipo) d.tipo = 'recado_equipe';
+                if (!d.origem) d.origem = 'estudante';
+              }
 
               if (d.id === 'DEM-SNCT-C1') {
                 d.linkApoio = 'https://moodle.ifsc.edu.br/course/view.php?id=2663';
@@ -1702,6 +1808,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           b.classList.remove('btn-outline-secondary');
           b.classList.add('active', 'btn-dark');
         }
+        filtroCursoRecadosMural = 'todos';
       } else if (modo === 'curso1') {
         if (secaoC1) secaoC1.style.display = '';
         if (secaoC2) secaoC2.style.display = 'none';
@@ -1712,6 +1819,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           b.classList.remove('btn-outline-secondary');
           b.classList.add('active', 'btn-primary');
         }
+        filtroCursoRecadosMural = 'curso1';
       } else if (modo === 'curso2') {
         if (secaoC1) secaoC1.style.display = 'none';
         if (secaoC2) secaoC2.style.display = '';
@@ -1722,6 +1830,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           b.classList.remove('btn-outline-secondary');
           b.classList.add('active', 'btn-success');
         }
+        filtroCursoRecadosMural = 'curso2';
       } else if (modo === 'pdfs') {
         if (secaoC1) secaoC1.style.display = 'none';
         if (secaoC2) secaoC2.style.display = 'none';
@@ -1732,7 +1841,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           b.classList.remove('btn-outline-secondary');
           b.classList.add('active', 'btn-dark');
         }
+        filtroCursoRecadosMural = 'todos';
       }
+      renderizarMuralComunicadosDocente();
     }
 
     function renderizarTabelaChecklistFrentesDemanda(demandaId, cursoId, demandasSnct = []) {
@@ -4408,27 +4519,42 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     function ehRecadoEquipe(d) {
       if (!d) return false;
       if (d.tipo === 'recado_equipe') return true;
-      if (d.id && d.id.startsWith('REC-')) return true;
+      if (d.id && String(d.id).startsWith('REC-')) return true;
       if (['DEM-08', 'DEM-09', 'DEM-10', 'DEM-11'].includes(d.id)) return true;
       if (d.origem === 'estudante') return true;
-      // Demanda com link de forms/pages compartilhado sem critérios de nota formal
-      if (d.linkApoio && (d.linkApoio.includes('forms.gle') || d.linkApoio.includes('github.io') || d.linkApoio.includes('feedback'))) return true;
+      const tit = String(d.titulo || '').toLowerCase();
+      if (tit.includes('[recado') || tit.startsWith('recado') || tit.includes('link starter') || tit.includes('pesquisa de satisfação') || tit.startsWith('http')) return true;
+      const desc = String(d.descricao || '').toLowerCase();
+      if (d.linkApoio && (d.linkApoio.includes('forms.gle') || d.linkApoio.includes('github.io') || d.linkApoio.includes('feedback') || d.linkApoio.includes('moodle'))) return true;
+      if (desc.includes('forms.gle') || desc.includes('github.io') || desc.includes('recado postado')) return true;
       return false;
     }
 
     function normalizarRecadoEquipe(d) {
+      if (!d) return d;
+      // Extração automática de URL da descrição se linkApoio estiver em branco
+      if (!d.linkApoio && d.descricao) {
+        const urlMatch = d.descricao.match(/https?:\/\/[^\s<"'\)]+/i);
+        if (urlMatch) {
+          d.linkApoio = urlMatch[0];
+        }
+      }
       if (d.id === 'DEM-08' || d.id === 'DEM-09') {
         d.cursoSnctAlvo = 1;
         d.autorNome = d.autorNome || 'Frente 4 (Monitoria & Logística)';
         d.destinatario = d.destinatario || 'Curso 1 · Slides-Guia de Projeção (8 Telas)';
+        d.linkApoio = d.id === 'DEM-08' ? (d.linkApoio || 'https://moodle.ifsc.edu.br/mod/feedback/view.php?id=140483') : (d.linkApoio || 'https://forms.gle/xX2viYmcD5phm1xz7');
       } else if (d.id === 'DEM-10') {
         d.cursoSnctAlvo = 2;
         d.autorNome = d.autorNome || 'Frente 2 (Starter Kit & GitHub)';
         d.destinatario = d.destinatario || 'Equipes do Curso 2 SNCT (Painel Verde)';
+        d.linkApoio = d.linkApoio || 'https://fleithpi.github.io/sntc2026-starter-kit-curso2/';
       } else if (d.id === 'DEM-11') {
         d.cursoSnctAlvo = 2;
         d.autorNome = d.autorNome || 'Pietro Caetano Fleith';
-        d.destinatario = d.destinatario || 'Equipes do Curso 2 SNCT (Painel Verde)';
+        d.destinatario = 'Equipes do Curso 2 SNCT (Painel Verde)';
+        d.titulo = d.titulo.startsWith('http') ? 'Deploy do Starter Kit (Curso 2 — Painel Verde)' : d.titulo;
+        d.linkApoio = d.linkApoio || 'https://fleithpi.github.io/sntc2026-starter-kit-curso2/';
       }
       return d;
     }
@@ -4551,16 +4677,27 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       showToast('Recado Publicado!', 'Seu recado foi adicionado ao Mural de Articulação das Equipes.', 'bi bi-chat-quote-fill text-success');
 
-      chamarApiAppsScript('publicar_demanda', {
-        demandaId: codigo,
+      chamarApiAppsScript('criarDemanda', {
+        id: codigo,
         titulo: `[Recado Equipe] ${titulo}`,
         instrumento: 'A2',
         destinatario,
         prazo: '2026-11-26',
+        horaPrazo: '23:59',
         descricao: `Recado postado por ${autorNome}:\n${descricao}${linkApoio ? `\nLink: ${linkApoio}` : ''}`,
         linkApoio,
-        notificarEmail: false
-      }).catch(() => {});
+        fixadaMural: true,
+        cursoSnctAlvo: cursoId > 0 ? cursoId : null,
+        tipoAtribuicao: 'turma',
+        tipo: 'recado_equipe',
+        origem: autorEhDocente ? 'docente' : 'estudante',
+        autor: autorNome,
+        autorNome: autorNome,
+        autorEmail: autorEmail,
+        autorMatricula: autorMatricula,
+        notificarEmail: false,
+        destinatariosEmails: []
+      }).catch(err => console.warn('Aviso ao sincronizar recado na planilha:', err));
     }
 
     function excluirRecadoEquipe(recadoId) {
@@ -4758,10 +4895,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const elDem = document.getElementById('muralComunicadosDemandas');
       const elRot = document.getElementById('muralComunicadosTopoRoteiros');
       const elFrentes = document.getElementById('muralRecadosEquipesPainelFrentes');
+      const elExt = document.getElementById('muralRecadosEquipesExtensao');
 
       if (elDem) elDem.innerHTML = muralCompleto;
       if (elRot) elRot.innerHTML = muralCompleto;
       if (elFrentes) elFrentes.innerHTML = htmlEquipes;
+      if (elExt) elExt.innerHTML = htmlEquipes;
     }
 
 
@@ -6211,7 +6350,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                 pontos: rem.pontos || 10.0,
                 concluida: Boolean(rem.concluida),
                 descricao: rem.descricao || '',
-                criterios: Array.isArray(rem.criterios) ? rem.criterios : []
+                criterios: Array.isArray(rem.criterios) ? rem.criterios : [],
+                tipo: rem.tipo || (String(rem.id).startsWith('REC-') || String(rem.titulo || '').toLowerCase().includes('recado') || ['DEM-08', 'DEM-09', 'DEM-10', 'DEM-11'].includes(rem.id) ? 'recado_equipe' : undefined),
+                origem: rem.origem || (rem.criadoPor && rem.criadoPor.includes('Prof') ? 'docente' : 'estudante'),
+                autorNome: rem.autorNome || rem.criadoPor || ''
               });
               mudouDemandas = true;
             }
@@ -6240,11 +6382,40 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             }
           });
 
+          // Reconciliação: se houver recados locais que ainda não constam na planilha remota, envia via criarDemanda
+          demandasApp.filter(d => d.id && (String(d.id).startsWith('REC-') || d.tipo === 'recado_equipe')).forEach(recLocal => {
+            const rem = mapaRemotas[String(recLocal.id).toUpperCase()];
+            if (!rem && !['DEM-08', 'DEM-09', 'DEM-10', 'DEM-11'].includes(recLocal.id)) {
+              chamarApiAppsScript('criarDemanda', {
+                id: recLocal.id,
+                titulo: recLocal.titulo.startsWith('[Recado') ? recLocal.titulo : `[Recado Equipe] ${recLocal.titulo}`,
+                instrumento: 'A2',
+                destinatario: recLocal.destinatario || 'Todos',
+                prazo: '2026-11-26',
+                horaPrazo: '23:59',
+                descricao: recLocal.descricao,
+                linkApoio: recLocal.linkApoio || '',
+                fixadaMural: true,
+                cursoSnctAlvo: recLocal.cursoSnctAlvo || null,
+                tipoAtribuicao: 'turma',
+                tipo: 'recado_equipe',
+                origem: recLocal.origem || 'estudante',
+                autor: recLocal.autorNome || 'Estudante',
+                autorNome: recLocal.autorNome || 'Estudante',
+                autorEmail: recLocal.autorEmail || '',
+                autorMatricula: recLocal.autorMatricula || '',
+                notificarEmail: false,
+                destinatariosEmails: []
+              }).catch(() => {});
+            }
+          });
+
           if (mudouDemandas) {
             salvarDadosDemandas();
             mudou = true;
           }
           renderizarDemandas();
+          renderizarMuralComunicadosDocente();
           popularSelectsDeDemanda();
         }
 

@@ -4329,10 +4329,18 @@
                 </button>
               </div>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sincronizarComBackendAppsScript(true)" title="Sincronizar dados com a planilha Google">
-              <i class="bi bi-arrow-repeat me-1"></i> Atualizar Quadro
-            </button>
+            <div class="d-flex align-items-center gap-2">
+              <button type="button" onclick="abrirModalNovoRecadoEquipe()" class="btn btn-sm btn-success fw-bold" title="Publicar link de formulário, repositório ou recado para outros trios e frentes">
+                <i class="bi bi-chat-quote-fill me-1"></i> + Publicar Recado
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="sincronizarComBackendAppsScript(true)" title="Sincronizar dados com a planilha Google">
+                <i class="bi bi-arrow-repeat me-1"></i> Atualizar
+              </button>
+            </div>
           </div>
+
+          <!-- MURAL DE ARTICULAÇÃO & RECADOS DAS EQUIPES SNCT (VISÃO COLABORATIVA) -->
+          <div id="muralRecadosEquipesExtensao" class="mb-3"></div>
 
           <!-- SEÇÃO: 4 ROTEIROS EM PDF DAS FRENTES -->
           <div id="secaoPdfsFrentes" class="p-3 rounded-3 mb-3" style="background: var(--bg-card); border: 1px dashed var(--border-color);">

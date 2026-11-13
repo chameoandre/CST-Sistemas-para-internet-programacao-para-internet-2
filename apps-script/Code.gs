@@ -291,7 +291,7 @@ function doPost(e) {
     // ------------------------------------------------------------------
     // 1. GESTÃO DE DEMANDAS & NOTIFICAÇÕES AUTOMÁTICAS (PADRÃO PI-1 / PI-2)
     // ------------------------------------------------------------------
-    if (acao === 'criarDemanda' || acao === 'criar_demanda' || acao === 'salvar_demanda') {
+    if (acao === 'criarDemanda' || acao === 'criar_demanda' || acao === 'salvar_demanda' || acao === 'publicar_demanda' || acao === 'salvar_recado') {
       return jsonResponse(criarOuSalvarDemanda_(ss, req));
     }
 
@@ -568,7 +568,13 @@ function criarOuSalvarDemanda_(ss, body) {
     alunosAlvo: body.alunosAlvo || [],
     cursoSnctAlvo: body.cursoSnctAlvo || null,
     fixadaMural: Boolean(body.fixadaMural),
-    linkApoio: body.linkApoio || ''
+    linkApoio: body.linkApoio || '',
+    tipo: body.tipo || '',
+    origem: body.origem || '',
+    autorNome: body.autorNome || autor,
+    autorEmail: body.autorEmail || '',
+    autorMatricula: body.autorMatricula || '',
+    dataEnvio: body.dataEnvio || ''
   };
   var atribuicaoJson = JSON.stringify(atribuicaoObj);
   var entregasJson = typeof body.entregas === 'object' ? JSON.stringify(body.entregas) : String(body.entregas || '{}');
@@ -909,6 +915,12 @@ function lerDemandasPublicas_(ss) {
       cursoSnctAlvo: atrib.cursoSnctAlvo || null,
       fixadaMural: Boolean(atrib.fixadaMural),
       linkApoio: atrib.linkApoio || '',
+      tipo: atrib.tipo || '',
+      origem: atrib.origem || '',
+      autorNome: atrib.autorNome || '',
+      autorEmail: atrib.autorEmail || '',
+      autorMatricula: atrib.autorMatricula || '',
+      dataEnvio: atrib.dataEnvio || '',
       entregas: entregas
     });
   }

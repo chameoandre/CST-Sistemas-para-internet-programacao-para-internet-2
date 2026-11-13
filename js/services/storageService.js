@@ -33,9 +33,9 @@ export function carregarDemandas() {
       return JSON.parse(JSON.stringify(DEMANDAS_INICIAIS));
     }
 
-    // Garante as demandas da SNCT integradas
+    // Garante as demandas da SNCT integradas e os recados das equipes
     let lista = parsed.filter(d => d.id !== 'DEM-SNCT-02');
-    ['DEM-SNCT-C2', 'DEM-SNCT-C1', 'DEM-SNCT-01'].forEach(idNovo => {
+    ['DEM-11', 'DEM-10', 'DEM-09', 'DEM-08', 'DEM-SNCT-E5', 'DEM-SNCT-E4', 'DEM-SNCT-E3', 'DEM-SNCT-C2', 'DEM-SNCT-C1', 'DEM-SNCT-01'].forEach(idNovo => {
       if (!lista.some(d => d.id === idNovo)) {
         const padrao = DEMANDAS_INICIAIS.find(d => d.id === idNovo);
         if (padrao) lista.unshift(JSON.parse(JSON.stringify(padrao)));
