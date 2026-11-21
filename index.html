@@ -2889,162 +2889,94 @@
     }
 
     /* =====================================================
-       LAYOUT COM SIDEBAR CARD LATERAL (OPÇÃO 3: STRIPE/MDN)
+       LAYOUT CLEAN & FLUIDO: NAVEGAÇÃO HORIZONTAL EM ABAS
        ===================================================== */
-    @media (min-width: 1400px) {
-      .header-container,
-      main.main-container {
-        max-width: 1560px;
-      }
-    }
-
-    @media (min-width: 1600px) {
-      .header-container,
-      main.main-container {
-        max-width: 1680px;
-      }
-    }
-
-    .app-layout-wrapper {
-      display: flex;
-      gap: 1.5rem;
-      align-items: flex-start;
-      width: 100%;
-    }
-
-    .app-sidebar {
-      width: 260px;
-      min-width: 245px;
-      flex-shrink: 0;
-      position: sticky;
-      top: calc(var(--header-height, 62px) + 1.25rem);
-      max-height: calc(100vh - var(--header-height, 62px) - 2rem);
-      overflow-y: auto;
+    .header-nav-container {
+      max-width: 1560px;
+      margin: 0.35rem auto 0 auto;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--border-color);
+      overflow-x: auto;
       scrollbar-width: thin;
-      scrollbar-color: var(--border-color) transparent;
-      z-index: 90;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .app-content-area {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .nav-sidebar-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 1.15rem 0.95rem;
-      box-shadow: var(--card-shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .sidebar-brand-header {
-      padding-bottom: 0.65rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .sidebar-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: var(--fs-small);
-      font-weight: 700;
-      color: var(--text-heading);
-    }
-
-    .sidebar-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .sidebar-group-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: var(--fs-label);
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      padding: 0.2rem 0.5rem;
-      margin-bottom: 0.15rem;
-    }
-
-    .sidebar-nav-btn {
-      width: 100%;
+    .header-nav-tabs {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
-      padding: 0.55rem 0.75rem;
-      border-radius: var(--radius-md);
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-main);
-      font-family: 'Outfit', sans-serif;
-      font-size: var(--fs-body-sm);
-      font-weight: 600;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      text-decoration: none;
+      gap: 0.35rem;
+      flex-wrap: nowrap;
+      margin: 0;
+      padding: 0.15rem 0 0.25rem 0;
     }
 
-    .sidebar-nav-btn:hover {
-      background: var(--bg-card-hover);
+    .header-nav-tabs .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.42rem 0.85rem;
+      border-radius: var(--radius-md);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: var(--fs-small);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.16s ease;
+      white-space: nowrap;
+      line-height: 1.3;
+      box-shadow: none;
+    }
+
+    .header-nav-tabs .tab-btn:hover {
+      background: var(--bg-card-hover, rgba(22, 163, 74, 0.08));
       color: var(--text-heading);
-      transform: translateX(3px);
       border-color: var(--border-color);
     }
 
-    .sidebar-nav-btn.active {
-      background: var(--ifsc-dark-green);
-      color: #ffffff;
-      border-color: var(--accent-emerald);
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    .header-nav-tabs .tab-btn.active {
+      background: var(--ifsc-dark-green) !important;
+      border-color: var(--accent-emerald) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
       font-weight: 700;
     }
 
-    .sidebar-nav-btn.active i {
+    .header-nav-tabs .tab-btn.active i {
       color: #ffffff !important;
     }
 
-    .sidebar-nav-btn.active .nav-badge {
-      background: rgba(255, 255, 255, 0.2) !important;
-      color: #ffffff !important;
-      border-color: transparent !important;
-    }
-
-    .sidebar-nav-btn .nav-label {
-      flex: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sidebar-nav-btn .nav-badge {
+    .header-nav-tabs .tab-btn .badge-oculto-estudante {
       font-size: var(--fs-label);
-      font-weight: 700;
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
     }
 
-    /* Responsividade: Mobile e Tablet (< 992px) */
+    [data-theme="dark"] .header-nav-tabs .tab-btn.active {
+      background: rgba(16, 185, 129, 0.2) !important;
+      color: #34d399 !important;
+      border-color: rgba(16, 185, 129, 0.45) !important;
+    }
+    [data-theme="dark"] .header-nav-tabs .tab-btn.active i {
+      color: #34d399 !important;
+    }
+
+    main.main-container {
+      max-width: 1560px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
     @media (max-width: 991px) {
-      .app-layout-wrapper {
-        flex-direction: column;
+      .header-nav-tabs {
+        gap: 0.25rem;
       }
-      .app-sidebar {
-        width: 100%;
-        position: static;
-      }
-      .nav-sidebar-card {
-        padding: 0.85rem;
-      }
-      .sidebar-group {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-        gap: 0.35rem;
-      }
-      .sidebar-group-title {
-        grid-column: 1 / -1;
+      .header-nav-tabs .tab-btn {
+        padding: 0.38rem 0.65rem;
+        font-size: var(--fs-caption);
       }
     }
 
@@ -3171,12 +3103,6 @@
         <button class="theme-toggle-btn" onclick="sincronizarComBackendAppsScript(true)" id="btnSyncHeader" title="Sincronizar votos, candidaturas e entregas em tempo real com a planilha Google Sheets">
           <i class="bi bi-arrow-repeat text-info" id="iconSyncHeader"></i> <span id="statusSyncHeader">Sincronizar</span>
         </button>
-        <button class="theme-toggle-btn" onclick="abrirPainelFrentesGestao()" id="btnHeaderFrentes" title="Acompanhar distribuição das frentes, trios e entregáveis da SNCT">
-          <i class="bi bi-kanban text-success"></i> <span>Frentes</span>
-        </button>
-        <button class="theme-toggle-btn" onclick="abrirModalNovoRecadoEquipe()" id="btnHeaderNovoRecado" title="Publicar aviso, link de formulário ou recado para outros trios e frentes">
-          <i class="bi bi-chat-quote-fill text-primary"></i> <span>Mural</span>
-        </button>
         <button class="theme-toggle-btn" onclick="solicitarAcessoDocente()" id="btnModoDocente" title="Acesso restrito ao Professor André Moraes">
           <i class="fa-solid fa-chalkboard-user text-muted"></i> <span id="modoDocenteText">Docente</span>
         </button>
@@ -3185,110 +3111,45 @@
         </button>
       </div>
     </div>
+
+    <!-- LINHA 2: MENU DE NAVEGAÇÃO HORIZONTAL CLEAN & FLUIDO -->
+    <div class="header-nav-container">
+      <nav class="header-nav-tabs" aria-label="Navegação da Unidade Curricular">
+        <button class="tab-btn active" onclick="showTab('tab-roteiros')" data-tab-id="tab-roteiros" id="tabBtnRoteiros" title="1. Central de Roteiros Práticos de Desenvolvimento Web">
+          <i class="bi bi-code-square text-success"></i> <span>1. Roteiros Práticos</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-cronograma')" data-tab-id="tab-cronograma" id="tabBtnCronograma" title="2. Cronograma das 20 Aulas e Encontros">
+          <i class="bi bi-calendar-range-fill text-info"></i> <span>2. Cronograma</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-extensao')" data-tab-id="tab-extensao" id="tabBtnExtensao" title="3. Curricularização da Extensão (40h - SNCT)">
+          <i class="bi bi-megaphone-fill text-purple"></i> <span>3. Extensão SNCT</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-demandas')" data-tab-id="tab-demandas" id="tabBtnDemandas" title="4. Central de Demandas &amp; Mural de Recados">
+          <i class="fa-solid fa-list-check text-warning"></i> <span>4. Mural &amp; Demandas</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-raio-x')" data-tab-id="tab-raio-x" id="tabBtnRaioX" title="0. Raio-X &amp; Panorama Geral da UC">
+          <i class="bi bi-speedometer2 text-primary"></i> <span>0. Raio-X</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-avaliacao')" data-tab-id="tab-avaliacao" id="tabBtnAvaliacao" title="5. Sistema Avaliativo &amp; Rubricas Formativas">
+          <i class="bi bi-calculator-fill text-danger"></i> <span>5. Avaliação</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-ementa')" data-tab-id="tab-ementa" id="tabBtnEmenta" title="6. Ementa Oficial &amp; Competências do PPC">
+          <i class="bi bi-book-half text-secondary"></i> <span>6. Ementa &amp; PPC</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-sigaa')" data-tab-id="tab-sigaa" id="tabBtnSigaa" title="7. SIGAA &amp; Recursos Institucionais">
+          <i class="bi bi-mortarboard-fill text-info"></i> <span>7. SIGAA</span>
+        </button>
+        <button class="tab-btn docente-only-btn" onclick="showTab('tab-docente')" data-tab-id="tab-docente" id="tabBtnDocente" style="display: none; border-color: rgba(217, 119, 6, 0.45);" title="8. Área Restrita de Gestão Docente &amp; Frentes">
+          <i class="fa-solid fa-chalkboard-user text-warning"></i> <span id="tabBtnDocenteTitulo">8. Painel Docente</span>
+        </button>
+      </nav>
+    </div>
   </header>
 
   <!-- MAIN -->
   <main class="main-container">
 
-    <div class="app-layout-wrapper">
-      
-      <!-- SIDEBAR LATERAL COM CATEGORIAS SEMÂNTICAS (OPÇÃO 3: STRIPE/MDN) -->
-      <aside class="app-sidebar" id="appSidebarNav" aria-label="Navegação da Unidade Curricular">
-        <div class="nav-sidebar-card">
-          
-          <div class="sidebar-brand-header d-flex align-items-center justify-content-between" onclick="toggleMenuBB()" style="cursor: pointer;" title="Abrir menu completo / mapa da UC (Estilo Banco do Brasil)">
-            <span class="sidebar-title d-flex align-items-center gap-2">
-              <i class="bi bi-compass-fill text-success"></i>
-              <span>Navegação da UC</span>
-            </span>
-            <button type="button" class="btn btn-sm btn-outline-success py-0 px-2 fs-label fw-bold d-flex align-items-center gap-1" title="Abrir mapa do site completo">
-              <i class="bi bi-grid-fill"></i> Menu
-            </button>
-          </div>
-
-          <!-- GRUPO 1: VISÃO GERAL -->
-          <div class="sidebar-group" data-sidebar-group="visao-geral">
-            <div class="sidebar-group-title">VISÃO GERAL</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-raio-x')" id="tabBtnRaioX" data-tab-id="tab-raio-x" title="0. Raio-X & Panorama">
-              <i class="bi bi-speedometer2 text-primary"></i>
-              <span class="nav-label">0. Raio-X &amp; Panorama</span>
-              <span class="nav-badge badge bg-primary-subtle text-primary">Geral</span>
-            </button>
-          </div>
-
-          <!-- GRUPO 2: LABORATÓRIO & AULAS -->
-          <div class="sidebar-group" data-sidebar-group="laboratorio-aulas">
-            <div class="sidebar-group-title">LABORATÓRIO &amp; AULAS</div>
-            <button class="sidebar-nav-btn tab-btn active" onclick="showTab('tab-roteiros')" id="tabBtnRoteiros" data-tab-id="tab-roteiros" title="1. Central de Roteiros Práticos">
-              <i class="bi bi-code-square text-success"></i>
-              <span class="nav-label">1. Roteiros Práticos</span>
-              <span class="nav-badge badge bg-success-subtle text-success">5 Guias</span>
-            </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-cronograma')" id="tabBtnCronograma" data-tab-id="tab-cronograma" title="2. Cronograma & Encontros (20 Aulas)">
-              <i class="bi bi-calendar-range-fill text-info"></i>
-              <span class="nav-label">2. Cronograma</span>
-              <span class="nav-badge text-muted fs-label">20 Aulas</span>
-            </button>
-          </div>
-
-          <!-- GRUPO 3: EXTENSÃO & ENTREGAS -->
-          <div class="sidebar-group" data-sidebar-group="extensao-entregas">
-            <div class="sidebar-group-title">EXTENSÃO &amp; ENTREGAS</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-extensao')" id="tabBtnExtensao" data-tab-id="tab-extensao" title="3. Curricularização da Extensão (40h)">
-              <i class="bi bi-megaphone-fill text-purple"></i>
-              <span class="nav-label">3. Extensão SNCT</span>
-              <span class="nav-badge badge bg-purple-subtle text-purple">40h</span>
-            </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-demandas')" id="tabBtnDemandas" data-tab-id="tab-demandas" title="4. Central de Demandas & Checkpoints">
-              <i class="fa-solid fa-list-check text-warning"></i>
-              <span class="nav-label">4. Demandas &amp; Checkpoints</span>
-              <span class="nav-badge badge bg-warning-subtle text-warning">Ativas</span>
-            </button>
-          </div>
-
-          <!-- GRUPO 4: SISTEMA AVALIATIVO & PPC -->
-          <div class="sidebar-group" data-sidebar-group="avaliacao-ppc">
-            <div class="sidebar-group-title">AVALIAÇÃO &amp; PPC</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-avaliacao')" id="tabBtnAvaliacao" data-tab-id="tab-avaliacao" title="5. Sistema Avaliativo & Rubricas">
-              <i class="bi bi-calculator-fill text-warning"></i>
-              <span class="nav-label">5. Sistema Avaliativo</span>
-              <span class="nav-badge text-muted fs-label">A1+A2+A3</span>
-            </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-ementa')" id="tabBtnEmenta" data-tab-id="tab-ementa" title="6. Ementa & Bibliografia (PPC)">
-              <i class="bi bi-book-half text-secondary"></i>
-              <span class="nav-label">6. Ementa Oficial</span>
-              <span class="nav-badge text-muted fs-label">PPC</span>
-            </button>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-sigaa')" id="tabBtnSigaa" data-tab-id="tab-sigaa" title="7. Central de Tarefas do SIGAA">
-              <i class="bi bi-mortarboard-fill text-primary"></i>
-              <span class="nav-label">7. Central SIGAA</span>
-            </button>
-          </div>
-
-          <!-- GRUPO 5: GESTÃO DOCENTE -->
-          <div class="sidebar-group" data-sidebar-group="gestao-docente">
-            <div class="sidebar-group-title">GESTÃO &amp; FRENTES</div>
-            <button class="sidebar-nav-btn tab-btn" onclick="showTab('tab-docente')" id="tabBtnDocente" data-tab-id="tab-docente" title="8. Painel de Frentes & Gestão SNCT" style="border-color: rgba(217, 119, 6, 0.45);">
-              <i class="fa-solid fa-chalkboard-user text-warning"></i>
-              <span class="nav-label" id="tabBtnDocenteTitulo">8. Painel de Frentes &amp; Gestão</span>
-              <span class="nav-badge badge bg-danger-subtle text-danger">Docente</span>
-            </button>
-          </div>
-
-          <!-- FOOTER: ATALHO MAPA DO SITE -->
-          <div class="sidebar-footer pt-2 border-top">
-            <button type="button" onclick="toggleMenuBB()" class="btn btn-sm btn-outline-secondary w-100 fs-caption d-flex align-items-center justify-content-center gap-1">
-              <i class="bi bi-grid-fill text-success"></i> Mapa Geral (Menu BB)
-            </button>
-          </div>
-
-        </div>
-      </aside>
-
-      <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
-      <div class="app-content-area">
-
-        <!-- CONTEÚDO DAS ABAS -->
+    <!-- CONTEÚDO DAS ABAS -->
 
     <!-- ABA 0: RAIO-X & PANORAMA GERAL DAS ATIVIDADES -->
     <div class="tab-pane" id="tab-raio-x">
@@ -3301,14 +3162,14 @@
             <p class="panel-subtitle mb-0">Visão geral executiva com a estrutura completa da disciplina, carga horária, roteiros ativos e checkpoints integrados:</p>
           </div>
           <div class="d-flex align-items-center gap-2 flex-wrap">
-            <button onclick="navegarViaMenuBB('tab-roteiros')" class="btn-action btn-outline-action">
+            <button onclick="showTab('tab-roteiros')" class="btn-action btn-outline-action">
               <i class="bi bi-code-square text-success"></i> Caderno de Roteiros
             </button>
-            <button onclick="navegarViaMenuBB('tab-demandas')" class="btn-action btn-outline-action">
+            <button onclick="showTab('tab-demandas')" class="btn-action btn-outline-action">
               <i class="fa-solid fa-list-check text-primary"></i> Central de Demandas
             </button>
-            <button onclick="toggleMenuBB()" class="btn-action btn-primary-action">
-              <i class="bi bi-grid-fill"></i> Abrir Menu BB
+            <button onclick="showTab('tab-cronograma')" class="btn-action btn-primary-action">
+              <i class="bi bi-calendar-range-fill text-info"></i> Cronograma da Turma
             </button>
           </div>
         </div>
@@ -6199,9 +6060,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
 
       </div>
     </div>
-
-      </div> <!-- fim .app-content-area -->
-    </div> <!-- fim .app-layout-wrapper -->
 
   </main>
   <!-- MODAIS: CENTRAL DE DEMANDAS, RUBRICA FORMATIVA E ESTUDANTES -->

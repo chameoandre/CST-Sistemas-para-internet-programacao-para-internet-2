@@ -1173,34 +1173,37 @@ window.ProgWeb2 = {
       const isDocente = document.body.classList.contains('modo-docente-ativo');
       const config = obterConfigVisibilidadeModulos();
 
-      // 1. Sidebar lateral: botões individuais
-      const botoesSidebar = document.querySelectorAll('.app-sidebar .sidebar-nav-btn[data-tab-id]');
-      botoesSidebar.forEach(btn => {
+      // 1. Botões de navegação horizontal (e fallback sidebar se houver)
+      const botoesTabs = document.querySelectorAll('.tab-btn[data-tab-id], .sidebar-nav-btn[data-tab-id]');
+      botoesTabs.forEach(btn => {
         const tabId = btn.getAttribute('data-tab-id');
-        if (tabId === 'tab-docente') return;
+        if (tabId === 'tab-docente') {
+          btn.style.display = isDocente ? 'inline-flex' : 'none';
+          return;
+        }
 
         const badgeAntiga = btn.querySelector('.badge-oculto-estudante');
         if (badgeAntiga) badgeAntiga.remove();
 
         if (isDocente) {
-          btn.style.display = '';
+          btn.style.display = 'inline-flex';
           if (config[tabId] === false) {
             const badgeOculto = document.createElement('span');
             badgeOculto.className = 'badge bg-secondary-subtle text-secondary fs-label badge-oculto-estudante ms-1';
             badgeOculto.title = 'Este módulo está oculto para os estudantes';
-            badgeOculto.innerHTML = '<i class="bi bi-eye-slash"></i> Oculto';
+            badgeOculto.innerHTML = '<i class="bi bi-eye-slash"></i>';
             btn.appendChild(badgeOculto);
           }
         } else {
           if (config[tabId] === false) {
             btn.style.display = 'none';
           } else {
-            btn.style.display = '';
+            btn.style.display = 'inline-flex';
           }
         }
       });
 
-      // 2. Sidebar lateral: grupos de categoria
+      // 2. Sidebar lateral: grupos de categoria (se presentes)
       const gruposSidebar = document.querySelectorAll('.app-sidebar .sidebar-group');
       gruposSidebar.forEach(grupo => {
         if (isDocente) {
@@ -1215,7 +1218,7 @@ window.ProgWeb2 = {
         }
       });
 
-      // 3. Menu Banco do Brasil (Categorias e Sublinks)
+      // 3. Menu Banco do Brasil (Categorias e Sublinks, se presentes)
       const catItemsBB = document.querySelectorAll('.bb-sidebar-cats .bb-cat-item');
       catItemsBB.forEach(item => {
         const btnCat = item.querySelector('.bb-cat-btn');
@@ -6870,10 +6873,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       });
 
       if (shouldScroll) {
-        const contentArea = document.querySelector('.app-content-area') || targetPane;
-        if (contentArea) {
-          contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       if (tabId === 'tab-demandas') {
