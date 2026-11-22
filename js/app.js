@@ -4826,6 +4826,30 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       showToast("Resposta Removida", "A orientação docente foi retirada deste recado.", "bi bi-trash text-muted");
     }
 
+    function abrirModalDetalhesDemanda(id) {
+      const d = demandasApp.find(item => item.id === id);
+      if (!d) return;
+
+      const ehDocente = document.body.classList.contains('modo-docente-ativo');
+      if (ehDocente) {
+        abrirModalEditarDemanda(id);
+        return;
+      }
+
+      showTab('tab-demandas');
+      setTimeout(() => {
+        const el = document.getElementById(`demanda-card-${id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.transition = 'all 0.3s ease';
+          el.style.boxShadow = '0 0 0 4px var(--accent-amber)';
+          setTimeout(() => {
+            el.style.boxShadow = '';
+          }, 3000);
+        }
+      }, 250);
+    }
+
     function renderizarMuralComunicadosDocente() {
       // 1. Demandas Oficiais do Professor
       const demandasOficiais = demandasApp.filter(d => !d.concluida && !ehRecadoEquipe(d) && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
@@ -4886,7 +4910,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                             </a>
                           ` : '<span class="fs-label text-muted">Aviso oficial</span>'}
                         </div>
-                        <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label text-decoration-none">Ver detalhes &rarr;</button>
+                        <button type="button" onclick="abrirModalDetalhesDemanda('${d.id}')" class="btn btn-sm btn-link p-0 fs-label text-decoration-none">Ver detalhes &rarr;</button>
                       </div>
                     </div>
                   </div>
@@ -7413,12 +7437,14 @@ const funcoesGlobais = {
   abrirModalAuditoriaVotos,
   abrirModalAvaliarRubrica,
   abrirModalComunicadoDemanda,
+  abrirModalDetalhesDemanda,
   abrirModalEditarAluno,
   abrirModalEditarDemanda,
   abrirModalNovaDemanda,
   abrirModalNovaOficina,
   abrirModalNovoAluno,
   abrirModalNovoRecadoEquipe,
+  abrirModalRespostaDocente,
   alocarAlunoEmFrenteDocente,
   alterarEquipeAlunoRapido,
   alternarConclusaoDemanda,
@@ -7465,6 +7491,7 @@ const funcoesGlobais = {
   fecharModalDemanda,
   fecharModalNovaOficina,
   fecharModalRecadoEquipe,
+  fecharModalRespostaDocente,
   fecharModalRubrica,
   fecharMenuBB,
   filtrarDemandas,
@@ -7487,6 +7514,7 @@ const funcoesGlobais = {
   registrarMinhaEntrega,
   registrarVoto,
   reiniciarVotacao,
+  removerRespostaDocente,
   renderizarAreaDocente,
   renderizarCardMinhaFrenteEstudante,
   renderizarTabelaRubricas,
@@ -7497,6 +7525,7 @@ const funcoesGlobais = {
   salvarDemanda,
   salvarNovaOficina,
   salvarRecadoEquipe,
+  salvarRespostaDocente,
   selecionarCardDestaque,
   selecionarCategoriaMenuBB,
   selecionarNivelRubrica,
