@@ -4734,12 +4734,21 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     let recadoRespondendoId = null;
 
     function abrirModalRespostaDocente(recadoId) {
-      const recado = demandasApp.find(d => d.id === recadoId);
-      if (!recado) return;
-      recadoRespondendoId = recadoId;
+      const idBusca = String(recadoId || '').trim().toUpperCase();
+      const recado = demandasApp.find(d => String(d.id).trim().toUpperCase() === idBusca) ||
+                     demandasApp.find(d => d.id === recadoId) ||
+                     demandasApp.find(d => d.titulo && d.titulo.includes(recadoId));
+      if (!recado) {
+        console.warn('Recado não localizado em demandasApp para o ID:', recadoId);
+        return;
+      }
+      recadoRespondendoId = recado.id;
 
       const modal = document.getElementById('modalRespostaDocenteOverlay');
-      if (!modal) return;
+      if (!modal) {
+        console.warn('Elemento modalRespostaDocenteOverlay não encontrado');
+        return;
+      }
 
       const elId = document.getElementById('modalRespRecadoId');
       const elAutor = document.getElementById('modalRespRecadoAutor');
@@ -4763,6 +4772,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       }
 
       modal.classList.add('active');
+      modal.style.display = 'flex';
+      modal.style.opacity = '1';
+      modal.style.visibility = 'visible';
       setTimeout(() => {
         if (elTexto) elTexto.focus();
       }, 150);
@@ -4770,9 +4782,17 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
     function fecharModalRespostaDocente() {
       const modal = document.getElementById('modalRespostaDocenteOverlay');
-      if (modal) modal.classList.remove('active');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = '';
+        modal.style.opacity = '';
+        modal.style.visibility = '';
+      }
       recadoRespondendoId = null;
     }
+
+    window.abrirModalRespostaDocente = abrirModalRespostaDocente;
+    window.fecharModalRespostaDocente = fecharModalRespostaDocente;
 
     function salvarRespostaDocente(event) {
       if (event) event.preventDefault();
@@ -4826,6 +4846,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       showToast("Resposta Removida", "A orientação docente foi retirada deste recado.", "bi bi-trash text-muted");
     }
 
+    window.salvarRespostaDocente = salvarRespostaDocente;
+    window.removerRespostaDocente = removerRespostaDocente;
+
     function abrirModalDetalhesDemanda(id) {
       const d = demandasApp.find(item => item.id === id);
       if (!d) return;
@@ -4849,6 +4872,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         }
       }, 250);
     }
+
+    window.abrirModalDetalhesDemanda = abrirModalDetalhesDemanda;
 
     function renderizarMuralComunicadosDocente() {
       // 1. Demandas Oficiais do Professor
