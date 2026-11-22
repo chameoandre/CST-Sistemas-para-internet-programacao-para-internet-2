@@ -2974,6 +2974,26 @@
       padding-right: 3px;
     }
 
+    /* Destaque para Recado Respondido pelo Docente */
+    .mural-card-com-resposta {
+      border-left: 4.5px solid var(--accent-amber) !important;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.12) !important;
+    }
+
+    .mural-resposta-docente {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.65rem;
+      margin-top: 0.45rem;
+      margin-bottom: 0.35rem;
+    }
+
+    [data-theme="dark"] .mural-resposta-docente {
+      background: rgba(245, 158, 11, 0.14);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
     /* =====================================================
        LAYOUT CLEAN & FLUIDO: NAVEGAÇÃO HORIZONTAL EM ABAS
        ===================================================== */
@@ -6508,6 +6528,53 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           <button type="submit" class="btn btn-sm btn-success fw-bold">
             <i class="bi bi-send-fill me-1"></i> Publicar Recado no Mural
           </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: RESPOSTA DOCENTE AO RECADO DO ESTUDANTE -->
+  <div class="app-modal-overlay" id="modalRespostaDocenteOverlay" onclick="if(event.target === this) fecharModalRespostaDocente()">
+    <div class="app-modal-container" style="max-width: 620px;">
+      <div class="app-modal-header" style="background: rgba(245, 158, 11, 0.08); border-bottom: 1px solid rgba(245, 158, 11, 0.2);">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+          <i class="fa-solid fa-chalkboard-user text-warning me-2"></i> Orientação / Resposta do Professor
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalRespostaDocente()"></button>
+      </div>
+      <form id="formRespostaDocente" onsubmit="salvarRespostaDocente(event)">
+        <div class="app-modal-body">
+          <div class="p-2-5 rounded mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); padding: 0.75rem;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="badge font-code" id="modalRespRecadoId" style="background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-color);">REC-01</span>
+              <span class="fs-label text-muted" id="modalRespRecadoAutor"><i class="bi bi-person me-1"></i>Estudante</span>
+            </div>
+            <h5 class="fs-body-sm fw-bold text-heading mb-1" id="modalRespRecadoTitulo">Título</h5>
+            <div class="fs-caption text-main" id="modalRespRecadoCorpo" style="white-space: pre-line; max-height: 80px; overflow-y: auto;">Mensagem do aluno...</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">
+              <i class="fa-solid fa-reply text-warning me-1"></i> Sua resposta / orientação como professor:
+            </label>
+            <textarea class="form-control form-control-sm" id="respostaDocenteTexto" rows="4" placeholder="Ex: Excelente iniciativa! Ajustei o link no slide 4 e confirmo que a pesquisa já está liberada para a turma..." required></textarea>
+            <div class="fs-label text-muted mt-1">
+              Esta orientação aparecerá em destaque dourado no mural e notificará o estudante autor assim que ele entrar no sistema.
+            </div>
+          </div>
+        </div>
+        <div class="app-modal-footer d-flex justify-content-between">
+          <div>
+            <button type="button" class="btn btn-sm btn-outline-danger d-none" id="btnRemoverRespostaDocente" onclick="removerRespostaDocente()">
+              <i class="bi bi-trash me-1"></i> Remover Resposta
+            </button>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalRespostaDocente()">Cancelar</button>
+            <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold">
+              <i class="bi bi-check2-circle me-1"></i> Publicar Resposta
+            </button>
+          </div>
         </div>
       </form>
     </div>

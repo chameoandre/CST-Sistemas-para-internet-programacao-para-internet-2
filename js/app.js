@@ -4728,6 +4728,104 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       showToast('Recado Removido', 'O recado foi removido do mural.', 'bi bi-trash text-muted');
     }
 
+    // =========================================================================
+    // RESPOSTA DO PROFESSOR AOS RECADOS DOS ESTUDANTES
+    // =========================================================================
+    let recadoRespondendoId = null;
+
+    function abrirModalRespostaDocente(recadoId) {
+      const recado = demandasApp.find(d => d.id === recadoId);
+      if (!recado) return;
+      recadoRespondendoId = recadoId;
+
+      const modal = document.getElementById('modalRespostaDocenteOverlay');
+      if (!modal) return;
+
+      const elId = document.getElementById('modalRespRecadoId');
+      const elAutor = document.getElementById('modalRespRecadoAutor');
+      const elTitulo = document.getElementById('modalRespRecadoTitulo');
+      const elCorpo = document.getElementById('modalRespRecadoCorpo');
+      const elTexto = document.getElementById('respostaDocenteTexto');
+      const btnRemover = document.getElementById('btnRemoverRespostaDocente');
+
+      if (elId) elId.textContent = recado.id;
+      if (elAutor) elAutor.innerHTML = `<i class="bi bi-person me-1"></i> ${escapeHtml(recado.autorNome || 'Estudante')} &rarr; ${escapeHtml(recado.destinatario || 'Turma')}`;
+      if (elTitulo) elTitulo.textContent = recado.titulo;
+      if (elCorpo) elCorpo.textContent = recado.descricao;
+      if (elTexto) elTexto.value = recado.respostaDocente || '';
+
+      if (btnRemover) {
+        if (recado.respostaDocente) {
+          btnRemover.classList.remove('d-none');
+        } else {
+          btnRemover.classList.add('d-none');
+        }
+      }
+
+      modal.classList.add('active');
+      setTimeout(() => {
+        if (elTexto) elTexto.focus();
+      }, 150);
+    }
+
+    function fecharModalRespostaDocente() {
+      const modal = document.getElementById('modalRespostaDocenteOverlay');
+      if (modal) modal.classList.remove('active');
+      recadoRespondendoId = null;
+    }
+
+    function salvarRespostaDocente(event) {
+      if (event) event.preventDefault();
+      if (!recadoRespondendoId) return;
+
+      const elTexto = document.getElementById('respostaDocenteTexto');
+      const texto = elTexto ? elTexto.value.trim() : '';
+      if (!texto) {
+        alert("Por favor, digite o texto da resposta do professor.");
+        return;
+      }
+
+      const recado = demandasApp.find(d => d.id === recadoRespondendoId);
+      if (!recado) return;
+
+      const agora = new Date();
+      recado.respostaDocente = texto;
+      recado.respostaDocenteData = agora.toLocaleDateString('pt-BR') + ' às ' + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      recado.respostaDocenteAutor = usuarioLogadoGoogle ? usuarioLogadoGoogle.nome : 'Prof. André Moraes';
+      recado.respostaVistaPeloAutor = false;
+
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      fecharModalRespostaDocente();
+      showToast("Resposta Publicada!", `Sua orientação foi vinculada ao recado ${recado.id}.`, "fa-solid fa-check text-success");
+
+      chamarApiAppsScript('atualizarDemanda', {
+        id: recado.id,
+        respostaDocente: recado.respostaDocente,
+        respostaDocenteData: recado.respostaDocenteData,
+        respostaDocenteAutor: recado.respostaDocenteAutor
+      }).catch(err => console.warn('Aviso ao sincronizar resposta docente na planilha:', err));
+    }
+
+    function removerRespostaDocente() {
+      if (!recadoRespondendoId) return;
+      const recado = demandasApp.find(d => d.id === recadoRespondendoId);
+      if (!recado) return;
+
+      const confirma = confirm(`Deseja realmente remover a resposta dada ao recado "${recado.titulo}"?`);
+      if (!confirma) return;
+
+      delete recado.respostaDocente;
+      delete recado.respostaDocenteData;
+      delete recado.respostaDocenteAutor;
+      delete recado.respostaVistaPeloAutor;
+
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      fecharModalRespostaDocente();
+      showToast("Resposta Removida", "A orientação docente foi retirada deste recado.", "bi bi-trash text-muted");
+    }
+
     function renderizarMuralComunicadosDocente() {
       // 1. Demandas Oficiais do Professor
       const demandasOficiais = demandasApp.filter(d => !d.concluida && !ehRecadoEquipe(d) && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
@@ -4800,6 +4898,31 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       `;
 
       // Bloco das Equipes (Estudantes)
+      // Alerta para estudante autenticado que teve recado respondido pelo professor
+      let alertaRespostasEstudante = '';
+      if (usuarioLogadoGoogle && !usuarioLogadoGoogle.ehDocente) {
+        const meusRecadosRespondidos = recadosEquipes.filter(r =>
+          r.respostaDocente &&
+          ((usuarioLogadoGoogle.email && r.autorEmail && usuarioLogadoGoogle.email.toLowerCase() === r.autorEmail.toLowerCase()) ||
+           (usuarioLogadoGoogle.nome && r.autorNome && usuarioLogadoGoogle.nome.toLowerCase() === r.autorNome.toLowerCase()) ||
+           (usuarioLogadoGoogle.matricula && r.autorMatricula && usuarioLogadoGoogle.matricula === r.autorMatricula))
+        );
+        if (meusRecadosRespondidos.length > 0) {
+          const primeiroNome = usuarioLogadoGoogle.nome ? usuarioLogadoGoogle.nome.split(' ')[0] : 'Estudante';
+          alertaRespostasEstudante = `
+            <div class="alert alert-warning border border-warning-subtle d-flex align-items-center justify-content-between p-2 mb-2 rounded-3 fs-caption">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-bell text-warning fs-5"></i>
+                <div>
+                  <strong>Atenção, ${escapeHtml(primeiroNome)}!</strong> O Prof. André respondeu a <strong>${meusRecadosRespondidos.length} recado(s)</strong> da sua equipe. Veja as orientações destacadas em dourado abaixo.
+                </div>
+              </div>
+              <button type="button" class="btn-close fs-label" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+          `;
+        }
+      }
+
       const htmlEquipes = `
         <div class="mural-bloco mural-bloco-equipes">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-2 border-bottom">
@@ -4825,6 +4948,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             </div>
           </div>
 
+          ${alertaRespostasEstudante}
+
           ${recadosFiltrados.length === 0 ? `
             <div class="text-center py-3 text-muted fs-caption">
               <i class="bi bi-chat-square-dots me-1"></i> Nenhum recado postado para este filtro ainda. Clique em <strong>+ Publicar Recado da Equipe</strong> para compartilhar links ou orientações com outros trios.
@@ -4835,6 +4960,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                 const corBadge = r.cursoSnctAlvo === 1 ? 'badge-pill-blue' : (r.cursoSnctAlvo === 2 ? 'badge-pill-green' : 'badge-pill-purple');
                 const rotuloCursoCurto = r.cursoSnctAlvo === 1 ? 'Curso 1' : (r.cursoSnctAlvo === 2 ? 'Curso 2' : 'Geral');
                 const classeCurso = r.cursoSnctAlvo === 1 ? 'mural-curso-1' : (r.cursoSnctAlvo === 2 ? 'mural-curso-2' : 'mural-curso-geral');
+                const classeRespondido = r.respostaDocente ? 'mural-card-com-resposta' : '';
 
                 let rotuloBotaoLink = 'Abrir Recurso';
                 let iconeLink = 'bi-box-arrow-up-right';
@@ -4856,17 +4982,31 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
                 return `
                   <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                    <div class="mural-msg-card mural-card-aluno ${classeCurso}">
+                    <div class="mural-msg-card mural-card-aluno ${classeCurso} ${classeRespondido}">
                       <div>
                         <div class="d-flex justify-content-between align-items-center gap-1 mb-2">
                           <div class="d-flex align-items-center gap-1">
                             <span class="badge mural-tag-aluno fs-label"><i class="bi bi-person-fill me-1"></i>ALUNO</span>
                             <span class="badge-pill ${corBadge} fs-label">${escapeHtml(rotuloCursoCurto)}</span>
                           </div>
-                          <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted); border: 1px solid var(--border-color);">${escapeHtml(r.id)}</span>
+                          <div class="d-flex align-items-center gap-1">
+                            ${r.respostaDocente ? `<span class="badge bg-warning text-dark fw-bold fs-label" title="Respondido pelo professor"><i class="fa-solid fa-reply me-1"></i>Respondido</span>` : ''}
+                            <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted); border: 1px solid var(--border-color);">${escapeHtml(r.id)}</span>
+                          </div>
                         </div>
                         <h4 class="mural-msg-titulo" title="${escapeHtml(r.titulo)}">${escapeHtml(r.titulo)}</h4>
                         <div class="mural-msg-corpo">${escapeHtml(r.descricao)}</div>
+                        ${r.respostaDocente ? `
+                          <div class="mural-resposta-docente">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                              <span class="fs-label fw-bold text-warning-emphasis">
+                                <i class="fa-solid fa-chalkboard-user text-warning me-1"></i> Orientação do Professor:
+                              </span>
+                              <span class="fs-label text-muted">${escapeHtml(r.respostaDocenteData ? r.respostaDocenteData.split(' às')[0] : '')}</span>
+                            </div>
+                            <div class="fs-caption text-main" style="white-space: pre-line; word-break: break-word; line-height: 1.45;">${escapeHtml(r.respostaDocente)}</div>
+                          </div>
+                        ` : ''}
                       </div>
 
                       <div class="pt-2 border-top">
@@ -4883,6 +5023,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                             ` : '<span class="fs-label text-muted">Recado</span>'}
                           </div>
                           <div class="d-flex align-items-center gap-1">
+                            <button type="button" onclick="abrirModalRespostaDocente('${r.id}')" class="btn btn-sm ${r.respostaDocente ? 'btn-outline-warning text-dark-emphasis' : 'btn-outline-primary'} py-0 px-1-5 fs-label fw-bold docente-only" title="Responder ou orientar como professor">
+                              <i class="bi ${r.respostaDocente ? 'bi-pencil-square' : 'bi-reply-fill'} me-1"></i> ${r.respostaDocente ? 'Editar' : 'Responder'}
+                            </button>
                             ${r.dataEnvio ? `<span class="fs-label text-muted">${escapeHtml(r.dataEnvio.split(' às')[0])}</span>` : ''}
                             <button type="button" onclick="excluirRecadoEquipe('${r.id}')" class="btn btn-link btn-sm text-muted p-0 fs-label ms-1" title="Excluir recado">
                               <i class="bi bi-trash"></i>
@@ -6110,6 +6253,25 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       renderizarQuadroDemandasSNCT();
       renderizarDemandas();
       renderizarCardMinhaFrenteEstudante();
+      verificarNotificacoesRecadosEstudante(usuarioLogadoGoogle);
+    }
+
+    let notificacaoRespostasExibidaNestaSessao = false;
+    function verificarNotificacoesRecadosEstudante(usuario) {
+      if (!usuario || usuario.ehDocente || notificacaoRespostasExibidaNestaSessao) return;
+      const respondidos = demandasApp.filter(d =>
+        ehRecadoEquipe(d) &&
+        d.respostaDocente &&
+        ((usuario.email && d.autorEmail && usuario.email.toLowerCase() === d.autorEmail.toLowerCase()) ||
+         (usuario.nome && d.autorNome && usuario.nome.toLowerCase() === d.autorNome.toLowerCase()) ||
+         (usuario.matricula && d.autorMatricula && usuario.matricula === d.autorMatricula))
+      );
+      if (respondidos.length > 0) {
+        notificacaoRespostasExibidaNestaSessao = true;
+        setTimeout(() => {
+          showToast("Aviso do Professor!", `O Prof. André respondeu a ${respondidos.length} recado(s) da sua equipe no Mural.`, "fa-solid fa-bell text-warning");
+        }, 1200);
+      }
     }
 
     function efetuarLogoutGoogle() {
