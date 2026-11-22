@@ -4752,8 +4752,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         <div class="mural-bloco mural-bloco-docente">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-1">
             <div class="d-flex align-items-center gap-2">
-              <span class="badge bg-warning text-dark"><i class="fa-solid fa-bullhorn me-1"></i> MURAL DO PROFESSOR — DEMANDAS &amp; ORIENTAÇÕES DA SEMANA</span>
-              <span class="fs-caption text-muted">Orientações didáticas oficiais de execução</span>
+              <span class="badge bg-warning text-dark px-2 py-1 fw-bold fs-caption"><i class="fa-solid fa-chalkboard-user me-1"></i> MURAL DO PROFESSOR — DEMANDAS &amp; ORIENTAÇÕES DA SEMANA</span>
+              <span class="fs-caption text-muted d-none d-sm-inline">Orientações didáticas oficiais de execução</span>
             </div>
             <button type="button" onclick="showTab('tab-docente')" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-caption docente-only">
               <i class="fa-solid fa-sliders me-1"></i> Gerenciar na Área Docente
@@ -4762,27 +4762,33 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
           <div class="row g-2">
             ${demandasOficiais.map(d => {
               const st = calcularStatusPrazo(d.prazo, d.concluida, d.horaPrazo);
-              const corBorda = d.cursoSnctAlvo === 1 ? 'var(--accent-blue)' : (d.cursoSnctAlvo === 2 ? 'var(--accent-emerald)' : 'var(--accent-amber)');
               return `
-                <div class="col-md-6 col-lg-6">
-                  <div class="mural-msg-card" style="border-top: 3px solid ${corBorda};">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                  <div class="mural-msg-card mural-card-docente">
                     <div>
                       <div class="d-flex justify-content-between align-items-center gap-1 mb-2">
-                        <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-main); border: 1px solid var(--border-color);">${escapeHtml(d.id)}</span>
-                        <span class="badge-pill ${st.classe} small">${st.texto}</span>
+                        <div class="d-flex align-items-center gap-1">
+                          <span class="badge mural-tag-docente fs-label"><i class="fa-solid fa-chalkboard-user me-1"></i>DOCENTE</span>
+                          <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted); border: 1px solid var(--border-color);">${escapeHtml(d.id)}</span>
+                        </div>
+                        <span class="badge-pill ${st.classe} fs-label">${st.texto}</span>
                       </div>
-                      <h4 class="mural-msg-titulo">${escapeHtml(d.titulo)}</h4>
+                      <h4 class="mural-msg-titulo" title="${escapeHtml(d.titulo)}">${escapeHtml(d.titulo)}</h4>
                       <div class="mural-msg-corpo">${escapeHtml(d.descricao)}</div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 pt-2 border-top">
-                      <span class="fs-label text-muted"><i class="bi bi-people me-1"></i>${escapeHtml(d.destinatario || rotuloAtribuicao(d))}</span>
-                      <div class="d-flex gap-1">
-                        ${d.linkApoio ? `
-                          <a href="${escapeHtml(d.id === 'DEM-SNCT-C1' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : (d.id === 'DEM-SNCT-C2' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2664' : d.linkApoio))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary py-1 px-2 fs-label">
-                            <i class="bi ${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'bi-mortarboard-fill' : (d.linkApoio.endsWith('.pdf') ? 'bi-file-earmark-pdf' : 'bi-box-arrow-up-right')} me-1"></i>${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'Moodle' : (d.linkApoio.endsWith('.pdf') ? 'Guia PDF' : 'Recurso')}
-                          </a>
-                        ` : ''}
-                        <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label">Ver detalhes</button>
+                    <div class="pt-2 border-top">
+                      <span class="fs-label text-muted text-truncate d-block mb-2" title="${escapeHtml(d.destinatario || rotuloAtribuicao(d))}">
+                        <i class="fa-solid fa-user-tie text-warning me-1"></i><strong>Prof. André Moraes</strong> &rarr; <span class="badge bg-secondary-subtle text-secondary fs-label">${escapeHtml(d.destinatario || rotuloAtribuicao(d))}</span>
+                      </span>
+                      <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
+                        <div>
+                          ${d.linkApoio ? `
+                            <a href="${escapeHtml(d.id === 'DEM-SNCT-C1' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2663' : (d.id === 'DEM-SNCT-C2' ? 'https://moodle.ifsc.edu.br/course/view.php?id=2664' : d.linkApoio))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-warning text-dark-emphasis py-0 px-2 fs-label fw-bold">
+                              <i class="bi ${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'bi-mortarboard-fill' : (d.linkApoio.endsWith('.pdf') ? 'bi-file-earmark-pdf' : 'bi-box-arrow-up-right')} me-1"></i>${d.linkApoio.includes('moodle') || d.id.includes('DEM-SNCT-C') ? 'Moodle' : (d.linkApoio.endsWith('.pdf') ? 'Guia PDF' : 'Recurso')}
+                            </a>
+                          ` : '<span class="fs-label text-muted">Aviso oficial</span>'}
+                        </div>
+                        <button type="button" onclick="showTab('tab-demandas')" class="btn btn-sm btn-link p-0 fs-label text-decoration-none">Ver detalhes &rarr;</button>
                       </div>
                     </div>
                   </div>
@@ -4797,25 +4803,23 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const htmlEquipes = `
         <div class="mural-bloco mural-bloco-equipes">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2 pb-2 border-bottom">
-            <div>
-              <div class="d-flex align-items-center gap-2 flex-wrap">
-                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-chat-quote-fill me-1"></i> MURAL DE RECADOS DAS EQUIPES (ESTUDANTES)</span>
-                <span class="fs-caption text-muted">Articulação, links de formulários e avisos entre as frentes</span>
-              </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 fw-bold fs-caption"><i class="bi bi-chat-quote-fill me-1"></i> MURAL DE RECADOS DAS EQUIPES (ESTUDANTES)</span>
+              <span class="fs-caption text-muted d-none d-sm-inline">Articulação, links de formulários e avisos entre as frentes</span>
             </div>
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'todos' ? 'btn-primary' : 'btn-outline-secondary'}" onclick="filtrarRecadosMural('todos')">
+                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'todos' ? 'btn-primary' : 'btn-outline-secondary'} py-0 px-2 fs-caption" onclick="filtrarRecadosMural('todos')">
                   Todos (${recadosEquipes.length})
                 </button>
-                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso1' ? 'btn-primary' : 'btn-outline-primary'}" onclick="filtrarRecadosMural('curso1')">
+                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso1' ? 'btn-primary' : 'btn-outline-primary'} py-0 px-2 fs-caption" onclick="filtrarRecadosMural('curso1')">
                   🟦 Curso 1 (${recadosC1.length})
                 </button>
-                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso2' ? 'btn-success' : 'btn-outline-success'}" onclick="filtrarRecadosMural('curso2')">
+                <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso2' ? 'btn-success' : 'btn-outline-success'} py-0 px-2 fs-caption" onclick="filtrarRecadosMural('curso2')">
                   🟩 Curso 2 (${recadosC2.length})
                 </button>
               </div>
-              <button type="button" onclick="abrirModalNovoRecadoEquipe()" class="btn btn-sm btn-success fw-bold">
+              <button type="button" onclick="abrirModalNovoRecadoEquipe()" class="btn btn-sm btn-success fw-bold py-1 px-2 fs-caption">
                 <i class="bi bi-plus-circle me-1"></i> + Publicar Recado da Equipe
               </button>
             </div>
@@ -4829,59 +4833,61 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             <div class="row g-2">
               ${recadosFiltrados.map(r => {
                 const corBadge = r.cursoSnctAlvo === 1 ? 'badge-pill-blue' : (r.cursoSnctAlvo === 2 ? 'badge-pill-green' : 'badge-pill-purple');
-                const rotuloCurso = r.cursoSnctAlvo === 1 ? 'Curso 1: Meu 1º Site no Ar' : (r.cursoSnctAlvo === 2 ? 'Curso 2: Painel Verde' : 'Turma Geral');
-                const corBorda = r.cursoSnctAlvo === 1 ? 'var(--accent-blue)' : (r.cursoSnctAlvo === 2 ? 'var(--accent-emerald)' : 'var(--accent-purple)');
+                const rotuloCursoCurto = r.cursoSnctAlvo === 1 ? 'Curso 1' : (r.cursoSnctAlvo === 2 ? 'Curso 2' : 'Geral');
+                const classeCurso = r.cursoSnctAlvo === 1 ? 'mural-curso-1' : (r.cursoSnctAlvo === 2 ? 'mural-curso-2' : 'mural-curso-geral');
 
                 let rotuloBotaoLink = 'Abrir Recurso';
                 let iconeLink = 'bi-box-arrow-up-right';
                 if (r.linkApoio) {
                   if (r.linkApoio.includes('forms.gle') || r.linkApoio.includes('docs.google.com/forms')) {
-                    rotuloBotaoLink = 'Abrir Google Forms da Pesquisa';
+                    rotuloBotaoLink = 'Google Forms';
                     iconeLink = 'bi-ui-checks';
                   } else if (r.linkApoio.includes('github.io')) {
-                    rotuloBotaoLink = 'Abrir Deploy GitHub Pages';
+                    rotuloBotaoLink = 'Deploy Pages';
                     iconeLink = 'bi-globe';
                   } else if (r.linkApoio.includes('github.com')) {
-                    rotuloBotaoLink = 'Abrir Repositório GitHub';
+                    rotuloBotaoLink = 'Repositório';
                     iconeLink = 'bi-github';
                   } else if (r.linkApoio.includes('moodle.ifsc.edu.br')) {
-                    rotuloBotaoLink = 'Abrir Sala do Moodle';
+                    rotuloBotaoLink = 'Moodle';
                     iconeLink = 'bi-mortarboard-fill';
                   }
                 }
 
                 return `
-                  <div class="col-md-6 col-lg-6">
-                    <div class="mural-msg-card" style="border-top: 3px solid ${corBorda};">
+                  <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="mural-msg-card mural-card-aluno ${classeCurso}">
                       <div>
                         <div class="d-flex justify-content-between align-items-center gap-1 mb-2">
-                          <span class="badge-pill ${corBadge} fs-label">${escapeHtml(rotuloCurso)}</span>
-                          <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted);">${escapeHtml(r.id)}</span>
+                          <div class="d-flex align-items-center gap-1">
+                            <span class="badge mural-tag-aluno fs-label"><i class="bi bi-person-fill me-1"></i>ALUNO</span>
+                            <span class="badge-pill ${corBadge} fs-label">${escapeHtml(rotuloCursoCurto)}</span>
+                          </div>
+                          <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted); border: 1px solid var(--border-color);">${escapeHtml(r.id)}</span>
                         </div>
-                        <h4 class="mural-msg-titulo">${escapeHtml(r.titulo)}</h4>
+                        <h4 class="mural-msg-titulo" title="${escapeHtml(r.titulo)}">${escapeHtml(r.titulo)}</h4>
                         <div class="mural-msg-corpo">${escapeHtml(r.descricao)}</div>
                       </div>
 
                       <div class="pt-2 border-top">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-1 mb-2">
-                          <div class="fs-label text-muted">
-                            <i class="bi bi-person-circle text-primary me-1"></i><strong>${escapeHtml(r.autorNome || 'Estudante')}</strong>
-                            &rarr; <span class="badge bg-secondary-subtle text-secondary">${escapeHtml(r.destinatario || 'Turma')}</span>
-                          </div>
-                          ${r.dataEnvio ? `<span class="fs-label text-muted">${escapeHtml(r.dataEnvio)}</span>` : ''}
-                        </div>
+                        <span class="fs-label text-muted text-truncate d-block mb-2" title="${escapeHtml(r.destinatario || 'Turma')}">
+                          <i class="bi bi-people-fill text-primary me-1"></i><strong>${escapeHtml(r.autorNome || 'Estudante')}</strong> &rarr; <span class="badge bg-secondary-subtle text-secondary fs-label">${escapeHtml(r.destinatario || 'Turma')}</span>
+                        </span>
 
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-1">
                           <div>
                             ${r.linkApoio ? `
-                              <a href="${escapeHtml(r.linkApoio)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-1 px-2 fs-caption fw-bold" title="${escapeHtml(r.linkApoio)}">
+                              <a href="${escapeHtml(r.linkApoio)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success py-0 px-2 fs-label fw-bold" title="${escapeHtml(r.linkApoio)}">
                                 <i class="bi ${iconeLink} me-1"></i> ${rotuloBotaoLink} <i class="bi bi-box-arrow-up-right ms-1"></i>
                               </a>
-                            ` : '<span class="fs-label text-muted">Mensagem informativa</span>'}
+                            ` : '<span class="fs-label text-muted">Recado</span>'}
                           </div>
-                          <button type="button" onclick="excluirRecadoEquipe('${r.id}')" class="btn btn-link btn-sm text-muted p-0 fs-label" title="Excluir recado">
-                            <i class="bi bi-trash"></i>
-                          </button>
+                          <div class="d-flex align-items-center gap-1">
+                            ${r.dataEnvio ? `<span class="fs-label text-muted">${escapeHtml(r.dataEnvio.split(' às')[0])}</span>` : ''}
+                            <button type="button" onclick="excluirRecadoEquipe('${r.id}')" class="btn btn-link btn-sm text-muted p-0 fs-label ms-1" title="Excluir recado">
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
