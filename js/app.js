@@ -1301,15 +1301,88 @@ window.ProgWeb2 = {
     // E-MAILS E NOTIFICAÇÕES (ESTILO PI 1 & PI 2)
     // =========================================================================
     function obterEmailsEquipe(equipeNome) {
-      return alunosApp
-        .filter(a => a.ativo && a.equipe === equipeNome && a.email)
-        .map(a => a.email.trim());
+      const eqNorm = String(equipeNome || '').toLowerCase();
+      const emails = new Set();
+
+      // 1. Curso 1 (Macro-grupo)
+      if (eqNorm.includes('curso 1') && !eqNorm.includes('frente')) {
+        demandasSnctApp.filter(f => f.cursoId === 1).forEach(f => {
+          (f.membros || []).forEach(m => {
+            const al = alunosApp.find(a => String(a.id) === String(m.alunoId) || (m.matricula && String(m.matricula) === String(a.matricula)));
+            const email = (al && al.email) || m.email;
+            if (email && email.includes('@')) emails.add(email.trim());
+          });
+        });
+        if (emails.size > 0) return Array.from(emails);
+      }
+
+      // 2. Curso 2 (Macro-grupo)
+      if (eqNorm.includes('curso 2') && !eqNorm.includes('frente')) {
+        demandasSnctApp.filter(f => f.cursoId === 2).forEach(f => {
+          (f.membros || []).forEach(m => {
+            const al = alunosApp.find(a => String(a.id) === String(m.alunoId) || (m.matricula && String(m.matricula) === String(a.matricula)));
+            const email = (al && al.email) || m.email;
+            if (email && email.includes('@')) emails.add(email.trim());
+          });
+        });
+        if (emails.size > 0) return Array.from(emails);
+      }
+
+      // 3. Frentes de Trabalho Específicas
+      const frenteMatch = demandasSnctApp.find(f => {
+        return f.id === equipeNome || (eqNorm.includes(f.titulo.toLowerCase()) && (
+          (f.cursoId === 1 && eqNorm.includes('curso 1')) ||
+          (f.cursoId === 2 && eqNorm.includes('curso 2'))
+        ));
+      });
+
+      if (frenteMatch) {
+        (frenteMatch.membros || []).forEach(m => {
+          const al = alunosApp.find(a => String(a.id) === String(m.alunoId) || (m.matricula && String(m.matricula) === String(a.matricula)));
+          const email = (al && al.email) || m.email;
+          if (email && email.includes('@')) emails.add(email.trim());
+        });
+        if (emails.size > 0) return Array.from(emails);
+      }
+
+      // 4. Fallback legado (campo equipe em alunosApp)
+      alunosApp.filter(a => a.ativo && a.equipe === equipeNome && a.email).forEach(a => {
+        if (a.email && a.email.includes('@')) emails.add(a.email.trim());
+      });
+
+      return Array.from(emails);
+    }
+
+    function obterNomesAlunosEquipe(equipeNome) {
+      const eqNorm = String(equipeNome || '').toLowerCase();
+      const nomes = new Set();
+
+      if (eqNorm.includes('curso 1') && !eqNorm.includes('frente')) {
+        demandasSnctApp.filter(f => f.cursoId === 1).forEach(f => {
+          (f.membros || []).forEach(m => { if (m.nome) nomes.add(m.nome); });
+        });
+      } else if (eqNorm.includes('curso 2') && !eqNorm.includes('frente')) {
+        demandasSnctApp.filter(f => f.cursoId === 2).forEach(f => {
+          (f.membros || []).forEach(m => { if (m.nome) nomes.add(m.nome); });
+        });
+      } else {
+        const frenteMatch = demandasSnctApp.find(f => f.id === equipeNome || (eqNorm.includes(f.titulo.toLowerCase()) && (
+          (f.cursoId === 1 && eqNorm.includes('curso 1')) ||
+          (f.cursoId === 2 && eqNorm.includes('curso 2'))
+        )));
+        if (frenteMatch) {
+          (frenteMatch.membros || []).forEach(m => { if (m.nome) nomes.add(m.nome); });
+        }
+      }
+
+      alunosApp.filter(a => a.ativo && a.equipe === equipeNome).forEach(a => nomes.add(a.nome));
+      return Array.from(nomes).join(', ') || 'Equipe da Turma';
     }
 
     function gerarTextoDevolutiva(demandaId, equipeNome) {
       const dem = demandasApp.find(d => d.id === demandaId) || { id: demandaId, titulo: demandaId, instrumento: 'A2' };
       const aval = avaliacoesApp.find(a => a.demandaId === demandaId && a.equipe === equipeNome);
-      const alunosDaEquipe = alunosApp.filter(a => a.ativo && a.equipe === equipeNome).map(a => a.nome).join(', ');
+      const alunosDaEquipe = obterNomesAlunosEquipe(equipeNome);
 
       const notaStr = aval ? (aval.nota || 0).toFixed(1) : "—";
       const conceitoStr = aval ? aval.conceito : "Pendente";
@@ -2696,7 +2769,39 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const at = normalizarAtribuicaoDemanda(d);
       if (at.tipoAtribuicao === 'turma') return aluno.ativo ? 'aluno:' + aluno.id : null;
       if (at.tipoAtribuicao === 'individual') return at.alunosAlvo.map(String).includes(String(aluno.id)) ? 'aluno:' + aluno.id : null;
-      return at.equipesAlvo.includes(aluno.equipe) ? 'equipe:' + aluno.equipe : null;
+
+      // Atribuição por Grupos / Cursos / Frentes:
+      for (const eq of at.equipesAlvo) {
+        const eqNorm = String(eq).toLowerCase();
+
+        // 1. Curso 1 (Macro)
+        if (eqNorm.includes('curso 1') && !eqNorm.includes('frente')) {
+          const estaNoC1 = demandasSnctApp.some(f => f.cursoId === 1 && (f.membros || []).some(m => String(m.alunoId) === String(aluno.id) || (m.matricula && String(m.matricula) === String(aluno.matricula))));
+          if (estaNoC1) return 'equipe:' + eq;
+        }
+
+        // 2. Curso 2 (Macro)
+        if (eqNorm.includes('curso 2') && !eqNorm.includes('frente')) {
+          const estaNoC2 = demandasSnctApp.some(f => f.cursoId === 2 && (f.membros || []).some(m => String(m.alunoId) === String(aluno.id) || (m.matricula && String(m.matricula) === String(aluno.matricula))));
+          if (estaNoC2) return 'equipe:' + eq;
+        }
+
+        // 3. Frentes de Trabalho Específicas
+        const frenteMatch = demandasSnctApp.find(f => {
+          return f.id === eq || (eqNorm.includes(f.titulo.toLowerCase()) && (
+            (f.cursoId === 1 && eqNorm.includes('curso 1')) ||
+            (f.cursoId === 2 && eqNorm.includes('curso 2'))
+          ));
+        });
+        if (frenteMatch && (frenteMatch.membros || []).some(m => String(m.alunoId) === String(aluno.id) || (m.matricula && String(m.matricula) === String(aluno.matricula)))) {
+          return 'equipe:' + eq;
+        }
+
+        // 4. Fallback legado
+        if (aluno.equipe === eq) return 'equipe:' + eq;
+      }
+
+      return null;
     }
 
     function demandaAtribuidaAoAluno(d, aluno) {
@@ -2918,13 +3023,96 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     // ---- Modal: seleção de grupos / estudantes ----
     function preencherAtribuicaoNoModal(at) {
       const listaEq = document.getElementById('listaAlvosEquipes');
-      listaEq.innerHTML = EQUIPES_PROGWEB2.map((eq, i) => {
+
+      // 1. Contagem de membros nos 2 Cursos Macro da SNCT
+      const membrosC1 = new Set();
+      demandasSnctApp.filter(f => f.cursoId === 1).forEach(f => {
+        (f.membros || []).forEach(m => {
+          if (m.alunoId) membrosC1.add(String(m.alunoId));
+        });
+      });
+
+      const membrosC2 = new Set();
+      demandasSnctApp.filter(f => f.cursoId === 2).forEach(f => {
+        (f.membros || []).forEach(m => {
+          if (m.alunoId) membrosC2.add(String(m.alunoId));
+        });
+      });
+
+      const nomeCurso1 = "Curso 1 — Meu 1º Site no Ar (Inclusão Digital & HTML/CSS)";
+      const nomeCurso2 = "Curso 2 — Painel Verde (Coleta Seletiva & Ecopontos)";
+
+      // Macro-grupos (os 2 Cursos oficiais em uso)
+      const macroHtml = `
+        <div class="px-2 py-1 mb-1 fw-bold fs-label text-heading text-uppercase border-bottom" style="letter-spacing: 0.04em;">
+          <i class="bi bi-mortarboard-fill me-1 text-primary"></i> 1. Cursos Extensionistas em Operação (2 Macro-Grupos)
+        </div>
+        <label class="alvo-opcao" style="border-left: 4px solid var(--accent-blue);">
+          <input type="checkbox" class="form-check-input" value="${escapeHtml(nomeCurso1)}" ${at.equipesAlvo.includes(nomeCurso1) ? 'checked' : ''}>
+          <span><strong>Curso 1:</strong> Meu 1º Site no Ar</span>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-auto">${membrosC1.size} membro(s)</span>
+        </label>
+        <label class="alvo-opcao" style="border-left: 4px solid var(--accent-emerald);">
+          <input type="checkbox" class="form-check-input" value="${escapeHtml(nomeCurso2)}" ${at.equipesAlvo.includes(nomeCurso2) ? 'checked' : ''}>
+          <span><strong>Curso 2:</strong> Painel Verde (Ecopontos)</span>
+          <span class="badge bg-success-subtle text-success border border-success-subtle ms-auto">${membrosC2.size} membro(s)</span>
+        </label>
+      `;
+
+      // 2. Frentes de Trabalho Específicas
+      const frentesC1 = demandasSnctApp.filter(f => f.cursoId === 1);
+      const frentesC2 = demandasSnctApp.filter(f => f.cursoId === 2);
+
+      const frentesHtml = `
+        <div class="px-2 py-1 mt-2 mb-1 fw-bold fs-label text-heading text-uppercase border-bottom" style="letter-spacing: 0.04em;">
+          <i class="bi bi-diagram-3-fill me-1 text-success"></i> 2. Frentes de Trabalho Ativas (8 Subgrupos)
+        </div>
+        <div class="ps-1 mb-1">
+          <span class="fs-label text-muted fw-bold d-block px-1 mb-1">🟦 Frentes do Curso 1:</span>
+          ${frentesC1.map(f => {
+            const nomeFrente = `Curso 1 · ${f.titulo}`;
+            const qtd = (f.membros || []).length;
+            return `<label class="alvo-opcao small py-1">
+              <input type="checkbox" class="form-check-input" value="${escapeHtml(nomeFrente)}" ${at.equipesAlvo.includes(nomeFrente) ? 'checked' : ''}>
+              <span>${escapeHtml(f.titulo)}</span>
+              <span class="text-muted ms-auto">${qtd} membro(s)</span>
+            </label>`;
+          }).join('')}
+        </div>
+        <div class="ps-1">
+          <span class="fs-label text-muted fw-bold d-block px-1 mb-1">🟩 Frentes do Curso 2:</span>
+          ${frentesC2.map(f => {
+            const nomeFrente = `Curso 2 · ${f.titulo}`;
+            const qtd = (f.membros || []).length;
+            return `<label class="alvo-opcao small py-1">
+              <input type="checkbox" class="form-check-input" value="${escapeHtml(nomeFrente)}" ${at.equipesAlvo.includes(nomeFrente) ? 'checked' : ''}>
+              <span>${escapeHtml(f.titulo)}</span>
+              <span class="text-muted ms-auto">${qtd} membro(s)</span>
+            </label>`;
+          }).join('')}
+        </div>
+      `;
+
+      // 3. Outros grupos com alunos ativos (apenas se houver algum com membros > 0)
+      const outrosGruposAtivos = EQUIPES_PROGWEB2.map(eq => {
         const qtd = alunosApp.filter(a => a.ativo && a.equipe === eq).length;
-        return `<label class="alvo-opcao">
-            <input type="checkbox" class="form-check-input" value="${escapeHtml(eq)}" ${at.equipesAlvo.includes(eq) ? 'checked' : ''}>
-            <span>${escapeHtml(eq)}</span><span class="text-muted ms-auto">${qtd} membro(s)</span>
-          </label>`;
-      }).join('');
+        return { eq, qtd };
+      }).filter(g => g.qtd > 0);
+
+      let outrosHtml = '';
+      if (outrosGruposAtivos.length > 0) {
+        outrosHtml = `
+          <div class="px-2 py-1 mt-2 mb-1 fw-bold fs-label text-heading text-uppercase border-bottom">
+            <i class="bi bi-people me-1"></i> 3. Outros Projetos em Uso
+          </div>
+          ${outrosGruposAtivos.map(g => `<label class="alvo-opcao">
+            <input type="checkbox" class="form-check-input" value="${escapeHtml(g.eq)}" ${at.equipesAlvo.includes(g.eq) ? 'checked' : ''}>
+            <span>${escapeHtml(g.eq)}</span><span class="text-muted ms-auto">${g.qtd} membro(s)</span>
+          </label>`).join('')}
+        `;
+      }
+
+      listaEq.innerHTML = macroHtml + frentesHtml + outrosHtml;
 
       const listaAl = document.getElementById('listaAlvosAlunos');
       listaAl.innerHTML = alunosApp
