@@ -2899,6 +2899,25 @@
       border-color: rgba(255, 255, 255, 0.08);
     }
 
+    /* BADGES DE NOTIFICAÇÃO E INTERAÇÃO NO DASHBOARD */
+    @keyframes pulseNotificacao {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .badge-notificacao-pulsante {
+      animation: pulseNotificacao 1.8s infinite ease-in-out;
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+      font-size: 0.72rem !important;
+      padding: 0.2rem 0.45rem !important;
+    }
+
+    .card-com-novidade {
+      border-color: rgba(239, 68, 68, 0.55) !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.22) !important;
+    }
+
     .mural-msg-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -3276,7 +3295,7 @@
           <i class="bi bi-megaphone-fill text-purple"></i> <span>3. Extensão SNCT</span>
         </button>
         <button class="tab-btn" onclick="showTab('tab-mural')" data-tab-id="tab-mural" id="tabBtnMural" title="4. Mural Exclusivo de Recados &amp; Orientações">
-          <i class="bi bi-chat-quote-fill text-warning"></i> <span>4. Mural de Recados</span>
+          <i class="bi bi-chat-quote-fill text-warning"></i> <span>4. Mural de Recados</span><span class="badge bg-danger rounded-pill badge-notificacao-pulsante ms-1 d-none" id="badgeNotificacaoMuralNav">0</span>
         </button>
         <button class="tab-btn" onclick="showTab('tab-demandas')" data-tab-id="tab-demandas" id="tabBtnDemandas" title="5. Central de Demandas &amp; Checkpoints">
           <i class="fa-solid fa-list-check text-primary"></i> <span>5. Demandas</span>
@@ -6282,6 +6301,7 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             <button type="button" class="bb-cat-btn" data-cat="mural" onclick="selecionarCategoriaMenuBB('mural')">
               <i class="bi bi-chat-quote-fill bb-cat-icon"></i>
               <span>Mural de Recados</span>
+              <span class="badge bg-danger rounded-pill badge-notificacao-pulsante ms-auto me-1 d-none" id="badgeNotificacaoMenuBBMural">0</span>
               <i class="bi bi-chevron-right bb-cat-chevron"></i>
             </button>
           </li>
@@ -6684,6 +6704,109 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
               <i class="bi bi-check2-circle me-1"></i> Publicar Resposta
             </button>
           </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: NOVA DÚVIDA / INTERAÇÃO DO ESTUDANTE NO AVISO DO PROFESSOR -->
+  <div class="app-modal-overlay" id="modalInteracaoEstudanteOverlay" onclick="if(event.target === this) fecharModalInteracaoEstudante()">
+    <div class="app-modal-container" style="max-width: 600px;">
+      <div class="app-modal-header" style="background: rgba(2, 132, 199, 0.08); border-bottom: 1px solid rgba(2, 132, 199, 0.2);">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+          <i class="bi bi-chat-dots-fill text-primary me-2"></i> Tirar Dúvida / Alinhar com o Professor
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalInteracaoEstudante()"></button>
+      </div>
+      <form id="formInteracaoEstudante" onsubmit="salvarInteracaoEstudante(event)">
+        <input type="hidden" id="interacaoDemandaId">
+        <div class="app-modal-body">
+          <div class="p-2-5 rounded mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); padding: 0.75rem;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="badge font-code" id="modalInteracaoAvisoId" style="background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-color);">DEM-SNCT</span>
+              <span class="badge bg-warning text-dark fs-label"><i class="fa-solid fa-chalkboard-user me-1"></i>Aviso do Professor</span>
+            </div>
+            <h5 class="fs-body-sm fw-bold text-heading mb-1" id="modalInteracaoAvisoTitulo">Título do Comunicado</h5>
+            <div class="fs-caption text-muted text-truncate" id="modalInteracaoAvisoDescricao">Descrição do comunicado...</div>
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Seu Nome / Aluno(a):</label>
+              <input type="text" class="form-control form-control-sm" id="inputInteracaoAutorNome" placeholder="Ex: Maria Eduarda Silva" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Sua Frente / Equipe:</label>
+              <select class="form-select form-select-sm" id="inputInteracaoAutorFrente">
+                <option value="Curso 1 · Frente 1 (Didática)">Curso 1 · Frente 1 (Didática)</option>
+                <option value="Curso 1 · Frente 2 (Starter Kit)">Curso 1 · Frente 2 (Starter Kit)</option>
+                <option value="Curso 1 · Frente 3 (Slides-Guia)">Curso 1 · Frente 3 (Slides-Guia)</option>
+                <option value="Curso 1 · Frente 4 (Monitoria)">Curso 1 · Frente 4 (Monitoria)</option>
+                <option value="Curso 2 · Frente 1 (Didática)">Curso 2 · Frente 1 (Didática)</option>
+                <option value="Curso 2 · Frente 2 (Starter Kit)">Curso 2 · Frente 2 (Starter Kit)</option>
+                <option value="Curso 2 · Frente 3 (Slides-Guia)">Curso 2 · Frente 3 (Slides-Guia)</option>
+                <option value="Curso 2 · Frente 4 (Monitoria)">Curso 2 · Frente 4 (Monitoria)</option>
+                <option value="Estudante Geral">Estudante Geral</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">
+              <i class="bi bi-question-circle text-primary me-1"></i> Sua Dúvida ou Questionamento sobre este aviso:
+            </label>
+            <textarea class="form-control form-control-sm" id="inputInteracaoTexto" rows="4" placeholder="Ex: Professor, na Seção 2 do Moodle podemos subir o link do GitHub Pages ou precisamos colocar o .zip também? Ficamos em dúvida no trio..." required></textarea>
+            <div class="fs-label text-muted mt-1">
+              Sua dúvida ficará visível neste comunicado para toda a turma e o Prof. André será notificado no dashboard para responder.
+            </div>
+          </div>
+        </div>
+        <div class="app-modal-footer d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalInteracaoEstudante()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fa-solid fa-paper-plane me-1"></i> Enviar Dúvida
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: RESPOSTA DOCENTE A UMA DÚVIDA DE ESTUDANTE NO AVISO -->
+  <div class="app-modal-overlay" id="modalResponderInteracaoDocenteOverlay" onclick="if(event.target === this) fecharModalResponderInteracaoDocente()">
+    <div class="app-modal-container" style="max-width: 600px;">
+      <div class="app-modal-header" style="background: rgba(245, 158, 11, 0.08); border-bottom: 1px solid rgba(245, 158, 11, 0.2);">
+        <h3 class="font-outfit fs-5 fw-bold text-heading mb-0">
+          <i class="fa-solid fa-chalkboard-user text-warning me-2"></i> Responder Dúvida do Estudante
+        </h3>
+        <button type="button" class="btn-close" onclick="fecharModalResponderInteracaoDocente()"></button>
+      </div>
+      <form id="formResponderInteracaoDocente" onsubmit="salvarRespostaInteracaoDocente(event)">
+        <input type="hidden" id="respInteracaoDemandaId">
+        <input type="hidden" id="respInteracaoId">
+        <div class="app-modal-body">
+          <div class="p-2-5 rounded mb-3" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); padding: 0.75rem;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="fs-label fw-bold text-primary" id="modalRespInteracaoAutor"><i class="bi bi-person me-1"></i>Estudante</span>
+              <span class="fs-label text-muted" id="modalRespInteracaoData">Data</span>
+            </div>
+            <div class="fs-caption text-main" id="modalRespInteracaoTexto" style="white-space: pre-line; max-height: 100px; overflow-y: auto;">Texto da pergunta...</div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-bold">
+              <i class="fa-solid fa-reply text-warning me-1"></i> Sua resposta / orientação como professor:
+            </label>
+            <textarea class="form-control form-control-sm" id="inputRespostaInteracaoTexto" rows="4" placeholder="Ex: Olá! Podem subir o link direto do GitHub Pages na Seção 2, não precisa do zip neste momento..." required></textarea>
+            <div class="fs-label text-muted mt-1">
+              A resposta aparecerá vinculada diretamente à pergunta deste estudante com destaque oficial dourado.
+            </div>
+          </div>
+        </div>
+        <div class="app-modal-footer d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="fecharModalResponderInteracaoDocente()">Cancelar</button>
+          <button type="submit" class="btn btn-sm btn-warning text-dark fw-bold">
+            <i class="bi bi-check2-circle me-1"></i> Publicar Resposta
+          </button>
         </div>
       </form>
     </div>
@@ -7126,6 +7249,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
   </footer>
 
   <!-- FRONTEND MODULARIZADO COM ES6 MODULES -->
-  <script type="module" src="js/app.js?v=20261125_1050"></script>
+  <script type="module" src="js/app.js?v=20261125_1110"></script>
 </body>
 </html>

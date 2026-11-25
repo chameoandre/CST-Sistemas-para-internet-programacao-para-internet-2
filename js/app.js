@@ -829,6 +829,46 @@ window.ProgWeb2 = {
 
             const dem01 = demandasApp.find(d => d.id === 'DEM-SNCT-01');
             if (dem01) dem01.fixadaMural = true;
+
+            const demC1 = demandasApp.find(d => d.id === 'DEM-SNCT-C1');
+            if (demC1 && (!demC1.interacoes || demC1.interacoes.length === 0)) {
+              demC1.interacoes = [
+                {
+                  id: "INT-01",
+                  autorNome: "Pietro Caetano Fleith",
+                  autorFrente: "Curso 1 · Frente 2 (Starter Kit)",
+                  autorEmail: "pietro.fleith@aluno.ifsc.edu.br",
+                  texto: "Professor, no Starter Kit do Curso 1 já deixamos o repositório template pronto com o branch gh-pages ativo. Podemos colocar o link direto na Seção 1 do Moodle ou precisa anexar o .zip junto?",
+                  dataEnvio: "18/11/2026 às 14:30",
+                  respostaDocente: "Perfeito, Pietro! Podem colocar o link direto do GitHub Pages e do repositório template na Seção 1. O arquivo .zip é opcional como backup caso o lab fique sem internet.",
+                  respostaDocenteData: "18/11/2026 às 16:10",
+                  respostaDocenteAutor: "Prof. André Moraes",
+                  respondida: true,
+                  vistaPeloDocente: true,
+                  vistaPeloAutor: true
+                }
+              ];
+            }
+
+            const demC2 = demandasApp.find(d => d.id === 'DEM-SNCT-C2');
+            if (demC2 && (!demC2.interacoes || demC2.interacoes.length === 0)) {
+              demC2.interacoes = [
+                {
+                  id: "INT-02",
+                  autorNome: "Maria Eduarda Silva",
+                  autorFrente: "Curso 2 · Frente 1 (Didática)",
+                  autorEmail: "maria.silva@aluno.ifsc.edu.br",
+                  texto: "Professor, na elaboração do micro-roteiro do Painel Verde, o modelo em LaTeX de 4 páginas deve conter a lista dos ecopontos de Garopaba na Seção 2?",
+                  dataEnvio: "24/11/2026 às 10:15",
+                  respostaDocente: "",
+                  respostaDocenteData: "",
+                  respondida: false,
+                  vistaPeloDocente: false,
+                  vistaPeloAutor: true
+                }
+              ];
+            }
+
             localStorage.setItem(STORAGE_KEY_DEMANDAS, JSON.stringify(demandasApp));
           }
         } else {
@@ -5043,6 +5083,252 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
     window.salvarRespostaDocente = salvarRespostaDocente;
     window.removerRespostaDocente = removerRespostaDocente;
 
+    let interacaoDemandaAlvoId = null;
+    let interacaoDocenteDemandaId = null;
+    let interacaoDocenteItemId = null;
+
+    function abrirModalInteracaoEstudante(demandaId) {
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d) return;
+
+      interacaoDemandaAlvoId = demandaId;
+      const modal = document.getElementById('modalInteracaoEstudanteOverlay');
+      if (!modal) return;
+
+      const elId = document.getElementById('modalInteracaoAvisoId');
+      const elTit = document.getElementById('modalInteracaoAvisoTitulo');
+      const elDesc = document.getElementById('modalInteracaoAvisoDescricao');
+      const elDemId = document.getElementById('interacaoDemandaId');
+      const elNome = document.getElementById('inputInteracaoAutorNome');
+      const elFrente = document.getElementById('inputInteracaoAutorFrente');
+      const elTexto = document.getElementById('inputInteracaoTexto');
+
+      if (elId) elId.textContent = d.id;
+      if (elTit) elTit.textContent = d.titulo;
+      if (elDesc) elDesc.textContent = d.descricao;
+      if (elDemId) elDemId.value = d.id;
+      if (elTexto) elTexto.value = '';
+
+      if (usuarioLogadoGoogle) {
+        if (elNome) elNome.value = usuarioLogadoGoogle.nome || '';
+        const frente = demandasSnctApp.find(f =>
+          (f.membros || []).some(m => String(m.alunoId) === String(usuarioLogadoGoogle.alunoId) || (m.matricula && String(m.matricula) === String(usuarioLogadoGoogle.matricula)))
+        );
+        if (frente && elFrente) {
+          const opt = Array.from(elFrente.options).find(o => o.value.includes(`Frente ${frente.frenteNumero}`));
+          if (opt) elFrente.value = opt.value;
+        }
+      }
+
+      modal.classList.add('active');
+      if (elTexto) elTexto.focus();
+    }
+
+    function fecharModalInteracaoEstudante() {
+      const modal = document.getElementById('modalInteracaoEstudanteOverlay');
+      if (modal) modal.classList.remove('active');
+      interacaoDemandaAlvoId = null;
+    }
+
+    function salvarInteracaoEstudante(event) {
+      if (event) event.preventDefault();
+      const demId = document.getElementById('interacaoDemandaId').value || interacaoDemandaAlvoId;
+      const d = demandasApp.find(item => item.id === demId);
+      if (!d) return;
+
+      const elNome = document.getElementById('inputInteracaoAutorNome');
+      const elFrente = document.getElementById('inputInteracaoAutorFrente');
+      const elTexto = document.getElementById('inputInteracaoTexto');
+
+      const autorNome = elNome ? elNome.value.trim() : 'Estudante';
+      const autorFrente = elFrente ? elFrente.value : 'Estudante Geral';
+      const texto = elTexto ? elTexto.value.trim() : '';
+
+      if (!texto) {
+        alert('Por favor, digite o texto da sua dúvida.');
+        return;
+      }
+
+      if (!Array.isArray(d.interacoes)) {
+        d.interacoes = [];
+      }
+
+      const agora = new Date();
+      const novaInteracao = {
+        id: 'INT-' + Date.now(),
+        autorNome: autorNome,
+        autorEmail: usuarioLogadoGoogle ? usuarioLogadoGoogle.email : '',
+        autorMatricula: usuarioLogadoGoogle ? usuarioLogadoGoogle.matricula : '',
+        autorFrente: autorFrente,
+        texto: texto,
+        dataEnvio: agora.toLocaleDateString('pt-BR') + ' às ' + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        respostaDocente: '',
+        respostaDocenteData: '',
+        respondida: false,
+        vistaPeloDocente: false,
+        vistaPeloAutor: true
+      };
+
+      d.interacoes.push(novaInteracao);
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      fecharModalInteracaoEstudante();
+      showToast("Dúvida Enviada!", `Sua pergunta foi registrada no comunicado ${d.id}. O professor foi notificado.`, "bi bi-check2-circle text-success");
+
+      chamarApiAppsScript('adicionarInteracaoDemanda', {
+        demandaId: d.id,
+        interacao: novaInteracao
+      }).catch(e => console.warn('Aviso sincronização interação AppsScript:', e));
+    }
+
+    function abrirModalResponderInteracaoDocente(demandaId, interacaoId) {
+      const d = demandasApp.find(item => item.id === demandaId);
+      if (!d || !Array.isArray(d.interacoes)) return;
+      const int = d.interacoes.find(i => i.id === interacaoId);
+      if (!int) return;
+
+      interacaoDocenteDemandaId = demandaId;
+      interacaoDocenteItemId = interacaoId;
+
+      const modal = document.getElementById('modalResponderInteracaoDocenteOverlay');
+      if (!modal) return;
+
+      const elDemId = document.getElementById('respInteracaoDemandaId');
+      const elIntId = document.getElementById('respInteracaoId');
+      const elAutor = document.getElementById('modalRespInteracaoAutor');
+      const elData = document.getElementById('modalRespInteracaoData');
+      const elTexto = document.getElementById('modalRespInteracaoTexto');
+      const elResp = document.getElementById('inputRespostaInteracaoTexto');
+
+      if (elDemId) elDemId.value = demandaId;
+      if (elIntId) elIntId.value = interacaoId;
+      if (elAutor) elAutor.innerHTML = `<i class="bi bi-person me-1"></i>${escapeHtml(int.autorNome || 'Estudante')} <span class="badge bg-secondary-subtle text-secondary fs-label ms-1">${escapeHtml(int.autorFrente || '')}</span>`;
+      if (elData) elData.textContent = int.dataEnvio || '';
+      if (elTexto) elTexto.textContent = int.texto || '';
+      if (elResp) elResp.value = int.respostaDocente || '';
+
+      modal.classList.add('active');
+      if (elResp) elResp.focus();
+    }
+
+    function fecharModalResponderInteracaoDocente() {
+      const modal = document.getElementById('modalResponderInteracaoDocenteOverlay');
+      if (modal) modal.classList.remove('active');
+      interacaoDocenteDemandaId = null;
+      interacaoDocenteItemId = null;
+    }
+
+    function salvarRespostaInteracaoDocente(event) {
+      if (event) event.preventDefault();
+      const demId = document.getElementById('respInteracaoDemandaId').value || interacaoDocenteDemandaId;
+      const intId = document.getElementById('respInteracaoId').value || interacaoDocenteItemId;
+
+      const d = demandasApp.find(item => item.id === demId);
+      if (!d || !Array.isArray(d.interacoes)) return;
+      const int = d.interacoes.find(i => i.id === intId);
+      if (!int) return;
+
+      const elResp = document.getElementById('inputRespostaInteracaoTexto');
+      const respTexto = elResp ? elResp.value.trim() : '';
+      if (!respTexto) {
+        alert('Por favor, digite a resposta do professor.');
+        return;
+      }
+
+      const agora = new Date();
+      int.respostaDocente = respTexto;
+      int.respostaDocenteData = agora.toLocaleDateString('pt-BR') + ' às ' + agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      int.respostaDocenteAutor = usuarioLogadoGoogle ? usuarioLogadoGoogle.nome : 'Prof. André Moraes';
+      int.respondida = true;
+      int.vistaPeloDocente = true;
+      int.vistaPeloAutor = false;
+
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      fecharModalResponderInteracaoDocente();
+      showToast("Resposta Publicada!", `Sua resposta foi vinculada à dúvida de ${int.autorNome}.`, "fa-solid fa-check text-success");
+
+      chamarApiAppsScript('responderInteracaoDemanda', {
+        demandaId: demId,
+        interacaoId: intId,
+        respostaDocente: int.respostaDocente,
+        respostaDocenteData: int.respostaDocenteData
+      }).catch(e => console.warn('Aviso sincronização resposta interação AppsScript:', e));
+    }
+
+    function atualizarIndicadoresNotificacaoMural() {
+      const isDocente = document.body.classList.contains('modo-docente-ativo');
+      let count = 0;
+
+      if (isDocente) {
+        const recadosSemResposta = demandasApp.filter(d => ehRecadoEquipe(d) && !d.respostaDocente && !ehItemEncerrado(d)).length;
+        let duvidasSemResposta = 0;
+        demandasApp.forEach(d => {
+          if (!ehRecadoEquipe(d) && Array.isArray(d.interacoes)) {
+            duvidasSemResposta += d.interacoes.filter(i => !i.respostaDocente && !i.respondida).length;
+          }
+        });
+        count = recadosSemResposta + duvidasSemResposta;
+      } else {
+        if (usuarioLogadoGoogle) {
+          const recadosRespondidosNaoVistos = demandasApp.filter(d =>
+            ehRecadoEquipe(d) && d.respostaDocente && !d.respostaVistaPeloAutor &&
+            ((usuarioLogadoGoogle.email && d.autorEmail && usuarioLogadoGoogle.email.toLowerCase() === d.autorEmail.toLowerCase()) ||
+             (usuarioLogadoGoogle.matricula && d.autorMatricula && usuarioLogadoGoogle.matricula === d.autorMatricula))
+          ).length;
+
+          let duvidasRespondidasNaoVistas = 0;
+          demandasApp.forEach(d => {
+            if (Array.isArray(d.interacoes)) {
+              duvidasRespondidasNaoVistas += d.interacoes.filter(i =>
+                i.respostaDocente && !i.vistaPeloAutor &&
+                ((usuarioLogadoGoogle.email && i.autorEmail && usuarioLogadoGoogle.email.toLowerCase() === i.autorEmail.toLowerCase()) ||
+                 (usuarioLogadoGoogle.matricula && i.autorMatricula && usuarioLogadoGoogle.matricula === i.autorMatricula))
+              ).length;
+            }
+          });
+          count = recadosRespondidosNaoVistos + duvidasRespondidasNaoVistas;
+        } else {
+          let duvidasSemRespostaTurma = 0;
+          demandasApp.forEach(d => {
+            if (Array.isArray(d.interacoes)) {
+              duvidasSemRespostaTurma += d.interacoes.filter(i => !i.respostaDocente).length;
+            }
+          });
+          count = duvidasSemRespostaTurma;
+        }
+      }
+
+      const badgeNav = document.getElementById('badgeNotificacaoMuralNav');
+      if (badgeNav) {
+        if (count > 0) {
+          badgeNav.textContent = count;
+          badgeNav.classList.remove('d-none');
+          badgeNav.title = isDocente ? `${count} dúvida(s) ou recado(s) de alunos aguardando sua resposta` : `${count} novidade(s) no mural`;
+        } else {
+          badgeNav.classList.add('d-none');
+        }
+      }
+
+      const badgeBB = document.getElementById('badgeNotificacaoMenuBBMural');
+      if (badgeBB) {
+        if (count > 0) {
+          badgeBB.textContent = count;
+          badgeBB.classList.remove('d-none');
+        } else {
+          badgeBB.classList.add('d-none');
+        }
+      }
+    }
+
+    window.abrirModalInteracaoEstudante = abrirModalInteracaoEstudante;
+    window.fecharModalInteracaoEstudante = fecharModalInteracaoEstudante;
+    window.salvarInteracaoEstudante = salvarInteracaoEstudante;
+    window.abrirModalResponderInteracaoDocente = abrirModalResponderInteracaoDocente;
+    window.fecharModalResponderInteracaoDocente = fecharModalResponderInteracaoDocente;
+    window.salvarRespostaInteracaoDocente = salvarRespostaInteracaoDocente;
+    window.atualizarIndicadoresNotificacaoMural = atualizarIndicadoresNotificacaoMural;
+
     function abrirModalDetalhesDemanda(id) {
       const d = demandasApp.find(item => item.id === id);
       if (!d) return;
@@ -5103,6 +5389,13 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       const demandasOficiais = todasDemandasDocente.filter(d => !ehItemEncerrado(d));
       const demandasOficiaisEncerradas = todasDemandasDocente.filter(d => ehItemEncerrado(d));
 
+      let totalDuvidasPendentesDocente = 0;
+      demandasOficiais.forEach(d => {
+        if (Array.isArray(d.interacoes)) {
+          totalDuvidasPendentesDocente += d.interacoes.filter(i => !i.respostaDocente && !i.respondida).length;
+        }
+      });
+
       // 2. Recados das Equipes / Estudantes
       const todosRecadosEquipes = demandasApp
         .filter(d => ehRecadoEquipe(d))
@@ -5124,6 +5417,23 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       // Total de itens encerrados (Docente + Equipes)
       const todosEncerrados = [...demandasOficiaisEncerradas, ...recadosEquipesEncerrados];
 
+      // Alerta para docente caso existam dúvidas de alunos pendentes
+      const isDocenteModo = document.body.classList.contains('modo-docente-ativo');
+      let alertaDocenteInteracoes = '';
+      if (isDocenteModo && totalDuvidasPendentesDocente > 0) {
+        alertaDocenteInteracoes = `
+          <div class="alert alert-danger border border-danger-subtle d-flex align-items-center justify-content-between p-2 mb-2 rounded-3 fs-caption">
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-bell text-danger fs-5 badge-notificacao-pulsante"></i>
+              <div>
+                <strong>Atenção Professor:</strong> Você possui <strong>${totalDuvidasPendentesDocente} dúvida(s)</strong> de estudantes aguardando orientação nos comunicados oficiais abaixo.
+              </div>
+            </div>
+            <span class="badge bg-danger text-white fs-label">${totalDuvidasPendentesDocente} pendente(s)</span>
+          </div>
+        `;
+      }
+
       // Bloco do Professor
       const htmlDocente = demandasOficiais.length === 0 ? '' : `
         <div class="mural-bloco mural-bloco-docente">
@@ -5136,22 +5446,83 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
               <i class="fa-solid fa-sliders me-1"></i> Gerenciar na Área Docente
             </button>
           </div>
+
+          ${alertaDocenteInteracoes}
+
           <div class="row g-2">
             ${demandasOficiais.map(d => {
               const st = calcularStatusPrazo(d.prazo, d.concluida, d.horaPrazo);
+              const interacoes = Array.isArray(d.interacoes) ? d.interacoes : [];
+              const pendentes = interacoes.filter(i => !i.respostaDocente && !i.respondida).length;
+              const temNovidade = pendentes > 0;
+              const classeCardNovidade = temNovidade ? 'card-com-novidade' : '';
               return `
                 <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                  <div class="mural-msg-card mural-card-docente">
+                  <div class="mural-msg-card mural-card-docente ${classeCardNovidade}">
                     <div>
                       <div class="d-flex justify-content-between align-items-center gap-1 mb-2">
                         <div class="d-flex align-items-center gap-1">
                           <span class="badge mural-tag-docente fs-label"><i class="fa-solid fa-chalkboard-user me-1"></i>DOCENTE</span>
                           <span class="badge font-code" style="background: var(--bg-card-hover); color: var(--text-muted); border: 1px solid var(--border-color);">${escapeHtml(d.id)}</span>
                         </div>
-                        <span class="badge-pill ${st.classe} fs-label">${st.texto}</span>
+                        <div class="d-flex align-items-center gap-1">
+                          ${temNovidade ? `
+                            <span class="badge bg-danger text-white fs-label badge-notificacao-pulsante" title="${pendentes} dúvida(s) aguardando resposta">
+                              <i class="bi bi-bell-fill me-1"></i>${pendentes}
+                            </span>
+                          ` : (interacoes.length > 0 ? `
+                            <span class="badge bg-secondary-subtle text-secondary fs-label" title="${interacoes.length} dúvida(s) respondidas">
+                              <i class="bi bi-chat-dots me-1"></i>${interacoes.length}
+                            </span>
+                          ` : '')}
+                          <span class="badge-pill ${st.classe} fs-label">${st.texto}</span>
+                        </div>
                       </div>
                       <h4 class="mural-msg-titulo" title="${escapeHtml(d.titulo)}">${escapeHtml(d.titulo)}</h4>
                       <div class="mural-msg-corpo">${escapeHtml(d.descricao)}</div>
+
+                      ${interacoes.length > 0 ? `
+                        <details class="mural-interacoes-thread mt-2 p-2 rounded" style="background: var(--bg-card-hover); border: 1px solid var(--border-color);" ${temNovidade ? 'open' : ''}>
+                          <summary class="d-flex justify-content-between align-items-center cursor-pointer fs-label text-muted" style="list-style: none;">
+                            <span class="fw-bold text-heading">
+                              <i class="bi bi-chat-quote-fill me-1 text-primary"></i> Dúvidas &amp; Interações (${interacoes.length})
+                            </span>
+                            <div class="d-flex align-items-center gap-1">
+                              ${pendentes > 0 ? `<span class="badge bg-danger-subtle text-danger fs-label">${pendentes} pendente(s)</span>` : `<span class="badge bg-success-subtle text-success fs-label">Respondidas</span>`}
+                              <i class="bi bi-chevron-down fs-label"></i>
+                            </div>
+                          </summary>
+                          <div class="d-flex flex-column gap-2 mt-2 pt-2 border-top">
+                            ${interacoes.map(int => `
+                              <div class="p-2 rounded" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                  <span class="fs-label fw-bold text-primary">
+                                    <i class="bi bi-person-fill me-1"></i>${escapeHtml(int.autorNome || 'Estudante')}
+                                    <span class="badge bg-secondary-subtle text-secondary fs-label ms-1">${escapeHtml(int.autorFrente || '')}</span>
+                                  </span>
+                                  <span class="fs-label text-muted">${escapeHtml(int.dataEnvio || '')}</span>
+                                </div>
+                                <div class="fs-caption text-main mb-1" style="white-space: pre-line; word-break: break-word;">${escapeHtml(int.texto)}</div>
+                                ${int.respostaDocente ? `
+                                  <div class="p-2 rounded mt-1" style="background: rgba(245, 158, 11, 0.08); border-left: 3px solid var(--accent-amber);">
+                                    <div class="d-flex justify-content-between align-items-center mb-0.5">
+                                      <span class="fs-label fw-bold text-warning-emphasis"><i class="fa-solid fa-chalkboard-user text-warning me-1"></i> Orientação do Prof. André:</span>
+                                      <span class="fs-label text-muted">${escapeHtml(int.respostaDocenteData || '')}</span>
+                                    </div>
+                                    <div class="fs-caption text-main" style="white-space: pre-line; word-break: break-word;">${escapeHtml(int.respostaDocente)}</div>
+                                  </div>
+                                ` : `
+                                  <div class="mt-1 d-flex justify-content-end">
+                                    <button type="button" onclick="abrirModalResponderInteracaoDocente('${d.id}', '${int.id}')" class="btn btn-sm btn-outline-warning text-dark-emphasis py-0 px-1-5 fs-label fw-bold docente-only" title="Responder a esta dúvida">
+                                      <i class="bi bi-reply-fill me-1"></i> Responder Aluno
+                                    </button>
+                                  </div>
+                                `}
+                              </div>
+                            `).join('')}
+                          </div>
+                        </details>
+                      ` : ''}
                     </div>
                     <div class="pt-2 border-top">
                       <span class="fs-label text-muted text-truncate d-block mb-2" title="${escapeHtml(d.destinatario || rotuloAtribuicao(d))}">
@@ -5166,6 +5537,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                           ` : '<span class="fs-label text-muted">Aviso oficial</span>'}
                         </div>
                         <div class="d-flex align-items-center gap-1">
+                          <button type="button" onclick="abrirModalInteracaoEstudante('${d.id}')" class="btn btn-sm btn-outline-primary py-0 px-1-5 fs-label fw-bold" title="Tirar uma dúvida ou alinhamento com o professor sobre este comunicado">
+                            <i class="bi bi-chat-dots-fill me-1"></i> Dúvida
+                          </button>
                           <button type="button" onclick="abrirModalDetalhesDemanda('${d.id}')" class="btn btn-sm btn-link p-0 fs-label text-decoration-none">Ver detalhes &rarr;</button>
                           <button type="button" onclick="alternarStatusEncerradoMural('${d.id}')" class="btn btn-sm btn-outline-secondary py-0 px-1-5 fs-label text-muted docente-only" title="Encerrar comunicado e arquivar no histórico">
                             <i class="fa-solid fa-lock me-1"></i>Encerrar
@@ -5444,6 +5818,8 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       if (elRot) elRot.innerHTML = '';
       if (elFrentes) elFrentes.innerHTML = '';
       if (elExt) elExt.innerHTML = '';
+
+      atualizarIndicadoresNotificacaoMural();
     }
 
 
@@ -7816,6 +8192,13 @@ const funcoesGlobais = {
   abrirModalNovoAluno,
   abrirModalNovoRecadoEquipe,
   abrirModalRespostaDocente,
+  abrirModalInteracaoEstudante,
+  fecharModalInteracaoEstudante,
+  salvarInteracaoEstudante,
+  abrirModalResponderInteracaoDocente,
+  fecharModalResponderInteracaoDocente,
+  salvarRespostaInteracaoDocente,
+  atualizarIndicadoresNotificacaoMural,
   alocarAlunoEmFrenteDocente,
   alterarEquipeAlunoRapido,
   alternarConclusaoDemanda,
