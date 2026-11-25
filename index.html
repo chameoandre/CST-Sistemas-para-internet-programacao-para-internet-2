@@ -3230,23 +3230,26 @@
         <button class="tab-btn" onclick="showTab('tab-extensao')" data-tab-id="tab-extensao" id="tabBtnExtensao" title="3. Curricularização da Extensão (40h - SNCT)">
           <i class="bi bi-megaphone-fill text-purple"></i> <span>3. Extensão SNCT</span>
         </button>
-        <button class="tab-btn" onclick="showTab('tab-demandas')" data-tab-id="tab-demandas" id="tabBtnDemandas" title="4. Central de Demandas &amp; Mural de Recados">
-          <i class="fa-solid fa-list-check text-warning"></i> <span>4. Mural &amp; Demandas</span>
+        <button class="tab-btn" onclick="showTab('tab-mural')" data-tab-id="tab-mural" id="tabBtnMural" title="4. Mural Exclusivo de Recados &amp; Orientações">
+          <i class="bi bi-chat-quote-fill text-warning"></i> <span>4. Mural de Recados</span>
+        </button>
+        <button class="tab-btn" onclick="showTab('tab-demandas')" data-tab-id="tab-demandas" id="tabBtnDemandas" title="5. Central de Demandas &amp; Checkpoints">
+          <i class="fa-solid fa-list-check text-primary"></i> <span>5. Demandas</span>
         </button>
         <button class="tab-btn" onclick="showTab('tab-raio-x')" data-tab-id="tab-raio-x" id="tabBtnRaioX" title="0. Raio-X &amp; Panorama Geral da UC">
           <i class="bi bi-speedometer2 text-primary"></i> <span>0. Raio-X</span>
         </button>
-        <button class="tab-btn" onclick="showTab('tab-avaliacao')" data-tab-id="tab-avaliacao" id="tabBtnAvaliacao" title="5. Sistema Avaliativo &amp; Rubricas Formativas">
-          <i class="bi bi-calculator-fill text-danger"></i> <span>5. Avaliação</span>
+        <button class="tab-btn" onclick="showTab('tab-avaliacao')" data-tab-id="tab-avaliacao" id="tabBtnAvaliacao" title="6. Sistema Avaliativo &amp; Rubricas Formativas">
+          <i class="bi bi-calculator-fill text-danger"></i> <span>6. Avaliação</span>
         </button>
-        <button class="tab-btn" onclick="showTab('tab-ementa')" data-tab-id="tab-ementa" id="tabBtnEmenta" title="6. Ementa Oficial &amp; Competências do PPC">
-          <i class="bi bi-book-half text-secondary"></i> <span>6. Ementa &amp; PPC</span>
+        <button class="tab-btn" onclick="showTab('tab-ementa')" data-tab-id="tab-ementa" id="tabBtnEmenta" title="7. Ementa Oficial &amp; Competências do PPC">
+          <i class="bi bi-book-half text-secondary"></i> <span>7. Ementa &amp; PPC</span>
         </button>
-        <button class="tab-btn" onclick="showTab('tab-sigaa')" data-tab-id="tab-sigaa" id="tabBtnSigaa" title="7. SIGAA &amp; Recursos Institucionais">
-          <i class="bi bi-mortarboard-fill text-info"></i> <span>7. SIGAA</span>
+        <button class="tab-btn" onclick="showTab('tab-sigaa')" data-tab-id="tab-sigaa" id="tabBtnSigaa" title="8. SIGAA &amp; Recursos Institucionais">
+          <i class="bi bi-mortarboard-fill text-info"></i> <span>8. SIGAA</span>
         </button>
-        <button class="tab-btn docente-only-btn" onclick="showTab('tab-docente')" data-tab-id="tab-docente" id="tabBtnDocente" style="display: none; border-color: rgba(217, 119, 6, 0.45);" title="8. Área Restrita de Gestão Docente &amp; Frentes">
-          <i class="fa-solid fa-chalkboard-user text-warning"></i> <span id="tabBtnDocenteTitulo">8. Painel Docente</span>
+        <button class="tab-btn docente-only-btn" onclick="showTab('tab-docente')" data-tab-id="tab-docente" id="tabBtnDocente" style="display: none; border-color: rgba(217, 119, 6, 0.45);" title="9. Área Restrita de Gestão Docente &amp; Frentes">
+          <i class="fa-solid fa-chalkboard-user text-warning"></i> <span id="tabBtnDocenteTitulo">9. Painel Docente</span>
         </button>
       </nav>
     </div>
@@ -3398,7 +3401,6 @@
 
     <!-- ABA 1: CENTRAL DE ROTEIROS PRÁTICOS (DESTAQUE) -->
     <div class="tab-pane active" id="tab-roteiros">
-      <div id="muralComunicadosTopoRoteiros" class="mb-3"></div>
       <div class="panel-card">
         
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
@@ -4388,9 +4390,6 @@
             </div>
           </div>
 
-          <!-- MURAL DE ARTICULAÇÃO & RECADOS DAS EQUIPES SNCT (VISÃO COLABORATIVA) -->
-          <div id="muralRecadosEquipesExtensao" class="mb-3"></div>
-
           <!-- SEÇÃO: 4 ROTEIROS EM PDF DAS FRENTES -->
           <div id="secaoPdfsFrentes" class="p-3 rounded-3 mb-3" style="background: var(--bg-card); border: 1px dashed var(--border-color);">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
@@ -4983,7 +4982,40 @@
       </div>
     </div>
 
-    <!-- ABA 4: CENTRAL DE DEMANDAS & CHECKPOINTS -->
+    <!-- ABA 4: MURAL EXCLUSIVO DE RECADOS & COMUNICADOS -->
+    <div class="tab-pane" id="tab-mural">
+      <div class="panel-card">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h2 class="panel-title mb-1">
+              <i class="bi bi-chat-quote-fill text-warning"></i> Mural de Recados &amp; Comunicação das Frentes
+            </h2>
+            <p class="panel-subtitle mb-0">
+              Espaço colaborativo exclusivo para avisos oficiais do professor, alinhamento entre as 8 frentes de trabalho da SNCT e compartilhamento de formulários/links:
+            </p>
+          </div>
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button onclick="sincronizarComBackendAppsScript(true)" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Sincronizar recados agora">
+              <i class="bi bi-arrow-repeat"></i> Atualizar
+            </button>
+            <button onclick="abrirModalNovoRecadoEquipe()" class="btn-action btn-outline-action" style="border-color: var(--accent-emerald); color: var(--accent-emerald);" title="Publicar recado, link de formulário ou aviso entre frentes">
+              <i class="bi bi-chat-quote-fill me-1"></i> + Novo Recado da Equipe
+            </button>
+            <button onclick="showTab('tab-demandas')" class="btn-action btn-outline-action" title="Ver Central de Demandas &amp; Checkpoints">
+              <i class="fa-solid fa-list-check me-1"></i> Ir para Demandas
+            </button>
+            <button onclick="showTab('tab-docente')" class="btn-action btn-primary-action docente-only" style="background: var(--accent-amber); border-color: var(--accent-amber); color: #fff;">
+              <i class="fa-solid fa-chalkboard-user me-1"></i> Painel Docente
+            </button>
+          </div>
+        </div>
+
+        <!-- CONTAINER EXCLUSIVO DO MURAL -->
+        <div id="muralComunicadosExclusivo" class="mb-3"></div>
+      </div>
+    </div>
+
+    <!-- ABA 5: CENTRAL DE DEMANDAS & CHECKPOINTS -->
     <div class="tab-pane" id="tab-demandas">
       <div class="panel-card">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
@@ -4995,8 +5027,8 @@
             <button onclick="sincronizarComBackendAppsScript(true)" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Sincronizar entregas e demandas com a planilha Google Sheets agora">
               <i class="bi bi-arrow-repeat"></i> Atualizar Entregas
             </button>
-            <button onclick="abrirModalNovoRecadoEquipe()" class="btn-action btn-outline-action" style="border-color: var(--accent-blue); color: var(--accent-blue);" title="Publicar recado, link de formulário ou aviso entre frentes">
-              <i class="bi bi-chat-quote-fill me-1"></i> + Recado da Equipe
+            <button onclick="showTab('tab-mural')" class="btn-action btn-outline-action" style="border-color: var(--accent-amber); color: var(--accent-amber);" title="Ver Mural Exclusivo de Recados &amp; Orientações">
+              <i class="bi bi-chat-quote-fill me-1"></i> Mural de Recados
             </button>
             <button onclick="showTab('tab-docente')" class="btn-action btn-outline-action" title="Acompanhar distribuição das frentes, trios e entregáveis da SNCT">
               <i class="bi bi-kanban me-1"></i> Painel de Frentes SNCT
@@ -5012,9 +5044,6 @@
             </button>
           </div>
         </div>
-
-        <!-- MURAL DE COMUNICADOS & ORIENTAÇÕES DO PROFESSOR -->
-        <div id="muralComunicadosDemandas" class="mb-3"></div>
 
         <!-- CARD PERSONALIZADO: MINHA FRENTE & MEU ENTREGÁVEL SNCT -->
         <div id="cardMinhaFrenteContainerDemandas" class="mb-3"></div>
@@ -6020,9 +6049,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           <!-- Renderizado via JS -->
         </div>
 
-        <!-- MURAL DE ARTICULAÇÃO & RECADOS DAS EQUIPES SNCT (VISÃO COLABORATIVA) -->
-        <div id="muralRecadosEquipesPainelFrentes" class="mb-4"></div>
-
         <!-- BLOCO 0: GESTÃO DE VISIBILIDADE DOS MÓDULOS PARA OS ESTUDANTES (EXCLUSIVO DOCENTE) -->
         <div class="p-3 rounded-3 mb-4 docente-only" style="background: var(--bg-card-hover); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-emerald);">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
@@ -6208,6 +6234,13 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
             </button>
           </li>
           <li class="bb-cat-item">
+            <button type="button" class="bb-cat-btn" data-cat="mural" onclick="selecionarCategoriaMenuBB('mural')">
+              <i class="bi bi-chat-quote-fill bb-cat-icon"></i>
+              <span>Mural de Recados</span>
+              <i class="bi bi-chevron-right bb-cat-chevron"></i>
+            </button>
+          </li>
+          <li class="bb-cat-item">
             <button type="button" class="bb-cat-btn" data-cat="demandas" onclick="selecionarCategoriaMenuBB('demandas')">
               <i class="fa-solid fa-list-check bb-cat-icon"></i>
               <span>Central de Demandas</span>
@@ -6332,10 +6365,41 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
               <div class="bb-col-group">
                 <h5>EQUIPES, VOTAÇÃO &amp; ARTICULAÇÃO</h5>
                 <ul class="bb-sublink-list">
-                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas', 'muralComunicadosDemandas')" class="bb-sublink"><span class="bb-bullet">›</span> Mural de Recados &amp; Links das Equipes</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural')" class="bb-sublink"><span class="bb-bullet">›</span> Mural de Recados &amp; Links das Equipes</a></li>
                   <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Distribuição das 8 Frentes de Trabalho</a></li>
                   <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao', 'painelVotacaoOficinas')" class="bb-sublink"><span class="bb-bullet">›</span> Painel de Escolha / Votação de Oficinas</a></li>
                   <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-extensao')" class="bb-sublink"><span class="bb-bullet">›</span> Submissão de Resumo Expandido ao COTB</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUB-PAINEL: MURAL DE RECADOS -->
+        <div class="bb-subpanel" id="bbPane_mural">
+          <div class="bb-pane-header">
+            <h3 class="bb-pane-title">
+              <i class="bi bi-chat-quote-fill text-warning"></i> Mural de Recados &amp; Orientações das Frentes
+            </h3>
+            <button type="button" class="btn-close" onclick="fecharMenuBB()" aria-label="Fechar"></button>
+          </div>
+          <div class="bb-pane-body">
+            <div class="bb-columns-grid">
+              <div class="bb-col-group">
+                <h5>VISUALIZAÇÃO DE RECADOS</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural')" class="bb-sublink"><span class="bb-bullet">›</span> Abrir Mural Completo da UC</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural'); alternarFiltroCursoRecados('todos');" class="bb-sublink"><span class="bb-bullet">›</span> Todos os Recados &amp; Orientações</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural'); alternarFiltroCursoRecados('curso1');" class="bb-sublink"><span class="bb-bullet">›</span> Recados do Curso 1 (Meu 1º Site)</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural'); alternarFiltroCursoRecados('curso2');" class="bb-sublink"><span class="bb-bullet">›</span> Recados do Curso 2 (Painel Verde)</a></li>
+                </ul>
+              </div>
+              <div class="bb-col-group">
+                <h5>AÇÕES RÁPIDAS &amp; INTERAÇÃO</h5>
+                <ul class="bb-sublink-list">
+                  <li><a href="javascript:void(0)" onclick="fecharMenuBB(); abrirModalNovoRecadoEquipe();" class="bb-sublink"><span class="bb-bullet">›</span> + Publicar Novo Recado da Equipe</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas')" class="bb-sublink"><span class="bb-bullet">›</span> Ir para Central de Demandas &amp; Checkpoints</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-docente')" class="bb-sublink"><span class="bb-bullet">›</span> Painel Docente &amp; Frentes</a></li>
                 </ul>
               </div>
             </div>
@@ -6353,11 +6417,11 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
           <div class="bb-pane-body">
             <div class="bb-columns-grid">
               <div class="bb-col-group">
-                <h5>MURAIS DA SEMANA</h5>
+                <h5>MURAIS &amp; RECADOS</h5>
                 <ul class="bb-sublink-list">
-                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas', 'muralComunicadosDemandas')" class="bb-sublink"><span class="bb-bullet">›</span> Mural do Professor (Demandas Oficiais)</a></li>
-                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-demandas', 'muralComunicadosDemandas')" class="bb-sublink"><span class="bb-bullet">›</span> Mural de Articulação das Equipes SNCT</a></li>
-                  <li><a href="javascript:void(0)" onclick="fecharMenuBB(); abrirModalNovoRecadoEquipe();" class="bb-sublink"><span class="bb-bullet">›</span> + Publicar Novo Recado de Equipe</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural')" class="bb-sublink"><span class="bb-bullet">›</span> Abrir Mural de Recados Exclusivo</a></li>
+                  <li><a href="javascript:void(0)" onclick="navegarViaMenuBB('tab-mural')" class="bb-sublink"><span class="bb-bullet">›</span> Orientações Oficiais do Professor</a></li>
+                  <li><a href="javascript:void(0)" onclick="fecharMenuBB(); abrirModalNovoRecadoEquipe();" class="bb-sublink"><span class="bb-bullet">›</span> + Publicar Novo Recado da Equipe</a></li>
                 </ul>
               </div>
               <div class="bb-col-group">
@@ -7017,6 +7081,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
   </footer>
 
   <!-- FRONTEND MODULARIZADO COM ES6 MODULES -->
-  <script type="module" src="js/app.js?v=20261122_2135"></script>
+  <script type="module" src="js/app.js?v=20261125_1025"></script>
 </body>
 </html>

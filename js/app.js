@@ -1088,11 +1088,12 @@ window.ProgWeb2 = {
       { id: 'tab-roteiros', nome: '1. Roteiros Práticos', icone: 'bi bi-code-square', cor: 'text-success', grupo: 'Laboratório & Aulas', descricao: 'Caderno de roteiros práticos, guias em PDF e tarefas guiadas', padrao: true, fixo: true },
       { id: 'tab-cronograma', nome: '2. Cronograma Semestral', icone: 'bi bi-calendar-range-fill', cor: 'text-info', grupo: 'Laboratório & Aulas', descricao: 'Planejamento das 20 aulas semanais e marcos da disciplina', padrao: true, fixo: false },
       { id: 'tab-extensao', nome: '3. Extensão SNCT (40h)', icone: 'bi bi-megaphone-fill', cor: 'text-purple', grupo: 'Extensão & Entregas', descricao: 'Curricularização, 8 frentes de produção e oficinas de 120 min', padrao: true, fixo: false },
-      { id: 'tab-demandas', nome: '4. Demandas & Checkpoints', icone: 'fa-solid fa-list-check', cor: 'text-warning', grupo: 'Extensão & Entregas', descricao: 'Mural de demandas da semana, prazos e recados das equipes', padrao: true, fixo: false },
+      { id: 'tab-mural', nome: '4. Mural de Recados', icone: 'bi bi-chat-quote-fill', cor: 'text-warning', grupo: 'Comunicação & Equipes', descricao: 'Mural de comunicados oficiais e recados colaborativos das frentes', padrao: true, fixo: false },
+      { id: 'tab-demandas', nome: '5. Demandas & Checkpoints', icone: 'fa-solid fa-list-check', cor: 'text-primary', grupo: 'Extensão & Entregas', descricao: 'Gestão ágil de sprints, entregas de laboratório e checkpoints', padrao: true, fixo: false },
       { id: 'tab-raio-x', nome: '0. Raio-X & Panorama Geral', icone: 'bi bi-speedometer2', cor: 'text-primary', grupo: 'Visão Geral', descricao: 'Panorama conceitual, arquitetura em camadas e objetivos da UC', padrao: false, fixo: false },
-      { id: 'tab-avaliacao', nome: '5. Sistema Avaliativo & Rubricas', icone: 'bi bi-calculator-fill', cor: 'text-warning', grupo: 'Avaliação & PPC', descricao: 'Critérios das avaliações A1, A2 e A3 e simulador de notas', padrao: false, fixo: false },
-      { id: 'tab-ementa', nome: '6. Ementa Oficial & PPC', icone: 'bi bi-book-half', cor: 'text-secondary', grupo: 'Avaliação & PPC', descricao: 'Conteúdo programático formal e bibliografia básica/complementar', padrao: false, fixo: false },
-      { id: 'tab-sigaa', nome: '7. Central de Tarefas no SIGAA', icone: 'bi bi-mortarboard-fill', cor: 'text-primary', grupo: 'Avaliação & PPC', descricao: 'Controle de prazos e sincronização de envios no SIGAA', padrao: false, fixo: false }
+      { id: 'tab-avaliacao', nome: '6. Sistema Avaliativo & Rubricas', icone: 'bi bi-calculator-fill', cor: 'text-warning', grupo: 'Avaliação & PPC', descricao: 'Critérios das avaliações A1, A2 e A3 e simulador de notas', padrao: false, fixo: false },
+      { id: 'tab-ementa', nome: '7. Ementa Oficial & PPC', icone: 'bi bi-book-half', cor: 'text-secondary', grupo: 'Avaliação & PPC', descricao: 'Conteúdo programático formal e bibliografia básica/complementar', padrao: false, fixo: false },
+      { id: 'tab-sigaa', nome: '8. Central de Tarefas no SIGAA', icone: 'bi bi-mortarboard-fill', cor: 'text-primary', grupo: 'Avaliação & PPC', descricao: 'Controle de prazos e sincronização de envios no SIGAA', padrao: false, fixo: false }
     ];
 
     function obterConfigVisibilidadeModulos() {
@@ -1101,6 +1102,7 @@ window.ProgWeb2 = {
         if (salvo) {
           const parsed = JSON.parse(salvo);
           parsed['tab-roteiros'] = true; // Sempre ativo como página padrão inicial
+          if (parsed['tab-mural'] === undefined) parsed['tab-mural'] = true;
           return parsed;
         }
       } catch (e) {
@@ -1110,6 +1112,7 @@ window.ProgWeb2 = {
         'tab-roteiros': true,
         'tab-cronograma': true,
         'tab-extensao': true,
+        'tab-mural': true,
         'tab-demandas': true,
         'tab-raio-x': false,
         'tab-avaliacao': false,
@@ -1146,18 +1149,20 @@ window.ProgWeb2 = {
           'tab-roteiros': true,
           'tab-cronograma': true,
           'tab-extensao': true,
+          'tab-mural': true,
           'tab-demandas': true,
           'tab-raio-x': false,
           'tab-avaliacao': false,
           'tab-ementa': false,
           'tab-sigaa': false
         };
-        showToast("Foco Essencial Ativado", "Apenas Roteiros, Cronograma, Extensão e Demandas estão visíveis para os estudantes.", "bi bi-check2-circle text-success");
+        showToast("Foco Essencial Ativado", "Apenas Roteiros, Cronograma, Extensão, Mural e Demandas estão visíveis para os estudantes.", "bi bi-check2-circle text-success");
       } else {
         config = {
           'tab-roteiros': true,
           'tab-cronograma': true,
           'tab-extensao': true,
+          'tab-mural': true,
           'tab-demandas': true,
           'tab-raio-x': true,
           'tab-avaliacao': true,
@@ -1229,6 +1234,7 @@ window.ProgWeb2 = {
         if (cat === 'raio-x') visivel = !!config['tab-raio-x'];
         else if (cat === 'roteiros') visivel = !!config['tab-roteiros'];
         else if (cat === 'extensao') visivel = !!config['tab-extensao'];
+        else if (cat === 'mural') visivel = !!config['tab-mural'];
         else if (cat === 'demandas') visivel = !!config['tab-demandas'];
         else if (cat === 'avaliacao') visivel = !!config['tab-avaliacao'];
         else if (cat === 'plano') visivel = !!config['tab-cronograma'] || !!config['tab-ementa'] || !!config['tab-sigaa'];
@@ -5281,15 +5287,19 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
       const muralCompleto = htmlDocente + htmlEquipes;
 
+      const elExclusivo = document.getElementById('muralComunicadosExclusivo');
+      if (elExclusivo) elExclusivo.innerHTML = muralCompleto;
+
+      // Limpeza de segurança caso algum container antigo ainda esteja presente no DOM
       const elDem = document.getElementById('muralComunicadosDemandas');
       const elRot = document.getElementById('muralComunicadosTopoRoteiros');
       const elFrentes = document.getElementById('muralRecadosEquipesPainelFrentes');
       const elExt = document.getElementById('muralRecadosEquipesExtensao');
 
-      if (elDem) elDem.innerHTML = muralCompleto;
-      if (elRot) elRot.innerHTML = muralCompleto;
-      if (elFrentes) elFrentes.innerHTML = htmlEquipes;
-      if (elExt) elExt.innerHTML = htmlEquipes;
+      if (elDem) elDem.innerHTML = '';
+      if (elRot) elRot.innerHTML = '';
+      if (elFrentes) elFrentes.innerHTML = '';
+      if (elExt) elExt.innerHTML = '';
     }
 
 
@@ -7281,7 +7291,10 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      if (tabId === 'tab-demandas') {
+      if (tabId === 'tab-mural') {
+        renderizarMuralComunicadosDocente();
+        sincronizarComBackendAppsScript(false);
+      } else if (tabId === 'tab-demandas') {
         renderizarDemandas();
         renderizarCardMinhaFrenteEstudante();
         sincronizarComBackendAppsScript(false);
@@ -7332,6 +7345,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             'tab-raio-x': 'raio-x',
             'tab-roteiros': 'roteiros',
             'tab-extensao': 'extensao',
+            'tab-mural': 'mural',
             'tab-demandas': 'demandas',
             'tab-avaliacao': 'avaliacao',
             'tab-cronograma': 'plano',
