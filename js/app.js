@@ -5069,24 +5069,60 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
     window.abrirModalDetalhesDemanda = abrirModalDetalhesDemanda;
 
+    function ehItemEncerrado(d) {
+      if (!d) return false;
+      return !!(d.concluida || d.encerrado || d.status === 'encerrado');
+    }
+
+    function alternarStatusEncerradoMural(id) {
+      const item = demandasApp.find(d => d.id === id);
+      if (!item) return;
+
+      const estaEncerrado = ehItemEncerrado(item);
+      if (estaEncerrado) {
+        item.encerrado = false;
+        item.concluida = false;
+        showToast("Aviso Reaberto", `O comunicado "${item.titulo}" voltou para o mural ativo.`, "bi bi-arrow-counterclockwise text-success");
+      } else {
+        item.encerrado = true;
+        item.concluida = true;
+        showToast("Aviso Encerrado", `O comunicado "${item.titulo}" foi arquivado no histórico de encerrados.`, "fa-solid fa-lock text-muted");
+      }
+
+      salvarDadosDemandas();
+      renderizarMuralComunicadosDocente();
+      if (typeof renderizarDemandas === 'function') renderizarDemandas();
+    }
+
+    window.ehItemEncerrado = ehItemEncerrado;
+    window.alternarStatusEncerradoMural = alternarStatusEncerradoMural;
+
     function renderizarMuralComunicadosDocente() {
       // 1. Demandas Oficiais do Professor
-      const demandasOficiais = demandasApp.filter(d => !d.concluida && !ehRecadoEquipe(d) && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
+      const todasDemandasDocente = demandasApp.filter(d => !ehRecadoEquipe(d) && (d.fixadaMural || d.id.startsWith('DEM-SNCT-')));
+      const demandasOficiais = todasDemandasDocente.filter(d => !ehItemEncerrado(d));
+      const demandasOficiaisEncerradas = todasDemandasDocente.filter(d => ehItemEncerrado(d));
 
       // 2. Recados das Equipes / Estudantes
-      const recadosEquipes = demandasApp
-        .filter(d => !d.concluida && ehRecadoEquipe(d))
+      const todosRecadosEquipes = demandasApp
+        .filter(d => ehRecadoEquipe(d))
         .map(normalizarRecadoEquipe);
 
-      const recadosC1 = recadosEquipes.filter(r => r.cursoSnctAlvo === 1 || (r.destinatario && r.destinatario.includes('Curso 1')));
-      const recadosC2 = recadosEquipes.filter(r => r.cursoSnctAlvo === 2 || (r.destinatario && (r.destinatario.includes('Curso 2') || r.destinatario.includes('Painel Verde'))));
+      const recadosEquipesAtivos = todosRecadosEquipes.filter(r => !ehItemEncerrado(r));
+      const recadosEquipesEncerrados = todosRecadosEquipes.filter(r => ehItemEncerrado(r));
 
-      let recadosFiltrados = recadosEquipes;
+      const recadosC1 = recadosEquipesAtivos.filter(r => r.cursoSnctAlvo === 1 || (r.destinatario && r.destinatario.includes('Curso 1')));
+      const recadosC2 = recadosEquipesAtivos.filter(r => r.cursoSnctAlvo === 2 || (r.destinatario && (r.destinatario.includes('Curso 2') || r.destinatario.includes('Painel Verde'))));
+
+      let recadosFiltrados = recadosEquipesAtivos;
       if (filtroCursoRecadosMural === 'curso1') {
         recadosFiltrados = recadosC1;
       } else if (filtroCursoRecadosMural === 'curso2') {
         recadosFiltrados = recadosC2;
       }
+
+      // Total de itens encerrados (Docente + Equipes)
+      const todosEncerrados = [...demandasOficiaisEncerradas, ...recadosEquipesEncerrados];
 
       // Bloco do Professor
       const htmlDocente = demandasOficiais.length === 0 ? '' : `
@@ -5129,7 +5165,12 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                             </a>
                           ` : '<span class="fs-label text-muted">Aviso oficial</span>'}
                         </div>
-                        <button type="button" onclick="abrirModalDetalhesDemanda('${d.id}')" class="btn btn-sm btn-link p-0 fs-label text-decoration-none">Ver detalhes &rarr;</button>
+                        <div class="d-flex align-items-center gap-1">
+                          <button type="button" onclick="abrirModalDetalhesDemanda('${d.id}')" class="btn btn-sm btn-link p-0 fs-label text-decoration-none">Ver detalhes &rarr;</button>
+                          <button type="button" onclick="alternarStatusEncerradoMural('${d.id}')" class="btn btn-sm btn-outline-secondary py-0 px-1-5 fs-label text-muted docente-only" title="Encerrar comunicado e arquivar no histórico">
+                            <i class="fa-solid fa-lock me-1"></i>Encerrar
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -5144,7 +5185,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
       // Alerta para estudante autenticado que teve recado respondido pelo professor
       let alertaRespostasEstudante = '';
       if (usuarioLogadoGoogle && !usuarioLogadoGoogle.ehDocente) {
-        const meusRecadosRespondidos = recadosEquipes.filter(r =>
+        const meusRecadosRespondidos = recadosEquipesAtivos.filter(r =>
           r.respostaDocente &&
           ((usuarioLogadoGoogle.email && r.autorEmail && usuarioLogadoGoogle.email.toLowerCase() === r.autorEmail.toLowerCase()) ||
            (usuarioLogadoGoogle.nome && r.autorNome && usuarioLogadoGoogle.nome.toLowerCase() === r.autorNome.toLowerCase()) ||
@@ -5176,7 +5217,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <div class="btn-group btn-group-sm" role="group">
                 <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'todos' ? 'btn-primary' : 'btn-outline-secondary'} py-0 px-2 fs-caption" onclick="filtrarRecadosMural('todos')">
-                  Todos (${recadosEquipes.length})
+                  Todos (${recadosEquipesAtivos.length})
                 </button>
                 <button type="button" class="btn btn-sm ${filtroCursoRecadosMural === 'curso1' ? 'btn-primary' : 'btn-outline-primary'} py-0 px-2 fs-caption" onclick="filtrarRecadosMural('curso1')">
                   🟦 Curso 1 (${recadosC1.length})
@@ -5195,7 +5236,7 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
 
           ${recadosFiltrados.length === 0 ? `
             <div class="text-center py-3 text-muted fs-caption">
-              <i class="bi bi-chat-square-dots me-1"></i> Nenhum recado postado para este filtro ainda. Clique em <strong>+ Publicar Recado da Equipe</strong> para compartilhar links ou orientações com outros trios.
+              <i class="bi bi-chat-square-dots me-1"></i> Nenhum recado ativo para este filtro. Clique em <strong>+ Publicar Recado da Equipe</strong> para compartilhar links ou orientações com outros trios.
             </div>
           ` : `
             <div class="row g-2">
@@ -5269,6 +5310,9 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
                             <button type="button" onclick="abrirModalRespostaDocente('${r.id}')" class="btn btn-sm ${r.respostaDocente ? 'btn-outline-warning text-dark-emphasis' : 'btn-outline-primary'} py-0 px-1-5 fs-label fw-bold docente-only" title="Responder ou orientar como professor">
                               <i class="bi ${r.respostaDocente ? 'bi-pencil-square' : 'bi-reply-fill'} me-1"></i> ${r.respostaDocente ? 'Editar' : 'Responder'}
                             </button>
+                            <button type="button" onclick="alternarStatusEncerradoMural('${r.id}')" class="btn btn-sm btn-outline-secondary py-0 px-1-5 fs-label text-muted docente-only" title="Encerrar recado e mover para o histórico">
+                              <i class="fa-solid fa-lock me-1"></i>Encerrar
+                            </button>
                             ${r.dataEnvio ? `<span class="fs-label text-muted">${escapeHtml(r.dataEnvio.split(' às')[0])}</span>` : ''}
                             <button type="button" onclick="excluirRecadoEquipe('${r.id}')" class="btn btn-link btn-sm text-muted p-0 fs-label ms-1" title="Excluir recado">
                               <i class="bi bi-trash"></i>
@@ -5285,7 +5329,107 @@ Prof. André Moraes — IFSC Câmpus Garopaba`;
         </div>
       `;
 
-      const muralCompleto = htmlDocente + htmlEquipes;
+      // Bloco 3: Gaveta de Histórico de Avisos & Recados Encerrados (Opção 1: Linhas Compactas e Cinzas)
+      const htmlHistorico = `
+        <div class="mural-bloco mural-bloco-historico mt-3">
+          <details class="mural-historico-details" ${todosEncerrados.length > 0 ? 'open' : ''}>
+            <summary class="mural-historico-summary d-flex justify-content-between align-items-center flex-wrap gap-2 p-1 rounded">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-box-archive text-muted"></i>
+                <span class="fw-bold fs-caption text-muted">
+                  HISTÓRICO DE AVISOS &amp; RECADOS ENCERRADOS
+                </span>
+                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle fs-label">
+                  ${todosEncerrados.length} encerrado(s)
+                </span>
+              </div>
+              <div class="d-flex align-items-center gap-1 fs-label text-muted">
+                <span class="d-none d-sm-inline">Clique para recolher/expandir</span>
+                <i class="bi bi-chevron-down"></i>
+              </div>
+            </summary>
+
+            <div class="pt-2">
+              ${todosEncerrados.length === 0 ? `
+                <div class="text-center py-2 text-muted fs-caption">
+                  <i class="bi bi-inbox me-1"></i> Nenhum comunicado ou recado encerrado no momento. Use o botão <strong>Encerrar</strong> nos avisos ativos para movê-los para cá.
+                </div>
+              ` : `
+                <div class="d-flex flex-column gap-2 mt-1">
+                  ${todosEncerrados.map(item => {
+                    const ehEstudante = ehRecadoEquipe(item) || item.origem === 'estudante';
+                    const tagClass = ehEstudante ? 'bg-primary-subtle text-primary' : 'bg-warning-subtle text-dark';
+                    const tagLabel = ehEstudante ? 'ALUNO' : 'DOCENTE';
+                    const autor = ehEstudante ? (item.autorNome || 'Estudante') : 'Prof. André Moraes';
+
+                    let iconeLink = 'bi-box-arrow-up-right';
+                    let rotuloLink = 'Abrir Recurso';
+                    if (item.linkApoio) {
+                      if (item.linkApoio.includes('forms.gle') || item.linkApoio.includes('docs.google.com/forms')) {
+                        rotuloLink = 'Google Forms';
+                        iconeLink = 'bi-ui-checks';
+                      } else if (item.linkApoio.includes('github.io')) {
+                        rotuloLink = 'Deploy Pages';
+                        iconeLink = 'bi-globe';
+                      } else if (item.linkApoio.includes('github.com')) {
+                        rotuloLink = 'Repositório';
+                        iconeLink = 'bi-github';
+                      } else if (item.linkApoio.includes('moodle.ifsc.edu.br')) {
+                        rotuloLink = 'Moodle';
+                        iconeLink = 'bi-mortarboard-fill';
+                      }
+                    }
+
+                    return `
+                      <details class="mural-row-encerrado p-2 rounded">
+                        <summary class="d-flex justify-content-between align-items-center flex-wrap gap-2 cursor-pointer" style="list-style: none;">
+                          <div class="d-flex align-items-center gap-2 flex-grow-1 text-truncate me-2" style="min-width: 250px;">
+                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle fs-label">
+                              <i class="fa-solid fa-lock me-1"></i>ENCERRADO
+                            </span>
+                            <span class="badge ${tagClass} fs-label">${tagLabel}</span>
+                            <span class="badge font-code" style="background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-color);">${escapeHtml(item.id)}</span>
+                            <span class="fw-bold fs-caption text-muted text-truncate" title="${escapeHtml(item.titulo)}">
+                              ${escapeHtml(item.titulo)}
+                            </span>
+                            <span class="fs-label text-muted d-none d-md-inline">&bull; ${escapeHtml(item.destinatario || autor)}</span>
+                          </div>
+                          <div class="d-flex align-items-center gap-2 flex-shrink-0">
+                            ${item.respostaDocente ? `<span class="badge bg-warning-subtle text-dark fs-label"><i class="fa-solid fa-reply me-1"></i>Respondido</span>` : ''}
+                            ${item.prazo ? `<span class="fs-label text-muted"><i class="bi bi-calendar-check me-1"></i>${escapeHtml(item.prazo)}</span>` : ''}
+                            <span class="badge bg-light text-muted border fs-label" title="Ver detalhes"><i class="bi bi-chevron-down"></i></span>
+                            <button type="button" onclick="event.stopPropagation(); alternarStatusEncerradoMural('${item.id}')" class="btn btn-sm btn-outline-secondary py-0 px-1-5 fs-label docente-only" title="Reabrir este aviso no mural ativo">
+                              <i class="bi bi-arrow-counterclockwise me-1"></i>Reabrir
+                            </button>
+                          </div>
+                        </summary>
+                        <div class="pt-2 mt-2 border-top fs-caption text-muted">
+                          <div class="mb-2" style="white-space: pre-line; word-break: break-word;">${escapeHtml(item.descricao)}</div>
+                          ${item.respostaDocente ? `
+                            <div class="p-2 rounded mb-2" style="background: rgba(245, 158, 11, 0.08); border-left: 3px solid var(--accent-amber);">
+                              <strong class="text-warning-emphasis"><i class="fa-solid fa-chalkboard-user me-1"></i> Orientação do Professor:</strong>
+                              <div class="mt-1">${escapeHtml(item.respostaDocente)}</div>
+                            </div>
+                          ` : ''}
+                          ${item.linkApoio ? `
+                            <div class="mt-1">
+                              <a href="${escapeHtml(item.linkApoio)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-label">
+                                <i class="bi ${iconeLink} me-1"></i> ${rotuloLink}
+                              </a>
+                            </div>
+                          ` : ''}
+                        </div>
+                      </details>
+                    `;
+                  }).join('')}
+                </div>
+              `}
+            </div>
+          </details>
+        </div>
+      `;
+
+      const muralCompleto = htmlDocente + htmlEquipes + htmlHistorico;
 
       const elExclusivo = document.getElementById('muralComunicadosExclusivo');
       if (elExclusivo) elExclusivo.innerHTML = muralCompleto;
@@ -7675,6 +7819,7 @@ const funcoesGlobais = {
   alocarAlunoEmFrenteDocente,
   alterarEquipeAlunoRapido,
   alternarConclusaoDemanda,
+  alternarStatusEncerradoMural,
   alternarDestaqueCard,
   alternarDetalhesCardRoteiro,
   alternarTodosCardsRoteiros,

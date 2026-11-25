@@ -2854,6 +2854,51 @@
       background: linear-gradient(90deg, rgba(16, 185, 129, 0.05) 0%, var(--bg-card-hover) 180px);
     }
 
+    .mural-bloco-historico {
+      border: 1px dashed var(--border-color);
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 0.65rem 0.85rem;
+      border-left: 4px solid var(--text-muted);
+    }
+
+    .mural-historico-summary {
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+
+    .mural-historico-summary:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .mural-row-encerrado {
+      background: var(--bg-card-hover);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      filter: grayscale(0.95);
+      opacity: 0.75;
+    }
+
+    .mural-row-encerrado[open] {
+      filter: grayscale(0.35);
+      opacity: 0.98;
+      border-color: var(--border-hover);
+      background: var(--bg-card);
+    }
+
+    .mural-row-encerrado:hover {
+      filter: grayscale(0.2);
+      opacity: 1;
+      border-color: var(--border-hover);
+    }
+
+    [data-theme="dark"] .mural-row-encerrado {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
     .mural-msg-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -7081,6 +7126,6 @@ Para consolidar os conteúdos de interface responsiva (Bootstrap 5), manipulaç�
   </footer>
 
   <!-- FRONTEND MODULARIZADO COM ES6 MODULES -->
-  <script type="module" src="js/app.js?v=20261125_1025"></script>
+  <script type="module" src="js/app.js?v=20261125_1050"></script>
 </body>
 </html>
